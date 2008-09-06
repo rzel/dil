@@ -1,0 +1,243 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.collection.model.View</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.collection.model.View");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/View.d?rev=3791">tango.util.collection.model.View</a></h1>
+                
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>interface <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/View.d?rev=3791#L33">View</a></span>
+<script>explorer.outline.addDecl('View');</script>(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">this is the base interface for most classes in this package.</font><br><br>
+<b>author:</b><br>Doug Lea
+ @version 0.93<br><br> <P> For an introduction to this package see <A HREF="index.html"> Overview </A>.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>View!(T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/View.d?rev=3791#L39">duplicate</a></span>
+<script>explorer.outline.addDecl('duplicate');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">All Views implement duplicate
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/View.d?rev=3791#L48">contains</a></span>
+<script>explorer.outline.addDecl('contains');</script>(T <span class="funcparam">element</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Report whether the View contains element.
+ Behaviorally equivalent to <CODE>instances&#40;element&#41; &gt;= 0</CODE>.
+ @param element the element to look for
+ </font><br><br>
+<b>Returns:</b><br>
+true iff contains at least one member that is equal to element.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/View.d?rev=3791#L56">size</a></span>
+<script>explorer.outline.addDecl('size');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Report the number of elements in the View.
+ No other spurious effects.
+ </font><br><br>
+<b>Returns:</b><br>
+number of elements<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/View.d?rev=3791#L65">drained</a></span>
+<script>explorer.outline.addDecl('drained');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Report whether this View has no elements.
+ Behaviorally equivalent to <CODE>size&#40;&#41; == 0</CODE>.
+ </font><br><br>
+<b>Returns:</b><br>
+true if size&#40;&#41; == 0<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/View.d?rev=3791#L92">mutation</a></span>
+<script>explorer.outline.addDecl('mutation');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">All collections maintain a `version number'. The numbering
+ scheme is arbitrary, but is guaranteed to change upon every
+ modification that could possibly affect an elements&#40;&#41; enumeration traversal.
+ &#40;This is true at least within the precision of the `int' representation;
+ performing more than 2^32 operations will lead to reuse of version numbers&#41;.
+ Versioning
+ <EM>may</EM> be conservative with respect to `replacement' operations.
+ For the sake of versioning replacements may be considered as
+ removals followed by additions. Thus version numbers may change 
+ even if the old and new  elements are identical.
+ <P>
+ All element&#40;&#41; enumerations for Mutable Collections track version
+ numbers, and raise inconsistency exceptions if the enumeration is
+ used &#40;via get&#40;&#41;&#41; on a version other than the one generated
+ by the elements&#40;&#41; method.
+ <P>
+ You can use versions to check if update operations actually have any effect
+ on observable state.
+ For example, clear&#40;&#41; will cause cause a version change only
+ if the collection was previously non-empty.
+ </font><br><br>
+<b>Returns:</b><br>
+the version number<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/View.d?rev=3791#L104">allows</a></span>
+<script>explorer.outline.addDecl('allows');</script>(T <span class="funcparam">element</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Report whether the View COULD contain element,
+ i.e., that it is valid with respect to the View's
+ element screener if it has one.
+ Always returns false if element == null.
+ A constant function: if allows&#40;v&#41; is ever true it is always true.
+ &#40;This property is not in any way enforced however.&#41;
+ No other spurious effects.
+ </font><br><br>
+<b>Returns:</b><br>
+true if non-null and passes element screener check<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/View.d?rev=3791#L114">instances</a></span>
+<script>explorer.outline.addDecl('instances');</script>(T <span class="funcparam">element</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Report the number of occurrences of element in View.
+ Always returns 0 if element == null.
+ Otherwise T.equals is used to test for equality.
+ @param element the element to look for
+ </font><br><br>
+<b>Returns:</b><br>
+the number of occurrences &#40;always nonnegative&#41;<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>GuardIterator!(T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/View.d?rev=3791#L162">elements</a></span>
+<script>explorer.outline.addDecl('elements');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an enumeration that may be used to traverse through
+ the elements in the View. Standard usage, for some
+ ViewT c, and some operation `use&#40;T obj&#41;':
+ <PRE>
+ for &#40;Iterator e = c.elements&#40;&#41;; e.more&#40;&#41;; &#41;
+   use&#40;e.value&#40;&#41;&#41;;
+ </PRE>
+ &#40;The values of get very often need to
+ be coerced to types that you know they are.&#41;
+ <P>
+ All Views return instances
+ of ViewIterator, that can report the number of remaining
+ elements, and also perform consistency checks so that
+ for MutableViews, element enumerations may become 
+ invalidated if the View is modified during such a traversal
+ &#40;which could in turn cause random effects on the ViewT.
+ TO prevent this,  ViewIterators 
+ raise CorruptedIteratorException on attempts to access
+ gets of altered Views.&#41;
+ </font><br><br>
+<b>Note:</b><br>Since all View implementations are synchronizable,
+ you may be able to guarantee that element traversals will not be
+ corrupted by using the D <CODE>synchronized</CODE> construct
+ around code blocks that do traversals. &#40;Use with care though,
+ since such constructs can cause deadlock.&#41;
+ <P>
+ Guarantees about the nature of the elements returned by  get of the
+ returned Iterator may vary accross sub-interfaces.
+ In all cases, the enumerations provided by elements&#40;&#41; are guaranteed to
+ step through &#40;via get&#41; ALL elements in the View.
+ Unless guaranteed otherwise &#40;for example in Seq&#41;, elements&#40;&#41; enumerations
+ need not have any particular get&#40;&#41; ordering so long as they
+ allow traversal of all of the elements. So, for example, two successive
+ calls to element&#40;&#41; may produce enumerations with the same
+ elements but different get&#40;&#41; orderings.
+ Again, sub-interfaces may provide stronger guarantees. In
+ particular, Seqs produce enumerations with gets in
+ index order, ElementSortedViews enumerations are in ascending 
+ sorted order, and KeySortedViews are in ascending order of keys.<br><br>
+<b>Returns:</b><br>
+an enumeration e such that
+ <PRE>
+   e.remaining&#40;&#41; == size&#40;&#41; &amp;&amp;
+   foreach &#40;v in e&#41; has&#40;e&#41; 
+ </PRE><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/View.d?rev=3791#L169">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate (inout T value) <span class="funcparam">dg</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">traverse the collection content. This is cheaper than using an
+         iterator since there is no creation cost involved.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/View.d?rev=3791#L175">toArray</a></span>
+<script>explorer.outline.addDecl('toArray');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">expose collection content as an array
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/View.d?rev=3791#L200">matches</a></span>
+<script>explorer.outline.addDecl('matches');</script>(View <span class="funcparam">other</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Report whether other has the same element structure as this.
+ That is, whether other is of the same size, and has the same 
+ elements&#40;&#41; properties.
+ This is a useful version of equality testing. But is not named
+ `equals' in part because it may not be the version you need.
+ <P>
+ The easiest way to decribe this operation is just to
+ explain how it is interpreted in standard sub-interfaces:
+ <UL>
+  <LI> Seq and ElementSortedView: other.elements&#40;&#41; has the 
+        same order as this.elements&#40;&#41;.
+  <LI> Bag: other.elements has the same instances each element as this.
+  <LI> Set: other.elements has all elements of this
+  <LI> Map: other has all &#40;key, element&#41; pairs of this.
+  <LI> KeySortedView: other has all &#40;key, element&#41;
+       pairs as this, and with keys enumerated in the same order as
+       this.keys&#40;&#41;.
+</UL>
+ @param other, a View
+ </font><br><br>
+<b>Returns:</b><br>
+true if considered to have the same size and elements.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/View.d?rev=3791#L219">checkImplementation</a></span>
+<script>explorer.outline.addDecl('checkImplementation');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Check the consistency of internal state, and raise exception if
+ not OK.
+ These should be `best-effort' checks. You cannot always locally
+ determine full consistency, but can usually approximate it,
+ and validate the most important representation invariants.
+ The most common kinds of checks are cache checks. For example,
+ A linked list that also maintains a separate record of the
+ number of items on the list should verify that the recorded
+ count matches the number of elements in the list.
+ <P>
+ This method should either return normally or throw:
+ </font><br><br>
+<b>Throws:</b><br>
+ImplementationError if check fails<br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                         :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:32 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

@@ -1,0 +1,788 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.cluster.tina.Cluster</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.cluster.tina.Cluster");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791">tango.net.cluster.tina.Cluster</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+July 2004: Initial release<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L71">Cluster</a></span>
+<script>explorer.outline.addDecl('Cluster');</script> : Broadcaster, ICluster;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">QOS implementation for sockets. All cluster-client activity is 
+        gated through here by the higher level classes; NetworkQueue &amp;
+        NetworkCache for example. You gain access to the cluster by 
+        creating an instance of the QOS &#40;quality of service&#41; you desire
+        and either mapping client classes onto it, or usign it directly.
+        For example:
+        <pre class="d_code">
+
+        <span class="k">import</span> <span class="i">tango</span>.<span class="i">net</span>.<span class="i">cluster</span>.<span class="i">tina</span>.<span class="i">Cluster</span>;
+
+        <span class="k">auto</span> <span class="i">cluster</span> = <span class="k">new</span> <span class="i">Cluster</span>;
+        <span class="i">cluster</span>.<span class="i">join</span>;
+
+        <span class="k">auto</span> <span class="i">channel</span> = <span class="i">cluster</span>.<span class="i">createChannel</span> (...);
+        <span class="i">channel</span>.<span class="i">putQueue</span> (...);
+        <span class="i">channel</span>.<span class="i">getQueue</span> ();
+        
+</pre></font><br><br>
+<font color="black">Please see the cluster clients for additional details. Currently
+        these include CacheInvalidator, CacheInvalidatee, NetworkMessage, 
+        NetworkTask, NetworkQueue, NetworkCache, NetworkCombo, plus the 
+        Client base-class.<br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L85">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a cluster instance with a default logger and Nagle
+                caching disabled</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L99">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Logger <span class="funcparam">log</span>, bool <span class="funcparam">noDelay</span> = true);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a cluster instance with the provided logger. Option
+                noDelay controls the settting of the Nagle algorithm on an
+                active connection to a server, which should be disabled by 
+                default &#40;noDelay == true&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Cluster <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L120">join</a></span>
+<script>explorer.outline.addDecl('join');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Join the cluster as a client, discovering servers. Client 
+                applications should invoke this before making requests so
+                that there are some servers to address. </font><br><br>
+<font color="black">If cache facilities will be used, then the join&#40;cacheHosts&#41; 
+                variation should be used instead<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Cluster <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L154">join</a></span>
+<script>explorer.outline.addDecl('join');</script>(char[][] <span class="funcparam">cacheHosts</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Join the cluster as a client, discovering servers. Client 
+                applications should invoke this before making requests so
+                that there are some servers to address.</font><br><br>
+<font color="black">If cache facilities will be used, use this method to set
+                the group of valid cache hosts. Each cache host should be
+                described as an array of machine-name and port pairs e.g.
+                <pre class="d_code">
+
+                [<span class="sl">"lucy:1234"</span>, <span class="sl">"daisy:3343"</span>, <span class="sl">"daisy:3344"</span>]
+                
+</pre><br><br>                This sets up a fixed set of cache hosts, which should be
+                identical for all cache clients. Cache hosts not included
+                in this list will be ignored when they come online.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L167">log</a></span>
+<script>explorer.outline.addDecl('log');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the logger instance provided during construction.
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IChannel <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L180">createChannel</a></span>
+<script>explorer.outline.addDecl('createChannel');</script>(char[] <span class="funcparam">channel</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a channel instance. Our channel implementation 
+                includes a number of cached IO helpers &#40;ProtocolWriter
+                and so on&#41; which simplifies and speeds up execution.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L193">notify</a></span>
+<script>explorer.outline.addDecl('notify');</script>(IEvent <span class="funcparam">event</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">ChannelListener method for listening to RollCall responses. 
+                These are sent out by cluster servers both when they get a 
+                RollCall request, and when they heartbeat.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L228">Broadcaster</a></span>
+<script>explorer.outline.addDecl('Broadcaster');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Basic multicast support across the cluster. Multicast is used 
+        for broadcasting messages to all nodes in the cluster. We use
+        it for cache-invalidation, heartbeat, rollcall and notification
+        of queue activity
+                        
+</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L248">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Setup a Cluster instance. Currently the buffer &amp; writer
+                are shared for all bulletin serialization; this should
+                probably change at some point such that we can support 
+                multiple threads broadcasting concurrently to different 
+                output ports.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>MulticastConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L264">conduit</a></span>
+<script>explorer.outline.addDecl('conduit');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Setup the multicast options. Port is used as the sole 
+                address port for multicast usage, prefix is prepended 
+                to each fabricated multicast address &#40;should be a valid 
+                class-D prefix&#41;, and ttl is the number of hops </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L278">multicast</a></span>
+<script>explorer.outline.addDecl('multicast');</script>(int <span class="funcparam">port</span>, int <span class="funcparam">prefix</span> = 225); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Setup the multicast options. Port is used as the sole 
+                address port for multicast usage &amp; prefix is prepended 
+                to each fabricated multicast address &#40;should be a valid 
+                class-D prefix: 225 through 239 inclusive&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L297">broadcast</a></span>
+<script>explorer.outline.addDecl('broadcast');</script>(char[] <span class="funcparam">channel</span>, IMessage <span class="funcparam">message</span> = null); [synchronized, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Broadcast a message on the specified channel. This uses
+                IP/Multicast to scatter the payload to all registered
+                listeners &#40;on the same multicast group&#41;. Note that the
+                maximum message size is limited to that of an Ethernet 
+                data frame, minus the IP/UDP header size &#40;1472 bytes&#41;.</font><br><br>
+<font color="black">Also note that we are synchronized to avoid contention
+                on the otherwise shared output buffer.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>InternetAddress <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L320">getGroup</a></span>
+<script>explorer.outline.addDecl('getGroup');</script>(char[] <span class="funcparam">channel</span>); [synchronized, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an internet address representing the multicast
+                group for the specified channel. We use three of the
+                four address segments to represent the channel itself
+                &#40;via a hash on the channel name&#41;, and set the primary
+                segment to be that of the broadcast prefix &#40;above&#41;.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L358">Channel</a></span>
+<script>explorer.outline.addDecl('Channel');</script> : IChannel; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A channel represents something akin to a publish/subscribe topic, 
+        or a radio station. These are used to segregate cluster operations
+        into a set of groups, where each group is represented by a channel.
+        Channel names are whatever you want then to be: use of dot notation 
+        has proved useful in the past. 
+        
+        Channel maintain internal state in order to avoid heap activity. So
+        they should not be shared across threads without appropriate synchs 
+        in place. One remedy is create another channel instance</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L374">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Cluster <span class="funcparam">cluster</span>, char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a channel with the specified name. We cache
+                a number of session-related constructs here also, in
+                order to eliminate runtime overhead</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L399">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the name of this channel. This is the name provided
+                when the channel was constructed.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Cluster <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L410">cluster</a></span>
+<script>explorer.outline.addDecl('cluster');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the assigned cluster</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L421">log</a></span>
+<script>explorer.outline.addDecl('log');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the assigned logger</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L432">write</a></span>
+<script>explorer.outline.addDecl('write');</script>(IWriter <span class="funcparam">writer</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Output this channel via the provided IWriter</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L443">read</a></span>
+<script>explorer.outline.addDecl('read');</script>(IReader <span class="funcparam">reader</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Input this channel via the provided IReader</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IMessage <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L455">thaw</a></span>
+<script>explorer.outline.addDecl('thaw');</script>(IMessage <span class="funcparam">host</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">deserialize a message into a provided host, or via
+                the registered instance of the incoming message
+                        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IConsumer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L470">createConsumer</a></span>
+<script>explorer.outline.addDecl('createConsumer');</script>(ChannelListener <span class="funcparam">notify</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a listener of the specified type. Listeners are 
+                run within their own thread, since they spend the vast 
+                majority of their time blocked on a Socket read. Would
+                be good to support multiplexed reading instead, such 
+                that a thread pool could be applied instead.
+                 
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IConsumer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L486">createBulletinConsumer</a></span>
+<script>explorer.outline.addDecl('createBulletinConsumer');</script>(ChannelListener <span class="funcparam">notify</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a listener of the specified type. Listeners are 
+                run within their own thread, since they spend the vast 
+                majority of their time blocked on a Socket read. Would
+                be good to support multiplexed reading instead, such 
+                that a thread pool could be applied instead.
+                 
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IMessage <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L500">getCache</a></span>
+<script>explorer.outline.addDecl('getCache');</script>(char[] <span class="funcparam">key</span>, bool <span class="funcparam">remove</span>, IMessage <span class="funcparam">host</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a entry from the network cache, and optionally
+                remove it. This is a synchronous operation as opposed
+                to the asynchronous nature of an invalidate broadcast.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L527">putCache</a></span>
+<script>explorer.outline.addDecl('putCache');</script>(char[] <span class="funcparam">key</span>, IMessage <span class="funcparam">message</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Place an entry into the network cache, replacing the
+                entry with the identical key. Where message.time is
+                set, it will be used to test for newer cache entries
+                than the one being sent i.e. if someone else placed
+                a newer entry into the cache, that one will remain.
+                
+                Note that this may cause the oldest entry in the cache 
+                to be displaced if the cache is already full.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L555">loadCache</a></span>
+<script>explorer.outline.addDecl('loadCache');</script>(char[] <span class="funcparam">key</span>, IMessage <span class="funcparam">message</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Load a network cache entry remotely. This sends the given
+                IMessage over a network to the cache host, where it will
+                be executed locally. The benefit of doing so it that the
+                host may deny access to the cache entry for the duration
+                of the load operation. This, in turn, provides a mechanism 
+                for gating/synchronizing multiple network clients  over a 
+                given cache entry; quite handy for those entries that are 
+                relatively expensive to construct or access. </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IMessage <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L577">getQueue</a></span>
+<script>explorer.outline.addDecl('getQueue');</script>(IMessage <span class="funcparam">host</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Query the cluster for queued entries on the corresponding 
+                channel. Returns, and removes, the first matching entry 
+                from the cluster. Note that this sweeps the cluster for
+                matching entries, and is synchronous in nature. The more
+                common approach is to setup a queue listener, which will
+                grab and dispatch queue entries asynchronously.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L595">scanQueue</a></span>
+<script>explorer.outline.addDecl('scanQueue');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Query the cluster for queued entries on the corresponding 
+                channel. Returns, and removes, the first matching entry 
+                from the cluster. Note that this sweeps the cluster for
+                matching entries, and is synchronous in nature. The more
+                common approach is to setup a queue listener, which will
+                grab and dispatch queue entries asynchronously.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IMessage <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L621">putQueue</a></span>
+<script>explorer.outline.addDecl('putQueue');</script>(IMessage <span class="funcparam">message</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add an entry to the specified network queue. May throw a
+                QueueFullException if there's no room available.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L640">execute</a></span>
+<script>explorer.outline.addDecl('execute');</script>(IMessage <span class="funcparam">message</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Send a remote call request to a server, and place the result
+               back into the provided message</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L667">broadcast</a></span>
+<script>explorer.outline.addDecl('broadcast');</script>(IMessage <span class="funcparam">message</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Broadcast a message on the specified channel. This uses
+                IP/Multicast to scatter the message to all registered
+                listeners &#40;on the same multicast group&#41;. Note that the
+                maximum message size is limited to that of an Ethernet 
+                data frame, minus the IP/UDP header size &#40;1472 bytes&#41;.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L688">BulletinConsumer</a></span>
+<script>explorer.outline.addDecl('BulletinConsumer');</script> : SocketListener, IConsumer, IEvent; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A listener for multicast channel traffic. These are currently used 
+        for cache coherency, queue publishing, and node discovery activity; 
+        though could be used for direct messaging also.</font><br><br>
+<font color="black">Be careful when using the retained channel, since it is shared with
+        the calling thread. Thus a race condition could arise between the
+        client and this thread, were both to use the channel for transfers 
+        at the same instant. Note that MessageConsumer makes a copy of the
+        channel for this purpose<br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L706">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Channel <span class="funcparam">channel</span>, ChannelListener <span class="funcparam">listener</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a multicast consumer for the specified event. The
+                event handler will be invoked whenever a message arrives for
+                the associated channel.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L737">notify</a></span>
+<script>explorer.outline.addDecl('notify');</script>(IBuffer <span class="funcparam">buffer</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Notification callback invoked when we receive a multicast
+                packet. Note that we check the packet channel-name against
+                the one we're consuming, to check for cases where the group
+                address had a hash collision.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IMessage <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L756">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(IMessage <span class="funcparam">host</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L770">log</a></span>
+<script>explorer.outline.addDecl('log');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the assigned logger</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L781">exception</a></span>
+<script>explorer.outline.addDecl('exception');</script>(char [] <span class="funcparam">msg</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Handle error conditions from the listener thread.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L792">invoke</a></span>
+<script>explorer.outline.addDecl('invoke');</script>(IEvent <span class="funcparam">event</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Overridable mean of notifying the client code.
+                 
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Channel <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L803">channel</a></span>
+<script>explorer.outline.addDecl('channel');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the cluster instance we're associated with.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L816">pauseGroup</a></span>
+<script>explorer.outline.addDecl('pauseGroup');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Temporarily halt listening. This can be used to ignore
+                multicast messages while, for example, the consumer is
+                busy doing other things.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L827">resumeGroup</a></span>
+<script>explorer.outline.addDecl('resumeGroup');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Resume listening, post-pause.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L843">cancel</a></span>
+<script>explorer.outline.addDecl('cancel');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Cancel this consumer. The listener is effectively disabled
+                from this point forward. The listener thread does not halt
+                at this point, but waits until the socket-read returns. 
+                Note that the D Interface implementation requires us to 
+                "reimplement and dispatch" trivial things like this ~ it's
+                a pain in the neck to maintain.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L854">reply</a></span>
+<script>explorer.outline.addDecl('reply');</script>(IChannel <span class="funcparam">channel</span>, IMessage <span class="funcparam">message</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Send a message back to the producer       </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IChannel <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L870">replyChannel</a></span>
+<script>explorer.outline.addDecl('replyChannel');</script>(IMessage <span class="funcparam">message</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an appropriate reply channel for the given message, 
+                or return null if no reply is expected</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L892">MessageConsumer</a></span>
+<script>explorer.outline.addDecl('MessageConsumer');</script> : BulletinConsumer; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A listener for queue events. These events are produced by the 
+        queue host on a periodic bases when it has available entries.
+        We listen for them &#40;rather than constantly scanning&#41; and then
+        begin a sweep to process as many as we can. Note that we will
+        be in competition with other nodes to process these entries.</font><br><br>
+<font color="black">Also note that we create a copy of the channel in use, so that
+        race-conditions with the requesting client are avoided.<br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L900">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Channel <span class="funcparam">channel</span>, ChannelListener <span class="funcparam">listener</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a multicast consumer for the specified event</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L914">exception</a></span>
+<script>explorer.outline.addDecl('exception');</script>(char [] <span class="funcparam">msg</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Handle error conditions from the listener thread.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IMessage <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L936">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(IMessage <span class="funcparam">host</span> = null); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Overrides the default processing to sweep the cluster for 
+                queued entries. Each server node is queried until one is
+                found that contains a message. Note that it is possible 
+                to set things up where we are told exactly which node to
+                go to; however given that we won't be listening whilst
+                scanning, and that there's likely to be a group of new
+                entries in the cluster, it's just as effective to scan.
+                This will be far from ideal for all environments, so we 
+                should make the strategy pluggable instead.                 </font><br><br>
+<font color="black">Note also that the content is retrieved via a duplicate
+                channel to avoid potential race-conditions on the original<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L949">reply</a></span>
+<script>explorer.outline.addDecl('reply');</script>(IChannel <span class="funcparam">channel</span>, IMessage <span class="funcparam">message</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Send a message back to the producer       </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L965">invoke</a></span>
+<script>explorer.outline.addDecl('invoke');</script>(IEvent <span class="funcparam">event</span>); [protected, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Override the default notification handler in order to
+                disable multicast reciepts while the application does
+                what it needs to
+                
+</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L983">Connection</a></span>
+<script>explorer.outline.addDecl('Connection');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">An abstraction of a socket connection. Used internally by the 
+        socket-based Cluster. </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1002">ConnectionPool</a></span>
+<script>explorer.outline.addDecl('ConnectionPool');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A pool of socket connections for accessing cluster nodes. Note 
+        that the entries will timeout after a period of inactivity, and
+        will subsequently cause a connected host to drop the supporting
+        session.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1018">PoolConnection</a></span>
+<script>explorer.outline.addDecl('PoolConnection');</script> : Connection; [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Utility class to provide the basic connection facilities
+                provided by the connection pool.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1031">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(ConnectionPool <span class="funcparam">pool</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a new connection and set its parent</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1046">reset</a></span>
+<script>explorer.outline.addDecl('reset');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new socket and connect it to the specified 
+                        server. This will cause a dedicated thread to start 
+                        on the server. Said thread will quit when an error
+                        occurs.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SocketConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1076">conduit</a></span>
+<script>explorer.outline.addDecl('conduit');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the socket belonging to this connection</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1088">close</a></span>
+<script>explorer.outline.addDecl('close');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Close the socket. This will cause any host session
+                        to be terminated.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1100">done</a></span>
+<script>explorer.outline.addDecl('done');</script>(Time <span class="funcparam">time</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return this connection to the free-list. Note that
+                        we have to synchronize on the parent-pool itself.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1118">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InternetAddress <span class="funcparam">address</span>, Logger <span class="funcparam">log</span>, bool <span class="funcparam">noDelay</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a connection-pool for the specified address.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Connection <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1132">borrow</a></span>
+<script>explorer.outline.addDecl('borrow');</script>(Time <span class="funcparam">time</span>); [synchronized, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Allocate a Connection from a list rather than creating a 
+                new one. Reap old entries as we go.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1154">close</a></span>
+<script>explorer.outline.addDecl('close');</script>(); [synchronized, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Close this pool and drop all existing connections.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1176">Node</a></span>
+<script>explorer.outline.addDecl('Node');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Class to represent a cluster node. Each node supports both cache
+        and queue functionality. Note that the set of available nodes is
+        configured at startup, simplifying the discovery process in some
+        significant ways, and causing less thrashing of cache-keys.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1193">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Logger <span class="funcparam">log</span>, char[] <span class="funcparam">addr</span>, char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a node with the provided name. This name should
+                be the network name of the hosting device.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1206">setPool</a></span>
+<script>explorer.outline.addDecl('setPool');</script>(InternetAddress <span class="funcparam">address</span>, bool <span class="funcparam">noDelay</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add a cache/queue reference for the remote node
+                 
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1217">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the name of this node</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1228">address</a></span>
+<script>explorer.outline.addDecl('address');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the network address of this node</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1240">fail</a></span>
+<script>explorer.outline.addDecl('fail');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove this Node from the cluster. The node is disabled
+                until it is seen to recover.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1252">isEnabled</a></span>
+<script>explorer.outline.addDecl('isEnabled');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get the current state of this node</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1264">setEnabled</a></span>
+<script>explorer.outline.addDecl('setEnabled');</script>(bool <span class="funcparam">enabled</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the enabled state of this node</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1290">request</a></span>
+<script>explorer.outline.addDecl('request');</script>(Requestor <span class="funcparam">dg</span>, ProtocolReader <span class="funcparam">reader</span>, out bool <span class="funcparam">message</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">request data; fail this Node if we can't connect. Note
+                that we make several attempts to connect before writing
+                the node off as a failure. We use a delegate to perform 
+                the request output since it may be invoked on more than
+                one iteration, where the current attempt fails.</font><br><br>
+<font color="black">We return true if the cluster node responds, and false
+                otherwise. Exceptions are thrown if they occured on the 
+                server. Parameter 'message' is set true if a message is
+                available from the server response
+                
+</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1373">NodeSet</a></span>
+<script>explorer.outline.addDecl('NodeSet');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Models a generic set of cluster nodes. This is intended to be
+        thread-safe, with no locking on a lookup operation</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1384">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Logger <span class="funcparam">log</span>, bool <span class="funcparam">noDelay</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1395">logger</a></span>
+<script>explorer.outline.addDecl('logger');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1406">addNode</a></span>
+<script>explorer.outline.addDecl('addNode');</script>(Node <span class="funcparam">node</span>); [synchronized, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add a node to the list of servers</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1429">selectNode</a></span>
+<script>explorer.outline.addDecl('selectNode');</script>(uint <span class="funcparam">index</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Select a cluster server based on a starting index. If the
+                selected server is not currently enabled, we just try the
+                next one. This behaviour should be consistent across each
+                cluster client.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1460">Set</a></span>
+<script>explorer.outline.addDecl('Set');</script>; [private, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Host class for the set of nodes. We utilize this to enable
+                atomic read/write where it would not be otherwise possible
+                -- D arrays are organized as ptr+length pairs and are thus
+                inherently non-atomic for assignment purposes</font><br><br>
+</dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1498">FixedNodeSet</a></span>
+<script>explorer.outline.addDecl('FixedNodeSet');</script> : NodeSet; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Models a fixed set of cluster nodes. Used for Cache</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1504">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Logger <span class="funcparam">log</span>, bool <span class="funcparam">noDelay</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1513">enable</a></span>
+<script>explorer.outline.addDecl('enable');</script>(char[] <span class="funcparam">addr</span>); [synchronized, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1540">request</a></span>
+<script>explorer.outline.addDecl('request');</script>(Node.Requestor <span class="funcparam">dg</span>, ProtocolReader <span class="funcparam">reader</span>, char[] <span class="funcparam">key</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Select a cluster server based on the specified key. If the
+                selected server is not currently enabled, we just try the
+                next one. This behaviour should be consistent across each
+                cluster client.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1560">FlexNodeSet</a></span>
+<script>explorer.outline.addDecl('FlexNodeSet');</script> : NodeSet; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Models a flexible set of cluster nodes. Used for queue and task</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1568">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Logger <span class="funcparam">log</span>, bool <span class="funcparam">noDelay</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1577">enable</a></span>
+<script>explorer.outline.addDecl('enable');</script>(char[] <span class="funcparam">addr</span>, char[] <span class="funcparam">name</span>); [synchronized, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1598">request</a></span>
+<script>explorer.outline.addDecl('request');</script>(Node.Requestor <span class="funcparam">dg</span>, ProtocolReader <span class="funcparam">reader</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Select a cluster server based on the specified key. If the
+                selected server is not currently enabled, we just try the
+                next one. This behaviour should be consistent across each
+                cluster client.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1620">scan</a></span>
+<script>explorer.outline.addDecl('scan');</script>(bool delegate(Node) <span class="funcparam">dg</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sweep the cluster servers. Returns true if the delegate
+                returns true, false otherwise. The sweep is halted when
+                the delegate returns true. Note that this scans nodes in
+                a randomized pattern, which should tend to avoid 'bursty'
+                activity by a set of clients upon any one cluster server.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/Cluster.d?rev=3791#L1647">jhash</a></span>
+<script>explorer.outline.addDecl('jhash');</script>(void* <span class="funcparam">k</span>, uint <span class="funcparam">len</span>, uint <span class="funcparam">init</span> = 0); [private, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The Bob Jenkins lookup2 algorithm. This should be relocated 
+        to somewhere common</font><br><br></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:35 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

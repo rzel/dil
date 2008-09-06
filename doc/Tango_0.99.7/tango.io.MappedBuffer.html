@@ -1,0 +1,94 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.MappedBuffer</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.MappedBuffer");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/MappedBuffer.d?rev=3791">tango.io.MappedBuffer</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: March 2004<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/MappedBuffer.d?rev=3791#L53">MappedBuffer</a></span>
+<script>explorer.outline.addDecl('MappedBuffer');</script> : Buffer, IConduit.Seek;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Subclass to treat the buffer as a seekable entity, where all 
+        capacity is available for reading and/or writing. To achieve 
+        this we must effectively disable the 'limit' watermark, and 
+        locate write operations around 'position' instead. </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/MappedBuffer.d?rev=3791#L219">seek</a></span>
+<script>explorer.outline.addDecl('seek');</script>(long <span class="funcparam">offset</span>, Anchor <span class="funcparam">anchor</span> = Anchor.Begin);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Seek to the specified position within the buffer, and return
+                the byte offset of the new location &#40;relative to zero&#41;.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/MappedBuffer.d?rev=3791#L241">writable</a></span>
+<script>explorer.outline.addDecl('writable');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return count of writable bytes available in buffer. This is 
+                calculated simply as capacity&#40;&#41; - limit&#40;&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/MappedBuffer.d?rev=3791#L253">copy</a></span>
+<script>explorer.outline.addDecl('copy');</script>(void * <span class="funcparam">src</span>, uint <span class="funcparam">size</span>); [protected, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Bulk copy of data from 'src'. Position is adjusted by 'size'
+                bytes.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/MappedBuffer.d?rev=3791#L277">write</a></span>
+<script>explorer.outline.addDecl('write');</script>(uint delegate (void[]) <span class="funcparam">dg</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Exposes the raw data buffer at the current write position, 
+                The delegate is provided with a void[] representing space
+                available within the buffer at the current write position.</font><br><br>
+<font color="black">The delegate should return the appropriate number of bytes 
+                if it writes valid content, or IConduit.Eof on error.<br><br>                Returns whatever the delegate returns.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/MappedBuffer.d?rev=3791#L295">compress</a></span>
+<script>explorer.outline.addDecl('compress');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Prohibit compress&#40;&#41; from doing anything at all.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>InputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/MappedBuffer.d?rev=3791#L306">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Prohibit clear&#40;&#41; from doing anything at all.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/MappedBuffer.d?rev=3791#L317">setConduit</a></span>
+<script>explorer.outline.addDecl('setConduit');</script>(IConduit <span class="funcparam">conduit</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Prohibit the setting of another IConduit</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

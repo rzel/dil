@@ -1,0 +1,240 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.text.stream.StreamIterator</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.text.stream.StreamIterator");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791">tango.text.stream.StreamIterator</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: December 2005<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L55">StreamIterator</a></span>
+<script>explorer.outline.addDecl('StreamIterator');</script>(T) : InputStream, Buffered;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The base class for a set of stream iterators. These operate
+        upon a buffered input stream, and are designed to deal with
+        partial content. That is, stream iterators go to work the
+        moment any data becomes available in the buffer. Contrast
+        this behaviour with the tango.text.Util iterators, which
+        operate upon the extent of an array.</font><br><br>
+<font color="black">There are two types of iterators supported; exclusive and
+        inclusive. The former are the more common kind, where a token
+        is delimited by elements that are considered foreign. Examples
+        include space, comma, and end-of-line delineation. Inclusive
+        tokens are just the opposite: they look for patterns in the
+        text that should be part of the token itself - everything else
+        is considered foreign. Currently tango.text.stream includes the
+        exclusive variety only.<br><br>        Each pattern is exposed to the client as a slice of the original
+        content, where the slice is transient. If you need to retain the
+        exposed content, then you should .dup it appropriately. <br><br>        The content provided to these iterators is intended to be fully
+        read-only. All current tokenizers abide by this rule, but it is
+        possible a user could mutate the content through a token slice.
+        To enforce the desired read-only aspect, the code would have to
+        introduce redundant copying or the compiler would have to support
+        read-only arrays.<br><br>        See LineIterator, CharIterator, RegexIterator, QuotedIterator,
+        and SimpleIterator<br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L67">scan</a></span>
+<script>explorer.outline.addDecl('scan');</script>(void[] <span class="funcparam">data</span>); [protected, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The pattern scanner, implemented via subclasses</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L75">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InputStream <span class="funcparam">stream</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Instantiate with a buffer</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>StreamIterator <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L87">set</a></span>
+<script>explorer.outline.addDecl('set');</script>(InputStream <span class="funcparam">stream</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the provided stream as the scanning source</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L100">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the current token as a slice of the content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>StreamIterator <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L114">push</a></span>
+<script>explorer.outline.addDecl('push');</script>(T[] <span class="funcparam">token</span>); [final, deprecated]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Push one token back into the stream, to be returned by a
+                subsequent call to next&#40;&#41;</font><br><br>
+<font color="black">Push null to cancel a prior assignment<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L127">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout T[]) <span class="funcparam">dg</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Iterate over the set of tokens. This should really
+                provide read-only access to the tokens, but D does
+                not support that at this time</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L146">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout int, inout T[]) <span class="funcparam">dg</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Iterate over a set of tokens, exposing a token count 
+                starting at zero</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L167">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout int, inout T[], inout T[]) <span class="funcparam">dg</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Iterate over a set of tokens and delimiters, exposing a 
+                token count starting at zero</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L208">next</a></span>
+<script>explorer.outline.addDecl('next');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Locate the next token. Returns the token if found, null
+                otherwise. Null indicates an end of stream condition. To
+                sweep a conduit for lines using method next&#40;&#41;:
+                <pre class="d_code">
+
+                <span class="k">auto</span> <span class="i">lines</span> = <span class="k">new</span> <span class="i">LineIterator</span>!(<span class="k">char</span>) (<span class="k">new</span> <span class="i">FileConduit</span>(<span class="sl">"myfile"</span>));
+                <span class="k">while</span> (<span class="i">lines</span>.<span class="i">next</span>)
+                       <span class="i">Cout</span> (<span class="i">lines</span>.<span class="i">get</span>).<span class="i">newline</span>;
+                
+</pre></font><br><br>
+<font color="black">Alternatively, we can extract one line from a conduit:
+                <pre class="d_code">
+
+                <span class="k">auto</span> <span class="i">line</span> = (<span class="k">new</span> <span class="i">LineIterator</span>!(<span class="k">char</span>) (<span class="k">new</span> <span class="i">FileConduit</span>(<span class="sl">"myfile"</span>))).<span class="i">next</span>;
+                
+</pre><br><br>                The difference between next&#40;&#41; and foreach&#40;&#41; is that the
+                latter processes all tokens in one go, whereas the former
+                processes in a piecemeal fashion. To wit:
+                <pre class="d_code">
+
+                <span class="k">foreach</span> (<span class="i">line</span>; <span class="k">new</span> <span class="i">LineIterator</span>!(<span class="k">char</span>) (<span class="k">new</span> <span class="i">FileConduit</span>(<span class="sl">"myfile"</span>)))
+                         <span class="i">Cout</span>(<span class="i">line</span>).<span class="i">newline</span>;
+                
+</pre>
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L222">set</a></span>
+<script>explorer.outline.addDecl('set');</script>(T* <span class="funcparam">content</span>, uint <span class="funcparam">start</span>, uint <span class="funcparam">end</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the content of the current slice to the provided 
+                start and end points</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L236">set</a></span>
+<script>explorer.outline.addDecl('set');</script>(T* <span class="funcparam">content</span>, uint <span class="funcparam">start</span>, uint <span class="funcparam">end</span>, uint <span class="funcparam">next</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the content of the current slice to the provided 
+                start and end points, and delimiter to the segment
+                between end &amp; next &#40;inclusive&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L251">notFound</a></span>
+<script>explorer.outline.addDecl('notFound');</script>(); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Called when a scanner fails to find a matching pattern.
+                This may cause more content to be loaded, and a rescan
+                initiated</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L265">found</a></span>
+<script>explorer.outline.addDecl('found');</script>(uint <span class="funcparam">i</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Invoked when a scanner matches a pattern. The provided
+                value should be the index of the last element of the
+                matching pattern, which is converted back to a void[]
+                index.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L276">has</a></span>
+<script>explorer.outline.addDecl('has');</script>(T[] <span class="funcparam">set</span>, T <span class="funcparam">match</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">See if set of characters holds a particular instance</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L291">consume</a></span>
+<script>explorer.outline.addDecl('consume');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Consume the next token and place it in 'slice'. Returns 
+                true when there are potentially more tokens</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L313">buffer</a></span>
+<script>explorer.outline.addDecl('buffer');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Buffered Interface </font><br><br>
+<font color="black">Return the associated buffer<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L329">conduit</a></span>
+<script>explorer.outline.addDecl('conduit');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">InputStream Interface </font><br><br>
+<font color="black">Return the host conduit<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L344">read</a></span>
+<script>explorer.outline.addDecl('read');</script>(void[] <span class="funcparam">dst</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Read from conduit into a target array. The provided dst 
+                will be populated with content from the conduit. </font><br><br>
+<font color="black">Returns the number of bytes read, which may be less than
+                requested in dst<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L360">load</a></span>
+<script>explorer.outline.addDecl('load');</script>(void[] <span class="funcparam">dst</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Load the bits from a stream, and return them all in an
+                array. The dst array can be provided as an option, which
+                will be expanded as necessary to consume the input.</font><br><br>
+<font color="black">Returns an array representing the content, and throws
+                IOException on error
+                              
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>InputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L371">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Clear any buffered content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/stream/StreamIterator.d?rev=3791#L382">close</a></span>
+<script>explorer.outline.addDecl('close');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Close the input</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:35 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

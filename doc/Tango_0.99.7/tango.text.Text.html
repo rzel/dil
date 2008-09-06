@@ -1,0 +1,800 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.text.Text</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.text.Text");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791">tango.text.Text</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: December 2005<br><br>
+<b>author:</b><br>Kris<br><br>
+        _Text is a class for storing and manipulating Unicode characters.<br><br>        _Text maintains a current "selection", controlled via the mark&#40;&#41;,
+        select&#40;&#41; and selectPrior&#40;&#41; methods. Each of append&#40;&#41;, prepend&#40;&#41;,
+        replace&#40;&#41; and remove&#40;&#41; operate with respect to the selection. The
+        select&#40;&#41; methods operate with respect to the current selection
+        also, providing a means of iterating across matched patterns. To
+        set a selection across the entire content, use the mark&#40;&#41; method
+        with no arguments.<br><br>        Indexes and lengths of content always count code units, not code
+        points. This is similar to traditional ascii string handling, yet
+        indexing is rarely used in practice due to the selection idiom:
+        substring indexing is generally implied as opposed to manipulated
+        directly. This allows for a more streamlined model with regard to
+        surrogates.<br><br>        Strings support a range of functionality, from insert and removal
+        to utf encoding and decoding. There is also an immutable subset
+        called TextView, intended to simplify life in a multi-threaded
+        environment. However, TextView must expose the raw content as
+        needed and thus immutability depends to an extent upon so-called
+        "honour" of a callee. D does not enable immutability enforcement
+        at this time, but this class will be modified to support such a
+        feature when it arrives - via the slice&#40;&#41; method.<br><br>        The class is templated for use with char[], wchar[], and dchar[],
+        and should migrate across encodings seamlessly. In particular, all
+        functions in tango.text.Util are compatible with _Text content in
+        any of the supported encodings. In future, this class will become
+        the principal gateway to the extensive ICU unicode library.<br><br>        Note that several common text operations can be constructed through
+        combining tango.text._Text with tango.text.Util e.g. lines of text
+        can be processed thusly:
+        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">source</span> = <span class="k">new</span> <span class="i">Text</span>!(<span class="k">char</span>)(<span class="sl">"one\ntwo\nthree"</span>);
+
+        <span class="k">foreach</span> (<span class="i">line</span>; <span class="i">Util</span>.<span class="i">lines</span>(<span class="i">source</span>.<span class="i">slice</span>))
+                 <span class="lc">// do something with line</span>
+        
+</pre><br><br>        Substituting patterns within text can be implemented simply and
+        rather efficiently:
+        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">dst</span> = <span class="k">new</span> <span class="i">Text</span>!(<span class="k">char</span>);
+
+        <span class="k">foreach</span> (<span class="i">element</span>; <span class="i">Util</span>.<span class="i">patterns</span> (<span class="sl">"all cows eat grass"</span>, <span class="sl">"eat"</span>, <span class="sl">"chew"</span>))
+                 <span class="i">dst</span>.<span class="i">append</span> (<span class="i">element</span>);
+        
+</pre><br><br>        Speaking a bit like Yoda might be accomplished as follows:
+        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">dst</span> = <span class="k">new</span> <span class="i">Text</span>!(<span class="k">char</span>);
+
+        <span class="k">foreach</span> (<span class="i">element</span>; <span class="i">Util</span>.<span class="i">delims</span> (<span class="sl">"all cows eat grass"</span>, <span class="sl">" "</span>))
+                 <span class="i">dst</span>.<span class="i">prepend</span> (<span class="i">element</span>);
+        
+</pre><br><br>        Below is an overview of the API and class hierarchy:
+        <pre class="d_code">
+
+        <span class="k">class</span> <span class="i">Text</span>(<span class="i">T</span>) : <span class="i">TextView</span>!(<span class="i">T</span>)
+        {
+                <span class="lc">// set or reset the content</span>
+                <span class="i">Text</span> <span class="i">set</span> (<span class="i">T</span>[] <span class="i">chars</span>, <span class="k">bool</span> <span class="i">mutable</span>=<span class="k">true</span>);
+                <span class="i">Text</span> <span class="i">set</span> (<span class="i">TextView</span> <span class="i">other</span>, <span class="k">bool</span> <span class="i">mutable</span>=<span class="k">true</span>);
+
+                <span class="lc">// retreive currently selected text</span>
+                <span class="i">T</span>[] <span class="i">selection</span> ();
+
+                <span class="lc">// get the index and length of the current selection</span>
+                <span class="i">Span</span> <span class="i">selectionSpan</span> ();
+
+                <span class="lc">// mark a selection</span>
+                <span class="i">Text</span> <span class="i">select</span> (<span class="k">int</span> <span class="i">start</span>=<span class="n">0</span>, <span class="k">int</span> <span class="i">length</span>=<span class="k">int</span>.<span class="i">max</span>);
+
+                <span class="lc">// move the selection around</span>
+                <span class="k">bool</span> <span class="i">select</span> (<span class="i">T</span> <span class="i">c</span>);
+                <span class="k">bool</span> <span class="i">select</span> (<span class="i">T</span>[] <span class="i">pattern</span>);
+                <span class="k">bool</span> <span class="i">select</span> (<span class="i">TextView</span> <span class="i">other</span>);
+                <span class="k">bool</span> <span class="i">selectPrior</span> (<span class="i">T</span> <span class="i">c</span>);
+                <span class="k">bool</span> <span class="i">selectPrior</span> (<span class="i">T</span>[] <span class="i">pattern</span>);
+                <span class="k">bool</span> <span class="i">selectPrior</span> (<span class="i">TextView</span> <span class="i">other</span>);
+
+                <span class="lc">// append behind current selection</span>
+                <span class="i">Text</span> <span class="i">append</span> (<span class="i">TextView</span> <span class="i">other</span>);
+                <span class="i">Text</span> <span class="i">append</span> (<span class="i">T</span>[] <span class="i">text</span>);
+                <span class="i">Text</span> <span class="i">append</span> (<span class="i">T</span> <span class="i">chr</span>, <span class="k">int</span> <span class="i">count</span>=<span class="n">1</span>);
+                <span class="i">Text</span> <span class="i">append</span> (<span class="k">int</span> <span class="i">value</span>, <span class="i">options</span>);
+                <span class="i">Text</span> <span class="i">append</span> (<span class="k">long</span> <span class="i">value</span>, <span class="i">options</span>);
+                <span class="i">Text</span> <span class="i">append</span> (<span class="k">double</span> <span class="i">value</span>, <span class="i">options</span>);
+
+                <span class="lc">// transcode behind current selection</span>
+                <span class="i">Text</span> <span class="i">encode</span> (<span class="k">char</span>[]);
+                <span class="i">Text</span> <span class="i">encode</span> (<span class="k">wchar</span>[]);
+                <span class="i">Text</span> <span class="i">encode</span> (<span class="k">dchar</span>[]);
+
+                <span class="lc">// insert before current selection</span>
+                <span class="i">Text</span> <span class="i">prepend</span> (<span class="i">T</span>[] <span class="i">text</span>);
+                <span class="i">Text</span> <span class="i">prepend</span> (<span class="i">TextView</span> <span class="i">other</span>);
+                <span class="i">Text</span> <span class="i">prepend</span> (<span class="i">T</span> <span class="i">chr</span>, <span class="k">int</span> <span class="i">count</span>=<span class="n">1</span>);
+
+                <span class="lc">// replace current selection</span>
+                <span class="i">Text</span> <span class="i">replace</span> (<span class="i">T</span> <span class="i">chr</span>);
+                <span class="i">Text</span> <span class="i">replace</span> (<span class="i">T</span>[] <span class="i">text</span>);
+                <span class="i">Text</span> <span class="i">replace</span> (<span class="i">TextView</span> <span class="i">other</span>);
+
+                <span class="lc">// remove current selection</span>
+                <span class="i">Text</span> <span class="i">remove</span> ();
+
+                <span class="lc">// clear content</span>
+                <span class="i">Text</span> <span class="i">clear</span> ();
+
+                <span class="lc">// trim leading and trailing whitespace</span>
+                <span class="i">Text</span> <span class="i">trim</span> ();
+
+                <span class="lc">// trim leading and trailing chr instances</span>
+                <span class="i">Text</span> <span class="i">strip</span> (<span class="i">T</span> <span class="i">chr</span>);
+
+                <span class="lc">// truncate at point, or current selection</span>
+                <span class="i">Text</span> <span class="i">truncate</span> (<span class="k">int</span> <span class="i">point</span> = <span class="k">int</span>.<span class="i">max</span>);
+
+                <span class="lc">// reserve some space for inserts/additions</span>
+                <span class="i">Text</span> <span class="i">reserve</span> (<span class="k">int</span> <span class="i">extra</span>);
+        }
+
+        <span class="k">class</span> <span class="i">TextView</span>(<span class="i">T</span>) : <span class="i">UniText</span>
+        {
+                <span class="lc">// hash content</span>
+                <span class="i">hash_t</span> <span class="i">toHash</span> ();
+
+                <span class="lc">// return length of content</span>
+                <span class="k">uint</span> <span class="i">length</span> ();
+
+                <span class="lc">// compare content</span>
+                <span class="k">bool</span> <span class="i">equals</span>  (<span class="i">T</span>[] <span class="i">text</span>);
+                <span class="k">bool</span> <span class="i">equals</span>  (<span class="i">TextView</span> <span class="i">other</span>);
+                <span class="k">bool</span> <span class="i">ends</span>    (<span class="i">T</span>[] <span class="i">text</span>);
+                <span class="k">bool</span> <span class="i">ends</span>    (<span class="i">TextView</span> <span class="i">other</span>);
+                <span class="k">bool</span> <span class="i">starts</span>  (<span class="i">T</span>[] <span class="i">text</span>);
+                <span class="k">bool</span> <span class="i">starts</span>  (<span class="i">TextView</span> <span class="i">other</span>);
+                <span class="k">int</span> <span class="i">compare</span>  (<span class="i">T</span>[] <span class="i">text</span>);
+                <span class="k">int</span> <span class="i">compare</span>  (<span class="i">TextView</span> <span class="i">other</span>);
+                <span class="k">int</span> <span class="i">opEquals</span> (<span class="i">Object</span> <span class="i">other</span>);
+                <span class="k">int</span> <span class="i">opCmp</span>    (<span class="i">Object</span> <span class="i">other</span>);
+
+                <span class="lc">// copy content</span>
+                <span class="i">T</span>[] <span class="i">copy</span> (<span class="i">T</span>[] <span class="i">dst</span>);
+
+                <span class="lc">// return content</span>
+                <span class="i">T</span>[] <span class="i">slice</span> ();
+
+                <span class="lc">// return data type</span>
+                <span class="i">typeinfo</span> <span class="i">encoding</span> ();
+
+                <span class="lc">// replace the comparison algorithm</span>
+                <span class="i">Comparator</span> <span class="i">comparator</span> (<span class="i">Comparator</span> <span class="i">other</span>);
+        }
+
+        <span class="k">class</span> <span class="i">UniText</span>
+        {
+                <span class="lc">// convert content</span>
+                <span class="k">abstract</span> <span class="k">char</span>[]  <span class="i">toString</span>  (<span class="k">char</span>[]  <span class="i">dst</span> = <span class="k">null</span>);
+                <span class="k">abstract</span> <span class="k">wchar</span>[] <span class="i">toString16</span> (<span class="k">wchar</span>[] <span class="i">dst</span> = <span class="k">null</span>);
+                <span class="k">abstract</span> <span class="k">dchar</span>[] <span class="i">toString32</span> (<span class="k">dchar</span>[] <span class="i">dst</span> = <span class="k">null</span>);
+        }
+        
+</pre><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L196">memmove</a></span>
+<script>explorer.outline.addDecl('memmove');</script>(void* <span class="funcparam">dst</span>, void* <span class="funcparam">src</span>, uint <span class="funcparam">bytes</span>); [private, extern(C)]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L206">Text</a></span>
+<script>explorer.outline.addDecl('Text');</script>(T) : TextView!(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The mutable Text class actually implements the full API, whereas
+        the superclasses are purely abstract &#40;could be interfaces instead&#41;.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L225">Span</a></span>
+<script>explorer.outline.addDecl('Span');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Selection span</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L227">begin</a></span>
+<script>explorer.outline.addDecl('begin');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L227">length</a></span>
+<script>explorer.outline.addDecl('length');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">length of selection</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L243">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(uint <span class="funcparam">space</span> = 0);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create an empty Text with the specified available
+                space</font><br><br>
+<b>Note:</b><br>A character like 'a' will be implicitly converted to
+                uint and thus will be accepted for this constructor, making
+                it appear like you can initialize a Text instance with a 
+                single character, something which is not supported.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L260">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(T[] <span class="funcparam">content</span>, bool <span class="funcparam">copy</span> = true);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a Text upon the provided content. If said
+                content is immutable &#40;read-only&#41; then you might consider
+                setting the 'copy' parameter to false. Doing so will
+                avoid allocating heap-space for the content until it is
+                modified via Text methods. This can be useful when
+                wrapping an array "temporarily" with a stack-based Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L277">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(TextViewT <span class="funcparam">other</span>, bool <span class="funcparam">copy</span> = true);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a Text via the content of another. If said
+                content is immutable &#40;read-only&#41; then you might consider
+                setting the 'copy' parameter to false. Doing so will avoid
+                allocating heap-space for the content until it is modified
+                via Text methods. This can be useful when wrapping an array
+                temporarily with a stack-based Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L292">set</a></span>
+<script>explorer.outline.addDecl('set');</script>(T[] <span class="funcparam">chars</span>, bool <span class="funcparam">copy</span> = true); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the content to the provided array. Parameter 'copy'
+                specifies whether the given array is likely to change. If
+                not, the array is aliased until such time it is altered via
+                this class. This can be useful when wrapping an array
+                "temporarily" with a stack-based Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L313">set</a></span>
+<script>explorer.outline.addDecl('set');</script>(TextViewT <span class="funcparam">other</span>, bool <span class="funcparam">copy</span> = true); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Replace the content of this Text. If the new content
+                is immutable &#40;read-only&#41; then you might consider setting the
+                'copy' parameter to false. Doing so will avoid allocating
+                heap-space for the content until it is modified via one of
+                these methods. This can be useful when wrapping an array
+                "temporarily" with a stack-based Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L324">select</a></span>
+<script>explorer.outline.addDecl('select');</script>(int <span class="funcparam">start</span> = 0, int <span class="funcparam">length</span> = int.max); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Explicitly set the current selection</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L338">selection</a></span>
+<script>explorer.outline.addDecl('selection');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the currently selected content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Span <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L349">selectionSpan</a></span>
+<script>explorer.outline.addDecl('selectionSpan');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the index and length of the current selection</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L364">select</a></span>
+<script>explorer.outline.addDecl('select');</script>(T <span class="funcparam">c</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Find and select the next occurrence of a BMP code point
+                in a string. Returns true if found, false otherwise</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L383">select</a></span>
+<script>explorer.outline.addDecl('select');</script>(TextViewT <span class="funcparam">other</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Find and select the next substring occurrence.  Returns
+                true if found, false otherwise</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L395">select</a></span>
+<script>explorer.outline.addDecl('select');</script>(T[] <span class="funcparam">chars</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Find and select the next substring occurrence. Returns
+                true if found, false otherwise</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L414">selectPrior</a></span>
+<script>explorer.outline.addDecl('selectPrior');</script>(T <span class="funcparam">c</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Find and select a prior occurrence of a BMP code point
+                in a string. Returns true if found, false otherwise</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L433">selectPrior</a></span>
+<script>explorer.outline.addDecl('selectPrior');</script>(TextViewT <span class="funcparam">other</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Find and select a prior substring occurrence. Returns
+                true if found, false otherwise</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L445">selectPrior</a></span>
+<script>explorer.outline.addDecl('selectPrior');</script>(T[] <span class="funcparam">chars</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Find and select a prior substring occurrence. Returns
+                true if found, false otherwise</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L463">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(TextViewT <span class="funcparam">other</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append text to this Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L474">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(T[] <span class="funcparam">chars</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append text to this Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L485">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(T <span class="funcparam">chr</span>, int <span class="funcparam">count</span> = 1); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append a count of characters to this Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L498">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(int <span class="funcparam">v</span>, T[] <span class="funcparam">fmt</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append an integer to this Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L509">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(long <span class="funcparam">v</span>, T[] <span class="funcparam">fmt</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append a long to this Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L521">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(double <span class="funcparam">v</span>, uint <span class="funcparam">decimals</span> = 2, int <span class="funcparam">e</span> = 10); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append a double to this Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L533">prepend</a></span>
+<script>explorer.outline.addDecl('prepend');</script>(T <span class="funcparam">chr</span>, int <span class="funcparam">count</span> = 1); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Insert characters into this Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L545">prepend</a></span>
+<script>explorer.outline.addDecl('prepend');</script>(T[] <span class="funcparam">other</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Insert text into this Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L558">prepend</a></span>
+<script>explorer.outline.addDecl('prepend');</script>(TextViewT <span class="funcparam">other</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Insert another Text into this Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L570">encode</a></span>
+<script>explorer.outline.addDecl('encode');</script>(char[] <span class="funcparam">s</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L585">encode</a></span>
+<script>explorer.outline.addDecl('encode');</script>(wchar[] <span class="funcparam">s</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L600">encode</a></span>
+<script>explorer.outline.addDecl('encode');</script>(dchar[] <span class="funcparam">s</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L615">encode</a></span>
+<script>explorer.outline.addDecl('encode');</script>(Object <span class="funcparam">o</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append encoded text at the current selection point. The text
+                is converted as necessary to the appropritate utf encoding.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L627">replace</a></span>
+<script>explorer.outline.addDecl('replace');</script>(T <span class="funcparam">chr</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Replace a section of this Text with the specified
+                character</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L639">replace</a></span>
+<script>explorer.outline.addDecl('replace');</script>(T[] <span class="funcparam">chars</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Replace a section of this Text with the specified
+                array</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L657">replace</a></span>
+<script>explorer.outline.addDecl('replace');</script>(TextViewT <span class="funcparam">other</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Replace a section of this Text with another</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L669">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove the selection from this Text and reset the
+                selection to zero length</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L681">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(int <span class="funcparam">start</span>, int <span class="funcparam">count</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove the selection from this Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L704">truncate</a></span>
+<script>explorer.outline.addDecl('truncate');</script>(int <span class="funcparam">index</span> = int.max); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Truncate this string at an optional index. Default behaviour
+                is to truncate at the current append point. Current selection
+                is moved to the truncation point, with length 0</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L719">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Clear the string content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L731">trim</a></span>
+<script>explorer.outline.addDecl('trim');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove leading and trailing whitespace from this Text,
+                and reset the selection to the trimmed content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L745">strip</a></span>
+<script>explorer.outline.addDecl('strip');</script>(T <span class="funcparam">matches</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove leading and trailing matches from this Text,
+                and reset the selection to the stripped content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L758">reserve</a></span>
+<script>explorer.outline.addDecl('reserve');</script>(uint <span class="funcparam">extra</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reserve some extra room</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TypeInfo <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L776">encoding</a></span>
+<script>explorer.outline.addDecl('encoding');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get the encoding type</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Comparator <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L788">comparator</a></span>
+<script>explorer.outline.addDecl('comparator');</script>(Comparator <span class="funcparam">other</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the comparator delegate. Where other is null, we behave
+                as a getter only</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>hash_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L802">toHash</a></span>
+<script>explorer.outline.addDecl('toHash');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Hash this Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L813">length</a></span>
+<script>explorer.outline.addDecl('length');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the length of the valid content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L824">equals</a></span>
+<script>explorer.outline.addDecl('equals');</script>(TextViewT <span class="funcparam">other</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this Text equal to another?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L837">equals</a></span>
+<script>explorer.outline.addDecl('equals');</script>(T[] <span class="funcparam">other</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this Text equal to the provided text?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L850">ends</a></span>
+<script>explorer.outline.addDecl('ends');</script>(TextViewT <span class="funcparam">other</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Does this Text end with another?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L861">ends</a></span>
+<script>explorer.outline.addDecl('ends');</script>(T[] <span class="funcparam">chars</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Does this Text end with the specified string?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L874">starts</a></span>
+<script>explorer.outline.addDecl('starts');</script>(TextViewT <span class="funcparam">other</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Does this Text start with another?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L885">starts</a></span>
+<script>explorer.outline.addDecl('starts');</script>(T[] <span class="funcparam">chars</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Does this Text start with the specified string?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L901">compare</a></span>
+<script>explorer.outline.addDecl('compare');</script>(TextViewT <span class="funcparam">other</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Compare this Text start with another. Returns 0 if the
+                content matches, less than zero if this Text is "less"
+                than the other, or greater than zero where this Text
+                is "bigger".</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L918">compare</a></span>
+<script>explorer.outline.addDecl('compare');</script>(T[] <span class="funcparam">chars</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Compare this Text start with an array. Returns 0 if the
+                content matches, less than zero if this Text is "less"
+                than the other, or greater than zero where this Text
+                is "bigger".</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L934">copy</a></span>
+<script>explorer.outline.addDecl('copy');</script>(T[] <span class="funcparam">dst</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return content from this Text</font><br><br>
+<font color="black">A slice of dst is returned, representing a copy of the
+                content. The slice is clipped to the minimum of either
+                the length of the provided array, or the length of the
+                content minus the stipulated start point<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L952">slice</a></span>
+<script>explorer.outline.addDecl('slice');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an alias to the content of this TextView. Note
+                that you are bound by honour to leave this content wholly
+                unmolested. D surely needs some way to enforce immutability
+                upon array references</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L977">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(char[] <span class="funcparam">dst</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>wchar[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L990">toString16</a></span>
+<script>explorer.outline.addDecl('toString16');</script>(wchar[] <span class="funcparam">dst</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>dchar[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1003">toString32</a></span>
+<script>explorer.outline.addDecl('toString32');</script>(dchar[] <span class="funcparam">dst</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert to the UniText types. The optional argument
+                dst will be resized as required to house the conversion.
+                To minimize heap allocation during subsequent conversions,
+                apply the following pattern:
+                <pre class="d_code">
+
+                <span class="i">_Text</span>  <span class="i">string</span>;
+
+                <span class="k">wchar</span>[] <span class="i">buffer</span>;
+                <span class="k">wchar</span>[] <span class="i">result</span> = <span class="i">string</span>.<span class="i">utf16</span> (<span class="i">buffer</span>);
+
+                <span class="k">if</span> (<span class="i">result</span>.<span class="i">length</span> &gt; <span class="i">buffer</span>.<span class="i">length</span>)
+                    <span class="i">buffer</span> = <span class="i">result</span>;
+                
+</pre>
+                You can also provide a buffer from the stack, but the output
+                will be moved to the heap if said buffer is not large enough</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1022">opCmp</a></span>
+<script>explorer.outline.addDecl('opCmp');</script>(Object <span class="funcparam">o</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Compare this Text to another. We compare against other
+                Strings only. Literals and other objects are not supported</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1038">opEquals</a></span>
+<script>explorer.outline.addDecl('opEquals');</script>(Object <span class="funcparam">o</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1051">opEquals</a></span>
+<script>explorer.outline.addDecl('opEquals');</script>(T[] <span class="funcparam">s</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this Text equal to the text of something else?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1062">pinIndex</a></span>
+<script>explorer.outline.addDecl('pinIndex');</script>(inout int <span class="funcparam">x</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Pin the given index to a valid position.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1074">pinIndices</a></span>
+<script>explorer.outline.addDecl('pinIndices');</script>(inout int <span class="funcparam">start</span>, inout int <span class="funcparam">length</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Pin the given index and length to a valid position.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1092">simpleComparator</a></span>
+<script>explorer.outline.addDecl('simpleComparator');</script>(T[] <span class="funcparam">a</span>, T[] <span class="funcparam">b</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Compare two arrays. Returns 0 if the content matches, less
+                than zero if A is "less" than B, or greater than zero where
+                A is "bigger". Where the substrings match, the shorter is
+                considered "less".</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1111">expand</a></span>
+<script>explorer.outline.addDecl('expand');</script>(uint <span class="funcparam">index</span>, uint <span class="funcparam">count</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Make room available to insert or append something</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1128">set</a></span>
+<script>explorer.outline.addDecl('set');</script>(T <span class="funcparam">chr</span>, uint <span class="funcparam">start</span>, uint <span class="funcparam">count</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Replace a section of this Text with the specified
+                character</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1141">realloc</a></span>
+<script>explorer.outline.addDecl('realloc');</script>(uint <span class="funcparam">count</span> = 0); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Allocate memory due to a change in the content. We handle
+                the distinction between mutable and immutable here.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Text <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1163">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(T* <span class="funcparam">chars</span>, uint <span class="funcparam">count</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Internal method to support Text appending</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1180">TextView</a></span>
+<script>explorer.outline.addDecl('TextView');</script>(T) : UniText;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Immutable string</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1190">length</a></span>
+<script>explorer.outline.addDecl('length');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the length of the valid content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1198">equals</a></span>
+<script>explorer.outline.addDecl('equals');</script>(TextView <span class="funcparam">other</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this Text equal to another?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1206">equals</a></span>
+<script>explorer.outline.addDecl('equals');</script>(T[] <span class="funcparam">other</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this Text equal to the the provided text?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1214">ends</a></span>
+<script>explorer.outline.addDecl('ends');</script>(TextView <span class="funcparam">other</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Does this Text end with another?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1222">ends</a></span>
+<script>explorer.outline.addDecl('ends');</script>(T[] <span class="funcparam">chars</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Does this Text end with the specified string?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1230">starts</a></span>
+<script>explorer.outline.addDecl('starts');</script>(TextView <span class="funcparam">other</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Does this Text start with another?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1238">starts</a></span>
+<script>explorer.outline.addDecl('starts');</script>(T[] <span class="funcparam">chars</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Does this Text start with the specified string?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1249">compare</a></span>
+<script>explorer.outline.addDecl('compare');</script>(TextView <span class="funcparam">other</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Compare this Text start with another. Returns 0 if the
+                content matches, less than zero if this Text is "less"
+                than the other, or greater than zero where this Text
+                is "bigger".</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1260">compare</a></span>
+<script>explorer.outline.addDecl('compare');</script>(T[] <span class="funcparam">chars</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Compare this Text start with an array. Returns 0 if the
+                content matches, less than zero if this Text is "less"
+                than the other, or greater than zero where this Text
+                is "bigger".</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1272">copy</a></span>
+<script>explorer.outline.addDecl('copy');</script>(T[] <span class="funcparam">dst</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return content from this Text. A slice of dst is
+                returned, representing a copy of the content. The
+                slice is clipped to the minimum of either the length
+                of the provided array, or the length of the content
+                minus the stipulated start point</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1280">opCmp</a></span>
+<script>explorer.outline.addDecl('opCmp');</script>(Object <span class="funcparam">o</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Compare this Text to another</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1288">opEquals</a></span>
+<script>explorer.outline.addDecl('opEquals');</script>(Object <span class="funcparam">other</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this Text equal to another?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1296">opEquals</a></span>
+<script>explorer.outline.addDecl('opEquals');</script>(T[] <span class="funcparam">other</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this Text equal to another?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TypeInfo <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1304">encoding</a></span>
+<script>explorer.outline.addDecl('encoding');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get the encoding type</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Comparator <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1312">comparator</a></span>
+<script>explorer.outline.addDecl('comparator');</script>(Comparator <span class="funcparam">other</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the comparator delegate</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>hash_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1320">toHash</a></span>
+<script>explorer.outline.addDecl('toHash');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Hash this Text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1331">slice</a></span>
+<script>explorer.outline.addDecl('slice');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an alias to the content of this TextView. Note
+                that you are bound by honour to leave this content wholly
+                unmolested. D surely needs some way to enforce immutability
+                upon array references</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Text.d?rev=3791#L1341">UniText</a></span>
+<script>explorer.outline.addDecl('UniText');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A string abstraction that converts to anything</font><br><br>
+</dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2005 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:36 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

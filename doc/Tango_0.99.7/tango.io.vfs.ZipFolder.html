@@ -1,0 +1,376 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.vfs.ZipFolder</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.vfs.ZipFolder");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791">tango.io.vfs.ZipFolder</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+The Great Namechange: February 2008<br><br>                Initial release: December 2007<br><br>
+<b>author:</b><br>Daniel Keep<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L284">ZipFolder</a></span>
+<script>explorer.outline.addDecl('ZipFolder');</script> : ZipSubFolder;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">ZipFolder serves as the root object for all Zip archives in the VFS.
+ Presently, it can only open archives on the local filesystem.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L291">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(FilePath <span class="funcparam">path</span>, bool <span class="funcparam">readonly</span> = false); [deprecated]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L301">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">path</span>, bool <span class="funcparam">readonly</span> = false);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Opens an archive from the local filesystem.  If the readonly argument
+ is specified as true, then modification of the archive will be
+ explicitly disallowed.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolder <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L316">close</a></span>
+<script>explorer.outline.addDecl('close');</script>(bool <span class="funcparam">commit</span> = true); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Closes the archive, and releases all internal resources.  If the commit
+ argument is true &#40;the default&#41;, then changes to the archive will be
+ flushed out to disk.  If false, changes will simply be discarded.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolder <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L346">sync</a></span>
+<script>explorer.outline.addDecl('sync');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Flushes all changes to the archive out to disk.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L468">readonly</a></span>
+<script>explorer.outline.addDecl('readonly');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Indicates whether the archive was opened for read-only access.  Note
+ that in addition to the readonly constructor flag, this is also
+ influenced by whether the file itself is read-only or not.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L483">path</a></span>
+<script>explorer.outline.addDecl('path');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L484">path</a></span>
+<script>explorer.outline.addDecl('path');</script>(char[] <span class="funcparam">v</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Allows you to read and specify the path to the archive.  The effect of
+ setting this is to change where the archive will be written to when
+ flushed to disk.
+     </font><br><br>
+<font color="black">Allows you to read and specify the path to the archive.  The effect of
+ setting this is to change where the archive will be written to when
+ flushed to disk.
+     </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L639">ZipSubFolder</a></span>
+<script>explorer.outline.addDecl('ZipSubFolder');</script> : VfsFolder, VfsSync;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This class represents a folder in an archive.  In addition to supporting
+ the sync operation, you can also use the archive member to get a reference
+ to the underlying ZipFolder instance.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L642">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L650">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L658">file</a></span>
+<script>explorer.outline.addDecl('file');</script>(char[] <span class="funcparam">path</span>); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolderEntry <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L700">folder</a></span>
+<script>explorer.outline.addDecl('folder');</script>(char[] <span class="funcparam">path</span>); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolders <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L745">self</a></span>
+<script>explorer.outline.addDecl('self');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolders <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L753">tree</a></span>
+<script>explorer.outline.addDecl('tree');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L761">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(ref VfsFolder) <span class="funcparam">dg</span>); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolder <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L781">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L803">writable</a></span>
+<script>explorer.outline.addDecl('writable');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolder <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L814">close</a></span>
+<script>explorer.outline.addDecl('close');</script>(bool <span class="funcparam">commit</span> = true); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Closes this folder object.  If commit is true, then the folder is
+ sync'ed before being closed.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolder <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L831">sync</a></span>
+<script>explorer.outline.addDecl('sync');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This will flush any changes to the archive to disk.  Note that this
+ applies to the entire archive, not just this folder and its contents.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L841">verify</a></span>
+<script>explorer.outline.addDecl('verify');</script>(VfsFolder <span class="funcparam">folder</span>, bool <span class="funcparam">mounting</span>); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ZipFolder <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L865">archive</a></span>
+<script>explorer.outline.addDecl('archive');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a reference to the underlying ZipFolder instance.
+     </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L966">ZipFile</a></span>
+<script>explorer.outline.addDecl('ZipFile');</script> : VfsFile;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This class represents a file within an archive.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L969">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L978">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L987">exists</a></span>
+<script>explorer.outline.addDecl('exists');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ulong <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L997">size</a></span>
+<script>explorer.outline.addDecl('size');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1011">copy</a></span>
+<script>explorer.outline.addDecl('copy');</script>(VfsFile <span class="funcparam">source</span>); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1033">move</a></span>
+<script>explorer.outline.addDecl('move');</script>(VfsFile <span class="funcparam">source</span>); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1055">create</a></span>
+<script>explorer.outline.addDecl('create');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1091">create</a></span>
+<script>explorer.outline.addDecl('create');</script>(InputStream <span class="funcparam">stream</span>); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1109">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>InputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1147">input</a></span>
+<script>explorer.outline.addDecl('input');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>OutputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1162">output</a></span>
+<script>explorer.outline.addDecl('output');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1183">dup</a></span>
+<script>explorer.outline.addDecl('dup');</script>(); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+</dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1725">DummyInputStream</a></span>
+<script>explorer.outline.addDecl('DummyInputStream');</script> : InputStream, IConduit.Seek; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1743">DummyOutputStream</a></span>
+<script>explorer.outline.addDecl('DummyOutputStream');</script> : OutputStream, IConduit.Seek; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>Copyright:</b><br>
+Copyright © 2007 Daniel Keep.  All rights reserved.<br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Prerelease<br><br>
+<b>author:</b><br>Daniel Keep<br><br><br><br> The dummy stream classes are used to provide simple, empty stream objects
+ where one is required, but none is available.<br><br> Note that, currently, these classes return 'null' for the underlying
+ conduit, which will likely break code which expects streams to have an
+ underlying conduit.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1730">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+</dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1784">EventSeekInputStream</a></span>
+<script>explorer.outline.addDecl('EventSeekInputStream');</script> : InputStream, IConduit.Seek; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1862">EventSeekOutputStream</a></span>
+<script>explorer.outline.addDecl('EventSeekOutputStream');</script> : OutputStream, IConduit.Seek; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>Copyright:</b><br>
+Copyright © 2007 Daniel Keep.  All rights reserved.<br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Prerelease<br><br>
+<b>author:</b><br>Daniel Keep<br><br><br><br> The event stream classes are designed to allow you to receive feedback on
+ how a stream chain is being used.  This is done through the use of
+ delegate callbacks which are invoked just before the associated method is
+ complete.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1787">Callbacks</a></span>
+<script>explorer.outline.addDecl('Callbacks');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void delegate() <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1789">close</a></span>
+<script>explorer.outline.addDecl('close');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void delegate() <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1790">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void delegate(uint, void[]) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1791">read</a></span>
+<script>explorer.outline.addDecl('read');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void delegate(long, long, Anchor) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1792">seek</a></span>
+<script>explorer.outline.addDecl('seek');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+</dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1798">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InputStream <span class="funcparam">source</span>, Callbacks <span class="funcparam">callbacks</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+</dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1965">WrapSeekInputStream</a></span>
+<script>explorer.outline.addDecl('WrapSeekInputStream');</script> : InputStream, IConduit.Seek; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>Copyright:</b><br>
+Copyright © 2007 Daniel Keep.  All rights reserved.<br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Prerelease<br><br>
+<b>author:</b><br>Daniel Keep<br><br><br><br> This stream can be used to provide access to another stream.
+ Its distinguishing feature is that users cannot close the underlying
+ stream.<br><br> This stream fully supports seeking, and as such requires that the
+ underlying stream also support seeking.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1972">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InputStream <span class="funcparam">source</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L1986">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InputStream <span class="funcparam">source</span>, long <span class="funcparam">position</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new wrap stream from the given source.
+     </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L2057">WrapSeekOutputStream</a></span>
+<script>explorer.outline.addDecl('WrapSeekOutputStream');</script> : OutputStream, IConduit.Seek; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This stream can be used to provide access to another stream.
+ Its distinguishing feature is that the users cannot close the underlying
+ stream.</font><br><br>
+<font color="black">This stream fully supports seeking, and as such requires that the
+ underlying stream also support seeking.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L2064">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(OutputStream <span class="funcparam">source</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/ZipFolder.d?rev=3791#L2077">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(OutputStream <span class="funcparam">source</span>, long <span class="funcparam">position</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new wrap stream from the given source.
+     </font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright © 2007 Daniel Keep.  All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

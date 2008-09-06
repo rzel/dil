@@ -1,0 +1,573 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.PKI</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.PKI");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791">tango.net.PKI</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>author:</b><br>Jeff Davey <j@submersion.com><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L49">SSL_VERIFY_NONE</a></span>
+<script>explorer.outline.addDecl('SSL_VERIFY_NONE');</script>; [const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">PKI provides Public Key Infrastructure. </font><br><br>
+<font color="black">Specifically, it provides the ability to:<br><br>  - Make a X509 Certificate &#40;SSL Certificate&#41;<br><br>  - Make a Public and Private key pair<br><br>  - Validate a X509 Certificate against a Certificate Authority<br><br>  - Generate a SSLCtx for SSLSocketConduit and SSLServerSocket<br><br>  - Wrap a SSLVerifyCallback so that retrieving the peer cert is easier<br><br>  PKI requires the OpenSSL library, and uses a dynamic binding to the library.
+  You can find the library at http://www.openssl.org and a Win32 specific port 
+  at http://www.slproweb.com/products/Win32OpenSSL.html.<br><br><br><br>
+  Do not verify the peer certificate. Nor fail if it's not provided &#40;server 
+  only&#41;.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L57">SSL_VERIFY_PEER</a></span>
+<script>explorer.outline.addDecl('SSL_VERIFY_PEER');</script>; [const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Ask for a peer certificate, but do not fail if it is not provided.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L65">SSL_VERIFY_FAIL_IF_NO_PEER_CERT</a></span>
+<script>explorer.outline.addDecl('SSL_VERIFY_FAIL_IF_NO_PEER_CERT');</script>; [const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Ask for a peer certificate, however, fail if it is not provided</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L73">SSL_VERIFY_CLIENT_ONCE</a></span>
+<script>explorer.outline.addDecl('SSL_VERIFY_CLIENT_ONCE');</script>; [const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Only validate once, do not re-validate during handshake renegotiation.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typedef int function(int, X509_STORE_CTX *ctx) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L87">SSLVerifyCallback</a></span>
+<script>explorer.outline.addDecl('SSLVerifyCallback');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">SSLVerifyCallback is passed into SSLCtx and is called during handshake
+  when OpenSSL is doing certificate validation.</font><br><br>
+<font color="black">Wrapping the X509_STORE_CTX in the CertificateStoreCtx utility class
+  gives the ability to access the peer certificate, and reason for error.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L109">SSLCtx</a></span>
+<script>explorer.outline.addDecl('SSLCtx');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">SSLCtx is provided to SSLSocketConduit and SSLServerSocket.</font><br><br>
+<font color="black">It contains the public/private keypair, and some additional options that
+    control how the SSL streams work.<br><br>    Example
+    <pre class="d_code">
+
+    <span class="k">auto</span> <span class="i">cert</span> = <span class="k">new</span> <span class="i">Certificate</span>(<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">File</span>(<span class="sl">"public.pem"</span>).<span class="i">read</span>);
+    <span class="k">auto</span> <span class="i">pkey</span> = <span class="k">new</span> <span class="i">PrivateKey</span>(<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">File</span>(<span class="sl">"private.pem"</span>).<span class="i">read</span>);;
+    <span class="k">auto</span> <span class="i">ctx</span> = <span class="k">new</span> <span class="i">SSLCtx</span>();
+    <span class="i">ctx</span>.<span class="i">certificate</span> = <span class="i">cert</span>;
+    <span class="i">ctx</span>.<span class="i">pkey</span> = <span class="i">pkey</span>;
+    <span class="i">ctx</span>.<span class="i">checkKey</span>();
+    
+</pre><br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L122">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creates a new SSLCtx supporting SSLv3 and TLSv1 methods.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SSLCtx <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L148">certificate</a></span>
+<script>explorer.outline.addDecl('certificate');</script>(Certificate <span class="funcparam">cert</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Assigns a X509 Certificate to the SSLCtx.</font><br><br>
+<font color="black">This is required for SSL
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SSLCtx <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L166">privateKey</a></span>
+<script>explorer.outline.addDecl('privateKey');</script>(PrivateKey <span class="funcparam">key</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Assigns a PrivateKey &#40;public/private keypair to the SSLCtx.</font><br><br>
+<font color="black">This is required for SSL.
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SSLCtx <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L182">checkKey</a></span>
+<script>explorer.outline.addDecl('checkKey');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Validates that the X509 certificate was signed with the provided
+        public/private keypair. Throws an exception if this is not the case.
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SSLCtx <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L196">setVerification</a></span>
+<script>explorer.outline.addDecl('setVerification');</script>(int <span class="funcparam">flags</span>, SSLVerifyCallback <span class="funcparam">cb</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sets a SSLVerifyCallback function using the SSL_VERIFY_&#40;NONE|PEER|etc&#41; flags
+        to control how verification is handled.
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SSLCtx <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L210">store</a></span>
+<script>explorer.outline.addDecl('store');</script>(CertificateStore <span class="funcparam">store</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sets a CertificateStore of certs that are valid and trust Certificate
+        Authorities during verification.
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SSLCtx <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L232">caCertsPath</a></span>
+<script>explorer.outline.addDecl('caCertsPath');</script>(char[] <span class="funcparam">path</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Loads valid Certificate Authorities from the specified path.</font><br><br>
+<font color="black">From the SSL_CTX_load_verify_locations manpage:<br><br>        Each file must contain only one CA certificate. Also, the files are
+        looked up by the CA subject name hash value, which must be available. If
+        more than one CA certificate with the same name hash value exists, the
+        extension must be different. &#40;ie: 9d66eef0.0, 9d66eef0.1, etc&#41;. The search 
+        is performed in the ordering of the extension, regardless of other properties
+        of the certificates. Use the c_rehash utility to create the necessary symlinks
+                
+</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L280">CertificateStoreCtx</a></span>
+<script>explorer.outline.addDecl('CertificateStoreCtx');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The CertificateStoreCtx is a wrapper to the SSLVerifyCallback X509_STORE_CTX
+    parameter.</font><br><br>
+<font color="black">It allows retrieving the peer certificate, and examining any errors during
+    validation.<br><br>
+    The following example will probably change sometime soon.<br><br>    Example
+    <pre class="d_code">
+
+    <span class="k">extern</span> (<span class="i">C</span>)
+    {
+        <span class="k">int</span> <span class="i">myCallback</span>(<span class="k">int</span> <span class="i">code</span>, <span class="i">X509_STORE_CTX</span> *<span class="i">ctx</span>)
+        {
+            <span class="k">auto</span> <span class="i">myCtx</span> = <span class="k">new</span> <span class="i">CertificateStoreCtx</span>(<span class="i">ctx</span>);
+            <span class="i">Certificate</span> <span class="i">cert</span> = <span class="i">myCtx</span>.<span class="i">cert</span>;
+            <span class="i">Stdout</span>(<span class="i">cert</span>.<span class="i">subject</span>).<span class="i">newline</span>;
+            <span class="k">return</span> <span class="n">0</span>; <span class="lc">// BAD CERT! (1 is good)</span>
+        }
+    }
+    
+</pre><br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L291">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(X509_STORE_CTX * <span class="funcparam">ctx</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This constructor takes a X509_STORE_CTX as provided by the SSLVerifyCallback
+        function.
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Certificate <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L302">cert</a></span>
+<script>explorer.outline.addDecl('cert');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the peer certificate.
+                
+</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L343">CertificateStore</a></span>
+<script>explorer.outline.addDecl('CertificateStore');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">CertificateStore stores numerous X509 Certificates for use in CRL lists,
+    CA lists, etc.</font><br><br>
+<font color="black">Example
+    <pre class="d_code">
+
+    <span class="k">auto</span> <span class="i">store</span> = <span class="k">new</span> <span class="i">CertificateStore</span>();
+    <span class="k">auto</span> <span class="i">caCert</span> = <span class="k">new</span> <span class="i">Certificate</span>(<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">File</span>(<span class="sl">"cacert.pem"</span>).<span class="i">read</span>);
+    <span class="i">store</span>.<span class="i">add</span>(<span class="i">caCert</span>);
+    <span class="k">auto</span> <span class="i">untrustedCert</span> = <span class="k">new</span> <span class="i">Certificate</span>(<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">File</span>(<span class="sl">"cert.pem"</span>).<span class="i">read</span>);
+    <span class="k">if</span> (<span class="i">untrustedCert</span>.<span class="i">verify</span>(<span class="i">store</span>))
+        <span class="i">Stdout</span>(<span class="sl">"The untrusted cert was signed by our caCert and is valid."</span>).<span class="i">newline</span>;
+    <span class="k">else</span>
+        <span class="i">Stdout</span>(<span class="sl">"The untrusted cert was expired, or not signed by the caCert"</span>).<span class="i">newline</span>;
+    
+</pre>
+            
+</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>CertificateStore <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L370">add</a></span>
+<script>explorer.outline.addDecl('add');</script>(Certificate <span class="funcparam">cert</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add a Certificate to the store.
+            
+</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L398">PublicKey</a></span>
+<script>explorer.outline.addDecl('PublicKey');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">PublicKey contains the RSA public key from a private/public keypair.</font><br><br>
+<font color="black">It also allows extraction of the public key from a keypair.<br><br>    This is useful for encryption, you can encrypt data with someone's public key
+    and they can decrypt it with their private key.<br><br>    Example
+    <pre class="d_code">
+
+    <span class="k">auto</span> <span class="k">public</span> = <span class="k">new</span> <span class="i">PublicKey</span>(<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">File</span>(<span class="sl">"public.pem"</span>).<span class="i">read</span>);
+    <span class="k">auto</span> <span class="i">encrypted</span> = <span class="k">public</span>.<span class="i">encrypt</span>(<span class="k">cast</span>(<span class="k">ubyte</span>[])<span class="sl">"Hello, how are you today?"</span>);
+    <span class="k">auto</span> <span class="i">pemData</span> = <span class="k">public</span>.<span class="i">pemFormat</span>;
+    
+</pre><br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L411">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">publicPemData</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Generate a PublicKey object from the passed PEM formatted data</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">publicPemData</span></td><td>pem encoded data containing the public key</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L449">pemFormat</a></span>
+<script>explorer.outline.addDecl('pemFormat');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a PublicKey in the PEM format.
+            
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L477">verify</a></span>
+<script>explorer.outline.addDecl('verify');</script>(ubyte[] <span class="funcparam">data</span>, ubyte[] <span class="funcparam">signature</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Verify the data passed was signed with the public key.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>the data to verify</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">signature</span></td><td>the digital signature</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ubyte[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L504">encrypt</a></span>
+<script>explorer.outline.addDecl('encrypt');</script>(ubyte[] <span class="funcparam">data</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Encrypt the passed data using the PublicKey 
+        
+        </font><br><br>
+<b>Notes:</b><br>This is size limited based off the key
+        Not recommended for general encryption, use RSA for encrypting a 
+        random key instead and switch to a block cipher.<br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>the data to encrypt</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ubyte[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L531">decrypt</a></span>
+<script>explorer.outline.addDecl('decrypt');</script>(ubyte[] <span class="funcparam">data</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Decrypts data previously encrypted with the matching PrivateKey</font><br><br>
+<font color="black">Please see the encrypt notes.<br><br>        </font><br><br>
+<b>Parmas:</b><br>data = the data to encrypt<br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L572">PrivateKey</a></span>
+<script>explorer.outline.addDecl('PrivateKey');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Generates a RSA public/private key pair for use with X509 Certificates
+    and other applications search as S/MIME, DomainKeys, etc.</font><br><br>
+<font color="black">&lt;&lt;&lt;&lt;&lt;&lt;&lt; .mine
+	Example
+	<pre class="d_code">
+
+	<span class="k">auto</span> <span class="i">newPkey</span> = <span class="k">new</span> <span class="i">PrivateKey</span>(<span class="n">2048</span>); <span class="lc">// create new keypair</span>
+	<span class="i">Stdout</span>(<span class="i">newPkey</span>.<span class="i">pemFormat</span>(<span class="sl">"password"</span>)); <span class="lc">// dumps in pemFormat with encryption</span>
+	<span class="i">Stdout</span>(<span class="i">newPkey</span>.<span class="i">pemFormat</span>()); <span class="lc">// dumps in pemFormat without encryption</span>
+	
+</pre>
+=======
+    Example
+    <pre class="d_code">
+
+    <span class="k">auto</span> <span class="i">newPkey</span> = <span class="k">new</span> <span class="i">PrivateKey</span>(<span class="n">2048</span>); <span class="lc">// create new keypair</span>
+    <span class="i">Stdout</span>(<span class="i">newPkey</span>.<span class="i">pemFormat</span>(<span class="sl">"password"</span>)); <span class="lc">// dumps in pemFormat with encryption</span>
+    <span class="i">Stdout</span>(<span class="i">newPkey</span>.<span class="i">pemFormat</span>()); <span class="lc">// dumps in pemFormat without encryption</span>
+    <span class="i">Stdout</span>(<span class="i">newPkey</span>.<span class="i">publicKey</span>.<span class="i">pemFormat</span>); <span class="lc">// dump out just the public key portion</span>
+    <span class="k">auto</span> <span class="i">data</span> = <span class="i">newPkey</span>.<span class="i">decrypt</span>(<span class="i">someData</span>); <span class="lc">// decrypt data encrypted with public Key</span>
+    
+</pre>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r3568<br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L587">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">privatePemData</span>, char[] <span class="funcparam">certPass</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reads in the provided PEM data, with an optional password to decrypt
+        the private key.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">privatePemData</span></td><td>the PEM encoded data of the private key</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">certPass</span></td><td>an optional password to decrypt the key.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L610">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(int <span class="funcparam">bits</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Generates a new private/public key at the specified bit leve.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">bits</span></td><td>Number of bits to use, 2048 is a good number for this.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L642">opEquals</a></span>
+<script>explorer.outline.addDecl('opEquals');</script>(PrivateKey <span class="funcparam">obj</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Compares two PrivateKey classes to see if the internal structures are 
+        the same.
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L658">pemFormat</a></span>
+<script>explorer.outline.addDecl('pemFormat');</script>(char[] <span class="funcparam">pass</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the underlying public/private key pair in PEM format.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">pass</span></td><td>If this is provided, the private key will be encrypted using
+            AES 256bit encryption, with this as the key.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>PublicKey <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L683">publicKey</a></span>
+<script>explorer.outline.addDecl('publicKey');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the underlying PublicKey</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ubyte[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L700">sign</a></span>
+<script>explorer.outline.addDecl('sign');</script>(ubyte[] <span class="funcparam">data</span>, ubyte[] <span class="funcparam">sigbuf</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sign the given data with the private key</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>the data to sign</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">sigbuf</span></td><td>the buffer to store the signature in
+        
+        Returns a slice of the signature or null</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ubyte[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L734">encrypt</a></span>
+<script>explorer.outline.addDecl('encrypt');</script>(ubyte[] <span class="funcparam">data</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Encrypt the passed data using the PrivateKey
+        
+        </font><br><br>
+<b>Notes:</b><br>This is size limited based off the key
+        Not recommended for general encryption, use RSA for encrypting a 
+        random key instead and switch to a block cipher.<br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>the data to encrypt</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ubyte[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L761">decrypt</a></span>
+<script>explorer.outline.addDecl('decrypt');</script>(ubyte[] <span class="funcparam">data</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Decrypts data previously encrypted with the matching PublicKey</font><br><br>
+<font color="black">Please see the encrypt notes.<br><br>        </font><br><br>
+<b>Parmas:</b><br>data = the data to encrypt<br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L803">Certificate</a></span>
+<script>explorer.outline.addDecl('Certificate');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Certificate provides necessary functionality to create and read X509 
+    Certificates.</font><br><br>
+<font color="black">Note, once a Certificate has been signed, it is immutable, and cannot
+    be modified.<br><br>    X509 Certificates are sometimes called SSL Certificates.<br><br>    Example
+    <pre class="d_code">
+
+    <span class="k">auto</span> <span class="i">newPkey</span> = <span class="k">new</span> <span class="i">PrivateKey</span>(<span class="n">2048</span>); <span class="lc">// create new keypair</span>
+    <span class="k">auto</span> <span class="i">cert</span> = <span class="k">new</span> <span class="i">Certificate</span>();
+    <span class="i">cert</span>.<span class="i">privateKey</span> = <span class="i">newPkey</span>;
+    <span class="i">cert</span>.<span class="i">serialNumber</span> = <span class="n">1</span>;
+    <span class="i">cert</span>.<span class="i">dateBeforeOffset</span> = <span class="i">TimeSpan</span>.<span class="i">zero</span>;
+    <span class="i">cert</span>.<span class="i">dateAfterOffset</span> = <span class="i">TimeSpan</span>.<span class="i">days</span>(<span class="n">365</span>); <span class="lc">// cert is valid for one year</span>
+    <span class="i">cert</span>.<span class="i">setSubject</span>(<span class="sl">"US"</span>, <span class="sl">"State"</span>, <span class="sl">"City"</span>, <span class="sl">"Organization"</span>, <span class="sl">"CN"</span>, <span class="sl">"Organizational Unit"</span>, <span class="sl">"Email"</span>);
+    <span class="i">cert</span>.<span class="i">sign</span>(<span class="i">cert</span>, <span class="i">newPkey</span>); <span class="lc">// self signed cert</span>
+    <span class="i">Stdout</span>(<span class="i">newPkey</span>.<span class="i">pemFormat</span>).<span class="i">newline</span>;
+    <span class="i">Stdout</span>(<span class="i">cert</span>.<span class="i">pemFormat</span>).<span class="i">newline</span>;
+    
+</pre><br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L821">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">publicPemData</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parses a X509 Certificate from the provided PEM encoded data.
+            
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L839">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creates a new and un-signed &#40;empty&#41; X509 certificate. Useful for generating
+        X509 certificates programatically.
+            
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Certificate <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L875">serialNumber</a></span>
+<script>explorer.outline.addDecl('serialNumber');</script>(uint <span class="funcparam">serial</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sets the serial number of the new unsigned certificate.</font><br><br>
+<font color="black">Note, this serial number should be unique for all certificates signed
+        by the provided certificate authority. Having two Certificates with the
+        same serial number can cause problems with web browsers and other apps
+        because they will be different certificates.
+            
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L888">serialNumber</a></span>
+<script>explorer.outline.addDecl('serialNumber');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the serial number of the Certificate
+            
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Certificate <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L908">dateBeforeOffset</a></span>
+<script>explorer.outline.addDecl('dateBeforeOffset');</script>(TimeSpan <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">If the current date is "before" the date set here, the certificate will be
+        invalid.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">t</span></td><td>A TimeSpan representing the earliest time the Certificate will be valid</td></tr></table><br>
+<b>Example:</b><br>cert.dateBeforeOffset = TimeSpan.seconds&#40;-86400&#41;; // Certificate is invalid before yesterday<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Certificate <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L930">dateAfterOffset</a></span>
+<script>explorer.outline.addDecl('dateAfterOffset');</script>(TimeSpan <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">If the current date is "after" the date set here, the certificate will be
+        invalid.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">t</span></td><td>A TimeSpan representing the amount of time from now that the
+            Certificate will be valid. This must be larger than dateBefore</td></tr></table><br>
+<b>Example:</b><br>cert.dateAfterOffset = TimeSpan.seconds&#40;86400 * 365&#41;; // Certificate is valid up to one year from now<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L947">dateAfter</a></span>
+<script>explorer.outline.addDecl('dateAfter');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the dateAfter field of the certificate in ASN1_GENERALIZEDTIME.</font><br><br>
+<font color="black">Note, this will eventually befome a DateTime struct.
+            
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L968">dateBefore</a></span>
+<script>explorer.outline.addDecl('dateBefore');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the dateBefore field of the certificate in ASN1_GENERALIZEDTIME.</font><br><br>
+<font color="black">Note, this will eventually befome a DateTime struct.
+            
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Certificate <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L986">privateKey</a></span>
+<script>explorer.outline.addDecl('privateKey');</script>(PrivateKey <span class="funcparam">key</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sets the public/private keypair of an unsigned certificate.
+            
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Certificate <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L1016">setSubject</a></span>
+<script>explorer.outline.addDecl('setSubject');</script>(char[] <span class="funcparam">country</span>, char[] <span class="funcparam">stateProvince</span>, char[] <span class="funcparam">city</span>, char[] <span class="funcparam">organization</span>, char[] <span class="funcparam">cn</span>, char[] <span class="funcparam">organizationalUnit</span> = null, char[] <span class="funcparam">email</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sets the subject &#40;who this certificate is for&#41; of an unsigned certificate.</font><br><br>
+<font color="black">The country code must be a valid two-letter country code &#40;ie: CA, US, etc&#41;<br><br>        </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">country</span></td><td>the two letter country code of the subject</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">stateProvince</span></td><td>the state or province of the subject</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">city</span></td><td>the city the subject belong to</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">organization</span></td><td>the organization the subject belongs to</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">cn</span></td><td>the cn of the subject. For websites, this should be the website url
+        or a wildcard version of it (ie: *.dsource.org)</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">organizationUnit</span></td><td>the optional orgnizationalUnit of the subject</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">email</span></td><td>the optional email address of the subject</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L1051">subject</a></span>
+<script>explorer.outline.addDecl('subject');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the Certificate subject in a multi-line string.
+            
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Certificate <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L1083">sign</a></span>
+<script>explorer.outline.addDecl('sign');</script>(Certificate <span class="funcparam">caCert</span>, PrivateKey <span class="funcparam">caKey</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Signs the unsigned Certificate with the specified CA X509 Certificate and
+        it's corresponding public/private keypair.</font><br><br>
+<font color="black">Once the Certificate is signed, it can no longer be modified.
+            
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L1113">opEquals</a></span>
+<script>explorer.outline.addDecl('opEquals');</script>(Certificate <span class="funcparam">obj</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Checks if the underlying data structur of the Certificate is equal
+            
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L1128">verify</a></span>
+<script>explorer.outline.addDecl('verify');</script>(CertificateStore <span class="funcparam">store</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Verifies that the Certificate was signed and issues by a CACert in the 
+        passed CertificateStore.</font><br><br>
+<font color="black">This will also verify the dateBefore and dateAfter fields to see if the
+        current date falls between them.
+            
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/PKI.d?rev=3791#L1151">pemFormat</a></span>
+<script>explorer.outline.addDecl('pemFormat');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the Certificate in a PEM encoded string.
+            
+</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2008 Jeff Davey. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:35 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

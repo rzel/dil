@@ -1,0 +1,852 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.ftp.FtpClient</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.ftp.FtpClient");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791">tango.net.ftp.FtpClient</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: June 2006<br><br>
+<b>author:</b><br>UWB<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias void delegate(in size_t pos) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L46">FtpProgress</a></span>
+<script>explorer.outline.addDecl('FtpProgress');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">An FTP progress delegate.</font><br><br>
+<font color="black">You may need to add the restart position to this, and use SIZE to determine
+ percentage completion.  This only represents the number of bytes
+ transferred.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">pos</span></td><td>the current offset into the stream</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L49">FtpFormat</a></span>
+<script>explorer.outline.addDecl('FtpFormat');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The format of data transfer.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L52">ascii</a></span>
+<script>explorer.outline.addDecl('ascii');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Indicates ASCII NON PRINT format &#40;line ending conversion to CRLF.&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L54">image</a></span>
+<script>explorer.outline.addDecl('image');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Indicates IMAGE format &#40;8 bit binary octets.&#41;</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L58">FtpResponse</a></span>
+<script>explorer.outline.addDecl('FtpResponse');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A server response, consisting of a code and a potentially multi-line message.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[3] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L78">code</a></span>
+<script>explorer.outline.addDecl('code');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The response code.</font><br><br>
+<font color="black">The digits in the response code can be used to determine status
+ programatically.<br><br> First Digit &#40;status&#41;:
+    1xx =             a positive, but preliminary, reply
+    2xx =             a positive reply indicating completion
+    3xx =             a positive reply indicating incomplete status
+    4xx =             a temporary negative reply
+    5xx =             a permanent negative reply<br><br> Second Digit &#40;subject&#41;:
+    x0x =             condition based on syntax
+    x1x =             informational
+    x2x =             connection
+    x3x =             authentication/process
+    x5x =             file system</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L84">message</a></span>
+<script>explorer.outline.addDecl('message');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The message from the server.</font><br><br>
+<font color="black">With some responses, the message may contain parseable information.
+ For example, this is true of the 257 response.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L88">FtpConnectionType</a></span>
+<script>explorer.outline.addDecl('FtpConnectionType');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Active or passive connection mode.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L91">active</a></span>
+<script>explorer.outline.addDecl('active');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Active - server connects to client on open port.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L93">passive</a></span>
+<script>explorer.outline.addDecl('passive');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Passive - server listens for a connection from the client.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L99">FtpConnectionDetail</a></span>
+<script>explorer.outline.addDecl('FtpConnectionDetail');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Detail about the data connection.</font><br><br>
+<font color="black">This is used to properly send PORT and PASV commands.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FtpConnectionType <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L102">type</a></span>
+<script>explorer.outline.addDecl('type');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The type to be used.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Address <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L105">address</a></span>
+<script>explorer.outline.addDecl('address');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The address to give the server.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Address <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L108">listen</a></span>
+<script>explorer.outline.addDecl('listen');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The address to actually listen on.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L112">FtpFeature</a></span>
+<script>explorer.outline.addDecl('FtpFeature');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A supported feature of an FTP server.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L115">command</a></span>
+<script>explorer.outline.addDecl('command');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The command which is supported, e.g. SIZE.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L117">params</a></span>
+<script>explorer.outline.addDecl('params');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parameters for this command; e.g. facts for MLST.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L121">FtpFileType</a></span>
+<script>explorer.outline.addDecl('FtpFileType');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The type of a file in an FTP listing.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L124">unknown</a></span>
+<script>explorer.outline.addDecl('unknown');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">An unknown file or type &#40;no type fact.&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L126">file</a></span>
+<script>explorer.outline.addDecl('file');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A regular file, or similar.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L128">cdir</a></span>
+<script>explorer.outline.addDecl('cdir');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The current directory &#40;e.g. ., but not necessarily.&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L130">pdir</a></span>
+<script>explorer.outline.addDecl('pdir');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A parent directory &#40;usually "..".&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L132">dir</a></span>
+<script>explorer.outline.addDecl('dir');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Any other type of directory.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L134">other</a></span>
+<script>explorer.outline.addDecl('other');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Another type of file.  Consult the "type" fact.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L138">FtpFileInfo</a></span>
+<script>explorer.outline.addDecl('FtpFileInfo');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Information about a file in an FTP listing.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L141">name</a></span>
+<script>explorer.outline.addDecl('name');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The filename.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FtpFileType <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L143">type</a></span>
+<script>explorer.outline.addDecl('type');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Its type.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L145">size</a></span>
+<script>explorer.outline.addDecl('size');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Size in bytes &#40;8 bit octets&#41;, or -1 if not available.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L147">modify</a></span>
+<script>explorer.outline.addDecl('modify');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Modification time, if available.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L149">create</a></span>
+<script>explorer.outline.addDecl('create');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creation time, if available &#40;not often.&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L151">mime</a></span>
+<script>explorer.outline.addDecl('mime');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The file's mime type, if known.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][char[]] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L153">facts</a></span>
+<script>explorer.outline.addDecl('facts');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">An associative array of all facts returned by the server, lowercased.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L172">FTPConnection</a></span>
+<script>explorer.outline.addDecl('FTPConnection');</script> : Telnet;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A connection to an FTP server.</font><br><br>
+<b>Example:</b><br><pre class="d_code">
+
+ <span class="k">auto</span> <span class="i">ftp</span> = <span class="k">new</span> <span class="i">FTPConnection</span>(<span class="sl">"hostname"</span>, <span class="sl">"user"</span>, <span class="sl">"pass"</span>,<span class="n">21</span>);
+
+ <span class="i">ftp</span>.<span class="i">mkdir</span>(<span class="sl">"test"</span>);
+ <span class="i">ftp</span>.<span class="i">close</span>();
+ 
+</pre><br><br>
+<b>Standards:</b><br>
+RFC 959, RFC 2228, RFC 2389, RFC 2428<br><br>
+<font color="red">BUGS:</font><br>
+Does not support several uncommon FTP commands and responses.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FtpFeature[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L177">supported_features</a></span>
+<script>explorer.outline.addDecl('supported_features');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Supported features &#40;if known.&#41;</font><br><br>
+<font color="black">This will be empty if not known, or else contain at least FEAT.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FtpConnectionDetail <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L180">data_info</a></span>
+<script>explorer.outline.addDecl('data_info');</script>; [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Data connection information.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>size_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L185">restart_pos</a></span>
+<script>explorer.outline.addDecl('restart_pos');</script>; [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The last-set restart position.</font><br><br>
+<font color="black">This is only used when a local file is used for a RETR or STOR.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L188">exception</a></span>
+<script>explorer.outline.addDecl('exception');</script>(char[] <span class="funcparam">msg</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L194">exception</a></span>
+<script>explorer.outline.addDecl('exception');</script>(FtpResponse <span class="funcparam">r</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">error handler</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L200">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct an FTPConnection without connecting immediately.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L211">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">hostname</span>, char[] <span class="funcparam">username</span>, char[] <span class="funcparam">password</span>, int <span class="funcparam">port</span> = 21); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Connect to an FTP server with a username and password.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">hostname</span></td><td>the hostname or IP address to connect to</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">port</span></td><td>the port number to connect to</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">username</span></td><td>username to be sent</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">password</span></td><td>password to be sent, if requested</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L223">connect</a></span>
+<script>explorer.outline.addDecl('connect');</script>(char[] <span class="funcparam">hostname</span>, char[] <span class="funcparam">username</span>, char[] <span class="funcparam">password</span>, int <span class="funcparam">port</span> = 21); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Connect to an FTP server with a username and password.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">hostname</span></td><td>the hostname or IP address to connect to</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">port</span></td><td>the port number to connect to</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">username</span></td><td>username to be sent</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">password</span></td><td>password to be sent, if requested</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L275">close</a></span>
+<script>explorer.outline.addDecl('close');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Close the connection to the server.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L305">setPassive</a></span>
+<script>explorer.outline.addDecl('setPassive');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the connection to use passive mode for data tranfers.</font><br><br>
+<font color="black">This is the default.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L322">setActive</a></span>
+<script>explorer.outline.addDecl('setActive');</script>(char[] <span class="funcparam">ip</span>, ushort <span class="funcparam">port</span>, char[] <span class="funcparam">listen_ip</span> = null, ushort <span class="funcparam">listen_port</span> = 0); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the connection to use active mode for data transfers.</font><br><br>
+<font color="black">This may not work behind firewalls.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">ip</span></td><td>the ip address to use</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">port</span></td><td>the port to use</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">listen_ip</span></td><td>the ip to listen on, or null for any</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">listen_port</span></td><td>the port to listen on, or 0 for the same port</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L346">cd</a></span>
+<script>explorer.outline.addDecl('cd');</script>(char[] <span class="funcparam">dir</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Change to the specified directory.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L358">cdup</a></span>
+<script>explorer.outline.addDecl('cdup');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Change to the parent of this directory.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L367">cwd</a></span>
+<script>explorer.outline.addDecl('cwd');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Determine the current directory.</font><br><br>
+<b>Returns:</b><br>
+the current working directory<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L383">chmod</a></span>
+<script>explorer.outline.addDecl('chmod');</script>(char[] <span class="funcparam">path</span>, int <span class="funcparam">mode</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Change the permissions of a file.</font><br><br>
+<font color="black">This is a popular feature of most FTP servers, but not explicitly outlined
+ in the spec.  It does not work on, for example, Windows servers.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>the path to the file to chmod</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">mode</span></td><td>the desired mode; expected in octal (0777, 0644, etc.)</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L402">del</a></span>
+<script>explorer.outline.addDecl('del');</script>(char[] <span class="funcparam">path</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove a file or directory.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>the path to the file or directory to delete</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L421">rm</a></span>
+<script>explorer.outline.addDecl('rm');</script>(char[] <span class="funcparam">path</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove a directory.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>the directory to delete</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L437">rename</a></span>
+<script>explorer.outline.addDecl('rename');</script>(char[] <span class="funcparam">old_path</span>, char[] <span class="funcparam">new_path</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Rename/move a file or directory.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">old_path</span></td><td>the current path to the file</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">new_path</span></td><td>the new desired path</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>size_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L460">size</a></span>
+<script>explorer.outline.addDecl('size');</script>(char[] <span class="funcparam">path</span>, FtpFormat <span class="funcparam">format</span> = FtpFormat.image); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Determine the size in bytes of a file.</font><br><br>
+<font color="black">This size is dependent on the current type &#40;ASCII or IMAGE.&#41;<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>the file to retrieve the size of</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">format</span></td><td>what format the size is desired in</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Socket <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L493">processDataCommand</a></span>
+<script>explorer.outline.addDecl('processDataCommand');</script>(char[] <span class="funcparam">command</span>, char[][] <span class="funcparam">parameters</span>...); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Send a command and process the data socket.</font><br><br>
+<font color="black">This opens the data connection and checks for the appropriate response.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">command</span></td><td>the command to send (e.g. STOR)</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">parameters</span></td><td>any arguments to send</td></tr></table><br>
+<b>Returns:</b><br>
+the data socket<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L524">finishDataCommand</a></span>
+<script>explorer.outline.addDecl('finishDataCommand');</script>(Socket <span class="funcparam">data</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Clean up after the data socket and process the response.</font><br><br>
+<font color="black">This closes the socket and reads the 226 response.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>the data socket</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Socket <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L539">getDataSocket</a></span>
+<script>explorer.outline.addDecl('getDataSocket');</script>(); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get a data socket from the server.</font><br><br>
+<font color="black">This sends PASV/PORT as necessary.<br><br> </font><br><br>
+<b>Returns:</b><br>
+the data socket or a listener<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L608">prepareDataSocket</a></span>
+<script>explorer.outline.addDecl('prepareDataSocket');</script>(inout Socket <span class="funcparam">data</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Prepare a data socket for use.</font><br><br>
+<font color="black">This modifies the socket in some cases.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>the data listener socket</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Socket <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L658">connectPassive</a></span>
+<script>explorer.outline.addDecl('connectPassive');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Send a PASV and initiate a connection.</font><br><br>
+<b>Returns:</b><br>
+a connected socket<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L730">type</a></span>
+<script>explorer.outline.addDecl('type');</script>(FtpFormat <span class="funcparam">format</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Change the type of data transfer.</font><br><br>
+<font color="black">ASCII mode implies that line ending conversion should be made.
+ Only NON PRINT is supported.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">type</span></td><td>FtpFormat.ascii or FtpFormat.image</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L750">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(char[] <span class="funcparam">path</span>, char[] <span class="funcparam">local_file</span>, FtpProgress <span class="funcparam">progress</span> = null, FtpFormat <span class="funcparam">format</span> = FtpFormat.image); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Store a local file on the server.</font><br><br>
+<font color="black">Calling this function will change the current data transfer format.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>the path to the remote file</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">local_file</span></td><td>the path to the local file</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">progress</span></td><td>a delegate to call with progress information</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">format</span></td><td>what format to send the data in</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L791">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(char[] <span class="funcparam">path</span>, InputStream <span class="funcparam">stream</span> = null, FtpProgress <span class="funcparam">progress</span> = null, FtpFormat <span class="funcparam">format</span> = FtpFormat.image); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Store data from a stream on the server.</font><br><br>
+<font color="black">Calling this function will change the current data transfer format.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>the path to the remote file</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">stream</span></td><td>data to store, or null for a blank file</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">progress</span></td><td>a delegate to call with progress information</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">format</span></td><td>what format to send the data in</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L820">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(char[] <span class="funcparam">path</span>, InputStream <span class="funcparam">stream</span>, FtpProgress <span class="funcparam">progress</span> = null, FtpFormat <span class="funcparam">format</span> = FtpFormat.image); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append data to a file on the server.</font><br><br>
+<font color="black">Calling this function will change the current data transfer format.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>the path to the remote file</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">stream</span></td><td>data to append to the file</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">progress</span></td><td>a delegate to call with progress information</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">format</span></td><td>what format to send the data in</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L844">restartSeek</a></span>
+<script>explorer.outline.addDecl('restartSeek');</script>(size_t <span class="funcparam">offset</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Seek to a byte offset for the next transfer.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">offset</span></td><td>the number of bytes to seek forward</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L860">allocate</a></span>
+<script>explorer.outline.addDecl('allocate');</script>(long <span class="funcparam">bytes</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Allocate space for a file.</font><br><br>
+<font color="black">After calling this, append&#40;&#41; or put&#40;&#41; should be the next command.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">bytes</span></td><td>the number of bytes to allocate</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L885">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(char[] <span class="funcparam">path</span>, char[] <span class="funcparam">local_file</span>, FtpProgress <span class="funcparam">progress</span> = null, FtpFormat <span class="funcparam">format</span> = FtpFormat.image); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Retrieve a remote file's contents into a local file.</font><br><br>
+<font color="black">Calling this function will change the current data transfer format.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>the path to the remote file</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">local_file</span></td><td>the path to the local file</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">progress</span></td><td>a delegate to call with progress information</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">format</span></td><td>what format to read the data in</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L926">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(char[] <span class="funcparam">path</span>, OutputStream <span class="funcparam">stream</span>, FtpProgress <span class="funcparam">progress</span> = null, FtpFormat <span class="funcparam">format</span> = FtpFormat.image); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Retrieve a remote file's contents into a local file.</font><br><br>
+<font color="black">Calling this function will change the current data transfer format.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>the path to the remote file</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">stream</span></td><td>stream to write the data to</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">progress</span></td><td>a delegate to call with progress information</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">format</span></td><td>what format to read the data in</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FtpFileInfo <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L955">getFileInfo</a></span>
+<script>explorer.outline.addDecl('getFileInfo');</script>(char[] <span class="funcparam">path</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get information about a single file.</font><br><br>
+<font color="black">Return an FtpFileInfo struct about the specified path.
+ This may not work consistently on directories &#40;but should.&#41;<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>the file or directory to get information about</td></tr></table><br>
+<b>Returns:</b><br>
+the file information<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FtpFileInfo[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1024">ls</a></span>
+<script>explorer.outline.addDecl('ls');</script>(char[] <span class="funcparam">path</span> = ""); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get a listing of a directory's contents.</font><br><br>
+<font color="black">Don't end path in a /.  Blank means the current directory.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>the directory to list</td></tr></table><br>
+<b>Returns:</b><br>
+an array of the contents<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FtpFileInfo[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1091">sendListCommand</a></span>
+<script>explorer.outline.addDecl('sendListCommand');</script>(char[] <span class="funcparam">path</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Send a LIST command to determine a directory's content.</font><br><br>
+<font color="black">The format of a LIST response is not guaranteed.  If available,
+ MLSD should be used instead.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>the file or directory to list</td></tr></table><br>
+<b>Returns:</b><br>
+an array of the contents<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FtpFileInfo <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1136">parseListLine</a></span>
+<script>explorer.outline.addDecl('parseListLine');</script>(char[] <span class="funcparam">line</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse a LIST response line.</font><br><br>
+<font color="black">The format here isn't even specified, so we have to try to detect
+ commmon ones.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">line</span></td><td>the line to parse</td></tr></table><br>
+<b>Returns:</b><br>
+information about the file<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FtpFileInfo <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1271">parseMlstLine</a></span>
+<script>explorer.outline.addDecl('parseMlstLine');</script>(char[] <span class="funcparam">line</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse an MLST/MLSD response line.</font><br><br>
+<font color="black">The format here is very rigid, and has facts followed by a filename.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">line</span></td><td>the line to parse</td></tr></table><br>
+<b>Returns:</b><br>
+information about the file<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1352">parseTimeval</a></span>
+<script>explorer.outline.addDecl('parseTimeval');</script>(char[] <span class="funcparam">timeval</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse a timeval from an FTP response.</font><br><br>
+<font color="black">This is basically an ISO 8601 date, but even more rigid.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">timeval</span></td><td>the YYYYMMDDHHMMSS date</td></tr></table><br>
+<b>Returns:</b><br>
+a d_time representing the same date<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1373">filemtime</a></span>
+<script>explorer.outline.addDecl('filemtime');</script>(char[] <span class="funcparam">path</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get the modification time of a file.</font><br><br>
+<font color="black">Not supported by a lot of servers.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>the file or directory in question</td></tr></table><br>
+<b>Returns:</b><br>
+a d_time representing the mtime<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1396">mkdir</a></span>
+<script>explorer.outline.addDecl('mkdir');</script>(char[] <span class="funcparam">path</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a directory.</font><br><br>
+<font color="black">Depending on server model, a cwd with the same path may not work.
+ Use the return value instead to escape this problem.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>the directory to create</td></tr></table><br>
+<b>Returns:</b><br>
+the path to the directory created<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1413">getFeatures</a></span>
+<script>explorer.outline.addDecl('getFeatures');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get supported features from the server.</font><br><br>
+<font color="black">This may not be supported, in which case the list will remain empty.
+ Otherwise, it will contain at least FEAT.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1452">isSupported</a></span>
+<script>explorer.outline.addDecl('isSupported');</script>(char[] <span class="funcparam">command</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Check if a specific feature might be supported.</font><br><br>
+<b>Example:</b><br><pre class="d_code">
+
+ <span class="k">if</span> (<span class="i">ftp</span>.<span class="i">isSupported</span>(<span class="sl">"SIZE"</span>))
+     <span class="i">size</span> = <span class="i">ftp</span>.<span class="i">size</span>(<span class="sl">"example.txt"</span>);
+ 
+</pre><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">command</span></td><td>the command in question</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1482">is_supported</a></span>
+<script>explorer.outline.addDecl('is_supported');</script>(char[] <span class="funcparam">command</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Check if a specific feature is known to be supported.</font><br><br>
+<b>Example:</b><br><pre class="d_code">
+
+ <span class="k">if</span> (<span class="i">ftp</span>.<span class="i">is_supported</span>(<span class="sl">"SIZE"</span>))
+     <span class="i">size</span> = <span class="i">ftp</span>.<span class="i">size</span>(<span class="sl">"example.txt"</span>);
+ 
+</pre><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">command</span></td><td>the command in question</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FtpResponse <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1499">siteCommand</a></span>
+<script>explorer.outline.addDecl('siteCommand');</script>(char[] <span class="funcparam">command</span>, char[][] <span class="funcparam">parameters</span>...); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Send a site-specific command.</font><br><br>
+<font color="black">The command might be WHO, for example, returning a list of users online.
+ These are typically heavily server-specific.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">command</span></td><td>the command to send (after SITE)</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">parameters</span></td><td>any additional parameters to send
+                      (each will be prefixed by a space)</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1522">noop</a></span>
+<script>explorer.outline.addDecl('noop');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Send a NOOP, typically used to keep the connection alive.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1535">sendStream</a></span>
+<script>explorer.outline.addDecl('sendStream');</script>(Socket <span class="funcparam">data</span>, InputStream <span class="funcparam">stream</span>, FtpProgress <span class="funcparam">progress</span> = null); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Send the stream to the server.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>the socket to write to</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">stream</span></td><td>the stream to read from</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">progress</span></td><td>a delegate to call with progress information</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1602">readStream</a></span>
+<script>explorer.outline.addDecl('readStream');</script>(Socket <span class="funcparam">data</span>, OutputStream <span class="funcparam">stream</span>, FtpProgress <span class="funcparam">progress</span> = null); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reads from the server to a stream until EOF.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>the socket to read from</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">stream</span></td><td>the stream to write to</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">progress</span></td><td>a delegate to call with progress information</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1666">parse257</a></span>
+<script>explorer.outline.addDecl('parse257');</script>(FtpResponse <span class="funcparam">response</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse a 257 response &#40;which begins with a quoted path.&#41;</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">response</span></td><td>the response to parse</td></tr></table><br>
+<b>Returns:</b><br>
+the path in the response<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1706">sendCommand</a></span>
+<script>explorer.outline.addDecl('sendCommand');</script>(char[] <span class="funcparam">command</span>, char[][] <span class="funcparam">parameters</span>...); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Send a command to the FTP server.</font><br><br>
+<font color="black">Does not get/wait for the response.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">command</span></td><td>the command to send
+    ... =             additional parameters to send (a space will be prepended to each)</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FtpResponse <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1738">readResponse</a></span>
+<script>explorer.outline.addDecl('readResponse');</script>(char[] <span class="funcparam">expected_code</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Read in response lines from the server, expecting a certain code.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">expected_code</span></td><td>the code expected from the server</td></tr></table><br>
+<b>Returns:</b><br>
+the response from the server<br><br>
+<b>Throws:</b><br>
+FTPException if code does not match<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FtpResponse <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1755">readResponse</a></span>
+<script>explorer.outline.addDecl('readResponse');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Read in the response line&#40;s&#41; from the server.</font><br><br>
+<b>Returns:</b><br>
+the response from the server<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1809">toInt</a></span>
+<script>explorer.outline.addDecl('toInt');</script>(char[] <span class="funcparam">s</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">convert text to integer</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1815">toLong</a></span>
+<script>explorer.outline.addDecl('toLong');</script>(char[] <span class="funcparam">s</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">convert text to integer</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1829">FTPException</a></span>
+<script>explorer.outline.addDecl('FTPException');</script> : Exception;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">An exception caused by an unexpected FTP response.</font><br><br>
+<font color="black">Even after such an exception, the connection may be in a usable state.
+ Use the response code to determine more information about the error.<br><br> </font><br><br>
+<b>Standards:</b><br>
+RFC 959, RFC 2228, RFC 2389, RFC 2428<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[3] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1832">response_code</a></span>
+<script>explorer.outline.addDecl('response_code');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The three byte response code.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1839">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">message</span>, char[3] <span class="funcparam">code</span> = "420");</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct an FTPException based on a message and code.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">message</span></td><td>the exception message</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">code</span></td><td>the code (5xx for fatal errors)</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1849">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(FtpResponse <span class="funcparam">r</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct an FTPException based on a response.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">r</span></td><td>the server response</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/ftp/FtpClient.d?rev=3791#L1856">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A string representation of the error.</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2006 UWB. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:35 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

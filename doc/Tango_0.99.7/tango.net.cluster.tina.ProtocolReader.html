@@ -1,0 +1,105 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.cluster.tina.ProtocolReader</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.cluster.tina.ProtocolReader");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ProtocolReader.d?rev=3791">tango.net.cluster.tina.ProtocolReader</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+July 2004: Initial release<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ProtocolReader.d?rev=3791#L45">ProtocolReader</a></span>
+<script>explorer.outline.addDecl('ProtocolReader');</script> : Reader;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Objects passed around a cluster are prefixed with a header, so the 
+        receiver can pick them apart correctly. This header consists of:
+        <pre class="d_code">
+
+ <span class="i">the</span> <span class="i">packet</span> <span class="i">size</span>, <span class="i">including</span> <span class="i">the</span> <span class="i">header</span> (<span class="n">16</span> <span class="i">bits</span>)
+ <span class="i">a</span> <span class="i">command</span> <span class="i">code</span> (<span class="n">8</span> <span class="i">bits</span>)
+ <span class="i">a</span> <span class="k">version</span> <span class="i">id</span> (<span class="n">8</span> <span class="i">bits</span>)
+ <span class="i">a</span> <span class="i">timestamp</span> (<span class="n">64</span> <span class="i">bits</span>)
+ <span class="i">length</span> <span class="i">of</span> <span class="i">the</span> <span class="i">channel</span> <span class="i">name</span> (<span class="n">32</span> <span class="i">bits</span>)
+ <span class="i">the</span> <span class="i">channel</span> <span class="i">name</span>
+ <span class="i">length</span> <span class="i">of</span> <span class="i">the</span> <span class="i">key</span> (<span class="n">32</span> <span class="i">bits</span>)
+ <span class="i">the</span> <span class="i">key</span>
+ <span class="i">an</span> <span class="i">optional</span> <span class="i">payload</span> (<span class="i">an</span> <span class="i">IMessage</span> <span class="i">instance</span>)
+        
+</pre></font><br><br>
+<font color="black">Everything is written in Network order &#40;big endian&#41;.<br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ProtocolReader.d?rev=3791#L60">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(IBuffer <span class="funcparam">buffer</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a ProtocolReader upon the given buffer. As
+                Objects are serialized their content is written to this
+                buffer. The buffer content is then typically flushed to 
+                some external conduit, such as a file or socket.</font><br><br>
+<font color="black">Note that arrays &#40;such as text&#41; are *always* sliced from
+                the buffer -- there's no heap activity involved. Thus it
+                may be necessary to .dup content where appropriate<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IMessage <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ProtocolReader.d?rev=3791#L72">thaw</a></span>
+<script>explorer.outline.addDecl('thaw');</script>(IMessage <span class="funcparam">host</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">deserialize a payload into a provided host, or via
+                the registered instance of the incoming payload
+                        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IMessage <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ProtocolReader.d?rev=3791#L84">thaw</a></span>
+<script>explorer.outline.addDecl('thaw');</script>(NetworkRegistry <span class="funcparam">registry</span>, IMessage <span class="funcparam">host</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">deserialize a payload into a provided host, or via
+                the registered instance of the incoming payload
+                        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ProtocolReader.d?rev=3791#L96">getHeader</a></span>
+<script>explorer.outline.addDecl('getHeader');</script>(inout ubyte <span class="funcparam">cmd</span>, inout char[] <span class="funcparam">channel</span>, inout char[] <span class="funcparam">element</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Read the protocol header and return true if there's a 
+                payload available</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ClusterContent <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ProtocolReader.d?rev=3791#L127">getPacket</a></span>
+<script>explorer.outline.addDecl('getPacket');</script>(inout ubyte <span class="funcparam">cmd</span>, inout char[] <span class="funcparam">channel</span>, inout char[] <span class="funcparam">element</span>, inout long <span class="funcparam">time</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an aliased slice of the buffer representing the 
+                recieved payload. This is a bit of a hack, but eliminates
+                a reasonable amount of overhead. Note that the channel/key
+                text is retained right at the start of the returned content, 
+                enabling the host to toss the whole thing back without any 
+                further munging. </font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:35 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

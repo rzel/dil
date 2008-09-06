@@ -1,0 +1,321 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.core.Variant</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.core.Variant");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791">tango.core.Variant</a></h1>
+                
+<font color="black">The variant module contains a variant, or polymorphic type.</font><br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Authors:</b><br>
+Daniel Keep, Sean Kelly<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L199">VariantTypeMismatchException</a></span>
+<script>explorer.outline.addDecl('VariantTypeMismatchException');</script>(T) : Exception;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This exception is thrown whenever you attempt to get the value of a Variant
+ without using a compatible type.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L220">Variant</a></span>
+<script>explorer.outline.addDecl('Variant');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The Variant type is used to dynamically store values of different types at
+ runtime.</font><br><br>
+<font color="black">You can create a Variant using either the pseudo-constructor or direct
+ assignment.<br><br> <pre class="d_code">
+
+  <span class="i">Variant</span> <span class="i">v</span> = <span class="i">Variant</span>(<span class="n">42</span>);
+  <span class="i">v</span> = <span class="sl">"abc"</span>;
+ 
+</pre>
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Variant <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L231">opCall</a></span>
+<script>explorer.outline.addDecl('opCall');</script>(T)(T <span class="funcparam">value</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This pseudo-constructor is used to place a value into a new Variant.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The value you wish to put in the Variant.</td></tr></table><br>
+<b>Returns:</b><br>
+The new Variant.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Variant <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L254">opAssign</a></span>
+<script>explorer.outline.addDecl('opAssign');</script>(T)(T <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This operator allows you to assign arbitrary values directly into an
+ existing Variant.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The value you wish to put in the Variant.</td></tr></table><br>
+<b>Returns:</b><br>
+The new value of the assigned-to variant.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L306">isA</a></span>
+<script>explorer.outline.addDecl('isA');</script>(T)();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This member can be used to determine if the value stored in the Variant
+ is of the specified type.  Note that this comparison is exact: it does
+ not take implicit casting rules into account.</font><br><br>
+<b>Returns:</b><br>
+true if the Variant contains a value of type T, false otherwise.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L321">isImplicitly</a></span>
+<script>explorer.outline.addDecl('isImplicitly');</script>(T)();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This member can be used to determine if the value stored in the Variant
+ is of the specified type.  This comparison attempts to take implicit
+ conversion rules into account.</font><br><br>
+<b>Returns:</b><br>
+true if the Variant contains a value of type T, or if the Variant
+  contains a value that can be implicitly cast to type T; false
+  otherwise.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L334">isEmpty</a></span>
+<script>explorer.outline.addDecl('isEmpty');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This determines whether the Variant has an assigned value or not.  It
+ is simply short-hand for calling the isA member with a type of void.</font><br><br>
+<b>Returns:</b><br>
+true if the Variant does not contain a value, false otherwise.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L342">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This member will clear the Variant, returning it to an empty state.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>storageT!(S) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L361">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(S)();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This is the primary mechanism for extracting a value from a Variant.
+ Given a destination type S, it will attempt to extract the value of the
+ Variant into that type.  If the value contained within the Variant
+ cannot be implicitly cast to the given type S, it will throw an
+ exception.</font><br><br>
+<font color="black">You can check to see if this operation will fail by calling the
+ isImplicitly member with the type S.<br><br> </font><br><br>
+<b>Returns:</b><br>
+The value stored within the Variant.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T+T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L442">opAdd</a></span>
+<script>explorer.outline.addDecl('opAdd');</script>(T)(T <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T+T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L443">opAdd_r</a></span>
+<script>explorer.outline.addDecl('opAdd_r');</script>(T)(T <span class="funcparam">lhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T-T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L444">opSub</a></span>
+<script>explorer.outline.addDecl('opSub');</script>(T)(T <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T-T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L445">opSub_r</a></span>
+<script>explorer.outline.addDecl('opSub_r');</script>(T)(T <span class="funcparam">lhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T*T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L446">opMul</a></span>
+<script>explorer.outline.addDecl('opMul');</script>(T)(T <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T*T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L447">opMul_r</a></span>
+<script>explorer.outline.addDecl('opMul_r');</script>(T)(T <span class="funcparam">lhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T/T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L448">opDiv</a></span>
+<script>explorer.outline.addDecl('opDiv');</script>(T)(T <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T/T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L449">opDiv_r</a></span>
+<script>explorer.outline.addDecl('opDiv_r');</script>(T)(T <span class="funcparam">lhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T%T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L450">opMod</a></span>
+<script>explorer.outline.addDecl('opMod');</script>(T)(T <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T%T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L451">opMod_r</a></span>
+<script>explorer.outline.addDecl('opMod_r');</script>(T)(T <span class="funcparam">lhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T&amp;T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L452">opAnd</a></span>
+<script>explorer.outline.addDecl('opAnd');</script>(T)(T <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T&amp;T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L453">opAnd_r</a></span>
+<script>explorer.outline.addDecl('opAnd_r');</script>(T)(T <span class="funcparam">lhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T|T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L454">opOr</a></span>
+<script>explorer.outline.addDecl('opOr');</script>(T)(T <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T|T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L455">opOr_r</a></span>
+<script>explorer.outline.addDecl('opOr_r');</script>(T)(T <span class="funcparam">lhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T^T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L456">opXor</a></span>
+<script>explorer.outline.addDecl('opXor');</script>(T)(T <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T^T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L457">opXor_r</a></span>
+<script>explorer.outline.addDecl('opXor_r');</script>(T)(T <span class="funcparam">lhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T&lt;&lt;T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L458">opShl</a></span>
+<script>explorer.outline.addDecl('opShl');</script>(T)(T <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T&lt;&lt;T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L459">opShl_r</a></span>
+<script>explorer.outline.addDecl('opShl_r');</script>(T)(T <span class="funcparam">lhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T&gt;&gt;T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L460">opShr</a></span>
+<script>explorer.outline.addDecl('opShr');</script>(T)(T <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T&gt;&gt;T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L461">opShr_r</a></span>
+<script>explorer.outline.addDecl('opShr_r');</script>(T)(T <span class="funcparam">lhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T&gt;&gt;&gt;T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L462">opUShr</a></span>
+<script>explorer.outline.addDecl('opUShr');</script>(T)(T <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T&gt;&gt;&gt;T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L463">opUShr_r</a></span>
+<script>explorer.outline.addDecl('opUShr_r');</script>(T)(T <span class="funcparam">lhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T~T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L464">opCat</a></span>
+<script>explorer.outline.addDecl('opCat');</script>(T)(T <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>typeof(T~T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L465">opCat_r</a></span>
+<script>explorer.outline.addDecl('opCat_r');</script>(T)(T <span class="funcparam">lhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Variant <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L467">opAddAssign</a></span>
+<script>explorer.outline.addDecl('opAddAssign');</script>(T)(T <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Variant <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L468">opSubAssign</a></span>
+<script>explorer.outline.addDecl('opSubAssign');</script>(T)(T <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Variant <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L469">opMulAssign</a></span>
+<script>explorer.outline.addDecl('opMulAssign');</script>(T)(T <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Variant <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L470">opDivAssign</a></span>
+<script>explorer.outline.addDecl('opDivAssign');</script>(T)(T <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Variant <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L471">opModAssign</a></span>
+<script>explorer.outline.addDecl('opModAssign');</script>(T)(T <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Variant <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L472">opAndAssign</a></span>
+<script>explorer.outline.addDecl('opAndAssign');</script>(T)(T <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Variant <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L473">opOrAssign</a></span>
+<script>explorer.outline.addDecl('opOrAssign');</script>(T)(T <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Variant <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L474">opXorAssign</a></span>
+<script>explorer.outline.addDecl('opXorAssign');</script>(T)(T <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Variant <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L475">opShlAssign</a></span>
+<script>explorer.outline.addDecl('opShlAssign');</script>(T)(T <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Variant <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L476">opShrAssign</a></span>
+<script>explorer.outline.addDecl('opShrAssign');</script>(T)(T <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Variant <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L477">opUShrAssign</a></span>
+<script>explorer.outline.addDecl('opUShrAssign');</script>(T)(T <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Variant <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L478">opCatAssign</a></span>
+<script>explorer.outline.addDecl('opCatAssign');</script>(T)(T <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The following operator overloads are defined for the sake of
+ convenience.  It is important to understand that they do not allow you
+ to use a Variant as both the left-hand and right-hand sides of an
+ expression.  One side of the operator must be a concrete type in order
+ for the Variant to know what code to generate.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L485">opEquals</a></span>
+<script>explorer.outline.addDecl('opEquals');</script>(T)(T <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L494">opCmp</a></span>
+<script>explorer.outline.addDecl('opCmp');</script>(T)(T <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>hash_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L506">toHash</a></span>
+<script>explorer.outline.addDecl('toHash');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The following operators can be used with Variants on both sides.  Note
+ that these operators do not follow the standard rules of
+ implicit conversions.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L519">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Performs "stringification" of the value stored within the Variant.  In
+ the case of the Variant having no assigned value, it will return the
+ string "Variant.init".</font><br><br>
+<b>Returns:</b><br>
+The string representation of the value contained within the Variant.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TypeInfo <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Variant.d?rev=3791#L528">type</a></span>
+<script>explorer.outline.addDecl('type');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This can be used to retrieve the TypeInfo for the currently stored
+ value.
+     </font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (C) 2005-2007 The Tango Team.  All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:32 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

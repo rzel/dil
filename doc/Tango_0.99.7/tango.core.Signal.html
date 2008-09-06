@@ -1,0 +1,136 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.core.Signal</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.core.Signal");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Signal.d?rev=3791">tango.core.Signal</a></h1>
+                
+<font color="black">The signal module provides a basic implementation of the listener pattern
+ using the "Signals and Slots" model from Qt.</font><br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Authors:</b><br>
+Sean Kelly<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Signal.d?rev=3791#L52">Signal</a></span>
+<script>explorer.outline.addDecl('Signal');</script>( Args... );</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A signal is an event which contains a collection of listeners &#40;called
+ slots&#41;.  When a signal is called, that call will be propagated to each
+ attached slot in a synchronous manner.  It is legal for a slot to call a
+ signal's attach and detach methods when it is signaled.  When this occurs,
+ attach events will be queued and processed after the signal has propagated
+ to all slots, but detach events are processed immediately.  This ensures
+ that it is safe for slots to be deleted at any time, even within a slot
+ routine.</font><br><br>
+<b>Example:</b><br><pre class="d_code">
+
+
+ <span class="k">class</span> <span class="i">Button</span>
+ {
+     <span class="i">Signal</span>!(<span class="i">Button</span>) <span class="i">press</span>;
+ }
+
+ <span class="k">void</span> <span class="i">wasPressed</span>( <span class="i">Button</span> <span class="i">b</span> )
+ {
+     <span class="i">printf</span>( <span class="sl">"Button was pressed.\n"</span> );
+ }
+
+ <span class="i">Button</span> <span class="i">b</span> = <span class="k">new</span> <span class="i">Button</span>;
+
+ <span class="i">b</span>.<span class="i">press</span>.<span class="i">attach</span>( &amp;<span class="i">wasPressed</span> );
+ <span class="i">b</span>.<span class="i">press</span>( <span class="i">b</span> );
+
+ 
+</pre><br><br> Please note that this implementation does not use weak pointers to store
+ references to slots.  This design was chosen because weak pointers are
+ inherently unsafe when combined with non-deterministic destruction, with
+ many of the same limitations as destructors in the same situation.  It is
+ still possible to obtain weak-pointer behavior, but this must be done
+ through a proxy object instead.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias void delegate(Args) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Signal.d?rev=3791#L54">SlotDg</a></span>
+<script>explorer.outline.addDecl('SlotDg');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias void function(Args) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Signal.d?rev=3791#L55">SlotFn</a></span>
+<script>explorer.outline.addDecl('SlotFn');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias opCall <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Signal.d?rev=3791#L57">call</a></span>
+<script>explorer.outline.addDecl('call');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Alias to simplify chained calling.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Signal.d?rev=3791#L66">opCall</a></span>
+<script>explorer.outline.addDecl('opCall');</script>(Args <span class="funcparam">args</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The signal procedure.  When called, each of the attached slots will be
+ called synchronously.</font><br><br>
+<font color="black">args = The signal arguments.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Signal.d?rev=3791#L100">attach</a></span>
+<script>explorer.outline.addDecl('attach');</script>(SlotDg <span class="funcparam">dg</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Attaches a delegate to this signal.  A delegate may be either attached
+ or detached, so successive calls to attach for the same delegate will
+ have no effect.</font><br><br>
+<font color="black">dg = The delegate to attach.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Signal.d?rev=3791#L125">attach</a></span>
+<script>explorer.outline.addDecl('attach');</script>(SlotFn <span class="funcparam">fn</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Attaches a function to this signal.  A function may be either attached
+ or detached, so successive calls to attach for the same function will
+ have no effect.</font><br><br>
+<font color="black">fn = The function to attach.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Signal.d?rev=3791#L148">detach</a></span>
+<script>explorer.outline.addDecl('detach');</script>(SlotDg <span class="funcparam">dg</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Detaches a delegate from this signal.</font><br><br>
+<font color="black">dg = The delegate to detach.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Signal.d?rev=3791#L164">detach</a></span>
+<script>explorer.outline.addDecl('detach');</script>(SlotFn <span class="funcparam">fn</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Detaches a function from this signal.</font><br><br>
+<font color="black">fn = The function to detach.
+     </font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (C) 2005-2006 Sean Kelly.  All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:32 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

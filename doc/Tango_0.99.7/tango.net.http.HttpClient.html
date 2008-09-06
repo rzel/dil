@@ -1,0 +1,316 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.http.HttpClient</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.http.HttpClient");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791">tango.net.http.HttpClient</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: April 2004      
+                        Outback release: December 2006<br><br>
+<b>author:</b><br>Kris    - original module<br><br>
+<b>author:</b><br>h3r3tic - fixed a number of Post issues and
+                                  bugs in the 'params' construction<br><br>        Redirection handling guided via<br><br>
+<b>http:</b><br>//ppewww.ph.gla.ac.uk/~flavell/www/post-redirect.html<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L80">HttpClient</a></span>
+<script>explorer.outline.addDecl('HttpClient');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Supports the basic needs of a client making requests of an HTTP
+        server. The following is an example of how this might be used:</font><br><br>
+<font color="black"><pre class="d_code">
+
+        <span class="lc">// callback for client reader</span>
+        <span class="k">void</span> <span class="i">sink</span> (<span class="k">char</span>[] <span class="i">content</span>)
+        {
+                <span class="i">Stdout</span>.<span class="i">put</span> (<span class="i">content</span>);
+        }
+
+        <span class="lc">// create client for a GET request</span>
+        <span class="k">auto</span> <span class="i">client</span> = <span class="k">new</span> <span class="i">HttpClient</span> (<span class="i">HttpClient</span>.<span class="i">Get</span>, <span class="sl">"http://www.yahoo.com"</span>);
+
+        <span class="lc">// make request</span>
+        <span class="i">client</span>.<span class="i">open</span> ();
+
+        <span class="lc">// check return status for validity</span>
+        <span class="k">if</span> (<span class="i">client</span>.<span class="i">isResponseOK</span>)
+           {
+           <span class="lc">// extract content length</span>
+           <span class="k">auto</span> <span class="i">length</span> = <span class="i">client</span>.<span class="i">getResponseHeaders</span>.<span class="i">getInt</span> (<span class="i">HttpHeader</span>.<span class="i">ContentLength</span>, <span class="k">uint</span>.<span class="i">max</span>);
+        
+           <span class="lc">// display all returned headers</span>
+           <span class="i">Stdout</span>.<span class="i">put</span> (<span class="i">client</span>.<span class="i">getResponseHeaders</span>);
+        
+           <span class="lc">// display remaining content</span>
+           <span class="i">client</span>.<span class="i">read</span> (&amp;<span class="i">sink</span>, <span class="i">length</span>);
+           }
+        <span class="k">else</span>
+           <span class="i">Stderr</span>.<span class="i">put</span> (<span class="i">client</span>.<span class="i">getResponse</span>);
+
+        <span class="i">client</span>.<span class="i">close</span> ();
+        
+</pre><br><br>        See modules HttpGet and HttpPost for simple wrappers instead.<br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L146">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(RequestMethod <span class="funcparam">method</span>, char[] <span class="funcparam">url</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a client for the given URL. The argument should be
+                fully qualified with an "http:" or "https:" scheme, or an
+                explicit port should be provided.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L159">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(RequestMethod <span class="funcparam">method</span>, Uri <span class="funcparam">uri</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a client with the provided Uri instance. The Uri should 
+                be fully qualified with an "http:" or "https:" scheme, or an
+                explicit port should be provided. </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>HttpHeadersView <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L191">getResponseHeaders</a></span>
+<script>explorer.outline.addDecl('getResponseHeaders');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get the current input headers, as returned by the host request.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>HttpHeaders <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L203">getRequestHeaders</a></span>
+<script>explorer.outline.addDecl('getRequestHeaders');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Gain access to the request headers. Use this to add whatever
+                headers are required for a request. </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>HttpParams <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L217">getRequestParams</a></span>
+<script>explorer.outline.addDecl('getRequestParams');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Gain access to the request parameters. Use this to add x=y
+                style parameters to the request. These will be appended to
+                the request assuming the original Uri does not contain any
+                of its own.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>UriView <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L228">getUri</a></span>
+<script>explorer.outline.addDecl('getUri');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the Uri associated with this client</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ResponseLine <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L241">getResponse</a></span>
+<script>explorer.outline.addDecl('getResponse');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the response-line for the latest request. This takes 
+                the form of "version status reason" as defined in the HTTP
+                RFC.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L252">getStatus</a></span>
+<script>explorer.outline.addDecl('getStatus');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the HTTP status code set by the remote server</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L263">isResponseOK</a></span>
+<script>explorer.outline.addDecl('isResponseOK');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return whether the response was OK or not</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L274">addCookie</a></span>
+<script>explorer.outline.addDecl('addCookie');</script>(Cookie <span class="funcparam">cookie</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add a cookie to the outgoing headers</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L286">close</a></span>
+<script>explorer.outline.addDecl('close');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Close all resources used by a request. You must invoke this 
+                between successive open&#40;&#41; calls.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L302">reset</a></span>
+<script>explorer.outline.addDecl('reset');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reset the client such that it is ready for a new request.
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L316">setRequest</a></span>
+<script>explorer.outline.addDecl('setRequest');</script>(RequestMethod <span class="funcparam">method</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the request method</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L327">setVersion</a></span>
+<script>explorer.outline.addDecl('setVersion');</script>(Version <span class="funcparam">v</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the request version</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L340">enableRedirect</a></span>
+<script>explorer.outline.addDecl('enableRedirect');</script>(bool <span class="funcparam">yes</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">enable/disable the internal redirection suppport
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L351">setTimeout</a></span>
+<script>explorer.outline.addDecl('setTimeout');</script>(float <span class="funcparam">interval</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">set timeout period for read operation
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L362">keepAlive</a></span>
+<script>explorer.outline.addDecl('keepAlive');</script>(bool <span class="funcparam">yes</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Control keepalive option </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L373">encodeUri</a></span>
+<script>explorer.outline.addDecl('encodeUri');</script>(bool <span class="funcparam">yes</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Control Uri output encoding </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L387">open</a></span>
+<script>explorer.outline.addDecl('open');</script>(IBuffer <span class="funcparam">buffer</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Make a request for the resource specified via the constructor,
+                using the specified timeout period &#40;in milli-seconds&#41;.The 
+                return value represents the input buffer, from which all
+                returned headers and content may be accessed.
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L402">open</a></span>
+<script>explorer.outline.addDecl('open');</script>(Pump <span class="funcparam">pump</span>, IBuffer <span class="funcparam">buffer</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Make a request for the resource specified via the constructor,
+                using a callback for pumping additional data to the host. This 
+                defaults to a three-second timeout period. The return value 
+                represents the input buffer, from which all returned headers 
+                and content may be accessed.
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L579">read</a></span>
+<script>explorer.outline.addDecl('read');</script>(void delegate (void[]) <span class="funcparam">sink</span>, long <span class="funcparam">len</span> = long.max);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Read the content from the returning input stream, up to a
+                maximum length, and pass content to the given sink delegate
+                as it arrives. </font><br><br>
+<font color="black">Exits when length bytes have been processed, or an Eof is
+                seen on the stream.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L609">redirectPost</a></span>
+<script>explorer.outline.addDecl('redirectPost');</script>(Pump <span class="funcparam">pump</span>, IBuffer <span class="funcparam">input</span>, int <span class="funcparam">status</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Handle redirection of Post
+                
+                Guidance for the default behaviour came from this page: 
+                </font><br><br>
+<b>http:</b><br>//ppewww.ph.gla.ac.uk/~flavell/www/post-redirect.html<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L646">canRepost</a></span>
+<script>explorer.outline.addDecl('canRepost');</script>(uint <span class="funcparam">status</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Handle user-notification of Post redirection. This should
+                be overridden appropriately.</font><br><br>
+<font color="black">Guidance for the default behaviour came from this page: 
+                </font><br><br>
+<b>http:</b><br>//ppewww.ph.gla.ac.uk/~flavell/www/post-redirect.html<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SocketConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L657">createSocket</a></span>
+<script>explorer.outline.addDecl('createSocket');</script>(); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Overridable socket factory, for use with HTTPS and so on</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L685">open</a></span>
+<script>explorer.outline.addDecl('open');</script>(RequestMethod <span class="funcparam">method</span>, Pump <span class="funcparam">pump</span>, IBuffer <span class="funcparam">input</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Make a request for the resource specified via the constructor
+                using the specified timeout period &#40;in micro-seconds&#41;, and a
+                user-defined callback for pumping additional data to the host.
+                The callback would be used when uploading data during a 'put'
+                operation &#40;or equivalent&#41;. The return value represents the 
+                input buffer, from which all returned headers and content may 
+                be accessed.</font><br><br>
+<font color="black">Note that certain request-headers may generated automatically
+                if they are not present. These include a Host header and, in
+                the case of Post, both ContentType &amp; ContentLength for a query
+                type of request. The latter two are *not* produced for Post
+                requests with 'pump' specified ~ when using 'pump' to output
+                additional content, you must explicitly set your own headers.<br><br>                Note also that IOException instances may be thrown. These 
+                should be caught by the client to ensure a close&#40;&#41; operation
+                is always performed
+                
+</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L704">ResponseLine</a></span>
+<script>explorer.outline.addDecl('ResponseLine');</script> : HttpTriplet; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Class to represent an HTTP response-line</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L716">test</a></span>
+<script>explorer.outline.addDecl('test');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">test the validity of these tokens</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L735">getVersion</a></span>
+<script>explorer.outline.addDecl('getVersion');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return HTTP version</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L746">getReason</a></span>
+<script>explorer.outline.addDecl('getReason');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return reason text</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/HttpClient.d?rev=3791#L757">getStatus</a></span>
+<script>explorer.outline.addDecl('getStatus');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return status integer</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:35 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

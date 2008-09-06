@@ -1,0 +1,163 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.sys.SharedLib</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.sys.SharedLib");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/SharedLib.d?rev=3791">tango.sys.SharedLib</a></h1>
+                
+<font color="black">The shared library module provides a basic layer around the native functions
+ used to load symbols from shared libraries.</font><br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Authors:</b><br>
+Tomasz Stachowiak, Anders Bergh<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/SharedLib.d?rev=3791#L85">SharedLib</a></span>
+<script>explorer.outline.addDecl('SharedLib');</script>; [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">SharedLib is an interface to system-specific shared libraries, such
+    as ".dll", ".so" or ".dylib" files. It provides a simple interface to obtain
+    symbol addresses &#40;such as function pointers&#41; from these libraries.</font><br><br>
+<b>Example:</b><br><pre class="d_code">
+
+
+    <span class="k">void</span> <span class="i">main</span>() {
+        <span class="k">if</span> (<span class="k">auto</span> <span class="i">lib</span> = <span class="i">SharedLib</span>.<span class="i">load</span>(<span class="sl">`c:\windows\system32\opengl32.dll`</span>)) {
+            <span class="i">Trace</span>.<span class="i">formatln</span>(<span class="sl">"Library successfully loaded"</span>);
+
+            <span class="k">void</span>* <span class="i">ptr</span> = <span class="i">lib</span>.<span class="i">getSymbol</span>(<span class="sl">"glClear"</span>);
+            <span class="k">if</span> (<span class="i">ptr</span>) {
+                <span class="i">Trace</span>.<span class="i">formatln</span>(<span class="sl">"Symbol glClear found. Address = 0x{:x}"</span>, <span class="i">ptr</span>);
+            } <span class="k">else</span> {
+                <span class="i">Trace</span>.<span class="i">formatln</span>(<span class="sl">"Symbol glClear not found"</span>);
+            }
+
+            <span class="i">lib</span>.<span class="i">unload</span>();
+        } <span class="k">else</span> {
+            <span class="i">Trace</span>.<span class="i">formatln</span>(<span class="sl">"Could not load the library"</span>);
+        }
+
+        <span class="k">assert</span> (<span class="n">0</span> == <span class="i">SharedLib</span>.<span class="i">numLoadedLibs</span>);
+    }
+
+    
+</pre><br><br>    This implementation uses reference counting, thus a library is not loaded
+    again if it has been loaded before and not unloaded by the user.
+    Unloading a SharedLib decreases its reference count. When it reaches 0,
+    the shared library associated with it is unloaded and the SharedLib instance
+    is deleted. Please do not delete SharedLib instances manually, unload&#40;&#41; will
+    take care of it.<br><br>
+<b>Note:</b><br>SharedLib is thread-safe.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/SharedLib.d?rev=3791#L87">LoadMode</a></span>
+<script>explorer.outline.addDecl('LoadMode');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Mapped from RTLD_NOW, RTLD_LAZY, RTLD_GLOBAL and RTLD_LOCAL</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SharedLib <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/SharedLib.d?rev=3791#L109">load</a></span>
+<script>explorer.outline.addDecl('load');</script>(char[] <span class="funcparam">path</span>, LoadMode <span class="funcparam">mode</span> = LoadMode.Now | LoadMode.Global); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Loads an OS-specific shared library.</font><br><br>
+<b>Note:</b><br>Please use this function instead of the constructor, which is private.<br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>The path to a shared library to be loaded</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">mode</span></td><td>Library loading mode. See LoadMode</td></tr></table><br>
+<b>Returns:</b><br>
+A SharedLib instance being a handle to the library, or throws
+            SharedLibException if it could not be loaded<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SharedLib <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/SharedLib.d?rev=3791#L129">loadNoThrow</a></span>
+<script>explorer.outline.addDecl('loadNoThrow');</script>(char[] <span class="funcparam">path</span>, LoadMode <span class="funcparam">mode</span> = LoadMode.Now | LoadMode.Global); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Loads an OS-specific shared library.</font><br><br>
+<b>Note:</b><br>Please use this function instead of the constructor, which is private.<br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">path</span></td><td>The path to a shared library to be loaded</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">mode</span></td><td>Library loading mode. See LoadMode</td></tr></table><br>
+<b>Returns:</b><br>
+A SharedLib instance being a handle to the library, or null if it
+            could not be loaded<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/SharedLib.d?rev=3791#L206">unload</a></span>
+<script>explorer.outline.addDecl('unload');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Unloads the OS-specific shared library associated with this SharedLib instance.</font><br><br>
+<b>Note:</b><br>It's invalid to use the object after unload&#40;&#41; has been called, as unload&#40;&#41;
+        will delete it if it's not referenced any more.<br><br>        Throws SharedLibException on failure. In this case, the SharedLib object is not deleted.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/SharedLib.d?rev=3791#L218">unloadNoThrow</a></span>
+<script>explorer.outline.addDecl('unloadNoThrow');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Unloads the OS-specific shared library associated with this SharedLib instance.</font><br><br>
+<b>Note:</b><br>It's invalid to use the object after unload&#40;&#41; has been called, as unload&#40;&#41;
+        will delete it if it's not referenced any more.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/SharedLib.d?rev=3791#L257">path</a></span>
+<script>explorer.outline.addDecl('path');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the path to the OS-specific shared library associated with this object.
+      </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void* <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/SharedLib.d?rev=3791#L272">getSymbol</a></span>
+<script>explorer.outline.addDecl('getSymbol');</script>(char* <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Obtains the address of a symbol within the shared library</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">name</span></td><td>The name of the symbol; must be a null-terminated C string</td></tr></table><br>
+<b>Returns:</b><br>
+A pointer to the symbol or throws SharedLibException if it's
+            not present in the library.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void* <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/SharedLib.d?rev=3791#L286">getSymbolNoThrow</a></span>
+<script>explorer.outline.addDecl('getSymbolNoThrow');</script>(char* <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Obtains the address of a symbol within the shared library</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">name</span></td><td>The name of the symbol; must be a null-terminated C string</td></tr></table><br>
+<b>Returns:</b><br>
+A pointer to the symbol or null if it's not present in the library.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/SharedLib.d?rev=3791#L301">numLoadedLibs</a></span>
+<script>explorer.outline.addDecl('numLoadedLibs');</script>(); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the total number of libraries currently loaded by SharedLib
+      </font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (C) 2007 Tomasz Stachowiak :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:35 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

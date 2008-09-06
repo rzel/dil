@@ -1,0 +1,93 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.math.Bracket</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.math.Bracket");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Bracket.d?rev=3791">tango.math.Bracket</a></h1>
+                
+<font color="black">Algorithms for finding roots and extrema of one-argument real functions
+ using bracketing.</font><br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>, Digital Mars.<br><br>
+<b>Authors:</b><br>
+Don Clugston.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Bracket.d?rev=3791#L54">findRoot</a></span>
+<script>explorer.outline.addDecl('findRoot');</script>(T, R)(R delegate(T) <span class="funcparam">f</span>, T <span class="funcparam">ax</span>, T <span class="funcparam">bx</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Find a real root of the real function f&#40;x&#41; via bracketing.</font><br><br>
+<font color="black">Given a range [a..b] such that f&#40;a&#41; and f&#40;b&#41; have opposite sign,
+ returns the value of x in the range which is closest to a root of f&#40;x&#41;.
+ If f&#40;x&#41; has more than one root in the range, one will be chosen arbitrarily.
+ If f&#40;x&#41; returns NAN
+
+DDOC_MEMBERS =
+<script>explorer.outline.incSymbolLevel();</script>
+
+<script>explorer.outline.decSymbolLevel();</script>, NAN
+
+DDOC_MEMBERS =
+<script>explorer.outline.incSymbolLevel();</script>
+
+<script>explorer.outline.decSymbolLevel();</script> will be returned; otherwise, this algorithm
+ is guaranteed to succeed. 
+  
+ Uses an algorithm based on TOMS748, which uses inverse cubic interpolation 
+ whenever possible, otherwise reverting to parabolic or secant
+ interpolation. Compared to TOMS748, this implementation improves worst-case
+ performance by a factor of more than 100, and typical performance by a factor
+ of 2. For 80-bit reals, most problems require 8 - 15 calls to f&#40;x&#41; to achieve
+ full machine precision. The worst-case performance &#40;pathological cases&#41; is 
+ approximately twice the number of bits. <br><br> </font><br><br>
+<b>References:</b><br>"On Enclosing Simple Roots of Nonlinear Equations", G. Alefeld, F.A. Potra, 
+   Yixun Shi, Mathematics of Computation 61, pp733-744 &#40;1993&#41;.
+   Fortran code available from www.netlib.org as algorithm TOMS478.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BracketResult!(T, R) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Bracket.d?rev=3791#L69">findRoot</a></span>
+<script>explorer.outline.addDecl('findRoot');</script>(T,R)(R delegate(T) <span class="funcparam">f</span>, T <span class="funcparam">ax</span>, T <span class="funcparam">bx</span>, R <span class="funcparam">fax</span>, R <span class="funcparam">fbx</span>, bool delegate(BracketResult!(T,R) r) <span class="funcparam">tolerance</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Find root by bracketing, allowing termination condition to be specified</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam"></span></td><td>tolerance   Defines the termination condition. Return true when acceptable
+             bounds have been obtained.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Bracket.d?rev=3791#L310">findMinimum</a></span>
+<script>explorer.outline.addDecl('findMinimum');</script>(T,R)(R delegate(T) <span class="funcparam">func</span>, T <span class="funcparam">xlo</span>, T <span class="funcparam">xhi</span>, T <span class="funcparam">xinitial</span>, out R <span class="funcparam">funcMin</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Find the minimum value of the function func&#40;&#41;.</font><br><br>
+<font color="black">Returns the value of x such that func&#40;x&#41; is minimised. Uses Brent's method, 
+ which uses a parabolic fit to rapidly approach the minimum but reverts to a
+ Golden Section search where necessary.<br><br> The minimum is located to an accuracy of feqrel&#40;min, truemin&#41; &lt; 
+ real.mant_dig/2.<br><br> </font><br><br>
+<b>Parameters:</b><br>func         The function to be minimized
+     xinitial     Initial guess to be used.
+     xlo, xhi     Upper and lower bounds on x.
+                  func&#40;xinitial&#41; &lt;= func&#40;x1&#41; and func&#40;xinitial&#41; &lt;= func&#40;x2&#41;
+     funcMin      The minimum value of func&#40;x&#41;.<br><br></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (C) 2008 Don Clugston. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:34 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

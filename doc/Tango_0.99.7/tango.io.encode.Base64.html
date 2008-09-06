@@ -1,0 +1,154 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.encode.Base64</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.encode.Base64");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/encode/Base64.d?rev=3791">tango.io.encode.Base64</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>author:</b><br>Jeff Davey<br><br>
+<b>Standards:</b><br>
+rfc3548, rfc2045<br><br>
+<b>Since:</b><br>0.99.7<br><br><br><br>
+    This module is used to decode and encode base64 char[] arrays.<br><br>
+<b>Example:</b><br><pre class="d_code">
+
+    <span class="k">char</span>[] <span class="i">blah</span> = <span class="sl">"Hello there, my name is Jeff."</span>;
+    <span class="k">scope</span> <span class="i">encodebuf</span> = <span class="k">new</span> <span class="k">char</span>[<span class="i">allocateEncodeSize</span>(<span class="k">cast</span>(<span class="k">ubyte</span>[])<span class="i">blah</span>)];
+    <span class="k">char</span>[] <span class="i">encoded</span> = <span class="i">encode</span>(<span class="k">cast</span>(<span class="k">ubyte</span>[])<span class="i">blah</span>, <span class="i">encodebuf</span>);
+
+    <span class="k">scope</span> <span class="i">decodebuf</span> = <span class="k">new</span> <span class="k">ubyte</span>[<span class="i">encoded</span>.<span class="i">length</span>];
+    <span class="k">if</span> (<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">decode</span>(<span class="i">encoded</span>, <span class="i">decodebuf</span>) == <span class="sl">"Hello there, my name is Jeff."</span>)
+        <span class="i">Stdout</span>(<span class="sl">"yay"</span>).<span class="i">newline</span>;
+    
+</pre><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/encode/Base64.d?rev=3791#L45">allocateEncodeSize</a></span>
+<script>explorer.outline.addDecl('allocateEncodeSize');</script>(ubyte[] <span class="funcparam">data</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">calculates and returns the size needed to encode the length of the 
+    array passed.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>An array that will be encoded</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/encode/Base64.d?rev=3791#L59">allocateEncodeSize</a></span>
+<script>explorer.outline.addDecl('allocateEncodeSize');</script>(uint <span class="funcparam">length</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">calculates and returns the size needed to encode the length passed.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">length</span></td><td>Number of bytes to be encoded</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/encode/Base64.d?rev=3791#L82">encodeChunk</a></span>
+<script>explorer.outline.addDecl('encodeChunk');</script>(ubyte[] <span class="funcparam">data</span>, char[] <span class="funcparam">buff</span>, inout int <span class="funcparam">bytesEncoded</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">encodes data into buff and returns the number of bytes encoded.
+    this will not terminate and pad any "leftover" bytes, and will instead
+    only encode up to the highest number of bytes divisible by three.</font><br><br>
+<font color="black">returns the number of bytes left to encode<br><br>    </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>what is to be encoded</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">buff</span></td><td>buffer large enough to hold encoded data</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">bytesEncoded</span></td><td>inout that returns how much of the buffer was filled</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/encode/Base64.d?rev=3791#L124">encode</a></span>
+<script>explorer.outline.addDecl('encode');</script>(ubyte[] <span class="funcparam">data</span>, char[] <span class="funcparam">buff</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">encodes data and returns as an ASCII base64 string.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>what is to be encoded</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">buff</span></td><td>buffer large enough to hold encoded data</td></tr></table><br>
+<b>Example:</b><br><pre class="d_code">
+
+    <span class="k">char</span>[<span class="n">512</span>] <span class="i">encodebuf</span>;
+    <span class="k">char</span>[] <span class="i">myEncodedString</span> = <span class="i">encode</span>(<span class="k">cast</span>(<span class="k">ubyte</span>[])<span class="sl">"Hello, how are you today?"</span>, <span class="i">encodebuf</span>);
+    <span class="i">Stdout</span>(<span class="i">myEncodedString</span>).<span class="i">newline</span>; <span class="lc">// SGVsbG8sIGhvdyBhcmUgeW91IHRvZGF5Pw==</span>
+    
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/encode/Base64.d?rev=3791#L182">encode</a></span>
+<script>explorer.outline.addDecl('encode');</script>(ubyte[] <span class="funcparam">data</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">encodes data and returns as an ASCII base64 string.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>what is to be encoded</td></tr></table><br>
+<b>Example:</b><br><pre class="d_code">
+
+    <span class="k">char</span>[] <span class="i">myEncodedString</span> = <span class="i">encode</span>(<span class="k">cast</span>(<span class="k">ubyte</span>[])<span class="sl">"Hello, how are you today?"</span>);
+    <span class="i">Stdout</span>(<span class="i">myEncodedString</span>).<span class="i">newline</span>; <span class="lc">// SGVsbG8sIGhvdyBhcmUgeW91IHRvZGF5Pw==</span>
+    
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ubyte[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/encode/Base64.d?rev=3791#L216">decode</a></span>
+<script>explorer.outline.addDecl('decode');</script>(char[] <span class="funcparam">data</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">decodes an ASCCI base64 string and returns it as ubyte[] data. Pre-allocates
+    the size of the array.</font><br><br>
+<font color="black">This decoder will ignore non-base64 characters. So:
+    SGVsbG8sIGhvd
+    yBhcmUgeW91IH
+    RvZGF5Pw==<br><br>    Is valid.<br><br>    </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>what is to be decoded</td></tr></table><br>
+<b>Example:</b><br><pre class="d_code">
+
+    <span class="k">char</span>[] <span class="i">myDecodedString</span> = <span class="k">cast</span>(<span class="k">char</span>[])<span class="i">decode</span>(<span class="sl">"SGVsbG8sIGhvdyBhcmUgeW91IHRvZGF5Pw=="</span>);
+    <span class="i">Stdout</span>(<span class="i">myDecodeString</span>).<span class="i">newline</span>; <span class="lc">// Hello, how are you today?</span>
+    
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ubyte[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/encode/Base64.d?rev=3791#L251">decode</a></span>
+<script>explorer.outline.addDecl('decode');</script>(char[] <span class="funcparam">data</span>, ubyte[] <span class="funcparam">buff</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">decodes an ASCCI base64 string and returns it as ubyte[] data.</font><br><br>
+<font color="black">This decoder will ignore non-base64 characters. So:
+    SGVsbG8sIGhvd
+    yBhcmUgeW91IH
+    RvZGF5Pw==<br><br>    Is valid.<br><br>    </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>what is to be decoded</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">buff</span></td><td>a big enough array to hold the decoded data</td></tr></table><br>
+<b>Example:</b><br><pre class="d_code">
+
+    <span class="k">ubyte</span>[<span class="n">512</span>] <span class="i">decodebuf</span>;
+    <span class="k">char</span>[] <span class="i">myDecodedString</span> = <span class="k">cast</span>(<span class="k">char</span>[])<span class="i">decode</span>(<span class="sl">"SGVsbG8sIGhvdyBhcmUgeW91IHRvZGF5Pw=="</span>, <span class="i">decodebuf</span>);
+    <span class="i">Stdout</span>(<span class="i">myDecodeString</span>).<span class="i">newline</span>; <span class="lc">// Hello, how are you today?</span>
+    
+</pre><br><br></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2008 Jeff Davey. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:34 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

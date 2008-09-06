@@ -1,0 +1,244 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.digest.MerkleDamgard</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.digest.MerkleDamgard");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791">tango.io.digest.MerkleDamgard</a></h1>
+                
+<b>License:</b><br>
+BSD style: see doc/license.txt for details<br><br>
+<b>Version:</b><br>
+Initial release: Feb 2006<br><br>
+<b>author:</b><br>Regan Heath, Oskar Linde<br><br>        This module implements a generic Merkle-Damgard hash function<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L59">MerkleDamgard</a></span>
+<script>explorer.outline.addDecl('MerkleDamgard');</script> : Digest; [package]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extending MerkleDamgard to create a custom hash function requires 
+        the implementation of a number of abstract methods. These include:
+        <pre class="d_code">
+
+        <span class="k">public</span> <span class="k">uint</span> <span class="i">digestSize</span>();
+        <span class="k">protected</span> <span class="k">void</span> <span class="i">reset</span>();
+        <span class="k">protected</span> <span class="k">void</span> <span class="i">createDigest</span>(<span class="k">ubyte</span>[] <span class="i">buf</span>);
+        <span class="k">protected</span> <span class="k">uint</span> <span class="i">blockSize</span>();
+        <span class="k">protected</span> <span class="k">uint</span> <span class="i">addSize</span>();
+        <span class="k">protected</span> <span class="k">void</span> <span class="i">padMessage</span>(<span class="k">ubyte</span>[] <span class="i">data</span>);
+        <span class="k">protected</span> <span class="k">void</span> <span class="i">transform</span>(<span class="k">ubyte</span>[] <span class="i">data</span>);
+        
+</pre></font><br><br>
+<font color="black">In addition there exist two further abstract methods; these methods
+        have empty default implementations since in some cases they are not 
+        </font><br><br>
+<b>required:</b><br><pre class="d_code">
+
+        <span class="k">protected</span> <span class="k">abstract</span> <span class="k">void</span> <span class="i">padLength</span>(<span class="k">ubyte</span>[] <span class="i">data</span>, <span class="k">ulong</span> <span class="i">length</span>);
+        <span class="k">protected</span> <span class="k">abstract</span> <span class="k">void</span> <span class="i">extend</span>();
+        
+</pre><br><br>        The method padLength&#40;&#41; is required to implement the SHA series of
+        Hash functions and also the Tiger algorithm. Method extend&#40;&#41; is 
+        required only to implement the MD2 digest.<br><br>        The basic sequence of internal events is as follows:
+        <ul>
+        <li>transform(), 0 or more times</li>
+        <li>padMessage()</li>
+        <li>padLength()</li>
+        <li>transform()</li>
+        <li>extend()</li>
+        <li>createDigest()</li>
+        <li>reset()</li>
+        </ul><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L76">createDigest</a></span>
+<script>explorer.outline.addDecl('createDigest');</script>(ubyte[] <span class="funcparam">buf</span>); [protected, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructs the digest</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">buf</span></td><td>a buffer with enough space to hold the digest</td></tr></table><br>
+<b>Remarks:</b><br>Constructs the digest.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L91">blockSize</a></span>
+<script>explorer.outline.addDecl('blockSize');</script>(); [protected, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Digest block size</font><br><br>
+<b>Returns:</b><br>
+the block size<br><br>
+<b>Remarks:</b><br>Specifies the size &#40;in bytes&#41; of the block of data to pass to
+                each call to transform&#40;&#41;.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L108">addSize</a></span>
+<script>explorer.outline.addDecl('addSize');</script>(); [protected, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Length padding size</font><br><br>
+<b>Returns:</b><br>
+the length padding size<br><br>
+<b>Remarks:</b><br>Specifies the size &#40;in bytes&#41; of the padding which
+                uses the length of the data which has been fed to the
+                algorithm, this padding is carried out by the
+                padLength method.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L125">padMessage</a></span>
+<script>explorer.outline.addDecl('padMessage');</script>(ubyte[] <span class="funcparam">data</span>); [protected, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Pads the digest data</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>a slice of the digest buffer to fill with padding</td></tr></table><br>
+<b>Remarks:</b><br>Fills the passed buffer slice with the appropriate
+                padding for the final call to transform&#40;&#41;. This
+                padding will fill the message data buffer up to
+                blockSize&#40;&#41;-addSize&#40;&#41;.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L142">padLength</a></span>
+<script>explorer.outline.addDecl('padLength');</script>(ubyte[] <span class="funcparam">data</span>, ulong <span class="funcparam">length</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Performs the length padding</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>the slice of the digest buffer to fill with padding</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">length</span></td><td>the length of the data which has been processed</td></tr></table><br>
+<b>Remarks:</b><br>Fills the passed buffer slice with addSize&#40;&#41; bytes of padding
+                based on the length in bytes of the input data which has been
+                processed.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L159">transform</a></span>
+<script>explorer.outline.addDecl('transform');</script>(ubyte[] <span class="funcparam">data</span>); [protected, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Performs the digest on a block of data</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>the block of data to digest</td></tr></table><br>
+<b>Remarks:</b><br>The actual digest algorithm is carried out by this method on
+                the passed block of data. This method is called for every
+                blockSize&#40;&#41; bytes of input data and once more with the remaining
+                data padded to blockSize&#40;&#41;.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L173">extend</a></span>
+<script>explorer.outline.addDecl('extend');</script>(); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Final processing of digest.</font><br><br>
+<b>Remarks:</b><br>This method is called after the final transform just prior to
+                the creation of the final digest. The MD2 algorithm requires
+                an additional step at this stage. Future digests may or may not
+                require this method.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L185">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a digest</font><br><br>
+<b>Remarks:</b><br>Constructs the internal buffer for use by the digest, the buffer
+                size &#40;in bytes&#41; is defined by the abstract method blockSize&#40;&#41;.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L200">reset</a></span>
+<script>explorer.outline.addDecl('reset');</script>(); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initialize the digest</font><br><br>
+<b>Remarks:</b><br>Returns the digest state to its initial value<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L217">update</a></span>
+<script>explorer.outline.addDecl('update');</script>(void[] <span class="funcparam">input</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Digest additional data</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">input</span></td><td>the data to digest</td></tr></table><br>
+<b>Remarks:</b><br>Continues the digest operation on the additional data.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ubyte[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L251">binaryDigest</a></span>
+<script>explorer.outline.addDecl('binaryDigest');</script>(ubyte[] <span class="funcparam">buf</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Complete the digest</font><br><br>
+<b>Returns:</b><br>
+the completed digest<br><br>
+<b>Remarks:</b><br>Concludes the algorithm producing the final digest.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L292">littleEndian32</a></span>
+<script>explorer.outline.addDecl('littleEndian32');</script>(ubyte[] <span class="funcparam">input</span>, uint[] <span class="funcparam">output</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Converts 8 bit to 32 bit Little Endian</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">input</span></td><td>the source array</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">output</span></td><td>the destination array</td></tr></table><br>
+<b>Remarks:</b><br>Converts an array of ubyte[] into uint[] in Little Endian byte order.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L314">bigEndian32</a></span>
+<script>explorer.outline.addDecl('bigEndian32');</script>(ubyte[] <span class="funcparam">input</span>, uint[] <span class="funcparam">output</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Converts 8 bit to 32 bit Big Endian</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">input</span></td><td>the source array</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">output</span></td><td>the destination array</td></tr></table><br>
+<b>Remarks:</b><br>Converts an array of ubyte[] into uint[] in Big Endian byte order.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L336">littleEndian64</a></span>
+<script>explorer.outline.addDecl('littleEndian64');</script>(ubyte[] <span class="funcparam">input</span>, ulong[] <span class="funcparam">output</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Converts 8 bit to 64 bit Little Endian</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">input</span></td><td>the source array</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">output</span></td><td>the destination array</td></tr></table><br>
+<b>Remarks:</b><br>Converts an array of ubyte[] into ulong[] in Little Endian byte order.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L357">bigEndian64</a></span>
+<script>explorer.outline.addDecl('bigEndian64');</script>(ubyte[] <span class="funcparam">input</span>, ulong[] <span class="funcparam">output</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Converts 8 bit to 64 bit Big Endian</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">input</span></td><td>the source array</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">output</span></td><td>the destination array</td></tr></table><br>
+<b>Remarks:</b><br>Converts an array of ubyte[] into ulong[] in Big Endian byte order.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/MerkleDamgard.d?rev=3791#L379">rotateLeft</a></span>
+<script>explorer.outline.addDecl('rotateLeft');</script>(uint <span class="funcparam">x</span>, uint <span class="funcparam">n</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Rotate left by n</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">x</span></td><td>the value to rotate</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">n</span></td><td>the amount to rotate by</td></tr></table><br>
+<b>Remarks:</b><br>Rotates a 32 bit value by the specified amount.<br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2006 Tango. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

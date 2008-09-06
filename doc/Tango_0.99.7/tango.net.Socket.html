@@ -1,0 +1,724 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.Socket</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.Socket");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791">tango.net.Socket</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: March 2004<br><br>
+<b>author:</b><br>Christopher Miller
+                        Kris Bell
+                        Anders F Bjorklund &#40;Darwin patches&#41;<br><br>
+        The original code has been modified in several ways:<br><br>        1&#41; It has been altered to fit within the Tango environment, meaning
+           that certain original classes have been reorganized, and/or have
+           subclassed Tango base-classes. For example, the original Socket
+           class has been wrapped with three distinct subclasses, and now
+           derives from class tango.io.Resource.<br><br>        2&#41; All exception instances now subclass the Tango IOException.<br><br>        3&#41; Construction of new Socket instances via accept&#40;&#41; is now
+           overloadable.<br><br>        4&#41; Constants and enums have been moved within a class boundary to
+           ensure explicit namespace usage.<br><br>        5&#41; changed Socket.select&#40;&#41; to loop if it was interrupted.<br><br>
+        All changes within the main body of code all marked with "Tango:"<br><br>        For a good tutorial on socket-programming I highly recommend going<br><br>
+<b>here:</b><br><br><br>
+<b>http:</b><br>//www.ecst.csuchico.edu/~beej/guide/net/<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>socket_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L226">INVALID_SOCKET</a></span>
+<script>explorer.outline.addDecl('INVALID_SOCKET');</script>; [private, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L237">timeval</a></span>
+<script>explorer.outline.addDecl('timeval');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Internal structs:</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L339">strlen</a></span>
+<script>explorer.outline.addDecl('strlen');</script>(char*); [private, extern(C)]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L368">lastError</a></span>
+<script>explorer.outline.addDecl('lastError');</script>(); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Public interface ...</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L519">SocketOption</a></span>
+<script>explorer.outline.addDecl('SocketOption');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">these appear to be compatible with x86 platforms,
+                but not others!</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>union <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L552">linger</a></span>
+<script>explorer.outline.addDecl('linger');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L566">SocketOptionLevel</a></span>
+<script>explorer.outline.addDecl('SocketOptionLevel');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L580">SocketShutdown</a></span>
+<script>explorer.outline.addDecl('SocketShutdown');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L592">SocketFlags</a></span>
+<script>explorer.outline.addDecl('SocketFlags');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L606">SocketType</a></span>
+<script>explorer.outline.addDecl('SocketType');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Communication semantics</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L608">STREAM</a></span>
+<script>explorer.outline.addDecl('STREAM');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">sequenced, reliable, two-way communication-based byte streams</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L609">DGRAM</a></span>
+<script>explorer.outline.addDecl('DGRAM');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">connectionless, unreliable datagrams with a fixed maximum length; data may be lost or arrive out of order</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L610">RAW</a></span>
+<script>explorer.outline.addDecl('RAW');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">raw protocol access</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L611">RDM</a></span>
+<script>explorer.outline.addDecl('RDM');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">reliably-delivered message datagrams</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L612">SEQPACKET</a></span>
+<script>explorer.outline.addDecl('SEQPACKET');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">sequenced, reliable, two-way connection-based datagrams with a fixed maximum length</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L622">ProtocolType</a></span>
+<script>explorer.outline.addDecl('ProtocolType');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Protocol</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L624">IP</a></span>
+<script>explorer.outline.addDecl('IP');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">internet protocol version 4</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L625">ICMP</a></span>
+<script>explorer.outline.addDecl('ICMP');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">internet control message protocol</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L626">IGMP</a></span>
+<script>explorer.outline.addDecl('IGMP');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">internet group management protocol</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L627">GGP</a></span>
+<script>explorer.outline.addDecl('GGP');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">gateway to gateway protocol</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L628">TCP</a></span>
+<script>explorer.outline.addDecl('TCP');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">transmission control protocol</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L629">PUP</a></span>
+<script>explorer.outline.addDecl('PUP');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">PARC universal packet protocol</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L630">UDP</a></span>
+<script>explorer.outline.addDecl('UDP');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">user datagram protocol</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L631">IDP</a></span>
+<script>explorer.outline.addDecl('IDP');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Xerox NS protocol</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L686">Socket</a></span>
+<script>explorer.outline.addDecl('Socket');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L707">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(AddressFamily <span class="funcparam">family</span>, SocketType <span class="funcparam">type</span>, ProtocolType <span class="funcparam">protocol</span>, bool <span class="funcparam">create</span> = true);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Describe a socket flavor. If a single protocol type exists to support
+ this socket type within the address family, the ProtocolType may be
+ omitted.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L720">initialize</a></span>
+<script>explorer.outline.addDecl('initialize');</script>(socket_t <span class="funcparam">sock</span> = sock.init); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create or assign a socket
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>socket_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L741">fileHandle</a></span>
+<script>explorer.outline.addDecl('fileHandle');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the underlying OS handle of this Conduit</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L752">reopen</a></span>
+<script>explorer.outline.addDecl('reopen');</script>(socket_t <span class="funcparam">sock</span> = sock.init);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new native socket instance for this Socket</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L764">isAlive</a></span>
+<script>explorer.outline.addDecl('isAlive');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this socket still alive? A closed socket is considered to
+                be dead, but a shutdown socket is still alive.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L778">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L790">blocking</a></span>
+<script>explorer.outline.addDecl('blocking');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">getter</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L809">blocking</a></span>
+<script>explorer.outline.addDecl('blocking');</script>(bool <span class="funcparam">byes</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">setter</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>AddressFamily <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L840">addressFamily</a></span>
+<script>explorer.outline.addDecl('addressFamily');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Socket <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L851">bind</a></span>
+<script>explorer.outline.addDecl('bind');</script>(Address <span class="funcparam">addr</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Socket <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L864">connect</a></span>
+<script>explorer.outline.addDecl('connect');</script>(Address <span class="funcparam">to</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Socket <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L897">listen</a></span>
+<script>explorer.outline.addDecl('listen');</script>(int <span class="funcparam">backlog</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">need to bind&#40;&#41; first</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Socket <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L909">accept</a></span>
+<script>explorer.outline.addDecl('accept');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Accept an incoming connection. If the socket is blocking, accept
+ waits for a connection request. Throws SocketAcceptException if unable
+ to accept. See accepting for use with derived classes.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Socket <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L946">shutdown</a></span>
+<script>explorer.outline.addDecl('shutdown');</script>(SocketShutdown <span class="funcparam">how</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The shutdown function shuts down the connection of the socket.
+                Depending on the argument value, it will:</font><br><br>
+<font color="black">-   stop receiving data for this socket. If further data
+                        arrives, it is rejected.<br><br>                    -   stop trying to transmit data from this socket. Also
+                        discards any data waiting to be sent. Stop looking for
+                        acknowledgement of data already sent; don't retransmit
+                        if any data is lost.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Socket <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L959">setLingerPeriod</a></span>
+<script>explorer.outline.addDecl('setLingerPeriod');</script>(int <span class="funcparam">period</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>Tango:</b><br>added<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Socket <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L977">setAddressReuse</a></span>
+<script>explorer.outline.addDecl('setAddressReuse');</script>(bool <span class="funcparam">enabled</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>Tango:</b><br>added<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Socket <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L991">setNoDelay</a></span>
+<script>explorer.outline.addDecl('setNoDelay');</script>(bool <span class="funcparam">enabled</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>Tango:</b><br>added<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1007">joinGroup</a></span>
+<script>explorer.outline.addDecl('joinGroup');</script>(IPv4Address <span class="funcparam">address</span>, bool <span class="funcparam">onOff</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Helper function to handle the adding and dropping of group
+                membership.</font><br><br>
+<b>Tango:</b><br>Added<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1035">detach</a></span>
+<script>explorer.outline.addDecl('detach');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">calling shutdown&#40;&#41; before this is recommended for connection-
+                oriented sockets</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Address <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1060">newFamilyObject</a></span>
+<script>explorer.outline.addDecl('newFamilyObject');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1082">hostName</a></span>
+<script>explorer.outline.addDecl('hostName');</script>(); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>Tango:</b><br>added this to return the hostname<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1098">hostAddress</a></span>
+<script>explorer.outline.addDecl('hostAddress');</script>(); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>Tango:</b><br>added this to return the default host address &#40;IPv4&#41;<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Address <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1114">remoteAddress</a></span>
+<script>explorer.outline.addDecl('remoteAddress');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Address <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1130">localAddress</a></span>
+<script>explorer.outline.addDecl('localAddress');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1141">ERROR</a></span>
+<script>explorer.outline.addDecl('ERROR');</script>; [const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Send or receive error code.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1150">send</a></span>
+<script>explorer.outline.addDecl('send');</script>(void[] <span class="funcparam">buf</span>, SocketFlags <span class="funcparam">flags</span> = SocketFlags.NONE);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Send data on the connection. Returns the number of bytes actually
+ sent, or ERROR on failure. If the socket is blocking and there is no
+ buffer space left, send waits.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1158">sendTo</a></span>
+<script>explorer.outline.addDecl('sendTo');</script>(void[] <span class="funcparam">buf</span>, SocketFlags <span class="funcparam">flags</span>, Address <span class="funcparam">to</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1164">sendTo</a></span>
+<script>explorer.outline.addDecl('sendTo');</script>(void[] <span class="funcparam">buf</span>, Address <span class="funcparam">to</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1172">sendTo</a></span>
+<script>explorer.outline.addDecl('sendTo');</script>(void[] <span class="funcparam">buf</span>, SocketFlags <span class="funcparam">flags</span> = SocketFlags.NONE);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Send data to a specific destination Address. If the destination address is not specified, a connection must have been made and that address is used. If the socket is blocking and there is no buffer space left, sendTo waits.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1185">receive</a></span>
+<script>explorer.outline.addDecl('receive');</script>(void[] <span class="funcparam">buf</span>, SocketFlags <span class="funcparam">flags</span> = SocketFlags.NONE);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Receive data on the connection. Returns the number of bytes actually
+ received, 0 if the remote side has closed the connection, or ERROR on
+ failure. If the socket is blocking, receive waits until there is data
+ to be received.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1196">receiveFrom</a></span>
+<script>explorer.outline.addDecl('receiveFrom');</script>(void[] <span class="funcparam">buf</span>, SocketFlags <span class="funcparam">flags</span>, Address <span class="funcparam">from</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1208">receiveFrom</a></span>
+<script>explorer.outline.addDecl('receiveFrom');</script>(void[] <span class="funcparam">buf</span>, Address <span class="funcparam">from</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1216">receiveFrom</a></span>
+<script>explorer.outline.addDecl('receiveFrom');</script>(void[] <span class="funcparam">buf</span>, SocketFlags <span class="funcparam">flags</span> = SocketFlags.NONE);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Receive data and get the remote endpoint Address. Returns the number of bytes actually received, 0 if the remote side has closed the connection, or ERROR on failure. If the socket is blocking, receiveFrom waits until there is data to be received.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1232">getOption</a></span>
+<script>explorer.outline.addDecl('getOption');</script>(SocketOptionLevel <span class="funcparam">level</span>, SocketOption <span class="funcparam">option</span>, void[] <span class="funcparam">result</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">returns the length, in bytes, of the actual result - very
+                different from getsockopt&#40;&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Socket <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1246">setOption</a></span>
+<script>explorer.outline.addDecl('setOption');</script>(SocketOptionLevel <span class="funcparam">level</span>, SocketOption <span class="funcparam">option</span>, void[] <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1260">exception</a></span>
+<script>explorer.outline.addDecl('exception');</script>(char[] <span class="funcparam">msg</span>); [protected, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>Tango:</b><br>added this common function<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1272">badArg</a></span>
+<script>explorer.outline.addDecl('badArg');</script>(char[] <span class="funcparam">msg</span>); [protected, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>Tango:</b><br>added this common function<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1292">select</a></span>
+<script>explorer.outline.addDecl('select');</script>(SocketSet <span class="funcparam">checkRead</span>, SocketSet <span class="funcparam">checkWrite</span>, SocketSet <span class="funcparam">checkError</span>, timeval* <span class="funcparam">tv</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">SocketSet's are updated to include only those sockets which an
+                event occured.</font><br><br>
+<font color="black">Returns the number of events, 0 on timeout, or -1 on error<br><br>                for a connect&#40;&#41;ing socket, writeability means connected
+                for a listen&#40;&#41;ing socket, readability means listening<br><br>                </font><br><br>
+<b>Winsock:</b><br>possibly internally limited to 64 sockets per set<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1372">select</a></span>
+<script>explorer.outline.addDecl('select');</script>(SocketSet <span class="funcparam">checkRead</span>, SocketSet <span class="funcparam">checkWrite</span>, SocketSet <span class="funcparam">checkError</span>, TimeSpan <span class="funcparam">time</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">select with specified timeout</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1384">select</a></span>
+<script>explorer.outline.addDecl('select');</script>(SocketSet <span class="funcparam">checkRead</span>, SocketSet <span class="funcparam">checkWrite</span>, SocketSet <span class="funcparam">checkError</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">select with maximum timeout</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>timeval <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1395">toTimeval</a></span>
+<script>explorer.outline.addDecl('toTimeval');</script>(TimeSpan <span class="funcparam">time</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Handy utility for converting TimeSpan into timeval</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1411">Address</a></span>
+<script>explorer.outline.addDecl('Address');</script>; [public, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1424">exception</a></span>
+<script>explorer.outline.addDecl('exception');</script>(char[] <span class="funcparam">msg</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>Tango:</b><br>added this common function<br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1437">UnknownAddress</a></span>
+<script>explorer.outline.addDecl('UnknownAddress');</script> : Address; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>sockaddr* <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1448">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1459">nameLen</a></span>
+<script>explorer.outline.addDecl('nameLen');</script>(); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>AddressFamily <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1471">addressFamily</a></span>
+<script>explorer.outline.addDecl('addressFamily');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1482">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1494">NetHost</a></span>
+<script>explorer.outline.addDecl('NetHost');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1506">validHostent</a></span>
+<script>explorer.outline.addDecl('validHostent');</script>(hostent* <span class="funcparam">he</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1518">populate</a></span>
+<script>explorer.outline.addDecl('populate');</script>(hostent* <span class="funcparam">he</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1572">getHostByName</a></span>
+<script>explorer.outline.addDecl('getHostByName');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1593">getHostByAddr</a></span>
+<script>explorer.outline.addDecl('getHostByAddr');</script>(uint <span class="funcparam">addr</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1614">getHostByAddr</a></span>
+<script>explorer.outline.addDecl('getHostByAddr');</script>(char[] <span class="funcparam">addr</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1671">IPv4Address</a></span>
+<script>explorer.outline.addDecl('IPv4Address');</script> : Address; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1681">sockaddr_in</a></span>
+<script>explorer.outline.addDecl('sockaddr_in');</script>; [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>sockaddr* <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1697">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1708">nameLen</a></span>
+<script>explorer.outline.addDecl('nameLen');</script>(); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1721">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>AddressFamily <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1736">addressFamily</a></span>
+<script>explorer.outline.addDecl('addressFamily');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ushort <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1747">port</a></span>
+<script>explorer.outline.addDecl('port');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1758">addr</a></span>
+<script>explorer.outline.addDecl('addr');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1771">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">addr</span>, int <span class="funcparam">port</span> = PORT_ANY); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">-port- can be PORT_ANY
+                -addr- is an IP address or host name</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1791">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(uint <span class="funcparam">addr</span>, ushort <span class="funcparam">port</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1803">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(ushort <span class="funcparam">port</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1814">toAddrString</a></span>
+<script>explorer.outline.addDecl('toAddrString');</script>(); [public, synchronized]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1825">toPortString</a></span>
+<script>explorer.outline.addDecl('toPortString');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1836">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1849">parse</a></span>
+<script>explorer.outline.addDecl('parse');</script>(char[] <span class="funcparam">addr</span>); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">-addr- is an IP address in the format "a.b.c.d"
+                returns ADDR_NONE on failure</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1872">SocketSet</a></span>
+<script>explorer.outline.addDecl('SocketSet');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1936">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(uint <span class="funcparam">max</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1966">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L1988">reset</a></span>
+<script>explorer.outline.addDecl('reset');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L2011">add</a></span>
+<script>explorer.outline.addDecl('add');</script>(socket_t <span class="funcparam">s</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L2046">add</a></span>
+<script>explorer.outline.addDecl('add');</script>(Socket <span class="funcparam">s</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L2057">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(socket_t <span class="funcparam">s</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L2110">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(Socket <span class="funcparam">s</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L2121">isSet</a></span>
+<script>explorer.outline.addDecl('isSet');</script>(socket_t <span class="funcparam">s</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L2153">isSet</a></span>
+<script>explorer.outline.addDecl('isSet');</script>(Socket <span class="funcparam">s</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L2165">max</a></span>
+<script>explorer.outline.addDecl('max');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">max sockets that can be added, like FD_SETSIZE</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>fd_set* <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Socket.d?rev=3791#L2176">toFd_set</a></span>
+<script>explorer.outline.addDecl('toFd_set');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:34 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

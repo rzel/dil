@@ -1,0 +1,195 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.core.sync.ReadWriteMutex</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.core.sync.ReadWriteMutex");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791">tango.core.sync.ReadWriteMutex</a></h1>
+                
+<font color="black">The read/write mutex module provides a primitive for maintaining shared read
+ access and mutually exclusive write access.</font><br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Authors:</b><br>
+Sean Kelly<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L47">ReadWriteMutex</a></span>
+<script>explorer.outline.addDecl('ReadWriteMutex');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This class represents a mutex that allows any number of readers to enter,
+ but when a writer enters, all other readers and writers are blocked.</font><br><br>
+<font color="black">Please note that this mutex is not recursive and is intended to guard access
+ to data only.  Also, no deadlock checking is in place because doing so would
+ require dynamic memory allocation, which would reduce performance by an
+ unacceptable amount.  As a result, any attempt to recursively acquire this
+ mutex may well deadlock the caller, particularly if a write lock is acquired
+ while holding a read lock, or vice-versa.  In practice, this should not be
+ an issue however, because it is uncommon to call deeply into unknown code
+ while holding a lock that simply protects data.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L64">Policy</a></span>
+<script>explorer.outline.addDecl('Policy');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Defines the policy used by this mutex.  Currently, two policies are
+ defined.</font><br><br>
+<font color="black">The first will queue writers until no readers hold the mutex, then
+ pass the writers through one at a time.  If a reader acquires the mutex
+ while there are still writers queued, the reader will take precedence.<br><br> The second will queue readers if there are any writers queued.  Writers
+ are passed through one at a time, and once there are no writers present,
+ all queued readers will be alerted.<br><br> Future policies may offer a more even balance between reader and writer
+ precedence.
+     </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L66">PREFER_READERS</a></span>
+<script>explorer.outline.addDecl('PREFER_READERS');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Readers get preference.  This may starve writers.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L67">PREFER_WRITERS</a></span>
+<script>explorer.outline.addDecl('PREFER_WRITERS');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Writers get preference.  This may starve readers.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L85">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Policy <span class="funcparam">policy</span> = Policy.PREFER_WRITERS);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initializes a read/write mutex object with the supplied policy.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">policy</span></td><td>The policy to use.</td></tr></table><br>
+<b>Throws:</b><br>
+SyncException on error.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Policy <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L119">policy</a></span>
+<script>explorer.outline.addDecl('policy');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Gets the policy for the associated mutex.</font><br><br>
+<b>Returns:</b><br>
+The policy used by this mutex.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Reader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L136">reader</a></span>
+<script>explorer.outline.addDecl('reader');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Gets an object representing the reader lock for the associated mutex.</font><br><br>
+<b>Returns:</b><br>
+A reader sub-mutex.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Writer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L148">writer</a></span>
+<script>explorer.outline.addDecl('writer');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Gets an object representing the writer lock for the associated mutex.</font><br><br>
+<b>Returns:</b><br>
+A writer sub-mutex.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L163">Reader</a></span>
+<script>explorer.outline.addDecl('Reader');</script> : Object.Monitor;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This class can be considered a mutex in its own right, and is used to
+ negotiate a read lock for the enclosing mutex.
+     </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L169">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initializes a read/write mutex reader proxy object.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L179">lock</a></span>
+<script>explorer.outline.addDecl('lock');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Acquires a read lock on the enclosing mutex.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L196">unlock</a></span>
+<script>explorer.outline.addDecl('unlock');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Releases a read lock on the enclosing mutex.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L217">tryLock</a></span>
+<script>explorer.outline.addDecl('tryLock');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Attempts to acquire a read lock on the enclosing mutex.  If one can
+ be obtained without blocking, the lock is acquired and true is
+ returned.  If not, the lock is not acquired and false is returned.</font><br><br>
+<b>Returns:</b><br>
+true if the lock was acquired and false if not.<br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L266">Writer</a></span>
+<script>explorer.outline.addDecl('Writer');</script> : Object.Monitor;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This class can be considered a mutex in its own right, and is used to
+ negotiate a write lock for the enclosing mutex.
+     </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L272">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initializes a read/write mutex writer proxy object.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L282">lock</a></span>
+<script>explorer.outline.addDecl('lock');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Acquires a write lock on the enclosing mutex.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L299">unlock</a></span>
+<script>explorer.outline.addDecl('unlock');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Releases a write lock on the enclosing mutex.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/ReadWriteMutex.d?rev=3791#L333">tryLock</a></span>
+<script>explorer.outline.addDecl('tryLock');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Attempts to acquire a write lock on the enclosing mutex.  If one can
+ be obtained without blocking, the lock is acquired and true is
+ returned.  If not, the lock is not acquired and false is returned.</font><br><br>
+<b>Returns:</b><br>
+true if the lock was acquired and false if not.<br><br></dd></dl></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (C) 2005-2006 Sean Kelly.  All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:32 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

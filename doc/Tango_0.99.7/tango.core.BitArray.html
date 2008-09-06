@@ -1,0 +1,362 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.core.BitArray</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.core.BitArray");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791">tango.core.BitArray</a></h1>
+                
+<font color="black">This module contains a packed bit array implementation in the style of D's
+ built-in dynamic arrays.</font><br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Authors:</b><br>
+Walter Bright, Sean Kelly<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L23">BitArray</a></span>
+<script>explorer.outline.addDecl('BitArray');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This struct represents an array of boolean values, each of which occupy one
+ bit of memory for storage.  Thus an array of 32 bits would occupy the same
+ space as one integer value.  The typical array operations--such as indexing
+ and sorting--are supported, as well as bitwise operations such as and, or,
+ xor, and complement.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L39">opCall</a></span>
+<script>explorer.outline.addDecl('opCall');</script>(bool[] <span class="funcparam">bits</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This initializes a BitArray of bits.length bits, where each bit value
+ matches the corresponding boolean value in bits.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">bits</span></td><td>The initialization value.</td></tr></table><br>
+<b>Returns:</b><br>
+A BitArray with the same number and sequence of elements as bits.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>size_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L55">length</a></span>
+<script>explorer.outline.addDecl('length');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get the number of bits in this array.</font><br><br>
+<b>Returns:</b><br>
+The number of bits in this array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L68">length</a></span>
+<script>explorer.outline.addDecl('length');</script>(size_t <span class="funcparam">newlen</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Resizes this array to newlen bits.  If newlen is larger than the current
+ length, the new bits will be initialized to zero.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">newlen</span></td><td>The number of bits this array should contain.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>size_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L99">dim</a></span>
+<script>explorer.outline.addDecl('dim');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Gets the length of a uint array large enough to hold all stored bits.</font><br><br>
+<b>Returns:</b><br>
+The size a uint array would have to be to store this array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L111">dup</a></span>
+<script>explorer.outline.addDecl('dup');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Duplicates this array, much like the dup property for built-in arrays.</font><br><br>
+<b>Returns:</b><br>
+A duplicate of this array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L150">opAssign</a></span>
+<script>explorer.outline.addDecl('opAssign');</script>(bool[] <span class="funcparam">bits</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Resets the length of this array to bits.length and then initializes this</font><br><br>
+<font color="black">Resizes this array to hold bits.length bits and initializes each bit
+ value to match the corresponding boolean value in bits.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">bits</span></td><td>The initialization value.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L168">init</a></span>
+<script>explorer.outline.addDecl('init');</script>(void[] <span class="funcparam">target</span>, size_t <span class="funcparam">numbits</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Map BitArray onto target, with numbits being the number of bits in the
+ array. Does not copy the data.  This is the inverse of opCast.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">target</span></td><td>The array to map.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">numbits</span></td><td>The number of bits to map in target.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L213">reverse</a></span>
+<script>explorer.outline.addDecl('reverse');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reverses the contents of this array in place, much like the reverse
+ property for built-in arrays.</font><br><br>
+<b>Returns:</b><br>
+A shallow copy of this array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L261">sort</a></span>
+<script>explorer.outline.addDecl('sort');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sorts this array in place, with zero entries sorting before one.  This
+ is equivalent to the sort property for built-in arrays.</font><br><br>
+<b>Returns:</b><br>
+A shallow copy of this array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L329">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout bool) <span class="funcparam">dg</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L346">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout size_t, inout bool) <span class="funcparam">dg</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Operates on all bits in this array.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">dg</span></td><td>The supplied code as a delegate.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L405">opEquals</a></span>
+<script>explorer.outline.addDecl('opEquals');</script>(BitArray <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Compares this array to another for equality.  Two bit arrays are equal
+ if they are the same size and contain the same series of bits.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">rhs</span></td><td>The array to compare against.</td></tr></table><br>
+<b>Returns:</b><br>
+zero if not equal and non-zero otherwise.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L453">opCmp</a></span>
+<script>explorer.outline.addDecl('opCmp');</script>(BitArray <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Performs a lexicographical comparison of this array to the supplied
+ array.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">rhs</span></td><td>The array to compare against.</td></tr></table><br>
+<b>Returns:</b><br>
+A value less than zero if this array sorts before the supplied array,
+  zero if the arrays are equavalent, and a value greater than zero if
+  this array sorts after the supplied array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L508">opCast</a></span>
+<script>explorer.outline.addDecl('opCast');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert this array to a void array.</font><br><br>
+<b>Returns:</b><br>
+This array represented as a void array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L538">opIndex</a></span>
+<script>explorer.outline.addDecl('opIndex');</script>(size_t <span class="funcparam">pos</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Support for index operations, much like the behavior of built-in arrays.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">pos</span></td><td>The desired index position.</td></tr></table><br>
+<b>In:</b><br>pos must be less than the length of this array.<br><br>
+<b>Returns:</b><br>
+The value of the bit at pos.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L556">opCom</a></span>
+<script>explorer.outline.addDecl('opCom');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Generates a copy of this array with the unary complement operation
+ applied.</font><br><br>
+<b>Returns:</b><br>
+A new array which is the complement of this array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L601">opAnd</a></span>
+<script>explorer.outline.addDecl('opAnd');</script>(BitArray <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Generates a new array which is the result of a bitwise and operation
+ between this array and the supplied array.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">rhs</span></td><td>The array with which to perform the bitwise and operation.</td></tr></table><br>
+<b>In:</b><br>rhs.length must equal the length of this array.<br><br>
+<b>Returns:</b><br>
+A new array which is the result of a bitwise and with this array and
+  the supplied array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L651">opOr</a></span>
+<script>explorer.outline.addDecl('opOr');</script>(BitArray <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Generates a new array which is the result of a bitwise or operation
+ between this array and the supplied array.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">rhs</span></td><td>The array with which to perform the bitwise or operation.</td></tr></table><br>
+<b>In:</b><br>rhs.length must equal the length of this array.<br><br>
+<b>Returns:</b><br>
+A new array which is the result of a bitwise or with this array and
+  the supplied array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L701">opXor</a></span>
+<script>explorer.outline.addDecl('opXor');</script>(BitArray <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Generates a new array which is the result of a bitwise xor operation
+ between this array and the supplied array.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">rhs</span></td><td>The array with which to perform the bitwise xor operation.</td></tr></table><br>
+<b>In:</b><br>rhs.length must equal the length of this array.<br><br>
+<b>Returns:</b><br>
+A new array which is the result of a bitwise xor with this array and
+  the supplied array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L751">opSub</a></span>
+<script>explorer.outline.addDecl('opSub');</script>(BitArray <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Generates a new array which is the result of this array minus the
+ supplied array.  <i>a - b</i> for BitArrays means the same thing as
+ <i>a &amp; ~b</i>.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">rhs</span></td><td>The array with which to perform the subtraction operation.</td></tr></table><br>
+<b>In:</b><br>rhs.length must equal the length of this array.<br><br>
+<b>Returns:</b><br>
+A new array which is the result of this array minus the supplied array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L798">opCat</a></span>
+<script>explorer.outline.addDecl('opCat');</script>(bool <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L810">opCat_r</a></span>
+<script>explorer.outline.addDecl('opCat_r');</script>(bool <span class="funcparam">lhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L823">opCat</a></span>
+<script>explorer.outline.addDecl('opCat');</script>(BitArray <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Generates a new array which is the result of this array concatenated
+ with the supplied array.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">rhs</span></td><td>The array with which to perform the concatenation operation.</td></tr></table><br>
+<b>Returns:</b><br>
+A new array which is the result of this array concatenated with the
+  supplied array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L877">opIndexAssign</a></span>
+<script>explorer.outline.addDecl('opIndexAssign');</script>(bool <span class="funcparam">b</span>, size_t <span class="funcparam">pos</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Support for index operations, much like the behavior of built-in arrays.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">b</span></td><td>The new bit value to set.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">pos</span></td><td>The desired index position.</td></tr></table><br>
+<b>In:</b><br>pos must be less than the length of this array.<br><br>
+<b>Returns:</b><br>
+The new value of the bit at pos.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L905">opAndAssign</a></span>
+<script>explorer.outline.addDecl('opAndAssign');</script>(BitArray <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Updates the contents of this array with the result of a bitwise and
+ operation between this array and the supplied array.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">rhs</span></td><td>The array with which to perform the bitwise and operation.</td></tr></table><br>
+<b>In:</b><br>rhs.length must equal the length of this array.<br><br>
+<b>Returns:</b><br>
+A shallow copy of this array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L950">opOrAssign</a></span>
+<script>explorer.outline.addDecl('opOrAssign');</script>(BitArray <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Updates the contents of this array with the result of a bitwise or
+ operation between this array and the supplied array.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">rhs</span></td><td>The array with which to perform the bitwise or operation.</td></tr></table><br>
+<b>In:</b><br>rhs.length must equal the length of this array.<br><br>
+<b>Returns:</b><br>
+A shallow copy of this array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L995">opXorAssign</a></span>
+<script>explorer.outline.addDecl('opXorAssign');</script>(BitArray <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Updates the contents of this array with the result of a bitwise xor
+ operation between this array and the supplied array.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">rhs</span></td><td>The array with which to perform the bitwise xor operation.</td></tr></table><br>
+<b>In:</b><br>rhs.length must equal the length of this array.<br><br>
+<b>Returns:</b><br>
+A shallow copy of this array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L1041">opSubAssign</a></span>
+<script>explorer.outline.addDecl('opSubAssign');</script>(BitArray <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Updates the contents of this array with the result of this array minus
+ the supplied array.  <i>a - b</i> for BitArrays means the same thing as
+ <i>a &amp; ~b</i>.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">rhs</span></td><td>The array with which to perform the subtraction operation.</td></tr></table><br>
+<b>In:</b><br>rhs.length must equal the length of this array.<br><br>
+<b>Returns:</b><br>
+A shallow copy of this array.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L1083">opCatAssign</a></span>
+<script>explorer.outline.addDecl('opCatAssign');</script>(bool <span class="funcparam">b</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>BitArray <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/BitArray.d?rev=3791#L1112">opCatAssign</a></span>
+<script>explorer.outline.addDecl('opCatAssign');</script>(BitArray <span class="funcparam">rhs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Updates the contents of this array with the result of this array
+ concatenated with the supplied array.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">rhs</span></td><td>The array with which to perform the concatenation operation.</td></tr></table><br>
+<b>Returns:</b><br>
+A shallow copy of this array.<br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (C) 2005-2006 Digital Mars, www.digitalmars.com.
+            All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:32 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

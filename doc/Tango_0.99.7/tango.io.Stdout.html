@@ -1,0 +1,120 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.Stdout</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.Stdout");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Stdout.d?rev=3791">tango.io.Stdout</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Nov 2005: Initial release<br><br>
+<b>author:</b><br>Kris<br><br>        Standard, global formatters for console output. If you don't need
+        formatted output or unicode translation, consider using the module
+        tango.io.Console directly<br><br>        Stdout &amp; Stderr expose this style of usage:
+        <pre class="d_code">
+
+        <span class="i">Stdout</span> (<span class="sl">"hello"</span>);                       =&gt; <span class="i">hello</span>
+        <span class="i">Stdout</span> (<span class="n">1</span>);                             =&gt; <span class="n">1</span>
+        <span class="i">Stdout</span> (<span class="n">3.14</span>);                          =&gt; <span class="n">3.14</span>
+        <span class="i">Stdout</span> (<span class="cl">'b'</span>);                           =&gt; <span class="i">b</span>
+        <span class="i">Stdout</span> (<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>);                       =&gt; <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>         
+        <span class="i">Stdout</span> (<span class="sl">"abc"</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>);                =&gt; <span class="i">abc</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>        
+        <span class="i">Stdout</span> (<span class="sl">"abc"</span>, <span class="n">1</span>, <span class="n">2</span>) (<span class="sl">"foo"</span>);           =&gt; <span class="i">abc</span>, <span class="n">1</span>, <span class="n">2f</span><span class="i">oo</span>        
+        <span class="i">Stdout</span> (<span class="sl">"abc"</span>) (<span class="sl">"def"</span>) (<span class="n">3.14</span>);          =&gt; <span class="i">abcdef3</span><span class="n">.14</span>
+
+        <span class="i">Stdout</span>.<span class="i">format</span> (<span class="sl">"abc {}"</span>, <span class="n">1</span>);            =&gt; <span class="i">abc</span> <span class="n">1</span>
+        <span class="i">Stdout</span>.<span class="i">format</span> (<span class="sl">"abc {}:{}"</span>, <span class="n">1</span>, <span class="n">2</span>);      =&gt; <span class="i">abc</span> <span class="n">1</span>:<span class="n">2</span>
+        <span class="i">Stdout</span>.<span class="i">format</span> (<span class="sl">"abc {1}:{0}"</span>, <span class="n">1</span>, <span class="n">2</span>);    =&gt; <span class="i">abc</span> <span class="n">2</span>:<span class="n">1</span>
+        <span class="i">Stdout</span>.<span class="i">format</span> (<span class="sl">"abc "</span>, <span class="n">1</span>);              =&gt; <span class="i">abc</span>
+        
+</pre><br><br>        Note that the last example does not throw an exception. There
+        are several use-cases where dropping an argument is legitimate,
+        so we're currently not enforcing any particular trap mechanism.<br><br>        Flushing the output is achieved through the flush&#40;&#41; method, or
+        via an empty pair of parens: 
+        <pre class="d_code">
+
+        <span class="i">Stdout</span> (<span class="sl">"hello world"</span>) ();
+        <span class="i">Stdout</span> (<span class="sl">"hello world"</span>).<span class="i">flush</span>;
+
+        <span class="i">Stdout</span>.<span class="i">format</span> (<span class="sl">"hello {}"</span>, <span class="sl">"world"</span>) ();
+        <span class="i">Stdout</span>.<span class="i">format</span> (<span class="sl">"hello {}"</span>, <span class="sl">"world"</span>).<span class="i">flush</span>;
+        
+</pre>
+        
+        Special character sequences, such as "\n", are written directly to
+        the output without any translation &#40;though an output-filter could
+        be inserted to perform translation as required&#41;. Platform-specific 
+        newlines are generated instead via the newline&#40;&#41; method, which also 
+        flushes the output when configured to do so:
+        <pre class="d_code">
+
+        <span class="i">Stdout</span> (<span class="sl">"hello "</span>) (<span class="sl">"world"</span>).<span class="i">newline</span>;
+        <span class="i">Stdout</span>.<span class="i">format</span> (<span class="sl">"hello {}"</span>, <span class="sl">"world"</span>).<span class="i">newline</span>;
+        <span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"hello {}"</span>, <span class="sl">"world"</span>);
+        
+</pre><br><br>        The format&#40;&#41; method of both Stderr and Stdout support the range
+        of formatting options provided by tango.text.convert.Layout and
+        extensions thereof; including the full I18N extensions where it
+        has been configured in that manner. To enable a French Stdout, 
+        do the following:
+        <pre class="d_code">
+
+        <span class="k">import</span> <span class="i">tango</span>.<span class="i">text</span>.<span class="i">locale</span>.<span class="i">Locale</span>;
+
+        <span class="i">Stdout</span>.<span class="i">layout</span> = <span class="k">new</span> <span class="i">Locale</span> (<span class="i">Culture</span>.<span class="i">getCulture</span> (<span class="sl">"fr-FR"</span>));
+        
+</pre>
+        
+        Note that Stdout is a shared entity, so every usage of it will
+        be affected by the above example. For applications supporting 
+        multiple regions, create multiple Locale instances instead and 
+        cache them in an appropriate manner<br><br>        Note also that the output-stream in use is exposed by these
+        global instances ~ this can be leveraged, for instance, to copy a
+        file to the standard output:
+        <pre class="d_code">
+
+        <span class="i">Stdout</span>.<span class="i">copy</span> (<span class="k">new</span> <span class="i">FileConduit</span> (<span class="sl">"myfile"</span>));
+        
+</pre><br><br>        Note that Stdout is *not* intended to be thread-safe. Use either
+        tango.util.log.Trace or the standard logging facilities in order 
+        to enable atomic console I/O<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>static <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Stdout.d?rev=3791#L99">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct Stdout &amp; Stderr when this module is loaded</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Print!(char) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Stdout.d?rev=3791#L110">Stdout</a></span>
+<script>explorer.outline.addDecl('Stdout');</script>; [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Print!(char) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Stdout.d?rev=3791#L110">Stderr</a></span>
+<script>explorer.outline.addDecl('Stderr');</script>; [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">global error output</font><br><br></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2005 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:34 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

@@ -1,0 +1,177 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.compress.ZlibStream</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.compress.ZlibStream");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791">tango.io.compress.ZlibStream</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: July 2007<br><br>
+<b>author:</b><br>Daniel Keep<br><br>
+<b>History:</b><br>
+Added support for "window bits", needed for Zip support.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791#L46">ZlibInput</a></span>
+<script>explorer.outline.addDecl('ZlibInput');</script> : InputFilter;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This input filter can be used to perform decompression of zlib streams.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791#L77">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InputStream <span class="funcparam">stream</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791#L100">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InputStream <span class="funcparam">stream</span>, int <span class="funcparam">windowBits</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructs a new zlib decompression filter.  You need to pass in the
+        stream that the decompression filter will read from.  If you are using
+        this filter with a conduit, the idiom to use is:</font><br><br>
+<font color="black"><pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">input</span> = <span class="k">new</span> <span class="i">ZlibInput</span>(<span class="i">myConduit</span>.<span class="i">input</span>)</pre>;
+        <span class="i">input</span>.<span class="i">read</span>(<span class="i">myContent</span>);
+        
+</font><br><br><br><br>        The optional windowBits parameter is the base two logarithm of the
+        window size, and should be in the range 8-15, defaulting to 15 if not
+        specified.  Additionally, the windowBits parameter may be negative to
+        indicate that zlib should omit the standard zlib header and trailer,
+        with the window size being -windowBits.<br><br></dd></dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791#L137">read</a></span>
+<script>explorer.outline.addDecl('read');</script>(void[] <span class="funcparam">dst</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Decompresses data from the underlying conduit into a target array.</font><br><br>
+<font color="black">Returns the number of bytes stored into dst, which may be less than
+        requested.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>InputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791#L187">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Clear any buffered content.  No-op.</font><br><br></dd></dd></dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791#L226">ZlibOutput</a></span>
+<script>explorer.outline.addDecl('ZlibOutput');</script> : OutputFilter;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This output filter can be used to perform compression of data into a zlib
+    stream.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791#L248">Level</a></span>
+<script>explorer.outline.addDecl('Level');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This enumeration represents several pre-defined compression levels.</font><br><br>
+<font color="black">None instructs zlib to perform no compression whatsoever, and simply
+        store the data stream.  Note that this actually expands the stream
+        slightly to accommodate the zlib stream metadata.<br><br>        Fast instructs zlib to perform a minimal amount of compression, Best
+        indicates that you want the maximum level of compression and Normal
+        &#40;the default level&#41; is a compromise between the two.  The exact
+        compression level Normal represents is determined by the underlying
+        zlib library, but is typically level 6.<br><br>        Any integer between -1 and 9 inclusive may be used as a level,
+        although the symbols in this enumeration should suffice for most
+        use-cases.<br><br></font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791#L283">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(OutputStream <span class="funcparam">stream</span>, Level <span class="funcparam">level</span> = Level.Normal);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791#L304">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(OutputStream <span class="funcparam">stream</span>, Level <span class="funcparam">level</span>, int <span class="funcparam">windowBits</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructs a new zlib compression filter.  You need to pass in the
+        stream that the compression filter will write to.  If you are using
+        this filter with a conduit, the idiom to use is:</font><br><br>
+<font color="black"><pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">output</span> = <span class="k">new</span> <span class="i">ZlibOutput</span>(<span class="i">myConduit</span>.<span class="i">output</span>);
+        <span class="i">output</span>.<span class="i">write</span>(<span class="i">myContent</span>);
+        
+</pre><br><br>        The optional windowBits parameter is the base two logarithm of the
+        window size, and should be in the range 8-15, defaulting to 15 if not
+        specified.  Additionally, the windowBits parameter may be negative to
+        indicate that zlib should omit the standard zlib header and trailer,
+        with the window size being -windowBits.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791#L341">write</a></span>
+<script>explorer.outline.addDecl('write');</script>(void[] <span class="funcparam">src</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Compresses the given data to the underlying conduit.</font><br><br>
+<font color="black">Returns the number of bytes from src that were compressed; write
+        should always consume all data provided to it, although it may not be
+        immediately written to the underlying output stream.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>size_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791#L390">written</a></span>
+<script>explorer.outline.addDecl('written');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This read-only property returns the number of compressed bytes that
+        have been written to the underlying stream.  Following a call to
+        either close or commit, this will contain the total compressed size of
+        the input data stream.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791#L401">close</a></span>
+<script>explorer.outline.addDecl('close');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">commit the output</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791#L418">commit</a></span>
+<script>explorer.outline.addDecl('commit');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Purge any buffered content.  Calling this will implicitly end the zlib
+        stream, so it should not be called until you are finished compressing
+        data.  Any calls to either write or commit after a compression filter
+        has been committed will throw an exception.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791#L497">ZlibClosedException</a></span>
+<script>explorer.outline.addDecl('ZlibClosedException');</script> : IOException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This exception is thrown if you attempt to perform a read, write or flush
+    operation on a closed zlib filter stream.  This can occur if the input
+    stream has finished, or an output stream was flushed.</font><br><br>
+<dl></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/ZlibStream.d?rev=3791#L513">ZlibException</a></span>
+<script>explorer.outline.addDecl('ZlibException');</script> : IOException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This exception is thrown when an error occurs in the underlying zlib
+    library.  Where possible, it will indicate both the name of the error, and
+    any textural message zlib has provided.</font><br><br>
+<dl></dl></dd>)</td></tr>
+                <tr><td id="docfooter">
+                        Copyright (C) 2007 Daniel Keep.  All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:34 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

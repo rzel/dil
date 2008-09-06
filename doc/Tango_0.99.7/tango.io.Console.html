@@ -1,0 +1,294 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.Console</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.Console");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791">tango.io.Console</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: Feb 2005<br><br>
+<b>Version:</b><br>
+Heavily revised for unicode; November 2005
+                        Outback release: December 2006<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L42">Console</a></span>
+<script>explorer.outline.addDecl('Console');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">low level console IO support. 
+        
+        Note that for a while this was templated for each of char, wchar, 
+        and dchar. It became clear after some usage that the console is
+        more useful if it sticks to Utf8 only. See ConsoleConduit below
+        for details.</font><br><br>
+<font color="black">Redirecting the standard IO handles &#40;via a shell&#41; operates as one 
+        would expect, though the redirected content should likely restrict 
+        itself to utf8 <br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L57">Input</a></span>
+<script>explorer.outline.addDecl('Input');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Model console input as a buffer. Note that we read utf8
+                only.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L70">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Conduit <span class="funcparam">conduit</span>, bool <span class="funcparam">redirected</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Attach console input to the provided device</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L88">copyln</a></span>
+<script>explorer.outline.addDecl('copyln');</script>(bool <span class="funcparam">raw</span> = false); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the next line available from the console, 
+                        or null when there is nothing available. The value
+                        returned is a duplicate of the buffer content &#40;it
+                        has .dup applied&#41;. </font><br><br>
+<font color="black">Each line ending is removed unless parameter raw is
+                        set to true<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L107">readln</a></span>
+<script>explorer.outline.addDecl('readln');</script>(inout char[] <span class="funcparam">content</span>, bool <span class="funcparam">raw</span> = false); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Retreive a line of text from the console and map
+                        it to the given argument. The input is sliced, 
+                        not copied, so use .dup appropriately. Each line
+                        ending is removed unless parameter raw is set to 
+                        true.
+                        
+                        Returns false when there is no more input.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>InputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L137">stream</a></span>
+<script>explorer.outline.addDecl('stream');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the associated stream</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L155">redirected</a></span>
+<script>explorer.outline.addDecl('redirected');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this device redirected?</font><br><br>
+<b>Returns:</b><br>
+True if redirected, false otherwise.<br><br>
+<b>Remarks:</b><br>Reflects the console redirection status from when 
+                        this module was instantiated<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Input <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L172">redirected</a></span>
+<script>explorer.outline.addDecl('redirected');</script>(bool <span class="funcparam">yes</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set redirection state to the provided boolean</font><br><br>
+<b>Remarks:</b><br>Configure the console redirection status, where 
+                        a redirected console is more efficient &#40;dictates 
+                        whether newline&#40;&#41; performs automatic flushing or 
+                        not&#41;<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>InputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L189">input</a></span>
+<script>explorer.outline.addDecl('input');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the configured source</font><br><br>
+<b>Remarks:</b><br>Provides access to the underlying mechanism for 
+                        console input. Use this to retain prior state
+                        when temporarily switching inputs<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Input <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L200">input</a></span>
+<script>explorer.outline.addDecl('input');</script>(InputStream <span class="funcparam">source</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Divert input to an alternate source
+                        
+</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L214">Output</a></span>
+<script>explorer.outline.addDecl('Output');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Console output accepts utf8 only, by default</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L228">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Conduit <span class="funcparam">conduit</span>, bool <span class="funcparam">redirected</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Attach console output to the provided device</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Output <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L242">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(char[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append to the console. We accept UTF8 only, so
+                        all other encodings should be handled via some
+                        higher level API</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Output <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L265">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(Object <span class="funcparam">other</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append content</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">other</span></td><td>an object with a useful toString() method</td></tr></table><br>
+<b>Returns:</b><br>
+Returns a chaining reference if all content was 
+                        written. Throws an IOException indicating eof or 
+                        eob if not.<br><br>
+<b>Remarks:</b><br>Append the result of other.toString&#40;&#41; to the console<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Output <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L288">newline</a></span>
+<script>explorer.outline.addDecl('newline');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append a newline and flush the console buffer. If
+                        the output is redirected, flushing does not occur
+                        automatically.</font><br><br>
+<b>Returns:</b><br>
+Returns a chaining reference if content was written. 
+                        Throws an IOException indicating eof or eob if not.<br><br>
+<b>Remarks:</b><br>Emit a newline into the buffer, and autoflush the
+                        current buffer content for an interactive console.
+                        Redirected consoles do not flush automatically on
+                        a newline.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Output <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L310">flush</a></span>
+<script>explorer.outline.addDecl('flush');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Explicitly flush console output</font><br><br>
+<b>Returns:</b><br>
+Returns a chaining reference if content was written. 
+                        Throws an IOException indicating eof or eob if not.<br><br>
+<b>Remarks:</b><br>Flushes the console buffer to attached conduit<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>OutputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L322">stream</a></span>
+<script>explorer.outline.addDecl('stream');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the associated stream</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L339">redirected</a></span>
+<script>explorer.outline.addDecl('redirected');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this device redirected?</font><br><br>
+<b>Returns:</b><br>
+True if redirected, false otherwise.<br><br>
+<b>Remarks:</b><br>Reflects the console redirection status<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Output <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L356">redirected</a></span>
+<script>explorer.outline.addDecl('redirected');</script>(bool <span class="funcparam">yes</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set redirection state to the provided boolean</font><br><br>
+<b>Remarks:</b><br>Configure the console redirection status, where 
+                        a redirected console is more efficient &#40;dictates 
+                        whether newline&#40;&#41; performs automatic flushing or 
+                        not&#41;<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>OutputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L373">output</a></span>
+<script>explorer.outline.addDecl('output');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the configured output sink</font><br><br>
+<b>Remarks:</b><br>Provides access to the underlying mechanism for 
+                        console output. Use this to retain prior state
+                        when temporarily switching outputs<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Output <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L384">output</a></span>
+<script>explorer.outline.addDecl('output');</script>(OutputStream <span class="funcparam">sink</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Divert output to an alternate sink</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L408">Conduit</a></span>
+<script>explorer.outline.addDecl('Conduit');</script> : DeviceConduit;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Conduit for specifically handling the console devices. This 
+                takes care of certain implementation details on the Win32 
+                platform.</font><br><br>
+<font color="black">Note that the console is fixed at Utf8 for both linux and
+                Win32. The latter is actually Utf16 native, but it's just
+                too much hassle for a developer to handle the distinction
+                when it really should be a no-brainer. In particular, the
+                Win32 console functions don't work with redirection. This
+                causes additional difficulties that can be ameliorated by
+                asserting console I/O is always Utf8, in all modes.<br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L418">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the name of this conduit</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L600">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Handle <span class="funcparam">handle</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a FileConduit on the provided 
+                                FileDevice. </font><br><br>
+<font color="black">This is strictly for adapting existing 
+                                devices such as Stdout and friends<br><br></font><br><br></dd></dl></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Console.Input <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L616">Cin</a></span>
+<script>explorer.outline.addDecl('Cin');</script>; [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Globals representing Console IO</font><br><br>
+<font color="black">the standard input stream</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Console.Output <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L617">Cout</a></span>
+<script>explorer.outline.addDecl('Cout');</script>; [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Console.Output <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L617">Cerr</a></span>
+<script>explorer.outline.addDecl('Cerr');</script>; [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">the standard error stream</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>static <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L627">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Instantiate Console access</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>static ~<span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Console.d?rev=3791#L648">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Flush outputs before we exit</font><br><br>
+<font color="black">&#40;good idea from Frits Van Bommel&#41;<br><br></font><br><br></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

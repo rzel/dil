@@ -1,0 +1,106 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.cluster.CacheInvalidator</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.cluster.CacheInvalidator");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/CacheInvalidator.d?rev=3791">tango.net.cluster.CacheInvalidator</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+July 2004: Initial release<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/CacheInvalidator.d?rev=3791#L28">CacheInvalidator</a></span>
+<script>explorer.outline.addDecl('CacheInvalidator');</script> : NetworkClient;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Utility class to invalidate specific cache entries across a 
+        network. Any active CacheInvalidatee objects listening upon
+        the channel specified for this class will "wake up" whenever
+        the invalidate&#40;&#41; method is invoked.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/CacheInvalidator.d?rev=3791#L40">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(ICluster <span class="funcparam">cluster</span>, char[] <span class="funcparam">channel</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct an invalidator on the specified channel. Only
+                those CacheInvalidatee instances configured for the same
+                channel will be listening to this invalidator.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/CacheInvalidator.d?rev=3791#L66">invalidate</a></span>
+<script>explorer.outline.addDecl('invalidate');</script>(char[] <span class="funcparam">key</span>, Time <span class="funcparam">timeLimit</span> = Time.max);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Invalidate all network cache instances on this channel
+                using the specified key. When 'timeLimit' is specified, 
+                only those cache entries with a time lesser or equal to
+                that specified will be removed. This is often useful if 
+                you wish to avoid invalidating a cache &#40;local or remote&#41;
+                that has just been updated; simply pass the time value
+                of the 'old' IMessage as the argument.</font><br><br>
+<font color="black">Note that this is asynchronous! An invalidation is just
+                a request to remove the item within a short time period.
+                If you need the entry removed synchronously, you should
+                use the NetworkCache extract&#40;&#41; method instead.<br><br></font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/CacheInvalidator.d?rev=3791#L82">InvalidatorPayload</a></span>
+<script>explorer.outline.addDecl('InvalidatorPayload');</script> : NetworkMessage; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/CacheInvalidator.d?rev=3791#L90">key</a></span>
+<script>explorer.outline.addDecl('key');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/CacheInvalidator.d?rev=3791#L99">key</a></span>
+<script>explorer.outline.addDecl('key');</script>(char[] <span class="funcparam">key</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/CacheInvalidator.d?rev=3791#L118">read</a></span>
+<script>explorer.outline.addDecl('read');</script>(IReader <span class="funcparam">input</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Read our attributes, after telling our superclass to do
+                likewise. The order of this is important with respect to
+                inheritance, such that a subclass and superclass may be 
+                populated in isolation where appropriate.</font><br><br>
+<font color="black">Note that we slice our text attribute, rather than copying
+                it. Since this class is temporal we can forego allocation
+                of memory, and just map it directly from the input buffer. <br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/CacheInvalidator.d?rev=3791#L128">write</a></span>
+<script>explorer.outline.addDecl('write');</script>(IWriter <span class="funcparam">output</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:35 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

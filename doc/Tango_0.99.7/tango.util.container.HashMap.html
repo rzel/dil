@@ -1,0 +1,498 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.container.HashMap</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.container.HashMap");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791">tango.util.container.HashMap</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Apr 2008: Initial release<br><br>
+<b>Authors:</b><br>
+Kris<br><br>
+<b>Since:</b><br>0.99.7<br><br>        Based upon Doug Lea's Java collection package<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L70">HashMap</a></span>
+<script>explorer.outline.addDecl('HashMap');</script>(K, V, alias Hash = Container.hash, 
+                     alias Reap = Container.reap, 
+                     alias Heap = Container.Collect) : IContainer!(V);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Hash table implementation of a Map</font><br><br>
+<font color="black"><pre class="d_code">
+
+        <span class="i">Iterator</span> <span class="i">iterator</span> ()
+        <span class="i">IteratorMatch</span> <span class="i">iterator</span> (<span class="i">V</span> <span class="i">value</span>)
+        <span class="k">int</span> <span class="i">opApply</span> (<span class="k">int</span> <span class="k">delegate</span>(<span class="k">ref</span> <span class="i">V</span> <span class="i">value</span>) <span class="i">dg</span>)
+        <span class="k">int</span> <span class="i">opApply</span> (<span class="k">int</span> <span class="k">delegate</span>(<span class="k">ref</span> <span class="i">K</span> <span class="i">key</span>, <span class="k">ref</span> <span class="i">V</span> <span class="i">value</span>) <span class="i">dg</span>)
+
+        <span class="k">bool</span> <span class="i">get</span> (<span class="i">K</span> <span class="i">key</span>, <span class="k">ref</span> <span class="i">V</span> <span class="i">element</span>)
+        <span class="k">bool</span> <span class="i">keyOf</span> (<span class="i">V</span> <span class="i">value</span>, <span class="k">ref</span> <span class="i">K</span> <span class="i">key</span>)
+        <span class="k">bool</span> <span class="i">contains</span> (<span class="i">V</span> <span class="i">element</span>)
+        <span class="k">bool</span> <span class="i">containsPair</span> (<span class="i">K</span> <span class="i">key</span>, <span class="i">V</span> <span class="i">element</span>)
+
+        <span class="k">bool</span> <span class="i">removeKey</span> (<span class="i">K</span> <span class="i">key</span>)
+        <span class="k">bool</span> <span class="i">take</span> (<span class="k">ref</span> <span class="i">V</span> <span class="i">element</span>)
+        <span class="k">bool</span> <span class="i">take</span> (<span class="i">K</span> <span class="i">key</span>, <span class="k">ref</span> <span class="i">V</span> <span class="i">element</span>)
+        <span class="k">uint</span> <span class="i">remove</span> (<span class="i">V</span> <span class="i">element</span>, <span class="k">bool</span> <span class="i">all</span>)
+        <span class="k">uint</span> <span class="i">remove</span> (<span class="i">IContainer</span>!(<span class="i">V</span>) <span class="i">e</span>, <span class="k">bool</span> <span class="i">all</span>)
+        <span class="k">uint</span> <span class="i">replace</span> (<span class="i">V</span> <span class="i">oldElement</span>, <span class="i">V</span> <span class="i">newElement</span>, <span class="k">bool</span> <span class="i">all</span>)
+        <span class="k">bool</span> <span class="i">replacePair</span> (<span class="i">K</span> <span class="i">key</span>, <span class="i">V</span> <span class="i">oldElement</span>, <span class="i">V</span> <span class="i">newElement</span>)
+
+        <span class="k">bool</span> <span class="i">add</span> (<span class="i">K</span> <span class="i">key</span>, <span class="i">V</span> <span class="i">element</span>)
+        <span class="k">bool</span> <span class="i">opIndexAssign</span> (<span class="i">V</span> <span class="i">element</span>, <span class="i">K</span> <span class="i">key</span>)
+        <span class="i">V</span>    <span class="i">opIndex</span> (<span class="i">K</span> <span class="i">key</span>)
+        <span class="i">V</span>*   <span class="i">opIn</span> (<span class="i">K</span> <span class="i">key</span>)
+
+        <span class="k">uint</span> <span class="i">size</span> ()
+        <span class="k">bool</span> <span class="i">isEmpty</span> ()
+        <span class="i">V</span>[] <span class="i">toArray</span> (<span class="i">V</span>[] <span class="i">dst</span>)
+        <span class="i">HashMap</span> <span class="i">dup</span> ()
+        <span class="i">HashMap</span> <span class="i">clear</span> ()
+        <span class="i">HashMap</span> <span class="i">reset</span> ()
+        <span class="k">uint</span> <span class="i">buckets</span> ()
+        <span class="k">float</span> <span class="i">threshold</span> ()
+        <span class="k">void</span> <span class="i">buckets</span> (<span class="k">uint</span> <span class="i">cap</span>)
+        <span class="k">void</span> <span class="i">threshold</span> (<span class="k">float</span> <span class="i">desired</span>)
+        <span class="i">Allocator</span> <span class="i">allocator</span>()
+        
+</pre><br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L103">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(float <span class="funcparam">f</span> = Container.defaultLoadFactor);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a HashMap instance</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>~<span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L114">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Clean up when deleted</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Alloc <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L125">allocator</a></span>
+<script>explorer.outline.addDecl('allocator');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the configured allocator
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Iterator <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L136">iterator</a></span>
+<script>explorer.outline.addDecl('iterator');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a generic iterator for contained elements
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IteratorMatch <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L153">iterator</a></span>
+<script>explorer.outline.addDecl('iterator');</script>(V <span class="funcparam">value</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an iterator which filters on the provided key
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L166">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(ref K key, ref V value) <span class="funcparam">dg</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L177">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(ref V value) <span class="funcparam">dg</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L189">size</a></span>
+<script>explorer.outline.addDecl('size');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the number of elements contained
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L205">add</a></span>
+<script>explorer.outline.addDecl('add');</script>(K <span class="funcparam">key</span>, V <span class="funcparam">element</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add a new element to the set. Does not add if there is an
+                equivalent already present. Returns true where an element
+                is added, false where it already exists &#40;and was possibly
+                updated&#41;.
+                
+                Time complexity: O&#40;1&#41; average; O&#40;n&#41; worst.
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L252">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(K <span class="funcparam">key</span>, ref V <span class="funcparam">element</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the element associated with key</font><br><br>
+<b>param:</b><br>a key<br><br>
+<b>param:</b><br>a value reference &#40;where returned value will reside&#41;<br><br>
+<b>Returns:</b><br>
+whether the key is contained or not<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>V* <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L275">opIn_r</a></span>
+<script>explorer.outline.addDecl('opIn_r');</script>(K <span class="funcparam">key</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the element associated with key</font><br><br>
+<b>param:</b><br>a key<br><br>
+<b>Returns:</b><br>
+a pointer to the located value, or null if not found<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L294">contains</a></span>
+<script>explorer.outline.addDecl('contains');</script>(V <span class="funcparam">element</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Does this set contain the given element?
+        
+                Time complexity: O&#40;1&#41; average; O&#40;n&#41; worst
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L305">keyOf</a></span>
+<script>explorer.outline.addDecl('keyOf');</script>(V <span class="funcparam">value</span>, ref K <span class="funcparam">key</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;.
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L327">containsKey</a></span>
+<script>explorer.outline.addDecl('containsKey');</script>(K <span class="funcparam">key</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;1&#41; average; O&#40;n&#41; worst.
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L344">containsPair</a></span>
+<script>explorer.outline.addDecl('containsPair');</script>(K <span class="funcparam">key</span>, V <span class="funcparam">element</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;1&#41; average; O&#40;n&#41; worst.
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>HashMap <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L364">dup</a></span>
+<script>explorer.outline.addDecl('dup');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Make an independent copy of the container. Does not clone
+                elements
+                
+                Time complexity: O&#40;n&#41;
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L384">removeKey</a></span>
+<script>explorer.outline.addDecl('removeKey');</script>(K <span class="funcparam">key</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;1&#41; average; O&#40;n&#41; worst.
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L397">replaceKey</a></span>
+<script>explorer.outline.addDecl('replaceKey');</script>(K <span class="funcparam">key</span>, K <span class="funcparam">replace</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;1&#41; average; O&#40;n&#41; worst.
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L437">replacePair</a></span>
+<script>explorer.outline.addDecl('replacePair');</script>(K <span class="funcparam">key</span>, V <span class="funcparam">oldElement</span>, V <span class="funcparam">newElement</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;1&#41; average; O&#40;n&#41; worst.
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L465">take</a></span>
+<script>explorer.outline.addDecl('take');</script>(ref V <span class="funcparam">element</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove and expose the first element. Returns false when no
+                more elements are contained
+        
+                Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L492">take</a></span>
+<script>explorer.outline.addDecl('take');</script>(K <span class="funcparam">key</span>, ref V <span class="funcparam">value</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove and expose the element associated with key</font><br><br>
+<b>param:</b><br>a key<br><br>
+<b>param:</b><br>a value reference &#40;where returned value will reside&#41;<br><br>
+<b>Returns:</b><br>
+whether the key is contained or not
+        
+                Time complexity: O&#40;1&#41; average, O&#40;n&#41; worst<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L519">opIndexAssign</a></span>
+<script>explorer.outline.addDecl('opIndexAssign');</script>(V <span class="funcparam">element</span>, K <span class="funcparam">key</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Operator shortcut for assignment</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>V <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L532">opIndex</a></span>
+<script>explorer.outline.addDecl('opIndex');</script>(K <span class="funcparam">key</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Operator retreival function</font><br><br>
+<font color="black">Throws NoSuchElementException where key is missing<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L546">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(IContainer!(V) <span class="funcparam">e</span>, bool <span class="funcparam">all</span> = false); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove a set of values </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L563">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(V <span class="funcparam">element</span>, bool <span class="funcparam">all</span> = false); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Removes element instances, and returns the number of elements
+                removed
+                
+                Time complexity: O&#40;1&#41; average; O&#40;n&#41; worst
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L612">replace</a></span>
+<script>explorer.outline.addDecl('replace');</script>(V <span class="funcparam">oldElement</span>, V <span class="funcparam">newElement</span>, bool <span class="funcparam">all</span> = false); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Replace instances of oldElement with newElement, and returns
+                the number of replacements</font><br><br>
+<font color="black">Time complexity: O&#40;n&#41;.
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>HashMap <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L639">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Clears the HashMap contents. Various attributes are
+                retained, such as the internal table itself. Invoke
+                reset&#40;&#41; to drop everything.</font><br><br>
+<font color="black">Time complexity: O&#40;n&#41;
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>HashMap <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L653">reset</a></span>
+<script>explorer.outline.addDecl('reset');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reset the HashMap contents. This releases more memory 
+                than clear&#40;&#41; does</font><br><br>
+<font color="black">Time complexity: O&#40;n&#41;
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L669">buckets</a></span>
+<script>explorer.outline.addDecl('buckets');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the number of buckets</font><br><br>
+<font color="black">Time complexity: O&#40;1&#41;<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L685">buckets</a></span>
+<script>explorer.outline.addDecl('buckets');</script>(uint <span class="funcparam">cap</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the desired number of buckets in the hash table. Any 
+                value greater than or equal to one is OK.</font><br><br>
+<font color="black">If different than current buckets, causes a version change
+                
+                Time complexity: O&#40;n&#41;<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L703">buckets</a></span>
+<script>explorer.outline.addDecl('buckets');</script>(uint <span class="funcparam">cap</span>, float <span class="funcparam">threshold</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the number of buckets for the given threshold
+                and resize as required
+                
+                Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>float <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L720">threshold</a></span>
+<script>explorer.outline.addDecl('threshold');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the current load factor threshold</font><br><br>
+<font color="black">The Hash table occasionally checka against the load factor
+                resizes itself if it has gone past it.<br><br>                Time complexity: O&#40;1&#41;<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L736">threshold</a></span>
+<script>explorer.outline.addDecl('threshold');</script>(float <span class="funcparam">desired</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the resize threshold, and resize as required
+                Set the current desired load factor. Any value greater 
+                than 0 is OK. The current load is checked against it, 
+                possibly causing a resize.
+                
+                Time complexity: O&#40;n&#41;
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>V[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L756">toArray</a></span>
+<script>explorer.outline.addDecl('toArray');</script>(V[] <span class="funcparam">dst</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Copy and return the contained set of values in an array, 
+                using the optional dst as a recipient &#40;which is resized 
+                as necessary&#41;.</font><br><br>
+<font color="black">Returns a slice of dst representing the container values.
+                
+                Time complexity: O&#40;n&#41;
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L775">isEmpty</a></span>
+<script>explorer.outline.addDecl('isEmpty');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this container empty?
+                
+                Time complexity: O&#40;1&#41;
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>HashMap <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L786">check</a></span>
+<script>explorer.outline.addDecl('check');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sanity check</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L819">instances</a></span>
+<script>explorer.outline.addDecl('instances');</script>(V <span class="funcparam">element</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Count the element instances in the set &#40;there can only be
+                0 or 1 instances in a Set&#41;.
+                
+                Time complexity: O&#40;n&#41;
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>HashMap <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L835">checkLoad</a></span>
+<script>explorer.outline.addDecl('checkLoad');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Check to see if we are past load factor threshold. If so,
+                 resize so that we are at half of the desired threshold.
+                 
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L850">resize</a></span>
+<script>explorer.outline.addDecl('resize');</script>(uint <span class="funcparam">newCap</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">resize table to new capacity, rehashing all elements
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L881">removeNode</a></span>
+<script>explorer.outline.addDecl('removeNode');</script>(Ref <span class="funcparam">node</span>, Ref* <span class="funcparam">list</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove the indicated node. We need to traverse buckets
+                for this, since we're singly-linked only. Better to save
+                the per-node memory than to gain a little on each remove</font><br><br>
+<font color="black">Used by iterators only
+                 
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>HashMap <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L908">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(bool <span class="funcparam">all</span>); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Clears the HashMap contents. Various attributes are
+                retained, such as the internal table itself. Invoke
+                reset&#40;&#41; to drop everything.</font><br><br>
+<font color="black">Time complexity: O&#40;n&#41;
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L936">increment</a></span>
+<script>explorer.outline.addDecl('increment');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">new element was added
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L948">decrement</a></span>
+<script>explorer.outline.addDecl('decrement');</script>(Ref <span class="funcparam">p</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">element was removed
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L962">mutate</a></span>
+<script>explorer.outline.addDecl('mutate');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">set was changed
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L973">Freach</a></span>
+<script>explorer.outline.addDecl('Freach');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">foreach support for iterators
+                
+</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L996">Iterator</a></span>
+<script>explorer.outline.addDecl('Iterator');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Iterator with no filtering</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/HashMap.d?rev=3791#L1047">IteratorMatch</a></span>
+<script>explorer.outline.addDecl('IteratorMatch');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Iterator with value filtering
+                
+</font><br><br>
+</dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2008 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

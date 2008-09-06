@@ -1,0 +1,105 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.text.convert.Sprint</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.text.convert.Sprint");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Sprint.d?rev=3791">tango.text.convert.Sprint</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Nov 2005: Initial release<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Sprint.d?rev=3791#L52">Sprint</a></span>
+<script>explorer.outline.addDecl('Sprint');</script>(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructs sprintf-style output. This is a replacement for the 
+        vsprintf&#40;&#41; family of functions, and writes its output into a 
+        lookaside buffer:
+        <pre class="d_code">
+
+        <span class="lc">// create a Sprint instance</span>
+        <span class="k">auto</span> <span class="i">sprint</span> = <span class="k">new</span> <span class="i">Sprint</span>!(<span class="k">char</span>);
+
+        <span class="lc">// write formatted text to a logger</span>
+        <span class="i">log</span>.<span class="i">info</span> (<span class="i">sprint</span> (<span class="sl">"{} green bottles, sitting on a wall\n"</span>, <span class="n">10</span>));
+        
+</pre></font><br><br>
+<font color="black">Sprint can be handy when you wish to format text for a Logger
+        or similar, since it avoids heap activity during conversion by
+        hosting a fixed size conversion buffer. This is important when
+        debugging since heap activity can be responsible for behavioral 
+        changes. One would create a Sprint instance ahead of time, and
+        utilize it in conjunction with the logging package.
+               
+        Please note that the class itself is stateful, and therefore a 
+        single instance is not shareable across multiple threads. The
+        returned content is not .dup'd either, so do that yourself if
+        you require a persistent copy.
+        
+        Note also that Sprint is templated, and can be instantiated for
+        wide chars through a Sprint!&#40;dchar&#41; or Sprint!&#40;wchar&#41;. The wide
+        versions differ in that both the output and the format-string
+        are of the target type. Variadic text arguments are transcoded 
+        appropriately.<br><br>        See also: tango.text.convert.Layout<br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Sprint.d?rev=3791#L67">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(int <span class="funcparam">size</span> = 256);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create new Sprint instances with a buffer of the specified
+                size
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Sprint.d?rev=3791#L83">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(int <span class="funcparam">size</span>, Layout!(T) <span class="funcparam">formatter</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create new Sprint instances with a buffer of the specified
+                size, and the provided formatter. The second argument can be
+                used to apply cultural specifics &#40;I18N&#41; to Sprint
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Sprint.d?rev=3791#L95">format</a></span>
+<script>explorer.outline.addDecl('format');</script>(T[] <span class="funcparam">fmt</span>, ...);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Layout a set of arguments
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Sprint.d?rev=3791#L106">format</a></span>
+<script>explorer.outline.addDecl('format');</script>(T[] <span class="funcparam">fmt</span>, TypeInfo[] <span class="funcparam">arguments</span>, ArgList <span class="funcparam">argptr</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Layout a set of arguments
+                
+</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2005 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:37 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

@@ -1,0 +1,91 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.vfs.LinkedFolder</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.vfs.LinkedFolder");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/LinkedFolder.d?rev=3791">tango.io.vfs.LinkedFolder</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Oct 2007: Initial version<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/LinkedFolder.d?rev=3791#L34">LinkedFolder</a></span>
+<script>explorer.outline.addDecl('LinkedFolder');</script> : VirtualFolder;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">LinkedFolder is derived from VirtualFolder, and behaves exactly the 
+        same in all but one aspect: it treats mounted folders as an ordered 
+        list of alternatives to look for a file. This supports the notion of 
+        file 'overrides', whereby "customized" files can be inserted into a 
+        chain of alternatives.</font><br><br>
+<font color="black">&#40;overridden folders are not currently supported&#41;<br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/LinkedFolder.d?rev=3791#L44">Link</a></span>
+<script>explorer.outline.addDecl('Link');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Linked-list of folders</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/LinkedFolder.d?rev=3791#L64">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">All folder must have a name. No '.' or '/' chars are 
+                permitted</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsHost <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/LinkedFolder.d?rev=3791#L84">mount</a></span>
+<script>explorer.outline.addDecl('mount');</script>(VfsFolder <span class="funcparam">folder</span>, char[] <span class="funcparam">name</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add a child folder. The child cannot 'overlap' with others
+                in the tree of the same type. Circular references across a
+                tree of virtual folders are detected and trapped.</font><br><br>
+<font color="black">We add the new child at the end of an ordered list, which
+                we subsequently traverse when looking up a file<br><br>                The second argument represents an optional name that the
+                mount should be known as, instead of the name exposed by 
+                the provided folder &#40;it is not an alias&#41;.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsHost <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/LinkedFolder.d?rev=3791#L104">dismount</a></span>
+<script>explorer.outline.addDecl('dismount');</script>(VfsFolder <span class="funcparam">folder</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>TODO:</b><br>unhook a child folder.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/LinkedFolder.d?rev=3791#L122">file</a></span>
+<script>explorer.outline.addDecl('file');</script>(char[] <span class="funcparam">path</span>); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a file representation of the given path. If the
+                path-head does not refer to an immediate child folder, 
+                and does not match a symbolic link, it is considered to
+                be unknown.</font><br><br>
+<font color="black">We scan the set of mounted folders, in the order mounted,
+                looking for a match. Where one is found, we test to see
+                that it really exists before returning the reference<br><br></font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2007 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

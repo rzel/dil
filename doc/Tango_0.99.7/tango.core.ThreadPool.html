@@ -1,0 +1,137 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.core.ThreadPool</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.core.ThreadPool");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ThreadPool.d?rev=3791">tango.core.ThreadPool</a></h1>
+                
+<font color="black">This module provides an implementation of the classical thread-pool model.</font><br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Author:</b><br>Anders Halager<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ThreadPool.d?rev=3791#L56">ThreadPool</a></span>
+<script>explorer.outline.addDecl('ThreadPool');</script>(Args...);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A thread pool is a way to process multiple jobs in parallel without creating
+ a new thread for each job. This way the overhead of creating a thread is
+ only paid once, and not once for each job and you can limit the maximum
+ number of threads active at any one point.</font><br><br>
+<font color="black">In this case a "job" is simply a delegate and some parameters the delegate
+ will be called with after having been added to the thread pool's queue.<br><br> </font><br><br>
+<b>Example:</b><br><pre class="d_code">
+
+ <span class="lc">// create a new pool with two threads</span>
+ <span class="k">auto</span> <span class="i">pool</span> = <span class="k">new</span> <span class="i">ThreadPool</span>!(<span class="k">int</span>)(<span class="n">2</span>);
+ <span class="k">void</span> <span class="k">delegate</span>(<span class="k">int</span>) <span class="i">f</span> = (<span class="k">int</span> <span class="i">x</span>) { <span class="i">Stdout</span>(<span class="i">x</span>).<span class="i">newline</span>; };
+
+ <span class="lc">// Now we have three ways of telling the pool to execute our jobs</span>
+ <span class="lc">// First we can say we just want it done at some later point</span>
+ <span class="i">pool</span>.<span class="i">append</span>(<span class="i">f</span>, <span class="n">1</span>);
+ <span class="lc">// Secondly we can ask for a job to be done as soon as possible, blocking</span>
+ <span class="lc">// until it is started by some thread</span>
+ <span class="i">pool</span>.<span class="i">assign</span>(<span class="i">f</span>, <span class="n">2</span>);
+ <span class="lc">// Finally we can say we either want it done immediately or not at all</span>
+ <span class="k">if</span> (<span class="i">pool</span>.<span class="i">tryAssign</span>(<span class="i">f</span>, <span class="n">3</span>))
+     <span class="i">Stdout</span>(<span class="sl">"Someone took the job!"</span>).<span class="i">newline</span>;
+ <span class="k">else</span>
+     <span class="i">Stdout</span>(<span class="sl">"No one was available to do the job right now"</span>).<span class="i">newline</span>;
+ <span class="lc">// After giving the pool some jobs to do, we need to give it a chance to</span>
+ <span class="lc">// finish, so we can do one of two things.</span>
+ <span class="lc">// Choice no. 1 is to finish what has already been assigned to the threads,</span>
+ <span class="lc">// but ignore any remaining queued jobs</span>
+ <span class="lc">//   pool.shutdown();</span>
+ <span class="lc">// The other choice is to finish all jobs currently executing or in queue:</span>
+ <span class="i">pool</span>.<span class="i">finish</span>();
+ 
+</pre><br><br> If append isn't called there should be no additional heap allocations after
+ initialization.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias void delegate(Args) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ThreadPool.d?rev=3791#L59">JobD</a></span>
+<script>explorer.outline.addDecl('JobD');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">An alias for the type of delegates this thread pool considers a job</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ThreadPool.d?rev=3791#L69">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(size_t <span class="funcparam">workers</span>, size_t <span class="funcparam">q_size</span> = 0);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new ThreadPool.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">workers</span></td><td>The amount of threads to spawn</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">q_size</span></td><td>The expected size of the queue (how many elements are
+   preallocated)</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ThreadPool.d?rev=3791#L98">assign</a></span>
+<script>explorer.outline.addDecl('assign');</script>(JobD <span class="funcparam">job</span>, Args <span class="funcparam">args</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Assign the given job to a thread immediately or block until one is
+      available
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ThreadPool.d?rev=3791#L114">tryAssign</a></span>
+<script>explorer.outline.addDecl('tryAssign');</script>(JobD <span class="funcparam">job</span>, Args <span class="funcparam">args</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Assign the given job to a thread immediately or return false if none is
+      available. &#40;Returns true if one was available&#41;
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ThreadPool.d?rev=3791#L127">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(JobD <span class="funcparam">job</span>, Args <span class="funcparam">args</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Put a job into the pool for eventual execution.</font><br><br>
+<b>Warning:</b><br>Acts as a stack, not a queue as you would expect<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>size_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ThreadPool.d?rev=3791#L136">pendingJobs</a></span>
+<script>explorer.outline.addDecl('pendingJobs');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get the number of jobs waiting to be executed</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>size_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ThreadPool.d?rev=3791#L143">activeJobs</a></span>
+<script>explorer.outline.addDecl('activeJobs');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get the number of jobs being executed</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ThreadPool.d?rev=3791#L149">shutdown</a></span>
+<script>explorer.outline.addDecl('shutdown');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Finish currently executing jobs and drop all pending.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ThreadPool.d?rev=3791#L163">finish</a></span>
+<script>explorer.outline.addDecl('finish');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Complete all pending jobs and shutdown.</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (C) 2007-2008 Anders Halager. All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:32 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

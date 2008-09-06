@@ -1,0 +1,644 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.Arguments</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.Arguments");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791">tango.util.Arguments</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Feb2008<br><br>
+<b>author:</b><br>Darryl B, Jeff D<br><br>
+<b>History:</b><br>
+<pre class="d_code">
+
+    <span class="i">Date</span>     <span class="i">Who</span>           <span class="i">What</span>
+    <span class="i">Sep2006</span>  <span class="i">Darryl</span> <span class="i">Bleau</span>  <span class="i">Original</span> <span class="i">C</span> <span class="k">module</span>
+    <span class="i">Sep2007</span>  <span class="i">Jeff</span> <span class="i">Davey</span>    <span class="i">Ported</span> <span class="i">to</span> <span class="i">D</span>, <span class="i">added</span> <span class="i">comments</span>.
+    <span class="i">Oct2007</span>  <span class="i">Darryl</span> <span class="i">Bleau</span>  <span class="i">Added</span> <span class="i">validation</span> <span class="i">delegates</span>/<span class="i">functions</span>, <span class="i">additional</span> 
+                             <span class="i">comments</span>.
+    <span class="i">Feb2008</span>  <span class="i">Darryl</span> <span class="i">Bleau</span>  <span class="i">Entirely</span> <span class="i">rewritten</span>, <span class="i">addressing</span> <span class="i">issues</span> <span class="i">brought</span> <span class="i">up</span> 
+                             <span class="k">with</span> <span class="i">initial</span> <span class="i">design</span>.
+    
+</pre><br><br>
+Arguments is a module for parsing argument strings, such as command line 
+arguments passed to main&#40;&#41;. It is an extrememly flexible module, able to 
+accomodate a wide variety of desired parsing behavior. Arguments follows a 
+declarative paradigm, requiring the programmer to tell it some basic information
+about the arguments and any possible parameters. However, it also will parse a 
+given string using a default set of actions that covers most basic use cases.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L233">Arguments</a></span>
+<script>explorer.outline.addDecl('Arguments');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The Arguments class is used to parse a given argument string, and 
+    encapsulate all found arguments and parameters. For example, this module 
+    parses command line strings such as: "-a -b -c --long --argument=parameter".</font><br><br>
+<font color="black">Arguments can be short or long, and can optionally be passed parameters. 
+    Parameters can also be passed implicitly &#40;that is, not belonging to a 
+    particular argument&#41;.<br><br>    </font><br><br>
+<b>Example:</b><br><pre class="d_code">
+
+    <span class="k">char</span>[][] <span class="i">cmdl</span> = [<span class="sl">"programname"</span>, <span class="sl">"-z"</span>, <span class="sl">"--lights:off"</span>, <span class="sl">"-zz"</span>];
+    <span class="i">Arguments</span> <span class="i">args</span> = <span class="k">new</span> <span class="i">Arguments</span>(<span class="i">cmdl</span>[<span class="n">1</span>..$]);
+    <span class="k">if</span> ((<span class="i">args</span>.<span class="i">contains</span>(<span class="sl">"lights"</span>)) &amp;&amp; (<span class="i">args</span>[<span class="sl">"lights"</span>].<span class="i">length</span>))
+    {
+        <span class="k">if</span> (<span class="i">args</span>[<span class="sl">"lights"</span>] == <span class="sl">"off"</span>)
+            <span class="i">lights</span>.<span class="i">enabled</span> = <span class="k">false</span>; <span class="lc">// turn the lights off</span>
+        <span class="i">sleep</span>(<span class="i">args</span>.<span class="i">count</span>(<span class="sl">"z"</span>)); <span class="lc">// sleep for the indicated period</span>
+    }
+    
+</pre><br><br>
+<b>Terminology:</b><br><pre class="d_code">
+<p class="error L">tango/util/Arguments.d(8,55)L: unterminated character literal.</p>
+
+    - <span class="i">Short</span> <span class="i">Argument</span>: <span class="i">Single</span> <span class="i">character</span> <span class="i">arguments</span>, <span class="i">potentially</span> <span class="i">grouped</span> <span class="i">under</span> <span class="i">a</span> 
+          <span class="i">single</span> <span class="i">prefix</span>. (-<span class="i">a</span>, -<span class="i">abc</span>)
+    - <span class="i">Long</span> <span class="i">Argument</span>: <span class="i">Multiple</span> <span class="i">character</span> <span class="i">arguments</span>, <span class="i">always</span> <span class="i">contained</span> <span class="i">under</span> 
+          <span class="i">their</span> <span class="i">own</span> <span class="i">prefix</span>. (--<span class="i">file</span>, --<span class="i">help</span>)
+    - <span class="i">Parameter</span>: <span class="i">A</span> <span class="i">parameter</span> <span class="i">to</span> <span class="i">a</span> <span class="i">particular</span> <span class="i">argument</span>, <span class="i">identified</span> <span class="i">by</span> <span class="i">a</span> 
+          <span class="i">parameter</span> <span class="i">delimiter</span> <span class="i">or</span> <span class="i">whitespace</span> <span class="k">with</span> <span class="i">no</span> <span class="i">prefix</span> (--<span class="i">arg</span>=<span class="i">parameter</span>, -<span class="i">arg</span> <span class="i">parameter</span>)
+    - <span class="i">Implicit</span> <span class="i">Parameter</span>: <span class="i">A</span> <span class="i">given</span> <span class="i">parameter</span> <span class="i">that</span> <span class="i">doesn</span><span class="cl">'t</span> <span class="i">match</span> <span class="i">to</span> <span class="i">a</span> <span class="i">particular</span> 
+          <span class="i">argument</span>, <span class="i">accessible</span> <span class="i">using</span> <span class="i">the</span> <span class="k">null</span> <span class="i">index</span> (<span class="i">args</span>[<span class="k">null</span>]). (<span class="i">file1</span>.<span class="i">txt</span> <span class="i">file2</span>.<span class="i">txt</span>)
+    
+</pre><br><br>
+<b>Behavior:</b><br><br><br>
+<b>Default:</b><br>Arguments defaults to a basic parse behavior which provides for handling 
+    of most common argument strings. You can invoke this default parse behavior
+    by simply passing the argument string to the class constructor.<br><br>    Short Arguments can be grouped under a single prefix. The following are 
+    equivalent.
+    <pre class="d_code">
+
+    - <span class="sl">"-a -b -c"</span>
+    - <span class="sl">"-abc"</span>
+    
+</pre><br><br>    Argument Parameters can be identified via being space-separated from their 
+    argument, or via either a '=' or a ':'. The following are equivalent.
+    <pre class="d_code">
+
+    - <span class="sl">"-c arg"</span>
+    - <span class="sl">"-c=arg"</span>
+    - <span class="sl">"-c:arg"</span>
+    
+</pre><br><br>    Only the first found parameter will be skipped over as a delimiter. The 
+    following are equivalent.
+    <pre class="d_code">
+
+    - <span class="sl">"-c =blah"</span>
+    - <span class="sl">"-c==blah"</span>
+    - <span class="sl">"-c:=blah"</span>
+    
+</pre><br><br>    Empty prefixes are ignored. The following are equivalent.
+    <pre class="d_code">
+
+    - <span class="sl">"-c -- -a"</span>
+    - <span class="sl">"-c - -a"</span>
+    - <span class="sl">"- - - - -a -- -c"</span>
+    
+</pre><br><br>    Multiple parameters to a particular argument are appended to the array for 
+    that argument. The following are equivalent.
+    <pre class="d_code">
+
+    - <span class="sl">"-a one two three"</span>
+    - <span class="sl">"-a one -a two -a three"</span>
+    - <span class="sl">"-a:one two -a=three"</span>
+    
+</pre><br><br>    Implicit parameters are assigned to the [null] index of the class.
+    <pre class="d_code">
+
+    - <span class="sl">"file1 file2 file3"</span>
+    
+</pre><br><br>
+<b>Defined:</b><br>Accepted arguments and the particular behavior to apply to them can be 
+    defined via the .define method. .define returns a Arguments.Definition, 
+    which can then be chained with additional methods for further definition.
+    The prefixes for both short and long arguments can be overwritten or 
+    appended to, as can the parameter delimiters, by setting the .prefixLong, 
+    .prefixShort, and/or delimiters arrays as appropriate.
+    
+    Null prefixes can be used to specify 'word sentence' behavior.
+    <pre class="d_code">
+
+    <span class="i">args</span>.<span class="i">prefixLong</span> = [<span class="k">null</span>];
+    
+</pre><br><br>    Will parse each of the items as if they were Arguments prefixed with "--" 
+    in the default behavior.
+    <pre class="d_code">
+
+    <span class="i">myProgram</span> <span class="i">one</span> <span class="i">two</span> <span class="i">three</span>
+    
+</pre><br><br>    Null delimiters can be used to specify 'arguments smushed up with 
+    parameters' behavior.
+    <pre class="d_code">
+
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"f"</span>).<span class="i">parameters</span>.<span class="i">delimiters</span>([<span class="k">null</span>]);
+    
+</pre><br><br>    Will parse the following as args["f"] = ["file"].
+    <pre class="d_code">
+
+    <span class="i">myProgram</span> -<span class="i">ffile</span>
+    
+</pre><br><br>    You can also define argument aliases.
+    <pre class="d_code">
+
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"a"</span>).<span class="i">aliases</span>([<span class="sl">"b"</span>]);
+    
+</pre><br><br>    Given that, the following would be equivalent.
+    <pre class="d_code">
+
+    - <span class="sl">"-a"</span>
+    - <span class="sl">"-b"</span>
+    
+</pre><br><br>    You can also specify that an argument has default parameters.
+    <pre class="d_code">
+
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"x"</span>).<span class="i">defaults</span>([<span class="sl">"hello"</span>]);
+    
+</pre><br><br>    In which case, the following would be equivalent.
+    <pre class="d_code">
+
+    - <span class="sl">"-a -x hello"</span>
+    - <span class="sl">"-a"</span>
+    
+</pre><br><br>    Finally, you may also specify limiting behavior, that a particular argument
+    is required, conflicts with another argument, requires another argument, 
+    that a callback should be called when encountering the argument, or that a 
+    particular validation routine should be called on all defined parameters 
+    for an argument.
+    <pre class="d_code">
+
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"x"</span>).<span class="i">required</span>;
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"x"</span>).<span class="i">conflicts</span>(<span class="sl">"b"</span>);
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"x"</span>).<span class="i">requires</span>(<span class="sl">"a"</span>);
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"x"</span>).<span class="i">callback</span>( ... );
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"x"</span>).<span class="i">validation</span>( ... );
+    
+</pre><br><br>    Note that requires and conflicts are order-sensitive, if you want, for 
+    example, "a" and "b" to be mutually exclusive, you would need to define 
+    that explicitly.
+    <pre class="d_code">
+
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"a"</span>).<span class="i">conflicts</span>(<span class="sl">"b"</span>);
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"b"</span>).<span class="i">conflicts</span>(<span class="sl">"a"</span>);
+    
+</pre><br><br>
+<b>Samples:</b><br>Sample definitions &#40;tar-like&#41;.
+    <pre class="d_code">
+
+    <span class="i">args</span>.<span class="i">prefixShort</span> = [<span class="k">null</span>];
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"f"</span>).<span class="i">parameters</span>;
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"v"</span>);
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"x"</span>);
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"z"</span>);
+    <span class="i">args</span>.<span class="i">parse</span>([<span class="sl">"zxfv"</span>, <span class="sl">"file1.tar"</span>, <span class="sl">"file2.tar"</span>]);
+    
+</pre><br><br>    Sample definitions &#40;dsss-like&#41;.
+    <pre class="d_code">
+
+    <span class="i">args</span>.<span class="i">prefixLong</span> = [<span class="k">null</span>];
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"net"</span>).<span class="i">parameters</span>(<span class="n">0</span>,<span class="n">2</span>);
+    <span class="i">args</span>.<span class="i">parse</span>([<span class="sl">"net"</span>, <span class="sl">"install"</span>, <span class="sl">"tango"</span>]);
+    
+</pre><br><br>    Sample definitions &#40;ls-like&#41;.
+    <pre class="d_code">
+
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"a"</span>);
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"l"</span>);
+    <span class="i">args</span>.<span class="i">parse</span>([<span class="sl">"-al"</span>, <span class="sl">"blah.txt"</span>]);
+    <span class="i">args</span>.<span class="i">parse</span>([<span class="sl">"blah.txt"</span>, <span class="sl">"-al"</span>]);
+    
+</pre><br><br>    Sample definitions &#40;complex&#41;.
+    <pre class="d_code">
+
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"x"</span>).<span class="i">defaults</span>([<span class="sl">"on"</span>]).<span class="i">aliases</span>([<span class="sl">"X"</span>]).<span class="i">conflicts</span>(<span class="sl">"a"</span>).<span class="i">requires</span>(<span class="sl">"b"</span>).<span class="i">required</span>;
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"C"</span>).<span class="i">callback</span>(<span class="k">delegate</span> <span class="k">void</span>(<span class="k">char</span>[] <span class="i">n</span>, <span class="k">char</span>[] <span class="i">p</span>){ ... });
+    <span class="i">args</span>.<span class="i">define</span>(<span class="sl">"V"</span>).<span class="i">validation</span>(<span class="k">delegate</span> <span class="k">bool</span>(<span class="k">char</span>[][] <span class="i">p</span>, <span class="k">out</span> <span class="k">char</span>[] <span class="i">ip</span>){ ... });
+    
+</pre><br><br>
+<b>Ideas:</b><br>Some thoughts about future progression of the module.
+    <pre class="d_code">
+
+    -<span class="i">Forcing</span> <span class="i">arguments</span> <span class="i">to</span> <span class="i">lowercase</span>. (<span class="i">define</span>(<span class="sl">"x"</span>).<span class="i">lowercase</span>, -<span class="i">X</span> <span class="i">gives</span> <span class="sl">"x"</span> <span class="k">in</span> <span class="i">args</span>)
+    -<span class="i">User</span> <span class="i">defined</span> <span class="i">callback</span> <span class="i">when</span> <span class="i">encountering</span> <span class="i">an</span> <span class="i">undefined</span> <span class="i">argument</span>.
+    -<span class="i">Standard</span> <span class="i">help</span> <span class="i">text</span> <span class="i">generation</span>
+    
+</pre><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L236">ParseException</a></span>
+<script>explorer.outline.addDecl('ParseException');</script> : Exception;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">All Arguments exceptions are derived from this</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L240">argument</a></span>
+<script>explorer.outline.addDecl('argument');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The name of the particular argument</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L249">InvalidParameterException</a></span>
+<script>explorer.outline.addDecl('InvalidParameterException');</script> : ParseException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Thrown when a parameter for a given argument is determined to be invalid</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L253">parameter</a></span>
+<script>explorer.outline.addDecl('parameter');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The invalid parameter</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L263">InsufficientParameterException</a></span>
+<script>explorer.outline.addDecl('InsufficientParameterException');</script> : ParseException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Thrown when the minimum defined number of parameters for a given 
+ argument are not discovered</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L268">count</a></span>
+<script>explorer.outline.addDecl('count');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The discovered parameter count</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L270">expected</a></span>
+<script>explorer.outline.addDecl('expected');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The expected parameter count</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L281">ConflictingArgumentException</a></span>
+<script>explorer.outline.addDecl('ConflictingArgumentException');</script> : ParseException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Thrown when a previously discovered argument was defined to conflict 
+ with this one</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L285">conflict</a></span>
+<script>explorer.outline.addDecl('conflict');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The name of the conflicting argument</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L295">MissingPrerequisiteException</a></span>
+<script>explorer.outline.addDecl('MissingPrerequisiteException');</script> : ParseException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Thrown when an argument requires a previously defined argument which 
+ was not discovered</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L299">requirement</a></span>
+<script>explorer.outline.addDecl('requirement');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The name of the missing prerequisite argument</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L309">MissingArgumentException</a></span>
+<script>explorer.outline.addDecl('MissingArgumentException');</script> : ParseException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Thrown when an argument is defined as being required but is not 
+ discovered</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Parameters <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L333">parameters</a></span>
+<script>explorer.outline.addDecl('parameters');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Provides char[][] access of all discovered parameters for a particular
+ argument &#40;via .parameters["argName"]&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias void delegate(char[] name, char[] parameter) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L337">argumentCallback</a></span>
+<script>explorer.outline.addDecl('argumentCallback');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Delegate intended to be called back when the defined argument is 
+ discovered.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias bool delegate(char[][] parameters, out char[] invalidParameter) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L340">argumentValidation</a></span>
+<script>explorer.outline.addDecl('argumentValidation');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Delegate to be used to perform validation on all parameters given for 
+ the defined argument.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L343">Definition</a></span>
+<script>explorer.outline.addDecl('Definition');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This class represents the definition of one particular argument.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L347">name</a></span>
+<script>explorer.outline.addDecl('name');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The name of the particular argument.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L350">parameterMin</a></span>
+<script>explorer.outline.addDecl('parameterMin');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The defined minumum number of parameters this argument requires.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L353">parameterMax</a></span>
+<script>explorer.outline.addDecl('parameterMax');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The defined maximum number of parameters this argument will consume.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L356">isRequired</a></span>
+<script>explorer.outline.addDecl('isRequired');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Whether this argument is required.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L359">definedDelimiters</a></span>
+<script>explorer.outline.addDecl('definedDelimiters');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A set of defined parameter delimiters for this argument.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L362">definedAliases</a></span>
+<script>explorer.outline.addDecl('definedAliases');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A set of defined aliases for this argument.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L366">definedConflicts</a></span>
+<script>explorer.outline.addDecl('definedConflicts');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A set of defined conflicting arguments to this argument. Note that 
+ this is order-sensitive.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L370">definedPrerequisites</a></span>
+<script>explorer.outline.addDecl('definedPrerequisites');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A set of defined required arguments to this argument. Note that 
+ they are also order-sensitive.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>argumentCallback[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L374">callbacks</a></span>
+<script>explorer.outline.addDecl('callbacks');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A set of defined callback functions to be called when this argument
+ is discovered.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>argumentValidation[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L378">validations</a></span>
+<script>explorer.outline.addDecl('validations');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A set of defined validation functions to be called on the 
+ parameters for this argument.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L382">defaultParameters</a></span>
+<script>explorer.outline.addDecl('defaultParameters');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A set of default parameters that will represent this argument if 
+ it is not discovered during parsing.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Definition <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L386">parameters</a></span>
+<script>explorer.outline.addDecl('parameters');</script>(int <span class="funcparam">min</span>, int <span class="funcparam">max</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Defines both a minumum and maximum number of parameters that this
+ argument will take. Set max to -1 for unlimited.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Definition <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L395">parameters</a></span>
+<script>explorer.outline.addDecl('parameters');</script>(int <span class="funcparam">req</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Defines a definite number of parameters that this argument must 
+ take, implies both min and max of the given requirement.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Definition <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L404">parameters</a></span>
+<script>explorer.outline.addDecl('parameters');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">following it that don't belong to another argument.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Definition <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L413">defaults</a></span>
+<script>explorer.outline.addDecl('defaults');</script>(char[][] <span class="funcparam">defaultParameters</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sets the default parameters that will be assigned to this argument 
+ if it is not discovered during parsing.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Definition <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L422">delimiters</a></span>
+<script>explorer.outline.addDecl('delimiters');</script>(char[][] <span class="funcparam">delimiters</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sets the set of valid delimiters for this argument. Set to [null] 
+ for '-ffile' behavior. Supercedes any defined Arguments.delimiters, 
+ for this argument only.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Definition <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L429">required</a></span>
+<script>explorer.outline.addDecl('required');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Defines that this argument must be discovered during parsing.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Definition <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L438">aliases</a></span>
+<script>explorer.outline.addDecl('aliases');</script>(char[][] <span class="funcparam">aliases</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Defines a set of aliases which will also correspond to this argument. 
+ Note that only the root defined argument is accessible via the 
+ Arguments index[] following parse.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Definition <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L449">conflicts</a></span>
+<script>explorer.outline.addDecl('conflicts');</script>(char[][] <span class="funcparam">conflictingArguments</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Defines a set of arguments which, if found before this one is 
+ discovered, will conflict with this one. Note that for mutually 
+ exclusive conflicts, you need to declare both directions.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Definition <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L457">prerequisites</a></span>
+<script>explorer.outline.addDecl('prerequisites');</script>(char[][] <span class="funcparam">requiredArguments</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Defines a set of arguments which must be discovered before this 
+ one is.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Definition <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L465">callback</a></span>
+<script>explorer.outline.addDecl('callback');</script>(argumentCallback <span class="funcparam">cb</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Defines a callback function that will be called when this argument 
+ is discovered.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Definition <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L473">validation</a></span>
+<script>explorer.outline.addDecl('validation');</script>(argumentValidation <span class="funcparam">av</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Defines a validation function which will be called on any and all 
+ found parameters for this argument.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L484">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructor
+        </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">name</span></td><td>name of this argument.</td></tr></table><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Definition[char[]] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L490">definitions</a></span>
+<script>explorer.outline.addDecl('definitions');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A set of defined argument Definitions, indexed by their respective name.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L493">prefixShort</a></span>
+<script>explorer.outline.addDecl('prefixShort');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The set of prefixes which define a short argument.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L495">prefixLong</a></span>
+<script>explorer.outline.addDecl('prefixLong');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The set of prefixes which define a long argument.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L497">delimiters</a></span>
+<script>explorer.outline.addDecl('delimiters');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The set of delimiters which identify a parameter to an argument.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L669">parse</a></span>
+<script>explorer.outline.addDecl('parse');</script>(char[][] <span class="funcparam">cmdl</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse the passed command line string according to the defined behavior.
+    </font><br><br>
+<b>Params:</b><br>
+<table></table><br>
+<b>cmdl:</b><br>command line string.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L731">contains</a></span>
+<script>explorer.outline.addDecl('contains');</script>(char[] <span class="funcparam">key</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Provides for querying if a particular argument is contained
+    </font><br><br>
+<b>Params:</b><br>
+<table></table><br>
+<b>key:</b><br>the key to query for.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L741">opIndex</a></span>
+<script>explorer.outline.addDecl('opIndex');</script>(char[] <span class="funcparam">key</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Provides access to the first found parameter for the given argument.
+    </font><br><br>
+<b>Params:</b><br>
+<table></table><br>
+<b>key:</b><br>the argument to return the first found parameter for.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L755">opIndexAssign</a></span>
+<script>explorer.outline.addDecl('opIndexAssign');</script>(char[] <span class="funcparam">value</span>, char[] <span class="funcparam">key</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Allows assignment to the parameter array for a particular argument.
+    </font><br><br>
+<b>Params:</b><br>
+<table></table><br>
+<b>value:</b><br>the value to assign<br><br>
+<b>key:</b><br>the key to assign to<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L767">reset</a></span>
+<script>explorer.outline.addDecl('reset');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Resets the found argument and parameters. Does not reset defined prefixes 
+    or delimiters.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L777">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(char[] <span class="funcparam">key</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Removes a given argument and all of it's found parameters.
+    </font><br><br>
+<b>Params:</b><br>
+<table></table><br>
+<b>key:</b><br>the argument to remove<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L788">count</a></span>
+<script>explorer.outline.addDecl('count');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a count which represents the number of times the argument was 
+    discovered during parsing.
+    </font><br><br>
+<b>Params:</b><br>
+<table></table><br>
+<b>name:</b><br>The argument name.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Definition <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L804">define</a></span>
+<script>explorer.outline.addDecl('define');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Provides for definition of a particular argument. Returns the Definition 
+    for the argument which can be used for call chaining.
+    Can be called multiple times for the same argument without overwriting any 
+    previous definition.
+    </font><br><br>
+<b>Params:</b><br>
+<table></table><br>
+<b>name:</b><br>The name of the argument.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L824">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[][] <span class="funcparam">cmdl</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructor which parses a given command line string.
+    </font><br><br>
+<b>Params:</b><br>
+<table></table><br>
+<b>cmdl:</b><br>The command line string.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3791#L833">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructor.
+</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2008 Darryl Bleau. All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:32 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

@@ -1,0 +1,572 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.compress.Zip</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.compress.Zip");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791">tango.io.compress.Zip</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: December 2007<br><br>
+<b>author:</b><br>Daniel Keep<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L68">LocalFileHeaderData</a></span>
+<script>explorer.outline.addDecl('LocalFileHeaderData');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L198">FileHeaderData</a></span>
+<script>explorer.outline.addDecl('FileHeaderData');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L373">EndOfCDRecordData</a></span>
+<script>explorer.outline.addDecl('EndOfCDRecordData');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L464">Method</a></span>
+<script>explorer.outline.addDecl('Method');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This enumeration denotes the kind of compression used on a file.
+     </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L467">Store</a></span>
+<script>explorer.outline.addDecl('Store');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">No compression should be used.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L469">Deflate</a></span>
+<script>explorer.outline.addDecl('Deflate');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Deflate compression.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L474">Unsupported</a></span>
+<script>explorer.outline.addDecl('Unsupported');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This is a special value used for unsupported or unrecognised
+ compression methods.  This value is only used internally.
+         </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>interface <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L526">ZipReader</a></span>
+<script>explorer.outline.addDecl('ZipReader');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>interface <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L541">ZipWriter</a></span>
+<script>explorer.outline.addDecl('ZipWriter');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L585">ZipBlockReader</a></span>
+<script>explorer.outline.addDecl('ZipBlockReader');</script> : ZipReader;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The ZipBlockReader class is used to parse a Zip archive.  It exposes the
+ contents of the archive via an iteration interface.  For instance, to loop
+ over all files in an archive, one can use either</font><br><br>
+<font color="black"><pre class="d_code">
+
+  <span class="k">foreach</span>( <span class="i">entry</span> ; <span class="i">reader</span> )
+      ...
+ 
+</pre><br><br> Or<br><br> <pre class="d_code">
+
+  <span class="k">while</span>( <span class="i">reader</span>.<span class="i">more</span> )
+  {
+      <span class="k">auto</span> <span class="i">entry</span> = <span class="i">reader</span>.<span class="i">get</span>;
+      ...
+  }
+ 
+</pre><br><br> See the ZipEntry class for more information on the contents of entries.<br><br> Note that this class can only be used with input sources which can be
+ freely seeked.  Also note that you may open a ZipEntry instance produced by
+ this reader at any time until the ZipReader that created it is closed.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L591">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(PathView <span class="funcparam">path</span>); [deprecated]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L597">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">path</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creates a ZipBlockReader using the specified file on the local
+ filesystem.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L625">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InputStream <span class="funcparam">source</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creates a ZipBlockReader using the provided InputStream.  Please note
+ that this InputStream must also implement the IConduit.Seek interface.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L643">close</a></span>
+<script>explorer.outline.addDecl('close');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Closes the reader, and releases all resources.  After this operation,
+ all ZipEntry instances created by this ZipReader are invalid and should
+ not be used.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L661">more</a></span>
+<script>explorer.outline.addDecl('more');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns true if and only if there are additional files in the archive
+ which have not been read via the get method.  This returns true before
+ the first call to get &#40;assuming the opened archive is non-empty&#41;, and
+ false after the last file has been accessed.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ZipEntry <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L691">get</a></span>
+<script>explorer.outline.addDecl('get');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ZipEntry <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L700">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(ZipEntry <span class="funcparam">reuse</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Retrieves the next file from the archive.  Note that although this does
+ perform IO operations, it will not read the contents of the file.</font><br><br>
+<font color="black">The optional reuse argument can be used to instruct the reader to reuse
+ an existing ZipEntry instance.  If passed a null reference, it will
+ create a new ZipEntry instance.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L717">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(ref ZipEntry) <span class="funcparam">dg</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This is used to iterate over the contents of an archive using a foreach
+ loop.  Please note that the iteration will reuse the ZipEntry instance
+ passed to your loop.  If you wish to keep the instance and re-use it
+ later, you <b>must</b> use the dup member to create a copy.
+     </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L990">ZipBlockWriter</a></span>
+<script>explorer.outline.addDecl('ZipBlockWriter');</script> : ZipWriter;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The ZipBlockWriter class is used to create a Zip archive.  It uses a
+ writing iterator interface.</font><br><br>
+<font color="black">Note that this class can only be used with output streams which can be
+ freely seeked.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L996">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(FilePath <span class="funcparam">path</span>); [deprecated]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1002">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">path</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creates a ZipBlockWriter using the specified file on the local
+ filesystem.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1012">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(OutputStream <span class="funcparam">output</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creates a ZipBlockWriter using the provided OutputStream.  Please note
+ that this OutputStream must also implement the IConduit.Seek interface.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1031">finish</a></span>
+<script>explorer.outline.addDecl('finish');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Finalises the archive, writes out the central directory, and closes the
+ output stream.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1044">putFile</a></span>
+<script>explorer.outline.addDecl('putFile');</script>(ZipEntryInfo <span class="funcparam">info</span>, PathView <span class="funcparam">path</span>); [deprecated]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1050">putFile</a></span>
+<script>explorer.outline.addDecl('putFile');</script>(ZipEntryInfo <span class="funcparam">info</span>, char[] <span class="funcparam">path</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Adds a file from the local filesystem to the archive.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1060">putStream</a></span>
+<script>explorer.outline.addDecl('putStream');</script>(ZipEntryInfo <span class="funcparam">info</span>, InputStream <span class="funcparam">source</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Adds a file using the contents of the given InputStream to the archive.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1070">putEntry</a></span>
+<script>explorer.outline.addDecl('putEntry');</script>(ZipEntryInfo <span class="funcparam">info</span>, ZipEntry <span class="funcparam">entry</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Transfers a file from another archive into this archive.  Note that
+ this method will not perform any compression: whatever compression was
+ applied to the file originally will be preserved.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1078">putData</a></span>
+<script>explorer.outline.addDecl('putData');</script>(ZipEntryInfo <span class="funcparam">info</span>, void[] <span class="funcparam">data</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Adds a file using the contents of the given array to the archive.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Method <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1090">method</a></span>
+<script>explorer.outline.addDecl('method');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Method <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1091">method</a></span>
+<script>explorer.outline.addDecl('method');</script>(Method <span class="funcparam">v</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This property allows you to control what compression method should be
+ used for files being added to the archive.
+     </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1406">ZipEntry</a></span>
+<script>explorer.outline.addDecl('ZipEntry');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This class is used to represent a single entry in an archive.
+ Specifically, it combines meta-data about the file &#40;see the info field&#41;
+ along with the two basic operations on an entry: open and verify.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ZipEntryInfo <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1412">info</a></span>
+<script>explorer.outline.addDecl('info');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Header information on the file.  See the ZipEntryInfo structure for
+ more information.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1417">size</a></span>
+<script>explorer.outline.addDecl('size');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Size &#40;in bytes&#41; of the file's uncompressed contents.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>InputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1438">open</a></span>
+<script>explorer.outline.addDecl('open');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Opens a stream for reading from the file.  The contents of this stream
+ represent the decompressed contents of the file stored in the archive.</font><br><br>
+<font color="black">You should not assume that the returned stream is seekable.<br><br> Note that the returned stream may be safely closed without affecting
+ the underlying archive stream.<br><br> If the file has not yet been verified, then the stream will be checked
+ as you read from it.  When the stream is either exhausted or closed,
+ then the integrity of the file's data will be checked.  This means that
+ if the file is corrupt, an exception will be thrown only after you have
+ finished reading from the stream.  If you wish to make sure the data is
+ valid before you read from the file, call the verify method.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1456">verify</a></span>
+<script>explorer.outline.addDecl('verify');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Verifies the contents of this file by computing the CRC32 checksum,
+ and comparing it against the stored one.  Throws an exception if the
+ checksums do not match.</font><br><br>
+<font color="black">Not valid on streamed Zip archives.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ZipEntry <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1470">dup</a></span>
+<script>explorer.outline.addDecl('dup');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creates a new, independent copy of this instance.
+     </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1544">ZipEntryInfo</a></span>
+<script>explorer.outline.addDecl('ZipEntryInfo');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This structure contains various pieces of meta-data on a file.  The
+ contents of this structure may be safely mutated.</font><br><br>
+<font color="black">This structure is also used to specify meta-data about a file when adding
+ it to an archive.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1547">name</a></span>
+<script>explorer.outline.addDecl('name');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Full path and file name of this file.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1550">modified</a></span>
+<script>explorer.outline.addDecl('modified');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Modification timestamp.  If this is left uninitialised when passed to
+ a ZipWriter, it will be reset to the current system time.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1552">comment</a></span>
+<script>explorer.outline.addDecl('comment');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Comment on the file.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1566">ZipException</a></span>
+<script>explorer.outline.addDecl('ZipException');</script> : Exception;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This is the base class from which all exceptions generated by this module
+ derive from.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1646">ZipChecksumException</a></span>
+<script>explorer.outline.addDecl('ZipChecksumException');</script> : ZipException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This exception is thrown if a ZipReader detects that a file's contents do
+ not match the stored checksum.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1661">ZipExhaustedException</a></span>
+<script>explorer.outline.addDecl('ZipExhaustedException');</script> : ZipException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This exception is thrown if you call get reader method when there are no
+ more files in the archive.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1673">ZipNotSupportedException</a></span>
+<script>explorer.outline.addDecl('ZipNotSupportedException');</script> : ZipException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This exception is thrown if you attempt to read an archive that uses
+ features not supported by the reader.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1748">createArchive</a></span>
+<script>explorer.outline.addDecl('createArchive');</script>(char[] <span class="funcparam">archive</span>, Method <span class="funcparam">method</span>, char[][] <span class="funcparam">files</span>...);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1818">ZipEntryVerifier</a></span>
+<script>explorer.outline.addDecl('ZipEntryVerifier');</script> : InputStream; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1896">readExact</a></span>
+<script>explorer.outline.addDecl('readExact');</script>(InputStream <span class="funcparam">s</span>, void[] <span class="funcparam">dst</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1934">swapAll</a></span>
+<script>explorer.outline.addDecl('swapAll');</script>(T)(inout T <span class="funcparam">data</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L1970">cp437_to_utf8_map_low</a></span>
+<script>explorer.outline.addDecl('cp437_to_utf8_map_low');</script>; [private, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2244">dosToTime</a></span>
+<script>explorer.outline.addDecl('dosToTime');</script>(ushort <span class="funcparam">dostime</span>, ushort <span class="funcparam">dosdate</span>, out Time <span class="funcparam">time</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2323">CounterInput</a></span>
+<script>explorer.outline.addDecl('CounterInput');</script> : InputStream; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2375">CounterOutput</a></span>
+<script>explorer.outline.addDecl('CounterOutput');</script> : OutputStream; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>Copyright:</b><br>
+Copyright © 2007 Daniel Keep.  All rights reserved.<br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Prerelease<br><br>
+<b>author:</b><br>Daniel Keep<br><br><br><br> The counter stream classes are used to keep track of how many bytes flow
+ through a stream.<br><br> To use them, simply wrap it around an existing stream.  The number of bytes
+ that have flowed through the wrapped stream may be accessed using the
+ count member.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2326">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InputStream <span class="funcparam">input</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2367">count</a></span>
+<script>explorer.outline.addDecl('count');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+</dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2451">SliceSeekInputStream</a></span>
+<script>explorer.outline.addDecl('SliceSeekInputStream');</script> : InputStream, IConduit.Seek; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>Copyright:</b><br>
+Copyright © 2007 Daniel Keep.  All rights reserved.<br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Prerelease<br><br>
+<b>author:</b><br>Daniel Keep<br><br><br><br> This stream can be used to provide stream-based access to a subset of
+ another stream.  It is akin to slicing an array.<br><br> This stream fully supports seeking, and as such requires that the
+ underlying stream also support seeking.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2459">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InputStream <span class="funcparam">source</span>, long <span class="funcparam">begin</span>, long <span class="funcparam">length</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new slice stream from the given source, covering the content
+ starting at position begin, for length bytes.
+     </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2566">SliceInputStream</a></span>
+<script>explorer.outline.addDecl('SliceInputStream');</script> : InputStream; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This stream can be used to provide stream-based access to a subset of
+ another stream.  It is akin to slicing an array.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2572">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InputStream <span class="funcparam">source</span>, long <span class="funcparam">length</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new slice stream from the given source, covering the content
+ starting at the current seek position for length bytes.
+     </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2643">SliceSeekOutputStream</a></span>
+<script>explorer.outline.addDecl('SliceSeekOutputStream');</script> : OutputStream, IConduit.Seek; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This stream can be used to provide stream-based access to a subset of
+ another stream.  It is akin to slicing an array.</font><br><br>
+<font color="black">This stream fully supports seeking, and as such requires that the
+ underlying stream also support seeking.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2651">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(OutputStream <span class="funcparam">source</span>, long <span class="funcparam">begin</span>, long <span class="funcparam">length</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new slice stream from the given source, covering the content
+ starting at position begin, for length bytes.
+     </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2780">WrapSeekInputStream</a></span>
+<script>explorer.outline.addDecl('WrapSeekInputStream');</script> : InputStream, IConduit.Seek; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>Copyright:</b><br>
+Copyright © 2007 Daniel Keep.  All rights reserved.<br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Prerelease<br><br>
+<b>author:</b><br>Daniel Keep<br><br><br><br> This stream can be used to provide access to another stream.
+ Its distinguishing feature is that users cannot close the underlying
+ stream.<br><br> This stream fully supports seeking, and as such requires that the
+ underlying stream also support seeking.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2787">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InputStream <span class="funcparam">source</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2801">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InputStream <span class="funcparam">source</span>, long <span class="funcparam">position</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new wrap stream from the given source.
+     </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2872">WrapSeekOutputStream</a></span>
+<script>explorer.outline.addDecl('WrapSeekOutputStream');</script> : OutputStream, IConduit.Seek; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This stream can be used to provide access to another stream.
+ Its distinguishing feature is that the users cannot close the underlying
+ stream.</font><br><br>
+<font color="black">This stream fully supports seeking, and as such requires that the
+ underlying stream also support seeking.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2879">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(OutputStream <span class="funcparam">source</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/Zip.d?rev=3791#L2892">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(OutputStream <span class="funcparam">source</span>, long <span class="funcparam">position</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new wrap stream from the given source.
+     </font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2007 Daniel Keep.  All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:34 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

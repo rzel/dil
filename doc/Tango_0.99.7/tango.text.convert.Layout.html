@@ -1,0 +1,182 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.text.convert.Layout</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.text.convert.Layout");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791">tango.text.convert.Layout</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: 2005<br><br>
+<b>author:</b><br>Kris, Keinfarbton<br><br>        This module provides a general-purpose formatting system to
+        convert values to text suitable for display. There is support
+        for alignment, justification, and common format specifiers for
+        numbers.<br><br>        Layout can be customized via configuring various handlers and
+        associated meta-data. This is utilized to plug in text.locale
+        for handling custom formats, date/time and culture-specific
+        conversions.<br><br>        The format notation is influenced by that used by the .NET
+        and ICU frameworks, rather than C-style printf or D-style
+        writef notation.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L63">Layout</a></span>
+<script>explorer.outline.addDecl('Layout');</script>(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Contains methods for replacing format items in a string with string
+        equivalents of each argument.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L72">sprint</a></span>
+<script>explorer.outline.addDecl('sprint');</script>(T[] <span class="funcparam">result</span>, T[] <span class="funcparam">formatStr</span>, ...); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L81">vprint</a></span>
+<script>explorer.outline.addDecl('vprint');</script>(T[] <span class="funcparam">result</span>, T[] <span class="funcparam">formatStr</span>, TypeInfo[] <span class="funcparam">arguments</span>, ArgList <span class="funcparam">args</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L136">convert</a></span>
+<script>explorer.outline.addDecl('convert');</script>(T[] <span class="funcparam">formatStr</span>, ...); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Replaces the _format item in a string with the string
+                equivalent of each argument.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">formatStr</span></td><td>A string containing _format items.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">args</span></td><td>A list of arguments.</td></tr></table><br>
+<b>Returns:</b><br>
+A copy of formatStr in which the items have been
+                replaced by the string equivalent of the arguments.<br><br>
+<b>Remarks:</b><br>The formatStr parameter is embedded with _format
+                items of the form: <br><br>
+                  {index[,alignment][:_format-string]}<br><br>
+                  <ul><li>index <br>
+                    An integer indicating the element in a list to _format.</li>
+                  <li>alignment <br>
+                    An optional integer indicating the minimum width. The
+                    result is padded with spaces if the length of the value
+                    is less than alignment.</li>
+                  <li>_format-string <br>
+                    An optional string of formatting codes.</li>
+                </ul><br><br><br>                The leading and trailing braces are required. To include a
+                literal brace character, use two leading or trailing brace
+                characters.<br><br>
+                If formatStr is "{0} bottles of beer on the wall" and the
+                argument is an int with the value of 99, the return value
+                will be:<br> "99 bottles of beer on the wall".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L145">convert</a></span>
+<script>explorer.outline.addDecl('convert');</script>(Sink <span class="funcparam">sink</span>, T[] <span class="funcparam">formatStr</span>, ...); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L159">convert</a></span>
+<script>explorer.outline.addDecl('convert');</script>(OutputStream <span class="funcparam">output</span>, T[] <span class="funcparam">formatStr</span>, ...); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Tentative convert using an OutputStream as sink - may still be
+            removed.</font><br><br>
+<b>Since:</b><br>0.99.7<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L168">convert</a></span>
+<script>explorer.outline.addDecl('convert');</script>(TypeInfo[] <span class="funcparam">arguments</span>, ArgList <span class="funcparam">args</span>, T[] <span class="funcparam">formatStr</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L186">convertOne</a></span>
+<script>explorer.outline.addDecl('convertOne');</script>(T[] <span class="funcparam">result</span>, TypeInfo <span class="funcparam">ti</span>, Arg <span class="funcparam">arg</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L195">convert</a></span>
+<script>explorer.outline.addDecl('convert');</script>(Sink <span class="funcparam">sink</span>, TypeInfo[] <span class="funcparam">arguments</span>, ArgList <span class="funcparam">args</span>, T[] <span class="funcparam">formatStr</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L294">parse</a></span>
+<script>explorer.outline.addDecl('parse');</script>(T[] <span class="funcparam">layout</span>, TypeInfo[] <span class="funcparam">ti</span>, Arg[] <span class="funcparam">args</span>, Sink <span class="funcparam">sink</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse the format-string, emitting formatted args and text
+                fragments as we go.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L527">error</a></span>
+<script>explorer.outline.addDecl('error');</script>(char[] <span class="funcparam">msg</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L536">spaces</a></span>
+<script>explorer.outline.addDecl('spaces');</script>(Sink <span class="funcparam">sink</span>, int <span class="funcparam">count</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L553">munge</a></span>
+<script>explorer.outline.addDecl('munge');</script>(T[] <span class="funcparam">result</span>, T[] <span class="funcparam">format</span>, TypeInfo <span class="funcparam">type</span>, Arg <span class="funcparam">p</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L659">unknown</a></span>
+<script>explorer.outline.addDecl('unknown');</script>(T[] <span class="funcparam">result</span>, T[] <span class="funcparam">format</span>, TypeInfo <span class="funcparam">type</span>, Arg <span class="funcparam">p</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L668">integer</a></span>
+<script>explorer.outline.addDecl('integer');</script>(T[] <span class="funcparam">output</span>, long <span class="funcparam">v</span>, T[] <span class="funcparam">format</span>, ulong <span class="funcparam">mask</span> = ulong.max, T[] <span class="funcparam">def</span> = "d"); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L681">floater</a></span>
+<script>explorer.outline.addDecl('floater');</script>(T[] <span class="funcparam">output</span>, real <span class="funcparam">v</span>, T[] <span class="funcparam">format</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L694">parseGeneric</a></span>
+<script>explorer.outline.addDecl('parseGeneric');</script>(T[] <span class="funcparam">format</span>, ref uint <span class="funcparam">width</span>, ref T <span class="funcparam">style</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Layout.d?rev=3791#L723">TypeCode</a></span>
+<script>explorer.outline.addDecl('TypeCode');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+</dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2005 Kris. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:37 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

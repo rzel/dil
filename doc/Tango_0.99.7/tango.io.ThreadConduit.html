@@ -1,0 +1,215 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.ThreadConduit</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.ThreadConduit");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791">tango.io.ThreadConduit</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: June 2008<br><br>
+<b>author:</b><br>schveiguy<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L38">ThreadConduit</a></span>
+<script>explorer.outline.addDecl('ThreadConduit');</script> : IConduit;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Conduit to support a data stream between 2 threads.  One creates a
+ ThreadConduit, then uses the OutputStream and the InputStream from it to
+ communicate.  All traffic is automatically synchronized, so one just uses
+ the streams like they were normal device streams.</font><br><br>
+<font color="black">It works by maintaining a circular buffer, where data is written to, and
+ read from, in a FIFO fashion.
+ <pre class="d_code">
+
+ <span class="k">auto</span> <span class="i">tc</span> = <span class="k">new</span> <span class="i">ThreadConduit</span>;
+ <span class="k">void</span> <span class="i">outFunc</span>()
+ {
+   <span class="i">Stdout</span>.<span class="i">copy</span>(<span class="i">tc</span>.<span class="i">input</span>);
+ }
+
+ <span class="k">auto</span> <span class="i">t</span> = <span class="k">new</span> <span class="i">Thread</span>(&amp;<span class="i">outFunc</span>);
+ <span class="i">t</span>.<span class="i">start</span>();
+ <span class="i">tc</span>.<span class="i">output</span>.<span class="i">write</span>(<span class="sl">"hello, thread!"</span>);
+ <span class="i">tc</span>.<span class="i">close</span>();
+ <span class="i">t</span>.<span class="i">join</span>();
+ 
+</pre></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L52">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(uint <span class="funcparam">bufferSize</span> = (1024*16));</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new ThreadConduit with the given buffer size.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">bufferSize</span></td><td>the size to allocate the buffer.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ThreadConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L64">input</a></span>
+<script>explorer.outline.addDecl('input');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements IConduit.input &#40;covariant&#41;
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ThreadConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L72">output</a></span>
+<script>explorer.outline.addDecl('output');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements IConduit.output &#40;covariant&#41;
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L85">bufferSize</a></span>
+<script>explorer.outline.addDecl('bufferSize');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements IConduit.bufferSize</font><br><br>
+<font color="black">Returns the appropriate buffer size that should be used to buffer the
+ ThreadConduit.  Note that this is simply the buffer size passed in, and
+ since all the ThreadConduit data is in memory, buffering doesn't make
+ much sense.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L95">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements IConduit.toString</font><br><br>
+<font color="black">Returns "<thread conduit>"
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L104">isAlive</a></span>
+<script>explorer.outline.addDecl('isAlive');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns true if there is data left to be read, and the write end isn't
+ closed.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L115">remaining</a></span>
+<script>explorer.outline.addDecl('remaining');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the number of bytes remaining to be read in the circular buffer
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L132">writable</a></span>
+<script>explorer.outline.addDecl('writable');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the number of bytes that can be written to the circular buffer</font><br><br>
+<font color="black">Note that we leave 1 byte for a marker to know whether the read pointer
+ is ahead or behind the write pointer.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L143">detach</a></span>
+<script>explorer.outline.addDecl('detach');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Close the write end of the conduit.  Writing to the conduit after it is
+ closed will return Eof.</font><br><br>
+<font color="black">The read end is not closed until the buffer is empty.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L159">error</a></span>
+<script>explorer.outline.addDecl('error');</script>(char[] <span class="funcparam">msg</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Throw an IOException with the given message.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ThreadConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L167">conduit</a></span>
+<script>explorer.outline.addDecl('conduit');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements InputStream.conduit and OutputStream.conduit &#40;covariant&#41;
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L175">close</a></span>
+<script>explorer.outline.addDecl('close');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Close the write end of the conduit.  Same as detach&#40;&#41;
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L189">read</a></span>
+<script>explorer.outline.addDecl('read');</script>(void[] <span class="funcparam">dst</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements InputStream.read</font><br><br>
+<font color="black">Read from the conduit into a target array.  The provided dst will be
+ populated with content from the stream.<br><br> Returns the number of bytes read, which may be less than requested in
+ dst. Eof is returned whenever an end-of-flow condition arises.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L244">load</a></span>
+<script>explorer.outline.addDecl('load');</script>(void[] <span class="funcparam">dst</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements InputStream.load</font><br><br>
+<font color="black">Load the bits from a stream, and return them all in an array. The dst
+ array can be provided as an option, which will be expanded as necessary
+ to consume the input.<br><br> Returns an array representing the content, and throws IOException on
+ error
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ThreadConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L269">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements InputStream.clear&#40;&#41;</font><br><br>
+<font color="black">Clear any buffered content
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L292">write</a></span>
+<script>explorer.outline.addDecl('write');</script>(void[] <span class="funcparam">src</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements OutputStream.write</font><br><br>
+<font color="black">Write to stream from a source array. The provided src content will be
+ written to the stream.<br><br> Returns the number of bytes written from src, which may be less than
+ the quantity provided. Eof is returned when an end-of-flow condition
+ arises.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ThreadConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L334">copy</a></span>
+<script>explorer.outline.addDecl('copy');</script>(InputStream <span class="funcparam">src</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements OutputStream.copy</font><br><br>
+<font color="black">Transfer the content of another stream to this one. Returns a reference
+ to this class, and throws IOException on failure.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ThreadConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/ThreadConduit.d?rev=3791#L357">flush</a></span>
+<script>explorer.outline.addDecl('flush');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements OutputStream.flush</font><br><br>
+<font color="black">Since there is no callable sink, this is a noop.
+     </font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2008 Steven Schveighoffer. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

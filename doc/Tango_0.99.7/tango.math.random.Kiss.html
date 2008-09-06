@@ -1,0 +1,125 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.math.random.Kiss</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.math.random.Kiss");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/random/Kiss.d?rev=3791">tango.math.random.Kiss</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: May 2008<br><br>
+<b>author:</b><br>Various<br><br>
+<b>Since:</b><br>0.99.7<br><br>        With gratitude to Dr Jurgen A Doornik. See his paper entitled
+        "Conversion of high-period random numbers to floating point"<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/random/Kiss.d?rev=3791#L56">Kiss</a></span>
+<script>explorer.outline.addDecl('Kiss');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">KISS &#40;from George Marsaglia&#41;</font><br><br>
+<font color="black">The idea is to use simple, fast, individually promising
+        generators to get a composite that will be fast, easy to code
+        have a very long period and pass all the tests put to it.
+        The three components of KISS are
+        <pre class="d_code">
+
+                <span class="i">x</span>(<span class="i">n</span>)=<span class="i">a</span>*<span class="i">x</span>(<span class="i">n</span>-<span class="n">1</span>)+<span class="n">1</span> <span class="i">mod</span> <span class="n">2</span>^<span class="n">32</span>
+                <span class="i">y</span>(<span class="i">n</span>)=<span class="i">y</span>(<span class="i">n</span>-<span class="n">1</span>)(<span class="i">I</span>+<span class="i">L</span>^<span class="n">13</span>)(<span class="i">I</span>+<span class="i">R</span>^<span class="n">17</span>)(<span class="i">I</span>+<span class="i">L</span>^<span class="n">5</span>),
+                <span class="i">z</span>(<span class="i">n</span>)=<span class="n">2</span>*<span class="i">z</span>(<span class="i">n</span>-<span class="n">1</span>)+<span class="i">z</span>(<span class="i">n</span>-<span class="n">2</span>) +<span class="i">carry</span> <span class="i">mod</span> <span class="n">2</span>^<span class="n">32</span>
+        
+</pre><br><br>        The y's are a shift register sequence on 32bit binary vectors
+        period 2^32-1; The z's are a simple multiply-with-carry sequence
+        with period 2^63+2^32-1. The period of KISS is thus
+        <pre class="d_code">
+
+                <span class="n">2</span>^<span class="n">32</span>*(<span class="n">2</span>^<span class="n">32</span>-<span class="n">1</span>)*(<span class="n">2</span>^<span class="n">63</span>+<span class="n">2</span>^<span class="n">32</span>-<span class="n">1</span>) &gt; <span class="n">2</span>^<span class="n">127</span>
+        
+</pre><br><br>        Note that this should be passed by reference, unless you really
+        intend to provide a local copy to a callee
+        
+</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Kiss <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/random/Kiss.d?rev=3791#L75">shared</a></span>
+<script>explorer.outline.addDecl('shared');</script>; [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A global, shared instance, seeded via startup time</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Kiss <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/random/Kiss.d?rev=3791#L88">opCall</a></span>
+<script>explorer.outline.addDecl('opCall');</script>(); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creates and seeds a new generator with the current time</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/random/Kiss.d?rev=3791#L101">seed</a></span>
+<script>explorer.outline.addDecl('seed');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Seed the generator with current time</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/random/Kiss.d?rev=3791#L124">seed</a></span>
+<script>explorer.outline.addDecl('seed');</script>(uint <span class="funcparam">seed</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Seed the generator with a provided value</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/random/Kiss.d?rev=3791#L139">toInt</a></span>
+<script>explorer.outline.addDecl('toInt');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns X such that 0 &lt;= X &lt;= uint.max</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/random/Kiss.d?rev=3791#L162">toInt</a></span>
+<script>explorer.outline.addDecl('toInt');</script>(uint <span class="funcparam">max</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns X such that 0 &lt;= X &lt; max</font><br><br>
+<font color="black">Note that max is exclusive, making it compatible with
+                array indexing<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/random/Kiss.d?rev=3791#L176">toInt</a></span>
+<script>explorer.outline.addDecl('toInt');</script>(uint <span class="funcparam">min</span>, uint <span class="funcparam">max</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns X such that min &lt;= X &lt; max</font><br><br>
+<font color="black">Note that max is exclusive, making it compatible with
+                array indexing<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>double <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/random/Kiss.d?rev=3791#L188">toReal</a></span>
+<script>explorer.outline.addDecl('toReal');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a value between 0 and 1, exclusive, using 32 bits
+                of precision &#40;with thanks to Dr Jurgen A Doornik&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>double <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/random/Kiss.d?rev=3791#L200">toRealEx</a></span>
+<script>explorer.outline.addDecl('toRealEx');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a value between 0 and 1, exclusive, using 52 bits
+                of precision &#40;with thanks to Dr Jurgen A Doornik&#41;</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2008. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:34 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

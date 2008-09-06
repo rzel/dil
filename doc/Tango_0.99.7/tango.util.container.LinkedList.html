@@ -1,0 +1,446 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.container.LinkedList</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.container.LinkedList");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791">tango.util.container.LinkedList</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Apr 2008: Initial release<br><br>
+<b>Authors:</b><br>
+Kris<br><br>
+<b>Since:</b><br>0.99.7<br><br>        Based upon Doug Lea's Java collection package<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L76">LinkedList</a></span>
+<script>explorer.outline.addDecl('LinkedList');</script>(V, alias Reap = Container.reap, 
+                     alias Heap = Container.Collect) : IContainer!(V);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">List of singly-linked values</font><br><br>
+<font color="black"><pre class="d_code">
+
+	<span class="i">Iterator</span> <span class="i">iterator</span> ()
+        <span class="i">IteratorMatch</span> <span class="i">iterator</span> (<span class="i">V</span> <span class="i">value</span>)
+        <span class="k">int</span> <span class="i">opApply</span> (<span class="k">int</span> <span class="k">delegate</span>(<span class="k">ref</span> <span class="i">V</span> <span class="i">value</span>) <span class="i">dg</span>)
+
+        <span class="i">V</span> <span class="i">head</span> ()
+        <span class="i">V</span> <span class="i">tail</span> ()
+        <span class="i">V</span> <span class="i">head</span> (<span class="i">V</span> <span class="i">value</span>)
+        <span class="i">V</span> <span class="i">tail</span> (<span class="i">V</span> <span class="i">value</span>)
+        <span class="i">V</span> <span class="i">removeHead</span> ()
+        <span class="i">V</span> <span class="i">removeTail</span> ()
+
+        <span class="k">bool</span> <span class="i">contains</span> (<span class="i">V</span> <span class="i">value</span>)
+        <span class="k">uint</span> <span class="i">first</span> (<span class="i">V</span> <span class="i">value</span>, <span class="k">uint</span> <span class="i">startingIndex</span> = <span class="n">0</span>)
+        <span class="k">uint</span> <span class="i">last</span> (<span class="i">V</span> <span class="i">value</span>, <span class="k">uint</span> <span class="i">startingIndex</span> = <span class="n">0</span>)
+
+        <span class="i">LinkedList</span> <span class="i">add</span> (<span class="i">V</span> <span class="i">value</span>)
+        <span class="i">LinkedList</span> <span class="i">prepend</span> (<span class="i">V</span> <span class="i">value</span>)
+        <span class="k">uint</span> <span class="i">prepend</span> (<span class="i">IContainer</span>!(<span class="i">V</span>) <span class="i">e</span>)
+        <span class="i">LinkedList</span> <span class="i">append</span> (<span class="i">V</span> <span class="i">value</span>)
+        <span class="k">uint</span> <span class="i">append</span> (<span class="i">IContainer</span>!(<span class="i">V</span>) <span class="i">e</span>)
+        <span class="i">LinkedList</span> <span class="i">addAt</span> (<span class="k">uint</span> <span class="i">index</span>, <span class="i">V</span> <span class="i">value</span>)
+        <span class="k">uint</span> <span class="i">addAt</span> (<span class="k">uint</span> <span class="i">index</span>, <span class="i">IContainer</span>!(<span class="i">V</span>) <span class="i">e</span>)
+
+        <span class="i">V</span> <span class="i">get</span> (<span class="k">uint</span> <span class="i">index</span>)
+        <span class="k">bool</span> <span class="i">take</span> (<span class="k">ref</span> <span class="i">V</span> <span class="i">v</span>)
+        <span class="k">uint</span> <span class="i">remove</span> (<span class="i">V</span> <span class="i">value</span>, <span class="k">bool</span> <span class="i">all</span>)
+        <span class="k">bool</span> <span class="i">removeAt</span> (<span class="k">uint</span> <span class="i">index</span>)
+        <span class="k">uint</span> <span class="i">removeRange</span> (<span class="k">uint</span> <span class="i">fromIndex</span>, <span class="k">uint</span> <span class="i">toIndex</span>)
+        <span class="k">uint</span> <span class="i">replace</span> (<span class="i">V</span> <span class="i">oldElement</span>, <span class="i">V</span> <span class="i">newElement</span>, <span class="k">bool</span> <span class="i">all</span>)
+        <span class="k">bool</span> <span class="i">replaceAt</span> (<span class="k">uint</span> <span class="i">index</span>, <span class="i">V</span> <span class="i">value</span>)
+
+        <span class="i">LinkedList</span> <span class="i">clear</span> ()
+        <span class="i">LinkedList</span> <span class="i">reset</span> ()
+
+        <span class="i">LinkedList</span> <span class="i">subset</span> (<span class="k">uint</span> <span class="i">from</span>, <span class="k">uint</span> <span class="i">length</span> = <span class="k">int</span>.<span class="i">max</span>)
+        <span class="i">LinkedList</span> <span class="i">dup</span> ()
+
+        <span class="k">uint</span> <span class="i">size</span> ()
+        <span class="k">bool</span> <span class="i">isEmpty</span> ()
+        <span class="i">V</span>[] <span class="i">toArray</span> (<span class="i">V</span>[] <span class="i">dst</span>)
+        <span class="i">LinkedList</span> <span class="i">sort</span> (<span class="i">Compare</span>!(<span class="i">V</span>) <span class="i">cmp</span>)
+        <span class="i">LinkedList</span> <span class="i">check</span> ()
+        
+</pre><br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L105">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new empty list</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L116">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Ref <span class="funcparam">l</span>, int <span class="funcparam">c</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Special version of constructor needed by dup</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>~<span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L128">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Clean up when deleted</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Alloc <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L139">allocator</a></span>
+<script>explorer.outline.addDecl('allocator');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the configured allocator
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Iterator <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L150">iterator</a></span>
+<script>explorer.outline.addDecl('iterator');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a generic iterator for contained elements
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IteratorMatch <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L168">iterator</a></span>
+<script>explorer.outline.addDecl('iterator');</script>(V <span class="funcparam">value</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an iterator which filters on the provided value
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L181">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(ref V value) <span class="funcparam">dg</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L193">size</a></span>
+<script>explorer.outline.addDecl('size');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the number of elements contained
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LinkedList <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L205">dup</a></span>
+<script>explorer.outline.addDecl('dup');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Build an independent copy of the list.
+                The elements themselves are not cloned</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L216">contains</a></span>
+<script>explorer.outline.addDecl('contains');</script>(V <span class="funcparam">value</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>V <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L230">head</a></span>
+<script>explorer.outline.addDecl('head');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;1&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>V <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L241">tail</a></span>
+<script>explorer.outline.addDecl('tail');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>V <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L252">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(uint <span class="funcparam">index</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L263">first</a></span>
+<script>explorer.outline.addDecl('first');</script>(V <span class="funcparam">value</span>, uint <span class="funcparam">startingIndex</span> = 0); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L287">last</a></span>
+<script>explorer.outline.addDecl('last');</script>(V <span class="funcparam">value</span>, uint <span class="funcparam">startingIndex</span> = 0); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LinkedList <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L314">subset</a></span>
+<script>explorer.outline.addDecl('subset');</script>(uint <span class="funcparam">from</span>, uint <span class="funcparam">length</span> = int.max); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;length&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LinkedList <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L342">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LinkedList <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L358">reset</a></span>
+<script>explorer.outline.addDecl('reset');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reset the HashMap contents and optionally configure a new
+                heap manager. We cannot guarantee to clean up reconfigured 
+                allocators, so be sure to invoke reset&#40;&#41; before discarding
+                this class</font><br><br>
+<font color="black">Time complexity: O&#40;n&#41;
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L371">take</a></span>
+<script>explorer.outline.addDecl('take');</script>(ref V <span class="funcparam">v</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Takes the first value on the list</font><br><br>
+<font color="black">Time complexity: O&#40;1&#41;<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LinkedList <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L390">sort</a></span>
+<script>explorer.outline.addDecl('sort');</script>(Compare!(V) <span class="funcparam">cmp</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Uses a merge-sort-based algorithm.</font><br><br>
+<font color="black">Time complexity: O&#40;n log n&#41;<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LinkedList <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L406">add</a></span>
+<script>explorer.outline.addDecl('add');</script>(V <span class="funcparam">value</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;1&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LinkedList <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L417">prepend</a></span>
+<script>explorer.outline.addDecl('prepend');</script>(V <span class="funcparam">value</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;1&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L430">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(V <span class="funcparam">value</span>, bool <span class="funcparam">all</span> = false); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;1&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L473">replace</a></span>
+<script>explorer.outline.addDecl('replace');</script>(V <span class="funcparam">oldElement</span>, V <span class="funcparam">newElement</span>, bool <span class="funcparam">all</span> = false); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;1&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>V <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L498">head</a></span>
+<script>explorer.outline.addDecl('head');</script>(V <span class="funcparam">value</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;1&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>V <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L513">removeHead</a></span>
+<script>explorer.outline.addDecl('removeHead');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;1&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LinkedList <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L528">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(V <span class="funcparam">value</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>V <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L546">tail</a></span>
+<script>explorer.outline.addDecl('tail');</script>(V <span class="funcparam">value</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>V <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L561">removeTail</a></span>
+<script>explorer.outline.addDecl('removeTail');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LinkedList <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L586">addAt</a></span>
+<script>explorer.outline.addDecl('addAt');</script>(uint <span class="funcparam">index</span>, V <span class="funcparam">value</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LinkedList <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L604">removeAt</a></span>
+<script>explorer.outline.addDecl('removeAt');</script>(uint <span class="funcparam">index</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LinkedList <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L623">replaceAt</a></span>
+<script>explorer.outline.addDecl('replaceAt');</script>(uint <span class="funcparam">index</span>, V <span class="funcparam">value</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L636">prepend</a></span>
+<script>explorer.outline.addDecl('prepend');</script>(IContainer!(V) <span class="funcparam">e</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;number of elements in e&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L649">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(IContainer!(V) <span class="funcparam">e</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n + number of elements in e&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L665">addAt</a></span>
+<script>explorer.outline.addDecl('addAt');</script>(uint <span class="funcparam">index</span>, IContainer!(V) <span class="funcparam">e</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n + number of elements in e&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L684">removeRange</a></span>
+<script>explorer.outline.addDecl('removeRange');</script>(uint <span class="funcparam">fromIndex</span>, uint <span class="funcparam">toIndex</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>V[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L723">toArray</a></span>
+<script>explorer.outline.addDecl('toArray');</script>(V[] <span class="funcparam">dst</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Copy and return the contained set of values in an array, 
+                using the optional dst as a recipient &#40;which is resized 
+                as necessary&#41;.</font><br><br>
+<font color="black">Returns a slice of dst representing the container values.
+                
+                Time complexity: O&#40;n&#41;
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L742">isEmpty</a></span>
+<script>explorer.outline.addDecl('isEmpty');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this container empty?
+                
+                Time complexity: O&#40;1&#41;
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LinkedList <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L751">check</a></span>
+<script>explorer.outline.addDecl('check');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L773">instances</a></span>
+<script>explorer.outline.addDecl('instances');</script>(V <span class="funcparam">value</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Ref <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L785">firstCell</a></span>
+<script>explorer.outline.addDecl('firstCell');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Ref <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L795">lastCell</a></span>
+<script>explorer.outline.addDecl('lastCell');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Ref <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L805">cellAt</a></span>
+<script>explorer.outline.addDecl('cellAt');</script>(uint <span class="funcparam">index</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L815">checkIndex</a></span>
+<script>explorer.outline.addDecl('checkIndex');</script>(uint <span class="funcparam">index</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L830">splice_</a></span>
+<script>explorer.outline.addDecl('splice_');</script>(IContainer!(V) <span class="funcparam">e</span>, Ref <span class="funcparam">hd</span>, Ref <span class="funcparam">tl</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Splice elements of e between hd and tl. If hd 
+                is null return new hd</font><br><br>
+<font color="black">Returns the count of new elements added<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LinkedList <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L864">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(bool <span class="funcparam">all</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L891">increment</a></span>
+<script>explorer.outline.addDecl('increment');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">new element was added
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L903">decrement</a></span>
+<script>explorer.outline.addDecl('decrement');</script>(Ref <span class="funcparam">p</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">element was removed
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L917">mutate</a></span>
+<script>explorer.outline.addDecl('mutate');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">set was changed
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L928">Freach</a></span>
+<script>explorer.outline.addDecl('Freach');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">foreach support for iterators
+                
+</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L950">Iterator</a></span>
+<script>explorer.outline.addDecl('Iterator');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Iterator with no filtering</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/container/LinkedList.d?rev=3791#L1003">IteratorMatch</a></span>
+<script>explorer.outline.addDecl('IteratorMatch');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Iterator with value filtering
+                
+</font><br><br>
+</dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2008 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

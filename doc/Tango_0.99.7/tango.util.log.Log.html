@@ -1,0 +1,900 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.log.Log</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.log.Log");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791">tango.util.log.Log</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+May 2004 : Initial release<br><br>
+<b>Version:</b><br>
+Oct 2004: Hierarchy moved due to circular dependencies<br><br>
+<b>Version:</b><br>
+Apr 2008: Lazy delegates removed due to awkward usage<br><br>
+<b>author:</b><br>Kris<br><br>
+        Loggers are named entities, sometimes shared, sometimes specific to 
+        a particular portion of code. The names are generally hierarchical in 
+        nature, using dot notation &#40;with '.'&#41; to separate each named section. 
+        For example, a typical name might be something like "mail.send.writer"
+        <pre class="d_code">
+
+        <span class="k">import</span> <span class="i">tango</span>.<span class="i">util</span>.<span class="i">log</span>.<span class="i">Log</span>;<span class="i">format</span>
+        
+        <span class="k">auto</span> <span class="i">log</span> = <span class="i">Log</span>.<span class="i">lookup</span> (<span class="sl">"mail.send.writer"</span>);
+
+        <span class="i">log</span>.<span class="i">info</span>  (<span class="sl">"an informational message"</span>);
+        <span class="i">log</span>.<span class="i">error</span> (<span class="sl">"an exception message: {}"</span>, <span class="i">exception</span>.<span class="i">toString</span>);
+
+        <span class="i">etc</span> ...
+        
+</pre>
+        
+        It is considered good form to pass a logger instance as a function or 
+        class-ctor argument, or to assign a new logger instance during static 
+        class construction. For example: if it were considered appropriate to 
+        have one logger instance per class, each might be constructed like so:
+        <pre class="d_code">
+
+        <span class="k">private</span> <span class="i">Logger</span> <span class="i">log</span>;
+        
+        <span class="k">static</span> <span class="k">this</span>()
+        {
+            <span class="i">log</span> = <span class="i">Log</span>.<span class="i">lookup</span> (<span class="i">nameOfThisClassOrStructOrModule</span>);
+        }
+        
+</pre><br><br>        Messages passed to a Logger are assumed to be either self-contained
+        or configured with "{}" notation a la Layout &amp; Stdout:
+        <pre class="d_code">
+
+        <span class="i">log</span>.<span class="i">warn</span> (<span class="sl">"temperature is {} degrees!"</span>, <span class="n">101</span>);
+        
+</pre><br><br>        Note that an internal workspace is used to format the message, which
+        is limited to 2000 bytes. Use "{.256}" truncation notation to limit
+        the size of individual message components, or use explicit formatting:
+        <pre class="d_code">
+
+        <span class="k">char</span>[<span class="n">4096</span>] <span class="i">buf</span> = <span class="k">void</span>;
+
+        <span class="i">log</span>.<span class="i">warn</span> (<span class="i">log</span>.<span class="i">format</span> (<span class="i">buf</span>, <span class="sl">"a very long warning: {}"</span>, <span class="i">someLongWarning</span>));
+        
+</pre><br><br>        To avoid overhead when constructing argument passed to formatted 
+        messages, you should check to see whether a logger is active or not:
+        <pre class="d_code">
+
+        <span class="k">if</span> (<span class="i">log</span>.<span class="i">enabled</span> (<span class="i">log</span>.<span class="i">Level</span>.<span class="i">Warn</span>))
+            <span class="i">log</span>.<span class="i">warn</span> (<span class="sl">"temperature is {} degrees!"</span>, <span class="i">complexFunction</span>());
+        
+</pre>
+        
+        The above will be handled implicitly by the logging system when 
+        macros are added to the language &#40;used to be handled implicitly 
+        via lazy delegates, but usage of those turned out to be awkward&#41;.<br><br>        tango.log closely follows both the API and the behaviour as documented 
+        at the official Log4J site, where you'll find a good tutorial. Those 
+        pages are hosted over 
+        <A HREF="http://logging.apache.org/log4j/docs/documentation.html">here</A>.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias ILogger.Level <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L131">Level</a></span>
+<script>explorer.outline.addDecl('Level');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">These represent the standard LOG4J event levels. Note that
+        Debug is called Trace here, because debug is a reserved word
+        in D </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L143">Log</a></span>
+<script>explorer.outline.addDecl('Log');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Manager for routing Logger calls to the default hierarchy. Note 
+        that you may have multiple hierarchies per application, but must
+        access the hierarchy directly for getRootLogger&#40;&#41; and getLogger&#40;&#41;
+        methods within each additional instance.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>static <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L196">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initialize the base hierarchy           
+              
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Level <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L227">convert</a></span>
+<script>explorer.outline.addDecl('convert');</script>(char[] <span class="funcparam">name</span>, Level <span class="funcparam">def</span> = Level.Trace); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the level of a given name</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L241">time</a></span>
+<script>explorer.outline.addDecl('time');</script>(); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the current time</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L266">root</a></span>
+<script>explorer.outline.addDecl('root');</script>(); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the root Logger instance. This is the ancestor of
+                all loggers and, as such, can be used to manipulate the 
+                entire hierarchy. For instance, setting the root 'level' 
+                attribute will affect all other loggers in the tree.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L285">lookup</a></span>
+<script>explorer.outline.addDecl('lookup');</script>(char[] <span class="funcparam">name</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an instance of the named logger. Names should be
+                hierarchical in nature, using dot notation &#40;with '.'&#41; to 
+                separate each name section. For example, a typical name 
+                might be something like "tango.io.Buffer".</font><br><br>
+<font color="black">If the logger does not currently exist, it is created and
+                inserted into the hierarchy. A parent will be attached to
+                it, which will be either the root logger or the closest
+                ancestor in terms of the hierarchical name space.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L296">convert</a></span>
+<script>explorer.outline.addDecl('convert');</script>(int <span class="funcparam">level</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return text name for a log level</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Hierarchy <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L308">hierarchy</a></span>
+<script>explorer.outline.addDecl('hierarchy');</script>(); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the singleton hierarchy.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L322">config</a></span>
+<script>explorer.outline.addDecl('config');</script>(OutputStream <span class="funcparam">stream</span>, bool <span class="funcparam">flush</span> = true); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initialize the behaviour of a basic logging hierarchy.</font><br><br>
+<font color="black">Adds a StreamAppender to the root node, and sets
+                the activity level to be everything enabled.
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Snapshot <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L334">snapshot</a></span>
+<script>explorer.outline.addDecl('snapshot');</script>(Logger <span class="funcparam">owner</span>, Level <span class="funcparam">level</span>, char[] <span class="funcparam">buffer</span> = null); [private, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initialize a snapshot for a specific logging level, and 
+                with an optional buffer. Default buffer size is 1024</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L379">Snapshot</a></span>
+<script>explorer.outline.addDecl('Snapshot');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Snapshot support for use with existing log instances. The behaviour 
+        is different from traditional logging in that snapshots don't emit any 
+        output until flushed. They gather up information in a temporary buffer 
+        and emit that instead - this can be used to gather up a series of log 
+        snippets into one place. Typical usage is like so:
+        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">snap</span> = <span class="i">Log</span>.<span class="i">snapshot</span> (<span class="i">log</span>, <span class="i">Level</span>.<span class="i">Info</span>);
+        ...
+        <span class="i">snap</span>.<span class="i">format</span> (<span class="sl">"{}; "</span>, <span class="sl">"first"</span>);
+        ...
+        <span class="i">snap</span>.<span class="i">format</span> (<span class="sl">"{}; "</span>, <span class="sl">"second"</span>);
+        ...
+        <span class="i">snap</span>.<span class="i">flush</span>;
+        
+</pre>
+        
+        Setting a larger buffer size than the default:
+        <pre class="d_code">
+
+        <span class="k">char</span>[<span class="n">4096</span>] <span class="i">buf</span> = <span class="k">void</span>;
+        <span class="k">auto</span> <span class="i">snap</span> = <span class="i">Log</span>.<span class="i">snapshot</span> (<span class="i">log</span>, <span class="i">Level</span>.<span class="i">Info</span>, <span class="i">buf</span>);
+        ...
+        
+</pre>
+        
+        Note that this is a struct, and is constructed on the stack</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L395">enabled</a></span>
+<script>explorer.outline.addDecl('enabled');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">See if this Snapshot is enabled via the associated logger. If
+                that logger is set to a level less verbose than our snapshot, 
+                we are considered disabled.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L407">format</a></span>
+<script>explorer.outline.addDecl('format');</script>(char[] <span class="funcparam">formatStr</span>, ...);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append formatted text to the snapshot. Nothing is emitted 
+                until flush is invoked.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L422">flush</a></span>
+<script>explorer.outline.addDecl('flush');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Must be invoked to generate any output</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L494">Logger</a></span>
+<script>explorer.outline.addDecl('Logger');</script> : ILogger; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Loggers are named entities, sometimes shared, sometimes specific to 
+        a particular portion of code. The names are generally hierarchical in 
+        nature, using dot notation &#40;with '.'&#41; to separate each named section. 
+        For example, a typical name might be something like "mail.send.writer"
+        <pre class="d_code">
+
+        <span class="k">import</span> <span class="i">tango</span>.<span class="i">util</span>.<span class="i">log</span>.<span class="i">Log</span>;<span class="i">format</span>
+        
+        <span class="k">auto</span> <span class="i">log</span> = <span class="i">Log</span>.<span class="i">lookup</span> (<span class="sl">"mail.send.writer"</span>);
+
+        <span class="i">log</span>.<span class="i">info</span>  (<span class="sl">"an informational message"</span>);
+        <span class="i">log</span>.<span class="i">error</span> (<span class="sl">"an exception message: {}"</span>, <span class="i">exception</span>.<span class="i">toString</span>);
+
+        <span class="i">etc</span> ...
+        
+</pre>
+        
+        It is considered good form to pass a logger instance as a function or 
+        class-ctor argument, or to assign a new logger instance during static 
+        class construction. For example: if it were considered appropriate to 
+        have one logger instance per class, each might be constructed like so:
+        <pre class="d_code">
+
+        <span class="k">private</span> <span class="i">Logger</span> <span class="i">log</span>;
+        
+        <span class="k">static</span> <span class="k">this</span>()
+        {
+            <span class="i">log</span> = <span class="i">Log</span>.<span class="i">lookup</span> (<span class="i">nameOfThisClassOrStructOrModule</span>);
+        }
+        
+</pre></font><br><br>
+<font color="black">Messages passed to a Logger are assumed to be either self-contained
+        or configured with "{}" notation a la Layout &amp; Stdout:
+        <pre class="d_code">
+
+        <span class="i">log</span>.<span class="i">warn</span> (<span class="sl">"temperature is {} degrees!"</span>, <span class="n">101</span>);
+        
+</pre><br><br>        Note that an internal workspace is used to format the message, which
+        is limited to 2000 bytes. Use "{.256}" truncation notation to limit
+        the size of individual message components, or use explicit formatting:
+        <pre class="d_code">
+
+        <span class="k">char</span>[<span class="n">4096</span>] <span class="i">buf</span> = <span class="k">void</span>;
+
+        <span class="i">log</span>.<span class="i">warn</span> (<span class="i">log</span>.<span class="i">format</span> (<span class="i">buf</span>, <span class="sl">"a very long warning: {}"</span>, <span class="i">someLongWarning</span>));
+        
+</pre><br><br>        To avoid overhead when constructing argument passed to formatted 
+        messages, you should check to see whether a logger is active or not:
+        <pre class="d_code">
+
+        <span class="k">if</span> (<span class="i">log</span>.<span class="i">enabled</span> (<span class="i">log</span>.<span class="i">Level</span>.<span class="i">Warn</span>))
+            <span class="i">log</span>.<span class="i">warn</span> (<span class="sl">"temperature is {} degrees!"</span>, <span class="i">complexFunction</span>());
+        
+</pre>
+        
+        The above will be handled implicitly by the logging system when 
+        macros are added to the language &#40;used to be handled implicitly 
+        via lazy delegates, but usage of those turned out to be awkward&#41;.<br><br>        tango.log closely follows both the API and the behaviour as documented 
+        at the official Log4J site, where you'll find a good tutorial. Those 
+        pages are hosted over 
+        <A HREF="http://logging.apache.org/log4j/docs/documentation.html">here</A>.<br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>interface <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L513">Context</a></span>
+<script>explorer.outline.addDecl('Context');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Context for a hierarchy, used for customizing behaviour
+                of log hierarchies. You can use this to implement dynamic
+                log-levels, based upon filtering or some other mechanism</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L516">label</a></span>
+<script>explorer.outline.addDecl('label');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">return a label for this context</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L521">enabled</a></span>
+<script>explorer.outline.addDecl('enabled');</script>(Level <span class="funcparam">setting</span>, Level <span class="funcparam">target</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">first arg is the setting of the logger itself, and
+ the second arg is what kind of message we're being
+ asked to produce</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L528">next</a></span>
+<script>explorer.outline.addDecl('next');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L528">parent</a></span>
+<script>explorer.outline.addDecl('parent');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L545">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Hierarchy <span class="funcparam">host</span>, char[] <span class="funcparam">name</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a LoggerInstance with the specified name for the 
+                given hierarchy. By default, logger instances are additive
+                and are set to emit all events.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>~<span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L559">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">No, you should not delete or 'scope' these entities</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L567">enabled</a></span>
+<script>explorer.outline.addDecl('enabled');</script>(Level <span class="funcparam">level</span> = Level.Fatal); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this logger enabed for the specified Level?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L578">trace</a></span>
+<script>explorer.outline.addDecl('trace');</script>(char[] <span class="funcparam">fmt</span>, ...); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append a trace message</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L589">trace</a></span>
+<script>explorer.outline.addDecl('trace');</script>(lazy void <span class="funcparam">dg</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append a trace message</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L601">info</a></span>
+<script>explorer.outline.addDecl('info');</script>(char[] <span class="funcparam">fmt</span>, ...); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append an info message</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L612">info</a></span>
+<script>explorer.outline.addDecl('info');</script>(lazy void <span class="funcparam">dg</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append an info message</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L624">warn</a></span>
+<script>explorer.outline.addDecl('warn');</script>(char[] <span class="funcparam">fmt</span>, ...); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append a warning message</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L635">warn</a></span>
+<script>explorer.outline.addDecl('warn');</script>(lazy void <span class="funcparam">dg</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append a warning message</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L647">error</a></span>
+<script>explorer.outline.addDecl('error');</script>(char[] <span class="funcparam">fmt</span>, ...); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append an error message</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L658">error</a></span>
+<script>explorer.outline.addDecl('error');</script>(lazy void <span class="funcparam">dg</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append an error message</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L670">fatal</a></span>
+<script>explorer.outline.addDecl('fatal');</script>(char[] <span class="funcparam">fmt</span>, ...); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append a fatal message</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L681">fatal</a></span>
+<script>explorer.outline.addDecl('fatal');</script>(lazy void <span class="funcparam">dg</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append a fatal message</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L693">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the name of this Logger &#40;sans the appended dot&#41;.
+       
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Level <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L707">level</a></span>
+<script>explorer.outline.addDecl('level');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the Level this logger is set to</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L718">level</a></span>
+<script>explorer.outline.addDecl('level');</script>(Level <span class="funcparam">l</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the current level for this logger &#40;and only this logger&#41;.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L730">level</a></span>
+<script>explorer.outline.addDecl('level');</script>(Level <span class="funcparam">level</span>, bool <span class="funcparam">propagate</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the current level for this logger, and &#40;optionally&#41; all
+                of its descendents.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L747">additive</a></span>
+<script>explorer.outline.addDecl('additive');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this logger additive? That is, should we walk ancestors
+                looking for more appenders?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L758">additive</a></span>
+<script>explorer.outline.addDecl('additive');</script>(bool <span class="funcparam">enabled</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the additive status of this logger. See bool additive&#40;&#41;.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L772">add</a></span>
+<script>explorer.outline.addDecl('add');</script>(Appender <span class="funcparam">another</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add &#40;another&#41; appender to this logger. Appenders are each
+                invoked for log events as they are produced. At most, one
+                instance of each appender will be invoked.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L786">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove all appenders from this Logger</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L798">runtime</a></span>
+<script>explorer.outline.addDecl('runtime');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get time since this application started</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L809">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(Level <span class="funcparam">level</span>, lazy char[] <span class="funcparam">exp</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Send a message to this logger via its appender list.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L828">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(LogEvent <span class="funcparam">event</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Send a message to this logger via its appender list.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L862">format</a></span>
+<script>explorer.outline.addDecl('format');</script>(char[] <span class="funcparam">buffer</span>, char[] <span class="funcparam">formatStr</span>, ...); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Format text using the formatter configured in the associated
+                hierarchy </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L874">format</a></span>
+<script>explorer.outline.addDecl('format');</script>(Level <span class="funcparam">level</span>, char[] <span class="funcparam">fmt</span>, TypeInfo[] <span class="funcparam">types</span>, ArgList <span class="funcparam">args</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Format text using the formatter configured in the associated
+                hierarchy. </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L893">isChildOf</a></span>
+<script>explorer.outline.addDecl('isChildOf');</script>(char[] <span class="funcparam">candidate</span>); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">See if the provided Logger name is a parent of this one. Note 
+                that each Logger name has a '.' appended to the end, such that 
+                name segments will not partially match.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L914">isCloserAncestor</a></span>
+<script>explorer.outline.addDecl('isCloserAncestor');</script>(Logger <span class="funcparam">other</span>); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">See if the provided Logger is a better match as a parent of
+                this one. This is used to restructure the hierarchy when a
+                new logger instance is introduced</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L938">Hierarchy</a></span>
+<script>explorer.outline.addDecl('Hierarchy');</script> : Logger.Context; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The Logger hierarchy implementation. We keep a reference to each
+        logger in a hash-table for convenient lookup purposes, plus keep
+        each logger linked to the others in an ordered group. Ordering
+        places shortest names at the head and longest ones at the tail, 
+        making the job of identifying ancestors easier in an orderly
+        fashion. For example, when propagating levels across descendents
+        it would be a mistake to propagate to a child before all of its
+        ancestors were taken care of.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L953">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a hierarchy with the given name.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L967">label</a></span>
+<script>explorer.outline.addDecl('label');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L977">enabled</a></span>
+<script>explorer.outline.addDecl('enabled');</script>(Level <span class="funcparam">level</span>, Level <span class="funcparam">test</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L988">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the name of this Hierarchy</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L999">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(char[] <span class="funcparam">name</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the name of this Hierarchy</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1011">address</a></span>
+<script>explorer.outline.addDecl('address');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the address of this Hierarchy. This is typically
+                attached when sending events to remote monitors.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1023">address</a></span>
+<script>explorer.outline.addDecl('address');</script>(char[] <span class="funcparam">address</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the address of this Hierarchy. The address is attached
+                used when sending events to remote monitors.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger.Context <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1035">context</a></span>
+<script>explorer.outline.addDecl('context');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the diagnostic context.  Useful for setting an 
+                override logging level.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1048">context</a></span>
+<script>explorer.outline.addDecl('context');</script>(Logger.Context <span class="funcparam">context</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the diagnostic context.  Not usually necessary, as a 
+                default was created.  Useful when you need to provide a 
+                different implementation, such as a ThreadLocal variant.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1059">root</a></span>
+<script>explorer.outline.addDecl('root');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the root node.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1074">lookup</a></span>
+<script>explorer.outline.addDecl('lookup');</script>(char[] <span class="funcparam">label</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the instance of a Logger with the provided label. If
+                the instance does not exist, it is created at this time.</font><br><br>
+<font color="black">Note that an empty label is considered illegal, and will be
+                ignored.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1088">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(ref Logger) <span class="funcparam">dg</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">traverse the set of configured loggers</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1105">inject</a></span>
+<script>explorer.outline.addDecl('inject');</script>(char[] <span class="funcparam">label</span>, Logger delegate(char[] name) <span class="funcparam">dg</span>); [private, synchronized]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the instance of a Logger with the provided label. If
+                the instance does not exist, it is created at this time.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1140">insert</a></span>
+<script>explorer.outline.addDecl('insert');</script>(Logger <span class="funcparam">l</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Loggers are maintained in a sorted linked-list. The order 
+                is maintained such that the shortest name is at the root, 
+                and the longest at the tail.</font><br><br>
+<font color="black">This is done so that updateLoggers&#40;&#41; will always have a
+                known environment to manipulate, making it much faster.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1179">update</a></span>
+<script>explorer.outline.addDecl('update');</script>(Logger <span class="funcparam">changed</span>, bool <span class="funcparam">force</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Propagate hierarchical changes across known loggers. 
+                This includes changes in the hierarchy itself, and to
+                the various settings of child loggers with respect to 
+                their parent&#40;s&#41;.              </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1193">propagate</a></span>
+<script>explorer.outline.addDecl('propagate');</script>(Logger <span class="funcparam">logger</span>, Logger <span class="funcparam">changed</span>, bool <span class="funcparam">force</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Propagate changes in the hierarchy downward to child Loggers.
+                Note that while 'parent' and 'breakpoint' are always forced
+                to update, the update of 'level' is selectable.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1223">LogEvent</a></span>
+<script>explorer.outline.addDecl('LogEvent');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Contains all information about a logging event, and is passed around
+        between methods once it has been determined that the invoking logger
+        is enabled for output.</font><br><br>
+<font color="black">Note that Event instances are maintained in a freelist rather than
+        being allocated each time, and they include a scratchpad area for
+        EventLayout formatters to use.<br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1237">set</a></span>
+<script>explorer.outline.addDecl('set');</script>(Hierarchy <span class="funcparam">host</span>, Level <span class="funcparam">level</span>, char[] <span class="funcparam">msg</span>, char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the various attributes of this event.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1252">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the message attached to this event.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1263">name</a></span>
+<script>explorer.outline.addDecl('name');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the name of the logger which produced this event</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Level <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1274">level</a></span>
+<script>explorer.outline.addDecl('level');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the logger level of this event.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Hierarchy <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1285">host</a></span>
+<script>explorer.outline.addDecl('host');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the hierarchy where the event was produced from</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1297">span</a></span>
+<script>explorer.outline.addDecl('span');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the time this event was produced, relative to the 
+                start of this executable</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1308">time</a></span>
+<script>explorer.outline.addDecl('time');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the time this event was produced relative to Epoch</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1319">started</a></span>
+<script>explorer.outline.addDecl('started');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return time when the executable started</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1330">levelName</a></span>
+<script>explorer.outline.addDecl('levelName');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the logger level name of this event.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1341">toMilli</a></span>
+<script>explorer.outline.addDecl('toMilli');</script>(char[] <span class="funcparam">s</span>, TimeSpan <span class="funcparam">time</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert a time value &#40;in milliseconds&#41; to ascii</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1365">Appender</a></span>
+<script>explorer.outline.addDecl('Appender');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Base class for all Appenders. These objects are responsible for
+        emitting messages sent to a particular logger. There may be more
+        than one appender attached to any logger. The actual message is
+        constructed by another class known as an EventLayout.
+        
+</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>interface <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1382">Layout</a></span>
+<script>explorer.outline.addDecl('Layout');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Interface for all logging layout instances</font><br><br>
+<font color="black">Implement this method to perform the formatting of  
+                message content.<br><br></font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Mask <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1395">mask</a></span>
+<script>explorer.outline.addDecl('mask');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the mask used to identify this Appender. The mask
+                is used to figure out whether an appender has already been 
+                invoked for a particular logger.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1403">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the name of this Appender.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1411">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(LogEvent <span class="funcparam">event</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append a message to the output.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1419">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create an Appender and default its layout to LayoutSimple.  </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>static <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1430">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create an Appender and default its layout to LayoutSimple.  </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Mask <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1444">register</a></span>
+<script>explorer.outline.addDecl('register');</script>(char[] <span class="funcparam">tag</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Static method to return a mask for identifying the Appender.
+                Each Appender class should have a unique fingerprint so that
+                we can figure out which ones have been invoked for a given
+                event. A bitmask is a simple an efficient way to do that.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1472">layout</a></span>
+<script>explorer.outline.addDecl('layout');</script>(Layout <span class="funcparam">how</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the current layout to be that of the argument, or the
+                generic layout where the argument is null</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Layout <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1483">layout</a></span>
+<script>explorer.outline.addDecl('layout');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the current Layout</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1494">next</a></span>
+<script>explorer.outline.addDecl('next');</script>(Appender <span class="funcparam">appender</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Attach another appender to this one</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Appender <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1505">next</a></span>
+<script>explorer.outline.addDecl('next');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the next appender in the list</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1517">close</a></span>
+<script>explorer.outline.addDecl('close');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Close this appender. This would be used for file, sockets, 
+                and such like.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1530">AppendNull</a></span>
+<script>explorer.outline.addDecl('AppendNull');</script> : Appender; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">An appender that does nothing. This is useful for cutting and
+        pasting, and for benchmarking the tango.log environment.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1540">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Layout <span class="funcparam">how</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create with the given Layout</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Mask <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1552">mask</a></span>
+<script>explorer.outline.addDecl('mask');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the fingerprint for this class</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1563">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the name of this class</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1574">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(LogEvent <span class="funcparam">event</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append an event to the output.
+                 
+</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1587">AppendStream</a></span>
+<script>explorer.outline.addDecl('AppendStream');</script> : Appender; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append to a configured OutputStream</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1599">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(OutputStream <span class="funcparam">stream</span>, bool <span class="funcparam">flush</span> = false, Appender.Layout <span class="funcparam">how</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create with the given stream and layout</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Mask <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1615">mask</a></span>
+<script>explorer.outline.addDecl('mask');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the fingerprint for this class</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1626">name</a></span>
+<script>explorer.outline.addDecl('name');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the name of this class</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1637">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(LogEvent <span class="funcparam">event</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append an event to the output.
+                 
+</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1662">LayoutTimer</a></span>
+<script>explorer.outline.addDecl('LayoutTimer');</script> : Appender.Layout; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A simple layout comprised only of time&#40;ms&#41;, level, name, and message</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/log/Log.d?rev=3791#L1671">format</a></span>
+<script>explorer.outline.addDecl('format');</script>(LogEvent <span class="funcparam">event</span>, void delegate(void[]) <span class="funcparam">dg</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Subclasses should implement this method to perform the
+                formatting of the actual message content.</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sat Aug  2 16:08:32 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>
