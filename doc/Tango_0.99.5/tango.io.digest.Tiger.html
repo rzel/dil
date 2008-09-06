@@ -1,0 +1,204 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.digest.Tiger</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.digest.Tiger");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327">tango.io.digest.Tiger</a></h1>
+                
+<b>License:</b><br>
+BSD style: see doc/license.txt for details<br><br>
+<b>Version:</b><br>
+Initial release: Feb 2006<br><br>
+<b>author:</b><br>Regan Heath, Oskar Linde<br><br>        This module implements the Tiger algorithm by Ross Anderson and Eli
+        Biham.<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L28">Tiger</a></span>
+<script>explorer.outline.addDecl('Tiger');</script> : MerkleDamgard; [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ulong[3] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L38">initial</a></span>
+<script>explorer.outline.addDecl('initial');</script>; [private, static, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L51">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct an Tiger</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L59">digestSize</a></span>
+<script>explorer.outline.addDecl('digestSize');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The size of a tiger digest is 24 bytes
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L71">reset</a></span>
+<script>explorer.outline.addDecl('reset');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initialize the cipher</font><br><br>
+<b>Remarks:</b><br>Returns the cipher state to it's initial value<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L90">createDigest</a></span>
+<script>explorer.outline.addDecl('createDigest');</script>(ubyte[] <span class="funcparam">buf</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Obtain the digest</font><br><br>
+<b>Returns:</b><br>
+the digest<br><br>
+<b>Remarks:</b><br>Returns a digest of the current cipher state, this may be the
+                final digest, or a digest of the state between calls to update&#40;&#41;<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L112">passes</a></span>
+<script>explorer.outline.addDecl('passes');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get the number of passes being performed</font><br><br>
+<b>Returns:</b><br>
+the number of passes<br><br>
+<b>Remarks:</b><br>The Tiger algorithm may perform an arbitrary number of passes
+                the minimum recommended number is 3 and this number should be
+                quite secure however the "ultra-cautious" may wish to increase
+                this number.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L132">passes</a></span>
+<script>explorer.outline.addDecl('passes');</script>(uint <span class="funcparam">n</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the number of passes to be performed</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">n</span></td><td>the number of passes to perform</td></tr></table><br>
+<b>Remarks:</b><br>The Tiger algorithm may perform an arbitrary number of passes
+                the minimum recommended number is 3 and this number should be
+                quite secure however the "ultra-cautious" may wish to increase
+                this number.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L151">blockSize</a></span>
+<script>explorer.outline.addDecl('blockSize');</script>(); [protected, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">block size</font><br><br>
+<b>Returns:</b><br>
+the block size<br><br>
+<b>Remarks:</b><br>Specifies the size &#40;in bytes&#41; of the block of data to pass to
+                each call to transform&#40;&#41;. For Tiger the blockSize is 64.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L167">addSize</a></span>
+<script>explorer.outline.addDecl('addSize');</script>(); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Length padding size</font><br><br>
+<b>Returns:</b><br>
+the length padding size<br><br>
+<b>Remarks:</b><br>Specifies the size &#40;in bytes&#41; of the padding which uses the
+                length of the data which has been ciphered, this padding is
+                carried out by the padLength method. For Tiger the addSize is 8.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L183">padMessage</a></span>
+<script>explorer.outline.addDecl('padMessage');</script>(ubyte[] <span class="funcparam">at</span>); [protected, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Pads the cipher data</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>a slice of the cipher buffer to fill with padding</td></tr></table><br>
+<b>Remarks:</b><br>Fills the passed buffer slice with the appropriate padding for
+                the final call to transform&#40;&#41;. This padding will fill the cipher
+                buffer up to blockSize&#40;&#41;-addSize&#40;&#41;.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L204">padLength</a></span>
+<script>explorer.outline.addDecl('padLength');</script>(ubyte[] <span class="funcparam">at</span>, ulong <span class="funcparam">length</span>); [protected, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Performs the length padding</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>the slice of the cipher buffer to fill with padding</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">length</span></td><td>the length of the data which has been ciphered</td></tr></table><br>
+<b>Remarks:</b><br>Fills the passed buffer slice with addSize&#40;&#41; bytes of padding
+                based on the length in bytes of the input data which has been
+                ciphered.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L225">transform</a></span>
+<script>explorer.outline.addDecl('transform');</script>(ubyte[] <span class="funcparam">input</span>); [protected, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Performs the cipher on a block of data</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>the block of data to cipher</td></tr></table><br>
+<b>Remarks:</b><br>The actual cipher algorithm is carried out by this method on
+                the passed block of data. This method is called for every
+                blockSize&#40;&#41; bytes of input data and once more with the remaining
+                data padded to blockSize&#40;&#41;.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ubyte <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L254">getByte</a></span>
+<script>explorer.outline.addDecl('getByte');</script>(ulong <span class="funcparam">c</span>, uint <span class="funcparam">b1</span>, uint <span class="funcparam">b2</span> = 0); [private, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L263">round</a></span>
+<script>explorer.outline.addDecl('round');</script>(inout ulong <span class="funcparam">a</span>, inout ulong <span class="funcparam">b</span>, inout ulong <span class="funcparam">c</span>, ulong <span class="funcparam">x</span>, ulong <span class="funcparam">mul</span>); [private, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L275">pass</a></span>
+<script>explorer.outline.addDecl('pass');</script>(inout ulong <span class="funcparam">a</span>, inout ulong <span class="funcparam">b</span>, inout ulong <span class="funcparam">c</span>, ulong[8] <span class="funcparam">x</span>, ulong <span class="funcparam">mul</span>); [private, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L291">keySchedule</a></span>
+<script>explorer.outline.addDecl('keySchedule');</script>(ulong[8] <span class="funcparam">x</span>); [private, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ulong[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L315">t1</a></span>
+<script>explorer.outline.addDecl('t1');</script>(); [private, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ulong[1024] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Tiger.d?rev=3327#L326">table</a></span>
+<script>explorer.outline.addDecl('table');</script>; [private, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2006 Tango. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

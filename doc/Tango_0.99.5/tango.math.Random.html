@@ -1,0 +1,116 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.math.Random</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.math.Random");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Random.d?rev=3327">tango.math.Random</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: April 2004<br><br>
+<b>author:</b><br>Various<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Random.d?rev=3327#L46">Random</a></span>
+<script>explorer.outline.addDecl('Random');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">KISS &#40;via George Marsaglia &amp; Paul Hsieh&#41;</font><br><br>
+<font color="black">the idea is to use simple, fast, individually promising
+        generators to get a composite that will be fast, easy to code
+        have a very long period and pass all the tests put to it.
+        The three components of KISS are<br><br>                x&#40;n&#41;=a*x&#40;n-1&#41;+1 mod 2^32
+                y&#40;n&#41;=y&#40;n-1&#41;&#40;I+L^13&#41;&#40;I+R^17&#41;&#40;I+L^5&#41;,
+                z&#40;n&#41;=2*z&#40;n-1&#41;+z&#40;n-2&#41; +carry mod 2^32<br><br>        The y's are a shift register sequence on 32bit binary vectors
+        period 2^32-1; The z's are a simple multiply-with-carry sequence
+        with period 2^63+2^32-1.<br><br>        The period of KISS is thus 2^32*&#40;2^32-1&#41;*&#40;2^63+2^32-1&#41; &gt; 2^127<br><br></font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Random <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Random.d?rev=3327#L56">shared</a></span>
+<script>explorer.outline.addDecl('shared');</script>; [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Shared instance:
+                <pre class="d_code">
+
+                <span class="k">auto</span> <span class="i">random</span> = <span class="i">Random</span>.<span class="i">shared</span>.<span class="i">next</span>;
+                
+</pre></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>static <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Random.d?rev=3327#L75">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a static and shared instance:
+                <pre class="d_code">
+
+                <span class="k">auto</span> <span class="i">random</span> = <span class="i">Random</span>.<span class="i">shared</span>.<span class="i">next</span>;
+                
+</pre></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Random.d?rev=3327#L86">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creates and seeds a new generator with the current time</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Random <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Random.d?rev=3327#L97">seed</a></span>
+<script>explorer.outline.addDecl('seed');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Seed the generator with current time</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Random <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Random.d?rev=3327#L120">seed</a></span>
+<script>explorer.outline.addDecl('seed');</script>(uint <span class="funcparam">seed</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Seed the generator with a provided value</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Random.d?rev=3327#L136">next</a></span>
+<script>explorer.outline.addDecl('next');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns X such that 0 &lt;= X &lt;= uint.max</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Random.d?rev=3327#L159">next</a></span>
+<script>explorer.outline.addDecl('next');</script>(uint <span class="funcparam">max</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns X such that 0 &lt;= X &lt; max</font><br><br>
+<font color="black">Note that max is exclusive, making it compatible with
+                array indexing<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Random.d?rev=3327#L173">next</a></span>
+<script>explorer.outline.addDecl('next');</script>(uint <span class="funcparam">min</span>, uint <span class="funcparam">max</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns X such that min &lt;= X &lt; max</font><br><br>
+<font color="black">Note that max is exclusive, making it compatible with
+                array indexing<br><br></font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:34 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

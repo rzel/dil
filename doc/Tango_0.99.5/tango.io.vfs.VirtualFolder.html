@@ -1,0 +1,299 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.vfs.VirtualFolder</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.vfs.VirtualFolder");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327">tango.io.vfs.VirtualFolder</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Oct 2007: Initial version<br><br>
+<b>author:</b><br>Kris<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L37">VirtualFolder</a></span>
+<script>explorer.outline.addDecl('VirtualFolder');</script> : VfsHost;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Virtual folders play host to other folder types, including both
+        concrete folder instances and subordinate virtual folders. You 
+        can build a &#40;singly rooted&#41; tree from a set of virtual and non-
+        virtual folders, and treat them as though they were a combined
+        or single entity. For example, listing the contents of such a
+        tree is no different than listing the contents of a non-virtual
+        tree - there's just potentially more nodes to traverse.</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L52">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">All folder must have a name. No '.' or '/' chars are 
+                permitted</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L63">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the &#40;short&#41; name of this folder</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L76">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the &#40;long&#41; name of this folder. Virtual folders 
+                do not have long names, since they don't relate directly
+                to a concrete folder instance</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsHost <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L93">mount</a></span>
+<script>explorer.outline.addDecl('mount');</script>(VfsFolder <span class="funcparam">folder</span>, char[] <span class="funcparam">name</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add a child folder. The child cannot 'overlap' with others
+                in the tree of the same type. Circular references across a
+                tree of virtual folders are detected and trapped.</font><br><br>
+<font color="black">The second argument represents an optional name that the
+                mount should be known as, instead of the name exposed by 
+                the provided folder &#40;it is not an alias&#41;.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsHost <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L129">mount</a></span>
+<script>explorer.outline.addDecl('mount');</script>(VfsFolders <span class="funcparam">group</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add a set of child folders. The children cannot 'overlap' 
+                with others in the tree of the same type. Circular references 
+                are detected and trapped.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsHost <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L142">dismount</a></span>
+<script>explorer.outline.addDecl('dismount');</script>(VfsFolder <span class="funcparam">folder</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Unhook a child folder </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsHost <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L170">map</a></span>
+<script>explorer.outline.addDecl('map');</script>(VfsFile <span class="funcparam">file</span>, char[] <span class="funcparam">name</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add a symbolic link to another file. These are referenced
+                by file&#40;&#41; alone, and do not show up in tree traversals</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsHost <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L184">map</a></span>
+<script>explorer.outline.addDecl('map');</script>(VfsFolderEntry <span class="funcparam">folder</span>, char[] <span class="funcparam">name</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add a symbolic link to another folder. These are referenced
+                by folder&#40;&#41; alone, and do not show up in tree traversals</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L198">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout VfsFolder) <span class="funcparam">dg</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Iterate over the set of immediate child folders. This is 
+                useful for reflecting the hierarchy</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolderEntry <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L219">folder</a></span>
+<script>explorer.outline.addDecl('folder');</script>(char[] <span class="funcparam">path</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a folder representation of the given path. If the
+                path-head does not refer to an immediate child, and does
+                not match a symbolic link, it is considered unknown.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L242">file</a></span>
+<script>explorer.outline.addDecl('file');</script>(char[] <span class="funcparam">path</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a file representation of the given path. If the
+                path-head does not refer to an immediate child folder, 
+                and does not match a symbolic link, it is considered unknown.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolder <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L260">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Clear the entire subtree. Use with caution</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L273">writable</a></span>
+<script>explorer.outline.addDecl('writable');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns true if all of the children are writable</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolders <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L289">self</a></span>
+<script>explorer.outline.addDecl('self');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a folder set containing only this one. Statistics 
+                are inclusive of entries within this folder only, which 
+                should be zero since symbolic links are not included</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolders <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L301">tree</a></span>
+<script>explorer.outline.addDecl('tree');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a subtree of folders. Statistics are inclusive of 
+                all files and folders throughout the sub-tree</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L315">verify</a></span>
+<script>explorer.outline.addDecl('verify');</script>(VfsFolder <span class="funcparam">folder</span>, bool <span class="funcparam">mounting</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sweep the subtree of mountpoints, testing a new folder
+                against all others. This propogates a folder test down
+                throughout the tree, where each folder implementation
+                should take appropriate action</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolder <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L330">close</a></span>
+<script>explorer.outline.addDecl('close');</script>(bool <span class="funcparam">commit</span> = true);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Close and/or synchronize changes made to this folder. Each
+                driver should take advantage of this as appropriate, perhaps
+                combining multiple files together, or possibly copying to a 
+                remote location</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L343">error</a></span>
+<script>explorer.outline.addDecl('error');</script>(char[] <span class="funcparam">msg</span>); [package, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Throw an exception</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L354">validate</a></span>
+<script>explorer.outline.addDecl('validate');</script>(char[] <span class="funcparam">name</span>); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Validate path names</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L372">VirtualFolders</a></span>
+<script>explorer.outline.addDecl('VirtualFolders');</script> : VfsFolders; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A set of virtual folders. For a sub-tree, we compose the results 
+        of all our subordinates and delegate subsequent request to that
+        group.</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L382">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a subset group</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L391">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(VirtualFolder <span class="funcparam">root</span>, bool <span class="funcparam">recurse</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a folder group including the provided folder and
+                &#40;optionally&#41; all child folders</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L404">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout VfsFolder) <span class="funcparam">dg</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Iterate over the set of contained VfsFolder instances</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L424">files</a></span>
+<script>explorer.outline.addDecl('files');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the number of files in this group</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ulong <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L438">bytes</a></span>
+<script>explorer.outline.addDecl('bytes');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the total size of all files in this group</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L452">folders</a></span>
+<script>explorer.outline.addDecl('folders');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the number of folders in this group</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L466">entries</a></span>
+<script>explorer.outline.addDecl('entries');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the total number of entries in this group</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolders <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L480">subset</a></span>
+<script>explorer.outline.addDecl('subset');</script>(char[] <span class="funcparam">pattern</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a subset of folders matching the given pattern</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFiles <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L495">catalog</a></span>
+<script>explorer.outline.addDecl('catalog');</script>(char[] <span class="funcparam">pattern</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set of files matching the given pattern</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFiles <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L506">catalog</a></span>
+<script>explorer.outline.addDecl('catalog');</script>(VfsFilter <span class="funcparam">filter</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a set of files conforming to the given filter</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L521">VirtualFiles</a></span>
+<script>explorer.outline.addDecl('VirtualFiles');</script> : VfsFiles; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A set of virtual files, represented by composing the results of
+        the given set of folders. Subsequent calls are delegated to the
+        results from those folders</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L529">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(VirtualFolders <span class="funcparam">host</span>, VfsFilter <span class="funcparam">filter</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L541">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout VfsFile) <span class="funcparam">dg</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Iterate over the set of contained VfsFile instances</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L558">files</a></span>
+<script>explorer.outline.addDecl('files');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the total number of entries </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ulong <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/VirtualFolder.d?rev=3327#L572">bytes</a></span>
+<script>explorer.outline.addDecl('bytes');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the total size of all files </font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2007 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

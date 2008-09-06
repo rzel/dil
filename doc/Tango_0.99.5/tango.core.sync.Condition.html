@@ -1,0 +1,103 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.core.sync.Condition</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.core.sync.Condition");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/Condition.d?rev=3327">tango.core.sync.Condition</a></h1>
+                
+<font color="black">The condition module provides a primitive for synchronized condition
+ checking.</font><br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Authors:</b><br>
+Sean Kelly<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/Condition.d?rev=3327#L44">Condition</a></span>
+<script>explorer.outline.addDecl('Condition');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This class represents a condition variable as concieved by C.A.R. Hoare.  As
+ per Mesa type monitors however, "signal" has been replaced with "notify" to
+ indicate that control is not transferred to the waiter when a notification
+ is sent.
+ </font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/Condition.d?rev=3327#L61">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Mutex <span class="funcparam">m</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initializes a condition object which is associated with the supplied
+ mutex object.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">m</span></td><td>The mutex with which this condition will be associated.</td></tr></table><br>
+<b>Throws:</b><br>
+SyncException on error.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/Condition.d?rev=3327#L118">wait</a></span>
+<script>explorer.outline.addDecl('wait');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Wait until notified.</font><br><br>
+<b>Throws:</b><br>
+SyncException on error.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/Condition.d?rev=3327#L150">wait</a></span>
+<script>explorer.outline.addDecl('wait');</script>(double <span class="funcparam">period</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Suspends the calling thread until a notification occurs or until the
+ supplied time period has elapsed.  The supplied period may be up to a
+ maximum of &#40;uint.max - 1&#41; milliseconds.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">period</span></td><td>The time to wait, in seconds (fractional values are accepted).</td></tr></table><br>
+<b>In:</b><br>period must be less than &#40;uint.max - 1&#41; milliseconds.<br><br>
+<b>Returns:</b><br>
+true if notified before the timeout and false if not.<br><br>
+<b>Throws:</b><br>
+SyncException on error.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/Condition.d?rev=3327#L183">notify</a></span>
+<script>explorer.outline.addDecl('notify');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Notifies one waiter.</font><br><br>
+<b>Throws:</b><br>
+SyncException on error.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/Condition.d?rev=3327#L204">notifyAll</a></span>
+<script>explorer.outline.addDecl('notifyAll');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Notifies all waiters.</font><br><br>
+<b>Throws:</b><br>
+SyncException on error.<br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (C) 2005-2006 Sean Kelly.  All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

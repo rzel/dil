@@ -1,0 +1,133 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.digest.Sha01</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.digest.Sha01");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Sha01.d?rev=3327">tango.io.digest.Sha01</a></h1>
+                
+<b>License:</b><br>
+BSD style: see doc/license.txt for details<br><br>
+<b>Version:</b><br>
+Initial release: Feb 2006<br><br>
+<b>author:</b><br>Regan Heath, Oskar Linde<br><br>        This module implements common parts of the SHA-0 and SHA-1 algoritms<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Sha01.d?rev=3327#L25">Sha01</a></span>
+<script>explorer.outline.addDecl('Sha01');</script> : MerkleDamgard; [package, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Sha01.d?rev=3327#L37">digestSize</a></span>
+<script>explorer.outline.addDecl('digestSize');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The digest size of Sha-0 and Sha-1 is 20 bytes</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Sha01.d?rev=3327#L48">reset</a></span>
+<script>explorer.outline.addDecl('reset');</script>(); [protected, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initialize the cipher</font><br><br>
+<b>Remarks:</b><br>Returns the cipher state to it's initial value<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Sha01.d?rev=3327#L67">createDigest</a></span>
+<script>explorer.outline.addDecl('createDigest');</script>(ubyte[] <span class="funcparam">buf</span>); [protected, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Obtain the digest</font><br><br>
+<b>Returns:</b><br>
+the digest<br><br>
+<b>Remarks:</b><br>Returns a digest of the current cipher state, this may be the
+                final digest, or a digest of the state between calls to update&#40;&#41;<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Sha01.d?rev=3327#L88">blockSize</a></span>
+<script>explorer.outline.addDecl('blockSize');</script>(); [protected, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">block size</font><br><br>
+<b>Returns:</b><br>
+the block size<br><br>
+<b>Remarks:</b><br>Specifies the size &#40;in bytes&#41; of the block of data to pass to
+                each call to transform&#40;&#41;. For SHA0 the blockSize is 64.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Sha01.d?rev=3327#L104">addSize</a></span>
+<script>explorer.outline.addDecl('addSize');</script>(); [protected, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Length padding size</font><br><br>
+<b>Returns:</b><br>
+the length padding size<br><br>
+<b>Remarks:</b><br>Specifies the size &#40;in bytes&#41; of the padding which uses the
+                length of the data which has been ciphered, this padding is
+                carried out by the padLength method. For SHA0 the addSize is 0.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Sha01.d?rev=3327#L120">padMessage</a></span>
+<script>explorer.outline.addDecl('padMessage');</script>(ubyte[] <span class="funcparam">data</span>); [protected, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Pads the cipher data</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>a slice of the cipher buffer to fill with padding</td></tr></table><br>
+<b>Remarks:</b><br>Fills the passed buffer slice with the appropriate padding for
+                the final call to transform&#40;&#41;. This padding will fill the cipher
+                buffer up to blockSize&#40;&#41;-addSize&#40;&#41;.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Sha01.d?rev=3327#L141">padLength</a></span>
+<script>explorer.outline.addDecl('padLength');</script>(ubyte[] <span class="funcparam">data</span>, ulong <span class="funcparam">length</span>); [protected, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Performs the length padding</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">data</span></td><td>the slice of the cipher buffer to fill with padding</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">length</span></td><td>the length of the data which has been ciphered</td></tr></table><br>
+<b>Remarks:</b><br>Fills the passed buffer slice with addSize&#40;&#41; bytes of padding
+                based on the length in bytes of the input data which has been
+                ciphered.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Sha01.d?rev=3327#L153">f</a></span>
+<script>explorer.outline.addDecl('f');</script>(uint <span class="funcparam">t</span>, uint <span class="funcparam">B</span>, uint <span class="funcparam">C</span>, uint <span class="funcparam">D</span>); [protected, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Sha01.d?rev=3327#L165">K</a></span>
+<script>explorer.outline.addDecl('K');</script>; [private, static, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint[5] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Sha01.d?rev=3327#L177">initial</a></span>
+<script>explorer.outline.addDecl('initial');</script>; [private, static, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2006 Tango. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

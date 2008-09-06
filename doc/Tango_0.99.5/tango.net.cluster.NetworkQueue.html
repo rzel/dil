@@ -1,0 +1,92 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.cluster.NetworkQueue</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.cluster.NetworkQueue");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkQueue.d?rev=3327">tango.net.cluster.NetworkQueue</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+July 2004: Initial release<br><br>
+<b>author:</b><br>Kris<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkQueue.d?rev=3327#L26">NetworkQueue</a></span>
+<script>explorer.outline.addDecl('NetworkQueue');</script> : NetworkClient, IConsumer;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Exposes a gateway to the cluster queues, which collect ICached
+        objects until they are removed. Because there is a finite limit
+        to the quantity of entries stored, the put&#40;&#41; method may throw a
+        ClusterFullException if it cannot add a new entry.</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkQueue.d?rev=3327#L43">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(ICluster <span class="funcparam">cluster</span>, char[] <span class="funcparam">channel</span>, ChannelListener <span class="funcparam">listener</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a NetworkMessage gateway on the provided QOS cluster
+                for the specified channel. Each subsequent queue operation
+                will take place over the given channel.</font><br><br>
+<font color="black">You can listen for cluster replies by providing an optional 
+                ChannelListener. Outgoing messages will be tagged appropriately
+                such that a consumer can respond using IEvent.reply<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkQueue.d?rev=3327#L62">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(IMessage <span class="funcparam">message</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add an IMessage entry to the corresponding queue. This
+                will throw a ClusterFullException if there is no space
+                left in the clustered queue.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IMessage <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkQueue.d?rev=3327#L82">get</a></span>
+<script>explorer.outline.addDecl('get');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Query the cluster for queued entries on our corresponding 
+                channel. Returns, and removes, a matching entry from the 
+                cluster. This is the synchronous &#40;polling&#41; approach; you
+                should use createConsumer&#40;&#41; instead for asynchronous style
+                notification instead.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkQueue.d?rev=3327#L94">cancel</a></span>
+<script>explorer.outline.addDecl('cancel');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Cancel the listener. No more events will be dispatched to
+                the reply ChannelListener.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IConsumer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkQueue.d?rev=3327#L108">createConsumer</a></span>
+<script>explorer.outline.addDecl('createConsumer');</script>(ChannelListener <span class="funcparam">listener</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a listener for this channel. Listeners are invoked
+                when new content is placed into a corresponding queue.</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:32 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

@@ -1,0 +1,718 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.time.Time</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.time.Time");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327">tango.time.Time</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+mid 2005: Initial release
+                        Apr 2007: heavily reshaped
+                        Dec 2007: moved to tango.time<br><br>
+<b>author:</b><br>John Chapman, Kris, scheivguy<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L46">TimeSpan</a></span>
+<script>explorer.outline.addDecl('TimeSpan');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This struct represents a length of time.  The underlying representation is
+    in units of 100ns.  This allows the length of time to span to roughly
+    +/- 10000 years.
+    
+    Notably missing from this is a representation of weeks, months and years.
+    This is because weeks, months, and years vary according to local calendars.
+    Use tango.time.chrono.* to deal with these concepts.</font><br><br>
+<b>Note:</b><br>nobody should change this struct without really good reason as it is
+    required to be a part of some interfaces.  It should be treated as a
+    builtin type. Also note that there is deliberately no opCall constructor
+    here, since it tends to produce too much overhead.   If you wish to build
+    a TimeSpan struct from a ticks value, use D's builtin ability to create a
+    struct with given member values &#40;See the description of ticks&#40;&#41; for an
+    example of how to do this&#41;.<br><br>
+<b>Example:</b><br><pre class="d_code">
+
+    <span class="i">Time</span> <span class="i">start</span> = <span class="i">Clock</span>.<span class="i">now</span>;
+    <span class="i">Thread</span>.<span class="i">sleep</span>(<span class="n">0.150</span>);
+    <span class="i">Stdout</span>.<span class="i">formatln</span>(<span class="sl">"slept for {} ms"</span>, (<span class="i">Clock</span>.<span class="i">now</span>-<span class="i">start</span>).<span class="i">millis</span>);
+    
+</pre><br><br>
+<b>See Also:</b><br>
+tango.core.Thread, tango.time.Clock<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L86">min</a></span>
+<script>explorer.outline.addDecl('min');</script>; [static, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Minimum TimeSpan
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L91">max</a></span>
+<script>explorer.outline.addDecl('max');</script>; [static, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Maximum TimeSpan
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L96">zero</a></span>
+<script>explorer.outline.addDecl('zero');</script>; [static, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Zero TimeSpan.  Useful for comparisons.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L107">ticks</a></span>
+<script>explorer.outline.addDecl('ticks');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get the number of ticks that this timespan represents.  This can be
+ used to construct another TimeSpan:</font><br><br>
+<font color="black"><pre class="d_code">
+
+ <span class="k">long</span> <span class="i">ticks</span> = <span class="i">myTimeSpan</span>.<span class="i">ticks</span>;
+ <span class="i">TimeSpan</span> <span class="i">copyOfMyTimeSpan</span> = <span class="i">TimeSpan</span>(<span class="i">ticks</span>);
+ 
+</pre>
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L115">opEquals</a></span>
+<script>explorer.outline.addDecl('opEquals');</script>(TimeSpan <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Determines whether two TimeSpan values are equal
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L123">opCmp</a></span>
+<script>explorer.outline.addDecl('opCmp');</script>(TimeSpan <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Compares this object against another TimeSpan value.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L140">opAdd</a></span>
+<script>explorer.outline.addDecl('opAdd');</script>(TimeSpan <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add the TimeSpan given to this TimeSpan returning a new TimeSpan.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">t</span></td><td>A TimeSpan value to add</td></tr></table><br>
+<b>Returns:</b><br>
+A TimeSpan value that is the sum of this instance and t.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L152">opAddAssign</a></span>
+<script>explorer.outline.addDecl('opAddAssign');</script>(TimeSpan <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add the specified TimeSpan to this TimeSpan, assigning the result
+ to this instance.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">t</span></td><td>A TimeSpan value to add</td></tr></table><br>
+<b>Returns:</b><br>
+a copy of this instance after adding t.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L165">opSub</a></span>
+<script>explorer.outline.addDecl('opSub');</script>(TimeSpan <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Subtract the specified TimeSpan from this TimeSpan.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">t</span></td><td>A TimeSpan to subtract</td></tr></table><br>
+<b>Returns:</b><br>
+A new timespan which is the difference between this
+ instance and t<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L177">opSubAssign</a></span>
+<script>explorer.outline.addDecl('opSubAssign');</script>(TimeSpan <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Subtract the specified TimeSpan from this TimeSpan and assign the</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">t</span></td><td>A TimeSpan to subtract</td></tr></table><br>
+<b>Returns:</b><br>
+A copy of this instance after subtracting t.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L193">opMul</a></span>
+<script>explorer.outline.addDecl('opMul');</script>(long <span class="funcparam">v</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Scale the TimeSpan by the specified amount.  This should not be
+ used to convert to a different unit.  Use the unit accessors
+ instead.  This should only be used as a scaling mechanism.  For
+ example, if you have a timeout and you want to sleep for twice the
+ timeout, you would use timeout * 2.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">v</span></td><td>A multiplier to use for scaling this time span.</td></tr></table><br>
+<b>Returns:</b><br>
+A new TimeSpan that is scaled by v<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L204">opMulAssign</a></span>
+<script>explorer.outline.addDecl('opMulAssign');</script>(long <span class="funcparam">v</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Scales this TimeSpan and assigns the result to this instance.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">v</span></td><td>A multipler to use for scaling</td></tr></table><br>
+<b>Returns:</b><br>
+A copy of this instance after scaling<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L221">opDiv</a></span>
+<script>explorer.outline.addDecl('opDiv');</script>(long <span class="funcparam">v</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Divide the TimeSpan by the specified amount.  This should not be
+ used to convert to a different unit.  Use the unit accessors
+ instead.  This should only be used as a scaling mechanism.  For
+ example, if you have a timeout and you want to sleep for half the
+ timeout, you would use timeout / 2.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">v</span></td><td>A divisor to use for scaling this time span.</td></tr></table><br>
+<b>Returns:</b><br>
+A new TimeSpan that is divided by v<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L232">opDivAssign</a></span>
+<script>explorer.outline.addDecl('opDivAssign');</script>(long <span class="funcparam">v</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Divides this TimeSpan and assigns the result to this instance.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">v</span></td><td>A multipler to use for dividing</td></tr></table><br>
+<b>Returns:</b><br>
+A copy of this instance after dividing<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L245">opDiv</a></span>
+<script>explorer.outline.addDecl('opDiv');</script>(TimeSpan <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Perform integer division with the given time span.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">t</span></td><td>A divisor used for dividing</td></tr></table><br>
+<b>Returns:</b><br>
+The result of integer division between this instance and
+ t.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L255">opNeg</a></span>
+<script>explorer.outline.addDecl('opNeg');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Negate a time span</font><br><br>
+<b>Returns:</b><br>
+The negative equivalent to this time span<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L268">nanos</a></span>
+<script>explorer.outline.addDecl('nanos');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert to nanoseconds</font><br><br>
+<b>Note:</b><br>this may incur loss of data because nanoseconds cannot
+ represent the range of data a TimeSpan can represent.<br><br>
+<b>Returns:</b><br>
+The number of nanoseconds that this TimeSpan represents.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L278">micros</a></span>
+<script>explorer.outline.addDecl('micros');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert to microseconds</font><br><br>
+<b>Returns:</b><br>
+The number of microseconds that this TimeSpan represents.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L288">millis</a></span>
+<script>explorer.outline.addDecl('millis');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert to milliseconds</font><br><br>
+<b>Returns:</b><br>
+The number of milliseconds that this TimeSpan represents.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L298">seconds</a></span>
+<script>explorer.outline.addDecl('seconds');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert to seconds</font><br><br>
+<b>Returns:</b><br>
+The number of seconds that this TimeSpan represents.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L308">minutes</a></span>
+<script>explorer.outline.addDecl('minutes');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert to minutes</font><br><br>
+<b>Returns:</b><br>
+The number of minutes that this TimeSpan represents.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L318">hours</a></span>
+<script>explorer.outline.addDecl('hours');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert to hours</font><br><br>
+<b>Returns:</b><br>
+The number of hours that this TimeSpan represents.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L328">days</a></span>
+<script>explorer.outline.addDecl('days');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert to days</font><br><br>
+<b>Returns:</b><br>
+The number of days that this TimeSpan represents.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>double <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L342">interval</a></span>
+<script>explorer.outline.addDecl('interval');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert to a floating point interval representing seconds.</font><br><br>
+<b>Note:</b><br>This may cause a loss of precision as a double cannot exactly
+ represent some fractional values.<br><br>
+<b>Returns:</b><br>
+An interval representing the seconds and fractional
+ seconds that this TimeSpan represents.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeOfDay <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L352">time</a></span>
+<script>explorer.outline.addDecl('time');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert to TimeOfDay</font><br><br>
+<b>Returns:</b><br>
+the TimeOfDay this TimeSpan represents.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L366">nanos</a></span>
+<script>explorer.outline.addDecl('nanos');</script>(long <span class="funcparam">value</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a TimeSpan from the given number of nanoseconds</font><br><br>
+<b>Note:</b><br>This may cause a loss of data since a TimeSpan's resolution
+ is in 100ns increments.<br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The number of nanoseconds.</td></tr></table><br>
+<b>Returns:</b><br>
+A TimeSpan representing the given number of nanoseconds.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L377">micros</a></span>
+<script>explorer.outline.addDecl('micros');</script>(long <span class="funcparam">value</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a TimeSpan from the given number of microseconds</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The number of microseconds.</td></tr></table><br>
+<b>Returns:</b><br>
+A TimeSpan representing the given number of microseconds.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L388">millis</a></span>
+<script>explorer.outline.addDecl('millis');</script>(long <span class="funcparam">value</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a TimeSpan from the given number of milliseconds</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The number of milliseconds.</td></tr></table><br>
+<b>Returns:</b><br>
+A TimeSpan representing the given number of milliseconds.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L399">seconds</a></span>
+<script>explorer.outline.addDecl('seconds');</script>(long <span class="funcparam">value</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a TimeSpan from the given number of seconds</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The number of seconds.</td></tr></table><br>
+<b>Returns:</b><br>
+A TimeSpan representing the given number of seconds.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L410">minutes</a></span>
+<script>explorer.outline.addDecl('minutes');</script>(long <span class="funcparam">value</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a TimeSpan from the given number of minutes</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The number of minutes.</td></tr></table><br>
+<b>Returns:</b><br>
+A TimeSpan representing the given number of minutes.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L421">hours</a></span>
+<script>explorer.outline.addDecl('hours');</script>(long <span class="funcparam">value</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a TimeSpan from the given number of hours</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The number of hours.</td></tr></table><br>
+<b>Returns:</b><br>
+A TimeSpan representing the given number of hours.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L432">days</a></span>
+<script>explorer.outline.addDecl('days');</script>(long <span class="funcparam">value</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a TimeSpan from the given number of days</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The number of days.</td></tr></table><br>
+<b>Returns:</b><br>
+A TimeSpan representing the given number of days.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L445">interval</a></span>
+<script>explorer.outline.addDecl('interval');</script>(double <span class="funcparam">sec</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a TimeSpan from the given interval.  The interval
+ represents seconds as a double.  This allows both whole and
+ fractional seconds to be passed in.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The interval to convert in seconds.</td></tr></table><br>
+<b>Returns:</b><br>
+A TimeSpan representing the given interval.<br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L480">Time</a></span>
+<script>explorer.outline.addDecl('Time');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Represents a point in time.</font><br><br>
+<b>Remarks:</b><br>Time represents dates and times between 12:00:00 
+        midnight on January 1, 10000 BC and 11:59:59 PM on December 31, 
+        9999 AD.<br><br>        Time values are measured in 100-nanosecond intervals, or ticks. 
+        A date value is the number of ticks that have elapsed since 
+        12:00:00 midnight on January 1, 0001 AD in the Gregorian 
+        calendar.
+        
+        Negative Time values are offsets from that same reference point, 
+        but backwards in history.  Time values are not specific to any 
+        calendar, but for an example, the beginning of December 31, 1 BC 
+        in the Gregorian calendar is Time.epoch - TimeSpan.days&#40;1&#41;.<br><br>
+<b>Note:</b><br>common system epochs are provided to allow calculation of time
+        in other time systems.  For example, to convert a Time myTime to Unix
+        time &#40;number of seconds elapsed since 1/1/1970&#41;, you can write:<br><br>        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">unixTime</span> = (<span class="i">myTime</span> - <span class="i">Time</span>.<span class="i">epoch1970</span>).<span class="i">seconds</span>;
+        
+</pre><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L491">min</a></span>
+<script>explorer.outline.addDecl('min');</script>; [static, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L491">max</a></span>
+<script>explorer.outline.addDecl('max');</script>; [static, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Represents the smallest and largest Time value.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L495">epoch</a></span>
+<script>explorer.outline.addDecl('epoch');</script>; [static, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Represents the epoch &#40;1/1/0001&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L498">epoch1601</a></span>
+<script>explorer.outline.addDecl('epoch1601');</script>; [static, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Represents the epoch of 1/1/1601 &#40;Commonly used in Windows systems&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L501">epoch1970</a></span>
+<script>explorer.outline.addDecl('epoch1970');</script>; [static, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Represents the epoch of 1/1/1970 &#40;Commonly used in Unix systems&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L520">ticks</a></span>
+<script>explorer.outline.addDecl('ticks');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the number of ticks for this Time.
+                This value can be used to construct another Time struct by
+                </font><br><br>
+<b>writing:</b><br><pre class="d_code">
+
+                <span class="k">long</span> <span class="i">ticks</span> = <span class="i">myTime</span>.<span class="i">ticks</span>;
+                <span class="i">Time</span> <span class="i">copyOfMyTime</span> = <span class="i">Time</span>(<span class="i">ticks</span>);
+                
+</pre><br><br>
+<b>Returns:</b><br>
+A long represented by the time of this 
+                         instance.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L534">opEquals</a></span>
+<script>explorer.outline.addDecl('opEquals');</script>(Time <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Determines whether two Time values are equal.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>A Time _value.</td></tr></table><br>
+<b>Returns:</b><br>
+true if both instances are equal; otherwise, false<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L545">opCmp</a></span>
+<script>explorer.outline.addDecl('opCmp');</script>(Time <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Compares two Time values.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L566">opAdd</a></span>
+<script>explorer.outline.addDecl('opAdd');</script>(TimeSpan <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Adds the specified time span to the time, returning a new
+                time.
+                
+                </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">t</span></td><td>A TimeSpan value.</td></tr></table><br>
+<b>Returns:</b><br>
+A Time that is the sum of this instance and t.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L582">opAddAssign</a></span>
+<script>explorer.outline.addDecl('opAddAssign');</script>(TimeSpan <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Adds the specified time span to the time, assigning 
+                the result to this instance.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">t</span></td><td>A TimeSpan value.</td></tr></table><br>
+<b>Returns:</b><br>
+The current Time instance, with t added to the 
+                         time.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L599">opSub</a></span>
+<script>explorer.outline.addDecl('opSub');</script>(TimeSpan <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Subtracts the specified time span from the time, 
+                returning a new time.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">t</span></td><td>A TimeSpan value.</td></tr></table><br>
+<b>Returns:</b><br>
+A Time whose value is the value of this instance 
+                         minus the value of t.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L615">opSub</a></span>
+<script>explorer.outline.addDecl('opSub');</script>(Time <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a time span which represents the difference in time
+                between this and the given Time.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">t</span></td><td>A Time value.</td></tr></table><br>
+<b>Returns:</b><br>
+A TimeSpan which represents the difference between
+                         this and t.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L631">opSubAssign</a></span>
+<script>explorer.outline.addDecl('opSubAssign');</script>(TimeSpan <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Subtracts the specified time span from the time, 
+                assigning the result to this instance.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">t</span></td><td>A TimeSpan value.</td></tr></table><br>
+<b>Returns:</b><br>
+The current Time instance, with t subtracted 
+                         from the time.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L646">date</a></span>
+<script>explorer.outline.addDecl('date');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the date component.</font><br><br>
+<b>Returns:</b><br>
+A new Time instance with the same date as 
+                         this instance, but with the time trucated.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeOfDay <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L660">time</a></span>
+<script>explorer.outline.addDecl('time');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the time of day.</font><br><br>
+<b>Returns:</b><br>
+A TimeOfDay representing the fraction of the day 
+                         elapsed since midnight.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L673">span</a></span>
+<script>explorer.outline.addDecl('span');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the equivalent TimeSpan.</font><br><br>
+<b>Returns:</b><br>
+A TimeSpan representing this Time.<br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L703">TimeOfDay</a></span>
+<script>explorer.outline.addDecl('TimeOfDay');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Represents a time of day. This is different from TimeSpan in that 
+        each component is represented within the limits of everyday time, 
+        rather than from the start of the Epoch. Effectively, the TimeOfDay
+        epoch is the first second of each day.</font><br><br>
+<font color="black">This is handy for dealing strictly with a 24-hour clock instead of
+        potentially thousands of years. For example:
+        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">time</span> = <span class="i">Clock</span>.<span class="i">now</span>.<span class="i">time</span>;
+        <span class="k">assert</span> (<span class="i">time</span>.<span class="i">millis</span> &lt; <span class="n">1000</span>);
+        <span class="k">assert</span> (<span class="i">time</span>.<span class="i">seconds</span> &lt; <span class="n">60</span>);
+        <span class="k">assert</span> (<span class="i">time</span>.<span class="i">minutes</span> &lt; <span class="n">60</span>);
+        <span class="k">assert</span> (<span class="i">time</span>.<span class="i">hours</span> &lt; <span class="n">24</span>);
+        
+</pre><br><br>        You can create a TimeOfDay from an existing Time or TimeSpan instance
+        via the respective time&#40;&#41; method. To convert back to a TimeSpan, use
+        the span&#40;&#41; method<br><br></font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeOfDay <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L719">opCall</a></span>
+<script>explorer.outline.addDecl('opCall');</script>(uint <span class="funcparam">hours</span>, uint <span class="funcparam">minutes</span>, uint <span class="funcparam">seconds</span>, uint <span class="funcparam">millis</span> = 0); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">constructor.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">hours</span></td><td>number of hours since midnight</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">minutes</span></td><td>number of minutes into the hour</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">seconds</span></td><td>number of seconds into the minute</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">millis</span></td><td>number of milliseconds into the second</td></tr></table><br>
+<b>Returns:</b><br>
+a TimeOfDay representing the given time fields.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeOfDay <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L737">opCall</a></span>
+<script>explorer.outline.addDecl('opCall');</script>(long <span class="funcparam">ticks</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">constructor.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">ticks</span></td><td>ticks representing a Time value.  This is normalized 
+ so that it represent a time of day (modulo-24 etc)</td></tr></table><br>
+<b>Returns:</b><br>
+a TimeOfDay value that corresponds to the time of day of
+ the given number of ticks.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L760">span</a></span>
+<script>explorer.outline.addDecl('span');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">construct a TimeSpan from the current fields</font><br><br>
+<b>Returns:</b><br>
+a TimeOfDay representing the field values.<br><br>
+<b>Note:</b><br>that fields are not checked against a valid range, so
+ setting 60 for minutes is allowed, and will just add 1 to the hour
+ component, and set the minute component to 0.  The result is
+ normalized, so the hours wrap.  If you pass in 25 hours, the
+ resulting TimeOfDay will have a hour component of 1.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeSpan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L772">modulo24</a></span>
+<script>explorer.outline.addDecl('modulo24');</script>(long <span class="funcparam">ticks</span>); [package, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">internal routine to adjust ticks by one day. Also adjusts for
+ offsets in the BC era
+         </font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L787">Date</a></span>
+<script>explorer.outline.addDecl('Date');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Generic Date representation</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L789">era</a></span>
+<script>explorer.outline.addDecl('era');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L789">day</a></span>
+<script>explorer.outline.addDecl('day');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L789">year</a></span>
+<script>explorer.outline.addDecl('year');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L789">month</a></span>
+<script>explorer.outline.addDecl('month');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L789">dow</a></span>
+<script>explorer.outline.addDecl('dow');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L789">doy</a></span>
+<script>explorer.outline.addDecl('doy');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">1 .. 366</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L804">DateTime</a></span>
+<script>explorer.outline.addDecl('DateTime');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Combination of a Date and a TimeOfDay</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Date <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L806">date</a></span>
+<script>explorer.outline.addDecl('date');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">date representation</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>TimeOfDay <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/Time.d?rev=3327#L807">time</a></span>
+<script>explorer.outline.addDecl('time');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">time representation</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2007 Tango. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:35 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

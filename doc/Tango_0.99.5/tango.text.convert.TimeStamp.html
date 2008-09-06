@@ -1,0 +1,170 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.text.convert.TimeStamp</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.text.convert.TimeStamp");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327">tango.text.convert.TimeStamp</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: May 2005<br><br>
+<b>author:</b><br>Kris<br><br>        Converts between native and text representations of HTTP time
+        values. Internally, time is represented as UTC with an epoch 
+        fixed at Jan 1st 1970. The text representation is formatted in
+        accordance with RFC 1123, and the parser will accept one of 
+        RFC 1123, RFC 850, or asctime formats.<br><br>        See http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html for
+        further detail.<br><br>        Applying the D "import alias" mechanism to this module is highly
+        recommended, in order to limit namespace pollution:
+        <pre class="d_code">
+
+        <span class="k">import</span> <span class="i">TimeStamp</span> = <span class="i">tango</span>.<span class="i">text</span>.<span class="i">convert</span>.<span class="i">TimeStamp</span>;
+
+        <span class="k">auto</span> <span class="i">t</span> = <span class="i">TimeStamp</span>.<span class="i">parse</span> (<span class="sl">"Sun, 06 Nov 1994 08:49:37 GMT"</span>);
+        
+</pre><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ulong <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L49">toTime</a></span>
+<script>explorer.outline.addDecl('toTime');</script>(T)(T[] <span class="funcparam">src</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse provided input and return a UTC epoch time. An exception
+        is raised where the provided string is not fully parsed.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L68">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(Time <span class="funcparam">time</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Template wrapper to make life simpler. Returns a text version
+        of the provided value.</font><br><br>
+<font color="black">See format&#40;&#41; for details<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>wchar[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L84">toString16</a></span>
+<script>explorer.outline.addDecl('toString16');</script>(Time <span class="funcparam">time</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Template wrapper to make life simpler. Returns a text version
+        of the provided value.</font><br><br>
+<font color="black">See format&#40;&#41; for details<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>dchar[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L100">toString32</a></span>
+<script>explorer.outline.addDecl('toString32');</script>(Time <span class="funcparam">time</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Template wrapper to make life simpler. Returns a text version
+        of the provided value.</font><br><br>
+<font color="black">See format&#40;&#41; for details<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L120">format</a></span>
+<script>explorer.outline.addDecl('format');</script>(T, U=Time)(T[] <span class="funcparam">output</span>, U <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">RFC1123 formatted time</font><br><br>
+<font color="black">Converts to the format "Sun, 06 Nov 1994 08:49:37 GMT", and
+        returns a populated slice of the provided buffer. Note that
+        RFC1123 format is always in absolute GMT time, and a thirty-
+        element buffer is sufficient for the produced output<br><br>        Throws an exception where the supplied time is invalid<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L167">parse</a></span>
+<script>explorer.outline.addDecl('parse');</script>(T)(T[] <span class="funcparam">src</span>, uint* <span class="funcparam">ate</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse provided input and return a UTC epoch time. A return value 
+      of Time.max indicated a parse-failure.</font><br><br>
+<font color="black">An option is provided to return the count of characters parsed - 
+      an unchanged value here also indicates invalid input.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L194">rfc1123</a></span>
+<script>explorer.outline.addDecl('rfc1123');</script>(T)(T[] <span class="funcparam">src</span>, inout Time <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">RFC 822, updated by RFC 1123 :: "Sun, 06 Nov 1994 08:49:37 GMT"</font><br><br>
+<font color="black">Returns the number of elements consumed by the parse; zero if
+        the parse failed<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L235">rfc850</a></span>
+<script>explorer.outline.addDecl('rfc850');</script>(T)(T[] <span class="funcparam">src</span>, inout Time <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">RFC 850, obsoleted by RFC 1036 :: "Sunday, 06-Nov-94 08:49:37 GMT"</font><br><br>
+<font color="black">Returns the number of elements consumed by the parse; zero if
+        the parse failed<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L282">asctime</a></span>
+<script>explorer.outline.addDecl('asctime');</script>(T)(T[] <span class="funcparam">src</span>, inout Time <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">ANSI C's asctime&#40;&#41; format :: "Sun Nov 6 08:49:37 1994"</font><br><br>
+<font color="black">Returns the number of elements consumed by the parse; zero if
+        the parse failed<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L321">dostime</a></span>
+<script>explorer.outline.addDecl('dostime');</script>(T)(T[] <span class="funcparam">src</span>, inout Time <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">DOS time format :: "12-31-06 08:49AM"</font><br><br>
+<font color="black">Returns the number of elements consumed by the parse; zero if
+        the parse failed<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L368">iso8601</a></span>
+<script>explorer.outline.addDecl('iso8601');</script>(T)(T[] <span class="funcparam">src</span>, inout Time <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">ISO-8601 format :: "2006-01-31 14:49:30,001"</font><br><br>
+<font color="black">Returns the number of elements consumed by the parse; zero if
+        the parse failed<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L403">time</a></span>
+<script>explorer.outline.addDecl('time');</script>(T)(inout TimeOfDay <span class="funcparam">time</span>, inout T* <span class="funcparam">p</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse a time field</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L419">parseMonth</a></span>
+<script>explorer.outline.addDecl('parseMonth');</script>(T)(inout T* <span class="funcparam">p</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Match a month from the input</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L476">parseShortDay</a></span>
+<script>explorer.outline.addDecl('parseShortDay');</script>(T)(inout T* <span class="funcparam">p</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Match a day from the input</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L518">parseFullDay</a></span>
+<script>explorer.outline.addDecl('parseFullDay');</script>(T)(inout T* <span class="funcparam">p</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Match a day from the input. Sunday is 0</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/TimeStamp.d?rev=3327#L547">parseInt</a></span>
+<script>explorer.outline.addDecl('parseInt');</script>(T)(inout T* <span class="funcparam">p</span>); [private, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract an integer from the input</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:31 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

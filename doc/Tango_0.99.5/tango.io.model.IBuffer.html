@@ -1,0 +1,501 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.model.IBuffer</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.model.IBuffer");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327">tango.io.model.IBuffer</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Mar 2004: Initial release
+                        Dec 2006: Outback release<br><br>
+<b>author:</b><br>Kris<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L57">IBuffer</a></span>
+<script>explorer.outline.addDecl('IBuffer');</script> : IConduit, Buffered; [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Buffer is central concept in Tango I/O. Each buffer acts
+        as a queue &#40;line&#41; where items are removed from the front
+        and new items are added to the back. Buffers are modeled 
+        by this interface and implemented in various ways.
+        
+        Buffer can be read from and written to directly, though 
+        various data-converters and filters are often leveraged 
+        to apply structure to what might otherwise be simple raw 
+        data. </font><br><br>
+<font color="black">Buffers may also be tokenized by applying an Iterator. 
+        This can be handy when one is dealing with text input, 
+        and/or the content suits a more fluid format than most 
+        typical converters support. Iterator tokens are mapped 
+        directly onto buffer content &#40;sliced&#41;, making them quite 
+        efficient in practice. Like other types of buffer client, 
+        multiple iterators can be mapped onto one common buffer
+        and access will be serialized.<br><br>        Buffers are sometimes memory-only, in which case there
+        is nothing left to do when a client has consumed all the 
+        content. Other buffers are themselves bound to an external
+        device called a conduit. When this is the case, a consumer 
+        will eventually cause a buffer to reload via its associated 
+        conduit and previous buffer content will be lost. 
+        
+        A similar approach is applied to clients which populate a
+        buffer, whereby the content of a full buffer will be flushed
+        to a bound conduit before continuing. Another variation is 
+        that of a memory-mapped buffer, whereby the buffer content 
+        is mapped directly to virtual memory exposed via the OS. This 
+        can be used to address large files as an array of content.<br><br>        See tango.io.Buffer for more info.<br><br></font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L68">buffer</a></span>
+<script>explorer.outline.addDecl('buffer');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">implements Buffered interface</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L76">getContent</a></span>
+<script>explorer.outline.addDecl('getContent');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the backing array</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L85">slice</a></span>
+<script>explorer.outline.addDecl('slice');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a void[] slice of the buffer up to the limit of
+                valid content.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L96">setContent</a></span>
+<script>explorer.outline.addDecl('setContent');</script>(void[] <span class="funcparam">data</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the backing array with all content readable. Writing
+                to this will either flush it to an associated conduit, or
+                raise an Eof condition. Use IBuffer.clear&#40;&#41; to reset the
+                content &#40;make it all writable&#41;.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L107">setContent</a></span>
+<script>explorer.outline.addDecl('setContent');</script>(void[] <span class="funcparam">data</span>, uint <span class="funcparam">readable</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the backing array with some content readable. Writing
+                to this will either flush it to an associated conduit, or
+                raise an Eof condition. Use IBuffer.clear&#40;&#41; to reset the
+                content &#40;make it all writable&#41;.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L120">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(void* <span class="funcparam">content</span>, uint <span class="funcparam">length</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append an array of data into this buffer, and flush to the
+                conduit as necessary. Returns a chaining reference if all 
+                data was written; throws an IOException indicating eof or 
+                eob if not.</font><br><br>
+<font color="black">This is often used in lieu of a Writer.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L133">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(void[] <span class="funcparam">content</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append an array of data into this buffer, and flush to the
+                conduit as necessary. Returns a chaining reference if all 
+                data was written; throws an IOException indicating eof or 
+                eob if not.</font><br><br>
+<font color="black">This is often used in lieu of a Writer.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L146">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(IBuffer <span class="funcparam">other</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append another buffer to this one, and flush to the
+                conduit as necessary. Returns a chaining reference if all 
+                data was written; throws an IOException indicating eof or 
+                eob if not.</font><br><br>
+<font color="black">This is often used in lieu of a Writer.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L170">consume</a></span>
+<script>explorer.outline.addDecl('consume');</script>(void[] <span class="funcparam">src</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Consume content from a producer</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam"></span></td><td>The content to consume. This is consumed verbatim, and in
+                raw binary format ~ no implicit conversions are performed.</td></tr></table><br>
+<b>Remarks:</b><br>This is often used in lieu of a Writer, and enables simple
+                classes, such as FilePath and Uri, to emit content directly
+                into a buffer &#40;thus avoiding potential heap activity&#41;<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+                <span class="k">auto</span> <span class="i">path</span> = <span class="k">new</span> <span class="i">FilePath</span> (<span class="i">somepath</span>);
+
+                <span class="i">path</span>.<span class="i">produce</span> (&amp;<span class="i">buffer</span>.<span class="i">consume</span>);
+                
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L185">slice</a></span>
+<script>explorer.outline.addDecl('slice');</script>(uint <span class="funcparam">size</span>, bool <span class="funcparam">eat</span> = true); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Read a chunk of data from the buffer, loading from the
+                conduit as necessary. The requested number of bytes are
+                loaded into the buffer, and marked as having been read 
+                when the 'eat' parameter is set true. When 'eat' is set
+                false, the read position is not adjusted.</font><br><br>
+<font color="black">Returns the corresponding buffer slice when successful, 
+                or null if there's not enough data available &#40;Eof; Eob&#41;.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L205">readExact</a></span>
+<script>explorer.outline.addDecl('readExact');</script>(void* <span class="funcparam">dst</span>, uint <span class="funcparam">bytes</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Access buffer content</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">dst</span></td><td>destination of the content</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">bytes</span></td><td>size of dst</td></tr></table><br>
+<b>Returns:</b><br>
+A reference to the populated content<br><br>
+<b>Remarks:</b><br>Fill the provided array with content. We try to satisfy 
+                the request from the buffer content, and read directly
+                from an attached conduit where more is required.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L215">fill</a></span>
+<script>explorer.outline.addDecl('fill');</script>(void[] <span class="funcparam">dst</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Fill the provided buffer. Returns the number of bytes
+                actually read, which will be less than dst.length when
+                Eof has been reached and IConduit.Eof thereafter.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L230">write</a></span>
+<script>explorer.outline.addDecl('write');</script>(uint delegate (void[]) <span class="funcparam">writer</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Exposes the raw data buffer at the current write position, 
+                The delegate is provided with a void[] representing space
+                available within the buffer at the current write position.</font><br><br>
+<font color="black">The delegate should return the approriate number of bytes 
+                if it writes valid content, or IConduit.Eof on error.<br><br>                Returns whatever the delegate returns.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L246">read</a></span>
+<script>explorer.outline.addDecl('read');</script>(uint delegate (void[]) <span class="funcparam">reader</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Exposes the raw data buffer at the current read position. The
+                delegate is provided with a void[] representing the available
+                data, and should return zero to leave the current read position
+                intact. 
+                
+                If the delegate consumes data, it should return the number of 
+                bytes consumed; or IConduit.Eof to indicate an error.</font><br><br>
+<font color="black">Returns whatever the delegate returns.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L260">compress</a></span>
+<script>explorer.outline.addDecl('compress');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">If we have some data left after an export, move it to 
+                front-of-buffer and set position to be just after the 
+                remains. This is for supporting certain conduits which 
+                choose to write just the initial portion of a request.
+                            
+                Limit is set to the amount of data remaining. Position 
+                is always reset to zero.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L274">skip</a></span>
+<script>explorer.outline.addDecl('skip');</script>(int <span class="funcparam">size</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Skip ahead by the specified number of bytes, streaming from 
+                the associated conduit as necessary.
+        
+                Can also reverse the read position by 'size' bytes. This may
+                be used to support lookahead-type operations.</font><br><br>
+<font color="black">Returns true if successful, false otherwise.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L297">next</a></span>
+<script>explorer.outline.addDecl('next');</script>(uint delegate (void[])); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Support for tokenizing iterators. 
+                
+                Upon success, the delegate should return the byte-based 
+                index of the consumed pattern &#40;tail end of it&#41;. Failure
+                to match a pattern should be indicated by returning an
+                IConduit.Eof.</font><br><br>
+<font color="black">Each pattern is expected to be stripped of the delimiter.
+                An end-of-file condition causes trailing content to be 
+                placed into the token. Requests made beyond Eof result
+                in empty matches &#40;length == zero&#41;.<br><br>                Note that additional iterator and/or reader instances
+                will stay in lockstep when bound to a common buffer.<br><br>                Returns true if a token was isolated, false otherwise.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L311">fill</a></span>
+<script>explorer.outline.addDecl('fill');</script>(InputStream <span class="funcparam">src</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Try to _fill the available buffer with content from the 
+                specified conduit. We try to read as much as possible 
+                by clearing the buffer when all current content has been 
+                eaten. If there is no space available, nothing will be 
+                read.</font><br><br>
+<font color="black">Returns the number of bytes read, or Conduit.Eof.
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L322">drain</a></span>
+<script>explorer.outline.addDecl('drain');</script>(OutputStream <span class="funcparam">dst</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Write as much of the buffer that the associated conduit
+                can consume.</font><br><br>
+<font color="black">Returns the number of bytes written, or Conduit.Eof.
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L331">truncate</a></span>
+<script>explorer.outline.addDecl('truncate');</script>(uint <span class="funcparam">extent</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Truncate the buffer within its extent. Returns true if
+                the new 'extent' is valid, false otherwise.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L340">readable</a></span>
+<script>explorer.outline.addDecl('readable');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return count of readable bytes remaining in buffer. This is 
+                calculated simply as limit&#40;&#41; - position&#40;&#41;.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L349">writable</a></span>
+<script>explorer.outline.addDecl('writable');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return count of writable bytes available in buffer. This is 
+                calculated simply as capacity&#40;&#41; - limit&#40;&#41;.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L357">limit</a></span>
+<script>explorer.outline.addDecl('limit');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the limit of readable content within this buffer.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L365">capacity</a></span>
+<script>explorer.outline.addDecl('capacity');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the total capacity of this buffer.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L373">position</a></span>
+<script>explorer.outline.addDecl('position');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the current position within this buffer.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L385">setConduit</a></span>
+<script>explorer.outline.addDecl('setConduit');</script>(IConduit <span class="funcparam">conduit</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sets the external conduit associated with this buffer.</font><br><br>
+<font color="black">Buffers do not require an external conduit to operate, but 
+                it can be convenient to associate one. For example, methods
+                read and write use it to import/export content as necessary.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L403">output</a></span>
+<script>explorer.outline.addDecl('output');</script>(OutputStream <span class="funcparam">sink</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set output stream</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">sink</span></td><td>the stream to attach to</td></tr></table><br>
+<b>Remarks:</b><br>Sets the external output stream associated with this buffer.<br><br>                Buffers do not require an external stream to operate, but 
+                it can be convenient to associate one. For example, methods
+                fill &amp; drain use them to import/export content as necessary.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L421">input</a></span>
+<script>explorer.outline.addDecl('input');</script>(InputStream <span class="funcparam">source</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set input stream</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">source</span></td><td>the stream to attach to</td></tr></table><br>
+<b>Remarks:</b><br>Sets the external input stream associated with this buffer.<br><br>                Buffers do not require an external stream to operate, but 
+                it can be convenient to associate one. For example, methods
+                fill &amp; drain use them to import/export content as necessary.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L443">read</a></span>
+<script>explorer.outline.addDecl('read');</script>(void[] <span class="funcparam">dst</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Transfer content into the provided dst.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">dst</span></td><td>destination of the content</td></tr></table><br>
+<b>Returns:</b><br>
+Return the number of bytes read, which may be less than
+                dst.length. Eof is returned when no further content is
+                available.<br><br>
+<b>Remarks:</b><br>Populates the provided array with content. We try to 
+                satisfy the request from the buffer content, and read 
+                directly from an attached conduit when the buffer is 
+                empty.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L462">write</a></span>
+<script>explorer.outline.addDecl('write');</script>(void[] <span class="funcparam">src</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Emulate OutputStream.write&#40;&#41;</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">src</span></td><td>the content to write</td></tr></table><br>
+<b>Returns:</b><br>
+Return the number of bytes written, which will be Eof when
+                the content cannot be written.<br><br>
+<b>Remarks:</b><br>Appends all of dst to the buffer, flushing to an attached
+                conduit as necessary.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>OutputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L480">output</a></span>
+<script>explorer.outline.addDecl('output');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Exposes configured output stream</font><br><br>
+<b>Returns:</b><br>
+Returns the OutputStream associated with this buffer. Returns 
+                null if the buffer is not attached to an output; that is, it's
+                not backed by some external medium.<br><br>
+<b>Remarks:</b><br>Buffers do not require an external stream to operate, but 
+                it can be convenient to associate them. For example, methods
+                fill &amp; drain use them to import/export content as necessary.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>InputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L498">input</a></span>
+<script>explorer.outline.addDecl('input');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Exposes configured input stream</font><br><br>
+<b>Returns:</b><br>
+Returns the InputStream associated with this buffer. Returns 
+                null if the buffer is not attached to an input; that is, it's
+                not backed by some external medium.<br><br>
+<b>Remarks:</b><br>Buffers do not require an external stream to operate, but 
+                it can be convenient to associate them. For example, methods
+                fill &amp; drain use them to import/export content as necessary.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L506">error</a></span>
+<script>explorer.outline.addDecl('error');</script>(char[] <span class="funcparam">msg</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Throw an exception with the provided message</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L524">conduit</a></span>
+<script>explorer.outline.addDecl('conduit');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Access configured conduit</font><br><br>
+<b>Returns:</b><br>
+Returns the conduit associated with this buffer. Returns 
+                null if the buffer is purely memory based; that is, it's
+                not backed by some external medium.<br><br>
+<b>Remarks:</b><br>Buffers do not require an external conduit to operate, but 
+                it can be convenient to associate one. For example, methods
+                fill&#40;&#41; &amp; drain&#40;&#41; use it to import/export content as necessary.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L532">bufferSize</a></span>
+<script>explorer.outline.addDecl('bufferSize');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a preferred size for buffering conduit I/O.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L540">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the name of this conduit.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L548">isAlive</a></span>
+<script>explorer.outline.addDecl('isAlive');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is the conduit alive?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>OutputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L557">flush</a></span>
+<script>explorer.outline.addDecl('flush');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Flush the contents of this buffer to the related conduit.
+                Throws an IOException on premature eof.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>InputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L565">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reset position and limit to zero.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>OutputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L582">copy</a></span>
+<script>explorer.outline.addDecl('copy');</script>(InputStream <span class="funcparam">src</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Copy content via this buffer from the provided src
+                conduit.</font><br><br>
+<b>Remarks:</b><br>The src conduit has its content transferred through 
+                this buffer via a series of fill &amp; drain operations, 
+                until there is no more content available. The buffer
+                content should be explicitly flushed by the caller.<br><br>                Throws an IOException on premature Eof.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L590">detach</a></span>
+<script>explorer.outline.addDecl('detach');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Release external resources</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L602">close</a></span>
+<script>explorer.outline.addDecl('close');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Close the stream</font><br><br>
+<b>Remarks:</b><br>Propagate request to an attached OutputStream &#40;this is a
+                requirement for the OutputStream interface&#41;<br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>interface <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/model/IBuffer.d?rev=3327#L619">Buffered</a></span>
+<script>explorer.outline.addDecl('Buffered');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Supported by streams which are prepared to share an internal buffer 
+        instance. This is intended to avoid a situation whereby content is
+        shunted unnecessarily from one buffer to another when "decorator"
+        streams are connected together in arbitrary ways.
+        
+        Do not implement this if the internal buffer should not be accessed 
+        directly by another stream e.g. if wrapper methods manipulate content
+        on the way in or out of the buffer.</font><br><br>
+</dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

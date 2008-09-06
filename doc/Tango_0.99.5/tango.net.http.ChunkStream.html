@@ -1,0 +1,102 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.http.ChunkStream</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.http.ChunkStream");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/ChunkStream.d?rev=3327">tango.net.http.ChunkStream</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Nov 2007: Initial release<br><br>
+<b>author:</b><br>Kris<br><br>        Support for HTTP chunked I/O. 
+        
+        See http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/ChunkStream.d?rev=3327#L36">ChunkOutput</a></span>
+<script>explorer.outline.addDecl('ChunkOutput');</script> : OutputFilter, Buffered;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Prefix each block of data with its length &#40;in hex digits&#41; and add
+        appropriate \r\n sequences. To write trailing headers you'll need
+        to step around this stream &#40;otherwise those headers will be chunk
+        stamped also: use this.host or this.buffer to obtain the upstream
+        sibling&#41;</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/ChunkStream.d?rev=3327#L46">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(OutputStream <span class="funcparam">stream</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Use a buffer belonging to our sibling, if one is available</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/ChunkStream.d?rev=3327#L57">buffer</a></span>
+<script>explorer.outline.addDecl('buffer');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Buffered interface</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/ChunkStream.d?rev=3327#L69">write</a></span>
+<script>explorer.outline.addDecl('write');</script>(void[] <span class="funcparam">src</span>); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Write a chunk to the output, prefixed and postfixed in a 
+                manner consistent with the HTTP chunked transfer coding</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/ChunkStream.d?rev=3327#L91">ChunkInput</a></span>
+<script>explorer.outline.addDecl('ChunkInput');</script> : LineIterator!(char);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse hex digits, and use the resultant size to modulate requests 
+        for incoming data. A chunk size of 0 terminates the stream, so to
+        read any trailing headers you'll need to reach into the upstream
+        sibling instead &#40;this.host or this.buffer, for example&#41;.</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/ChunkStream.d?rev=3327#L102">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InputStream <span class="funcparam">stream</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Prime the available chunk size by reading and parsing the
+                first available line</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/ChunkStream.d?rev=3327#L114">nextChunk</a></span>
+<script>explorer.outline.addDecl('nextChunk');</script>(); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Read and parse another chunk size</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/http/ChunkStream.d?rev=3327#L129">read</a></span>
+<script>explorer.outline.addDecl('read');</script>(void[] <span class="funcparam">dst</span>); [override, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Read content based on a previously parsed chunk size</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) Nov 2007 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:32 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

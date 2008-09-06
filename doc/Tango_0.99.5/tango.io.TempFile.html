@@ -1,0 +1,188 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.TempFile</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.TempFile");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327">tango.io.TempFile</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: December 2007<br><br>
+<b>Authors:</b><br>
+Daniel Keep<br><br>
+<b>credits:</b><br>Thanks to John Reimer for helping test this module under
+              Linux.<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L186">TempFile</a></span>
+<script>explorer.outline.addDecl('TempFile');</script> : DeviceConduit, DeviceConduit.Seek;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The TempFile class aims to provide a safe way of creating and destroying
+ temporary files.  The TempFile class will automatically close temporary
+ files when the object is destroyed, so it is recommended that you make
+ appropriate use of scoped destruction.</font><br><br>
+<font color="black">Temporary files can be created with one of several styles, much like normal
+ FileConduits.  TempFile styles have the following properties:<br><br> <ul>
+ <li><b>Transience</b>: this determines whether the file should be destroyed
+ as soon as it is closed (transient,) or continue to persist even after the
+ application has terminated (permanent.)</li>
+ </ul><br><br> Eventually, this will be expanded to give you greater control over the
+ temporary file's properties.<br><br> For the typical use-case &#40;creating a file to temporarily store data too
+ large to fit into memory,&#41; the following is sufficient:<br><br> <pre class="d_code">
+
+  {
+      <span class="k">scope</span> <span class="i">temp</span> = <span class="k">new</span> <span class="i">TempFile</span>;
+      
+      <span class="lc">// Use temp as a normal conduit; it will be automatically closed when</span>
+      <span class="lc">// it goes out of scope.</span>
+  }
+ 
+</pre><br><br> <b>Important</b>:
+ It is recommended that you <i>do not</i> use files created by this class to
+ store sensitive information.  There are several known issues with the
+ current implementation that could allow an attacker to access the contents
+ of these temporary files.<br><br> <b>Todo</b>: Detail security properties and guarantees.<br><br></font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L212">Transience</a></span>
+<script>explorer.outline.addDecl('Transience');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This enumeration is used to control whether the temporary file should
+ persist after the TempFile object has been destroyed.</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L217">Transient</a></span>
+<script>explorer.outline.addDecl('Transient');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The temporary file should be destroyed along with the owner object.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L222">Permanent</a></span>
+<script>explorer.outline.addDecl('Permanent');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The temporary file should persist after the object has been
+ destroyed.
+         </font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L260">Style</a></span>
+<script>explorer.outline.addDecl('Style');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This structure is used to determine how the temporary files should be
+ opened and used.</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Transience <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L264">transience</a></span>
+<script>explorer.outline.addDecl('transience');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L268">attempts</a></span>
+<script>explorer.outline.addDecl('attempts');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+</dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Style <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L275">Transient</a></span>
+<script>explorer.outline.addDecl('Transient');</script>; [static, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Style for creating a transient temporary file that only the current
+ user can access.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Style <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L280">Permanent</a></span>
+<script>explorer.outline.addDecl('Permanent');</script>; [static, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Style for creating a permanent temporary file that only the current
+ user can access.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L292">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Style <span class="funcparam">style</span> = Style.init);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L298">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">prefix</span>, Style <span class="funcparam">style</span> = Style.init);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L304">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(FilePath <span class="funcparam">prefix</span>, Style <span class="funcparam">style</span> = Style.init);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FilePath <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L321">path</a></span>
+<script>explorer.outline.addDecl('path');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a PathView to the temporary file.  Please note that depending
+ on your platform, the returned path may or may not actually exist if
+ you specified a transient file.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Style <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L331">style</a></span>
+<script>explorer.outline.addDecl('style');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Indicates the style that this TempFile was created with.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L349">position</a></span>
+<script>explorer.outline.addDecl('position');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the current cursor position within the file.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L359">length</a></span>
+<script>explorer.outline.addDecl('length');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the total length, in bytes, of the temporary file.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L568">seek</a></span>
+<script>explorer.outline.addDecl('seek');</script>(long <span class="funcparam">offset</span>, Seek.Anchor <span class="funcparam">anchor</span> = Seek.Anchor.Begin);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Seeks the temporary file's cursor to the given location.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FilePath <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/TempFile.d?rev=3327#L576">tempPath</a></span>
+<script>explorer.outline.addDecl('tempPath');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the path to the directory where temporary files will be
+ created.  The returned path is safe to mutate.</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright &copy; 2007 Daniel Keep.  All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

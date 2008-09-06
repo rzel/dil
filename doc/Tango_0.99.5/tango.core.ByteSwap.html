@@ -1,0 +1,120 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.core.ByteSwap</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.core.ByteSwap");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ByteSwap.d?rev=3327">tango.core.ByteSwap</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: October 2004<br><br>
+<b>Version:</b><br>
+Feb 20th 2005 - Asm version removed by Aleksey Bobnev<br><br>
+<b>author:</b><br>Kris, Aleksey Bobnev<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ByteSwap.d?rev=3327#L34">ByteSwap</a></span>
+<script>explorer.outline.addDecl('ByteSwap');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reverse byte order for specific datum sizes. Note that the
+        byte-swap approach avoids alignment issues, so is probably
+        faster overall than a traditional 'shift' implementation.
+        <pre class="d_code">
+<td><div class="compilerinfo">
+<p class="error L">/home/aziz/tango/tango/core/ByteSwap.d(4,41)L: digits 8 and 9 are not allowed in octal numbers.</p>
+<p class="error L">/home/aziz/tango/tango/core/ByteSwap.d(5,35)L: digits 8 and 9 are not allowed in octal numbers.</p>
+<p class="error L">/home/aziz/tango/tango/core/ByteSwap.d(6,23)L: digits 8 and 9 are not allowed in octal numbers.</p>
+</div>
+</td></tr><tr>
+        <span class="k">ubyte</span>[] <span class="i">x</span> = [<span class="n">0x01</span>, <span class="n">0x02</span>, <span class="n">0x03</span>, <span class="n">0x04</span>, <span class="n">0x05</span>, <span class="n">0x06</span>, <span class="n">0x07</span>, <span class="n">0x08</span>];
+
+        <span class="i">swap16</span> (<span class="i">x</span>) =&gt; <span class="n">02</span> <span class="n">01</span> <span class="n">04</span> <span class="n">03</span> <span class="n">06</span> <span class="n">05</span> <span class="n">08</span> <span class="n">07</span>     
+        <span class="i">swap32</span> (<span class="i">x</span>) =&gt; <span class="n">04</span> <span class="n">03</span> <span class="n">02</span> <span class="n">01</span> <span class="n">08</span> <span class="n">07</span> <span class="n">06</span> <span class="n">05</span>
+        <span class="i">swap64</span> (<span class="i">x</span>) =&gt; <span class="n">08</span> <span class="n">07</span> <span class="n">06</span> <span class="n">05</span> <span class="n">04</span> <span class="n">03</span> <span class="n">02</span> <span class="n">01</span>
+        
+</pre></font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ByteSwap.d?rev=3327#L43">swap16</a></span>
+<script>explorer.outline.addDecl('swap16');</script>(void[] <span class="funcparam">dst</span>); [static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reverses two-byte sequences. Parameter dst imples the 
+                number of bytes, which should be a multiple of 2</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ByteSwap.d?rev=3327#L55">swap32</a></span>
+<script>explorer.outline.addDecl('swap32');</script>(void[] <span class="funcparam">dst</span>); [static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reverses four-byte sequences. Parameter dst implies the  
+                number of bytes, which should be a multiple of 4</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ByteSwap.d?rev=3327#L67">swap64</a></span>
+<script>explorer.outline.addDecl('swap64');</script>(void[] <span class="funcparam">dst</span>); [static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reverse eight-byte sequences. Parameter dst implies the 
+                number of bytes, which should be a multiple of 8</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ByteSwap.d?rev=3327#L79">swap80</a></span>
+<script>explorer.outline.addDecl('swap80');</script>(void[] <span class="funcparam">dst</span>); [static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reverse ten-byte sequences. Parameter dst implies the 
+                number of bytes, which should be a multiple of 10</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ByteSwap.d?rev=3327#L91">swap16</a></span>
+<script>explorer.outline.addDecl('swap16');</script>(void * <span class="funcparam">dst</span>, uint <span class="funcparam">bytes</span>); [static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reverses two-byte sequences. Parameter bytes specifies the 
+                number of bytes, which should be a multiple of 2</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ByteSwap.d?rev=3327#L114">swap32</a></span>
+<script>explorer.outline.addDecl('swap32');</script>(void * <span class="funcparam">dst</span>, uint <span class="funcparam">bytes</span>); [static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reverses four-byte sequences. Parameter bytes specifies the  
+                number of bytes, which should be a multiple of 4</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ByteSwap.d?rev=3327#L134">swap64</a></span>
+<script>explorer.outline.addDecl('swap64');</script>(void * <span class="funcparam">dst</span>, uint <span class="funcparam">bytes</span>); [static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reverse eight-byte sequences. Parameter bytes specifies the 
+                number of bytes, which should be a multiple of 8</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/ByteSwap.d?rev=3327#L157">swap80</a></span>
+<script>explorer.outline.addDecl('swap80');</script>(void * <span class="funcparam">dst</span>, uint <span class="funcparam">bytes</span>); [static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reverse ten-byte sequences. Parameter bytes specifies the 
+                number of bytes, which should be a multiple of 10</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:34 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

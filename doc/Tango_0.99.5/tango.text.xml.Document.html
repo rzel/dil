@@ -1,0 +1,905 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.text.xml.Document</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.text.xml.Document");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327">tango.text.xml.Document</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: February 2008<br><br>
+<b>Authors:</b><br>
+Aaron, Kris<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L129">Document</a></span>
+<script>explorer.outline.addDecl('Document');</script>(T) : private PullParser!(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements a DOM atop the XML parser, supporting document 
+        parsing, tree traversal and ad-hoc tree manipulation.</font><br><br>
+<font color="black">The DOM API is non-conformant, yet simple and functional in 
+        style - locate a tree node of interest and operate upon or 
+        around it. In all cases you will need a document instance to 
+        begin, whereupon it may be populated either by parsing an 
+        existing document or via API manipulation.<br><br>        This particular DOM employs a simple free-list to allocate
+        each of the tree nodes, making it quite efficient at parsing
+        XML documents. The tradeoff with such a scheme is that copying
+        nodes from one document to another requires a little more care
+        than otherwise. We felt this was a reasonable tradeoff, given
+        the throughput gains vs the relative infrequency of grafting
+        operations. For grafting within or across documents, please
+        use the move&#40;&#41; and copy&#40;&#41; methods.<br><br>        Another simplification is related to entity transcoding. This
+        is not performed internally, and becomes the responsibility
+        of the client. That is, the client should perform appropriate
+        entity transcoding as necessary. Paying the &#40;high&#41; transcoding 
+        cost for all documents doesn't seem appropriate.<br><br>        Note that the parser is templated for char, wchar or dchar.<br><br>        Parse example:
+        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">doc</span> = <span class="k">new</span> <span class="i">Document</span>!(<span class="k">char</span>);
+        <span class="i">doc</span>.<span class="i">parse</span> (<span class="i">content</span>);
+
+        <span class="k">auto</span> <span class="i">print</span> = <span class="k">new</span> <span class="i">XmlPrinter</span>!(<span class="k">char</span>);
+        <span class="i">Stdout</span>(<span class="i">print</span>(<span class="i">doc</span>)).<span class="i">newline</span>;
+         
+</pre><br><br>        API example:
+        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">doc</span> = <span class="k">new</span> <span class="i">Document</span>!(<span class="k">char</span>);
+
+        <span class="lc">// attach an xml header</span>
+        <span class="i">doc</span>.<span class="i">header</span>;
+
+        <span class="lc">// attach an element with some attributes, plus </span>
+        <span class="lc">// a child element with an attached data value</span>
+        <span class="i">doc</span>.<span class="i">root</span>.<span class="i">element</span>   (<span class="k">null</span>, <span class="sl">"element"</span>)
+                .<span class="i">attribute</span> (<span class="k">null</span>, <span class="sl">"attrib1"</span>, <span class="sl">"value"</span>)
+                .<span class="i">attribute</span> (<span class="k">null</span>, <span class="sl">"attrib2"</span>)
+                .<span class="i">element</span>   (<span class="k">null</span>, <span class="sl">"child"</span>, <span class="sl">"value"</span>);
+
+        <span class="k">auto</span> <span class="i">print</span> = <span class="k">new</span> <span class="i">XmlPrinter</span>!(<span class="k">char</span>);
+        <span class="i">Stdout</span>(<span class="i">print</span>(<span class="i">doc</span>)).<span class="i">newline</span>;
+        
+</pre><br><br>        XPath examples:
+        <pre class="d_code">
+<td><div class="compilerinfo">
+<p class="error L">/home/aziz/tango/tango/text/xml/Document.d(18,65)L: unterminated string literal.</p>
+</div>
+</td></tr><tr>
+        <span class="k">auto</span> <span class="i">doc</span> = <span class="k">new</span> <span class="i">Document</span>!(<span class="k">char</span>);
+
+        <span class="lc">// attach an element with some attributes, plus </span>
+        <span class="lc">// a child element with an attached data value</span>
+        <span class="i">doc</span>.<span class="i">root</span>.<span class="i">element</span>   (<span class="k">null</span>, <span class="sl">"element"</span>)
+                .<span class="i">attribute</span> (<span class="k">null</span>, <span class="sl">"attrib1"</span>, <span class="sl">"value"</span>)
+                .<span class="i">attribute</span> (<span class="k">null</span>, <span class="sl">"attrib2"</span>)
+                .<span class="i">element</span>   (<span class="k">null</span>, <span class="sl">"child"</span>, <span class="sl">"value"</span>);
+
+        <span class="lc">// select named-elements</span>
+        <span class="k">auto</span> <span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>[<span class="sl">"element"</span>][<span class="sl">"child"</span>];
+
+        <span class="lc">// select all attributes named "attrib1"</span>
+        <span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>.<span class="i">descendant</span>.<span class="i">attribute</span>(<span class="sl">"attrib1"</span>);
+
+        <span class="lc">// select elements with one parent and a matching text value</span>
+        <span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>[].<span class="i">filter</span>((<span class="i">doc</span>.<span class="i">Node</span> <span class="i">n</span>) {<span class="k">return</span> <span class="i">n</span>.<span class="i">hasData</span>(<span class="sl">"value);});
+        </span>
+</pre><br><br>        Note that path queries are temporal - they do not retain content
+        across mulitple queries. That is, the lifetime of a query result
+        is limited unless you explicitly copy it. For example, this will 
+        </font><br><br>
+<b>fail:</b><br><pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">elements</span> = <span class="i">doc</span>.<span class="i">query</span>[<span class="sl">"element"</span>];
+        <span class="k">auto</span> <span class="i">children</span> = <span class="i">elements</span>[<span class="sl">"child"</span>];
+        
+</pre><br><br>        The above will lose elements because the associated document reuses 
+        node space for subsequent queries. In order to retain results, do this:
+        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">elements</span> = <span class="i">doc</span>.<span class="i">query</span>[<span class="sl">"element"</span>].<span class="i">dup</span>;
+        <span class="k">auto</span> <span class="i">children</span> = <span class="i">elements</span>[<span class="sl">"child"</span>];
+        
+</pre><br><br>        The above .dup is generally very small &#40;a set of pointers only&#41;. On
+        the other hand, recursive queries are fully supported:
+        <pre class="d_code">
+
+        <span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>[].<span class="i">filter</span>((<span class="i">doc</span>.<span class="i">Node</span> <span class="i">n</span>) {<span class="k">return</span> <span class="i">n</span>.<span class="i">query</span>[].<span class="i">count</span> &gt; <span class="n">1</span>;});
+        
+</pre><br><br>        Typical usage tends to follow the following pattern, Where each query 
+        result is processed before another is initiated:
+        <pre class="d_code">
+
+        <span class="k">foreach</span> (<span class="i">node</span>; <span class="i">doc</span>.<span class="i">query</span>.<span class="i">child</span>(<span class="sl">"element"</span>))
+                {
+                <span class="lc">// do something with each node</span>
+                }
+        
+</pre><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L155">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(uint <span class="funcparam">nodes</span> = 1000);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a DOM instance. The optional parameter indicates
+                the initial number of nodes assigned to the freelist</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>XmlPath!(T).NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L179">query</a></span>
+<script>explorer.outline.addDecl('query');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an xpath handle to query this document. This starts
+                at the document root.</font><br><br>
+<font color="black">See also Node.query<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Document <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L191">collect</a></span>
+<script>explorer.outline.addDecl('collect');</script>(); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reset the freelist. Subsequent allocation of document nodes 
+                will overwrite prior instances.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Document <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L211">header</a></span>
+<script>explorer.outline.addDecl('header');</script>(T[] <span class="funcparam">encoding</span> = "UTF-8"); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add an XML header to the document root</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L226">parse</a></span>
+<script>explorer.outline.addDecl('parse');</script>(T[] <span class="funcparam">xml</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse the given xml content, which will reuse any existing 
+                node within this document. The resultant tree is retrieved
+                via the document 'root' attribute</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L323">allocate</a></span>
+<script>explorer.outline.addDecl('allocate');</script>(); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">allocate a node from the freelist</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L347">newlist</a></span>
+<script>explorer.outline.addDecl('newlist');</script>(); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">allocate a node from the freelist</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L364">Visitor</a></span>
+<script>explorer.outline.addDecl('Visitor');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">opApply support for nodes</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L374">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout Node) <span class="funcparam">dg</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">traverse sibling nodes</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L395">NodeImpl</a></span>
+<script>explorer.outline.addDecl('NodeImpl');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The node implementation</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L418">parent</a></span>
+<script>explorer.outline.addDecl('parent');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the parent, which may be null</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L426">firstChild</a></span>
+<script>explorer.outline.addDecl('firstChild');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the first child, which may be nul</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L434">lastChild</a></span>
+<script>explorer.outline.addDecl('lastChild');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the last child, which may be null</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L442">prevSibling</a></span>
+<script>explorer.outline.addDecl('prevSibling');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the prior sibling, which may be null</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L450">nextSibling</a></span>
+<script>explorer.outline.addDecl('nextSibling');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the next sibling, which may be null</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L458">hasAttributes</a></span>
+<script>explorer.outline.addDecl('hasAttributes');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns whether there are attributes present or not</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L466">hasChildren</a></span>
+<script>explorer.outline.addDecl('hasChildren');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns whether there are children present or nor</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L475">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(T[] <span class="funcparam">output</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the node name, which is a combination of
+                        the prefix:local names</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L496">value</a></span>
+<script>explorer.outline.addDecl('value');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the data content, which may be null</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L514">value</a></span>
+<script>explorer.outline.addDecl('value');</script>(T[] <span class="funcparam">val</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the raw data content, which may be null</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L526">position</a></span>
+<script>explorer.outline.addDecl('position');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the index of this node, or how many 
+                        prior siblings it has</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L537">root</a></span>
+<script>explorer.outline.addDecl('root');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Locate the root of this node</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Visitor <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L548">children</a></span>
+<script>explorer.outline.addDecl('children');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a foreach iterator for node children</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Visitor <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L560">attributes</a></span>
+<script>explorer.outline.addDecl('attributes');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a foreach iterator for node attributes</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L574">element</a></span>
+<script>explorer.outline.addDecl('element');</script>(T[] <span class="funcparam">prefix</span>, T[] <span class="funcparam">local</span>, T[] <span class="funcparam">value</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creates a child Element</font><br><br>
+<font color="black">Returns a reference to the child<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L596">attribute</a></span>
+<script>explorer.outline.addDecl('attribute');</script>(T[] <span class="funcparam">prefix</span>, T[] <span class="funcparam">local</span>, T[] <span class="funcparam">value</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Attaches an Attribute, and returns the host</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L609">data</a></span>
+<script>explorer.outline.addDecl('data');</script>(T[] <span class="funcparam">data</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Attaches a Data node, and returns the host</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L621">cdata</a></span>
+<script>explorer.outline.addDecl('cdata');</script>(T[] <span class="funcparam">cdata</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Attaches a CData node, and returns the host</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L633">comment</a></span>
+<script>explorer.outline.addDecl('comment');</script>(T[] <span class="funcparam">comment</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Attaches a Comment node, and returns the host</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L645">pi</a></span>
+<script>explorer.outline.addDecl('pi');</script>(T[] <span class="funcparam">pi</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Attaches a PI node, and returns the host</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L657">doctype</a></span>
+<script>explorer.outline.addDecl('doctype');</script>(T[] <span class="funcparam">doctype</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Attaches a Doctype node, and returns the host</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L672">copy</a></span>
+<script>explorer.outline.addDecl('copy');</script>(Node <span class="funcparam">tree</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Duplicate the given sub-tree into place as a child 
+                        of this node. 
+                        
+                        Returns a reference to the subtree</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L690">move</a></span>
+<script>explorer.outline.addDecl('move');</script>(Node <span class="funcparam">tree</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Relocate the given sub-tree into place as a child 
+                        of this node. 
+                        
+                        Returns a reference to the subtree</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>XmlPath!(T).NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L708">query</a></span>
+<script>explorer.outline.addDecl('query');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an xpath handle to query this node</font><br><br>
+<font color="black">See also Node.document.query<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L722">getAttribute</a></span>
+<script>explorer.outline.addDecl('getAttribute');</script>(T[] <span class="funcparam">name</span>, T[] <span class="funcparam">value</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sweep the attributes looking for a name or value
+                        match. Either may be null</font><br><br>
+<font color="black">Returns a matching node, or null.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L746">hasAttribute</a></span>
+<script>explorer.outline.addDecl('hasAttribute');</script>(T[] <span class="funcparam">name</span>, T[] <span class="funcparam">value</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sweep the attributes looking for a name or value
+                        match. Either may be null</font><br><br>
+<font color="black">Returns true if found.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L759">data</a></span>
+<script>explorer.outline.addDecl('data');</script>(bool delegate(Node) <span class="funcparam">test</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sweep the data nodes looking for match</font><br><br>
+<font color="black">Returns a matching node, or null.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L777">hasData</a></span>
+<script>explorer.outline.addDecl('hasData');</script>(bool delegate(Node) <span class="funcparam">test</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sweep the data nodes looking for match</font><br><br>
+<font color="black">Returns true if found.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L790">hasData</a></span>
+<script>explorer.outline.addDecl('hasData');</script>(T[] <span class="funcparam">text</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sweep the data nodes looking for match</font><br><br>
+<font color="black">Returns true if found.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L801">detach</a></span>
+<script>explorer.outline.addDecl('detach');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Detach this node from its parent and siblings</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L872">attrib</a></span>
+<script>explorer.outline.addDecl('attrib');</script>(Node <span class="funcparam">node</span>, uint <span class="funcparam">uriID</span> = 0); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append an attribute to this node, The given attribute
+                        cannot have an existing parent.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L899">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(Node <span class="funcparam">node</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append a node to this one. The given node cannot
+                        have an existing parent.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L924">prepend</a></span>
+<script>explorer.outline.addDecl('prepend');</script>(Node <span class="funcparam">node</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Prepend a node to this one. The given node cannot
+                        have an existing parent.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L947">set</a></span>
+<script>explorer.outline.addDecl('set');</script>(T[] <span class="funcparam">prefix</span>, T[] <span class="funcparam">local</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Configure node values
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L960">create</a></span>
+<script>explorer.outline.addDecl('create');</script>(XmlNodeType <span class="funcparam">type</span>, T[] <span class="funcparam">value</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creates and returns a child Element node</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L974">dup</a></span>
+<script>explorer.outline.addDecl('dup');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Duplicate a single node</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L985">clone</a></span>
+<script>explorer.outline.addDecl('clone');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Duplicate a subtree</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1002">migrate</a></span>
+<script>explorer.outline.addDecl('migrate');</script>(Document <span class="funcparam">host</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reset the document host for this subtree</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1145">XmlPath</a></span>
+<script>explorer.outline.addDecl('XmlPath');</script>(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">XPath support </font><br><br>
+<font color="black">Provides support for common XPath axis and filtering functions,
+        via a native-D interface instead of typical interpreted notation.<br><br>        The general idea here is to generate a NodeSet consisting of those
+        tree-nodes which satisfy a filtering function. The direction, or
+        axis, of tree traversal is governed by one of several predefined
+        operations. All methods facilitiate call-chaining, where each step 
+        returns a new NodeSet instance to be operated upon.<br><br>        The set of nodes themselves are collected in a freelist, avoiding
+        heap-activity and making good use of D array-slicing facilities.<br><br>        &#40;this needs to be a class in order to avoid forward-ref issues&#41;<br><br>        XPath examples:
+        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">doc</span> = <span class="k">new</span> <span class="i">Document</span>!(<span class="k">char</span>);
+
+        <span class="lc">// attach an element with some attributes, plus </span>
+        <span class="lc">// a child element with an attached data value</span>
+        <span class="i">doc</span>.<span class="i">root</span>.<span class="i">element</span>   (<span class="k">null</span>, <span class="sl">"element"</span>)
+                .<span class="i">attribute</span> (<span class="k">null</span>, <span class="sl">"attrib1"</span>, <span class="sl">"value"</span>)
+                .<span class="i">attribute</span> (<span class="k">null</span>, <span class="sl">"attrib2"</span>)
+                .<span class="i">element</span>   (<span class="k">null</span>, <span class="sl">"child"</span>, <span class="sl">"value"</span>);
+
+        <span class="lc">// select named-elements</span>
+        <span class="k">auto</span> <span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>[<span class="sl">"element"</span>][<span class="sl">"child"</span>];
+
+        <span class="lc">// select all attributes named "attrib1"</span>
+        <span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>.<span class="i">descendant</span>.<span class="i">attribute</span>(<span class="sl">"attrib1"</span>);
+
+        <span class="lc">// select elements with one parent and a matching text value</span>
+        <span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>[].<span class="i">filter</span>((<span class="i">doc</span>.<span class="i">Node</span> <span class="i">n</span>) {<span class="k">return</span> <span class="i">n</span>.<span class="i">hasData</span>(<span class="sl">"value"</span>);});
+        
+</pre><br><br>        Note that path queries are temporal - they do not retain content
+        across mulitple queries. That is, the lifetime of a query result
+        is limited unless you explicitly copy it. For example, this will 
+        </font><br><br>
+<b>fail:</b><br><pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">elements</span> = <span class="i">doc</span>.<span class="i">query</span>[<span class="sl">"element"</span>];
+        <span class="k">auto</span> <span class="i">children</span> = <span class="i">elements</span>[<span class="sl">"child"</span>];
+        
+</pre><br><br>        The above will lose elements, because the associated document reuses 
+        node space for subsequent queries. In order to retain results, do this:
+        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">elements</span> = <span class="i">doc</span>.<span class="i">query</span>[<span class="sl">"element"</span>].<span class="i">dup</span>;
+        <span class="k">auto</span> <span class="i">children</span> = <span class="i">elements</span>[<span class="sl">"child"</span>];
+        
+</pre><br><br>        The above .dup is generally very small &#40;a set of pointers only&#41;. On
+        the other hand, recursive queries are fully supported:
+        <pre class="d_code">
+
+        <span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>[].<span class="i">filter</span>((<span class="i">doc</span>.<span class="i">Node</span> <span class="i">n</span>) {<span class="k">return</span> <span class="i">n</span>.<span class="i">query</span>[].<span class="i">count</span> &gt; <span class="n">1</span>;});
+        
+</pre>
+  
+        Typical usage tends to follow the following pattern, Where each query 
+        result is processed before another is initiated:
+        <pre class="d_code">
+
+        <span class="k">foreach</span> (<span class="i">node</span>; <span class="i">doc</span>.<span class="i">query</span>.<span class="i">child</span>(<span class="sl">"element"</span>))
+                {
+                <span class="lc">// do something with each node</span>
+                }
+        
+</pre><br><br>        Supported axis include:
+        <pre class="d_code">
+
+        .<span class="i">child</span>                  <span class="i">immediate</span> <span class="i">children</span>
+        .<span class="i">parent</span>                 <span class="i">immediate</span> <span class="i">parent</span> 
+        .<span class="i">next</span>                   <span class="i">following</span> <span class="i">siblings</span>
+        .<span class="i">prev</span>                   <span class="i">prior</span> <span class="i">siblings</span>
+        .<span class="i">ancestor</span>               <span class="i">all</span> <span class="i">parents</span>
+        .<span class="i">descendant</span>             <span class="i">all</span> <span class="i">descendants</span>
+        .<span class="i">text</span>                   <span class="i">text</span> <span class="i">children</span>
+        .<span class="i">attribute</span>              <span class="i">attribute</span> <span class="i">children</span>
+        
+</pre><br><br>        Each of the above accept an optional string, which is used in an
+        axis-specific way to filter nodes. For instance, a .child&#40;"food"&#41; 
+        will filter <food> child elements. These variants are shortcuts
+        to using a filter to post-process a result. Each of the above also
+        have variants which accept a delegate instead.<br><br>        In general, you traverse an axis and operate upon the results. The
+        operation applied may be another axis traversal, or a filtering 
+        step. All steps can be, and generally should be chained together. 
+        Filters are implemented via a delegate mechanism:
+        <pre class="d_code">
+
+        .<span class="i">filter</span> (<span class="k">bool</span> <span class="k">delegate</span>(<span class="i">Node</span>))
+        
+</pre><br><br>        Where the delegate returns true if the node passes the filter. An
+        example might be selecting all nodes with a specific attribute:
+        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>.<span class="i">descendant</span>.<span class="i">filter</span>((<span class="i">doc</span>.<span class="i">Node</span> <span class="i">n</span>){<span class="k">return</span> <span class="i">n</span>.<span class="i">hasAttribute</span>(<span class="sl">"test"</span>);});
+        
+</pre><br><br>        Obviously this is not as clean and tidy as true XPath notation, but 
+        that can be wrapped atop this API instead. The benefit here is one 
+        of raw throughput - important for some applications. <br><br>        Note that every operation returns a discrete result. Methods first&#40;&#41;
+        and last&#40;&#41; also return a set of one or zero elements. Some language
+        specific extensions are provided for too:
+        <pre class="d_code">
+
+ .<span class="i">child</span>() <span class="i">can</span> <span class="i">be</span> <span class="i">substituted</span> <span class="k">with</span> [] <span class="i">notation</span> <span class="i">instead</span>
+
+ [] <span class="i">notation</span> <span class="i">can</span> <span class="i">be</span> <span class="i">used</span> <span class="i">to</span> <span class="i">index</span> <span class="i">a</span> <span class="i">specific</span> <span class="i">element</span>, <span class="i">like</span> .<span class="i">nth</span>()
+
+ <span class="i">the</span> .<span class="i">nodes</span> <span class="i">attribute</span> <span class="i">exposes</span> <span class="i">an</span> <span class="i">underlying</span> <span class="i">Node</span>[], <span class="i">which</span> <span class="i">may</span> <span class="i">be</span>
+          <span class="i">sliced</span> <span class="i">or</span> <span class="i">traversed</span> <span class="k">in</span> <span class="i">the</span> <span class="i">usual</span> <span class="i">D</span> <span class="i">manner</span>
+        
+</pre><br><br>       Other &#40;query result&#41; utility methods include:
+       <pre class="d_code">
+
+       .<span class="i">dup</span>
+       .<span class="i">first</span>
+       .<span class="i">last</span>
+       .<span class="i">opIndex</span>
+       .<span class="i">nth</span>
+       .<span class="i">count</span>
+       .<span class="i">opApply</span>
+       
+</pre><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias Document!(T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1147">Doc</a></span>
+<script>explorer.outline.addDecl('Doc');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">the typed document</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias Doc.Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1148">Node</a></span>
+<script>explorer.outline.addDecl('Node');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">generic document node</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1165">start</a></span>
+<script>explorer.outline.addDecl('start');</script>(Node <span class="funcparam">root</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Prime a query</font><br><br>
+<font color="black">Returns a NodeSet containing just the given node, which
+                can then be used to cascade results into subsequent NodeSet
+                instances.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1194">NodeSet</a></span>
+<script>explorer.outline.addDecl('NodeSet');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This is the meat of XPath support. All of the NodeSet
+                operators exist here, in order to enable call-chaining.</font><br><br>
+<font color="black">Note that some of the axis do double-duty as a filter 
+                also. This is just a convenience factor, and doesn't 
+                change the underlying mechanisms.<br><br></font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1205">dup</a></span>
+<script>explorer.outline.addDecl('dup');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a duplicate NodeSet</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1218">count</a></span>
+<script>explorer.outline.addDecl('count');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the number of selected nodes in the set</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1230">first</a></span>
+<script>explorer.outline.addDecl('first');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing just the first node of
+                        the current set</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1242">last</a></span>
+<script>explorer.outline.addDecl('last');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing just the last node of
+                        the current set</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1257">opIndex</a></span>
+<script>explorer.outline.addDecl('opIndex');</script>(uint <span class="funcparam">i</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing just the nth node of
+                        the current set</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1269">nth</a></span>
+<script>explorer.outline.addDecl('nth');</script>(uint <span class="funcparam">index</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing just the nth node of
+                        the current set
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1285">opSlice</a></span>
+<script>explorer.outline.addDecl('opSlice');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all child elements of the 
+                        nodes within this set
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1297">opIndex</a></span>
+<script>explorer.outline.addDecl('opIndex');</script>(T[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all child elements of the 
+                        nodes within this set, which match the given name</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1309">child</a></span>
+<script>explorer.outline.addDecl('child');</script>(T[] <span class="funcparam">name</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all child elements of the 
+                        nodes within this set, which match the optional name</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1323">parent</a></span>
+<script>explorer.outline.addDecl('parent');</script>(T[] <span class="funcparam">name</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all parent elements of the 
+                        nodes within this set, which match the optional name</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1338">data</a></span>
+<script>explorer.outline.addDecl('data');</script>(T[] <span class="funcparam">value</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all data nodes of the 
+                        nodes within this set, which match the optional
+                        value</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1354">attribute</a></span>
+<script>explorer.outline.addDecl('attribute');</script>(T[] <span class="funcparam">name</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all attributes of the 
+                        nodes within this set, which match the optional
+                        name</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1368">descendant</a></span>
+<script>explorer.outline.addDecl('descendant');</script>(T[] <span class="funcparam">name</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all descendant elements of 
+                        the nodes within this set, which match the given name</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1383">ancestor</a></span>
+<script>explorer.outline.addDecl('ancestor');</script>(T[] <span class="funcparam">name</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all ancestor elements of 
+                        the nodes within this set, which match the optional
+                        name</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1398">prev</a></span>
+<script>explorer.outline.addDecl('prev');</script>(T[] <span class="funcparam">name</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all prior sibling elements of 
+                        the nodes within this set, which match the optional
+                        name</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1413">next</a></span>
+<script>explorer.outline.addDecl('next');</script>(T[] <span class="funcparam">name</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all subsequent sibling 
+                        elements of the nodes within this set, which 
+                        match the optional name</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1427">filter</a></span>
+<script>explorer.outline.addDecl('filter');</script>(bool delegate(Node) <span class="funcparam">filter</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all nodes within this set
+                        which pass the filtering test</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1445">child</a></span>
+<script>explorer.outline.addDecl('child');</script>(bool delegate(Node) <span class="funcparam">filter</span>, XmlNodeType <span class="funcparam">type</span> = XmlNodeType.Element);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all child nodes of 
+                        the nodes within this set which pass the 
+                        filtering test</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1466">attribute</a></span>
+<script>explorer.outline.addDecl('attribute');</script>(bool delegate(Node) <span class="funcparam">filter</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all attribute nodes of 
+                        the nodes within this set which pass the given
+                        filtering test</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1485">descendant</a></span>
+<script>explorer.outline.addDecl('descendant');</script>(bool delegate(Node) <span class="funcparam">filter</span>, XmlNodeType <span class="funcparam">type</span> = XmlNodeType.Element);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all descendant nodes of 
+                        the nodes within this set, which pass the given
+                        filtering test</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1515">parent</a></span>
+<script>explorer.outline.addDecl('parent');</script>(bool delegate(Node) <span class="funcparam">filter</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all parent nodes of 
+                        the nodes within this set which pass the given
+                        filtering test</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1545">ancestor</a></span>
+<script>explorer.outline.addDecl('ancestor');</script>(bool delegate(Node) <span class="funcparam">filter</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all ancestor nodes of 
+                        the nodes within this set, which pass the given
+                        filtering test</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1579">next</a></span>
+<script>explorer.outline.addDecl('next');</script>(bool delegate(Node) <span class="funcparam">filter</span>, XmlNodeType <span class="funcparam">type</span> = XmlNodeType.Element);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all following siblings 
+                        of the ones within this set, which pass the given
+                        filtering test</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1606">prev</a></span>
+<script>explorer.outline.addDecl('prev');</script>(bool delegate(Node) <span class="funcparam">filter</span>, XmlNodeType <span class="funcparam">type</span> = XmlNodeType.Element);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set containing all prior sibling nodes 
+                        of the ones within this set, which pass the given
+                        filtering test</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1631">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout Node) <span class="funcparam">dg</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Traverse the nodes of this set</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1647">always</a></span>
+<script>explorer.outline.addDecl('always');</script>(Node <span class="funcparam">node</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Common predicate
+                                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NodeSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1658">assign</a></span>
+<script>explorer.outline.addDecl('assign');</script>(uint <span class="funcparam">mark</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Assign a slice of the freelist to this NodeSet</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1672">test</a></span>
+<script>explorer.outline.addDecl('test');</script>(bool delegate(Node) <span class="funcparam">filter</span>, Node <span class="funcparam">node</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Execute a filter on the given node. We have to
+                        deal with potential query recusion, so we set
+                        all kinda crap to recover from that</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1691">has</a></span>
+<script>explorer.outline.addDecl('has');</script>(Node <span class="funcparam">p</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">We typically need to filter ancestors in order
+                        to avoid duplicates, so this is used for those
+                        purposes                        </font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1706">mark</a></span>
+<script>explorer.outline.addDecl('mark');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the current freelist index
+                        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Node[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1717">slice</a></span>
+<script>explorer.outline.addDecl('slice');</script>(uint <span class="funcparam">mark</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a slice of the freelist</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1729">allocate</a></span>
+<script>explorer.outline.addDecl('allocate');</script>(Node <span class="funcparam">node</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Allocate an entry in the freelist, expanding as necessary</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>interface <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1747">IXmlPrinter</a></span>
+<script>explorer.outline.addDecl('IXmlPrinter');</script>(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Specification for an XML serializer</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias Document!(T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1749">Doc</a></span>
+<script>explorer.outline.addDecl('Doc');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">the typed document</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias Doc.Node <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1750">Node</a></span>
+<script>explorer.outline.addDecl('Node');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">generic document node</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias print <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1751">opCall</a></span>
+<script>explorer.outline.addDecl('opCall');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">alias for print method</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1759">print</a></span>
+<script>explorer.outline.addDecl('print');</script>(Doc <span class="funcparam">doc</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Generate a text representation of the document tree</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/xml/Document.d?rev=3327#L1767">print</a></span>
+<script>explorer.outline.addDecl('print');</script>(Node <span class="funcparam">root</span>, void delegate(T[][]...) <span class="funcparam">emit</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Generate a representation of the given node-subtree </font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (C) 2007 Aaron Craelius and Kris Bell  
+                   All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:31 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

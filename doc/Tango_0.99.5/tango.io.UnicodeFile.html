@@ -1,0 +1,171 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.UnicodeFile</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.UnicodeFile");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/UnicodeFile.d?rev=3327">tango.io.UnicodeFile</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: December 2005<br><br>
+<b>author:</b><br>Kris<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/UnicodeFile.d?rev=3327#L101">UnicodeFile</a></span>
+<script>explorer.outline.addDecl('UnicodeFile');</script>(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Read and write unicode files</font><br><br>
+<font color="black">For our purposes, unicode files are an encoding of textual material.
+        The goal of this module is to interface that external-encoding with
+        a programmer-defined internal-encoding. This internal encoding is
+        declared via the template argument T, whilst the external encoding
+        is either specified or derived.<br><br>        Three internal encodings are supported: char, wchar, and dchar. The
+        methods herein operate upon arrays of this type. For example, read&#40;&#41;
+        returns an array of the type, whilst write&#40;&#41; and append&#40;&#41; expect an
+        array of said type.<br><br>        Supported external encodings are as follow:<br><br>                <ul>Encoding.Unknown</ul>
+                <ul>Encoding.UTF_8</ul>
+                <ul>Encoding.UTF_8N</ul>
+                <ul>Encoding.UTF_16</ul>
+                <ul>Encoding.UTF_16BE</ul>
+                <ul>Encoding.UTF_16LE</ul> 
+                <ul>Encoding.UTF_32</ul>
+                <ul>Encoding.UTF_32BE</ul>
+                <ul>Encoding.UTF_32LE</ul> <br><br>        These can be divided into implicit and explicit encodings. Here are
+        the implicit subset:<br><br>                <ul>Encoding.Unknown</ul>
+                <ul>Encoding.UTF_8</ul>
+                <ul>Encoding.UTF_16</ul>
+                <ul>Encoding.UTF_32</ul> <br><br>        Implicit encodings may be used to 'discover'
+        an unknown encoding, by examining the first few bytes of the file
+        content for a signature. This signature is optional for all files, 
+        but is often written such that the content is self-describing. When
+        the encoding is unknown, using one of the non-explicit encodings will
+        cause the read&#40;&#41; method to look for a signature and adjust itself 
+        accordingly. It is possible that a ZWNBSP character might be confused 
+        with the signature; today's files are supposed to use the WORD-JOINER 
+        character instead.<br><br>        Explicit encodings are as follows:
+       
+                <ul>Encoding.UTF_8N</ul>
+                <ul>Encoding.UTF_16BE</ul>
+                <ul>Encoding.UTF_16LE</ul> 
+                <ul>Encoding.UTF_32BE</ul>
+                <ul>Encoding.UTF_32LE</ul> 
+        
+        This group of encodings are for use when the file encoding is
+        known. These *must* be used when writing or appending, since written
+        content must be in a known format. It should be noted that, during a
+        read operation, the presence of a signature is in conflict with these 
+        explicit varieties.<br><br>        Method read&#40;&#41; returns the current content of the file, whilst write&#40;&#41;
+        sets the file content, and file length, to the provided array. Method
+        append&#40;&#41; adds content to the tail of the file. When appending, it is
+        your responsibility to ensure the existing and current encodings are
+        correctly matched.<br><br>        Methods to inspect the file system, check the status of a file or
+        directory, and other facilities are made available via the FilePath
+        superclass.<br><br>        See these links for more info:
+        <ul><a href="http://www.utf-8.com/">http://www.utf-8.com/</a></ul>
+        <ul><a href="http://www.hackcraft.net/xmlUnicode/">http://www.hackcraft.net/xmlUnicode/</a></ul>
+        <ul><a href="http://www.unicode.org/faq/utf_bom.html/">http://www.unicode.org/faq/utf_bom.html/</a></ul>
+        <ul><a href="http://www.azillionmonkeys.com/qed/unicode.html/">http://www.azillionmonkeys.com/qed/unicode.html/</a></ul>
+        <ul><a href="http://icu.sourceforge.net/docs/papers/forms_of_unicode/">http://icu.sourceforge.net/docs/papers/forms_of_unicode/</a></ul><br><br></font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/UnicodeFile.d?rev=3327#L114">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(PathView <span class="funcparam">path</span>, Encoding <span class="funcparam">encoding</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a UnicodeFile from the provided FilePath. The given 
+                encoding represents the external file encoding, and should
+                be one of the Encoding.xx types </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/UnicodeFile.d?rev=3327#L128">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">path</span>, Encoding <span class="funcparam">encoding</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a UnicodeFile from a text string. The provided 
+                encoding represents the external file encoding, and should
+                be one of the Encoding.xx types </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>UnicodeFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/UnicodeFile.d?rev=3327#L141">opCall</a></span>
+<script>explorer.outline.addDecl('opCall');</script>(char[] <span class="funcparam">name</span>, Encoding <span class="funcparam">encoding</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Call-site shortcut to create a UnicodeFile instance. This 
+                enables the same syntax as struct usage, so may expose
+                a migration path</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>PathView <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/UnicodeFile.d?rev=3327#L152">path</a></span>
+<script>explorer.outline.addDecl('path');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the associated FilePath instance</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Encoding <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/UnicodeFile.d?rev=3327#L166">encoding</a></span>
+<script>explorer.outline.addDecl('encoding');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the current encoding. This is either the originally
+                specified encoding, or a derived one obtained by inspecting
+                the file content for a BOM. The latter is performed as part
+                of the read&#40;&#41; method.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/UnicodeFile.d?rev=3327#L182">read</a></span>
+<script>explorer.outline.addDecl('read');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the content of the file. The content is inspected 
+                for a BOM signature, which is stripped. An exception is
+                thrown if a signature is present when, according to the
+                encoding type, it should not be. Conversely, An exception
+                is thrown if there is no known signature where the current
+                encoding expects one to be present.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>UnicodeFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/UnicodeFile.d?rev=3327#L205">write</a></span>
+<script>explorer.outline.addDecl('write');</script>(T[] <span class="funcparam">content</span>, bool <span class="funcparam">writeBom</span> = false);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the file content and length to reflect the given array.
+                The content will be encoded accordingly.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>UnicodeFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/UnicodeFile.d?rev=3327#L220">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(T[] <span class="funcparam">content</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append content to the file; the content will be encoded 
+                accordingly.</font><br><br>
+<font color="black">Note that it is your responsibility to ensure the 
+                existing and current encodings are correctly matched.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>UnicodeFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/UnicodeFile.d?rev=3327#L233">write</a></span>
+<script>explorer.outline.addDecl('write');</script>(T[] <span class="funcparam">content</span>, FileConduit.Style <span class="funcparam">style</span>, bool <span class="funcparam">writeBom</span>); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Internal method to perform writing of content. Note that
+                the encoding must be of the explicit variety by the time
+                we get here.</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2005 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

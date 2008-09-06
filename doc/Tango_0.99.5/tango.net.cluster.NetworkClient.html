@@ -1,0 +1,120 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.cluster.NetworkClient</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.cluster.NetworkClient");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkClient.d?rev=3327">tango.net.cluster.NetworkClient</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+July 2004: Initial release<br><br>
+<b>author:</b><br>Kris<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkClient.d?rev=3327#L34">NetworkClient</a></span>
+<script>explorer.outline.addDecl('NetworkClient');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The base class for all cluster clients &#40;such as CacheInvalidator&#41;
+        which acts simply as a container for the operating IChannel and
+        the configured ICluster. The former specifies something akin to
+        a 'topic' in the pub/sub world, while the latter provides access
+        to the underlying functional substrate &#40;the QOS implementation&#41;.</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkClient.d?rev=3327#L58">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(ICluster <span class="funcparam">cluster</span>, char[] <span class="funcparam">channel</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct this client with the specified channel and cluster. 
+                The former specifies something akin to a 'topic', whilst the 
+                latter provides access to the underlying functional substrate 
+                &#40;the QOS implementation&#41;. A good way to think about channels
+                is to map them directly to a class name. That is, since you
+                send and recieve classes on a channel, you might utilize the 
+                class name as the channel name &#40;this.classinfo.name&#41;.
+ 
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IChannel <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkClient.d?rev=3327#L73">channel</a></span>
+<script>explorer.outline.addDecl('channel');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the channel we're tuned to</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ICluster <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkClient.d?rev=3327#L84">cluster</a></span>
+<script>explorer.outline.addDecl('cluster');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the cluster specified during construction</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkClient.d?rev=3327#L95">time</a></span>
+<script>explorer.outline.addDecl('time');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the current time</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Logger <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkClient.d?rev=3327#L106">log</a></span>
+<script>explorer.outline.addDecl('log');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the Log instance</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IChannel <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkClient.d?rev=3327#L126">createChannel</a></span>
+<script>explorer.outline.addDecl('createChannel');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a channel with the specified name. A channel 
+                represents something akin to a publush/subscribe topic, 
+                or a radio station. These are used to segregate cluster 
+                operations into a set of groups, where each group is 
+                represented by a channel. Channel names are whatever you 
+                want then to be; use of dot notation has proved useful 
+                in the past. In fact, a good way to think about channels
+                is to map them directly to a class name. That is, since you
+                typically send and recieve classes on a channel, you might 
+                utilize the class name as the channel &#40;this.classinfo.name&#41;.</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkClient.d?rev=3327#L139">ClusterFullException</a></span>
+<script>explorer.outline.addDecl('ClusterFullException');</script> : ClusterException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This exception is thrown by the cluster subsystem when an attempt
+        is made to place additional content into a full queue</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkClient.d?rev=3327#L155">ClusterEmptyException</a></span>
+<script>explorer.outline.addDecl('ClusterEmptyException');</script> : ClusterException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This exception is thrown by the cluster subsystem when an attempt
+        is made to converse with a non-existant cluster, or one where all
+        cluster-servers have died.</font><br><br>
+</dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:32 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

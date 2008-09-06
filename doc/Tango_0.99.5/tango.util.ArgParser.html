@@ -1,0 +1,231 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.ArgParser</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.ArgParser");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327">tango.util.ArgParser</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: December 2005<br><br>
+<b>author:</b><br>Lars Ivar Igesund, Eric Anderton<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias void delegate (char[] value) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L23">ArgParserCallback</a></span>
+<script>explorer.outline.addDecl('ArgParserCallback');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">An alias to a delegate taking a char[] as a parameter. The value 
+    parameter will hold any chars immediately
+    following the argument. 
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias void delegate (char[] value,uint ordinal) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L36">DefaultArgParserCallback</a></span>
+<script>explorer.outline.addDecl('DefaultArgParserCallback');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">An alias to a delegate taking a char[] as a parameter. The value 
+    parameter will hold any chars immediately
+    following the argument.</font><br><br>
+<font color="black">The ordinal argument represents which default argument this is for
+    the given stream of arguments.  The first default argument will
+    be ordinal=0 with each successive call to this callback having
+    ordinal values of 1, 2, 3 and so forth. This can be reset to zero
+    in new calls to parse.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias void delegate () <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L41">ArgParserSimpleCallback</a></span>
+<script>explorer.outline.addDecl('ArgParserSimpleCallback');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">An alias to a delegate taking no parameters
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L47">Argument</a></span>
+<script>explorer.outline.addDecl('Argument');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A struct that represents a "{Prefix}{Identifier}" string.
+</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Argument <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L54">opCall</a></span>
+<script>explorer.outline.addDecl('opCall');</script>(char[] <span class="funcparam">prefix</span>, char[] <span class="funcparam">identifier</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creates a new Argument instance with given prefix and identifier.
+    </font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias Argument <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L67">Arg</a></span>
+<script>explorer.outline.addDecl('Arg');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Alias for for the lazy people.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L73">ArgParser</a></span>
+<script>explorer.outline.addDecl('ArgParser');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A utility class to parse and handle your command line arguments.
+</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L79">PrefixCallback</a></span>
+<script>explorer.outline.addDecl('PrefixCallback');</script>; [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A helper struct containing a callback and an id, corresponding to
+        the argId passed to one of the bind methods.
+    </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L107">bind</a></span>
+<script>explorer.outline.addDecl('bind');</script>(char[] <span class="funcparam">argPrefix</span>, char[] <span class="funcparam">argId</span>, ArgParserCallback <span class="funcparam">cb</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Binds a delegate callback to argument with a prefix and 
+        a argId.
+        
+        </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">argPrefix</span></td><td>the prefix of the argument, e.g. a dash '-'.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">argId</span></td><td>the name of the argument, what follows the prefix</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">cb</span></td><td>the delegate that should be called when this argument is found</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L117">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The constructor, creates an empty ArgParser instance.
+    </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L124">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(DefaultArgParserCallback <span class="funcparam">callback</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The constructor, creates an ArgParser instance with a defined default callback.
+    </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L148">bind</a></span>
+<script>explorer.outline.addDecl('bind');</script>(char[] <span class="funcparam">argPrefix</span>, char[] <span class="funcparam">argId</span>, ArgParserSimpleCallback <span class="funcparam">cb</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Binds a delegate callback to argument with a prefix and 
+        a argId.
+        
+        </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">argPrefix</span></td><td>the prefix of the argument, e.g. a dash '-'.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">argId</span></td><td>the name of the argument, what follows the prefix</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">cb</span></td><td>the delegate that should be called when this argument is found</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L164">bindDefault</a></span>
+<script>explorer.outline.addDecl('bindDefault');</script>(char[] <span class="funcparam">argPrefix</span>, DefaultArgParserCallback <span class="funcparam">callback</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Binds a delegate callback to all arguments with prefix argPrefix, but that
+        do not conform to an argument bound in a call to bind&#40;&#41;. </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">argPrefix</span></td><td>the prefix for the callback</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">callback</span></td><td>the default callback</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L180">bindDefault</a></span>
+<script>explorer.outline.addDecl('bindDefault');</script>(DefaultArgParserCallback <span class="funcparam">callback</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Binds a delegate callback to all arguments not conforming to an
+        argument bound in a call to bind&#40;&#41;. These arguments will be passed to the
+        delegate without having any matching prefixes removed.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">callback</span></td><td>the default callback</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L191">bind</a></span>
+<script>explorer.outline.addDecl('bind');</script>(Argument <span class="funcparam">argument</span>, ArgParserCallback <span class="funcparam">callback</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Binds a delegate callback to an argument.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">argument</span></td><td>argument to respond to</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">callback</span></td><td>the delegate that should be called when the argument is found</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L202">bind</a></span>
+<script>explorer.outline.addDecl('bind');</script>(Argument[] <span class="funcparam">arguments</span>, void delegate(char[]) <span class="funcparam">callback</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Binds a delegate callback to any number of arguments.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">arguments</span></td><td>an array of Argument struct instances</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">callback</span></td><td>the delegate that should be called when one of the arguments is found</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L215">bindPosix</a></span>
+<script>explorer.outline.addDecl('bindPosix');</script>(char[] <span class="funcparam">identifier</span>, ArgParserCallback <span class="funcparam">callback</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Binds a delegate callback to an identifier with Posix-like prefixes. This means,
+        it binds for both prefixes "-" and "--", as well as identifier with, and
+        without a delimiting "=" between identifier and value.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">identifier</span></td><td>argument identifier</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">callback</span></td><td>the delegate that should be called when one of the arguments is found</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L228">bindPosix</a></span>
+<script>explorer.outline.addDecl('bindPosix');</script>(char[][] <span class="funcparam">identifiers</span>, ArgParserCallback <span class="funcparam">callback</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Binds a delegate callback to any number of identifiers with Posix-like prefixes.
+        See bindPosix&#40;identifier, callback&#41;.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">arguments</span></td><td>an array of argument identifiers</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">callback</span></td><td>the delegate that should be called when one of the arguments is found</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/ArgParser.d?rev=3327#L242">parse</a></span>
+<script>explorer.outline.addDecl('parse');</script>(char[][] <span class="funcparam">arguments</span>, bool <span class="funcparam">resetOrdinals</span> = false); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parses the arguments provided by the parameter. The bound callbacks are called as
+        arguments are recognized. If two arguments have the same prefix, and start with 
+        the same characters &#40;e.g.: --open, --opened&#41;, the longest matching bound callback
+        is called.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">arguments</span></td><td>the command line arguments from the application</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">resetOrdinals</span></td><td>if true, all ordinal counts will be set to zero</td></tr></table><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2005-2006 Lars Ivar Igesund, 
+                        Eric Anderton. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:34 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

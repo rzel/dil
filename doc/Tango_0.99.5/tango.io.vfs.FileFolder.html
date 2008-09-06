@@ -1,0 +1,406 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.vfs.FileFolder</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.vfs.FileFolder");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327">tango.io.vfs.FileFolder</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Oct 2007: Initial version<br><br>
+<b>author:</b><br>Kris<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L33">FileFolder</a></span>
+<script>explorer.outline.addDecl('FileFolder');</script> : VfsFolder;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Represents a physical folder in a file system. Use one of these
+        to address specific paths &#40;sub-trees&#41; within the file system.</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L49">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">path</span>, bool <span class="funcparam">create</span> = false);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a file folder with the given name and path. The
+                name itself should not include '.' or '/' characters, 
+                though the path can point at whatever it pleases. </font><br><br>
+<font color="black">Option 'create' will create the folder when set true, 
+                and open an existing folder otherwise<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L60">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(FilePath <span class="funcparam">path</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">create a FileFolder as a Group member</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L71">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(FileFolder <span class="funcparam">parent</span>, char[] <span class="funcparam">name</span>, bool <span class="funcparam">create</span> = false); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">explicitly create&#40;&#41; or open&#40;&#41; a named folder</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L83">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a short name</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L94">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a long name</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L109">verify</a></span>
+<script>explorer.outline.addDecl('verify');</script>(VfsFolder <span class="funcparam">folder</span>, bool <span class="funcparam">mounting</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A folder is being added or removed from the hierarchy. Use 
+                this to test for validity &#40;or whatever&#41; and throw exceptions 
+                as necessary</font><br><br>
+<font color="black">Here we test for folder overlap, and bail-out when found.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L131">file</a></span>
+<script>explorer.outline.addDecl('file');</script>(char[] <span class="funcparam">name</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a contained file representation </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolderEntry <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L142">folder</a></span>
+<script>explorer.outline.addDecl('folder');</script>(char[] <span class="funcparam">path</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a contained folder representation </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolder <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L153">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove the folder subtree</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L165">writable</a></span>
+<script>explorer.outline.addDecl('writable');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is folder writable?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolders <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L176">self</a></span>
+<script>explorer.outline.addDecl('self');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns content information about this folder</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolders <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L187">tree</a></span>
+<script>explorer.outline.addDecl('tree');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a subtree of folders matching the given name</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L199">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout VfsFolder) <span class="funcparam">dg</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Iterate over the set of immediate child folders. This is 
+                useful for reflecting the hierarchy</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolder <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L221">close</a></span>
+<script>explorer.outline.addDecl('close');</script>(bool <span class="funcparam">commit</span> = true);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Close and/or synchronize changes made to this folder. Each
+                driver should take advantage of this as appropriate, perhaps
+                combining multiple files together, or possibly copying to a 
+                remote location</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FileFolder[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L232">folders</a></span>
+<script>explorer.outline.addDecl('folders');</script>(bool <span class="funcparam">collect</span>); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sweep owned folders </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FilePath[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L260">files</a></span>
+<script>explorer.outline.addDecl('files');</script>(ref VfsStats <span class="funcparam">stats</span>, VfsFilter <span class="funcparam">filter</span> = null); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sweep owned files</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L282">error</a></span>
+<script>explorer.outline.addDecl('error');</script>(char[] <span class="funcparam">msg</span>); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Throw an exception</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FilePath <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L293">open</a></span>
+<script>explorer.outline.addDecl('open');</script>(FilePath <span class="funcparam">path</span>, bool <span class="funcparam">create</span>); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create or open the given path, and detect path errors</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L317">FileGroup</a></span>
+<script>explorer.outline.addDecl('FileGroup');</script> : VfsFiles;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Represents a group of files &#40;need this declared here to avoid
+        a bunch of bizarre compiler warnings&#41;</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L326">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(FolderGroup <span class="funcparam">host</span>, VfsFilter <span class="funcparam">filter</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L338">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout VfsFile) <span class="funcparam">dg</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Iterate over the set of contained VfsFile instances</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L359">files</a></span>
+<script>explorer.outline.addDecl('files');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the total number of entries </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ulong <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L370">bytes</a></span>
+<script>explorer.outline.addDecl('bytes');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the total size of all files </font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L386">FolderGroup</a></span>
+<script>explorer.outline.addDecl('FolderGroup');</script> : VfsFolders; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A set of folders representing a selection. This is where file 
+        selection is made, and pattern-matched folder subsets can be
+        extracted. You need one of these to expose statistics &#40;such as
+        file or folder count&#41; of a selected folder group </font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L396">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a subset group</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L405">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(FileFolder <span class="funcparam">root</span>, bool <span class="funcparam">recurse</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a folder group including the provided folder and
+                &#40;optionally&#41; all child folders</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L416">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout VfsFolder) <span class="funcparam">dg</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Iterate over the set of contained VfsFolder instances</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L435">files</a></span>
+<script>explorer.outline.addDecl('files');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the number of files in this group</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ulong <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L449">bytes</a></span>
+<script>explorer.outline.addDecl('bytes');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the total size of all files in this group</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L464">folders</a></span>
+<script>explorer.outline.addDecl('folders');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the number of folders in this group</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L475">entries</a></span>
+<script>explorer.outline.addDecl('entries');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the total number of entries in this group</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolders <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L486">subset</a></span>
+<script>explorer.outline.addDecl('subset');</script>(char[] <span class="funcparam">pattern</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a subset of folders matching the given pattern</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FileGroup <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L502">catalog</a></span>
+<script>explorer.outline.addDecl('catalog');</script>(char[] <span class="funcparam">pattern</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a set of files matching the given pattern</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FileGroup <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L518">catalog</a></span>
+<script>explorer.outline.addDecl('catalog');</script>(VfsFilter <span class="funcparam">filter</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a set of files conforming to the given filter</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FileFolder[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L529">scan</a></span>
+<script>explorer.outline.addDecl('scan');</script>(FileFolder <span class="funcparam">root</span>, bool <span class="funcparam">recurse</span>); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Internal routine to traverse the folder tree</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L547">FolderHost</a></span>
+<script>explorer.outline.addDecl('FolderHost');</script> : VfsFolderEntry; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A host for folders, currently used to harbor create&#40;&#41; and open&#40;&#41; 
+        methods only</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L556">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(FileFolder <span class="funcparam">parent</span>, char[] <span class="funcparam">path</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolder <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L566">create</a></span>
+<script>explorer.outline.addDecl('create');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFolder <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L575">open</a></span>
+<script>explorer.outline.addDecl('open');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L586">exists</a></span>
+<script>explorer.outline.addDecl('exists');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Test to see if a folder exists</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L603">FileHost</a></span>
+<script>explorer.outline.addDecl('FileHost');</script> : VfsFile; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Represents things you can do with a file </font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L611">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">path</span> = null); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L622">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a short name</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L633">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a long name</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L644">exists</a></span>
+<script>explorer.outline.addDecl('exists');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Does this file exist?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ulong <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L655">size</a></span>
+<script>explorer.outline.addDecl('size');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the file size</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L666">create</a></span>
+<script>explorer.outline.addDecl('create');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new file instance</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L678">create</a></span>
+<script>explorer.outline.addDecl('create');</script>(InputStream <span class="funcparam">input</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new file instance and populate with stream</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L690">copy</a></span>
+<script>explorer.outline.addDecl('copy');</script>(VfsFile <span class="funcparam">source</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create and copy the given source</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L703">move</a></span>
+<script>explorer.outline.addDecl('move');</script>(VfsFile <span class="funcparam">source</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create and copy the given source, and remove the source</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>InputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L716">input</a></span>
+<script>explorer.outline.addDecl('input');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the input stream. Don't forget to close it</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>OutputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L727">output</a></span>
+<script>explorer.outline.addDecl('output');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the output stream. Don't forget to close it</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L738">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove this file</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L750">dup</a></span>
+<script>explorer.outline.addDecl('dup');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Duplicate this entry</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>VfsFile <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/vfs/FileFolder.d?rev=3327#L759">set</a></span>
+<script>explorer.outline.addDecl('set');</script>(char[] <span class="funcparam">folder</span>, char[] <span class="funcparam">name</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2007 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

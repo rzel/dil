@@ -1,0 +1,122 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.digest.Digest</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.digest.Digest");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Digest.d?rev=3327">tango.io.digest.Digest</a></h1>
+                
+<b>License:</b><br>
+BSD style: see doc/license.txt for details<br><br>
+<b>Version:</b><br>
+Initial release: Feb 2006<br><br>
+<b>author:</b><br>Regan Heath, Oskar Linde<br><br>        This module defines the Digest interface.<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Digest.d?rev=3327#L55">Digest</a></span>
+<script>explorer.outline.addDecl('Digest');</script>; [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The DigestTransform interface defines the interface of message
+        digest algorithms, such as MD5 and SHA. Message digests are
+        secure hash functions that take a message of arbitrary length
+        and produce a fix length digest as output.</font><br><br>
+<font color="black">A object implementing the DigestTransform should start out initialized.
+        The data is processed though calls to the update method. Once all data
+        has been sent to the algorithm, the digest is finalized and computed
+        with the digest method.<br><br>        The digest method may only be called once. After the digest
+        method has been called, the algorithm is reset to its initial
+        state.<br><br>        Using the update method, data may be processed piece by piece, 
+        which is useful for cases involving streams of data.<br><br>        For example:
+        <pre class="d_code">
+
+        <span class="lc">// create an MD5 hash algorithm</span>
+        <span class="i">Md5</span> <span class="i">hash</span> = <span class="k">new</span> <span class="i">Md5</span>();
+
+        <span class="lc">// process some data</span>
+        <span class="i">hash</span>.<span class="i">update</span>(<span class="sl">"The quick brown fox"</span>);
+
+        <span class="lc">// process some more data</span>
+        <span class="i">hash</span>.<span class="i">update</span>(<span class="sl">" jumps over the lazy dog"</span>);
+
+        <span class="lc">// conclude algorithm and produce digest</span>
+        <span class="k">ubyte</span>[] <span class="i">digest</span> = <span class="i">hash</span>.<span class="i">binaryDigest</span>();
+        
+</pre><br><br></font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Digest.d?rev=3327#L66">update</a></span>
+<script>explorer.outline.addDecl('update');</script>(void[] <span class="funcparam">data</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Processes data
+               
+               </font><br><br>
+<b>Remarks:</b><br>Updates the hash algorithm state with new data<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ubyte[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Digest.d?rev=3327#L85">binaryDigest</a></span>
+<script>explorer.outline.addDecl('binaryDigest');</script>(ubyte[] <span class="funcparam">buffer</span> = null); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Computes the digest and resets the state</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">buffer</span></td><td>a buffer can be supplied for the digest to be
+                            written to</td></tr></table><br>
+<b>Remarks:</b><br>If the buffer is not large enough to hold the
+                   digest, a new buffer is allocated and returned.
+                   The algorithm state is always reset after a call to
+                   binaryDigest. Use the digestSize method to find out how
+                   large the buffer has to be.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Digest.d?rev=3327#L99">digestSize</a></span>
+<script>explorer.outline.addDecl('digestSize');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the size in bytes of the digest
+               
+               </font><br><br>
+<b>Returns:</b><br>
+the size of the digest in bytes<br><br>
+<b>Remarks:</b><br>Returns the size of the digest.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/digest/Digest.d?rev=3327#L117">hexDigest</a></span>
+<script>explorer.outline.addDecl('hexDigest');</script>(char[] <span class="funcparam">buffer</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Computes the digest as a hex string and resets the state
+               
+               </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">buffer</span></td><td>a buffer can be supplied in which the digest
+                            will be written. It needs to be able to hold
+                            2 * digestSize chars</td></tr></table><br>
+<b>Remarks:</b><br>If the buffer is not large enough to hold the hex digest,
+                    a new buffer is allocated and returned. The algorithm
+                    state is always reset after a call to hexDigest.<br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2006 Tango. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:33 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

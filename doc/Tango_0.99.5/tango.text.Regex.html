@@ -1,0 +1,256 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.text.Regex</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.text.Regex");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327">tango.text.Regex</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: Jan 2008<br><br>
+<b>Authors:</b><br>
+Jascha Wetzel<br><br>    This is a regular expression compiler and interpreter based on the Tagged NFA/DFA method.<br><br>    See <a href="http://en.wikipedia.org/wiki/Regular_expression">Wikpedia's article on regular expressions</a>
+    for details on regular expressions in general.<br><br>    The used method implies, that the expressions are <i>regular</i>, in the way language theory defines it,
+    as opposed to what &quot;regular expression&quot; means in most implementations
+    &#40;e.g. PCRE or those from the standard libraries of Perl, Java or Python&#41;.
+    The advantage of this method is it's performance, it's disadvantage is the inability to realize some features
+    that Perl-like regular expressions have &#40;e.g. back-references&#41;.
+    See <a href="http://swtch.com/~rsc/regexp/regexp1.html">&quot;Regular Expression Matching Can Be Simple And Fast&quot;</a>
+    for details on the differences.<br><br>    The time for matching a regular expression against an input string of length N is in O&#40;M*N&#41;, where M depends on the
+    number of matching brackets and the complexity of the expression. That is, M is constant wrt. the input
+    and therefore matching is a linear-time process.<br><br>    The syntax of a regular expressions is as follows.
+    <i>X</i> and <i>Y</i> stand for an arbitrary regular expression.<br><br>    <table border=1 cellspacing=0 cellpadding=5>
+    <caption>Operators</caption>
+    <tr><td>X|Y</td> <td>alternation, i.e. X or Y</td> </tr>
+    <tr><td>(X)</td> <td>matching brackets - creates a sub-match</td> </tr>
+    <tr><td>(?X)</td> <td>non-matching brackets - only groups X, no sub-match is created</td> </tr>
+    <tr><td>[X]</td> <td>character class specification</td> </tr>
+    <tr><td>&lt;X</td> <td>lookbehind, X may be a single character or a character class</td> </tr>
+    <tr><td>&gt;X</td> <td>lookahead, X may be a single character or a character class</td> </tr>
+    <tr><td>^</td> <td>start of input or start of line</td> </tr>
+    <tr><td>$</td> <td>end of input or end of line</td> </tr>
+    <tr><td>\b</td> <td>start or end of word, equals (?&lt;\s&gt;\S|&lt;\S&gt;\s)</td> </tr>
+    <tr><td>\B</td> <td>opposite of \b, equals (?&lt;\S&gt;\S|&lt;\s&gt;\s)</td> </tr>
+    </table><br><br>    <table border=1 cellspacing=0 cellpadding=5>
+    <caption>Quantifiers</caption>
+    <tr><td>X?</td> <td>zero or one</td> </tr>
+    <tr><td>X*</td> <td>zero or more</td> </tr>
+    <tr><td>X+</td> <td>one or more</td> </tr>
+    <tr><td>X{n,m}</td> <td>at least n, at most m instances of X.<br>If n is missing, it's set to 0.<br>If m is missing, it is set to infinity.</td> </tr>
+    <tr><td>X??</td> <td>non-greedy version of the above operators</td> </tr>
+    <tr><td>X*?</td> <td>see above</td> </tr>
+    <tr><td>X+?</td> <td>see above</td> </tr>
+    <tr><td>X{n,m}?</td> <td>see above</td> </tr>
+    </table><br><br>    <table border=1 cellspacing=0 cellpadding=5>
+    <caption>Pre-defined character classes</caption>
+    <tr><td>.</td> <td>any printable character</td> </tr>
+    <tr><td>\s</td> <td>whitespace</td> </tr>
+    <tr><td>\S</td> <td>non-whitespace</td> </tr>
+    <tr><td>\w</td> <td>alpha-numeric characters or underscore</td> </tr>
+    <tr><td>\W</td> <td>opposite of \w</td> </tr>
+    <tr><td>\d</td> <td>digits</td> </tr>
+    <tr><td>\D</td> <td>non-digit</td> </tr>
+    </table><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3237">RegExpT</a></span>
+<script>explorer.outline.addDecl('RegExpT');</script>(char_t);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Regular expression compiler and interpreter.
+</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3256">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char_t[] <span class="funcparam">pattern</span>, char_t[] <span class="funcparam">attributes</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3262">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char_t[] <span class="funcparam">pattern</span>, bool <span class="funcparam">swapMBS</span>, bool <span class="funcparam">unanchored</span>, bool <span class="funcparam">printNFA</span> = false);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a RegExpT object.
+        </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">pattern</span></td><td>Regular expression.</td></tr></table><br>
+<b>Throws:</b><br>
+RegExpException if there are any compilation errors.<br><br>
+<b>Example:</b><br>Declare two variables and assign to them a Regex object:
+            <pre class="d_code">
+
+            <span class="k">auto</span> <span class="i">r</span> = <span class="k">new</span> <span class="i">Regex</span>(<span class="sl">"pattern"</span>);
+            <span class="k">auto</span> <span class="i">s</span> = <span class="k">new</span> <span class="i">Regex</span>(<span class="sl">r"p[1-5]\s*"</span>);
+            
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>RegExpT!(char_t) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3296">opCall</a></span>
+<script>explorer.outline.addDecl('opCall');</script>(char_t[] <span class="funcparam">pattern</span>, char_t[] <span class="funcparam">attributes</span> = null); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Generate instance of Regex.
+        </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">pattern</span></td><td>Regular expression.</td></tr></table><br>
+<b>Throws:</b><br>
+RegExpException if there are any compilation errors.<br><br>
+<b>Example:</b><br>Declare two variables and assign to them a Regex object:
+            <pre class="d_code">
+
+            <span class="k">auto</span> <span class="i">r</span> = <span class="i">Regex</span>(<span class="sl">"pattern"</span>);
+            <span class="k">auto</span> <span class="i">s</span> = <span class="i">Regex</span>(<span class="sl">r"p[1-5]\s*"</span>);
+            
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>RegExpT!(char_t) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3321">search</a></span>
+<script>explorer.outline.addDecl('search');</script>(char_t[] <span class="funcparam">input</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3330">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout RegExpT!(char_t)) <span class="funcparam">dg</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set up for start of foreach loop.
+        </font><br><br>
+<b>Returns:</b><br>
+Instance of RegExpT set up to search input.<br><br>
+<b>Example:</b><br><pre class="d_code">
+
+            <span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">Stdout</span>;
+            <span class="k">import</span> <span class="i">tango</span>.<span class="i">text</span>.<span class="i">Regex</span>;
+            
+            <span class="k">void</span> <span class="i">main</span>()
+            {
+                <span class="k">foreach</span>(<span class="i">m</span>; <span class="i">Regex</span>(<span class="sl">"ab"</span>).<span class="i">search</span>(<span class="sl">"qwerabcabcababqwer"</span>))
+                    <span class="i">Stdout</span>.<span class="i">formatln</span>(<span class="sl">"{}[{}]{}"</span>, <span class="i">m</span>.<span class="i">pre</span>, <span class="i">m</span>.<span class="i">match</span>(<span class="n">0</span>), <span class="i">m</span>.<span class="i">post</span>);
+            }
+            <span class="lc">// Prints:</span>
+            <span class="lc">// qwer[ab]cabcababqwer</span>
+            <span class="lc">// qwerabc[ab]cababqwer</span>
+            <span class="lc">// qwerabcabc[ab]abqwer</span>
+            <span class="lc">// qwerabcabcab[ab]qwer</span>
+            
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3342">test</a></span>
+<script>explorer.outline.addDecl('test');</script>(char_t[] <span class="funcparam">input</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Search input for match.
+        </font><br><br>
+<b>Returns:</b><br>
+false for no match, true for match<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3354">test</a></span>
+<script>explorer.outline.addDecl('test');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Pick up where last test&#40;input&#41; or test&#40;&#41; left off, and search again.
+        </font><br><br>
+<b>Returns:</b><br>
+false for no match, true for match<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char_t[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3509">match</a></span>
+<script>explorer.outline.addDecl('match');</script>(uint <span class="funcparam">index</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char_t[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3521">opIndex</a></span>
+<script>explorer.outline.addDecl('opIndex');</script>(uint <span class="funcparam">index</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return submatch with the given index.
+        </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam"></span></td><td>index   index = 0 returns whole match, index > 0 returns submatch of bracket #index</td></tr></table><br>
+<b>Returns:</b><br>
+Slice of input for the requested submatch, or null if no such submatch exists.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char_t[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3530">pre</a></span>
+<script>explorer.outline.addDecl('pre');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the slice of the input that precedes the matched substring.
+        If no match was found, null is returned.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char_t[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3542">post</a></span>
+<script>explorer.outline.addDecl('post');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the slice of the input that follows the matched substring.
+        If no match was found, the whole slice of the input that was processed in the last test.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char_t[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3568">split</a></span>
+<script>explorer.outline.addDecl('split');</script>(char_t[] <span class="funcparam">input</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Splits the input at the matches of this regular expression into an array of slices.
+        </font><br><br>
+<b>Example:</b><br><pre class="d_code">
+
+            <span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">Stdout</span>;
+            <span class="k">import</span> <span class="i">tango</span>.<span class="i">text</span>.<span class="i">Regex</span>;
+
+            <span class="k">void</span> <span class="i">main</span>()
+            {
+                <span class="k">auto</span> <span class="i">strs</span> = <span class="i">Regex</span>(<span class="sl">"ab"</span>).<span class="i">split</span>(<span class="sl">"abcabcababqwer"</span>);
+                <span class="k">foreach</span>( <span class="i">s</span>; <span class="i">strs</span> )
+                    <span class="i">Stdout</span>.<span class="i">formatln</span>(<span class="sl">"{}"</span>, <span class="i">s</span>);
+            }
+            <span class="lc">// Prints:</span>
+            <span class="lc">// c</span>
+            <span class="lc">// c</span>
+            <span class="lc">// qwer</span>
+            
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char_t[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3594">replaceAll</a></span>
+<script>explorer.outline.addDecl('replaceAll');</script>(char_t[] <span class="funcparam">input</span>, char_t[] <span class="funcparam">replacement</span>, char_t[] <span class="funcparam">output_buffer</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a copy of the input with all matches replaced by replacement.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char_t[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3616">replaceAll</a></span>
+<script>explorer.outline.addDecl('replaceAll');</script>(char_t[] <span class="funcparam">input</span>, char_t[] delegate(RegExpT!(char_t)) <span class="funcparam">dg</span>, char_t[] <span class="funcparam">output_buffer</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Calls dg for each match and replaces it with dg's return value.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>string <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Regex.d?rev=3327#L3639">compileToD</a></span>
+<script>explorer.outline.addDecl('compileToD');</script>(string <span class="funcparam">func_name</span> = "match", bool <span class="funcparam">lexer</span> = false);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Compiles the regular expression to D code.
+</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2007-2008 Jascha Wetzel. All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:32 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

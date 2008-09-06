@@ -1,0 +1,167 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.collection.model.SeqView</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.collection.model.SeqView");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/SeqView.d?rev=3327">tango.util.collection.model.SeqView</a></h1>
+                
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>interface <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/SeqView.d?rev=3327#L36">SeqView</a></span>
+<script>explorer.outline.addDecl('SeqView');</script>(T) : View!(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Seqs are indexed, sequentially ordered collections.
+ Indices are always in the range 0 .. size&#40;&#41; -1. All accesses by index
+ are checked, raising exceptions if the index falls out of range.
+ <P>
+ The elements&#40;&#41; enumeration for all seqs is guaranteed to be
+ traversed &#40;via nextElement&#41; in sequential order.
+ 
+        </font><br><br>
+<b>author:</b><br>Doug Lea
+ @version 0.93<br><br> <P> For an introduction to this package see <A HREF="index.html"> Overview </A>.<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/SeqView.d?rev=3327#L45">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(int <span class="funcparam">index</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the element at the indicated index
+ @param index 
+ </font><br><br>
+<b>Returns:</b><br>
+the element at the index<br><br>
+<b>Throws:</b><br>
+NoSuchElementException if index is not in range 0..size&#40;&#41;-1<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/SeqView.d?rev=3327#L55">head</a></span>
+<script>explorer.outline.addDecl('head');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the first element, if it exists.
+ Behaviorally equivalent to at&#40;0&#41;
+ </font><br><br>
+<b>Throws:</b><br>
+NoSuchElementException if isEmpty<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/SeqView.d?rev=3327#L64">tail</a></span>
+<script>explorer.outline.addDecl('tail');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the last element, if it exists.
+ Behaviorally equivalent to at&#40;size&#40;&#41;-1&#41;
+ </font><br><br>
+<b>Throws:</b><br>
+NoSuchElementException if isEmpty<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/SeqView.d?rev=3327#L85">first</a></span>
+<script>explorer.outline.addDecl('first');</script>(T <span class="funcparam">element</span>, int <span class="funcparam">startingIndex</span> = 0); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Report the index of leftmost occurrence of an element from a 
+ given starting point, or -1 if there is no such index.
+ @param element the element to look for
+ @param startingIndex the index to start looking from. The startingIndex
+ need not be a valid index. If less than zero it is treated as 0.
+ If greater than or equal to size&#40;&#41;, the result will always be -1.
+ </font><br><br>
+<b>Returns:</b><br>
+index such that
+ <PRE> 
+ let int si = max&#40;0, startingIndex&#41; in
+  index == -1 &amp;&amp;
+   foreach &#40;int i in si .. size&#40;&#41;-1&#41; !at&#40;index&#41;.equals&#40;element&#41;
+  ||
+  at&#40;index&#41;.equals&#40;element&#41; &amp;&amp;
+   foreach &#40;int i in si .. index-1&#41; !at&#40;index&#41;.equals&#40;element&#41;
+ </PRE><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/SeqView.d?rev=3327#L106">last</a></span>
+<script>explorer.outline.addDecl('last');</script>(T <span class="funcparam">element</span>, int <span class="funcparam">startingIndex</span> = 0); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Report the index of righttmost occurrence of an element from a 
+ given starting point, or -1 if there is no such index.
+ @param element the element to look for
+ @param startingIndex the index to start looking from. The startingIndex
+ need not be a valid index. If less than zero the result
+ will always be -1.
+ If greater than or equal to size&#40;&#41;, it is treated as size&#40;&#41;-1.
+ </font><br><br>
+<b>Returns:</b><br>
+index such that
+ <PRE> 
+ let int si = min&#40;size&#40;&#41;-1, startingIndex&#41; in
+  index == -1 &amp;&amp;
+   foreach &#40;int i in 0 .. si&#41; !at&#40;index&#41;.equals&#40;element&#41;
+  ||
+  at&#40;index&#41;.equals&#40;element&#41; &amp;&amp;
+   foreach &#40;int i in index+1 .. si&#41; !at&#40;index&#41;.equals&#40;element&#41;
+ </PRE><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SeqView <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/SeqView.d?rev=3327#L123">subset</a></span>
+<script>explorer.outline.addDecl('subset');</script>(int <span class="funcparam">index</span>, int <span class="funcparam">length</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a new SeqView that is a clone of self except
+ that it does not contain the elements before index or
+ after index+length. If length is less than or equal to zero,
+ return an empty SeqView.
+ @param index of the element that will be the 0th index in new SeqView
+ @param length the number of elements in the new SeqView
+ </font><br><br>
+<b>Returns:</b><br>
+new seq such that
+ <PRE>
+ s.size&#40;&#41; == max&#40;0, length&#41; &amp;&amp;
+ foreach &#40;int i in 0 .. s.size&#40;&#41;-1&#41; s.at&#40;i&#41;.equals&#40;at&#40;i+index&#41;&#41;; 
+ </PRE><br><br>
+<b>Throws:</b><br>
+NoSuchElementException if index is not in range 0..size&#40;&#41;-1<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SeqView <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/SeqView.d?rev=3327#L139">opSlice</a></span>
+<script>explorer.outline.addDecl('opSlice');</script>(int <span class="funcparam">begin</span>, int <span class="funcparam">end</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a new SeqView that is a clone of self except
+ that it does not contain the elements before begin or
+ after end-1. If length is less than or equal to zero,
+ return an empty SeqView.
+ @param index of the element that will be the 0th index in new SeqView
+ @param index of the last element in the SeqView plus 1
+ </font><br><br>
+<b>Returns:</b><br>
+new seq such that
+ <PRE>
+ s.size&#40;&#41; == max&#40;0, length&#41; &amp;&amp;
+ foreach &#40;int i in 0 .. s.size&#40;&#41;-1&#41; s.at&#40;i&#41;.equals&#40;at&#40;i+index&#41;&#41;; 
+ </PRE><br><br>
+<b>Throws:</b><br>
+NoSuchElementException if index is not in range 0..size&#40;&#41;-1<br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                         :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:34 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

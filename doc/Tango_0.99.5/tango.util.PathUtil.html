@@ -1,0 +1,138 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.PathUtil</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.PathUtil");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/PathUtil.d?rev=3327">tango.util.PathUtil</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Dec 2006: Initial release<br><br>
+<b>author:</b><br>Lars Ivar Igesund, Thomas Kühne,
+                        Grzegorz Adam Hankiewicz<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/PathUtil.d?rev=3327#L46">normalize</a></span>
+<script>explorer.outline.addDecl('normalize');</script>(char[] <span class="funcparam">path</span>, bool <span class="funcparam">normSlash</span> = true);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Normalizes a path component as specified in section 5.2 of RFC 2396.</font><br><br>
+<font color="black">./ in path is removed
+    /. at the end is removed
+    <segment>/.. at the end is removed
+    <segment>/../ in path is removed<br><br>    Unless normSlash is set to false, all slashes will be converted
+    to the systems path separator character.<br><br>    Note that any number of ../ segments at the front is ignored,
+    unless it is an absolute path, in which case an exception will
+    be thrown. A relative path with ../ segments at the front is only
+    considered valid if it can be joined with a path such that it can
+    be fully normalized.<br><br>    </font><br><br>
+<b>Throws:</b><br>
+Exception if the root separator is followed by ..<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+     <span class="i">normalize</span>(<span class="sl">"/home/foo/./bar/../../john/doe"</span>); <span class="lc">// =&gt; "/home/john/doe"</span>
+    
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/PathUtil.d?rev=3327#L291">patternMatch</a></span>
+<script>explorer.outline.addDecl('patternMatch');</script>(char[] <span class="funcparam">filename</span>, char[] <span class="funcparam">pattern</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Matches a pattern against a filename.</font><br><br>
+<font color="black">Some characters of pattern have special a meaning &#40;they are
+    <i>meta-characters</i>&#41; and <b>can't</b> be escaped. These are:
+    <p><table>
+    <tr><td><b>*</b></td>
+        <td>Matches 0 or more instances of any character.</td></tr>
+    <tr><td><b>?</b></td>
+        <td>Matches exactly one instances of any character.</td></tr>
+    <tr><td><b>[</b><i>chars</i><b>]</b></td>
+        <td>Matches one instance of any character that appears
+        between the brackets.</td></tr>
+    <tr><td><b>[!</b><i>chars</i><b>]</b></td>
+        <td>Matches one instance of any character that does not appear
+        between the brackets after the exclamation mark.</td></tr>
+    </table><p>
+    Internally individual character comparisons are done calling
+    charMatch&#40;&#41;, so its rules apply here too. Note that path
+    separators and dots don't stop a meta-character from matching
+    further portions of the filename.<br><br>    </font><br><br>
+<b>Returns:</b><br>
+true if pattern matches filename, false otherwise.<br><br>
+<b>See Also:</b><br>
+charMatch&#40;&#41;.<br><br>
+<b>Throws:</b><br>
+Nothing.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+    <span class="k">version</span>(<span class="i">Win32</span>)
+    {
+        <span class="i">patternMatch</span>(<span class="sl">"foo.bar"</span>, <span class="sl">"*"</span>) <span class="lc">// =&gt; true</span>
+        <span class="i">patternMatch</span>(<span class="sl">r"foo/foo\bar"</span>, <span class="sl">"f*b*r"</span>) <span class="lc">// =&gt; true</span>
+        <span class="i">patternMatch</span>(<span class="sl">"foo.bar"</span>, <span class="sl">"f?bar"</span>) <span class="lc">// =&gt; false</span>
+        <span class="i">patternMatch</span>(<span class="sl">"Goo.bar"</span>, <span class="sl">"[fg]???bar"</span>) <span class="lc">// =&gt; true</span>
+        <span class="i">patternMatch</span>(<span class="sl">r"d:\foo\bar"</span>, <span class="sl">"d*foo?bar"</span>) <span class="lc">// =&gt; true</span>
+    }
+    <span class="k">version</span>(<span class="i">Posix</span>)
+    {
+        <span class="i">patternMatch</span>(<span class="sl">"Go*.bar"</span>, <span class="sl">"[fg]???bar"</span>) <span class="lc">// =&gt; false</span>
+        <span class="i">patternMatch</span>(<span class="sl">"/foo*home/bar"</span>, <span class="sl">"?foo*bar"</span>) <span class="lc">// =&gt; true</span>
+        <span class="i">patternMatch</span>(<span class="sl">"foobar"</span>, <span class="sl">"foo?bar"</span>) <span class="lc">// =&gt; true</span>
+    }
+    
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/PathUtil.d?rev=3327#L454">charMatch</a></span>
+<script>explorer.outline.addDecl('charMatch');</script>(char <span class="funcparam">c1</span>, char <span class="funcparam">c2</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Matches filename characters.</font><br><br>
+<font color="black">Under Windows, the comparison is done ignoring case. Under Linux
+     an exact match is performed.<br><br>     </font><br><br>
+<b>Returns:</b><br>
+true if c1 matches c2, false otherwise.<br><br>
+<b>Throws:</b><br>
+Nothing.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+     <span class="k">version</span>(<span class="i">Win32</span>)
+     {
+         <span class="i">charMatch</span>(<span class="cl">'a'</span>, <span class="cl">'b'</span>) <span class="lc">// =&gt; false</span>
+         <span class="i">charMatch</span>(<span class="cl">'A'</span>, <span class="cl">'a'</span>) <span class="lc">// =&gt; true</span>
+     }
+     <span class="k">version</span>(<span class="i">Posix</span>)
+     {
+         <span class="i">charMatch</span>(<span class="cl">'a'</span>, <span class="cl">'b'</span>) <span class="lc">// =&gt; false</span>
+         <span class="i">charMatch</span>(<span class="cl">'A'</span>, <span class="cl">'a'</span>) <span class="lc">// =&gt; false</span>
+     }
+     
+</pre><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2006 Lars Ivar Igesund, Thomas Kühne,
+                                            Grzegorz Adam Hankiewicz :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:34 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

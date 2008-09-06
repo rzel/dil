@@ -1,0 +1,154 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.cluster.NetworkMessage</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.cluster.NetworkMessage");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkMessage.d?rev=3327">tango.net.cluster.NetworkMessage</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+July 2004: Initial release<br><br>
+<b>author:</b><br>Kris<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkMessage.d?rev=3327#L43">NetworkMessage</a></span>
+<script>explorer.outline.addDecl('NetworkMessage');</script> : IMessage;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A cluster-based messaging class. You should override both read&#40;&#41; and 
+        write&#40;&#41; methods to transport non-transient content along with the msg.</font><br><br>
+<font color="black">Note that when using read&#40;&#41; and write&#40;&#41;, invoke the superclass first 
+        so that your Message can potentially be deserialized as a superclass 
+        instance. That is, read&#40;&#41; and write&#40;&#41; might look something like this:
+        <pre class="d_code">
+
+        <span class="k">void</span> <span class="i">read</span> (<span class="i">IReader</span> <span class="i">input</span>)
+        {       
+                <span class="k">super</span>.<span class="i">read</span> (<span class="i">input</span>);
+                <span class="i">input</span> (<span class="i">myAttribute</span>) (<span class="i">myOtherAttribute</span>);
+        }
+
+        <span class="k">void</span> <span class="i">write</span> (<span class="i">IWriter</span> <span class="i">output</span>)
+        {
+                <span class="k">super</span>.<span class="i">write</span> (<span class="i">output</span>);
+                <span class="i">output</span> (<span class="i">myAttribute</span>) (<span class="i">myOtherAttribute2</span>);
+        }
+        
+</pre><br><br></font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkMessage.d?rev=3327#L59">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Have to proxy this to satisfy interface requirements. It's 
+                both annoying and fragile to be forced into this kind of 
+                call-brokering, but then interfaces also don't expose the
+                methods from Object either. Interfaces in D are still a
+                bit too immature</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkMessage.d?rev=3327#L70">reply</a></span>
+<script>explorer.outline.addDecl('reply');</script>(char[] <span class="funcparam">channel</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the optional reply-channel</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkMessage.d?rev=3327#L81">reply</a></span>
+<script>explorer.outline.addDecl('reply');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the optional reply-channel</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkMessage.d?rev=3327#L100">time</a></span>
+<script>explorer.outline.addDecl('time');</script>(Time <span class="funcparam">time</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the waterline of the cache-entries that should not be 
+                touched by an invalidation. This is typically the time of
+                an entry in a local cache on the machine originating the 
+                invalidation. Without the ability to guard against local 
+                invalidation, the cache entry just added locally would be 
+                removed along with others across the cluster. 
+                
+                An alternative would be to invalidate before adding, though 
+                that can become complicated by network race conditions.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkMessage.d?rev=3327#L111">time</a></span>
+<script>explorer.outline.addDecl('time');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return our time value</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkMessage.d?rev=3327#L120">id</a></span>
+<script>explorer.outline.addDecl('id');</script>(uint <span class="funcparam">value</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkMessage.d?rev=3327#L129">id</a></span>
+<script>explorer.outline.addDecl('id');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkMessage.d?rev=3327#L140">read</a></span>
+<script>explorer.outline.addDecl('read');</script>(IReader <span class="funcparam">input</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Recover the reply-channel from the provided reader</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkMessage.d?rev=3327#L151">write</a></span>
+<script>explorer.outline.addDecl('write');</script>(IWriter <span class="funcparam">output</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Emit our reply-channel to the provided writer</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IMessage <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkMessage.d?rev=3327#L172">clone</a></span>
+<script>explorer.outline.addDecl('clone');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creates a shallow object copy. This is used internally 
+                for setting up templates/hosts of registered objects and 
+                should be overridden where deep&#40;er&#41; copying is desired. 
+                </font><br><br>
+<b>Specifically:</b><br>it makes a bit-copy only. Dynamic arrays or
+                pointer/reference oriented attributes are not duplicated.<br><br>                In general, there should be zero heap activity ocurring
+                during cluster requests. Thus, specific cluster services 
+                utilize this method to construct message hosts, up-front, 
+                helping to ensure the heap remains untouched during normal 
+                operation.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkMessage.d?rev=3327#L194">execute</a></span>
+<script>explorer.outline.addDecl('execute');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Interface issues mean that we'd have to reimplement all 
+                the above methods again to support the ITask derivative. 
+                Just hack this in here instead :[</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:32 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

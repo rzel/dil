@@ -1,0 +1,282 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.collection.ArrayBag</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.collection.ArrayBag");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327">tango.util.collection.ArrayBag</a></h1>
+                
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L54">ArrayBag</a></span>
+<script>explorer.outline.addDecl('ArrayBag');</script>(T) : BagCollection!(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Linked Buffer implementation of Bags. The Bag consists of
+ any number of buffers holding elements, arranged in a list.
+ Each buffer holds an array of elements. The size of each
+ buffer is the value of chunkSize that was current during the
+ operation that caused the Bag to grow. The chunkSize&#40;&#41; may
+ be adjusted at any time. &#40;It is not considered a version change.&#41;
+ 
+ <P>
+ All but the final buffer is always kept full.
+ When a buffer has no elements, it is released &#40;so is
+ available for garbage collection&#41;.
+ <P>
+ ArrayBags are good choices for collections in which
+ you merely put a lot of things in, and then look at
+ them via enumerations, but don't often look for
+ particular elements.
+ 
+ 
+        </font><br><br>
+<b>author:</b><br>Doug Lea
+ @version 0.93<br><br> <P> For an introduction to this package see <A HREF="index.html"> Overview </A>.<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L65">defaultChunkSize</a></span>
+<script>explorer.outline.addDecl('defaultChunkSize');</script>; [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The default chunk size to use for buffers
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>CLCellT <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L73">tail</a></span>
+<script>explorer.outline.addDecl('tail');</script>; [package]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The last node of the circular list of chunks. Null if empty.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L79">lastCount</a></span>
+<script>explorer.outline.addDecl('lastCount');</script>; [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The number of elements of the tail node actually used. &#40;all others
+ are kept full&#41;.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L85">chunkSize_</a></span>
+<script>explorer.outline.addDecl('chunkSize_');</script>; [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The chunk size to use for making next buffer
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L92">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Make an empty buffer.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L101">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Predicate <span class="funcparam">s</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Make an empty buffer, using the supplied element screener.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L109">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Predicate <span class="funcparam">s</span>, int <span class="funcparam">n</span>, CLCellT <span class="funcparam">t</span>, int <span class="funcparam">lc</span>, int <span class="funcparam">cs</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Special version of constructor needed by clone&#40;&#41;
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ArrayBag <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L122">duplicate</a></span>
+<script>explorer.outline.addDecl('duplicate');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Make an independent copy. Does not clone elements.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L151">chunkSize</a></span>
+<script>explorer.outline.addDecl('chunkSize');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Report the chunk size used when adding new buffers to the list
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L163">chunkSize</a></span>
+<script>explorer.outline.addDecl('chunkSize');</script>(int <span class="funcparam">newChunkSize</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the chunk size to be used when adding new buffers to the 
+ list during future add&#40;&#41; operations.
+ Any value greater than 0 is OK. &#40;A value of 1 makes this a
+ into very slow simulation of a linked list!&#41;
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L183">contains</a></span>
+<script>explorer.outline.addDecl('contains');</script>(T <span class="funcparam">element</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.Collection.contains
+ Time complexity: O&#40;n&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.contains<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L220">instances</a></span>
+<script>explorer.outline.addDecl('instances');</script>(T <span class="funcparam">element</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.Collection.instances
+ Time complexity: O&#40;n&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.instances<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>GuardIterator!(T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L258">elements</a></span>
+<script>explorer.outline.addDecl('elements');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.Collection.elements
+ Time complexity: O&#40;1&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.elements<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L268">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate (inout T value) <span class="funcparam">dg</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.model.View.View.opApply
+ Time complexity: O&#40;n&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.model.View.View.opApply<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L281">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.Collection.clear.
+ Time complexity: O&#40;1&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.clear<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L293">removeAll</a></span>
+<script>explorer.outline.addDecl('removeAll');</script>(T <span class="funcparam">element</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.Collection.removeAll.
+ Time complexity: O&#40;n&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.removeAll<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L304">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(T <span class="funcparam">element</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.Collection.removeOneOf.
+ Time complexity: O&#40;n&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.removeOneOf<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L314">replace</a></span>
+<script>explorer.outline.addDecl('replace');</script>(T <span class="funcparam">oldElement</span>, T <span class="funcparam">newElement</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.Collection.replaceOneOf
+ Time complexity: O&#40;n&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.replaceOneOf<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L324">replaceAll</a></span>
+<script>explorer.outline.addDecl('replaceAll');</script>(T <span class="funcparam">oldElement</span>, T <span class="funcparam">newElement</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.Collection.replaceAllOf.
+ Time complexity: O&#40;n&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.replaceAllOf<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L335">take</a></span>
+<script>explorer.outline.addDecl('take');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.Collection.take.
+ Time complexity: O&#40;1&#41;.
+ Takes the least element.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.take<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L358">addIf</a></span>
+<script>explorer.outline.addDecl('addIf');</script>(T <span class="funcparam">element</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.MutableBag.addIfAbsent.
+ Time complexity: O&#40;n&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.MutableBag.addIfAbsent<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L370">add</a></span>
+<script>explorer.outline.addDecl('add');</script>(T <span class="funcparam">element</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.MutableBag.add.
+ Time complexity: O&#40;1&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.MutableBag.add<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L397">remove_</a></span>
+<script>explorer.outline.addDecl('remove_');</script>(T <span class="funcparam">element</span>, bool <span class="funcparam">allOccurrences</span>); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">helper for remove/exclude
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L497">checkImplementation</a></span>
+<script>explorer.outline.addDecl('checkImplementation');</script>(); [public, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.model.View.View.checkImplementation.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.model.View.View.checkImplementation<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/ArrayBag.d?rev=3327#L548">ArrayIterator</a></span>
+<script>explorer.outline.addDecl('ArrayIterator');</script>(T) : AbstractIterator!(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">opApply&#40;&#41; has migrated here to mitigate the virtual call
+                on method get&#40;&#41;
+                
+</font><br><br>
+</dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                         :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:34 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

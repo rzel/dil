@@ -1,0 +1,494 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.text.Util</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.text.Util");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327">tango.text.Util</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Apr 2004: Initial release
+                        Dec 2006: South Seas version<br><br>
+<b>author:</b><br>Kris<br><br>
+        Placeholder for a variety of wee functions. These functions are all
+        templated with the intent of being used for arrays of char, wchar,
+        and dchar. However, they operate correctly with other array types
+        also.<br><br>        Several of these functions return an index value, representing where
+        some criteria was identified. When said criteria is not matched, the
+        functions return a value representing the array length provided to
+        them. That is, for those scenarios where C functions might typically
+        return -1 these functions return length instead. This operate nicely
+        with D slices:
+        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">text</span> = <span class="sl">"happy:faces"</span>;
+        
+        <span class="k">assert</span> (<span class="i">text</span>[<span class="n">0</span> .. <span class="i">locate</span> (<span class="i">text</span>, <span class="cl">':'</span>)] == <span class="sl">"happy"</span>);
+        
+        <span class="k">assert</span> (<span class="i">text</span>[<span class="n">0</span> .. <span class="i">locate</span> (<span class="i">text</span>, <span class="cl">'!'</span>)] == <span class="sl">"happy:faces"</span>);
+        
+</pre><br><br>        The contains&#40;&#41; function is more convenient for trivial lookup<br><br>
+<b>cases:</b><br><pre class="d_code">
+
+        <span class="k">if</span> (<span class="i">contains</span> (<span class="sl">"fubar"</span>, <span class="cl">'!'</span>))
+            ...
+        
+</pre><br><br>        Note that where some functions expect a uint as an argument, the
+        D template-matching algorithm will fail where an int is provided
+        instead. This is the typically the cause of "template not found"
+        errors. Also note that name overloading is not supported cleanly
+        by IFTI at this time, so is not applied here.<br><br>
+        Applying the D "import alias" mechanism to this module is highly
+        recommended, in order to limit namespace pollution:
+        <pre class="d_code">
+
+        <span class="k">import</span> <span class="i">Util</span> = <span class="i">tango</span>.<span class="i">text</span>.<span class="i">Util</span>;
+
+        <span class="k">auto</span> <span class="i">s</span> = <span class="i">Util</span>.<span class="i">trim</span> (<span class="sl">"  foo "</span>);
+        
+</pre>
+                <br><br>        Function templates:
+        <pre class="d_code">
+
+        <span class="i">trim</span> (<span class="i">source</span>)                               <span class="lc">// trim whitespace</span>
+        <span class="i">triml</span> (<span class="i">source</span>)                              <span class="lc">// trim whitespace</span>
+        <span class="i">trimr</span> (<span class="i">source</span>)                              <span class="lc">// trim whitespace</span>
+        <span class="i">strip</span> (<span class="i">source</span>, <span class="i">match</span>)                       <span class="lc">// trim elements</span>
+        <span class="i">stripl</span> (<span class="i">source</span>, <span class="i">match</span>)                      <span class="lc">// trim elements</span>
+        <span class="i">stripr</span> (<span class="i">source</span>, <span class="i">match</span>)                      <span class="lc">// trim elements</span>
+        <span class="i">chopl</span> (<span class="i">source</span>, <span class="i">match</span>)                       <span class="lc">// trim pattern match</span>
+        <span class="i">chopr</span> (<span class="i">source</span>, <span class="i">match</span>)                       <span class="lc">// trim pattern match</span>
+        <span class="i">delimit</span> (<span class="i">src</span>, <span class="i">set</span>)                          <span class="lc">// split on delims</span>
+        <span class="i">split</span> (<span class="i">source</span>, <span class="i">pattern</span>)                     <span class="lc">// split on pattern</span>
+        <span class="i">splitLines</span> (<span class="i">source</span>);                        <span class="lc">// split on lines</span>
+        <span class="i">head</span> (<span class="i">source</span>, <span class="i">pattern</span>, <span class="i">tail</span>)                <span class="lc">// split to head &amp; tail</span>
+        <span class="i">join</span> (<span class="i">source</span>, <span class="i">postfix</span>, <span class="i">output</span>)              <span class="lc">// join text segments</span>
+        <span class="i">repeat</span> (<span class="i">source</span>, <span class="i">count</span>, <span class="i">output</span>)              <span class="lc">// repeat source </span>
+        <span class="i">replace</span> (<span class="i">source</span>, <span class="i">match</span>, <span class="i">replacement</span>)        <span class="lc">// replace chars</span>
+        <span class="i">substitute</span> (<span class="i">source</span>, <span class="i">match</span>, <span class="i">replacement</span>)     <span class="lc">// replace patterns</span>
+        <span class="i">contains</span> (<span class="i">source</span>, <span class="i">match</span>)                    <span class="lc">// has char?</span>
+        <span class="i">containsPattern</span> (<span class="i">source</span>, <span class="i">match</span>)             <span class="lc">// has pattern?</span>
+        <span class="i">locate</span> (<span class="i">source</span>, <span class="i">match</span>, <span class="i">start</span>)               <span class="lc">// find char</span>
+        <span class="i">locatePrior</span> (<span class="i">source</span>, <span class="i">match</span>, <span class="i">start</span>)          <span class="lc">// find prior char</span>
+        <span class="i">locatePattern</span> (<span class="i">source</span>, <span class="i">match</span>, <span class="i">start</span>);       <span class="lc">// find pattern</span>
+        <span class="i">locatePatternPrior</span> (<span class="i">source</span>, <span class="i">match</span>, <span class="i">start</span>);  <span class="lc">// find prior pattern</span>
+        <span class="i">indexOf</span> (<span class="i">s</span>*, <span class="i">match</span>, <span class="i">length</span>)                 <span class="lc">// low-level lookup</span>
+        <span class="i">mismatch</span> (<span class="i">s1</span>*, <span class="i">s2</span>*, <span class="i">length</span>)                 <span class="lc">// low-level compare</span>
+        <span class="i">matching</span> (<span class="i">s1</span>*, <span class="i">s2</span>*, <span class="i">length</span>)                 <span class="lc">// low-level compare</span>
+        <span class="i">isSpace</span> (<span class="i">match</span>)                             <span class="lc">// is whitespace?</span>
+        <span class="i">unescape</span>(<span class="i">source</span>, <span class="i">output</span>)                    <span class="lc">// convert '\' prefixes</span>
+        <span class="i">layout</span> (<span class="i">destination</span>, <span class="i">format</span> ...)            <span class="lc">// featherweight printf</span>
+        <span class="i">lines</span> (<span class="i">str</span>)                                 <span class="lc">// foreach lines</span>
+        <span class="i">quotes</span> (<span class="i">str</span>, <span class="i">set</span>)                           <span class="lc">// foreach quotes</span>
+        <span class="i">delimiters</span> (<span class="i">str</span>, <span class="i">set</span>)                       <span class="lc">// foreach delimiters</span>
+        <span class="i">patterns</span> (<span class="i">str</span>, <span class="i">pattern</span>)                     <span class="lc">// foreach patterns</span>
+        
+</pre><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L102">trim</a></span>
+<script>explorer.outline.addDecl('trim');</script>(T)(T[] <span class="funcparam">source</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Trim the provided array by stripping whitespace from both
+        ends. Returns a slice of the original content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L123">triml</a></span>
+<script>explorer.outline.addDecl('triml');</script>(T)(T[] <span class="funcparam">source</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Trim the provided array by stripping whitespace from the left.
+        Returns a slice of the original content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L141">trimr</a></span>
+<script>explorer.outline.addDecl('trimr');</script>(T)(T[] <span class="funcparam">source</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Trim the provided array by stripping whitespace from the right.
+        Returns a slice of the original content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L159">strip</a></span>
+<script>explorer.outline.addDecl('strip');</script>(T)(T[] <span class="funcparam">source</span>, T <span class="funcparam">match</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Trim the given array by stripping the provided match from
+        both ends. Returns a slice of the original content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L180">stripl</a></span>
+<script>explorer.outline.addDecl('stripl');</script>(T)(T[] <span class="funcparam">source</span>, T <span class="funcparam">match</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Trim the given array by stripping the provided match from
+        the left hand side. Returns a slice of the original content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L198">stripr</a></span>
+<script>explorer.outline.addDecl('stripr');</script>(T)(T[] <span class="funcparam">source</span>, T <span class="funcparam">match</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Trim the given array by stripping the provided match from
+        the right hand side. Returns a slice of the original content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L216">chopl</a></span>
+<script>explorer.outline.addDecl('chopl');</script>(T)(T[] <span class="funcparam">source</span>, T[] <span class="funcparam">match</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Chop the given source by stripping the provided match from
+        the left hand side. Returns a slice of the original content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L232">chopr</a></span>
+<script>explorer.outline.addDecl('chopr');</script>(T)(T[] <span class="funcparam">source</span>, T[] <span class="funcparam">match</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Chop the given source by stripping the provided match from
+        the right hand side. Returns a slice of the original content</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L247">replace</a></span>
+<script>explorer.outline.addDecl('replace');</script>(T)(T[] <span class="funcparam">source</span>, T <span class="funcparam">match</span>, T <span class="funcparam">replacement</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Replace all instances of one element with another &#40;in place&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L261">substitute</a></span>
+<script>explorer.outline.addDecl('substitute');</script>(T)(T[] <span class="funcparam">source</span>, T[] <span class="funcparam">match</span>, T[] <span class="funcparam">replacement</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Replace all instances of one array with another </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L277">contains</a></span>
+<script>explorer.outline.addDecl('contains');</script>(T)(T[] <span class="funcparam">source</span>, T <span class="funcparam">match</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns whether or not the provided array contains an instance
+        of the given match
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L289">containsPattern</a></span>
+<script>explorer.outline.addDecl('containsPattern');</script>(T)(T[] <span class="funcparam">source</span>, T[] <span class="funcparam">match</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns whether or not the provided array contains an instance
+        of the given match
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L303">locate</a></span>
+<script>explorer.outline.addDecl('locate');</script>(T, U=uint)(T[] <span class="funcparam">source</span>, T <span class="funcparam">match</span>, U <span class="funcparam">start</span> = 0);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the index of the next instance of 'match' starting at
+        position 'start', or source.length where there is no match.</font><br><br>
+<font color="black">Parameter 'start' defaults to 0<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L323">locatePrior</a></span>
+<script>explorer.outline.addDecl('locatePrior');</script>(T, U=uint)(T[] <span class="funcparam">source</span>, T <span class="funcparam">match</span>, U <span class="funcparam">start</span> = uint.max);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the index of the prior instance of 'match' starting
+        just before 'start', or source.length where there is no match.</font><br><br>
+<font color="black">Parameter 'start' defaults to source.length<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L346">locatePattern</a></span>
+<script>explorer.outline.addDecl('locatePattern');</script>(T, U=uint)(T[] <span class="funcparam">source</span>, T[] <span class="funcparam">match</span>, U <span class="funcparam">start</span> = 0);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the index of the next instance of 'match' starting at
+        position 'start', or source.length where there is no match. </font><br><br>
+<font color="black">Parameter 'start' defaults to 0<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L380">locatePatternPrior</a></span>
+<script>explorer.outline.addDecl('locatePatternPrior');</script>(T, U=uint)(T[] <span class="funcparam">source</span>, T[] <span class="funcparam">match</span>, U <span class="funcparam">start</span> = uint.max);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the index of the prior instance of 'match' starting
+        just before 'start', or source.length where there is no match.</font><br><br>
+<font color="black">Parameter 'start' defaults to source.length<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L416">head</a></span>
+<script>explorer.outline.addDecl('head');</script>(T)(T[] <span class="funcparam">src</span>, T[] <span class="funcparam">pattern</span>, out T[] <span class="funcparam">tail</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Split the provided array on the first pattern instance, and 
+        return the resultant head and tail. The pattern is excluded 
+        from the two segments. </font><br><br>
+<font color="black">Where a segment is not found, tail will be null and the return
+        value will be the original array.
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L438">tail</a></span>
+<script>explorer.outline.addDecl('tail');</script>(T)(T[] <span class="funcparam">src</span>, T[] <span class="funcparam">pattern</span>, out T[] <span class="funcparam">head</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Split the provided array on the last pattern instance, and 
+        return the resultant head and tail. The pattern is excluded 
+        from the two segments. </font><br><br>
+<font color="black">Where a segment is not found, head will be null and the return
+        value will be the original array.
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L461">delimit</a></span>
+<script>explorer.outline.addDecl('delimit');</script>(T)(T[] <span class="funcparam">src</span>, T[] <span class="funcparam">set</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Split the provided array wherever a delimiter-set instance is
+        found, and return the resultant segments. The delimiters are
+        excluded from each of the segments. Note that delimiters are
+        matched as a set of alternates rather than as a pattern.</font><br><br>
+<font color="black">Splitting on a single delimiter is considerably faster than
+        splitting upon a set of alternatives<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L478">split</a></span>
+<script>explorer.outline.addDecl('split');</script>(T)(T[] <span class="funcparam">src</span>, T[] <span class="funcparam">pattern</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Split the provided array wherever a pattern instance is
+        found, and return the resultant segments. The pattern is
+        excluded from each of the segments.
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L495">splitLines</a></span>
+<script>explorer.outline.addDecl('splitLines');</script>(T)(T[] <span class="funcparam">src</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert text into a set of lines, where each line is identified
+        by a \n or \r\n combination. The line terminator is stripped from
+        each resultant array</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L523">join</a></span>
+<script>explorer.outline.addDecl('join');</script>(T)(T[][] <span class="funcparam">src</span>, T[] <span class="funcparam">postfix</span> = null, T[] <span class="funcparam">dst</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Combine a series of text segments together, each appended with an 
+        optional postfix pattern. An optional output buffer can be provided
+        to avoid heap activity - it should be large enough to contain the 
+        entire output, otherwise the heap will be used instead.</font><br><br>
+<font color="black">Returns a valid slice of the output, containing the concatenated
+        text.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L560">repeat</a></span>
+<script>explorer.outline.addDecl('repeat');</script>(T, U=uint)(T[] <span class="funcparam">src</span>, U <span class="funcparam">count</span>, T[] <span class="funcparam">dst</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Repeat an array for a specific number of times. An optional output 
+        buffer can be provided to avoid heap activity - it should be large 
+        enough to contain the entire output, otherwise the heap will be used 
+        instead.</font><br><br>
+<font color="black">Returns a valid slice of the output, containing the concatenated
+        text.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L584">isSpace</a></span>
+<script>explorer.outline.addDecl('isSpace');</script>(T)(T <span class="funcparam">c</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is the argument a whitespace character?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L598">matching</a></span>
+<script>explorer.outline.addDecl('matching');</script>(T, U=uint)(T* <span class="funcparam">s1</span>, T* <span class="funcparam">s2</span>, U <span class="funcparam">length</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return whether or not the two arrays have matching content
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L614">indexOf</a></span>
+<script>explorer.outline.addDecl('indexOf');</script>(T, U=uint)(T* <span class="funcparam">str</span>, T <span class="funcparam">match</span>, U <span class="funcparam">length</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the index of the first match in str, failing once
+        length is reached. Note that we return 'length' for failure
+        and a 0-based index on success</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L713">mismatch</a></span>
+<script>explorer.outline.addDecl('mismatch');</script>(T, U=uint)(T* <span class="funcparam">s1</span>, T* <span class="funcparam">s2</span>, U <span class="funcparam">length</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the index of a mismatch between s1 &amp; s2, failing when
+        length is reached. Note that we return 'length' upon failure
+        &#40;array content matches&#41; and a 0-based index upon success.</font><br><br>
+<font color="black">Use this as a faster opEquals &#40;the assembler version&#41;. Also
+        provides the basis for a much faster opCmp, since the index
+        of the first mismatched character can be used to determine
+        the &#40;greater or less than zero&#41; return value<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LineFreach!(T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L813">lines</a></span>
+<script>explorer.outline.addDecl('lines');</script>(T)(T[] <span class="funcparam">src</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Freachable iterator to isolate lines.</font><br><br>
+<font color="black">Converts text into a set of lines, where each line is identified
+        by a \n or \r\n combination. The line terminator is stripped from
+        each resultant array.<br><br>        <pre class="d_code">
+
+        <span class="k">foreach</span> (<span class="i">line</span>; <span class="i">lines</span> (<span class="sl">"one\ntwo\nthree"</span>))
+                 ...
+        
+</pre>
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>DelimFreach!(T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L839">delimiters</a></span>
+<script>explorer.outline.addDecl('delimiters');</script>(T)(T[] <span class="funcparam">src</span>, T[] <span class="funcparam">set</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Freachable iterator to isolate text elements.</font><br><br>
+<font color="black">Splits the provided array wherever a delimiter-set instance is
+        found, and return the resultant segments. The delimiters are
+        excluded from each of the segments. Note that delimiters are
+        matched as a set of alternates rather than as a pattern.<br><br>        Splitting on a single delimiter is considerably faster than
+        splitting upon a set of alternatives.<br><br>        <pre class="d_code">
+
+        <span class="k">foreach</span> (<span class="i">segment</span>; <span class="i">delimiters</span> (<span class="sl">"one,two;three"</span>, <span class="sl">",;"</span>))
+                 ...
+        
+</pre>
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>PatternFreach!(T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L863">patterns</a></span>
+<script>explorer.outline.addDecl('patterns');</script>(T)(T[] <span class="funcparam">src</span>, T[] <span class="funcparam">pattern</span>, T[] <span class="funcparam">sub</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Freachable iterator to isolate text elements.</font><br><br>
+<font color="black">Split the provided array wherever a pattern instance is found, 
+        and return the resultant segments. Pattern are excluded from
+        each of the segments, and an optional sub argument enables 
+        replacement.
+        
+        <pre class="d_code">
+
+        <span class="k">foreach</span> (<span class="i">segment</span>; <span class="i">patterns</span> (<span class="sl">"one, two, three"</span>, <span class="sl">", "</span>))
+                 ...
+        
+</pre>
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>QuoteFreach!(T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L887">quotes</a></span>
+<script>explorer.outline.addDecl('quotes');</script>(T)(T[] <span class="funcparam">src</span>, T[] <span class="funcparam">set</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Freachable iterator to isolate optionally quoted text elements.</font><br><br>
+<font color="black">As per elements&#40;&#41;, but with the extension of being quote-aware;
+        the set of delimiters is ignored inside a pair of quotes. Note
+        that an unterminated quote will consume remaining content.
+        
+        <pre class="d_code">
+
+        <span class="k">foreach</span> (<span class="i">quote</span>; <span class="i">quotes</span> (<span class="sl">"one two 'three four' five"</span>, <span class="sl">" "</span>))
+                 ...
+        
+</pre>
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L911">layout</a></span>
+<script>explorer.outline.addDecl('layout');</script>(T)(T[] <span class="funcparam">output</span>, T[][] <span class="funcparam">layout</span>...);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Arranges text strings in order, using indices to specify where
+        each particular argument should be positioned within the text. 
+        This is handy for collating I18N components, or as a simplistic
+        and lightweight formatter. Indices range from zero through nine. 
+        
+        <pre class="d_code">
+
+        <span class="lc">// write ordered text to the console</span>
+        <span class="k">char</span>[<span class="n">64</span>] <span class="i">tmp</span>;
+
+        <span class="i">Cout</span> (<span class="i">layout</span> (<span class="i">tmp</span>, <span class="sl">"%1 is after %0"</span>, <span class="sl">"zero"</span>, <span class="sl">"one"</span>)).<span class="i">newline</span>;
+        
+</pre></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L973">unescape</a></span>
+<script>explorer.outline.addDecl('unescape');</script>(T)(T[] <span class="funcparam">src</span>, T[] <span class="funcparam">dst</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert 'escaped' chars to normal ones: \t =&gt; ^t for example.
+        Supports \" \' \\ \a \b \f \n \r \t \v
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L1085">jhash</a></span>
+<script>explorer.outline.addDecl('jhash');</script>(ubyte* <span class="funcparam">k</span>, uint <span class="funcparam">len</span>, uint <span class="funcparam">c</span> = 0);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L1142">jhash</a></span>
+<script>explorer.outline.addDecl('jhash');</script>(void[] <span class="funcparam">x</span>, uint <span class="funcparam">c</span> = 0);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">jhash&#40;&#41; -- hash a variable-length key into a 32-bit value</font><br><br>
+<font color="black">k     : the key &#40;the unaligned variable-length array of bytes&#41;
+          len   : the length of the key, counting by bytes
+          level : can be any 4-byte value<br><br>        Returns a 32-bit value.  Every bit of the key affects every bit of
+        the return value.  Every 1-bit and 2-bit delta achieves avalanche.<br><br>        About 4.3*len + 80 X86 instructions, with excellent pipelining<br><br>        The best hash table sizes are powers of 2.  There is no need to do
+        mod a prime &#40;mod is sooo slow!&#41;.  If you need less than 32 bits,
+        use a bitmask.  For example, if you need only 10 bits, do<br><br>                    h = &#40;h &amp; hashmask&#40;10&#41;&#41;;<br><br>        In which case, the hash table should have hashsize&#40;10&#41; elements.
+        If you are hashing n strings &#40;ub1 **&#41;k, do it like this:<br><br>                    for &#40;i=0, h=0; i&lt;n; ++i&#41; h = hash&#40; k[i], len[i], h&#41;;<br><br>        By Bob Jenkins, 1996.  bob_jenkins@burtleburtle.net.  You may use 
+        this code any way you wish, private, educational, or commercial.  
+        It's free.<br><br>        See http://burlteburtle.net/bob/hash/evahash.html
+        Use for hash table lookup, or anything where one collision in 2^32 
+        is acceptable. Do NOT use for cryptographic purposes.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L1154">LineFreach</a></span>
+<script>explorer.outline.addDecl('LineFreach');</script>(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Helper struct for iterator lines&#40;&#41;
+         
+</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L1194">DelimFreach</a></span>
+<script>explorer.outline.addDecl('DelimFreach');</script>(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Helper struct for iterator delimiters&#40;&#41;
+        
+</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L1240">PatternFreach</a></span>
+<script>explorer.outline.addDecl('PatternFreach');</script>(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Helper struct for iterator patterns&#40;&#41;
+        
+</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/Util.d?rev=3327#L1292">QuoteFreach</a></span>
+<script>explorer.outline.addDecl('QuoteFreach');</script>(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Helper struct for iterator quotes&#40;&#41;
+        
+</font><br><br>
+</dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:31 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

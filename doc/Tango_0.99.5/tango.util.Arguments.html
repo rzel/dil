@@ -1,0 +1,410 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.Arguments</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.Arguments");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327">tango.util.Arguments</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Oct2007<br><br>
+<b>author:</b><br>Darryl B, Jeff D<br><br>
+<b>History:</b><br>
+<pre class="d_code">
+
+    <span class="i">Date</span>     <span class="i">Who</span>           <span class="i">What</span>
+    <span class="i">Sep2006</span>  <span class="i">Darryl</span> <span class="i">Bleau</span>  <span class="i">Original</span> <span class="i">C</span> <span class="k">module</span>
+    <span class="i">Sep2007</span>  <span class="i">Jeff</span> <span class="i">Davey</span>    <span class="i">Ported</span> <span class="i">to</span> <span class="i">D</span>, <span class="i">added</span> <span class="i">comments</span>.
+    <span class="i">Oct2007</span>  <span class="i">Darryl</span> <span class="i">Bleau</span>  <span class="i">Added</span> <span class="i">validation</span> <span class="i">delegates</span>/<span class="i">functions</span>, <span class="i">more</span> <span class="i">comments</span>.
+    
+</pre><br><br><br><br>    This module is used to parse arguments, and give easy access to them.<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L32">ArgumentException</a></span>
+<script>explorer.outline.addDecl('ArgumentException');</script> : Exception; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This exception is thrown during argument validation.</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L40">ExceptionReason</a></span>
+<script>explorer.outline.addDecl('ExceptionReason');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The reason the exception was thrown</font><br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L46">INVALID_PARAMETER</a></span>
+<script>explorer.outline.addDecl('INVALID_PARAMETER');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">An invalid parameter was passed
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L51">MISSING_PARAMETER</a></span>
+<script>explorer.outline.addDecl('MISSING_PARAMETER');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A parameter wasn't passed to an argument when it was expected
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L56">MISSING_ARGUMENT</a></span>
+<script>explorer.outline.addDecl('MISSING_ARGUMENT');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">An argument was missing
+</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L69">name</a></span>
+<script>explorer.outline.addDecl('name');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The name of the specific argument</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L77">parameter</a></span>
+<script>explorer.outline.addDecl('parameter');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The parameter to the argument</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ExceptionReason <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L85">reason</a></span>
+<script>explorer.outline.addDecl('reason');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The enum to the reason it failed</font><br><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L238">Arguments</a></span>
+<script>explorer.outline.addDecl('Arguments');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The Arguments class is used to parse arguments and encapsulate the
+    parameters passed by an application user.</font><br><br>
+<font color="black">The command line arguments into an array of found arguments and their
+    respective parameters &#40;if any&#41;.<br><br>    Arguments can be short &#40;-&#41;, long &#40;--&#41;, or implicit. Arguments can
+    optionally be passed parameters. For example, this module
+    parses command lines such as: "-a -b -c --long --argument=parameter"<br><br>    </font><br><br>
+<b>Example:</b><br><pre class="d_code">
+
+    <span class="k">char</span>[][] <span class="i">arguments</span> = [ <span class="sl">"programname"</span>, <span class="sl">"-a:on"</span>, <span class="sl">"-abc:on"</span>, <span class="sl">"--this=good"</span>, <span class="sl">"-x:on"</span> ];
+    <span class="i">Arguments</span> <span class="i">args</span> = <span class="k">new</span> <span class="i">Arguments</span>(<span class="i">arguments</span>);
+    <span class="k">if</span> (<span class="i">args</span>)
+    {
+        <span class="i">args</span>.<span class="i">addValidation</span>(<span class="sl">"b"</span>, <span class="k">true</span>, <span class="k">false</span>);
+        <span class="i">args</span>.<span class="i">addValidation</span>(<span class="sl">"c"</span>, <span class="k">true</span>, <span class="k">true</span>);
+        <span class="i">args</span>.<span class="i">addValidation</span>(<span class="sl">"x"</span>, <span class="k">false</span>, <span class="k">true</span>);
+        <span class="i">args</span>.<span class="i">addValidation</span>(<span class="sl">"this"</span>, <span class="k">false</span>, <span class="k">true</span>);
+        <span class="i">args</span>.<span class="i">addValidation</span>(<span class="sl">"this"</span>, (<span class="k">char</span>[] <span class="i">a</span>) { (<span class="k">return</span> <span class="i">a</span>.<span class="i">length</span> &lt; <span class="n">5</span>); });
+        <span class="k">try</span>
+        {
+            <span class="i">args</span>.<span class="i">validate</span>();
+            <span class="k">return</span> <span class="i">Test</span>.<span class="i">Status</span>.<span class="i">Success</span>;
+        }
+        <span class="k">catch</span> (<span class="i">ArgumentException</span> <span class="i">ex</span>)
+        {
+            <span class="i">messages</span> ~= <span class="i">Stdout</span>.<span class="i">layout</span>.<span class="i">convert</span>(<span class="sl">"{}: {} - {}"</span>, <span class="i">ex</span>.<span class="i">name</span>, <span class="i">ex</span>.<span class="i">msg</span>, 
+                        <span class="i">ex</span>.<span class="i">reason</span> == <span class="i">ArgumentException</span>.<span class="i">ExceptionReason</span>.<span class="i">INVALID_PARAMETER</span> ? 
+                        <span class="sl">"invalid parameter"</span> : <span class="i">ex</span>.<span class="i">reason</span> == <span class="i">ArgumentException</span>.<span class="i">ExceptionReason</span>.<span class="i">MISSING_PARAMETER</span> ? 
+                        <span class="sl">"missing parameter"</span> : <span class="sl">"missing argument"</span>);
+        }
+    }
+    
+</pre><br><br>
+<b>Syntax:</b><br><pre class="d_code">
+
+    <span class="i">Short</span> <span class="i">Argument</span> - -[<span class="i">x</span>][:=]?[ <span class="i">parameter</span>]...
+    <span class="i">Long</span> <span class="i">Argument</span> - --[<span class="k">long</span>][:=]?[ <span class="i">parameter</span>]...
+    <span class="i">Implicit</span> <span class="i">Arguments</span> - [<span class="i">implicitName</span>]... <span class="i">Multiple</span> <span class="i">implicit</span> <span class="i">arguments</span> <span class="i">are</span> <span class="i">allowed</span>.
+    
+</pre><br><br>
+<b>Usage:</b><br>Short options can be grouped in a single dash. The following are equivalent.
+    <pre class="d_code">
+
+    - <span class="sl">"myprogram -a -b -c"</span>
+    - <span class="sl">"myprogram -abc"</span>
+    
+</pre><br><br>    Arguments can be passed with space, '=', or ':'. The following are equivalent.
+    <pre class="d_code">
+
+    - <span class="sl">"myprogram -c arg"</span>
+    - <span class="sl">"myprogram -c=arg"</span>
+    - <span class="sl">"myprogram -c:arg"</span>
+    
+</pre><br><br>    As are these.
+    <pre class="d_code">
+
+    - <span class="sl">"myprogram --long arg"</span>
+    - <span class="sl">"myprogram --long=arg"</span>
+    - <span class="sl">"myprogram --long:arg"</span>
+    
+</pre><br><br>    Arguments can contain either '=' or ':', but not both. For example.
+    the following results in the argument 'long' being set to 'arg=other'
+    and 'arg:other', respectively.
+    <pre class="d_code">
+
+    - <span class="sl">"myprogram --long:arg=other"</span>
+    - <span class="sl">"myprogram --long=arg:other"</span>
+    
+</pre><br><br>    Blank dashes are ignored. The following are all equivalent.
+    <pre class="d_code">
+
+    - <span class="sl">"myprogram -c -- -a"</span>
+    - <span class="sl">"myprogram -c - -a"</span>
+    - <span class="sl">"myprogram - - - -a -- -c"</span>
+    
+</pre><br><br>    In the absence of implicit arguments, short options can be infered when
+    they come first. Given no implicit arguments, the following are equivalent.
+    <pre class="d_code">
+
+    - <span class="sl">"myprogram abc"</span>
+    - <span class="sl">"myprogram -abc"</span>
+    - <span class="sl">"myprogram -a -b -c"</span>
+    
+</pre><br><br>    Short options are case sensitive, while long options are not. The following
+    are equivalent.
+    <pre class="d_code">
+
+    - <span class="sl">"myprogram -a -A -LONG"</span>
+    - <span class="sl">"myprogram -a -A -Long"</span>
+    - <span class="sl">"myprogram -a -A -long"</span>
+    
+</pre><br><br>    In the event of multiple definitions of an argument, any parameters given
+    will be concatenated. The following are equivalent.
+    <pre class="d_code">
+
+    - <span class="sl">"myprogram -a one two three"</span>
+    - <span class="sl">"myprogram -a one -a two -a three"</span>
+    - <span class="sl">"myprogram -a:one two -a=three"</span>
+    
+</pre><br><br>    Multiple parameters can be iterated through using via the opIndex operator.
+    For example, given:
+    <pre class="d_code">
+
+    - <span class="sl">"myprogram -collect one two three '4 5 6'"</span>
+    
+</pre>
+    args["collect"] will return a char[][] array ["one", "two", "three", "4 5 6"].<br><br>    Implicit arguments can be defined by passing in an implicit arguments array,
+    which may look something like: ["first", "second"].
+    Given implicit arguments, any non-argument command line parameters will be
+    automatically assigned to the implicit arguments,
+    in the order they were given.
+    For example, given the implicit arguments ["first", "second"] and command line:
+    <pre class="d_code">
+
+    - <span class="sl">"myprogram hello there bob"</span>
+    
+</pre>
+    The argument 'first' will be assigned 'hello', and the argument 'second' will
+    be assigned both 'there' and 'bob'.<br><br>    Any intervening arguments will end the assignment. For example, given:
+    <pre class="d_code">
+
+    - <span class="sl">"myprogram hello there bob -a how are you"</span>
+    
+</pre>
+    'first' is assigned 'hello', 'second' is assigned 'there' and 'bob', and 'a'
+    is assigned 'how', 'are', and 'you'.<br><br>    Implicit arguments also allows programs to support non-option arguments,
+    given implicit arguments ["actions"], and a command line such as:
+    <pre class="d_code">
+
+    - <span class="sl">"myprogram mop sweep get_coffee -time:now"</span>
+    
+</pre>
+    args["actions"] will contain ["mop", "sweep", "get_coffee"], and
+    args["time"] will contain "now".<br><br>
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias bool function(char[][] params, inout char[] invalidParam) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L241">validationFunctionMulti</a></span>
+<script>explorer.outline.addDecl('validationFunctionMulti');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Function used to validate multiple parameters at once.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias bool delegate(char[][] params, inout char[] invalidParam) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L243">validationDelegateMulti</a></span>
+<script>explorer.outline.addDecl('validationDelegateMulti');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Delegate used to validate multiple parameters at once.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias bool function(char[] param) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L245">validationFunction</a></span>
+<script>explorer.outline.addDecl('validationFunction');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Function used to validate single parameters at a time.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias bool delegate(char[] param) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L247">validationDelegate</a></span>
+<script>explorer.outline.addDecl('validationDelegate');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Delegate used to validate single parameters at a time.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L346">opIndexAssign</a></span>
+<script>explorer.outline.addDecl('opIndexAssign');</script>(char[] <span class="funcparam">value</span>, char[] <span class="funcparam">key</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Allows external argument assignment, works the same as command line
+        in that it appends to any values already assigned to the given key.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>assigned value</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">key</span></td><td>key to assign to</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L361">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(char[] <span class="funcparam">key</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Allows removal of keys from the arguments. Useful if you want to replace
+        values for a given key rather than to append to them.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">key</span></td><td>key to remove values from.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L374">opIndex</a></span>
+<script>explorer.outline.addDecl('opIndex');</script>(char[] <span class="funcparam">key</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Directly access an argument's parameters via opIndex operator as an
+        array.
+        This is to cover something like: param1 "parm with space" param2</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L388">opIn_r</a></span>
+<script>explorer.outline.addDecl('opIn_r');</script>(char[] <span class="funcparam">key</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Operator is used to check if the argument exists</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L407">addValidation</a></span>
+<script>explorer.outline.addDecl('addValidation');</script>(char[] <span class="funcparam">argument</span>, bool <span class="funcparam">required</span>, bool <span class="funcparam">paramRequired</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Adds a validation to the arguments</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">argument</span></td><td>the argument name</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">required</span></td><td>specifies if this argument is required</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">paramRequired</span></td><td>specifies if this argument requires a parameter</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L430">addValidation</a></span>
+<script>explorer.outline.addDecl('addValidation');</script>(char[] <span class="funcparam">argument</span>, validationFunction <span class="funcparam">validF</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Adds a validation to the arguments</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">argument</span></td><td>the argument name</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">validF</span></td><td>a validation function for single parameters</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L450">addValidation</a></span>
+<script>explorer.outline.addDecl('addValidation');</script>(char[] <span class="funcparam">argument</span>, validationDelegate <span class="funcparam">validD</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Adds a validation to the arguments</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">argument</span></td><td>the argument name</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">validD</span></td><td>a validation delegate for single parameters</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L470">addValidation</a></span>
+<script>explorer.outline.addDecl('addValidation');</script>(char[] <span class="funcparam">argument</span>, validationFunctionMulti <span class="funcparam">validFM</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Adds a validation to the arguments</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">argument</span></td><td>the argument name</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">validF</span></td><td>a validation function for multiple parameters</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L490">addValidation</a></span>
+<script>explorer.outline.addDecl('addValidation');</script>(char[] <span class="funcparam">argument</span>, validationDelegateMulti <span class="funcparam">validDM</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Adds a validation to the arguments</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">argument</span></td><td>the argument name</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">validD</span></td><td>a validation delegate for multiple parameters</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L521">validate</a></span>
+<script>explorer.outline.addDecl('validate');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Validates the parsed arguments.</font><br><br>
+<font color="black">Throws ArgumentException if it finds something wrong.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L582">parse</a></span>
+<script>explorer.outline.addDecl('parse');</script>(char[][] <span class="funcparam">arguments</span>, char[][] <span class="funcparam">implicitArgs</span>, char[][][] <span class="funcparam">aliases</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse the arguments according to the passed implicitArg list
+            and aliases.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L658">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[][] <span class="funcparam">arguments</span>, char[][] <span class="funcparam">implicitArgs</span>, char[][][] <span class="funcparam">aliases</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructor that supports all features</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">arguments</span></td><td>the list of arguments (usually from main)</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">implicitArgs</span></td><td>assigns values using these keys in order from the arguments array.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">aliases</span></td><td>aliases specific arguments to each other to concat parameters. 
+            looks like aliases[0] = [ "alias1", "alias2", "alias3" ]; 
+            (which groups all these arguments together)</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L673">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[][] <span class="funcparam">arguments</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Basic constructor which only deals with arguments</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">arguments</span></td><td>array usually from main()</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L689">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[][] <span class="funcparam">arguments</span>, char[][] <span class="funcparam">implicitArgs</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This constructor allows implicitArgs to be set as well</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">arguments</span></td><td>array usually from main()</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">implicitArgs</span></td><td>the implicit arguments</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/Arguments.d?rev=3327#L704">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[][] <span class="funcparam">arguments</span>, char[][][] <span class="funcparam">aliases</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This constructor allows aliases</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">arguments</span></td><td>array usually from main</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">aliases</span></td><td>the array of arguments to alias</td></tr></table><br></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></dd></dl>
+<script>explorer.outline.decSymbolLevel();</script></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2007 Darryl Bleau. All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Tue Mar  4 22:45:34 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>
