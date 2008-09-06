@@ -1,0 +1,104 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.core.sync.Semaphore</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.core.sync.Semaphore");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/Semaphore.d?rev=3461">tango.core.sync.Semaphore</a></h1>
+                
+<font color="black">The semaphore module provides a general use semaphore for synchronization.</font><br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Authors:</b><br>
+Sean Kelly<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/Semaphore.d?rev=3461#L41">Semaphore</a></span>
+<script>explorer.outline.addDecl('Semaphore');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This class represents a general counting semaphore as concieved by Edsger
+ Dijkstra.  As per Mesa type monitors however, "signal" has been replaced
+ with "notify" to indicate that control is not transferred to the waiter when
+ a notification is sent.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/Semaphore.d?rev=3461#L57">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(uint <span class="funcparam">count</span> = 0);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initializes a semaphore object with the specified initial count.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">count</span></td><td>The initial count for the semaphore.</td></tr></table><br>
+<b>Throws:</b><br>
+SyncException on error.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/Semaphore.d?rev=3461#L101">wait</a></span>
+<script>explorer.outline.addDecl('wait');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Wait until the current count is above zero, then atomically decrement
+ the count by one and return.</font><br><br>
+<b>Throws:</b><br>
+SyncException on error.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/Semaphore.d?rev=3461#L141">wait</a></span>
+<script>explorer.outline.addDecl('wait');</script>(double <span class="funcparam">period</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Suspends the calling thread until the current count moves above zero or
+ until the supplied time period has elapsed.  If the count moves above
+ zero in this interval, then atomically decrement the count by one and
+ return true.  Otherwise, return false.  The supplied period may be up to
+ a maximum of &#40;uint.max - 1&#41; milliseconds.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">period</span></td><td>The number of seconds to wait.</td></tr></table><br>
+<b>In:</b><br>period must be less than &#40;uint.max - 1&#41; milliseconds.<br><br>
+<b>Returns:</b><br>
+true if notified before the timeout and false if not.<br><br>
+<b>Throws:</b><br>
+SyncException on error.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/Semaphore.d?rev=3461#L191">notify</a></span>
+<script>explorer.outline.addDecl('notify');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Atomically increment the current count by one.  This will notify one
+ waiter, if there are any in the queue.</font><br><br>
+<b>Throws:</b><br>
+SyncException on error.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/sync/Semaphore.d?rev=3461#L217">tryWait</a></span>
+<script>explorer.outline.addDecl('tryWait');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">If the current count is equal to zero, return.  Otherwise, atomically
+ decrement the count by one and return true.</font><br><br>
+<b>Returns:</b><br>
+true if the count was above zero and false if not.<br><br>
+<b>Throws:</b><br>
+SyncException on error.<br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (C) 2005-2006 Sean Kelly.  All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:54 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

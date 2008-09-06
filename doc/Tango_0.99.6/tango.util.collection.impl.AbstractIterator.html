@@ -1,0 +1,102 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.collection.impl.AbstractIterator</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.collection.impl.AbstractIterator");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/AbstractIterator.d?rev=3461">tango.util.collection.impl.AbstractIterator</a></h1>
+                
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/AbstractIterator.d?rev=3461#L35">AbstractIterator</a></span>
+<script>explorer.outline.addDecl('AbstractIterator');</script>(T) : GuardIterator!(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A convenient base class for implementations of GuardIterator
+ 
+        </font><br><br>
+<b>author:</b><br>Doug Lea
+ @version 0.93<br><br> <P> For an introduction to this package see <A HREF="index.html"> Overview </A>.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>View!(T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/AbstractIterator.d?rev=3461#L41">view</a></span>
+<script>explorer.outline.addDecl('view');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The collection being enumerated
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/AbstractIterator.d?rev=3461#L47">mutation</a></span>
+<script>explorer.outline.addDecl('mutation');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The version number of the collection we got upon construction
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/AbstractIterator.d?rev=3461#L54">togo</a></span>
+<script>explorer.outline.addDecl('togo');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The number of elements we think we have left.
+ Initialized to view.size&#40;&#41; upon construction
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/AbstractIterator.d?rev=3461#L70">corrupted</a></span>
+<script>explorer.outline.addDecl('corrupted');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.CollectionIterator.corrupted.
+ Claim corruption if version numbers differ
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.CollectionIterator.corrupted<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/AbstractIterator.d?rev=3461#L79">remaining</a></span>
+<script>explorer.outline.addDecl('remaining');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.CollectionIterator.numberOfRemaingingElements.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.CollectionIterator.remaining<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/AbstractIterator.d?rev=3461#L89">more</a></span>
+<script>explorer.outline.addDecl('more');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.model.Iterator.more.
+ Return true if remaining &gt; 0 and not corrupted
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.model.Iterator.more<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/AbstractIterator.d?rev=3461#L100">decRemaining</a></span>
+<script>explorer.outline.addDecl('decRemaining');</script>(); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Subclass utility. 
+ Tries to decrement togo, raising exceptions
+ if it is already zero or if corrupted&#40;&#41;
+ Always call as the first line of get.
+</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                         :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:54 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

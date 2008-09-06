@@ -1,0 +1,96 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.math.Elliptic</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.math.Elliptic");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Elliptic.d?rev=3461">tango.math.Elliptic</a></h1>
+                
+<font color="black">Elliptic integrals.
+ The functions are named similarly to the names used in Mathematica. </font><br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Authors:</b><br>
+Stephen L. Moshier &#40;original C code&#41;. Conversion to D by Don Clugston<br><br>
+<b>References:</b><br><a href="http://en.wikipedia.org/wiki/Elliptic_integral">http://en.wikipedia.org/wiki/Elliptic_integral</a><br><br> Eric W. Weisstein. "Elliptic Integral of the First Kind." From MathWorld--A Wolfram Web Resource. <a href="http://mathworld.wolfram.com/EllipticIntegraloftheFirstKind.html">http://mathworld.wolfram.com/EllipticIntegraloftheFirstKind.html</a><br><br> <a href="http://www.netlib.org/cephes/ldoubdoc.html">http://www.netlib.org/cephes/ldoubdoc.html</a><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Elliptic.d?rev=3461#L67">ellipticF</a></span>
+<script>explorer.outline.addDecl('ellipticF');</script>(real <span class="funcparam">phi</span>, real <span class="funcparam">m</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Incomplete elliptic integral of the first kind</font><br><br>
+<font color="black">Approximates the integral
+   F&#40;phi | m&#41; = <big>&#8747;<sub><small>0</small></sub><sup>phi</sup></big> dt/ &#40;sqrt&#40; 1- m sin<sup>2</sup> t&#41;&#41;<br><br> of amplitude phi and modulus m, using the arithmetic -
+ geometric mean algorithm.
+ </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Elliptic.d?rev=3461#L142">ellipticE</a></span>
+<script>explorer.outline.addDecl('ellipticE');</script>(real <span class="funcparam">phi</span>, real <span class="funcparam">m</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Incomplete elliptic integral of the second kind</font><br><br>
+<font color="black">Approximates the integral<br><br> E&#40;phi | m&#41; = <big>&#8747;<sub><small>0</small></sub><sup>phi</sup></big> sqrt&#40; 1- m sin<sup>2</sup> t&#41; dt<br><br> of amplitude phi and modulus m, using the arithmetic -
+ geometric mean algorithm.
+ </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Elliptic.d?rev=3461#L231">ellipticKComplete</a></span>
+<script>explorer.outline.addDecl('ellipticKComplete');</script>(real <span class="funcparam">x</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Complete elliptic integral of the first kind</font><br><br>
+<font color="black">Approximates the integral<br><br>   K&#40;m&#41; = <big>&#8747;<sub><small>0</small></sub><sup>&pi/2</sup></big> dt/ &#40;sqrt&#40; 1- m sin<sup>2</sup> t&#41;&#41;<br><br> where m = 1 - x, using the approximation<br><br>     P&#40;x&#41;  -  log x Q&#40;x&#41;.<br><br> The argument x is used rather than m so that the logarithmic
+ singularity at x = 1 will be shifted to the origin; this
+ preserves maximum accuracy. <br><br> x must be in the range
+  0 &lt;= x &lt;= 1<br><br> This is equivalent to ellipticF&#40;PI_2, 1-x&#41;.<br><br> K&#40;0&#41; = &pi/2.
+ </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Elliptic.d?rev=3461#L295">ellipticEComplete</a></span>
+<script>explorer.outline.addDecl('ellipticEComplete');</script>(real <span class="funcparam">x</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Complete elliptic integral of the second kind</font><br><br>
+<font color="black">Approximates the integral<br><br> E&#40;m&#41; = <big>&#8747;<sub><small>0</small></sub><sup>&pi/2</sup></big> sqrt&#40; 1- m sin<sup>2</sup> t&#41; dt<br><br> where m = 1 - x, using the approximation<br><br>      P&#40;x&#41;  -  x log x Q&#40;x&#41;.<br><br> Though there are no singularities, the argument m1 is used
+ rather than m for compatibility with ellipticKComplete&#40;&#41;.<br><br> E&#40;1&#41; = 1; E&#40;0&#41; = &pi/2.
+ m must be in the range 0 &lt;= m &lt;= 1.
+ </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Elliptic.d?rev=3461#L360">ellipticPi</a></span>
+<script>explorer.outline.addDecl('ellipticPi');</script>(real <span class="funcparam">phi</span>, real <span class="funcparam">m</span>, real <span class="funcparam">n</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Incomplete elliptic integral of the third kind</font><br><br>
+<font color="black">Approximates the integral<br><br> PI&#40;n; phi | m&#41; = <big>&#8747;<sub><small>t=0</small></sub><sup>phi</sup></big> dt/&#40;&#40;1 - n sin<sup>2</sup>t&#41; * sqrt&#40; 1- m sin<sup>2</sup> t&#41;&#41;<br><br> of amplitude phi, modulus m, and characteristic n using Gauss-Legendre
+ quadrature.
+ 
+ Note that ellipticPi&#40;PI_2, m, 1&#41; is infinite for any m.
+ </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Elliptic.d?rev=3461#L399">ellipticPiComplete</a></span>
+<script>explorer.outline.addDecl('ellipticPiComplete');</script>(real <span class="funcparam">m</span>, real <span class="funcparam">n</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Complete elliptic integral of the third kind
+ </font><br><br></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Based on the CEPHES math library, which is
+            Copyright (C) 1994 Stephen L. Moshier (moshier@world.std.com). :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

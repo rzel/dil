@@ -1,0 +1,111 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.collection.iterator.InterleavingIterator</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.collection.iterator.InterleavingIterator");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/iterator/InterleavingIterator.d?rev=3461">tango.util.collection.iterator.InterleavingIterator</a></h1>
+                
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/iterator/InterleavingIterator.d?rev=3461#L54">InterleavingIterator</a></span>
+<script>explorer.outline.addDecl('InterleavingIterator');</script>(T) : Iterator!(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">InterleavingIterators allow you to combine the elements
+ of two different enumerations as if they were one enumeration
+ before they are seen by their `consumers'.
+ This sometimes allows you to avoid having to use a 
+ Collection object to temporarily combine two sets of Collection elements&#40;&#41;
+ that need to be collected together for common processing.
+ <P>
+ The elements are revealed &#40;via get&#40;&#41;&#41; in a purely
+ interleaved fashion, alternating between the first and second
+ enumerations unless one of them has been exhausted, in which case
+ all remaining elements of the other are revealed until it too is
+ exhausted. 
+ <P>
+ InterleavingIterators work as wrappers around other Iterators.
+ To build one, you need two existing Iterators.
+ For example, if you want to process together the elements of
+ two Collections a and b, you could write something of the form:
+ <PRE>
+ Iterator items = InterleavingIterator&#40;a.elements&#40;&#41;, b.elements&#40;&#41;&#41;;
+ while &#40;items.more&#40;&#41;&#41; 
+  doSomethingWith&#40;items.get&#40;&#41;&#41;;
+ </PRE>
+ 
+        </font><br><br>
+<b>author:</b><br>Doug Lea
+ @version 0.93<br><br> <P> For an introduction to this package see <A HREF="index.html"> Overview </A>.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Iterator!(T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/iterator/InterleavingIterator.d?rev=3461#L61">fst_</a></span>
+<script>explorer.outline.addDecl('fst_');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The first source; nulled out once it is exhausted
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Iterator!(T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/iterator/InterleavingIterator.d?rev=3461#L67">snd_</a></span>
+<script>explorer.outline.addDecl('snd_');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The second source; nulled out once it is exhausted
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Iterator!(T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/iterator/InterleavingIterator.d?rev=3461#L73">current_</a></span>
+<script>explorer.outline.addDecl('current_');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The source currently being used
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/iterator/InterleavingIterator.d?rev=3461#L81">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Iterator!(T) <span class="funcparam">fst</span>, Iterator!(T) <span class="funcparam">snd</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Make an enumeration interleaving elements from fst and snd
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/iterator/InterleavingIterator.d?rev=3461#L92">more</a></span>
+<script>explorer.outline.addDecl('more');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.model.Iterator.more
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/iterator/InterleavingIterator.d?rev=3461#L100">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.model.Iterator.get.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/iterator/InterleavingIterator.d?rev=3461#L132">flip</a></span>
+<script>explorer.outline.addDecl('flip');</script>(); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Alternate sources
+</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                         :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:54 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

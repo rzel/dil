@@ -1,0 +1,247 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.collection.HashSet</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.collection.HashSet");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461">tango.util.collection.HashSet</a></h1>
+                
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L39">HashSet</a></span>
+<script>explorer.outline.addDecl('HashSet');</script>(T) : SetCollection!(T), HashParams;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Hash table implementation of set
+ 
+        </font><br><br>
+<b>author:</b><br>Doug Lea
+ @version 0.93<br><br> <P> For an introduction to this package see <A HREF="index.html"> Overview </A>.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LLCellT table[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L52">table</a></span>
+<script>explorer.outline.addDecl('table');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The table. Each entry is a list. Null if no table allocated
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>float <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L56">loadFactor</a></span>
+<script>explorer.outline.addDecl('loadFactor');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The threshold load factor
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L65">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Make an empty HashedSet.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L74">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Predicate <span class="funcparam">screener</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Make an empty HashedSet using given element screener
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L83">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Predicate <span class="funcparam">s</span>, float <span class="funcparam">f</span>); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Special version of constructor needed by clone&#40;&#41;
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>HashSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L94">duplicate</a></span>
+<script>explorer.outline.addDecl('duplicate');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Make an independent copy of the table. Does not clone elements.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L121">buckets</a></span>
+<script>explorer.outline.addDecl('buckets');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.HashTableParams.buckets.
+ Time complexity: O&#40;1&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.HashTableParams.buckets.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L132">buckets</a></span>
+<script>explorer.outline.addDecl('buckets');</script>(int <span class="funcparam">newCap</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.HashTableParams.buckets.
+ Time complexity: O&#40;n&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.HashTableParams.buckets.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>float <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L152">thresholdLoadFactor</a></span>
+<script>explorer.outline.addDecl('thresholdLoadFactor');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.HashTableParams.thresholdLoadfactor
+ Time complexity: O&#40;1&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.HashTableParams.thresholdLoadfactor<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L163">thresholdLoadFactor</a></span>
+<script>explorer.outline.addDecl('thresholdLoadFactor');</script>(float <span class="funcparam">desired</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.HashTableParams.thresholdLoadfactor
+ Time complexity: O&#40;n&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.HashTableParams.thresholdLoadfactor<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L185">contains</a></span>
+<script>explorer.outline.addDecl('contains');</script>(T <span class="funcparam">element</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.Collection.contains
+ Time complexity: O&#40;1&#41; average; O&#40;n&#41; worst.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.contains<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L202">instances</a></span>
+<script>explorer.outline.addDecl('instances');</script>(T <span class="funcparam">element</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.Collection.instances
+ Time complexity: O&#40;n&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.instances<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>GuardIterator!(T) <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L215">elements</a></span>
+<script>explorer.outline.addDecl('elements');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.Collection.elements
+ Time complexity: O&#40;1&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.elements<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L225">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate (inout T value) <span class="funcparam">dg</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.model.View.View.opApply
+ Time complexity: O&#40;n&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.model.View.View.opApply<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L238">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.Collection.clear.
+ Time complexity: O&#40;1&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.clear<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L249">removeAll</a></span>
+<script>explorer.outline.addDecl('removeAll');</script>(T <span class="funcparam">element</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.Collection.exclude.
+ Time complexity: O&#40;1&#41; average; O&#40;n&#41; worst.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.exclude<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L311">take</a></span>
+<script>explorer.outline.addDecl('take');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.Collection.Collection.take.
+ Time complexity: O&#40;number of buckets&#41;.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.take<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L339">add</a></span>
+<script>explorer.outline.addDecl('add');</script>(T <span class="funcparam">element</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.impl.SetCollection.SetCollection.add.
+ Time complexity: O&#40;1&#41; average; O&#40;n&#41; worst.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.SetCollection.SetCollection.add<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L369">checkLoadFactor</a></span>
+<script>explorer.outline.addDecl('checkLoadFactor');</script>(); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Check to see if we are past load factor threshold. If so, resize
+ so that we are at half of the desired threshold.
+ Also while at it, check to see if we are empty so can just
+ unlink table.
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L393">hashOf</a></span>
+<script>explorer.outline.addDecl('hashOf');</script>(T <span class="funcparam">element</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Mask off and remainder the hashCode for element
+ so it can be used as table index
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L402">resize</a></span>
+<script>explorer.outline.addDecl('resize');</script>(int <span class="funcparam">newCap</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">resize table to new capacity, rehashing all elements
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L479">checkImplementation</a></span>
+<script>explorer.outline.addDecl('checkImplementation');</script>(); [public, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements tango.util.collection.model.View.View.checkImplementation.
+ </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.model.View.View.checkImplementation<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/HashSet.d?rev=3461#L514">CellIterator</a></span>
+<script>explorer.outline.addDecl('CellIterator');</script>(T) : AbstractIterator!(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">opApply&#40;&#41; has migrated here to mitigate the virtual call
+                on method get&#40;&#41;
+                
+</font><br><br>
+</dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                         :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:54 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

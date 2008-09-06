@@ -1,0 +1,323 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.selector.EpollSelector</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.selector.EpollSelector");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461">tango.io.selector.EpollSelector</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>author:</b><br>Juan Jose Comellas <juanjo@comellas.com.ar><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L104">EpollSelector</a></span>
+<script>explorer.outline.addDecl('EpollSelector');</script> : AbstractSelector; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Selector that uses the Linux epoll* family of system calls.</font><br><br>
+<font color="black">This selector is the best option when dealing with large amounts of
+ conduits under Linux. It will scale much better than any of the other
+ options &#40;PollSelector, SelectSelector&#41;. For small amounts of conduits
+ &#40;n &lt; 20&#41; the PollSelector will probably be more performant.<br><br> </font><br><br>
+<b>See Also:</b><br>
+ISelector, AbstractSelector<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">selector</span>.<span class="i">EpollSelector</span>;
+ <span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">Stdout</span>;
+ <span class="k">import</span> <span class="i">tango</span>.<span class="i">net</span>.<span class="i">SocketConduit</span>;
+
+ <span class="i">SocketConduit</span> <span class="i">conduit1</span>;
+ <span class="i">SocketConduit</span> <span class="i">conduit2</span>;
+ <span class="i">EpollSelector</span> <span class="i">selector</span> = <span class="k">new</span> <span class="i">EpollSelector</span>();
+ <span class="i">MyClass</span> <span class="i">object1</span> = <span class="k">new</span> <span class="i">MyClass</span>();
+ <span class="i">MyClass</span> <span class="i">object2</span> = <span class="k">new</span> <span class="i">MyClass</span>();
+ <span class="k">uint</span> <span class="i">eventCount</span>;
+
+ <span class="lc">// Initialize the selector assuming that it will deal with 10 conduits and</span>
+ <span class="lc">// will receive 3 events per invocation to the select() method.</span>
+ <span class="i">selector</span>.<span class="i">open</span>(<span class="n">10</span>, <span class="n">3</span>);
+
+ <span class="i">selector</span>.<span class="i">register</span>(<span class="i">conduit1</span>, <span class="i">Event</span>.<span class="i">Read</span>, <span class="i">object1</span>);
+ <span class="i">selector</span>.<span class="i">register</span>(<span class="i">conduit2</span>, <span class="i">Event</span>.<span class="i">Write</span>, <span class="i">object2</span>);
+
+ <span class="i">eventCount</span> = <span class="i">selector</span>.<span class="i">select</span>();
+
+ <span class="k">if</span> (<span class="i">eventCount</span> &gt; <span class="n">0</span>)
+ {
+     <span class="k">char</span>[<span class="n">16</span>] <span class="i">buffer</span>;
+     <span class="k">int</span> <span class="i">count</span>;
+
+     <span class="k">foreach</span> (<span class="i">SelectionKey</span> <span class="i">key</span>, <span class="i">selector</span>.<span class="i">selectedSet</span>())
+     {
+         <span class="k">if</span> (<span class="i">key</span>.<span class="i">isReadable</span>())
+         {
+             <span class="i">count</span> = (<span class="k">cast</span>(<span class="i">SocketConduit</span>) <span class="i">key</span>.<span class="i">conduit</span>).<span class="i">read</span>(<span class="i">buffer</span>);
+             <span class="k">if</span> (<span class="i">count</span> != <span class="i">IConduit</span>.<span class="i">Eof</span>)
+             {
+                 <span class="i">Stdout</span>.<span class="i">format</span>(<span class="sl">"Received '{0}' from peer\n"</span>, <span class="i">buffer</span>[<span class="n">0</span>..<span class="i">count</span>]);
+                 <span class="i">selector</span>.<span class="i">reregister</span>(<span class="i">key</span>.<span class="i">conduit</span>, <span class="i">Event</span>.<span class="i">Write</span>, <span class="i">key</span>.<span class="i">attachment</span>);
+             }
+             <span class="k">else</span>
+             {
+                 <span class="i">selector</span>.<span class="i">unregister</span>(<span class="i">key</span>.<span class="i">conduit</span>);
+                 <span class="i">key</span>.<span class="i">conduit</span>.<span class="i">close</span>();
+             }
+         }
+
+         <span class="k">if</span> (<span class="i">key</span>.<span class="i">isWritable</span>())
+         {
+             <span class="i">count</span> = (<span class="k">cast</span>(<span class="i">SocketConduit</span>) <span class="i">key</span>.<span class="i">conduit</span>).<span class="i">write</span>(<span class="sl">"MESSAGE"</span>);
+             <span class="k">if</span> (<span class="i">count</span> != <span class="i">IConduit</span>.<span class="i">Eof</span>)
+             {
+                 <span class="i">Stdout</span>(<span class="sl">"Sent 'MESSAGE' to peer"</span>);
+                 <span class="i">selector</span>.<span class="i">reregister</span>(<span class="i">key</span>.<span class="i">conduit</span>, <span class="i">Event</span>.<span class="i">Read</span>, <span class="i">key</span>.<span class="i">attachment</span>);
+             }
+             <span class="k">else</span>
+             {
+                 <span class="i">selector</span>.<span class="i">unregister</span>(<span class="i">key</span>.<span class="i">conduit</span>);
+                 <span class="i">key</span>.<span class="i">conduit</span>.<span class="i">close</span>();
+             }
+         }
+
+         <span class="k">if</span> (<span class="i">key</span>.<span class="i">isError</span>() || <span class="i">key</span>.<span class="i">isHangup</span>() || <span class="i">key</span>.<span class="i">isInvalidHandle</span>())
+         {
+             <span class="i">selector</span>.<span class="i">unregister</span>(<span class="i">key</span>.<span class="i">conduit</span>);
+             <span class="i">key</span>.<span class="i">conduit</span>.<span class="i">close</span>();
+         }
+     }
+ }
+
+ <span class="i">selector</span>.<span class="i">close</span>();
+ 
+</pre><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias AbstractSelector.select <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L110">select</a></span>
+<script>explorer.outline.addDecl('select');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Alias for the select&#40;&#41; method as we're not reimplementing it in 
+ this class.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L116">DefaultSize</a></span>
+<script>explorer.outline.addDecl('DefaultSize');</script>; [public, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Default number of SelectionKey's that will be handled by the
+ EpollSelector.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L121">DefaultMaxEvents</a></span>
+<script>explorer.outline.addDecl('DefaultMaxEvents');</script>; [public, const]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Default maximum number of events that will be received per
+ invocation to select&#40;&#41;.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SelectionKey[ISelectable.Handle] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L125">_keys</a></span>
+<script>explorer.outline.addDecl('_keys');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Map to associate the conduit handles with their selection keys </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L127">_epfd</a></span>
+<script>explorer.outline.addDecl('_epfd');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">File descriptor returned by the epoll_create&#40;&#41; system call. </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>epoll_event[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L132">_events</a></span>
+<script>explorer.outline.addDecl('_events');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Array of events that is filled by epoll_wait&#40;&#41; inside the call
+ to select&#40;&#41;.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L134">_eventCount</a></span>
+<script>explorer.outline.addDecl('_eventCount');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Number of events resulting from the call to select&#40;&#41; </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>~<span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L140">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Destructor
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L161">open</a></span>
+<script>explorer.outline.addDecl('open');</script>(uint <span class="funcparam">size</span> = DefaultSize, uint <span class="funcparam">maxEvents</span> = DefaultMaxEvents); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Open the epoll selector, makes a call to epoll_create&#40;&#41;</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">size</span></td><td>maximum amount of conduits that will be registered;
+                it will grow dynamically if needed.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">maxEvents</span></td><td>maximum amount of conduit events that will be
+                returned in the selection set per call to select();
+                this limit is enforced by this selector.</td></tr></table><br>
+<b>Throws:</b><br>
+SelectorException if there are not enough resources to open the
+ selector &#40;e.g. not enough file handles or memory available&#41;.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L185">close</a></span>
+<script>explorer.outline.addDecl('close');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Close the selector, releasing the file descriptor that had been
+ created in the previous call to open&#40;&#41;.</font><br><br>
+<b>Remarks:</b><br>It can be called multiple times without harmful side-effects.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L218">register</a></span>
+<script>explorer.outline.addDecl('register');</script>(ISelectable <span class="funcparam">conduit</span>, Event <span class="funcparam">events</span>, Object <span class="funcparam">attachment</span> = null); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Associate a conduit to the selector and track specific I/O events.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">conduit</span></td><td>conduit that will be associated to the selector;
+                must be a valid conduit (i.e. not null and open).</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">events</span></td><td>bit mask of Event values that represent the events
+                that will be tracked for the conduit.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">attachment</span></td><td>optional object with application-specific data that
+                will be available when an event is triggered for the
+                conduit</td></tr></table><br>
+<b>Throws:</b><br>
+RegisteredConduitException if the conduit had already been
+ registered to the selector; SelectorException if there are not
+ enough resources to add the conduit to the selector.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="i">selector</span>.<span class="i">register</span>(<span class="i">conduit</span>, <span class="i">Event</span>.<span class="i">Read</span> | <span class="i">Event</span>.<span class="i">Write</span>, <span class="i">object</span>);
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L275">reregister</a></span>
+<script>explorer.outline.addDecl('reregister');</script>(ISelectable <span class="funcparam">conduit</span>, Event <span class="funcparam">events</span>, Object <span class="funcparam">attachment</span> = null); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Modify the events that are being tracked or the 'attachment' field
+ for an already registered conduit.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">conduit</span></td><td>conduit that will be associated to the selector;
+                must be a valid conduit (i.e. not null and open).</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">events</span></td><td>bit mask of Event values that represent the events
+                that will be tracked for the conduit.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">attachment</span></td><td>optional object with application-specific data that
+                will be available when an event is triggered for the
+                conduit</td></tr></table><br>
+<b>Remarks:</b><br>The 'attachment' member of the SelectionKey will always be
+ overwritten, even if it's null.<br><br>
+<b>Throws:</b><br>
+UnregisteredConduitException if the conduit had not been previously
+ registered to the selector; SelectorException if there are not
+ enough resources to modify the conduit registration.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="i">selector</span>.<span class="i">reregister</span>(<span class="i">conduit</span>, <span class="i">Event</span>.<span class="i">Write</span>, <span class="i">object</span>);
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L321">unregister</a></span>
+<script>explorer.outline.addDecl('unregister');</script>(ISelectable <span class="funcparam">conduit</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove a conduit from the selector.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">conduit</span></td><td>conduit that had been previously associated to the
+                selector; it can be null.</td></tr></table><br>
+<b>Remarks:</b><br>Unregistering a null conduit is allowed and no exception is thrown
+ if this happens.<br><br>
+<b>Throws:</b><br>
+UnregisteredConduitException if the conduit had not been previously
+ registered to the selector; SelectorException if there are not
+ enough resources to remove the conduit registration.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L358">select</a></span>
+<script>explorer.outline.addDecl('select');</script>(TimeSpan <span class="funcparam">timeout</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Wait for I/O events from the registered conduits for a specified
+ amount of time.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">timeout</span></td><td>TimeSpan with the maximum amount of time that the
+            selector will wait for events from the conduits; the
+            amount of time is relative to the current system time
+            (i.e. just the number of milliseconds that the selector
+            has to wait for the events).</td></tr></table><br>
+<b>Returns:</b><br>
+The amount of conduits that have received events; 0 if no conduits
+ have received events within the specified timeout; and -1 if the
+ wakeup&#40;&#41; method has been called from another thread.<br><br>
+<b>Throws:</b><br>
+InterruptedSystemCallException if the underlying system call was
+ interrupted by a signal and the 'restartInterruptedSystemCall'
+ property was set to false; SelectorException if there were no
+ resources available to wait for events from the conduits.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ISelectionSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L391">selectedSet</a></span>
+<script>explorer.outline.addDecl('selectedSet');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the selection set resulting from the call to any of the
+ select&#40;&#41; methods.</font><br><br>
+<b>Remarks:</b><br>If the call to select&#40;&#41; was unsuccessful or it did not return any
+ events, the returned value will be null.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SelectionKey <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L404">key</a></span>
+<script>explorer.outline.addDecl('key');</script>(ISelectable <span class="funcparam">conduit</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the selection key resulting from the registration of a
+ conduit to the selector.</font><br><br>
+<b>Remarks:</b><br>If the conduit is not registered to the selector the returned
+ value will be null. No exception will be thrown by this method.<br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L417">EpollSelectionSet</a></span>
+<script>explorer.outline.addDecl('EpollSelectionSet');</script> : ISelectionSet; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Class used to hold the list of Conduits that have received events.
+     </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/EpollSelector.d?rev=3461#L434">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout SelectionKey) <span class="funcparam">dg</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Iterate over all the Conduits that have received events.
+         </font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2006 Juan Jose Comellas. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

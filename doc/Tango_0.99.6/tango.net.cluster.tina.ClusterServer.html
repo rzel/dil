@@ -1,0 +1,116 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.cluster.tina.ClusterServer</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.cluster.tina.ClusterServer");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterServer.d?rev=3461">tango.net.cluster.tina.ClusterServer</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+July 2004: Initial release<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterServer.d?rev=3461#L37">ClusterServer</a></span>
+<script>explorer.outline.addDecl('ClusterServer');</script> : AbstractServer; [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extends the AbstractServer to glue cluster support together.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterServer.d?rev=3461#L50">service</a></span>
+<script>explorer.outline.addDecl('service');</script>(IConduit <span class="funcparam">conduit</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Concrete server must expose a service handler</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterServer.d?rev=3461#L67">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">name</span>, InternetAddress <span class="funcparam">bind</span>, Logger <span class="funcparam">logger</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct this server with the requisite attributes. The 
+                'bind' address is the local address we'll be listening on, 
+                'threads' represents the number of socket-accept threads, 
+                and backlog is the number of "simultaneous" connection 
+                requests that a socket layer will buffer on our behalf.</font><br><br>
+<font color="black">We also set up a listener for client discovery-requests, 
+                and lastly, we tell active clients that we're available 
+                for work. Clients should be listening on the appropriate 
+                channel for an instance of the RollCall payload.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterServer.d?rev=3461#L81">enroll</a></span>
+<script>explorer.outline.addDecl('enroll');</script>(IMessage <span class="funcparam">task</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterServer.d?rev=3461#L103">start</a></span>
+<script>explorer.outline.addDecl('start');</script>(RollCall <span class="funcparam">id</span>, bool <span class="funcparam">reuse</span> = false);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Start the server</font><br><br>
+<font color="black">Note that we hijack the calling thread, and use it to 
+                generate a hearbeat. The hearbeat has two functions: it
+                tells all clients when this server starts, and it tells
+                them we're still alive. The latter is important if, for
+                example, a client request to this server had timed-out
+                due to the server being too busy. In such a case, the
+                client will mark the server as being unavailable, and 
+                the heartbeat will presumably revert that.<br><br>                It would also be useful to monitor the GC from here.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterServer.d?rev=3461#L131">getProtocol</a></span>
+<script>explorer.outline.addDecl('getProtocol');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a text string identifying this server</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterServer.d?rev=3461#L142">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a text string identifying this server</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ServerSocket <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterServer.d?rev=3461#L153">createSocket</a></span>
+<script>explorer.outline.addDecl('createSocket');</script>(InternetAddress <span class="funcparam">bind</span>, int <span class="funcparam">backlog</span>, bool <span class="funcparam">reuse</span> = false); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a ServerSocket instance. </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterServer.d?rev=3461#L166">createThread</a></span>
+<script>explorer.outline.addDecl('createThread');</script>(ServerSocket <span class="funcparam">socket</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a ServerThread instance. This can be overridden to 
+                create other thread-types, perhaps with additional thread-
+                level data attached.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterServer.d?rev=3461#L179">notify</a></span>
+<script>explorer.outline.addDecl('notify');</script>(IEvent <span class="funcparam">event</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Interface method that's invoked when a client is making
+                discovery requests. We just send back our identity in a
+                reply</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

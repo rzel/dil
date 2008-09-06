@@ -1,0 +1,245 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.protocol.model.IWriter</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.protocol.model.IWriter");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461">tango.io.protocol.model.IWriter</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Mar 2004: Initial release      
+                        Dec 2006: Outback release<br><br>
+<b>author:</b><br>Kris
+                        Ivan Senji &#40;the "alias put" idea&#41;<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L71">IWriter</a></span>
+<script>explorer.outline.addDecl('IWriter');</script>; [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">IWriter interface. Writers provide the means to append formatted 
+        data to an IBuffer, and expose a convenient method of handling a
+        variety of data types. In addition to writing native types such
+        as integer and char[], writers also process any class which has
+        implemented the IWritable interface &#40;one method&#41;.</font><br><br>
+<font color="black">All writers support the full set of native data types, plus their
+        fundamental array variants. Operations may be chained back-to-back.<br><br>        Writers support a Java-esque put&#40;&#41; notation. However, the Tango style
+        is to place IO elements within their own parenthesis, like so:<br><br>        <pre class="d_code">
+
+        <span class="i">write</span> (<span class="i">count</span>) (<span class="sl">" green bottles"</span>);
+        
+</pre><br><br>        Note that each written element is distict; this style is affectionately
+        known as "whisper". The code below illustrates basic operation upon a
+        memory buffer:
+        
+        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">buf</span> = <span class="k">new</span> <span class="i">Buffer</span> (<span class="n">256</span>);
+
+        <span class="lc">// map same buffer into both reader and writer</span>
+        <span class="k">auto</span> <span class="i">read</span> = <span class="k">new</span> <span class="i">Reader</span> (<span class="i">buf</span>);
+        <span class="k">auto</span> <span class="i">write</span> = <span class="k">new</span> <span class="i">Writer</span> (<span class="i">buf</span>);
+
+        <span class="k">int</span> <span class="i">i</span> = <span class="n">10</span>;
+        <span class="k">long</span> <span class="i">j</span> = <span class="n">20</span>;
+        <span class="k">double</span> <span class="i">d</span> = <span class="n">3.14159</span>;
+        <span class="k">char</span>[] <span class="i">c</span> = <span class="sl">"fred"</span>;
+
+        <span class="lc">// write data types out</span>
+        <span class="i">write</span> (<span class="i">c</span>) (<span class="i">i</span>) (<span class="i">j</span>) (<span class="i">d</span>);
+
+        <span class="lc">// read them back again</span>
+        <span class="i">read</span> (<span class="i">c</span>) (<span class="i">i</span>) (<span class="i">j</span>) (<span class="i">d</span>);
+
+
+        <span class="lc">// same thing again, but using put() syntax instead</span>
+        <span class="i">write</span>.<span class="i">put</span>(<span class="i">c</span>).<span class="i">put</span>(<span class="i">i</span>).<span class="i">put</span>(<span class="i">j</span>).<span class="i">put</span>(<span class="i">d</span>);
+        <span class="i">read</span>.<span class="i">get</span>(<span class="i">c</span>).<span class="i">get</span>(<span class="i">i</span>).<span class="i">get</span>(<span class="i">j</span>).<span class="i">get</span>(<span class="i">d</span>);
+
+        
+</pre><br><br>        Writers may also be used with any class implementing the IWritable
+        interface, along with any struct implementing an equivalent function.<br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L81">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(bool <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L82">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(ubyte <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L83">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(byte <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L84">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(ushort <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L85">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(short <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L86">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(uint <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L87">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(int <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L88">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(ulong <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L89">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(long <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L90">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(float <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L91">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(double <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L92">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(real <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L93">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(char <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L94">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(wchar <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L95">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(dchar <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L98">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(byte[] <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L99">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(short[] <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L100">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(int[] <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L101">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(long[] <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L102">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(ubyte[] <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L103">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(ushort[] <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L104">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(uint[] <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L105">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(ulong[] <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L106">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(float[] <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L107">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(double[] <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L108">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(real[] <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L109">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(char[] <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L110">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(wchar[] <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L111">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(dchar[] <span class="funcparam">x</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">These are the basic writer methods</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L123">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(IWritable); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This is the mechanism used for binding arbitrary classes 
+                to the IO system. If a class implements IWritable, it can
+                be used as a target for IWriter put&#40;&#41; operations. That is, 
+                implementing IWritable is intended to transform any class 
+                into an IWriter adaptor for the content held therein</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L135">newline</a></span>
+<script>explorer.outline.addDecl('newline');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Emit a newline
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L144">flush</a></span>
+<script>explorer.outline.addDecl('flush');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IWriter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L145">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Flush the output of this writer. Throws an IOException 
+                if the operation fails. These are aliases for each other</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L153">buffer</a></span>
+<script>explorer.outline.addDecl('buffer');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the associated buffer</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>interface <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/model/IWriter.d?rev=3461#L163">IWritable</a></span>
+<script>explorer.outline.addDecl('IWritable');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Interface to make any class compatible with any IWriter</font><br><br>
+</dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

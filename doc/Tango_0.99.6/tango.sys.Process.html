@@ -1,0 +1,496 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.sys.Process</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.sys.Process");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461">tango.sys.Process</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>author:</b><br>Juan Jose Comellas <juanjo@comellas.com.ar><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L90">Process</a></span>
+<script>explorer.outline.addDecl('Process');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The Process class is used to start external programs and communicate with
+ them via their standard input, output and error streams.</font><br><br>
+<font color="black">You can pass either the command line or an array of arguments to execute,
+ either in the constructor or to the args property. The environment
+ variables can be set in a similar way using the env property and you can
+ set the program's working directory via the workDir property.<br><br> To actually start a process you need to use the execute&#40;&#41; method. Once the
+ program is running you will be able to write to its standard input via the
+ stdin OutputStream and you will be able to read from its standard output and
+ error through the stdout and stderr InputStream respectively.<br><br> You can check whether the process is running or not with the isRunning&#40;&#41;
+ method and you can get its process ID via the pid property.<br><br> After you are done with the process of if you just want to wait for it to
+ end you need to call the wait&#40;&#41; method, which will return once the process
+ is no longer running.<br><br> To stop a running process you must use kill&#40;&#41; method. If you do this you
+ cannot call the wait&#40;&#41; method. Once the kill&#40;&#41; method returns the process
+ will be already dead.<br><br> </font><br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">try</span>
+ {
+     <span class="k">auto</span> <span class="i">p</span> = <span class="k">new</span> <span class="i">Process</span> (<span class="sl">"ls -al"</span>, <span class="k">null</span>);
+     <span class="i">p</span>.<span class="i">execute</span>;
+
+     <span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"Output from {}:"</span>, <span class="i">p</span>.<span class="i">programName</span>);
+     <span class="i">Stdout</span>.<span class="i">copy</span> (<span class="i">p</span>.<span class="i">stdout</span>).<span class="i">flush</span>;
+     <span class="k">auto</span> <span class="i">result</span> = <span class="i">p</span>.<span class="i">wait</span>;
+
+     <span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"Process '{}' ({}) exited with reason {}, status {}"</span>,
+                      <span class="i">p</span>.<span class="i">programName</span>, <span class="i">p</span>.<span class="i">pid</span>, <span class="k">cast</span>(<span class="k">int</span>) <span class="i">result</span>.<span class="i">reason</span>, <span class="i">result</span>.<span class="i">status</span>);
+ }
+ <span class="k">catch</span> (<span class="i">ProcessException</span> <span class="i">e</span>)
+        <span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"Process execution failed: {}"</span>, <span class="i">e</span>);
+ 
+</pre><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L95">Result</a></span>
+<script>explorer.outline.addDecl('Result');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Result returned by wait&#40;&#41;.
+     </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reasons returned by wait&#40;&#41; indicating why the process is no
+ longer running.
+         </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L116">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a string with a description of the process execution result.
+         </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L185">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[][] <span class="funcparam">args</span>...); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructor &#40;variadic version&#41;.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">args</span></td><td>array of strings with the process' arguments; the first
+            argument must be the process' name; the arguments can be
+            empty.</td></tr></table><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">auto</span> <span class="i">p</span> = <span class="k">new</span> <span class="i">Process</span>(<span class="sl">"myprogram"</span>, <span class="sl">"first argument"</span>, <span class="sl">"second"</span>, <span class="sl">"third"</span>)
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L211">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">command</span>, char[][char[]] <span class="funcparam">env</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructor.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">command</span></td><td>string with the process' command line; arguments that have
+            embedded whitespace must be enclosed in inside double-quotes (").</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">env</span></td><td>associative array of strings with the process' environment
+            variables; the variable name must be the key of each entry.</td></tr></table><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">char</span>[] <span class="i">command</span> = <span class="sl">"myprogram \"first argument\" second third"</span>;
+ <span class="k">char</span>[][<span class="k">char</span>[]] <span class="i">env</span>;
+
+ <span class="lc">// Environment variables</span>
+ <span class="i">env</span>[<span class="sl">"MYVAR1"</span>] = <span class="sl">"first"</span>;
+ <span class="i">env</span>[<span class="sl">"MYVAR2"</span>] = <span class="sl">"second"</span>;
+
+ <span class="k">auto</span> <span class="i">p</span> = <span class="k">new</span> <span class="i">Process</span>(<span class="i">command</span>, <span class="i">env</span>)
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L251">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[][] <span class="funcparam">args</span>, char[][char[]] <span class="funcparam">env</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructor.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">args</span></td><td>array of strings with the process' arguments; the first
+            argument must be the process' name; the arguments can be
+            empty.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">env</span></td><td>associative array of strings with the process' environment
+            variables; the variable name must be the key of each entry.</td></tr></table><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">char</span>[][] <span class="i">args</span>;
+ <span class="k">char</span>[][<span class="k">char</span>[]] <span class="i">env</span>;
+
+ <span class="lc">// Process name</span>
+ <span class="i">args</span> ~= <span class="sl">"myprogram"</span>;
+ <span class="lc">// Process arguments</span>
+ <span class="i">args</span> ~= <span class="sl">"first argument"</span>;
+ <span class="i">args</span> ~= <span class="sl">"second"</span>;
+ <span class="i">args</span> ~= <span class="sl">"third"</span>;
+
+ <span class="lc">// Environment variables</span>
+ <span class="i">env</span>[<span class="sl">"MYVAR1"</span>] = <span class="sl">"first"</span>;
+ <span class="i">env</span>[<span class="sl">"MYVAR2"</span>] = <span class="sl">"second"</span>;
+
+ <span class="k">auto</span> <span class="i">p</span> = <span class="k">new</span> <span class="i">Process</span>(<span class="i">args</span>, <span class="i">env</span>)
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L266">isRunning</a></span>
+<script>explorer.outline.addDecl('isRunning');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Indicate whether the process is running or not.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L277">pid</a></span>
+<script>explorer.outline.addDecl('pid');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the running process' ID.</font><br><br>
+<b>Returns:</b><br>
+an int with the process ID if the process is running;
+          -1 if not.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L292">programName</a></span>
+<script>explorer.outline.addDecl('programName');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the process' executable filename.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L300">programName</a></span>
+<script>explorer.outline.addDecl('programName');</script>(char[] <span class="funcparam">name</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the process' executable filename.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L312">args</a></span>
+<script>explorer.outline.addDecl('args');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an array with the process' arguments.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L329">args</a></span>
+<script>explorer.outline.addDecl('args');</script>(char[][] <span class="funcparam">args</span>...); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the process' arguments from the arguments received by the method.</font><br><br>
+<b>Remarks:</b><br>The first element of the array must be the name of the process'
+ executable.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="i">p</span>.<span class="i">args</span>(<span class="sl">"myprogram"</span>, <span class="sl">"first"</span>, <span class="sl">"second argument"</span>, <span class="sl">"third"</span>);
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][char[]] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L337">env</a></span>
+<script>explorer.outline.addDecl('env');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an associative array with the process' environment variables.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L361">env</a></span>
+<script>explorer.outline.addDecl('env');</script>(char[][char[]] <span class="funcparam">env</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the process' environment variables from the associative array
+ received by the method.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">env</span></td><td>associative array of strings containing the environment
+        variables for the process. The variable name should be the key
+        used for each entry.</td></tr></table><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">char</span>[][<span class="k">char</span>[]] <span class="i">env</span>;
+
+ <span class="i">env</span>[<span class="sl">"MYVAR1"</span>] = <span class="sl">"first"</span>;
+ <span class="i">env</span>[<span class="sl">"MYVAR2"</span>] = <span class="sl">"second"</span>;
+
+ <span class="i">p</span>.<span class="i">env</span> = <span class="i">env</span>;
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L369">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an UTF-8 string with the process' command line.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L399">workDir</a></span>
+<script>explorer.outline.addDecl('workDir');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the working directory for the process.</font><br><br>
+<b>Returns:</b><br>
+a string with the working directory; null if the working
+          directory is the current directory.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L411">workDir</a></span>
+<script>explorer.outline.addDecl('workDir');</script>(char[] <span class="funcparam">dir</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the working directory for the process.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">dir</span></td><td>a string with the working directory; null if the working
+         directory is the current directory.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>PipeConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L425">stdin</a></span>
+<script>explorer.outline.addDecl('stdin');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the running process' standard input pipe.</font><br><br>
+<b>Returns:</b><br>
+a write-only PipeConduit connected to the child
+          process' stdin.<br><br>
+<b>Remarks:</b><br>The stream will be null if no child process has been executed.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>PipeConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L439">stdout</a></span>
+<script>explorer.outline.addDecl('stdout');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the running process' standard output pipe.</font><br><br>
+<b>Returns:</b><br>
+a read-only PipeConduit connected to the child
+          process' stdout.<br><br>
+<b>Remarks:</b><br>The stream will be null if no child process has been executed.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>PipeConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L453">stderr</a></span>
+<script>explorer.outline.addDecl('stderr');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the running process' standard error pipe.</font><br><br>
+<b>Returns:</b><br>
+a read-only PipeConduit connected to the child
+          process' stderr.<br><br>
+<b>Remarks:</b><br>The stream will be null if no child process has been executed.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L475">execute</a></span>
+<script>explorer.outline.addDecl('execute');</script>(char[][] <span class="funcparam">args</span>...); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Execute a process using the arguments as parameters to this method.</font><br><br>
+<font color="black">Once the process is executed successfully, its input and output can be
+ manipulated through the stdin, stdout and
+ stderr member PipeConduit's.<br><br> </font><br><br>
+<b>Throws:</b><br>
+ProcessCreateException if the process could not be created
+ successfully; ProcessForkException if the call to the fork&#40;&#41;
+ system call failed &#40;on POSIX-compatible platforms&#41;.<br><br>
+<b>Remarks:</b><br>The process must not be running and the provided list of arguments must
+ not be empty. If there was any argument already present in the args
+ member, they will be replaced by the arguments supplied to the method.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L513">execute</a></span>
+<script>explorer.outline.addDecl('execute');</script>(char[] <span class="funcparam">command</span>, char[][char[]] <span class="funcparam">env</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Execute a process using the command line arguments as parameters to
+ this method.</font><br><br>
+<font color="black">Once the process is executed successfully, its input and output can be
+ manipulated through the stdin, stdout and
+ stderr member PipeConduit's.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">command</span></td><td>string with the process' command line; arguments that have
+            embedded whitespace must be enclosed in inside double-quotes (").</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">env</span></td><td>associative array of strings with the process' environment
+            variables; the variable name must be the key of each entry.</td></tr></table><br>
+<b>Throws:</b><br>
+ProcessCreateException if the process could not be created
+ successfully; ProcessForkException if the call to the fork&#40;&#41;
+ system call failed &#40;on POSIX-compatible platforms&#41;.<br><br>
+<b>Remarks:</b><br>The process must not be running and the provided list of arguments must
+ not be empty. If there was any argument already present in the args
+ member, they will be replaced by the arguments supplied to the method.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L563">execute</a></span>
+<script>explorer.outline.addDecl('execute');</script>(char[][] <span class="funcparam">args</span>, char[][char[]] <span class="funcparam">env</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Execute a process using the command line arguments as parameters to
+ this method.</font><br><br>
+<font color="black">Once the process is executed successfully, its input and output can be
+ manipulated through the stdin, stdout and
+ stderr member PipeConduit's.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">args</span></td><td>array of strings with the process' arguments; the first
+            argument must be the process' name; the arguments can be
+            empty.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">env</span></td><td>associative array of strings with the process' environment
+            variables; the variable name must be the key of each entry.</td></tr></table><br>
+<b>Throws:</b><br>
+ProcessCreateException if the process could not be created
+ successfully; ProcessForkException if the call to the fork&#40;&#41;
+ system call failed &#40;on POSIX-compatible platforms&#41;.<br><br>
+<b>Remarks:</b><br>The process must not be running and the provided list of arguments must
+ not be empty. If there was any argument already present in the args
+ member, they will be replaced by the arguments supplied to the method.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">auto</span> <span class="i">p</span> = <span class="k">new</span> <span class="i">Process</span>();
+ <span class="k">char</span>[][] <span class="i">args</span>;
+
+ <span class="i">args</span> ~= <span class="sl">"ls"</span>;
+ <span class="i">args</span> ~= <span class="sl">"-l"</span>;
+
+ <span class="i">p</span>.<span class="i">execute</span>(<span class="i">args</span>, <span class="k">null</span>);
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L594">executeInternal</a></span>
+<script>explorer.outline.addDecl('executeInternal');</script>(); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Execute a process using the arguments that were supplied to the
+ constructor or to the args property.</font><br><br>
+<font color="black">Once the process is executed successfully, its input and output can be
+ manipulated through the stdin, stdout and
+ stderr member PipeConduit's.<br><br> </font><br><br>
+<b>Throws:</b><br>
+ProcessCreateException if the process could not be created
+ successfully; ProcessForkException if the call to the fork&#40;&#41;
+ system call failed &#40;on POSIX-compatible platforms&#41;.<br><br>
+<b>Remarks:</b><br>The process must not be running and the list of arguments must
+ not be empty before calling this method.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Result <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L977">wait</a></span>
+<script>explorer.outline.addDecl('wait');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Unconditionally wait for a process to end and return the reason and
+ status code why the process ended.</font><br><br>
+<b>Returns:</b><br>
+The return value is a Result struct, which has two members:
+ reason and status. The reason can take the
+ following values:<br><br> Process.Result.Exit: the child process exited normally;
+                      status has the process' return
+                      code.<br><br> Process.Result.Signal: the child process was killed by a signal;
+                        status has the signal number
+                        that killed the process.<br><br> Process.Result.Stop: the process was stopped; status
+                      has the signal number that was used to stop
+                      the process.<br><br> Process.Result.Continue: the process had been previously stopped
+                          and has now been restarted;
+                          status has the signal number
+                          that was used to continue the process.<br><br> Process.Result.Error: We could not properly wait on the child
+                       process; status has the
+                       errno value if the process was
+                       running and -1 if not.<br><br>
+<b>Remarks:</b><br>You can only call wait&#40;&#41; on a running process once. The Signal, Stop
+ and Continue reasons will only be returned on POSIX-compatible
+ platforms.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L1153">kill</a></span>
+<script>explorer.outline.addDecl('kill');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Kill a running process. This method will not return until the process
+ has been killed.</font><br><br>
+<b>Throws:</b><br>
+ProcessKillException if the process could not be killed;
+ ProcessWaitException if we could not wait on the process after
+ killing it.<br><br>
+<b>Remarks:</b><br>After calling this method you will not be able to call wait&#40;&#41; on the
+ process.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L1257">splitArgs</a></span>
+<script>explorer.outline.addDecl('splitArgs');</script>(inout char[] <span class="funcparam">command</span>, char[] <span class="funcparam">delims</span> = " \t\r\n"); [protected, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Split a string containing the command line used to invoke a program
+ and return and array with the parsed arguments. The double-quotes &#40;"&#41;
+ character can be used to specify arguments with embedded spaces.
+ e.g. first "second param" third
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L1389">cleanPipes</a></span>
+<script>explorer.outline.addDecl('cleanPipes');</script>(); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Close and delete any pipe that may have been left open in a previous
+ execution of a child process.
+     </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L1538">ProcessCreateException</a></span>
+<script>explorer.outline.addDecl('ProcessCreateException');</script> : ProcessException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Exception thrown when the process cannot be created.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L1551">ProcessForkException</a></span>
+<script>explorer.outline.addDecl('ProcessForkException');</script> : ProcessException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Exception thrown when the parent process cannot be forked.</font><br><br>
+<font color="black">This exception will only be thrown on POSIX-compatible platforms.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L1562">ProcessKillException</a></span>
+<script>explorer.outline.addDecl('ProcessKillException');</script> : ProcessException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Exception thrown when the process cannot be killed.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L1574">ProcessWaitException</a></span>
+<script>explorer.outline.addDecl('ProcessWaitException');</script> : ProcessException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Exception thrown when the parent process tries to wait on the child
+ process and fails.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/sys/Process.d?rev=3461#L1588">format</a></span>
+<script>explorer.outline.addDecl('format');</script>(char[] <span class="funcparam">msg</span>, int <span class="funcparam">value</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">append an int argument to a message
+</font><br><br></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2006 Juan Jose Comellas. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

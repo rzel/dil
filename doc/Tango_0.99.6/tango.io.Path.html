@@ -1,0 +1,299 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.Path</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.Path");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461">tango.io.Path</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Mar 2008: Initial version<br><br>
+<b>author:</b><br>Kris<br><br>        A more direct route to the file-system than FilePath, but with 
+        the potential overhead of heap activity. Use this if you don't
+        need path editing or extraction features. For example, if all
+        you want is to see if some path exists, using this module might 
+        be a more convenient option than FilePath:
+        <pre class="d_code">
+
+        <span class="k">if</span> (<span class="i">exists</span> (<span class="sl">"my file path"</span>)) 
+            ...
+        
+</pre><br><br>        These functions are generally less efficient than FilePath because 
+        they have to attach a null to the filename for each underlying O/S
+        call. Use Path when you need pedestrian access to the file-system, 
+        and are not manipulating the path components. Use FilePath for other
+        scenarios.<br><br>        We encourage the use of "scoped import" with this module, such as
+        <pre class="d_code">
+
+        <span class="k">import</span> <span class="i">Path</span> = <span class="i">tango</span>.<span class="i">io</span>.<span class="i">Path</span>;
+
+        <span class="k">if</span> (<span class="i">Path</span>.<span class="i">exists</span> (<span class="sl">"my file path"</span>)) 
+            ...
+        
+</pre><br><br>        Compile with -version=Win32SansUnicode to enable Win95 &amp; Win32s file
+        support.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L86">FS</a></span>
+<script>explorer.outline.addDecl('FS');</script>; [package]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Wraps the O/S specific calls with a D API. Note that these accept
+        null-terminated strings only, which is why it's not public. We need 
+        this declared first to avoid forward-reference issues</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L94">Stamps</a></span>
+<script>explorer.outline.addDecl('Stamps');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">TimeStamp information. Accurate to whatever the F/S supports</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L96">created</a></span>
+<script>explorer.outline.addDecl('created');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L96">accessed</a></span>
+<script>explorer.outline.addDecl('accessed');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L96">modified</a></span>
+<script>explorer.outline.addDecl('modified');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">last time modified</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L107">FileInfo</a></span>
+<script>explorer.outline.addDecl('FileInfo');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Passed around during file-scanning</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L121">Listing</a></span>
+<script>explorer.outline.addDecl('Listing');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Some fruct glue for directory listings</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L137">exception</a></span>
+<script>explorer.outline.addDecl('exception');</script>(char[] <span class="funcparam">filename</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Throw an exception using the last known error</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L149">padded</a></span>
+<script>explorer.outline.addDecl('padded');</script>(char[] <span class="funcparam">path</span>, char <span class="funcparam">c</span> = '/'); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an adjusted path such that non-empty instances always
+                have a trailing separator</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L163">stripped</a></span>
+<script>explorer.outline.addDecl('stripped');</script>(char[] <span class="funcparam">path</span>, char <span class="funcparam">c</span> = '/'); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an adjusted path such that non-empty instances do not
+                have a trailing separator</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L177">join</a></span>
+<script>explorer.outline.addDecl('join');</script>(char[][] <span class="funcparam">paths</span>...); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Join a set of path specs together. A path separator is
+                potentially inserted between each of the segments.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L194">strz</a></span>
+<script>explorer.outline.addDecl('strz');</script>(char[] <span class="funcparam">src</span>, char[] <span class="funcparam">dst</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append a terminating null onto a string, cheaply where 
+                feasible</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L885">exists</a></span>
+<script>explorer.outline.addDecl('exists');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Does this path currently exist?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L900">modified</a></span>
+<script>explorer.outline.addDecl('modified');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the time of the last modification. Accurate
+        to whatever the F/S supports, and in a format dictated
+        by the file-system. For example NTFS keeps UTC time, 
+        while FAT timestamps are based on the local time. </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L914">accessed</a></span>
+<script>explorer.outline.addDecl('accessed');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the time of the last access. Accurate to
+        whatever the F/S supports, and in a format dictated
+        by the file-system. For example NTFS keeps UTC time, 
+        while FAT timestamps are based on the local time.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L928">created</a></span>
+<script>explorer.outline.addDecl('created');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the time of file creation. Accurate to
+        whatever the F/S supports, and in a format dictated
+        by the file-system. For example NTFS keeps UTC time,  
+        while FAT timestamps are based on the local time.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ulong <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L939">fileSize</a></span>
+<script>explorer.outline.addDecl('fileSize');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the file length &#40;in bytes&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L951">isWritable</a></span>
+<script>explorer.outline.addDecl('isWritable');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this file writable?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L963">isFolder</a></span>
+<script>explorer.outline.addDecl('isFolder');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Is this file actually a folder/directory?</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FS.Stamps <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L979">timeStamps</a></span>
+<script>explorer.outline.addDecl('timeStamps');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return timestamp information</font><br><br>
+<font color="black">Timstamps are returns in a format dictated by the 
+        file-system. For example NTFS keeps UTC time, 
+        while FAT timestamps are based on the local time<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L991">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove the file/directory from the file-system</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L1003">createFile</a></span>
+<script>explorer.outline.addDecl('createFile');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new file</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L1015">createFolder</a></span>
+<script>explorer.outline.addDecl('createFolder');</script>(char[] <span class="funcparam">name</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new directory</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L1027">rename</a></span>
+<script>explorer.outline.addDecl('rename');</script>(char[] <span class="funcparam">src</span>, char[] <span class="funcparam">dst</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">change the name or location of a file/directory</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L1041">copy</a></span>
+<script>explorer.outline.addDecl('copy');</script>(char[] <span class="funcparam">src</span>, char[] <span class="funcparam">dst</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Transfer the content of one file to another. Throws 
+        an IOException upon failure.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FS.Listing <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L1069">children</a></span>
+<script>explorer.outline.addDecl('children');</script>(char[] <span class="funcparam">folder</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Provides foreach support via a fruct, as in
+        <pre class="d_code">
+
+        <span class="k">foreach</span> (<span class="i">info</span>; <span class="i">children</span>(<span class="sl">"myfolder"</span>))
+                 ...
+        
+</pre></font><br><br>
+<font color="black">Each path and filename is passed to the foreach
+        delegate, along with the path prefix and whether
+        the entry is a folder or not. The info construct
+        exposes the following attributes:
+        <pre class="d_code">
+
+        <span class="k">char</span>[]  <span class="i">path</span>
+        <span class="k">char</span>[]  <span class="i">name</span>
+        <span class="k">ulong</span>   <span class="i">bytes</span>
+        <span class="k">bool</span>    <span class="i">folder</span>
+        
+</pre><br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L1081">join</a></span>
+<script>explorer.outline.addDecl('join');</script>(char[][] <span class="funcparam">paths</span>...);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Join a set of path specs together. A path separator is
+        potentially inserted between each of the segments.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L1099">standard</a></span>
+<script>explorer.outline.addDecl('standard');</script>(char[] <span class="funcparam">path</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert path separators to a standard format, using '/' as
+        the path separator. This is compatible with URI and all of 
+        the contemporary O/S which Tango supports. Known exceptions
+        include the Windows command-line processor, which considers
+        '/' characters to be switches instead. Use the native&#40;&#41;
+        method to support that.</font><br><br>
+<b>Note:</b><br>mutates the provided path.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L1114">native</a></span>
+<script>explorer.outline.addDecl('native');</script>(char[] <span class="funcparam">path</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert to native O/S path separators where that is required,
+        such as when dealing with the Windows command-line. 
+        
+        </font><br><br>
+<b>Note:</b><br>mutates the provided path. Use this pattern to obtain a 
+        copy instead: native&#40;path.dup&#41;;<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L1131">split</a></span>
+<script>explorer.outline.addDecl('split');</script>(char[] <span class="funcparam">path</span>, out char[] <span class="funcparam">head</span>, out char[] <span class="funcparam">tail</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Break a path into "head" and "tail" components. For example: 
+        <pre class="d_code">
+
+        <span class="sl">"/a/b/c"</span> -&gt; <span class="sl">"/a"</span>,<span class="sl">"b/c"</span> 
+        <span class="sl">"a/b/c"</span> -&gt; <span class="sl">"a"</span>,<span class="sl">"b/c"</span> 
+        
+</pre></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/Path.d?rev=3461#L1151">replace</a></span>
+<script>explorer.outline.addDecl('replace');</script>(char[] <span class="funcparam">path</span>, char <span class="funcparam">from</span>, char <span class="funcparam">to</span>); [package]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Replace all path 'from' instances with 'to'</font><br><br></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2008 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

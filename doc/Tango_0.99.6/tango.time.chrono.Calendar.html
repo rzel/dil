@@ -1,0 +1,404 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.time.chrono.Calendar</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.time.chrono.Calendar");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461">tango.time.chrono.Calendar</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Mid 2005: Initial release
+                        Apr 2007: reshaped<br><br>
+<b>author:</b><br>John Chapman, Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L30">Calendar</a></span>
+<script>explorer.outline.addDecl('Calendar');</script>; [public, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Represents time in week, month and year divisions.
+ </font><br><br>
+<b>Remarks:</b><br>Calendar is the abstract base class for the following Calendar implementations: 
+   <a href="#Gregorian">Gregorian</a>, <a href="#Hebrew">Hebrew</a>, <a href="#Hijri">Hijri</a>,
+   <a href="#Japanese">Japanese</a>, <a href="#Korean">Korean</a>, <a href="#Taiwan">Taiwan</a> and
+   <a href="#ThaiBuddhist">ThaiBuddhist</a>.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum; [package]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Indicates the current era of the calendar.
+        </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Date <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L91">toDate</a></span>
+<script>explorer.outline.addDecl('toDate');</script>(Time <span class="funcparam">time</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get the components of a Time structure using the rules of the
+ calendar.  This is useful if you want more than one of the given
+ components.  Note that this doesn't handle the time of day, as that
+ is calculated directly from the Time struct.</font><br><br>
+<font color="black">The default implemenation is to call all the other accessors
+ directly, a derived class may override if it has a more efficient
+ method.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L108">split</a></span>
+<script>explorer.outline.addDecl('split');</script>(Time <span class="funcparam">time</span>, ref uint <span class="funcparam">year</span>, ref uint <span class="funcparam">month</span>, ref uint <span class="funcparam">day</span>, ref uint <span class="funcparam">doy</span>, ref uint <span class="funcparam">dow</span>, ref uint <span class="funcparam">era</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get the components of a Time structure using the rules of the
+ calendar.  This is useful if you want more than one of the given
+ components.  Note that this doesn't handle the time of day, as that
+ is calculated directly from the Time struct.</font><br><br>
+<font color="black">The default implemenation is to call all the other accessors
+ directly, a derived class may override if it has a more efficient
+ method.
+         </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L130">toTime</a></span>
+<script>explorer.outline.addDecl('toTime');</script>(uint <span class="funcparam">year</span>, uint <span class="funcparam">month</span>, uint <span class="funcparam">day</span>, uint <span class="funcparam">hour</span>, uint <span class="funcparam">minute</span>, uint <span class="funcparam">second</span>, uint <span class="funcparam">millisecond</span> = 0);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a Time value set to the specified date and time in the current era.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">year</span></td><td>An integer representing the _year.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">month</span></td><td>An integer representing the _month.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">day</span></td><td>An integer representing the _day.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">hour</span></td><td>An integer representing the _hour.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">minute</span></td><td>An integer representing the _minute.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">second</span></td><td>An integer representing the _second.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">millisecond</span></td><td>An integer representing the _millisecond.</td></tr></table><br>
+<b>Returns:</b><br>
+The Time set to the specified date and time.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L141">toTime</a></span>
+<script>explorer.outline.addDecl('toTime');</script>(Date <span class="funcparam">d</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a Time value for the given Date, in the current era 
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">date</span></td><td>a representation of the Date</td></tr></table><br>
+<b>Returns:</b><br>
+The Time set to the specified date.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L152">toTime</a></span>
+<script>explorer.outline.addDecl('toTime');</script>(DateTime <span class="funcparam">dt</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a Time value for the given DateTime, in the current era 
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">dt</span></td><td>a representation of the date and time</td></tr></table><br>
+<b>Returns:</b><br>
+The Time set to the specified date and time.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L164">toTime</a></span>
+<script>explorer.outline.addDecl('toTime');</script>(Date <span class="funcparam">d</span>, TimeOfDay <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a Time value for the given Date and TimeOfDay, in the current era 
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">d</span></td><td>a representation of the date</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">t</span></td><td>a representation of the day time</td></tr></table><br>
+<b>Returns:</b><br>
+The Time set to the specified date and time.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L182">toTime</a></span>
+<script>explorer.outline.addDecl('toTime');</script>(uint <span class="funcparam">year</span>, uint <span class="funcparam">month</span>, uint <span class="funcparam">day</span>, uint <span class="funcparam">hour</span>, uint <span class="funcparam">minute</span>, uint <span class="funcparam">second</span>, uint <span class="funcparam">millisecond</span>, uint <span class="funcparam">era</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">When overridden, returns a Time value set to the specified date and time in the specified _era.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">year</span></td><td>An integer representing the _year.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">month</span></td><td>An integer representing the _month.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">day</span></td><td>An integer representing the _day.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">hour</span></td><td>An integer representing the _hour.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">minute</span></td><td>An integer representing the _minute.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">second</span></td><td>An integer representing the _second.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">millisecond</span></td><td>An integer representing the _millisecond.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">era</span></td><td>An integer representing the _era.</td></tr></table><br>
+<b>Returns:</b><br>
+A Time set to the specified date and time.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>DayOfWeek <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L189">getDayOfWeek</a></span>
+<script>explorer.outline.addDecl('getDayOfWeek');</script>(Time <span class="funcparam">time</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">When overridden, returns the day of the week in the specified Time.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">time</span></td><td>A Time value.</td></tr></table><br>
+<b>Returns:</b><br>
+A DayOfWeek value representing the day of the week of time.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L196">getDayOfMonth</a></span>
+<script>explorer.outline.addDecl('getDayOfMonth');</script>(Time <span class="funcparam">time</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">When overridden, returns the day of the month in the specified Time.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">time</span></td><td>A Time value.</td></tr></table><br>
+<b>Returns:</b><br>
+An integer representing the day of the month of time.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L203">getDayOfYear</a></span>
+<script>explorer.outline.addDecl('getDayOfYear');</script>(Time <span class="funcparam">time</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">When overridden, returns the day of the year in the specified Time.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">time</span></td><td>A Time value.</td></tr></table><br>
+<b>Returns:</b><br>
+An integer representing the day of the year of time.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L210">getMonth</a></span>
+<script>explorer.outline.addDecl('getMonth');</script>(Time <span class="funcparam">time</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">When overridden, returns the month in the specified Time.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">time</span></td><td>A Time value.</td></tr></table><br>
+<b>Returns:</b><br>
+An integer representing the month in time.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L217">getYear</a></span>
+<script>explorer.outline.addDecl('getYear');</script>(Time <span class="funcparam">time</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">When overridden, returns the year in the specified Time.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">time</span></td><td>A Time value.</td></tr></table><br>
+<b>Returns:</b><br>
+An integer representing the year in time.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L224">getEra</a></span>
+<script>explorer.outline.addDecl('getEra');</script>(Time <span class="funcparam">time</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">When overridden, returns the era in the specified Time.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">time</span></td><td>A Time value.</td></tr></table><br>
+<b>Returns:</b><br>
+An integer representing the ear in time.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L233">getDaysInMonth</a></span>
+<script>explorer.outline.addDecl('getDaysInMonth');</script>(uint <span class="funcparam">year</span>, uint <span class="funcparam">month</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the number of days in the specified _year and _month of the current era.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">year</span></td><td>An integer representing the _year.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">month</span></td><td>An integer representing the _month.</td></tr></table><br>
+<b>Returns:</b><br>
+The number of days in the specified _year and _month of the current era.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L246">getDaysInMonth</a></span>
+<script>explorer.outline.addDecl('getDaysInMonth');</script>(uint <span class="funcparam">year</span>, uint <span class="funcparam">month</span>, uint <span class="funcparam">era</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">When overridden, returns the number of days in the specified _year and _month of the specified _era.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">year</span></td><td>An integer representing the _year.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">month</span></td><td>An integer representing the _month.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">era</span></td><td>An integer representing the _era.</td></tr></table><br>
+<b>Returns:</b><br>
+The number of days in the specified _year and _month of the specified _era.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L253">getDaysInYear</a></span>
+<script>explorer.outline.addDecl('getDaysInYear');</script>(uint <span class="funcparam">year</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the number of days in the specified _year of the current era.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">year</span></td><td>An integer representing the _year.</td></tr></table><br>
+<b>Returns:</b><br>
+The number of days in the specified _year in the current era.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L265">getDaysInYear</a></span>
+<script>explorer.outline.addDecl('getDaysInYear');</script>(uint <span class="funcparam">year</span>, uint <span class="funcparam">era</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">When overridden, returns the number of days in the specified _year of the specified _era.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">year</span></td><td>An integer representing the _year.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">era</span></td><td>An integer representing the _era.</td></tr></table><br>
+<b>Returns:</b><br>
+The number of days in the specified _year in the specified _era.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L272">getMonthsInYear</a></span>
+<script>explorer.outline.addDecl('getMonthsInYear');</script>(uint <span class="funcparam">year</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the number of months in the specified _year of the current era.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">year</span></td><td>An integer representing the _year.</td></tr></table><br>
+<b>Returns:</b><br>
+The number of months in the specified _year in the current era.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L284">getMonthsInYear</a></span>
+<script>explorer.outline.addDecl('getMonthsInYear');</script>(uint <span class="funcparam">year</span>, uint <span class="funcparam">era</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">When overridden, returns the number of months in the specified _year of the specified _era.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">year</span></td><td>An integer representing the _year.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">era</span></td><td>An integer representing the _era.</td></tr></table><br>
+<b>Returns:</b><br>
+The number of months in the specified _year in the specified _era.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L294">getWeekOfYear</a></span>
+<script>explorer.outline.addDecl('getWeekOfYear');</script>(Time <span class="funcparam">time</span>, WeekRule <span class="funcparam">rule</span>, DayOfWeek <span class="funcparam">firstDayOfWeek</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the week of the year that includes the specified Time.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">time</span></td><td>A Time value.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">rule</span></td><td>A WeekRule value defining a calendar week.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">firstDayOfWeek</span></td><td>A DayOfWeek value representing the first day of the week.</td></tr></table><br>
+<b>Returns:</b><br>
+An integer representing the week of the year that includes the date in time.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L339">isLeapYear</a></span>
+<script>explorer.outline.addDecl('isLeapYear');</script>(uint <span class="funcparam">year</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Indicates whether the specified _year in the current era is a leap _year.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">year</span></td><td>An integer representing the _year.</td></tr></table><br>
+<b>Returns:</b><br>
+true is the specified _year is a leap _year; otherwise, false.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L350">isLeapYear</a></span>
+<script>explorer.outline.addDecl('isLeapYear');</script>(uint <span class="funcparam">year</span>, uint <span class="funcparam">era</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">When overridden, indicates whether the specified _year in the specified _era is a leap _year.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">year</span></td><td>An integer representing the _year.</td></tr></table><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">era</span></td><td>An integer representing the _era.</td></tr></table><br>
+<b>Returns:</b><br>
+true is the specified _year is a leap _year; otherwise, false.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L356">eras</a></span>
+<script>explorer.outline.addDecl('eras');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> When overridden, retrieves the list of eras in the current calendar.
+ </font><br><br>
+<b>Returns:</b><br>
+An integer array representing the eras in the current calendar.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L362">id</a></span>
+<script>explorer.outline.addDecl('id');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the identifier associated with the current calendar.
+ </font><br><br>
+<b>Returns:</b><br>
+An integer representing the identifier of the current calendar.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L385">addMonths</a></span>
+<script>explorer.outline.addDecl('addMonths');</script>(Time <span class="funcparam">t</span>, int <span class="funcparam">nMonths</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a new Time with the specified number of months added.  If
+ the months are negative, the months are subtracted.</font><br><br>
+<font color="black">The default implementation uses information provided by the
+ calendar to calculate the correct time to add.  Derived classes may
+ override if there is a more optimized method.<br><br> Note that the generic method does not take into account crossing
+ era boundaries.  Derived classes may support this.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">t</span></td><td>A time to add the months to</td></tr></table><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">nMonths</span></td><td>The number of months to add.  This can be
+ negative.</td></tr></table><br>
+<b>Returns:</b><br>
+A Time that represents the provided time with the number
+ of months added.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Time <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/chrono/Calendar.d?rev=3461#L458">addYears</a></span>
+<script>explorer.outline.addDecl('addYears');</script>(Time <span class="funcparam">t</span>, int <span class="funcparam">nYears</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add the specified number of years to the given Time.</font><br><br>
+<font color="black">The generic algorithm uses information provided by the abstract
+ methods.  Derived classes may re-implement this in order to
+ optimize the algorithm<br><br> Note that the generic algorithm does not take into account crossing
+ era boundaries.  Derived classes may support this.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">t</span></td><td>A time to add the years to</td></tr></table><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">nYears</span></td><td>The number of years to add.  This can be negative.</td></tr></table><br>
+<b>Returns:</b><br>
+A Time that represents the provided time with the number
+ of years added.<br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2005 John Chapman. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

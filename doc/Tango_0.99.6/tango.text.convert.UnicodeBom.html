@@ -1,0 +1,171 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.text.convert.UnicodeBom</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.text.convert.UnicodeBom");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/UnicodeBom.d?rev=3461">tango.text.convert.UnicodeBom</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: December 2005<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/UnicodeBom.d?rev=3461#L28">Encoding</a></span>
+<script>explorer.outline.addDecl('Encoding');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">see http://icu.sourceforge.net/docs/papers/forms_of_unicode/#t2</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/UnicodeBom.d?rev=3461#L105">UnicodeBom</a></span>
+<script>explorer.outline.addDecl('UnicodeBom');</script>(T) : BomSniffer;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert unicode content</font><br><br>
+<font color="black">Unicode is an encoding of textual material. The purpose of this module 
+        is to interface external-encoding with a programmer-defined internal-
+        encoding. This internal encoding is declared via the template argument 
+        T, whilst the external encoding is either specified or derived.<br><br>        Three internal encodings are supported: char, wchar, and dchar. The
+        methods herein operate upon arrays of this type. That is, decode&#40;&#41;
+        returns an array of the type, while encode&#40;&#41; expect an array of said 
+        type.<br><br>        Supported external encodings are as follow:<br><br>                Encoding.Unknown 
+                Encoding.UTF_8
+                Encoding.UTF_8N
+                Encoding.UTF_16
+                Encoding.UTF_16BE
+                Encoding.UTF_16LE 
+                Encoding.UTF_32 
+                Encoding.UTF_32BE
+                Encoding.UTF_32LE <br><br>        These can be divided into non-explicit and explicit encodings:<br><br>                Encoding.Unknown 
+                Encoding.UTF_8
+                Encoding.UTF_16
+                Encoding.UTF_32 <br><br>
+                Encoding.UTF_8N
+                Encoding.UTF_16BE
+                Encoding.UTF_16LE 
+                Encoding.UTF_32BE
+                Encoding.UTF_32LE 
+        
+        The former group of non-explicit encodings may be used to 'discover'
+        an unknown encoding, by examining the first few bytes of the content
+        for a signature. This signature is optional, but is often written such 
+        that the content is self-describing. When an encoding is unknown, using 
+        one of the non-explicit encodings will cause the decode&#40;&#41; method to look 
+        for a signature and adjust itself accordingly. It is possible that a 
+        ZWNBSP character might be confused with the signature; today's unicode 
+        content is supposed to use the WORD-JOINER character instead.
+       
+        The group of explicit encodings are for use when the content encoding 
+        is known. These *must* be used when converting back to external encoding, 
+        since written content must be in a known format. It should be noted that, 
+        during a decode&#40;&#41; operation, the existence of a signature is in conflict 
+        with these explicit varieties.<br><br>
+        See 
+        <a href="http://www.utf-8.com/">http://www.utf-8.com/</a>
+        <a href="http://www.hackcraft.net/xmlUnicode/">http://www.hackcraft.net/xmlUnicode/</a>
+        <a href="http://www.unicode.org/faq/utf_bom.html/">http://www.unicode.org/faq/utf_bom.html/</a>
+        <a href="http://www.azillionmonkeys.com/qed/unicode.html/">http://www.azillionmonkeys.com/qed/unicode.html/</a>
+        <a href="http://icu.sourceforge.net/docs/papers/forms_of_unicode/">http://icu.sourceforge.net/docs/papers/forms_of_unicode/</a><br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/UnicodeBom.d?rev=3461#L117">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Encoding <span class="funcparam">encoding</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a instance using the given external encoding ~ one 
+                of the Encoding.xx types </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/UnicodeBom.d?rev=3461#L133">decode</a></span>
+<script>explorer.outline.addDecl('decode');</script>(void[] <span class="funcparam">content</span>, T[] <span class="funcparam">dst</span> = null, uint* <span class="funcparam">ate</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert the provided content. The content is inspected 
+                for a BOM signature, which is stripped. An exception is
+                thrown if a signature is present when, according to the
+                encoding type, it should not be. Conversely, An exception
+                is thrown if there is no known signature where the current
+                encoding expects one to be present</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/UnicodeBom.d?rev=3461#L170">encode</a></span>
+<script>explorer.outline.addDecl('encode');</script>(T[] <span class="funcparam">content</span>, void[] <span class="funcparam">dst</span> = null, uint* <span class="funcparam">ate</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Perform encoding of content. Note that the encoding must be 
+                of the explicit variety by the time we get here</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/UnicodeBom.d?rev=3461#L185">swapBytes</a></span>
+<script>explorer.outline.addDecl('swapBytes');</script>(void[] <span class="funcparam">content</span>); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Swap bytes around, as required by the encoding</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/UnicodeBom.d?rev=3461#L208">into</a></span>
+<script>explorer.outline.addDecl('into');</script>(void[] <span class="funcparam">x</span>, uint <span class="funcparam">type</span>, T[] <span class="funcparam">dst</span> = null, uint* <span class="funcparam">ate</span> = null); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/UnicodeBom.d?rev=3461#L256">from</a></span>
+<script>explorer.outline.addDecl('from');</script>(T[] <span class="funcparam">x</span>, uint <span class="funcparam">type</span>, void[] <span class="funcparam">dst</span> = null, uint* <span class="funcparam">ate</span> = null); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/UnicodeBom.d?rev=3461#L306">BomSniffer</a></span>
+<script>explorer.outline.addDecl('BomSniffer');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Encoding <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/UnicodeBom.d?rev=3461#L346">encoding</a></span>
+<script>explorer.outline.addDecl('encoding');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the current encoding. This is either the originally
+                specified encoding, or a derived one obtained by inspecting
+                the content for a BOM. The latter is performed as part of 
+                the decode&#40;&#41; method</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/UnicodeBom.d?rev=3461#L357">signature</a></span>
+<script>explorer.outline.addDecl('signature');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the signature &#40;BOM&#41; of the current encoding</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/UnicodeBom.d?rev=3461#L368">setup</a></span>
+<script>explorer.outline.addDecl('setup');</script>(Encoding <span class="funcparam">encoding</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Configure this instance with unicode converters</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Info* <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/UnicodeBom.d?rev=3461#L381">test</a></span>
+<script>explorer.outline.addDecl('test');</script>(void[] <span class="funcparam">content</span>); [static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Scan the BOM signatures looking for a match. We scan in 
+                reverse order to get the longest match first</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:57 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

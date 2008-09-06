@@ -1,0 +1,186 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.collection.model.Dispenser</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.collection.model.Dispenser");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Dispenser.d?rev=3461">tango.util.collection.model.Dispenser</a></h1>
+                
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>interface <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Dispenser.d?rev=3461#L31">Dispenser</a></span>
+<script>explorer.outline.addDecl('Dispenser');</script>(T) : View!(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Dispenser is the root interface of all mutable collections; i.e.,
+ collections that may have elements dynamically added, removed,
+ and/or replaced in accord with their collection semantics.</font><br><br>
+<b>author:</b><br>Doug Lea<br><br> <P> For an introduction to this package see <A HREF="index.html"> Overview </A>.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Dispenser.d?rev=3461#L42">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Cause the collection to become empty. 
+ </font><br><br>
+<b>Returns:</b><br>
+<br><br>
+<b>condition:</b><br><PRE>
+ isEmpty&#40;&#41; &amp;&amp;
+ Version change iff !PREV&#40;this&#41;.isEmpty&#40;&#41;;
+ </PRE><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Dispenser.d?rev=3461#L65">replace</a></span>
+<script>explorer.outline.addDecl('replace');</script>(T <span class="funcparam">oldElement</span>, T <span class="funcparam">newElement</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Replace an occurrence of oldElement with newElement.
+ No effect if does not hold oldElement or if oldElement.equals&#40;newElement&#41;.
+ The operation has a consistent, but slightly special interpretation
+ when applied to Sets. For Sets, because elements occur at
+ most once, if newElement is already included, replacing oldElement with
+ with newElement has the same effect as just removing oldElement.
+ </font><br><br>
+<b>Returns:</b><br>
+<br><br>
+<b>condition:</b><br><PRE>
+ let int delta = oldElement.equals&#40;newElement&#41;? 0 : 
+               max&#40;1, PREV&#40;this&#41;.instances&#40;oldElement&#41; in
+  instances&#40;oldElement&#41; == PREV&#40;this&#41;.instances&#40;oldElement&#41; - delta &amp;&amp;
+  instances&#40;newElement&#41; ==  &#40;this instanceof Set&#41; ? 
+         max&#40;1, PREV&#40;this&#41;.instances&#40;oldElement&#41; + delta&#41;:
+                PREV&#40;this&#41;.instances&#40;oldElement&#41; + delta&#41; &amp;&amp;
+  no other element changes &amp;&amp;
+  Version change iff delta != 0
+ </PRE><br><br>
+<b>Throws:</b><br>
+IllegalElementException if has&#40;oldElement&#41; and !allows&#40;newElement&#41;<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Dispenser.d?rev=3461#L88">replaceAll</a></span>
+<script>explorer.outline.addDecl('replaceAll');</script>(T <span class="funcparam">oldElement</span>, T <span class="funcparam">newElement</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Replace all occurrences of oldElement with newElement.
+ No effect if does not hold oldElement or if oldElement.equals&#40;newElement&#41;.
+ The operation has a consistent, but slightly special interpretation
+ when applied to Sets. For Sets, because elements occur at
+ most once, if newElement is already included, replacing oldElement with
+ with newElement has the same effect as just removing oldElement.
+ </font><br><br>
+<b>Returns:</b><br>
+<br><br>
+<b>condition:</b><br><PRE>
+ let int delta = oldElement.equals&#40;newElement&#41;? 0 : 
+                           PREV&#40;this&#41;.instances&#40;oldElement&#41; in
+  instances&#40;oldElement&#41; == PREV&#40;this&#41;.instances&#40;oldElement&#41; - delta &amp;&amp;
+  instances&#40;newElement&#41; ==  &#40;this instanceof Set&#41; ? 
+         max&#40;1, PREV&#40;this&#41;.instances&#40;oldElement&#41; + delta&#41;:
+                PREV&#40;this&#41;.instances&#40;oldElement&#41; + delta&#41; &amp;&amp;
+  no other element changes &amp;&amp;
+  Version change iff delta != 0
+ </PRE><br><br>
+<b>Throws:</b><br>
+IllegalElementException if has&#40;oldElement&#41; and !allows&#40;newElement&#41;<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Dispenser.d?rev=3461#L105">take</a></span>
+<script>explorer.outline.addDecl('take');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove and return an element.  Implementations
+ may strengthen the guarantee about the nature of this element.
+ but in general it is the most convenient or efficient element to remove.
+ <P>
+ Example usage. One way to transfer all elements from 
+ Dispenser a to MutableBag b is:
+ <PRE>
+ while &#40;!a.empty&#40;&#41;&#41; b.add&#40;a.take&#40;&#41;&#41;;
+ </PRE>
+ </font><br><br>
+<b>Returns:</b><br>
+an element v such that PREV&#40;this&#41;.has&#40;v&#41; 
+ and the postconditions of removeOneOf&#40;v&#41; hold.<br><br>
+<b>Throws:</b><br>
+NoSuchElementException iff isEmpty.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Dispenser.d?rev=3461#L117">removeAll</a></span>
+<script>explorer.outline.addDecl('removeAll');</script>(Iterator!(T) <span class="funcparam">e</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Exclude all occurrences of each element of the Iterator.
+ Behaviorally equivalent to
+ <PRE>
+ while &#40;e.more&#40;&#41;&#41; removeAll&#40;e.value&#40;&#41;&#41;;
+ @param e the enumeration of elements to exclude.
+ </font><br><br>
+<b>Throws:</b><br>
+CorruptedIteratorException is propagated if thrown<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Dispenser.d?rev=3461#L128">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(Iterator!(T) <span class="funcparam">e</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove an occurrence of each element of the Iterator.
+ Behaviorally equivalent to
+ <PRE>
+ while &#40;e.more&#40;&#41;&#41; remove &#40;e.value&#40;&#41;&#41;;
+ @param e the enumeration of elements to remove.
+ </font><br><br>
+<b>Throws:</b><br>
+CorruptedIteratorException is propagated if thrown<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Dispenser.d?rev=3461#L143">removeAll</a></span>
+<script>explorer.outline.addDecl('removeAll');</script>(T <span class="funcparam">element</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Exclude all occurrences of the indicated element from the collection. 
+ No effect if element not present.
+ @param element the element to exclude.
+ </font><br><br>
+<b>Returns:</b><br>
+<br><br>
+<b>condition:</b><br><PRE>
+ !has&#40;element&#41; &amp;&amp;
+ size&#40;&#41; == PREV&#40;this&#41;.size&#40;&#41; - PREV&#40;this&#41;.instances&#40;element&#41; &amp;&amp;
+ no other element changes &amp;&amp;
+ Version change iff PREV&#40;this&#41;.has&#40;element&#41;
+ </PRE><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Dispenser.d?rev=3461#L160">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(T <span class="funcparam">element</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove an instance of the indicated element from the collection. 
+ No effect if !has&#40;element&#41;
+ @param element the element to remove
+ </font><br><br>
+<b>Returns:</b><br>
+<br><br>
+<b>condition:</b><br><PRE>
+ let occ = max&#40;1, instances&#40;element&#41;&#41; in
+  size&#40;&#41; == PREV&#40;this&#41;.size&#40;&#41; - occ &amp;&amp;
+  instances&#40;element&#41; == PREV&#40;this&#41;.instances&#40;element&#41; - occ &amp;&amp;
+  no other element changes &amp;&amp;
+  version change iff occ == 1
+ </PRE><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                         :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:54 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

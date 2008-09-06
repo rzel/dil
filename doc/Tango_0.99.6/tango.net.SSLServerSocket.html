@@ -1,0 +1,89 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.SSLServerSocket</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.SSLServerSocket");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLServerSocket.d?rev=3461">tango.net.SSLServerSocket</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>author:</b><br>Jeff Davey <j@submersion.com><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLServerSocket.d?rev=3461#L47">SSLServerSocket</a></span>
+<script>explorer.outline.addDecl('SSLServerSocket');</script> : ServerSocket;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">SSLServerSocket is a sub-class of ServerSocket. It's purpose is to provide
+    SSL encryption at the socket level as well as easily tie into existing 
+    Tango applications that may already be using ServerSocket.</font><br><br>
+<font color="black">SSLServerSocket requires the OpenSSL library, and uses a dynamic binding
+    to the library. You can find the library at http://www.openssl.org and a
+    Win32 specific port at http://www.slproweb.com/products/Win32OpenSSL.html.<br><br>    Example
+    <pre class="d_code">
+
+    <span class="k">auto</span> <span class="i">cert</span> = <span class="k">new</span> <span class="i">Certificate</span>(<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">File</span>(<span class="sl">"public.pem"</span>).<span class="i">read</span>);
+    <span class="k">auto</span> <span class="i">pkey</span> = <span class="k">new</span> <span class="i">PrivateKey</span>(<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">File</span>(<span class="sl">"private.pem"</span>).<span class="i">read</span>);
+    <span class="k">auto</span> <span class="i">ctx</span> = <span class="k">new</span> <span class="i">SSLCtx</span>();
+    <span class="i">ctx</span>.<span class="i">certificate</span>(<span class="i">cert</span>).<span class="i">privateKey</span>(<span class="i">pkey</span>);
+    <span class="k">auto</span> <span class="i">server</span> = <span class="k">new</span> <span class="i">SSLServerSocket</span>(<span class="k">new</span> <span class="i">InternetAddress</span>(<span class="n">443</span>), <span class="i">ctx</span>);
+    <span class="k">for</span>(;;)
+    {
+        <span class="k">auto</span> <span class="i">sslSock</span> = <span class="i">server</span>.<span class="i">accept</span>();
+        <span class="i">sc</span>.<span class="i">write</span>(<span class="sl">"HTTP/1.1 200\r\n\r\n&lt;b&gt;Hello World&lt;/b&gt;"</span>);
+        <span class="i">sc</span>.<span class="i">shutdown</span>();
+        <span class="i">sc</span>.<span class="i">close</span>();
+    }
+    
+</pre><br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLServerSocket.d?rev=3461#L64">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InternetAddress <span class="funcparam">addr</span>, SSLCtx <span class="funcparam">ctx</span>, int <span class="funcparam">backlog</span> = 32, bool <span class="funcparam">reuse</span> = false);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructs a new SSLServerSocket. This constructor is similar to 
+        ServerSocket, except it takes a SSLCtx as provided by PKI.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">addr</span></td><td>the address to bind and listen on.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">ctx</span></td><td>the provided SSLCtx</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">backlog</span></td><td>the number of connections to backlog before refusing connection</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">reuse</span></td><td>if enabled, allow rebinding of existing ip/port</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SSLSocketConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLServerSocket.d?rev=3461#L78">create</a></span>
+<script>explorer.outline.addDecl('create');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This is used during the super.accept&#40;&#41; in order to provide the proper
+      SSLSocketConduit. It allocates using the free-list provided with
+      SSLSocketConduit.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SSLSocketConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLServerSocket.d?rev=3461#L90">accept</a></span>
+<script>explorer.outline.addDecl('accept');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Accepts a new conection and copies the provided server SSLCtx to a new
+      SSLSocketConduit.</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2008 Jeff Davey. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

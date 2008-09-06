@@ -1,0 +1,160 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.SSLSocketConduit</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.SSLSocketConduit");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLSocketConduit.d?rev=3461">tango.net.SSLSocketConduit</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>author:</b><br>Jeff Davey <j@submersion.com><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLSocketConduit.d?rev=3461#L58">SSLSocketConduit</a></span>
+<script>explorer.outline.addDecl('SSLSocketConduit');</script> : SocketConduit;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">SSLSocketConduit is a sub-class of SocketConduit. It's purpose is to
+    provide SSL encryption at the socket level as well as easily fit into
+    existing Tango network applications that may already be using SocketConduit.</font><br><br>
+<font color="black">SSLSocketConduit requires the OpenSSL library, and uses a dynamic binding
+    to the library. You can find the library at http://www.openssl.org and a
+    Win32 specific port at http://www.slproweb.com/products/Win32OpenSSL.html.<br><br>    SSLSocketConduit's have two modes:<br><br>    1. Client mode, useful for connecting to existing servers, but not
+    accepting new connections. Accepting a new connection will cause 
+    the library to stall on a write on connection.<br><br>    2. Server mode, useful for creating an SSL server, but not connecting
+    to an existing server. Connection will cause the library to stall on a 
+    read on connection.<br><br>    Example
+    <pre class="d_code">
+
+    <span class="k">auto</span> <span class="i">s1</span> = <span class="k">new</span> <span class="i">SSLSocketConduit</span>();
+    <span class="k">if</span> (<span class="i">s1</span>.<span class="i">connect</span>(<span class="k">new</span> <span class="i">InternetAddress</span>(<span class="sl">"www.yahoo.com"</span>, <span class="n">443</span>)))
+    {
+        <span class="k">char</span>[] <span class="i">cmd</span> = <span class="sl">"GET / HTTP/1.0\r\n\r\n"</span>;
+        <span class="i">s1</span>.<span class="i">write</span>(<span class="i">cmd</span>);
+        <span class="k">char</span>[<span class="n">1024</span>] <span class="i">buff</span>;
+        <span class="k">uint</span> <span class="i">bytesRead</span> = <span class="i">read</span>(<span class="i">buff</span>);
+        <span class="k">if</span> (<span class="i">byteRead</span> != <span class="i">SSLSocketConduit</span>.<span class="i">Eof</span>)
+            <span class="i">Stdout</span>.<span class="i">formatln</span>(<span class="sl">"received: {}"</span>, <span class="i">buff</span>[<span class="n">0</span>..<span class="i">bytesRead</span>]);
+    }
+    
+</pre><br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLSocketConduit.d?rev=3461#L77">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a default Client Mode SSLSocketConduit.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLSocketConduit.d?rev=3461#L96">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(SocketType <span class="funcparam">type</span>, ProtocolType <span class="funcparam">protocol</span>, bool <span class="funcparam">create</span> = true); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creates a Client Mode SSLSocketConduit</font><br><br>
+<font color="black">This is overriding the SocketConduit ctor in order to emulate the 
+        existing free-list frameowrk.<br><br>        Specifying anything other than ProtocolType.TCP or SocketType.STREAM will
+        cause an Exception to be thrown.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLSocketConduit.d?rev=3461#L126">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Socket <span class="funcparam">sock</span>, SSLCtx <span class="funcparam">ctx</span>, bool <span class="funcparam">clientMode</span> = true);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Creates a SSLSocketConduit</font><br><br>
+<font color="black">This class allows the ability to turn a regular Socket into an
+        SSLSocketConduit. It also gives the ability to change an SSLSocketConduit 
+        into Server Mode or ClientMode.<br><br>        </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">sock</span></td><td>The socket to wrap in SSL</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">SSLCtx</span></td><td>the SSL Context as provided by the PKI layer.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">clientMode</span></td><td>if true the socket will be Client Mode, Server otherwise.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLSocketConduit.d?rev=3461#L153">detach</a></span>
+<script>explorer.outline.addDecl('detach');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Release this SSLSocketConduit. 
+        
+        As per SocketConduit.detach.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SSLSocketConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLSocketConduit.d?rev=3461#L176">allocate</a></span>
+<script>explorer.outline.addDecl('allocate');</script>(); [package, synchronized, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Allocate a SSLSocketConduit from a free-list, rather than creating a new
+        one. 
+        
+        As per SocketConduit.allocate</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLSocketConduit.d?rev=3461#L207">write</a></span>
+<script>explorer.outline.addDecl('write');</script>(void[] <span class="funcparam">src</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Writes the passed buffer to the underlying socket stream. This will
+        block until socket error.</font><br><br>
+<font color="black">As per SocketConduit.write<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLSocketConduit.d?rev=3461#L225">read</a></span>
+<script>explorer.outline.addDecl('read');</script>(void[] <span class="funcparam">dst</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reads from the underlying socket stream. If needed, setTimeout will 
+        set the max length of time the read will take before returning.</font><br><br>
+<font color="black">As per SocketConduit.read<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLSocketConduit.d?rev=3461#L300">hadTimeout</a></span>
+<script>explorer.outline.addDecl('hadTimeout');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns true if the last read operation timed out.</font><br><br>
+<font color="black">As per SocketConduit.hadTimeout;<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SocketConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLSocketConduit.d?rev=3461#L313">shutdown</a></span>
+<script>explorer.outline.addDecl('shutdown');</script>(); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Shuts down the underlying socket for reading and writing.</font><br><br>
+<font color="black">As per SocketConduit.shutdown<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SocketConduit <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLSocketConduit.d?rev=3461#L333">setTimeout</a></span>
+<script>explorer.outline.addDecl('setTimeout');</script>(TimeSpan <span class="funcparam">interval</span>); [override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Used to set the max timeout on read operations.</font><br><br>
+<font color="black">As per SocketConduit.setTimeout;<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/SSLSocketConduit.d?rev=3461#L352">setCtx</a></span>
+<script>explorer.outline.addDecl('setCtx');</script>(SSLCtx <span class="funcparam">ctx</span>, bool <span class="funcparam">clientMode</span> = true);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Used in conjuction with the above ctor with the create flag disabled. It is
+        useful for accepting a new socket into a SSLSocketConduit, and then re-using
+        the Server's existing SSLCtx.
+    
+        </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">ctx</span></td><td>SSLCtx class as provided by PKI</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">clientMode</span></td><td>if true, the socket will be in Client Mode, Server otherwise.</td></tr></table><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2008 Jeff Davey. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

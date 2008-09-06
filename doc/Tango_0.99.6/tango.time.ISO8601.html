@@ -1,0 +1,209 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.time.ISO8601</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.time.ISO8601");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/ISO8601.d?rev=3461">tango.time.ISO8601</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Aug 2007: Initial release
+                        Feb 2008: Retooled<br><br>
+<b>Author:</b><br>Matti Niemenmaa<br><br>        This module is based on the ISO 8601:2004 standard, and has functions
+        for parsing &#40;almost&#41; every date/time format specified therein. &#40;The
+        ones not supported are intervals, durations, and recurring intervals.&#41;<br><br>        Refer to the standard for a full description of the formats supported.<br><br>        The functions &#40;parseTime, parseDate, and parseDateAndTime&#41; are
+        overloaded into two different versions of each: one updates a given
+        Time, and the other updates a given ExtendedDate struct. The purpose of
+        this struct is to support more detailed information which the Time data
+        type does not &#40;and, given its simple integer nature, cannot&#41; support.<br><br>        Times with specified time zones are simply converted into UTC: this may
+        lead to the date changing when only a time was parsed: e.g. "01:00+03"
+        is the same as "22:00", except that when the former is parsed, one is
+        subtracted from the day.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>struct <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/ISO8601.d?rev=3461#L41">ExtendedDate</a></span>
+<script>explorer.outline.addDecl('ExtendedDate');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">An extended date type, wrapping a Time together with some additional
+ information. </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>DT <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/ISO8601.d?rev=3461#L43">val</a></span>
+<script>explorer.outline.addDecl('val');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The Time value, containing the information it can. </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/ISO8601.d?rev=3461#L53">year</a></span>
+<script>explorer.outline.addDecl('year');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the year part of the date: a value in the range
+ [-1_000_000_000,-1] ∪ [1,999_999_999], where -1 is the year 1 BCE.</font><br><br>
+<font color="black">Do not use val.year directly unless you are absolutely sure that it is in
+ the range a Time can hold &#40;-10000 to 9999&#41;.
+    </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/ISO8601.d?rev=3461#L84">seconds</a></span>
+<script>explorer.outline.addDecl('seconds');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the seconds part of the date: may be 60 if a leap second
+ occurred. In such a case, val's seconds part is 59.
+    </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/ISO8601.d?rev=3461#L93">endOfDay</a></span>
+<script>explorer.outline.addDecl('endOfDay');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Whether the ISO 8601 representation of this hour is 24 or 00: whether
+ this instant of midnight is to be considered the end of the previous day
+ or the start of the next.</font><br><br>
+<font color="black">If the time of val is not exactly 00:00:00.000, this value is undefined.
+    </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>size_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/ISO8601.d?rev=3461#L147">parseDate</a></span>
+<script>explorer.outline.addDecl('parseDate');</script>(T)(T[] <span class="funcparam">src</span>, inout DT <span class="funcparam">dt</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>size_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/ISO8601.d?rev=3461#L155">parseDate</a></span>
+<script>explorer.outline.addDecl('parseDate');</script>(T)(T[] <span class="funcparam">src</span>, inout FullDate <span class="funcparam">fd</span>, ubyte <span class="funcparam">expanded</span> = 0); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parses a date in a format specified in ISO 8601:2004.</font><br><br>
+<font color="black">Returns the number of characters used to compose a valid date: 0 if no date
+ can be composed.<br><br> Fields in dt will either be correct &#40;e.g. months will be &gt;= 1 and &lt;= 12&#41; or
+ the default, which is 1 for year, month, and day, and 0 for all other
+ fields. Unless one is absolutely sure that 0001-01-01 can never be
+ encountered, one should check the return value to be sure that the parsing
+ succeeded as expected.<br><br> A third parameter is available for the ExtendedDate version: this allows for
+ parsing expanded year representations. The parameter is the number of extra
+ year digits beyond four, and defaults to zero. It must be within the range
+ [0,5]: this allows for a maximum year of 999 999 999, which should be enough
+ for now.<br><br> When using expanded year representations, be careful to use
+ ExtendedDate.year instead of the Time's year value.<br><br> </font><br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="i">Time</span> <span class="i">t</span>;
+ <span class="i">ExtendedDate</span> <span class="i">ed</span>;
+ 
+ <span class="i">parseDate</span>(<span class="sl">"19"</span>,             <span class="i">t</span>);    <span class="lc">// January 1st, 1900</span>
+ <span class="i">parseDate</span>(<span class="sl">"1970"</span>,           <span class="i">t</span>);    <span class="lc">// January 1st, 1970</span>
+ <span class="i">parseDate</span>(<span class="sl">"1970-02"</span>,        <span class="i">t</span>);    <span class="lc">// February 1st, 1970</span>
+ <span class="i">parseDate</span>(<span class="sl">"19700203"</span>,       <span class="i">t</span>);    <span class="lc">// February 3rd, 1970</span>
+ <span class="i">parseDate</span>(<span class="sl">"+19700203"</span>,     <span class="i">ed</span>, <span class="n">2</span>); <span class="lc">// March 1st, 197002</span>
+ <span class="i">parseDate</span>(<span class="sl">"-197002-04-01"</span>, <span class="i">ed</span>, <span class="n">2</span>); <span class="lc">// April 1st, -197003 (197003 BCE)</span>
+ <span class="i">parseDate</span>(<span class="sl">"00000101"</span>,       <span class="i">t</span>);    <span class="lc">// January 1st, -1 (1 BCE)</span>
+ <span class="i">parseDate</span>(<span class="sl">"1700-W14-2"</span>,     <span class="i">t</span>);    <span class="lc">// April 6th, 1700</span>
+ <span class="i">parseDate</span>(<span class="sl">"2008W01"</span>,        <span class="i">t</span>);    <span class="lc">// December 31st, 2007</span>
+ <span class="i">parseDate</span>(<span class="sl">"1987-221"</span>,       <span class="i">t</span>);    <span class="lc">// August 9th, 1987</span>
+ <span class="i">parseDate</span>(<span class="sl">"1234abcd"</span>,       <span class="i">t</span>);    <span class="lc">// January 1st, 1234; return value is 4</span>
+ <span class="i">parseDate</span>(<span class="sl">"12abcdef"</span>,       <span class="i">t</span>);    <span class="lc">// January 1st, 1200; return value is 2</span>
+ <span class="i">parseDate</span>(<span class="sl">"abcdefgh"</span>,       <span class="i">t</span>);    <span class="lc">// January 1st, 0001; return value is 0</span>
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>size_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/ISO8601.d?rev=3461#L320">parseTime</a></span>
+<script>explorer.outline.addDecl('parseTime');</script>(T)(T[] <span class="funcparam">src</span>, inout DT <span class="funcparam">dt</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>size_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/ISO8601.d?rev=3461#L328">parseTime</a></span>
+<script>explorer.outline.addDecl('parseTime');</script>(T)(T[] <span class="funcparam">src</span>, inout FullDate <span class="funcparam">fd</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parses a time of day in a format specified in ISO 8601:2004.</font><br><br>
+<font color="black">Returns the number of characters used to compose a valid time: 0 if no time
+ can be composed.<br><br> Fields in dt will either be correct or the default, which is 0 for all
+ time-related fields. fields. Unless one is absolutely sure that midnight
+ can never be encountered, one should check the return value to be sure that
+ the parsing succeeded as expected.<br><br> Extra fields in ExtendedDate:<br><br> Seconds may be 60 if the hours and minutes are 23 and 59, as leap seconds
+ are occasionally added to UTC time. A Time's seconds will be 59 in this
+ case.<br><br> Hours may be 0 or 24: the latter marks the end of a day and the former the
+ beginning, although they both refer to the same instant in time. A Time
+ will be precisely 00:00 in either case.<br><br> </font><br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="i">Time</span> <span class="i">t</span>;
+ <span class="i">ExtendedDate</span> <span class="i">ed</span>;
+
+ <span class="lc">// ",000" omitted for clarity</span>
+ <span class="i">parseTime</span>(<span class="sl">"20"</span>,             <span class="i">t</span>); <span class="lc">// 20:00:00</span>
+ <span class="i">parseTime</span>(<span class="sl">"2004"</span>,           <span class="i">t</span>); <span class="lc">// 20:04:00</span>
+ <span class="i">parseTime</span>(<span class="sl">"20:04:06"</span>,       <span class="i">t</span>); <span class="lc">// 20:04:06</span>
+ <span class="i">parseTime</span>(<span class="sl">"16:49:30,001"</span>,   <span class="i">t</span>); <span class="lc">// 16:49:30,001</span>
+ <span class="i">parseTime</span>(<span class="sl">"16:49:30,1"</span>,     <span class="i">t</span>); <span class="lc">// 16:49:30,100</span>
+ <span class="i">parseTime</span>(<span class="sl">"16:49,4"</span>,        <span class="i">t</span>); <span class="lc">// 16:49:24</span>
+ <span class="i">parseTime</span>(<span class="sl">"23:59:60"</span>,      <span class="i">ed</span>); <span class="lc">// 23:59:60</span>
+ <span class="i">parseTime</span>(<span class="sl">"24:00:01"</span>,       <span class="i">t</span>); <span class="lc">// 00:00:00; return value is 5</span>
+ <span class="i">parseTime</span>(<span class="sl">"24:00:01"</span>,      <span class="i">ed</span>); <span class="lc">// 00:00:00; return value is 5; endOfDay</span>
+ <span class="i">parseTime</span>(<span class="sl">"30"</span>,             <span class="i">t</span>); <span class="lc">// 00:00:00; return value is 0</span>
+ <span class="i">parseTime</span>(<span class="sl">"21:32:43-12:34"</span>, <span class="i">t</span>); <span class="lc">// 10:06:43; day increased by one</span>
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>size_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/ISO8601.d?rev=3461#L530">parseDateAndTime</a></span>
+<script>explorer.outline.addDecl('parseDateAndTime');</script>(T)(T[] <span class="funcparam">src</span>, inout DT <span class="funcparam">dt</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>size_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/time/ISO8601.d?rev=3461#L537">parseDateAndTime</a></span>
+<script>explorer.outline.addDecl('parseDateAndTime');</script>(T)(T[] <span class="funcparam">src</span>, inout FullDate <span class="funcparam">fd</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parses a combined date and time in a format specified in ISO 8601:2004.</font><br><br>
+<font color="black">Returns the number of characters used to compose a valid date and time.
+ Zero is returned if a complete date and time cannot be extracted. In that
+ case, the value of the resulting Time or ExtendedDate is undefined.<br><br> This function is stricter than just calling parseDate followed by
+ </font><br><br>
+<b>parseTime:</b><br>there are no allowances for expanded years or reduced dates
+ &#40;two-digit years&#41;, and separator usage must be consistent.<br><br> Although the standard allows for omitting the T between the date and the
+ time, this function requires it.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="i">Time</span> <span class="i">t</span>;
+
+ <span class="lc">// January 1st, 2008 00:01:00</span>
+ <span class="i">parseDateAndTime</span>(<span class="sl">"2007-12-31T23:01-01"</span>, <span class="i">t</span>); 
+
+ <span class="lc">// April 12th, 1985 23:50:30,042</span>
+ <span class="i">parseDateAndTime</span>(<span class="sl">"1985W155T235030,042"</span>, <span class="i">t</span>); 
+
+ <span class="lc">// Invalid time: returns zero</span>
+ <span class="i">parseDateAndTime</span>(<span class="sl">"1902-03-04T10:1a"</span>, <span class="i">t</span>);
+
+ <span class="lc">// Separating T omitted: returns zero</span>
+ <span class="i">parseDateAndTime</span>(<span class="sl">"1985-04-1210:15:30+04:00"</span>, <span class="i">t</span>);
+
+ <span class="lc">// Inconsistent separators: all return zero</span>
+ <span class="i">parseDateAndTime</span>(<span class="sl">"200512-01T10:02"</span>,          <span class="i">t</span>);
+ <span class="i">parseDateAndTime</span>(<span class="sl">"1985-04-12T10:15:30+0400"</span>, <span class="i">t</span>);
+ <span class="i">parseDateAndTime</span>(<span class="sl">"1902-03-04T050607"</span>,        <span class="i">t</span>);
+ 
+</pre><br><br></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2007-2008 Matti Niemenmaa.
+                        All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

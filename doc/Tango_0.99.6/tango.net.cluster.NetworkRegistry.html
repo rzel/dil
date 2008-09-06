@@ -1,0 +1,115 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.cluster.NetworkRegistry</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.cluster.NetworkRegistry");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkRegistry.d?rev=3461">tango.net.cluster.NetworkRegistry</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Apr 2004: Initial release
+                        Dec 2006: Outback version
+                        Apr 2007: Delegate revision<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkRegistry.d?rev=3461#L36">NetworkRegistry</a></span>
+<script>explorer.outline.addDecl('NetworkRegistry');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Bare framework for registering and creating serializable objects.
+        Such objects are intended to be transported across a local network
+        and re-instantiated at some destination node.</font><br><br>
+<font color="black">Each IMessage exposes the means to write, or freeze, its content. An
+        IPickleFactory provides the means to create a new instance of itself
+        populated with thawed data. Frozen objects are uniquely identified
+        by a guid exposed via the interface. Responsibility of maintaining
+        uniqueness across said identifiers lies in the hands of the developer.<br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>static <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkRegistry.d?rev=3461#L47">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkRegistry.d?rev=3461#L57">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(typeof(registry) <span class="funcparam">registry</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IMessage <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkRegistry.d?rev=3461#L68">lookup</a></span>
+<script>explorer.outline.addDecl('lookup');</script>(char[] <span class="funcparam">guid</span>); [synchronized, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Synchronized Factory lookup of the guid</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkRegistry.d?rev=3461#L91">enroll</a></span>
+<script>explorer.outline.addDecl('enroll');</script>(IMessage <span class="funcparam">target</span>); [synchronized, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add the provided Factory to the registry. Note that one
+                cannot change a registration once it is placed. Neither
+                can one remove registered item. This is done to avoid
+                issues when trying to synchronize servers across
+                a farm, which may still have live instances of "old"
+                objects waiting to be passed around the cluster. New
+                versions of an object should be given a distinct guid
+                from the prior version; appending an incremental number
+                may well be sufficient for your needs.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkRegistry.d?rev=3461#L110">freeze</a></span>
+<script>explorer.outline.addDecl('freeze');</script>(IWriter <span class="funcparam">output</span>, IMessage <span class="funcparam">target</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Serialize an Object. Objects are written in Network-order,
+                and are prefixed by the guid exposed via the IMessage
+                interface. This guid is used to identify the appropriate
+                factory when reconstructing the instance.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IMessage <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkRegistry.d?rev=3461#L128">thaw</a></span>
+<script>explorer.outline.addDecl('thaw');</script>(IReader <span class="funcparam">input</span>, IMessage <span class="funcparam">host</span> = null); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create a new instance of a registered class from the content
+                made available via the given reader. The factory is located
+                using the provided guid, which must match an enrolled factory.</font><br><br>
+<font color="black">Note that only the factory lookup is synchronized, and not
+                the instance construction itself. This is intentional, and
+                limits how long the calling thread is stalled<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NetworkRegistry <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkRegistry.d?rev=3461#L150">dup</a></span>
+<script>explorer.outline.addDecl('dup');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Duplicate the registry</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/NetworkRegistry.d?rev=3461#L163">error</a></span>
+<script>explorer.outline.addDecl('error');</script>(char[] <span class="funcparam">msg</span>, char[] <span class="funcparam">guid</span>); [private, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

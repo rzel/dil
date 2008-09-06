@@ -1,0 +1,99 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.cluster.tina.ClusterCache</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.cluster.tina.ClusterCache");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterCache.d?rev=3461">tango.net.cluster.tina.ClusterCache</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+July 2004: Initial release<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterCache.d?rev=3461#L29">ClusterCache</a></span>
+<script>explorer.outline.addDecl('ClusterCache');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The cache containers. These are initiated by ClusterServer and 
+        maintained via ClusterThread.
+         
+</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterCache.d?rev=3461#L49">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Cluster <span class="funcparam">cluster</span>, uint <span class="funcparam">size</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a host for multi-channel cache instances. </font><br><br>
+<b>TODO:</b><br>all cache instances are currently the same size, 
+                and it would be more practical to support some scheme
+                of specifying distinct sizes. Also, this could likely
+                benefit from a dedicated slab allocator instead of a
+                QueuedCache.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterCache.d?rev=3461#L66">put</a></span>
+<script>explorer.outline.addDecl('put');</script>(char[] <span class="funcparam">channel</span>, char[] <span class="funcparam">element</span>, ClusterContent <span class="funcparam">content</span>, Time <span class="funcparam">time</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Stuff an entry into cache for the channel:element pair. If
+                the time value is provided, it will be used to guard against
+                updating an existing "newer" cache entry.</font><br><br>
+<font color="black">Note that the args are aliased, so we copy them as necessary<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ClusterContent <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterCache.d?rev=3461#L78">extract</a></span>
+<script>explorer.outline.addDecl('extract');</script>(char[] <span class="funcparam">channel</span>, char[] <span class="funcparam">element</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove an entry from the cache</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ClusterContent <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterCache.d?rev=3461#L89">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(char[] <span class="funcparam">channel</span>, char[] <span class="funcparam">element</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return an entry from the cache</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterCache.d?rev=3461#L104">lock</a></span>
+<script>explorer.outline.addDecl('lock');</script>(char[] <span class="funcparam">channel</span>, char[] <span class="funcparam">element</span>, Time <span class="funcparam">time</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Add a cache lock where the entry is invalid or unlocked.
+                Returns true if locked by this call, false otherwise. Note
+                that this will return false if the entry is already locked.</font><br><br>
+<b>TODO:</b><br>implement<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterCache.d?rev=3461#L115">unlock</a></span>
+<script>explorer.outline.addDecl('unlock');</script>(char[] <span class="funcparam">channel</span>, char[] <span class="funcparam">element</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>TODO:</b><br>implement<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Cache <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/cluster/tina/ClusterCache.d?rev=3461#L126">lookup</a></span>
+<script>explorer.outline.addDecl('lookup');</script>(char[] <span class="funcparam">channel</span>); [private, synchronized]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a channel-specific cache. Could benefit from a
+                lock-free hashmap, instread of synching on AA access</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

@@ -1,0 +1,159 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.compress.BzipStream</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.compress.BzipStream");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/BzipStream.d?rev=3461">tango.io.compress.BzipStream</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: July 2007<br><br>
+<b>author:</b><br>Daniel Keep<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/BzipStream.d?rev=3461#L42">BzipOutput</a></span>
+<script>explorer.outline.addDecl('BzipOutput');</script> : OutputFilter;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This output filter can be used to perform compression of data into a bzip2
+    stream.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/BzipStream.d?rev=3461#L52">BlockSize</a></span>
+<script>explorer.outline.addDecl('BlockSize');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This enumeration represents several pre-defined compression block
+        sizes, measured in hundreds of kilobytes.  See the documentation for
+        the BzipOutput class' constructor for more details.</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/BzipStream.d?rev=3461#L91">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(OutputStream <span class="funcparam">stream</span>, int <span class="funcparam">blockSize</span> = BlockSize.Normal);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructs a new bzip2 compression filter.  You need to pass in the
+        stream that the compression filter will write to.  If you are using
+        this filter with a conduit, the idiom to use is:</font><br><br>
+<font color="black"><pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">output</span> = <span class="k">new</span> <span class="i">BzipOutput</span>(<span class="i">myConduit</span>.<span class="i">output</span>);
+        <span class="i">output</span>.<span class="i">write</span>(<span class="i">myContent</span>);
+        
+</pre><br><br>        blockSize relates to the size of the window bzip2 uses when
+        compressing data and determines how much memory is required to
+        decompress a stream.  It is measured in hundreds of kilobytes.
+        
+        ccording to the bzip2 documentation, there is no dramatic difference
+        between the various block sizes, so the default should suffice in most
+        cases.<br><br>        BlockSize.Normal &#40;the default&#41; is the same as BlockSize.Best
+        &#40;or 9&#41;.  The blockSize may be any integer between 1 and 9 inclusive.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/BzipStream.d?rev=3461#L122">write</a></span>
+<script>explorer.outline.addDecl('write');</script>(void[] <span class="funcparam">src</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Compresses the given data to the underlying conduit.</font><br><br>
+<font color="black">Returns the number of bytes from src that were compressed, which may
+        be less than given.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>size_t <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/BzipStream.d?rev=3461#L171">written</a></span>
+<script>explorer.outline.addDecl('written');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This read-only property returns the number of compressed bytes that
+        have been written to the underlying stream.  Following a call to
+        either close or commit, this will contain the total compressed size of
+        the input data stream.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/BzipStream.d?rev=3461#L182">close</a></span>
+<script>explorer.outline.addDecl('close');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">commit the output</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/BzipStream.d?rev=3461#L197">commit</a></span>
+<script>explorer.outline.addDecl('commit');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Purge any buffered content.  Calling this will implicitly end the
+        bzip2 stream, so it should not be called until you are finished
+        compressing data.  Any calls to either write or commit after a
+        compression filter has been committed will throw an exception.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/BzipStream.d?rev=3461#L272">BzipInput</a></span>
+<script>explorer.outline.addDecl('BzipInput');</script> : InputFilter;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This input filter can be used to perform decompression of bzip2 streams.</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/BzipStream.d?rev=3461#L298">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InputStream <span class="funcparam">stream</span>, bool <span class="funcparam">small</span> = false);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructs a new bzip2 decompression filter.  You need to pass in the
+        stream that the decompression filter will read from.  If you are using
+        this filter with a conduit, the idiom to use is:</font><br><br>
+<font color="black"><pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">input</span> = <span class="k">new</span> <span class="i">BzipInput</span>(<span class="i">myConduit</span>.<span class="i">input</span>);
+        <span class="i">input</span>.<span class="i">read</span>(<span class="i">myContent</span>);
+        
+</pre><br><br>        The small argument, if set to true, instructs bzip2 to perform
+        decompression using half the regular amount of memory, at the cost of
+        running at half speed.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/BzipStream.d?rev=3461#L325">read</a></span>
+<script>explorer.outline.addDecl('read');</script>(void[] <span class="funcparam">dst</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Decompresses data from the underlying conduit into a target array.</font><br><br>
+<font color="black">Returns the number of bytes stored into dst, which may be less than
+        requested.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>InputStream <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/BzipStream.d?rev=3461#L367">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Clear any buffered content.  No-op.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/BzipStream.d?rev=3461#L405">BzipException</a></span>
+<script>explorer.outline.addDecl('BzipException');</script> : IOException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This exception is thrown when an error occurs in the underlying bzip2
+    library.</font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/compress/BzipStream.d?rev=3461#L451">BzipClosedException</a></span>
+<script>explorer.outline.addDecl('BzipClosedException');</script> : IOException;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">This exception is thrown if you attempt to perform a read, write or flush
+    operation on a closed bzip2 filter stream.  This can occur if the input
+    stream has finished, or an output stream was flushed.</font><br><br>
+</dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (C) 2007 Daniel Keep.  All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

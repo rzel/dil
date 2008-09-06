@@ -1,0 +1,134 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.FileScan</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.FileScan");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/FileScan.d?rev=3461">tango.io.FileScan</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Jun 2004: Initial release<br><br>
+<b>Version:</b><br>
+Dec 2006: Pacific release<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/FileScan.d?rev=3461#L46">FileScan</a></span>
+<script>explorer.outline.addDecl('FileScan');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Recursively scan files and directories, adding filtered files to
+        an output structure as we go. This can be used to produce a list
+        of subdirectories and the files contained therein. The following
+        example lists all files with suffix ".d" located via the current
+        directory, along with the folders containing them:
+        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">scan</span> = <span class="k">new</span> <span class="i">FileScan</span>;
+
+        <span class="i">scan</span> (<span class="sl">"."</span>, <span class="sl">".d"</span>);
+
+        <span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"{} Folders"</span>, <span class="i">scan</span>.<span class="i">folders</span>.<span class="i">length</span>);
+        <span class="k">foreach</span> (<span class="i">folder</span>; <span class="i">scan</span>.<span class="i">folders</span>)
+                 <span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"{}"</span>, <span class="i">folder</span>);
+
+        <span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"\n{} Files"</span>, <span class="i">scan</span>.<span class="i">files</span>.<span class="i">length</span>);
+        <span class="k">foreach</span> (<span class="i">file</span>; <span class="i">scan</span>.<span class="i">files</span>)
+                 <span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"{}"</span>, <span class="i">file</span>);
+        
+</pre></font><br><br>
+<font color="black">This is unlikely the most efficient method to scan a vast number of
+        files, but operates in a convenient manner
+        
+</font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>alias FilePath.Filter <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/FileScan.d?rev=3461#L72">Filter</a></span>
+<script>explorer.outline.addDecl('Filter');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Alias for Filter delegate. Accepts a FilePath &amp; a bool as 
+            arguments and returns a bool.</font><br><br>
+<font color="black">The FilePath argument represents a file found by the scan, 
+            and the bool whether the FilePath represents a folder.<br><br>            The filter should return true, if matched by the filter. Note
+            that returning false where the path is a folder will result 
+            in all files contained being ignored. To always recurse folders, 
+            do something like this:
+            <pre class="d_code">
+
+            <span class="k">return</span> (<span class="i">isDir</span> || <span class="i">match</span> (<span class="i">fp</span>.<span class="i">name</span>));
+            
+</pre><br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/FileScan.d?rev=3461#L80">errors</a></span>
+<script>explorer.outline.addDecl('errors');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return all the errors found in the last scan</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FilePath[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/FileScan.d?rev=3461#L91">files</a></span>
+<script>explorer.outline.addDecl('files');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return all the files found in the last scan</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FilePath[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/FileScan.d?rev=3461#L102">folders</a></span>
+<script>explorer.outline.addDecl('folders');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return all directories found in the last scan</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FileScan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/FileScan.d?rev=3461#L114">sweep</a></span>
+<script>explorer.outline.addDecl('sweep');</script>(char[] <span class="funcparam">path</span>, bool <span class="funcparam">recurse</span> = true);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sweep a set of files and directories from the given parent
+                path, with no filtering applied
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FileScan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/FileScan.d?rev=3461#L126">sweep</a></span>
+<script>explorer.outline.addDecl('sweep');</script>(char[] <span class="funcparam">path</span>, char[] <span class="funcparam">match</span>, bool <span class="funcparam">recurse</span> = true);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sweep a set of files and directories from the given parent
+                path, where the files are filtered by the given suffix
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FileScan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/FileScan.d?rev=3461#L139">sweep</a></span>
+<script>explorer.outline.addDecl('sweep');</script>(char[] <span class="funcparam">path</span>, Filter <span class="funcparam">filter</span>, bool <span class="funcparam">recurse</span> = true);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Sweep a set of files and directories from the given parent
+                path, where the files are filtered by the provided delegate</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>FileScan <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/FileScan.d?rev=3461#L152">scan</a></span>
+<script>explorer.outline.addDecl('scan');</script>(FilePath <span class="funcparam">folder</span>, Filter <span class="funcparam">filter</span>, bool <span class="funcparam">recurse</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Internal routine to locate files and sub-directories. We
+                skip entries with names composed only of '.' characters. </font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

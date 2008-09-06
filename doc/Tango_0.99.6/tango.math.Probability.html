@@ -1,0 +1,279 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.math.Probability</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.math.Probability");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461">tango.math.Probability</a></h1>
+                
+<font color="black">Cumulative Probability Distribution Functions</font><br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Authors:</b><br>
+Stephen L. Moshier &#40;original C code&#41;, Don Clugston<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L56">normalDistribution</a></span>
+<script>explorer.outline.addDecl('normalDistribution');</script>(real <span class="funcparam">a</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L62">normalDistributionCompl</a></span>
+<script>explorer.outline.addDecl('normalDistributionCompl');</script>(real <span class="funcparam">a</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Cumulative distribution function for the Normal distribution, and its complement.</font><br><br>
+<font color="black">The normal &#40;or Gaussian, or bell-shaped&#41; distribution is
+defined as:<br><br>normalDist&#40;x&#41; = 1/ &pi; &#8747; exp&#40; - t<sup>2</sup>/2&#41; dt
+    = 0.5 + 0.5 * erf&#40;x/sqrt&#40;2&#41;&#41;
+    = 0.5 * erfc&#40;- x/sqrt&#40;2&#41;&#41;<br><br>Note that
+normalDistribution&#40;x&#41; = 1 - normalDistribution&#40;-x&#41;.<br><br></font><br><br>
+<b>Accuracy:</b><br>Within a few bits of machine resolution over the entire
+range.<br><br>
+<b>References:</b><br><a href="http://www.netlib.org/cephes/ldoubdoc.html">http://www.netlib.org/cephes/ldoubdoc.html</a>,
+G. Marsaglia, "Evaluating the Normal Distribution",
+Journal of Statistical Software <b>11</b>, &#40;July 2004&#41;.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L80">normalDistributionInv</a></span>
+<script>explorer.outline.addDecl('normalDistributionInv');</script>(real <span class="funcparam">p</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L86">normalDistributionComplInv</a></span>
+<script>explorer.outline.addDecl('normalDistributionComplInv');</script>(real <span class="funcparam">p</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Inverse of Normal distribution function</font><br><br>
+<font color="black">Returns the argument, x, for which the area under the
+ Normal probability density function &#40;integrated from
+ minus infinity to x&#41; is equal to p.<br><br> For small arguments 0 &lt; p &lt; exp&#40;-2&#41;, the program computes
+ z = sqrt&#40; -2 log&#40;p&#41; &#41;;  then the approximation is
+ x = z - log&#40;z&#41;/z  - &#40;1/z&#41; P&#40;1/z&#41; / Q&#40;1/z&#41; .
+ For larger arguments,  x/sqrt&#40;2 pi&#41; = w + w^3 R&#40;w^2&#41;/S&#40;w^2&#41;&#41; ,
+ where w = p - 0.5 .
+ </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L120">studentsTDistribution</a></span>
+<script>explorer.outline.addDecl('studentsTDistribution');</script>(int <span class="funcparam">nu</span>, real <span class="funcparam">t</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Student's t cumulative distribution function</font><br><br>
+<font color="black">Computes the integral from minus infinity to t of the Student
+ t distribution with integer nu &gt; 0 degrees of freedom:<br><br>   &#915;&#40; &#40;nu+1&#41;/2&#41; / &#40; sqrt&#40;nu &pi;&#41; &#915;&#40;nu/2&#41; &#41; *
+ <big>&#8747;<sub><small>-&infin;</small></sub><sup>t</sup></big> (1+x<sup>2</sup>/nu)<sup>-(nu+1)/2</sup> dx<br><br> Can be used to test whether the means of two normally distributed populations
+ are equal.<br><br> It is related to the incomplete beta integral:
+        1 - studentsDistribution&#40;nu,t&#41; = 0.5 * betaDistribution&#40; nu/2, 1/2, z &#41;
+ where
+        z = nu/&#40;nu + t<sup>2</sup>&#41;.<br><br> For t &lt; -1.6, this is the method of computation.  For higher t,
+ a direct method is derived from integration by parts.
+ Since the function is symmetric about t=0, the area under the
+ right tail of the density is found by calling the function
+ with -t instead of t.
+ </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L197">studentsTDistributionInv</a></span>
+<script>explorer.outline.addDecl('studentsTDistributionInv');</script>(int <span class="funcparam">nu</span>, real <span class="funcparam">p</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Inverse of Student's t distribution</font><br><br>
+<font color="black">Given probability p and degrees of freedom nu,
+ finds the argument t such that the one-sided
+ studentsDistribution&#40;nu,t&#41; is equal to p.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">nu</span></td><td>degrees of freedom. Must be >1</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">p</span></td><td>probability. 0 < p < 1</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L296">fDistribution</a></span>
+<script>explorer.outline.addDecl('fDistribution');</script>(int <span class="funcparam">df1</span>, int <span class="funcparam">df2</span>, real <span class="funcparam">x</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L310">fDistributionCompl</a></span>
+<script>explorer.outline.addDecl('fDistributionCompl');</script>(int <span class="funcparam">df1</span>, int <span class="funcparam">df2</span>, real <span class="funcparam">x</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L343">fDistributionComplInv</a></span>
+<script>explorer.outline.addDecl('fDistributionComplInv');</script>(int <span class="funcparam">df1</span>, int <span class="funcparam">df2</span>, real <span class="funcparam">p</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The F distribution, its complement, and inverse.</font><br><br>
+<font color="black">The F density function &#40;also known as Snedcor's density or the
+ variance ratio density&#41; is the density
+ of x = &#40;u1/df1&#41;/&#40;u2/df2&#41;, where u1 and u2 are random
+ variables having &chi;<sup>2</sup> distributions with df1
+ and df2 degrees of freedom, respectively.<br><br> fDistribution returns the area from zero to x under the F density
+ function.   The complementary function,
+ fDistributionCompl, returns the area from x to &infin; under the F density function.<br><br> The inverse of the complemented F distribution,
+ fDistributionComplInv, finds the argument x such that the integral
+ from x to infinity of the F density is equal to the given probability y.<br><br> Can be used to test whether the means of multiple normally distributed
+ populations, all with the same standard deviation, are equal;
+ or to test that the standard deviations of two normally distributed
+ populations are equal.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">df1</span></td><td>Degrees of freedom of the first variable. Must be >= 1</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">df2</span></td><td>Degrees of freedom of the second variable. Must be >= 1</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">x</span></td><td>Must be >= 0</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L396">chiSqrDistribution</a></span>
+<script>explorer.outline.addDecl('chiSqrDistribution');</script>(real <span class="funcparam">v</span>, real <span class="funcparam">x</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L406">chiSqrDistributionCompl</a></span>
+<script>explorer.outline.addDecl('chiSqrDistributionCompl');</script>(real <span class="funcparam">v</span>, real <span class="funcparam">x</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">&chi;<sup>2</sup> cumulative distribution function and its complement.</font><br><br>
+<font color="black">Returns the area under the left hand tail &#40;from 0 to x&#41;
+ of the Chi square probability density function with
+ v degrees of freedom. The complement returns the area under
+ the right hand tail &#40;from x to &infin;&#41;.<br><br>  chiSqrDistribution&#40;x | v&#41; = &#40;<big>&#8747;<sub><small>0</small></sub><sup>x</sup></big>
+          t<sup>v/2-1</sup> e<sup>-t/2</sup> dt &#41;
+             / 2<sup>v/2</sup> &#915;&#40;v/2&#41;<br><br>  chiSqrDistributionCompl&#40;x | v&#41; = &#40;<big>&#8747;<sub><small>x</small></sub><sup>&infin;</sup></big>
+          t<sup>v/2-1</sup> e<sup>-t/2</sup> dt &#41;
+             / 2<sup>v/2</sup> &#915;&#40;v/2&#41;<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">v</span></td><td>degrees of freedom. Must be positive.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">x</span></td><td>the &chi;<sup>2</sup> variable. Must be positive.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L427">chiSqrDistributionComplInv</a></span>
+<script>explorer.outline.addDecl('chiSqrDistributionComplInv');</script>(real <span class="funcparam">v</span>, real <span class="funcparam">p</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Inverse of complemented &chi;<sup>2</sup> distribution</font><br><br>
+<font color="black">Finds the &chi;<sup>2</sup> argument x such that the integral
+ from x to &infin; of the &chi;<sup>2</sup> density is equal
+ to the given cumulative probability p.<br><br> </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">p</span></td><td>Cumulative probability. 0<= p <=1.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">v</span></td><td>Degrees of freedom. Must be positive.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L455">gammaDistribution</a></span>
+<script>explorer.outline.addDecl('gammaDistribution');</script>(real <span class="funcparam">a</span>, real <span class="funcparam">b</span>, real <span class="funcparam">x</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L464">gammaDistributionCompl</a></span>
+<script>explorer.outline.addDecl('gammaDistributionCompl');</script>(real <span class="funcparam">a</span>, real <span class="funcparam">b</span>, real <span class="funcparam">x</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The &Gamma; distribution and its complement</font><br><br>
+<font color="black">The &Gamma; distribution is defined as the integral from 0 to x of the
+ gamma probability density function. The complementary function returns the
+ integral from x to &infin;<br><br> gammaDistribution = &#40;<big>&#8747;<sub><small>0</small></sub><sup>x</sup></big> t<sup>b-1</sup>e<sup>-at</sup> dt&#41; a<sup>b</sup>/&Gamma;&#40;b&#41;<br><br> x must be greater than 0.
+ </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L499">betaDistribution</a></span>
+<script>explorer.outline.addDecl('betaDistribution');</script>(real <span class="funcparam">a</span>, real <span class="funcparam">b</span>, real <span class="funcparam">x</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L505">betaDistributionCompl</a></span>
+<script>explorer.outline.addDecl('betaDistributionCompl');</script>(real <span class="funcparam">a</span>, real <span class="funcparam">b</span>, real <span class="funcparam">x</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L511">betaDistributionInv</a></span>
+<script>explorer.outline.addDecl('betaDistributionInv');</script>(real <span class="funcparam">a</span>, real <span class="funcparam">b</span>, real <span class="funcparam">y</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L517">betaDistributionComplInv</a></span>
+<script>explorer.outline.addDecl('betaDistributionComplInv');</script>(real <span class="funcparam">a</span>, real <span class="funcparam">b</span>, real <span class="funcparam">y</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Beta distribution and its inverse</font><br><br>
+<font color="black">Returns the incomplete beta integral of the arguments, evaluated
+ from zero to x.  The function is defined as<br><br> betaDistribution = &Gamma;&#40;a+b&#41;/&#40;&Gamma;&#40;a&#41; &Gamma;&#40;b&#41;&#41; *
+ <big>&#8747;<sub><small>0</small></sub><sup>x</sup></big> t<sup>a-1</sup>(1-t)<sup>b-1</sup> dt<br><br> The domain of definition is 0 &lt;= x &lt;= 1.  In this
+ implementation a and b are restricted to positive values.
+ The integral from x to 1 may be obtained by the symmetry
+ relation<br><br>    betaDistributionCompl&#40;a, b, x &#41;  =  betaDistribution&#40; b, a, 1-x &#41;<br><br> The integral is evaluated by a continued fraction expansion
+ or, when b*x is small, by a power series.<br><br> The inverse finds the value of x for which betaDistribution&#40;a,b,x&#41; - y = 0
+ </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L548">poissonDistribution</a></span>
+<script>explorer.outline.addDecl('poissonDistribution');</script>(int <span class="funcparam">k</span>, real <span class="funcparam">m</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L558">poissonDistributionCompl</a></span>
+<script>explorer.outline.addDecl('poissonDistributionCompl');</script>(int <span class="funcparam">k</span>, real <span class="funcparam">m</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L568">poissonDistributionInv</a></span>
+<script>explorer.outline.addDecl('poissonDistributionInv');</script>(int <span class="funcparam">k</span>, real <span class="funcparam">p</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The Poisson distribution, its complement, and inverse</font><br><br>
+<font color="black">k is the number of events. m is the mean.
+ The Poisson distribution is defined as the sum of the first k terms of
+ the Poisson density function.
+ The complement returns the sum of the terms k+1 to &infin;.<br><br> poissonDistribution = <big>&Sigma; <sup>k</sup><sub><small>j=0</small></sub></big> e<sup>-m</sup> m<sup>j</sup>/j!<br><br> poissonDistributionCompl = <big>&Sigma; <sup>&infin;</sup><sub><small>j=k+1</small></sub></big> e<sup>-m</sup> m<sup>j</sup>/j!<br><br> The terms are not summed directly; instead the incomplete
+ gamma integral is employed, according to the relation<br><br> y = poissonDistribution&#40; k, m &#41; = gammaIncompleteCompl&#40; k+1, m &#41;.<br><br> The arguments must both be positive.
+ </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L605">binomialDistribution</a></span>
+<script>explorer.outline.addDecl('binomialDistribution');</script>(int <span class="funcparam">k</span>, int <span class="funcparam">n</span>, real <span class="funcparam">p</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L636">binomialDistributionCompl</a></span>
+<script>explorer.outline.addDecl('binomialDistributionCompl');</script>(int <span class="funcparam">k</span>, int <span class="funcparam">n</span>, real <span class="funcparam">p</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Binomial distribution and complemented binomial distribution</font><br><br>
+<font color="black">The binomial distribution is defined as the sum of the terms 0 through k
+ of the Binomial probability density.
+ The complement returns the sum of the terms k+1 through n.<br><br> binomialDistribution = <big>&Sigma; <sup>k</sup><sub><small>j=0</small></sub></big> <big>&#40;</big> <sup><small>n</small></sup><sub><small>j</small></sub> <big>&#41;</big> p<sup>j</sup> (1-p)<sup>n-j</sup><br><br> binomialDistributionCompl = <big>&Sigma; <sup>n</sup><sub><small>j=k+1</small></sub></big> <big>&#40;</big> <sup><small>n</small></sup><sub><small>j</small></sub> <big>&#41;</big> p<sup>j</sup> (1-p)<sup>n-j</sup><br><br> The terms are not summed directly; instead the incomplete
+ beta integral is employed, according to the formula<br><br> y = binomialDistribution&#40; k, n, p &#41; = betaDistribution&#40; n-k, k+1, 1-p &#41;.<br><br> The arguments must be positive, with p ranging from 0 to 1, and k&lt;=n.
+ </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L682">binomialDistributionInv</a></span>
+<script>explorer.outline.addDecl('binomialDistributionInv');</script>(int <span class="funcparam">k</span>, int <span class="funcparam">n</span>, real <span class="funcparam">y</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Inverse binomial distribution</font><br><br>
+<font color="black">Finds the event probability p such that the sum of the
+ terms 0 through k of the Binomial probability density
+ is equal to the given cumulative probability y.<br><br> This is accomplished using the inverse beta integral
+ function and the relation<br><br> 1 - p = betaDistributionInv&#40; n-k, k+1, y &#41;.<br><br> The arguments must be positive, with 0 &lt;= y &lt;= 1, and k &lt;= n.
+ </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L743">negativeBinomialDistribution</a></span>
+<script>explorer.outline.addDecl('negativeBinomialDistribution');</script>(int <span class="funcparam">k</span>, int <span class="funcparam">n</span>, real <span class="funcparam">p</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>real <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/math/Probability.d?rev=3461#L754">negativeBinomialDistributionInv</a></span>
+<script>explorer.outline.addDecl('negativeBinomialDistributionInv');</script>(int <span class="funcparam">k</span>, int <span class="funcparam">n</span>, real <span class="funcparam">p</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Negative binomial distribution and its inverse</font><br><br>
+<font color="black">Returns the sum of the terms 0 through k of the negative
+ binomial distribution:<br><br> <big>&Sigma; <sup>k</sup><sub><small>j=0</small></sub></big> <big>&#40;</big> <sup><small>n+j-1</small></sup><sub><small>j-1</small></sub> <big>&#41;</big> p<sup>n</sup> (1-p)<sup>j</sup><br><br> In a sequence of Bernoulli trials, this is the probability
+ that k or fewer failures precede the n-th success.<br><br> The arguments must be positive, with 0 &lt; p &lt; 1 and r&gt;0.<br><br> The inverse finds the argument y such
+ that negativeBinomialDistribution&#40;k,n,y&#41; is equal to p.<br><br> The Geometric Distribution is a special case of the negative binomial
+ distribution.
+ <pre class="d_code">
+
+ <span class="i">geometricDistribution</span>(<span class="i">k</span>, <span class="i">p</span>) = <span class="i">negativeBinomialDistribution</span>(<span class="i">k</span>, <span class="n">1</span>, <span class="i">p</span>);
+ 
+</pre>
+ </font><br><br>
+<b>References:</b><br><a href="http://mathworld.wolfram.com/NegativeBinomialDistribution.html">http://mathworld.wolfram.com/NegativeBinomialDistribution.html</a><br><br></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Based on the CEPHES math library, which is
+            Copyright (C) 1994 Stephen L. Moshier (moshier@world.std.com). :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

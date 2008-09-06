@@ -1,0 +1,362 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.Uri</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.Uri");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461">tango.net.Uri</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: April 2004<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char* <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L27">memchr</a></span>
+<script>explorer.outline.addDecl('memchr');</script>(char *, char, uint); [extern(C)]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">external links
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L50">Uri</a></span>
+<script>explorer.outline.addDecl('Uri');</script> : UriView;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements an RFC 2396 compliant URI specification. See 
+        <A HREF="http://ftp.ics.uci.edu/pub/ietf/uri/rfc2396.txt">this page</A>
+        for more information. </font><br><br>
+<font color="black">The implementation fails the spec on two counts: it doesn't insist
+        on a scheme being present in the Uri, and it doesn't implement the
+        "Relative References" support noted in section 5.2. The latter can
+        be found in tango.util.PathUtil instead.
+        
+        Note that IRI support can be implied by assuming each of userinfo,
+        path, query, and fragment are UTF-8 encoded 
+        &#40;see <A HREF="http://www.w3.org/2001/Talks/0912-IUC-IRI/paper.html">
+        this page</A> for further details&#41;.<br><br>        Use the UriView subset where you need a readonly perspective. <br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>static <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L131">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initialize the Uri character maps and so on</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L215">this</a></span>
+<script>explorer.outline.addDecl('this');</script>();</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create an empty Uri</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L227">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">uri</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a Uri from the provided character string</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L240">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">scheme</span>, char[] <span class="funcparam">host</span>, char[] <span class="funcparam">path</span>, char[] <span class="funcparam">query</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a Uri from the given components. The query is
+                optional.
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L257">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(UriView <span class="funcparam">other</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Clone another Uri. This can be used to make a mutable Uri
+                from an immutable UriView.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L276">getDefaultPort</a></span>
+<script>explorer.outline.addDecl('getDefaultPort');</script>(char[] <span class="funcparam">scheme</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the default port for the given scheme. InvalidPort
+                is returned if the scheme is unknown, or does not accept
+                a port.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L291">getScheme</a></span>
+<script>explorer.outline.addDecl('getScheme');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the parsed scheme, or null if the scheme was not
+                specified</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L303">getHost</a></span>
+<script>explorer.outline.addDecl('getHost');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the parsed host, or null if the host was not
+                specified</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L315">getPort</a></span>
+<script>explorer.outline.addDecl('getPort');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the parsed port number, or InvalidPort if the port
+                was not provided.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L327">getValidPort</a></span>
+<script>explorer.outline.addDecl('getValidPort');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a valid port number by performing a lookup on the 
+                known schemes if the port was not explicitly specified.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L341">getUserInfo</a></span>
+<script>explorer.outline.addDecl('getUserInfo');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the parsed userinfo, or null if userinfo was not 
+                provided.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L353">getPath</a></span>
+<script>explorer.outline.addDecl('getPath');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the parsed path, or null if the path was not 
+                provided.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L365">getQuery</a></span>
+<script>explorer.outline.addDecl('getQuery');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the parsed query, or null if a query was not 
+                provided.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L377">getFragment</a></span>
+<script>explorer.outline.addDecl('getFragment');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the parsed fragment, or null if a fragment was not 
+                provided.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L388">isGeneric</a></span>
+<script>explorer.outline.addDecl('isGeneric');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return whether or not the Uri scheme is considered generic.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Consumer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L400">produce</a></span>
+<script>explorer.outline.addDecl('produce');</script>(Consumer <span class="funcparam">consume</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Emit the content of this Uri via the provided Consumer. The
+                output is constructed per RFC 2396.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L448">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Emit the content of this Uri via the provided Consumer. The
+                output is constructed per RFC 2396.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Consumer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L464">encode</a></span>
+<script>explorer.outline.addDecl('encode');</script>(Consumer <span class="funcparam">consume</span>, char[] <span class="funcparam">s</span>, int <span class="funcparam">flags</span>); [static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Encode uri characters into a Consumer, such that
+                reserved chars are converted into their %hex version.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L499">encode</a></span>
+<script>explorer.outline.addDecl('encode');</script>(char[] <span class="funcparam">text</span>, int <span class="funcparam">flags</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Encode uri characters into a string, such that reserved 
+                chars are converted into their %hex version.</font><br><br>
+<font color="black">Returns a dup'd string<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L514">decoder</a></span>
+<script>explorer.outline.addDecl('decoder');</script>(char[] <span class="funcparam">s</span>, char <span class="funcparam">ignore</span> = 0); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Decode a character string with potential %hex values in it.
+                The decoded strings are placed into a thread-safe expanding
+                buffer, and a slice of it is returned to the caller.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L575">decode</a></span>
+<script>explorer.outline.addDecl('decode');</script>(char[] <span class="funcparam">s</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Decode a duplicated string with potential %hex values in it</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Uri <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L600">parse</a></span>
+<script>explorer.outline.addDecl('parse');</script>(char[] <span class="funcparam">uri</span>, bool <span class="funcparam">relative</span> = false); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parsing is performed according to RFC 2396
+                
+                <pre class="d_code">
+<td><div class="compilerinfo">
+<p class="error L">/home/aziz/tango/tango/net/Uri.d(2,27)L: expected 'line' after '#'.</p>
+</div>
+</td></tr><tr>
+                  ^(([^:/?<span class="hl">#</span>]+):)?(<span class="lc">//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?</span>
+                   <span class="n">12</span>            <span class="n">3</span>  <span class="n">4</span>          <span class="n">5</span>       <span class="n">6</span>  <span class="n">7</span>        <span class="n">8</span> <span class="n">9</span>
+                    
+                <span class="n">2</span> <span class="i">isolates</span> <span class="i">scheme</span>
+                <span class="n">4</span> <span class="i">isolates</span> <span class="i">authority</span>
+                <span class="n">5</span> <span class="i">isolates</span> <span class="i">path</span>
+                <span class="n">7</span> <span class="i">isolates</span> <span class="i">query</span>
+                <span class="n">9</span> <span class="i">isolates</span> <span class="i">fragment</span>
+                
+</pre></font><br><br>
+<font color="black">This was originally a state-machine; it turned out to be a 
+                lot faster &#40;~40%&#41; when unwound like this instead.
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L659">reset</a></span>
+<script>explorer.outline.addDecl('reset');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Clear everything to null.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Uri <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L672">relParse</a></span>
+<script>explorer.outline.addDecl('relParse');</script>(char[] <span class="funcparam">uri</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse the given uri, with support for relative URLs</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Uri <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L683">setScheme</a></span>
+<script>explorer.outline.addDecl('setScheme');</script>(char[] <span class="funcparam">scheme</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the Uri scheme</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Uri <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L695">setHost</a></span>
+<script>explorer.outline.addDecl('setHost');</script>(char[] <span class="funcparam">host</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the Uri host</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Uri <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L707">setPort</a></span>
+<script>explorer.outline.addDecl('setPort');</script>(int <span class="funcparam">port</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the Uri port</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Uri <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L719">setUserInfo</a></span>
+<script>explorer.outline.addDecl('setUserInfo');</script>(char[] <span class="funcparam">userinfo</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the Uri userinfo</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Uri <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L731">setQuery</a></span>
+<script>explorer.outline.addDecl('setQuery');</script>(char[] <span class="funcparam">query</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the Uri query</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L743">extendQuery</a></span>
+<script>explorer.outline.addDecl('extendQuery');</script>(char[] <span class="funcparam">tail</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extend the Uri query</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Uri <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L759">setPath</a></span>
+<script>explorer.outline.addDecl('setPath');</script>(char[] <span class="funcparam">path</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the Uri path</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Uri <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L771">setFragment</a></span>
+<script>explorer.outline.addDecl('setFragment');</script>(char[] <span class="funcparam">fragment</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the Uri fragment</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L793">parseAuthority</a></span>
+<script>explorer.outline.addDecl('parseAuthority');</script>(char[] <span class="funcparam">auth</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Authority is the section after the scheme, but before the 
+                path, query or fragment; it typically represents a host.
+               
+                <pre class="d_code">
+<td><div class="compilerinfo">
+<p class="error L">/home/aziz/tango/tango/net/Uri.d(2,26)L: illegal character found: '@'</p>
+<p class="error L">/home/aziz/tango/tango/net/Uri.d(2,30)L: illegal character found: '@'</p>
+</div>
+</td></tr><tr>
+                    ^(([^<span class="ill">@</span>]*)<span class="ill">@</span>?)([^:]*)?(:(.*))?
+                     <span class="n">12</span>         <span class="n">3</span>       <span class="n">4</span> <span class="n">5</span>
+                  
+                <span class="n">2</span> <span class="i">isolates</span> <span class="i">userinfo</span>
+                <span class="n">3</span> <span class="i">isolates</span> <span class="i">host</span>
+                <span class="n">5</span> <span class="i">isolates</span> <span class="i">port</span>
+                
+</pre></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L824">toLastSlash</a></span>
+<script>explorer.outline.addDecl('toLastSlash');</script>(char[] <span class="funcparam">path</span>); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L838">toLower</a></span>
+<script>explorer.outline.addDecl('toLower');</script>(inout char[] <span class="funcparam">src</span>); [private, static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">in-place conversion to lowercase </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L852">HeapSlice</a></span>
+<script>explorer.outline.addDecl('HeapSlice');</script>; [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L863">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(uint <span class="funcparam">size</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Create with the specified starting size</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L874">reset</a></span>
+<script>explorer.outline.addDecl('reset');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reset content length to zero</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void* <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L886">expand</a></span>
+<script>explorer.outline.addDecl('expand');</script>(uint <span class="funcparam">size</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Potentially expand the content space, and return a pointer
+                to the start of the empty section.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/Uri.d?rev=3461#L901">slice</a></span>
+<script>explorer.outline.addDecl('slice');</script>(int <span class="funcparam">size</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a slice of the content from the current position 
+                with the specified size. Adjusts the current position to 
+                point at an empty zone.</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

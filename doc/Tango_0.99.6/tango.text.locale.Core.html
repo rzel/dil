@@ -1,0 +1,1699 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.text.locale.Core</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.text.locale.Core");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461">tango.text.locale.Core</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: 2005<br><br>
+<b>author:</b><br>John Chapman<br><br>        Contains classes that provide information about locales, such as 
+        the language and calendars, as well as cultural conventions used 
+        for formatting dates, currency and numbers. Use these classes when 
+        writing applications for an international audience.<br><br><br><br> <br><br> <br><br> <br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L140">CultureTypes</a></span>
+<script>explorer.outline.addDecl('CultureTypes');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Defines the types of cultures that can be retrieved from Culture.getCultures.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L141">Neutral</a></span>
+<script>explorer.outline.addDecl('Neutral');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Refers to cultures that are associated with a language but not specific to a country or region.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L142">Specific</a></span>
+<script>explorer.outline.addDecl('Specific');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Refers to cultures that are specific to a country or region.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L143">All</a></span>
+<script>explorer.outline.addDecl('All');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Refers to all cultures.</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>interface <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L155">IFormatService</a></span>
+<script>explorer.outline.addDecl('IFormatService');</script>(T); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Retrieves an object to control formatting.
+ 
+ A class implements <a href="#IFormatService_getFormat">getFormat</a> to retrieve an object that provides format information for the implementing type.
+ </font><br><br>
+<b>Remarks:</b><br>IFormatService is implemented by <a href="#Culture">Culture</a>, <a href="#NumberFormat">NumberFormat</a> and <a href="#DateTimeFormat">DateTimeFormat</a> to provide locale-specific formatting of
+ numbers and date and time values.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Object <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L163">getFormat</a></span>
+<script>explorer.outline.addDecl('getFormat');</script>(TypeInfo <span class="funcparam">type</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Retrieves an object that supports formatting for the specified _type.
+ </font><br><br>
+<b>Returns:</b><br>
+The current instance if type is the same _type as the current instance; otherwise, null.<br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">type</span></td><td>An object that specifies the _type of formatting to retrieve.</td></tr></table><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L200">Culture</a></span>
+<script>explorer.outline.addDecl('Culture');</script> : IFormatService; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Provides information about a culture, such as its name, calendar and date and number format patterns.
+ </font><br><br>
+<b>Remarks:</b><br>tango.text.locale adopts the RFC 1766 standard for culture names in the format &lt;language&gt;"-"&lt;region&gt;. 
+ &lt;language&gt; is a lower-case two-letter code defined by ISO 639-1. &lt;region&gt; is an upper-case 
+ two-letter code defined by ISO 3166. For example, "en-GB" is UK English.
+ <br><br>There are three types of culture: invariant, neutral and specific. The invariant culture is not tied to
+ any specific region, although it is associated with the English language. A neutral culture is associated with
+ a language, but not with a region. A specific culture is associated with a language and a region. "es" is a neutral 
+ culture. "es-MX" is a specific culture.
+ <br><br>Instances of <a href="#DateTimeFormat">DateTimeFormat</a> and <a href="#NumberFormat">NumberFormat</a> cannot be created for neutral cultures.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">Stdout</span>, <span class="i">tango</span>.<span class="i">text</span>.<span class="i">locale</span>.<span class="i">Core</span>;
+
+ <span class="k">void</span> <span class="i">main</span>() {
+   <span class="i">Culture</span> <span class="i">culture</span> = <span class="k">new</span> <span class="i">Culture</span>(<span class="sl">"it-IT"</span>);
+
+   <span class="i">Stdout</span>.<span class="i">formatln</span>(<span class="sl">"englishName: {}"</span>, <span class="i">culture</span>.<span class="i">englishName</span>);
+   <span class="i">Stdout</span>.<span class="i">formatln</span>(<span class="sl">"nativeName: {}"</span>, <span class="i">culture</span>.<span class="i">nativeName</span>);
+   <span class="i">Stdout</span>.<span class="i">formatln</span>(<span class="sl">"name: {}"</span>, <span class="i">culture</span>.<span class="i">name</span>);
+   <span class="i">Stdout</span>.<span class="i">formatln</span>(<span class="sl">"parent: {}"</span>, <span class="i">culture</span>.<span class="i">parent</span>.<span class="i">name</span>);
+   <span class="i">Stdout</span>.<span class="i">formatln</span>(<span class="sl">"isNeutral: {}"</span>, <span class="i">culture</span>.<span class="i">isNeutral</span>);
+ }
+
+ <span class="lc">// Produces the following output:</span>
+ <span class="lc">// englishName: Italian (Italy)</span>
+ <span class="lc">// nativeName: italiano (Italia)</span>
+ <span class="lc">// name: it-IT</span>
+ <span class="lc">// parent: it</span>
+ <span class="lc">// isNeutral: false</span>
+ 
+</pre><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L240">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">cultureName</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initializes a new Culture instance from the supplied name.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">cultureName</span></td><td>The name of the Culture.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L249">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(int <span class="funcparam">cultureID</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initializes a new Culture instance from the supplied culture identifier.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">cultureID</span></td><td>The identifer (LCID) of the Culture.</td></tr></table><br>
+<b>Remarks:</b><br>Culture identifiers correspond to a Windows LCID.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Object <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L260">getFormat</a></span>
+<script>explorer.outline.addDecl('getFormat');</script>(TypeInfo <span class="funcparam">type</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Retrieves an object defining how to format the specified type.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">type</span></td><td>The TypeInfo of the resulting formatting object.</td></tr></table><br>
+<b>Returns:</b><br>
+If type is typeid&#40;<a href="#NumberFormat">NumberFormat</a>&#41;, the value of the <a href="#Culture_numberFormat">numberFormat</a> property. If type is typeid&#40;<a href="#DateTimeFormat">DateTimeFormat</a>&#41;, the
+ value of the <a href="#Culture_dateTimeFormat">dateTimeFormat</a> property. Otherwise, null.<br><br>
+<b>Remarks:</b><br>Implements <a href="#IFormatService_getFormat">IFormatService.getFormat</a>.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Culture <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L295">getCulture</a></span>
+<script>explorer.outline.addDecl('getCulture');</script>(int <span class="funcparam">cultureID</span>); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a read-only instance of a culture using the specified culture identifier.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">cultureID</span></td><td>The identifier of the culture.</td></tr></table><br>
+<b>Returns:</b><br>
+A read-only culture instance.<br><br>
+<b>Remarks:</b><br>Instances returned by this method are cached.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Culture <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L316">getCulture</a></span>
+<script>explorer.outline.addDecl('getCulture');</script>(char[] <span class="funcparam">cultureName</span>); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a read-only instance of a culture using the specified culture name.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">cultureName</span></td><td>The name of the culture.</td></tr></table><br>
+<b>Returns:</b><br>
+A read-only culture instance.<br><br>
+<b>Remarks:</b><br>Instances returned by this method are cached.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Culture <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L330">getCultureFromIetfLanguageTag</a></span>
+<script>explorer.outline.addDecl('getCultureFromIetfLanguageTag');</script>(char[] <span class="funcparam">name</span>); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a read-only instance using the specified name, as defined by the RFC 3066 standard and maintained by the IETF.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">name</span></td><td>The name of the language.</td></tr></table><br>
+<b>Returns:</b><br>
+A read-only culture instance.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Culture[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L399">getCultures</a></span>
+<script>explorer.outline.addDecl('getCultures');</script>(CultureTypes <span class="funcparam">types</span>); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a list of cultures filtered by the specified <a href="constants.html#CultureTypes">CultureTypes</a>.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">types</span></td><td>A combination of CultureTypes.</td></tr></table><br>
+<b>Returns:</b><br>
+An array of Culture instances containing cultures specified by types.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L419">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [public, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the name of the Culture.
+ </font><br><br>
+<b>Returns:</b><br>
+A string containing the name of the Culture in the format &lt;language&gt;"-"&lt;region&gt;.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Culture <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L437">current</a></span>
+<script>explorer.outline.addDecl('current');</script>(); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the culture of the current user.
+ </font><br><br>
+<b>Returns:</b><br>
+The Culture instance representing the user's current culture.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L478">current</a></span>
+<script>explorer.outline.addDecl('current');</script>(Culture <span class="funcparam">value</span>); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the culture of the _current user.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The Culture instance representing the user's _current culture.</td></tr></table><br>
+<b>Examples:</b><br>
+The following examples shows how to change the _current culture.
+ <pre class="d_code">
+
+ <span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">Print</span>, <span class="i">tango</span>.<span class="i">text</span>.<span class="i">locale</span>.<span class="i">Common</span>;
+
+ <span class="k">void</span> <span class="i">main</span>() {
+   <span class="lc">// Displays the name of the current culture.</span>
+   <span class="i">Println</span>(<span class="sl">"The current culture is %s."</span>, <span class="i">Culture</span>.<span class="i">current</span>.<span class="i">englishName</span>);
+
+   <span class="lc">// Changes the current culture to el-GR.</span>
+   <span class="i">Culture</span>.<span class="i">current</span> = <span class="k">new</span> <span class="i">Culture</span>(<span class="sl">"el-GR"</span>);
+   <span class="i">Println</span>(<span class="sl">"The current culture is now %s."</span>, <span class="i">Culture</span>.<span class="i">current</span>.<span class="i">englishName</span>);
+ }
+
+ <span class="lc">// Produces the following output:</span>
+ <span class="lc">// The current culture is English (United Kingdom).</span>
+ <span class="lc">// The current culture is now Greek (Greece).</span>
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Culture <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L490">invariantCulture</a></span>
+<script>explorer.outline.addDecl('invariantCulture');</script>(); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the invariant Culture.
+ </font><br><br>
+<b>Returns:</b><br>
+The Culture instance that is invariant.<br><br>
+<b>Remarks:</b><br>The invariant culture is culture-independent. It is not tied to any specific region, but is associated
+ with the English language.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L500">id</a></span>
+<script>explorer.outline.addDecl('id');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the identifier of the Culture.
+ </font><br><br>
+<b>Returns:</b><br>
+The culture identifier of the current instance.<br><br>
+<b>Remarks:</b><br>The culture identifier corresponds to the Windows locale identifier &#40;LCID&#41;. It can therefore be used when 
+ interfacing with the Windows NLS functions.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L509">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the name of the Culture in the format &lt;language&gt;"-"&lt;region&gt;.
+ </font><br><br>
+<b>Returns:</b><br>
+The name of the current instance. For example, the name of the UK English culture is "en-GB".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L518">englishName</a></span>
+<script>explorer.outline.addDecl('englishName');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the name of the Culture in the format &lt;languagename&gt; &#40;&lt;regionname&gt;&#41; in English.
+ </font><br><br>
+<b>Returns:</b><br>
+The name of the current instance in English. For example, the englishName of the UK English culture 
+ is "English &#40;United Kingdom&#41;".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L527">nativeName</a></span>
+<script>explorer.outline.addDecl('nativeName');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the name of the Culture in the format &lt;languagename&gt; &#40;&lt;regionname&gt;&#41; in its native language.
+ </font><br><br>
+<b>Returns:</b><br>
+The name of the current instance in its native language. For example, if Culture.name is "de-DE", nativeName is 
+ "Deutsch &#40;Deutschland&#41;".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L535">twoLetterLanguageName</a></span>
+<script>explorer.outline.addDecl('twoLetterLanguageName');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the two-letter language code of the culture.
+ </font><br><br>
+<b>Returns:</b><br>
+The two-letter language code of the Culture instance. For example, the twoLetterLanguageName for English is "en".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L543">threeLetterLanguageName</a></span>
+<script>explorer.outline.addDecl('threeLetterLanguageName');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the three-letter language code of the culture.
+ </font><br><br>
+<b>Returns:</b><br>
+The three-letter language code of the Culture instance. For example, the threeLetterLanguageName for English is "eng".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L551">ietfLanguageTag</a></span>
+<script>explorer.outline.addDecl('ietfLanguageTag');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the RFC 3066 identification for a language.
+ </font><br><br>
+<b>Returns:</b><br>
+A string representing the RFC 3066 language identification.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Culture <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L559">parent</a></span>
+<script>explorer.outline.addDecl('parent');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the Culture representing the parent of the current instance.
+ </font><br><br>
+<b>Returns:</b><br>
+The Culture representing the parent of the current instance.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L605">isNeutral</a></span>
+<script>explorer.outline.addDecl('isNeutral');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves a value indicating whether the current instance is a neutral culture.
+ </font><br><br>
+<b>Returns:</b><br>
+true is the current Culture represents a neutral culture; otherwise, false.<br><br>
+<b>Examples:</b><br>
+The following example displays which cultures using Chinese are neutral.
+ <pre class="d_code">
+
+ <span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">Print</span>, <span class="i">tango</span>.<span class="i">text</span>.<span class="i">locale</span>.<span class="i">Common</span>;
+
+ <span class="k">void</span> <span class="i">main</span>() {
+   <span class="k">foreach</span> (<span class="i">c</span>; <span class="i">Culture</span>.<span class="i">getCultures</span>(<span class="i">CultureTypes</span>.<span class="i">All</span>)) {
+     <span class="k">if</span> (<span class="i">c</span>.<span class="i">twoLetterLanguageName</span> == <span class="sl">"zh"</span>) {
+       <span class="i">Print</span>(<span class="i">c</span>.<span class="i">englishName</span>);
+       <span class="k">if</span> (<span class="i">c</span>.<span class="i">isNeutral</span>)
+         <span class="i">Println</span>(<span class="sl">"neutral"</span>);
+       <span class="k">else</span>
+         <span class="i">Println</span>(<span class="sl">"specific"</span>);
+     }
+   }
+ }
+
+ <span class="lc">// Produces the following output:</span>
+ <span class="lc">// Chinese (Simplified) - neutral</span>
+ <span class="lc">// Chinese (Taiwan) - specific</span>
+ <span class="lc">// Chinese (People's Republic of China) - specific</span>
+ <span class="lc">// Chinese (Hong Kong S.A.R.) - specific</span>
+ <span class="lc">// Chinese (Singapore) - specific</span>
+ <span class="lc">// Chinese (Macao S.A.R.) - specific</span>
+ <span class="lc">// Chinese (Traditional) - neutral</span>
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L615">isReadOnly</a></span>
+<script>explorer.outline.addDecl('isReadOnly');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves a value indicating whether the instance is read-only.
+ </font><br><br>
+<b>Returns:</b><br>
+true if the instance is read-only; otherwise, false.<br><br>
+<b>Remarks:</b><br>If the culture is read-only, the <a href="#Culture_dateTimeFormat">dateTimeFormat</a> and <a href="#Culture_numberFormat">numberFormat</a> properties return 
+ read-only instances.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Calendar <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L624">calendar</a></span>
+<script>explorer.outline.addDecl('calendar');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the calendar used by the culture.
+ </font><br><br>
+<b>Returns:</b><br>
+A Calendar instance respresenting the calendar used by the culture.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Calendar[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L635">optionalCalendars</a></span>
+<script>explorer.outline.addDecl('optionalCalendars');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the list of calendars that can be used by the culture.
+ </font><br><br>
+<b>Returns:</b><br>
+An array of type Calendar representing the calendars that can be used by the culture.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NumberFormat <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L647">numberFormat</a></span>
+<script>explorer.outline.addDecl('numberFormat');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves a NumberFormat defining the culturally appropriate format for displaying numbers and currency.
+ </font><br><br>
+<b>Returns:</b><br>
+A NumberFormat defining the culturally appropriate format for displaying numbers and currency.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L659">numberFormat</a></span>
+<script>explorer.outline.addDecl('numberFormat');</script>(NumberFormat <span class="funcparam">value</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns a NumberFormat defining the culturally appropriate format for displaying numbers and currency.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">values</span></td><td>A NumberFormat defining the culturally appropriate format for displaying numbers and currency.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>DateTimeFormat <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L669">dateTimeFormat</a></span>
+<script>explorer.outline.addDecl('dateTimeFormat');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves a DateTimeFormat defining the culturally appropriate format for displaying dates and times.
+ </font><br><br>
+<b>Returns:</b><br>
+A DateTimeFormat defining the culturally appropriate format for displaying dates and times.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L681">dateTimeFormat</a></span>
+<script>explorer.outline.addDecl('dateTimeFormat');</script>(DateTimeFormat <span class="funcparam">value</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns a DateTimeFormat defining the culturally appropriate format for displaying dates and times.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">values</span></td><td>A DateTimeFormat defining the culturally appropriate format for displaying dates and times.</td></tr></table><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L750">Region</a></span>
+<script>explorer.outline.addDecl('Region');</script>; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Provides information about a region.
+ </font><br><br>
+<b>Remarks:</b><br>Region does not represent user preferences. It does not depend on the user's language or culture.<br><br>
+<b>Examples:</b><br>
+The following example displays some of the properties of the Region class:
+ <pre class="d_code">
+
+ <span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">Print</span>, <span class="i">tango</span>.<span class="i">text</span>.<span class="i">locale</span>.<span class="i">Common</span>;
+
+ <span class="k">void</span> <span class="i">main</span>() {
+   <span class="i">Region</span> <span class="i">region</span> = <span class="k">new</span> <span class="i">Region</span>(<span class="sl">"en-GB"</span>);
+   <span class="i">Println</span>(<span class="sl">"name:              %s"</span>, <span class="i">region</span>.<span class="i">name</span>);
+   <span class="i">Println</span>(<span class="sl">"englishName:       %s"</span>, <span class="i">region</span>.<span class="i">englishName</span>);
+   <span class="i">Println</span>(<span class="sl">"isMetric:          %s"</span>, <span class="i">region</span>.<span class="i">isMetric</span>);
+   <span class="i">Println</span>(<span class="sl">"currencySymbol:    %s"</span>, <span class="i">region</span>.<span class="i">currencySymbol</span>);
+   <span class="i">Println</span>(<span class="sl">"isoCurrencySymbol: %s"</span>, <span class="i">region</span>.<span class="i">isoCurrencySymbol</span>);
+ }
+
+ <span class="lc">// Produces the following output.</span>
+ <span class="lc">// name:              en-GB</span>
+ <span class="lc">// englishName:       United Kingdom</span>
+ <span class="lc">// isMetric:          true</span>
+ <span class="lc">// currencySymbol:    £</span>
+ <span class="lc">// isoCurrencySymbol: GBP</span>
+ 
+</pre><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L761">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(int <span class="funcparam">cultureID</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initializes a new Region instance based on the region associated with the specified culture identifier.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">cultureID</span></td><td>A culture indentifier.</td></tr></table><br>
+<b>Remarks:</b><br>The name of the Region instance is set to the ISO 3166 two-letter code for that region.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L773">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(char[] <span class="funcparam">name</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Initializes a new Region instance based on the region specified by name.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">name</span></td><td>A two-letter ISO 3166 code for the region. Or, a culture <a href="#Culture_name">_name</a> consisting of the language and region.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Region <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L789">current</a></span>
+<script>explorer.outline.addDecl('current');</script>(); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the Region used by the current <a href="#Culture">Culture</a>.
+ </font><br><br>
+<b>Returns:</b><br>
+The Region instance associated with the current Culture.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L799">geoID</a></span>
+<script>explorer.outline.addDecl('geoID');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves a unique identifier for the geographical location of the region.
+ </font><br><br>
+<b>Returns:</b><br>
+An <b>int</b> uniquely identifying the geographical location.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L808">name</a></span>
+<script>explorer.outline.addDecl('name');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the ISO 3166 code, or the name, of the current Region.
+ </font><br><br>
+<b>Returns:</b><br>
+The value specified by the name parameter of the <a href="#Region_ctor_name">Region(char[])</a> constructor.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L816">englishName</a></span>
+<script>explorer.outline.addDecl('englishName');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the full name of the region in English.
+ </font><br><br>
+<b>Returns:</b><br>
+The full name of the region in English.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L824">nativeName</a></span>
+<script>explorer.outline.addDecl('nativeName');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the full name of the region in its native language.
+ </font><br><br>
+<b>Returns:</b><br>
+The full name of the region in the language associated with the region code.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L832">twoLetterRegionName</a></span>
+<script>explorer.outline.addDecl('twoLetterRegionName');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the two-letter ISO 3166 code of the region.
+ </font><br><br>
+<b>Returns:</b><br>
+The two-letter ISO 3166 code of the region.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L840">threeLetterRegionName</a></span>
+<script>explorer.outline.addDecl('threeLetterRegionName');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the three-letter ISO 3166 code of the region.
+ </font><br><br>
+<b>Returns:</b><br>
+The three-letter ISO 3166 code of the region.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L848">currencySymbol</a></span>
+<script>explorer.outline.addDecl('currencySymbol');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the currency symbol of the region.
+ </font><br><br>
+<b>Returns:</b><br>
+The currency symbol of the region.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L856">isoCurrencySymbol</a></span>
+<script>explorer.outline.addDecl('isoCurrencySymbol');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the three-character currency symbol of the region.
+ </font><br><br>
+<b>Returns:</b><br>
+The three-character currency symbol of the region.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L864">currencyEnglishName</a></span>
+<script>explorer.outline.addDecl('currencyEnglishName');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the name in English of the currency used in the region.
+ </font><br><br>
+<b>Returns:</b><br>
+The name in English of the currency used in the region.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L872">currencyNativeName</a></span>
+<script>explorer.outline.addDecl('currencyNativeName');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the name in the native language of the region of the currency used in the region.
+ </font><br><br>
+<b>Returns:</b><br>
+The name in the native language of the region of the currency used in the region.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L880">isMetric</a></span>
+<script>explorer.outline.addDecl('isMetric');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves a value indicating whether the region uses the metric system for measurements.
+ </font><br><br>
+<b>Returns:</b><br>
+true is the region uses the metric system; otherwise, false.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L888">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [public, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a string containing the ISO 3166 code, or the <a href="#Region_name">name</a>, of the current Region.
+ </font><br><br>
+<b>Returns:</b><br>
+A string containing the ISO 3166 code, or the name, of the current Region.<br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L932">NumberFormat</a></span>
+<script>explorer.outline.addDecl('NumberFormat');</script> : IFormatService; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Determines how numbers are formatted, according to the current culture.
+ </font><br><br>
+<b>Remarks:</b><br>Numbers are formatted using format patterns retrieved from a NumberFormat instance.
+ This class implements <a href="#IFormatService_getFormat">IFormatService.getFormat</a>.<br><br>
+<b>Examples:</b><br>
+The following example shows how to retrieve an instance of NumberFormat for a Culture
+ and use it to display number formatting information.
+ <pre class="d_code">
+
+ <span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">Print</span>, <span class="i">tango</span>.<span class="i">text</span>.<span class="i">locale</span>.<span class="i">Common</span>;
+
+ <span class="k">void</span> <span class="i">main</span>(<span class="k">char</span>[][] <span class="i">args</span>) {
+   <span class="k">foreach</span> (<span class="i">c</span>; <span class="i">Culture</span>.<span class="i">getCultures</span>(<span class="i">CultureTypes</span>.<span class="i">Specific</span>)) {
+     <span class="k">if</span> (<span class="i">c</span>.<span class="i">twoLetterLanguageName</span> == <span class="sl">"en"</span>) {
+       <span class="i">NumberFormat</span> <span class="i">fmt</span> = <span class="i">c</span>.<span class="i">numberFormat</span>;
+       <span class="i">Println</span>(<span class="sl">"The currency symbol for %s is '%s'"</span>, 
+         <span class="i">c</span>.<span class="i">englishName</span>, 
+         <span class="i">fmt</span>.<span class="i">currencySymbol</span>);
+     }
+   }
+ }
+
+ <span class="lc">// Produces the following output:</span>
+ <span class="lc">// The currency symbol for English (United States) is '$'</span>
+ <span class="lc">// The currency symbol for English (United Kingdom) is '£'</span>
+ <span class="lc">// The currency symbol for English (Australia) is '$'</span>
+ <span class="lc">// The currency symbol for English (Canada) is '$'</span>
+ <span class="lc">// The currency symbol for English (New Zealand) is '$'</span>
+ <span class="lc">// The currency symbol for English (Ireland) is '€'</span>
+ <span class="lc">// The currency symbol for English (South Africa) is 'R'</span>
+ <span class="lc">// The currency symbol for English (Jamaica) is 'J$'</span>
+ <span class="lc">// The currency symbol for English (Caribbean) is '$'</span>
+ <span class="lc">// The currency symbol for English (Belize) is 'BZ$'</span>
+ <span class="lc">// The currency symbol for English (Trinidad and Tobago) is 'TT$'</span>
+ <span class="lc">// The currency symbol for English (Zimbabwe) is 'Z$'</span>
+ <span class="lc">// The currency symbol for English (Republic of the Philippines) is 'Php'</span>
+
+</pre><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L961">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initializes a new, culturally independent instance.</font><br><br>
+<b>Remarks:</b><br>Modify the properties of the new instance to define custom formatting.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Object <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1013">getFormat</a></span>
+<script>explorer.outline.addDecl('getFormat');</script>(TypeInfo <span class="funcparam">type</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Retrieves an object defining how to format the specified type.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">type</span></td><td>The TypeInfo of the resulting formatting object.</td></tr></table><br>
+<b>Returns:</b><br>
+If type is typeid&#40;<a href="#NumberFormat">NumberFormat</a>&#41;, the current NumberFormat instance. Otherwise, null.<br><br>
+<b>Remarks:</b><br>Implements <a href="#IFormatService_getFormat">IFormatService.getFormat</a>.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NumberFormat <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1036">getInstance</a></span>
+<script>explorer.outline.addDecl('getInstance');</script>(IFormatService <span class="funcparam">formatService</span>); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Retrieves the NumberFormat for the specified <a href="#IFormatService">IFormatService</a>.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">formatService</span></td><td>The IFormatService used to retrieve NumberFormat.</td></tr></table><br>
+<b>Returns:</b><br>
+The NumberFormat for the specified IFormatService.<br><br>
+<b>Remarks:</b><br>The method calls <a href="#IFormatService_getFormat">IFormatService.getFormat</a> with typeof&#40;NumberFormat&#41;. If formatService is null,
+ then the value of the current property is returned.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NumberFormat <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1056">current</a></span>
+<script>explorer.outline.addDecl('current');</script>(); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves a read-only NumberFormat instance from the current culture.
+ </font><br><br>
+<b>Returns:</b><br>
+A read-only NumberFormat instance from the current culture.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>NumberFormat <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1065">invariantFormat</a></span>
+<script>explorer.outline.addDecl('invariantFormat');</script>(); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the read-only, culturally independent NumberFormat instance.
+ </font><br><br>
+<b>Returns:</b><br>
+The read-only, culturally independent NumberFormat instance.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1077">isReadOnly</a></span>
+<script>explorer.outline.addDecl('isReadOnly');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves a value indicating whether the instance is read-only.
+ </font><br><br>
+<b>Returns:</b><br>
+true if the instance is read-only; otherwise, false.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1085">numberDecimalDigits</a></span>
+<script>explorer.outline.addDecl('numberDecimalDigits');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the number of decimal places used for numbers.
+ </font><br><br>
+<b>Returns:</b><br>
+The number of decimal places used for numbers. For <a href="#NumberFormat_invariantFormat">invariantFormat</a>, the default is 2.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1115">numberDecimalDigits</a></span>
+<script>explorer.outline.addDecl('numberDecimalDigits');</script>(int <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Assigns the number of decimal digits used for numbers.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The number of decimal places used for numbers.</td></tr></table><br>
+<b>Throws:</b><br>
+Exception if the property is being set and the instance is read-only.<br><br>
+<b>Examples:</b><br>
+The following example shows the effect of changing numberDecimalDigits.
+ <pre class="d_code">
+
+ <span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">Print</span>, <span class="i">tango</span>.<span class="i">text</span>.<span class="i">locale</span>.<span class="i">Common</span>;
+
+ <span class="k">void</span> <span class="i">main</span>() {
+   <span class="lc">// Get the NumberFormat from the en-GB culture.</span>
+   <span class="i">NumberFormat</span> <span class="i">fmt</span> = (<span class="k">new</span> <span class="i">Culture</span>(<span class="sl">"en-GB"</span>)).<span class="i">numberFormat</span>;
+
+   <span class="lc">// Display a value with the default number of decimal digits.</span>
+   <span class="k">int</span> <span class="i">n</span> = <span class="n">5678</span>;
+   <span class="i">Println</span>(<span class="i">Formatter</span>.<span class="i">format</span>(<span class="i">fmt</span>, <span class="sl">"{0:N}"</span>, <span class="i">n</span>));
+
+   <span class="lc">// Display the value with six decimal digits.</span>
+   <span class="i">fmt</span>.<span class="i">numberDecimalDigits</span> = <span class="n">6</span>;
+   <span class="i">Println</span>(<span class="i">Formatter</span>.<span class="i">format</span>(<span class="i">fmt</span>, <span class="sl">"{0:N}"</span>, <span class="i">n</span>));
+ }
+
+ <span class="lc">// Produces the following output:</span>
+ <span class="lc">// 5,678.00</span>
+ <span class="lc">// 5,678.000000</span>
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1134">numberNegativePattern</a></span>
+<script>explorer.outline.addDecl('numberNegativePattern');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the format pattern for negative numbers.
+ </font><br><br>
+<b>Returns:</b><br>
+The format pattern for negative numbers. For invariantFormat, the default is 1 &#40;representing "-n"&#41;.<br><br>
+<b>Remarks:</b><br>The following table shows valid values for this property.<br><br> <table class="definitionTable">
+ <tr><th>Value</th><th>Pattern</th></tr>
+ <tr><td>0</td><td>&#40;n&#41;</td></tr>
+ <tr><td>1</td><td>-n</td></tr>
+ <tr><td>2</td><td>- n</td></tr>
+ <tr><td>3</td><td>n-</td></tr>
+ <tr><td>4</td><td>n -</td></tr>
+ </table><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1168">numberNegativePattern</a></span>
+<script>explorer.outline.addDecl('numberNegativePattern');</script>(int <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the format pattern for negative numbers.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The format pattern for negative numbers.</td></tr></table><br>
+<b>Examples:</b><br>
+The following example shows the effect of the different patterns.
+ <pre class="d_code">
+
+ <span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">Print</span>, <span class="i">tango</span>.<span class="i">text</span>.<span class="i">locale</span>.<span class="i">Common</span>;
+
+ <span class="k">void</span> <span class="i">main</span>() {
+   <span class="i">NumberFormat</span> <span class="i">fmt</span> = <span class="k">new</span> <span class="i">NumberFormat</span>;
+   <span class="k">int</span> <span class="i">n</span> = -<span class="n">5678</span>;
+
+   <span class="lc">// Display the default pattern.</span>
+   <span class="i">Println</span>(<span class="i">Formatter</span>.<span class="i">format</span>(<span class="i">fmt</span>, <span class="sl">"{0:N}"</span>, <span class="i">n</span>));
+
+   <span class="lc">// Display all patterns.</span>
+   <span class="k">for</span> (<span class="k">int</span> <span class="i">i</span> = <span class="n">0</span>; <span class="i">i</span> &lt;= <span class="n">4</span>; <span class="i">i</span>++) {
+     <span class="i">fmt</span>.<span class="i">numberNegativePattern</span> = <span class="i">i</span>;
+     <span class="i">Println</span>(<span class="i">Formatter</span>.<span class="i">format</span>(<span class="i">fmt</span>, <span class="sl">"{0:N}"</span>, <span class="i">n</span>));
+   }
+ }
+
+ <span class="lc">// Produces the following output:</span>
+ <span class="lc">// (5,678.00)</span>
+ <span class="lc">// (5,678.00)</span>
+ <span class="lc">// -5,678.00</span>
+ <span class="lc">// - 5,678.00</span>
+ <span class="lc">// 5,678.00-</span>
+ <span class="lc">// 5,678.00 -</span>
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1177">currencyDecimalDigits</a></span>
+<script>explorer.outline.addDecl('currencyDecimalDigits');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the number of decimal places to use in currency values.
+ </font><br><br>
+<b>Returns:</b><br>
+The number of decimal digits to use in currency values.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1184">currencyDecimalDigits</a></span>
+<script>explorer.outline.addDecl('currencyDecimalDigits');</script>(int <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the number of decimal places to use in currency values.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The number of decimal digits to use in currency values.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1193">currencyNegativePattern</a></span>
+<script>explorer.outline.addDecl('currencyNegativePattern');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the formal pattern to use for negative currency values.
+ </font><br><br>
+<b>Returns:</b><br>
+The format pattern to use for negative currency values.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1200">currencyNegativePattern</a></span>
+<script>explorer.outline.addDecl('currencyNegativePattern');</script>(int <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the formal pattern to use for negative currency values.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The format pattern to use for negative currency values.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1209">currencyPositivePattern</a></span>
+<script>explorer.outline.addDecl('currencyPositivePattern');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the formal pattern to use for positive currency values.
+ </font><br><br>
+<b>Returns:</b><br>
+The format pattern to use for positive currency values.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1216">currencyPositivePattern</a></span>
+<script>explorer.outline.addDecl('currencyPositivePattern');</script>(int <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the formal pattern to use for positive currency values.
+ </font><br><br>
+<b>Returns:</b><br>
+The format pattern to use for positive currency values.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1225">numberGroupSizes</a></span>
+<script>explorer.outline.addDecl('numberGroupSizes');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the number of digits int each group to the left of the decimal place in numbers.
+ </font><br><br>
+<b>Returns:</b><br>
+The number of digits int each group to the left of the decimal place in numbers.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1232">numberGroupSizes</a></span>
+<script>explorer.outline.addDecl('numberGroupSizes');</script>(int[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the number of digits int each group to the left of the decimal place in numbers.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The number of digits int each group to the left of the decimal place in numbers.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1241">currencyGroupSizes</a></span>
+<script>explorer.outline.addDecl('currencyGroupSizes');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the number of digits int each group to the left of the decimal place in currency values.
+ </font><br><br>
+<b>Returns:</b><br>
+The number of digits int each group to the left of the decimal place in currency values.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1248">currencyGroupSizes</a></span>
+<script>explorer.outline.addDecl('currencyGroupSizes');</script>(int[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the number of digits int each group to the left of the decimal place in currency values.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The number of digits int each group to the left of the decimal place in currency values.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1257">numberGroupSeparator</a></span>
+<script>explorer.outline.addDecl('numberGroupSeparator');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the string separating groups of digits to the left of the decimal place in numbers.
+ </font><br><br>
+<b>Returns:</b><br>
+The string separating groups of digits to the left of the decimal place in numbers. For example, ",".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1264">numberGroupSeparator</a></span>
+<script>explorer.outline.addDecl('numberGroupSeparator');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the string separating groups of digits to the left of the decimal place in numbers.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The string separating groups of digits to the left of the decimal place in numbers.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1273">numberDecimalSeparator</a></span>
+<script>explorer.outline.addDecl('numberDecimalSeparator');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the string used as the decimal separator in numbers.
+ </font><br><br>
+<b>Returns:</b><br>
+The string used as the decimal separator in numbers. For example, ".".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1280">numberDecimalSeparator</a></span>
+<script>explorer.outline.addDecl('numberDecimalSeparator');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the string used as the decimal separator in numbers.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The string used as the decimal separator in numbers.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1289">currencyGroupSeparator</a></span>
+<script>explorer.outline.addDecl('currencyGroupSeparator');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the string separating groups of digits to the left of the decimal place in currency values.
+ </font><br><br>
+<b>Returns:</b><br>
+The string separating groups of digits to the left of the decimal place in currency values. For example, ",".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1296">currencyGroupSeparator</a></span>
+<script>explorer.outline.addDecl('currencyGroupSeparator');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the string separating groups of digits to the left of the decimal place in currency values.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The string separating groups of digits to the left of the decimal place in currency values.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1305">currencyDecimalSeparator</a></span>
+<script>explorer.outline.addDecl('currencyDecimalSeparator');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the string used as the decimal separator in currency values.
+ </font><br><br>
+<b>Returns:</b><br>
+The string used as the decimal separator in currency values. For example, ".".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1312">currencyDecimalSeparator</a></span>
+<script>explorer.outline.addDecl('currencyDecimalSeparator');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the string used as the decimal separator in currency values.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The string used as the decimal separator in currency values.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1321">currencySymbol</a></span>
+<script>explorer.outline.addDecl('currencySymbol');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the string used as the currency symbol.
+ </font><br><br>
+<b>Returns:</b><br>
+The string used as the currency symbol. For example, "£".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1328">currencySymbol</a></span>
+<script>explorer.outline.addDecl('currencySymbol');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the string used as the currency symbol.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The string used as the currency symbol.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1337">negativeSign</a></span>
+<script>explorer.outline.addDecl('negativeSign');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the string denoting that a number is negative.
+ </font><br><br>
+<b>Returns:</b><br>
+The string denoting that a number is negative. For example, "-".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1344">negativeSign</a></span>
+<script>explorer.outline.addDecl('negativeSign');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the string denoting that a number is negative.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The string denoting that a number is negative.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1353">positiveSign</a></span>
+<script>explorer.outline.addDecl('positiveSign');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the string denoting that a number is positive.
+ </font><br><br>
+<b>Returns:</b><br>
+The string denoting that a number is positive. For example, "+".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1360">positiveSign</a></span>
+<script>explorer.outline.addDecl('positiveSign');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the string denoting that a number is positive.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The string denoting that a number is positive.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1369">nanSymbol</a></span>
+<script>explorer.outline.addDecl('nanSymbol');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the string representing the NaN &#40;not a number&#41; value.
+ </font><br><br>
+<b>Returns:</b><br>
+The string representing the NaN value. For example, "NaN".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1376">nanSymbol</a></span>
+<script>explorer.outline.addDecl('nanSymbol');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the string representing the NaN &#40;not a number&#41; value.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The string representing the NaN value.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1385">negativeInfinitySymbol</a></span>
+<script>explorer.outline.addDecl('negativeInfinitySymbol');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the string representing negative infinity.
+ </font><br><br>
+<b>Returns:</b><br>
+The string representing negative infinity. For example, "-Infinity".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1392">negativeInfinitySymbol</a></span>
+<script>explorer.outline.addDecl('negativeInfinitySymbol');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the string representing negative infinity.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The string representing negative infinity.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1401">positiveInfinitySymbol</a></span>
+<script>explorer.outline.addDecl('positiveInfinitySymbol');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the string representing positive infinity.
+ </font><br><br>
+<b>Returns:</b><br>
+The string representing positive infinity. For example, "Infinity".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1408">positiveInfinitySymbol</a></span>
+<script>explorer.outline.addDecl('positiveInfinitySymbol');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the string representing positive infinity.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The string representing positive infinity.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1417">nativeDigits</a></span>
+<script>explorer.outline.addDecl('nativeDigits');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves a string array of native equivalents of the digits 0 to 9.
+ </font><br><br>
+<b>Returns:</b><br>
+A string array of native equivalents of the digits 0 to 9.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1424">nativeDigits</a></span>
+<script>explorer.outline.addDecl('nativeDigits');</script>(char[][] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns a string array of native equivalents of the digits 0 to 9.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>A string array of native equivalents of the digits 0 to 9.</td></tr></table><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1443">DateTimeFormat</a></span>
+<script>explorer.outline.addDecl('DateTimeFormat');</script> : IFormatService; [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Determines how <a href="#Time">Time</a> values are formatted, depending on the culture.
+ </font><br><br>
+<b>Remarks:</b><br>To create a DateTimeFormat for a specific culture, create a <a href="#Culture">Culture</a> for that culture and
+ retrieve its <a href="#Culture_dateTimeFormat">dateTimeFormat</a> property. To create a DateTimeFormat for the user's current 
+ culture, use the <a href="#Culture_current">current</a> property.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1488">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Initializes an instance that is writable and culture-independent.
+   </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Object <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1507">getFormat</a></span>
+<script>explorer.outline.addDecl('getFormat');</script>(TypeInfo <span class="funcparam">type</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Retrieves an object defining how to format the specified type.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">type</span></td><td>The TypeInfo of the resulting formatting object.</td></tr></table><br>
+<b>Returns:</b><br>
+If type is typeid&#40;DateTimeFormat&#41;, the current DateTimeFormat instance. Otherwise, null.<br><br>
+<b>Remarks:</b><br>Implements <a href="#IFormatService_getFormat">IFormatService.getFormat</a>.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1558">getAllDateTimePatterns</a></span>
+<script>explorer.outline.addDecl('getAllDateTimePatterns');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Retrieves the standard patterns in which Time values can be formatted.
+ </font><br><br>
+<b>Returns:</b><br>
+An array of strings containing the standard patterns in which Time values can be formatted.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1570">getAllDateTimePatterns</a></span>
+<script>explorer.outline.addDecl('getAllDateTimePatterns');</script>(char <span class="funcparam">format</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Retrieves the standard patterns in which Time values can be formatted using the specified format character.
+ </font><br><br>
+<b>Returns:</b><br>
+An array of strings containing the standard patterns in which Time values can be formatted using the specified format character.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1640">getAbbreviatedDayName</a></span>
+<script>explorer.outline.addDecl('getAbbreviatedDayName');</script>(Calendar.DayOfWeek <span class="funcparam">dayOfWeek</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Retrieves the abbreviated name of the specified day of the week based on the culture of the instance.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">dayOfWeek</span></td><td>A DayOfWeek value.</td></tr></table><br>
+<b>Returns:</b><br>
+The abbreviated name of the day of the week represented by dayOfWeek.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1650">getDayName</a></span>
+<script>explorer.outline.addDecl('getDayName');</script>(Calendar.DayOfWeek <span class="funcparam">dayOfWeek</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Retrieves the full name of the specified day of the week based on the culture of the instance.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">dayOfWeek</span></td><td>A DayOfWeek value.</td></tr></table><br>
+<b>Returns:</b><br>
+The full name of the day of the week represented by dayOfWeek.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1660">getAbbreviatedMonthName</a></span>
+<script>explorer.outline.addDecl('getAbbreviatedMonthName');</script>(int <span class="funcparam">month</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Retrieves the abbreviated name of the specified month based on the culture of the instance.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">month</span></td><td>An integer between 1 and 13 indicating the name of the _month to return.</td></tr></table><br>
+<b>Returns:</b><br>
+The abbreviated name of the _month represented by month.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1670">getMonthName</a></span>
+<script>explorer.outline.addDecl('getMonthName');</script>(int <span class="funcparam">month</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Retrieves the full name of the specified month based on the culture of the instance.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">month</span></td><td>An integer between 1 and 13 indicating the name of the _month to return.</td></tr></table><br>
+<b>Returns:</b><br>
+The full name of the _month represented by month.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>DateTimeFormat <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1682">getInstance</a></span>
+<script>explorer.outline.addDecl('getInstance');</script>(IFormatService <span class="funcparam">formatService</span>); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ Retrieves the DateTimeFormat for the specified IFormatService.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">formatService</span></td><td>The IFormatService used to retrieve DateTimeFormat.</td></tr></table><br>
+<b>Returns:</b><br>
+The DateTimeFormat for the specified IFormatService.<br><br>
+<b>Remarks:</b><br>The method calls <a href="#IFormatService_getFormat">IFormatService.getFormat</a> with typeof&#40;DateTimeFormat&#41;. If formatService is null,
+ then the value of the current property is returned.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>DateTimeFormat <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1703">current</a></span>
+<script>explorer.outline.addDecl('current');</script>(); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves a read-only DateTimeFormat instance from the current culture.
+ </font><br><br>
+<b>Returns:</b><br>
+A read-only DateTimeFormat instance from the current culture.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>DateTimeFormat <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1712">invariantFormat</a></span>
+<script>explorer.outline.addDecl('invariantFormat');</script>(); [public, static]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves a read-only DateTimeFormat instance that is culturally independent.
+ </font><br><br>
+<b>Returns:</b><br>
+A read-only DateTimeFormat instance that is culturally independent.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1726">isReadOnly</a></span>
+<script>explorer.outline.addDecl('isReadOnly');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves a value indicating whether the instance is read-only.
+ </font><br><br>
+<b>Returns:</b><br>
+true is the instance is read-only; otherwise, false.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Calendar <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1734">calendar</a></span>
+<script>explorer.outline.addDecl('calendar');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Retrieves the calendar used by the current culture.
+ </font><br><br>
+<b>Returns:</b><br>
+The Calendar determining the calendar used by the current culture. For example, the Gregorian.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1744">calendar</a></span>
+<script>explorer.outline.addDecl('calendar');</script>(Calendar <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Assigns the calendar to be used by the current culture.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The Calendar determining the calendar to be used by the current culture.</td></tr></table><br>
+<b>Exceptions:</b><br>If value is not valid for the current culture, an Exception is thrown.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Calendar.DayOfWeek <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1781">firstDayOfWeek</a></span>
+<script>explorer.outline.addDecl('firstDayOfWeek');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the first day of the week.
+ </font><br><br>
+<b>Returns:</b><br>
+A DayOfWeek value indicating the first day of the week.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1788">firstDayOfWeek</a></span>
+<script>explorer.outline.addDecl('firstDayOfWeek');</script>(Calendar.DayOfWeek <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the first day of the week.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">valie</span></td><td>A DayOfWeek value indicating the first day of the week.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Calendar.WeekRule <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1798">calendarWeekRule</a></span>
+<script>explorer.outline.addDecl('calendarWeekRule');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the _value indicating the rule used to determine the first week of the year.
+ </font><br><br>
+<b>Returns:</b><br>
+A CalendarWeekRule _value determining the first week of the year.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1805">calendarWeekRule</a></span>
+<script>explorer.outline.addDecl('calendarWeekRule');</script>(Calendar.WeekRule <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the _value indicating the rule used to determine the first week of the year.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>A CalendarWeekRule _value determining the first week of the year.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1815">nativeCalendarName</a></span>
+<script>explorer.outline.addDecl('nativeCalendarName');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the native name of the calendar associated with the current instance.
+ </font><br><br>
+<b>Returns:</b><br>
+The native name of the calendar associated with the current instance.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1824">dateSeparator</a></span>
+<script>explorer.outline.addDecl('dateSeparator');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the string separating date components.
+ </font><br><br>
+<b>Returns:</b><br>
+The string separating date components.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1833">dateSeparator</a></span>
+<script>explorer.outline.addDecl('dateSeparator');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the string separating date components.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The string separating date components.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1843">timeSeparator</a></span>
+<script>explorer.outline.addDecl('timeSeparator');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the string separating time components.
+ </font><br><br>
+<b>Returns:</b><br>
+The string separating time components.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1852">timeSeparator</a></span>
+<script>explorer.outline.addDecl('timeSeparator');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the string separating time components.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The string separating time components.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1862">amDesignator</a></span>
+<script>explorer.outline.addDecl('amDesignator');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the string designator for hours before noon.
+ </font><br><br>
+<b>Returns:</b><br>
+The string designator for hours before noon. For example, "AM".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1870">amDesignator</a></span>
+<script>explorer.outline.addDecl('amDesignator');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the string designator for hours before noon.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The string designator for hours before noon.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1880">pmDesignator</a></span>
+<script>explorer.outline.addDecl('pmDesignator');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the string designator for hours after noon.
+ </font><br><br>
+<b>Returns:</b><br>
+The string designator for hours after noon. For example, "PM".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1888">pmDesignator</a></span>
+<script>explorer.outline.addDecl('pmDesignator');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the string designator for hours after noon.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The string designator for hours after noon.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1898">shortDatePattern</a></span>
+<script>explorer.outline.addDecl('shortDatePattern');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the format pattern for a short date value.
+ </font><br><br>
+<b>Returns:</b><br>
+The format pattern for a short date value.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1906">shortDatePattern</a></span>
+<script>explorer.outline.addDecl('shortDatePattern');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the format pattern for a short date _value.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The format pattern for a short date _value.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1920">shortTimePattern</a></span>
+<script>explorer.outline.addDecl('shortTimePattern');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the format pattern for a short time value.
+ </font><br><br>
+<b>Returns:</b><br>
+The format pattern for a short time value.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1929">shortTimePattern</a></span>
+<script>explorer.outline.addDecl('shortTimePattern');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the format pattern for a short time _value.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The format pattern for a short time _value.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1940">longDatePattern</a></span>
+<script>explorer.outline.addDecl('longDatePattern');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the format pattern for a long date value.
+ </font><br><br>
+<b>Returns:</b><br>
+The format pattern for a long date value.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1948">longDatePattern</a></span>
+<script>explorer.outline.addDecl('longDatePattern');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the format pattern for a long date _value.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The format pattern for a long date _value.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1961">longTimePattern</a></span>
+<script>explorer.outline.addDecl('longTimePattern');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the format pattern for a long time value.
+ </font><br><br>
+<b>Returns:</b><br>
+The format pattern for a long time value.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1969">longTimePattern</a></span>
+<script>explorer.outline.addDecl('longTimePattern');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the format pattern for a long time _value.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The format pattern for a long time _value.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1980">monthDayPattern</a></span>
+<script>explorer.outline.addDecl('monthDayPattern');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the format pattern for a month and day value.
+ </font><br><br>
+<b>Returns:</b><br>
+The format pattern for a month and day value.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1989">monthDayPattern</a></span>
+<script>explorer.outline.addDecl('monthDayPattern');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the format pattern for a month and day _value.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The format pattern for a month and day _value.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L1999">yearMonthPattern</a></span>
+<script>explorer.outline.addDecl('yearMonthPattern');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the format pattern for a year and month value.
+ </font><br><br>
+<b>Returns:</b><br>
+The format pattern for a year and month value.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L2007">yearMonthPattern</a></span>
+<script>explorer.outline.addDecl('yearMonthPattern');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the format pattern for a year and month _value.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The format pattern for a year and month _value.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L2018">abbreviatedDayNames</a></span>
+<script>explorer.outline.addDecl('abbreviatedDayNames');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves a string array containing the abbreviated names of the days of the week.
+ </font><br><br>
+<b>Returns:</b><br>
+A string array containing the abbreviated names of the days of the week. For <a href="#DateTimeFormat_invariantFormat">invariantFormat</a>,
+   this contains "Sun", "Mon", "Tue", "Wed", "Thu", "Fri" and "Sat".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L2027">abbreviatedDayNames</a></span>
+<script>explorer.outline.addDecl('abbreviatedDayNames');</script>(char[][] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns a string array containing the abbreviated names of the days of the week.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>A string array containing the abbreviated names of the days of the week.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L2038">dayNames</a></span>
+<script>explorer.outline.addDecl('dayNames');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves a string array containing the full names of the days of the week.
+ </font><br><br>
+<b>Returns:</b><br>
+A string array containing the full names of the days of the week. For <a href="#DateTimeFormat_invariantFormat">invariantFormat</a>,
+   this contains "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" and "Saturday".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L2047">dayNames</a></span>
+<script>explorer.outline.addDecl('dayNames');</script>(char[][] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns a string array containing the full names of the days of the week.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>A string array containing the full names of the days of the week.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L2058">abbreviatedMonthNames</a></span>
+<script>explorer.outline.addDecl('abbreviatedMonthNames');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves a string array containing the abbreviated names of the months.
+ </font><br><br>
+<b>Returns:</b><br>
+A string array containing the abbreviated names of the months. For <a href="#DateTimeFormat_invariantFormat">invariantFormat</a>,
+   this contains "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" and "".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L2067">abbreviatedMonthNames</a></span>
+<script>explorer.outline.addDecl('abbreviatedMonthNames');</script>(char[][] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns a string array containing the abbreviated names of the months.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>A string array containing the abbreviated names of the months.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[][] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L2078">monthNames</a></span>
+<script>explorer.outline.addDecl('monthNames');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves a string array containing the full names of the months.
+ </font><br><br>
+<b>Returns:</b><br>
+A string array containing the full names of the months. For <a href="#DateTimeFormat_invariantFormat">invariantFormat</a>,
+   this contains "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" and "".<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L2087">monthNames</a></span>
+<script>explorer.outline.addDecl('monthNames');</script>(char[][] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns a string array containing the full names of the months.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>A string array containing the full names of the months.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L2097">fullDateTimePattern</a></span>
+<script>explorer.outline.addDecl('fullDateTimePattern');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the format pattern for a long date and a long time value.
+ </font><br><br>
+<b>Returns:</b><br>
+The format pattern for a long date and a long time value.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L2106">fullDateTimePattern</a></span>
+<script>explorer.outline.addDecl('fullDateTimePattern');</script>(char[] <span class="funcparam">value</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"><i>Property.</i> Assigns the format pattern for a long date and a long time _value.
+ </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">value</span></td><td>The format pattern for a long date and a long time _value.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L2116">rfc1123Pattern</a></span>
+<script>explorer.outline.addDecl('rfc1123Pattern');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the format pattern based on the IETF RFC 1123 specification, for a time value.
+ </font><br><br>
+<b>Returns:</b><br>
+The format pattern based on the IETF RFC 1123 specification, for a time value.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L2125">sortableDateTimePattern</a></span>
+<script>explorer.outline.addDecl('sortableDateTimePattern');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the format pattern for a sortable date and time value.
+ </font><br><br>
+<b>Returns:</b><br>
+The format pattern for a sortable date and time value.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/locale/Core.d?rev=3461#L2134">universalSortableDateTimePattern</a></span>
+<script>explorer.outline.addDecl('universalSortableDateTimePattern');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">
+ <i>Property.</i> Retrieves the format pattern for a universal date and time value.
+ </font><br><br>
+<b>Returns:</b><br>
+The format pattern for a universal date and time value.<br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2005 John Chapman. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:56 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

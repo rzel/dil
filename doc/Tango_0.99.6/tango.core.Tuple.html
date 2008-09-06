@@ -1,0 +1,169 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.core.Tuple</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.core.Tuple");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Tuple.d?rev=3461">tango.core.Tuple</a></h1>
+                
+<font color="black">The tuple module defines a template struct used for arbitrary data grouping.</font><br><br>
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Authors:</b><br>
+Walter Bright, Sean Kelly<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>template <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Tuple.d?rev=3461#L69">Tuple</a></span>
+<script>explorer.outline.addDecl('Tuple');</script>( TList... );</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A Tuple is a an aggregate of typed values.  Tuples are useful for returning
+ a set of values from a function or for passing a set of parameters to a
+ function.</font><br><br>
+<b>NOTE:</b><br>Since the transition from user-defined to built-in tuples, the ability
+       to return tuples from a function has been lost.  Until this issue is
+       addressed within the language, tuples must be enclosed in a struct
+       if they are to be returned from a function.<br><br>
+<b>Example:</b><br><pre class="d_code">
+
+
+ <span class="k">alias</span> <span class="i">Tuple</span>!(<span class="k">int</span>, <span class="k">real</span>) <span class="i">T1</span>;
+ <span class="k">alias</span> <span class="i">Tuple</span>!(<span class="k">int</span>, <span class="k">long</span>) <span class="i">T2</span>;
+ <span class="k">struct</span> <span class="i">Wrap</span>( <span class="i">Vals</span>... )
+ {
+     <span class="i">Vals</span> <span class="i">val</span>;
+ }
+
+ <span class="i">Wrap</span>!(<span class="i">T2</span>) <span class="i">func</span>( <span class="i">T1</span> <span class="i">val</span> )
+ {
+     <span class="i">Wrap</span>!(<span class="i">T2</span>) <span class="i">ret</span>;
+     <span class="i">ret</span>.<span class="i">val</span>[<span class="n">0</span>] = <span class="i">val</span>[<span class="n">0</span>];
+     <span class="i">ret</span>.<span class="i">val</span>[<span class="n">1</span>] = <span class="i">val</span>[<span class="n">0</span>] * <span class="k">cast</span>(<span class="k">long</span>) <span class="i">val</span>[<span class="n">1</span>];
+     <span class="k">return</span> <span class="i">ret</span>;
+ }
+
+ 
+</pre><br><br> This is the original tuple example, and demonstates what should be possible
+ with tuples.  Hopefully, language support will be added for this feature
+ soon.<br><br>
+<b>Example:</b><br><pre class="d_code">
+
+
+ <span class="k">alias</span> <span class="i">Tuple</span>!(<span class="k">int</span>, <span class="k">real</span>) <span class="i">T1</span>;
+ <span class="k">alias</span> <span class="i">Tuple</span>!(<span class="k">int</span>, <span class="k">long</span>) <span class="i">T2</span>;
+
+ <span class="i">T2</span> <span class="i">func</span>( <span class="i">T1</span> <span class="i">val</span> )
+ {
+     <span class="i">T2</span> <span class="i">ret</span>;
+     <span class="i">ret</span>[<span class="n">0</span>] = <span class="i">val</span>[<span class="n">0</span>];
+     <span class="i">ret</span>[<span class="n">1</span>] = <span class="i">val</span>[<span class="n">0</span>] * <span class="k">cast</span>(<span class="k">long</span>) <span class="i">val</span>[<span class="n">1</span>];
+     <span class="k">return</span> <span class="i">ret</span>;
+ }
+
+
+ <span class="lc">// tuples may be composed</span>
+ <span class="k">alias</span> <span class="i">Tuple</span>!(<span class="k">int</span>) <span class="i">IntTuple</span>;
+ <span class="k">alias</span> <span class="i">Tuple</span>!(<span class="i">IntTuple</span>, <span class="k">long</span>) <span class="i">RetTuple</span>;
+
+ <span class="lc">// tuples are equivalent to a set of function parameters of the same type</span>
+ <span class="i">RetTuple</span> <span class="i">t</span> = <span class="i">func</span>( <span class="n">1</span>, <span class="n">2.3</span> );
+
+ 
+</pre><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>template <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Tuple.d?rev=3461#L79">IndexOf</a></span>
+<script>explorer.outline.addDecl('IndexOf');</script>( T, TList... );</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the index of the first occurrence of T in TList or Tlist.length if
+ not found.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>template <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Tuple.d?rev=3461#L93">Remove</a></span>
+<script>explorer.outline.addDecl('Remove');</script>( T, TList... );</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a Tuple with the first occurrence of T removed from TList.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>template <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Tuple.d?rev=3461#L107">RemoveAll</a></span>
+<script>explorer.outline.addDecl('RemoveAll');</script>( T, TList... );</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a Tuple with all occurrences of T removed from TList.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>template <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Tuple.d?rev=3461#L121">Replace</a></span>
+<script>explorer.outline.addDecl('Replace');</script>( T, U, TList... );</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a Tuple with the first offuccrence of T replaced with U.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>template <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Tuple.d?rev=3461#L135">ReplaceAll</a></span>
+<script>explorer.outline.addDecl('ReplaceAll');</script>( T, U, TList... );</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a Tuple with all occurrences of T replaced with U.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>template <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Tuple.d?rev=3461#L149">Reverse</a></span>
+<script>explorer.outline.addDecl('Reverse');</script>( TList... );</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a Tuple with the types from TList declared in reverse order.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>template <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Tuple.d?rev=3461#L161">Unique</a></span>
+<script>explorer.outline.addDecl('Unique');</script>( TList... );</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a Tuple with all duplicate types removed.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>template <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Tuple.d?rev=3461#L176">MostDerived</a></span>
+<script>explorer.outline.addDecl('MostDerived');</script>( T, TList... );</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the type from TList that is the most derived from T.  If no such
+ type is found then T will be returned.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>template <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/core/Tuple.d?rev=3461#L191">DerivedToFront</a></span>
+<script>explorer.outline.addDecl('DerivedToFront');</script>( TList... );</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns a Tuple with the types sorted so that the most derived types are
+ ordered before the remaining types.
+ </font><br><br>
+</dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (C) 2005-2006 Sean Kelly.  All rights reserved. :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:54 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

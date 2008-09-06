@@ -1,0 +1,255 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.text.convert.Integer</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.text.convert.Integer");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461">tango.text.convert.Integer</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: Nov 2005<br><br>
+<b>author:</b><br>Kris<br><br>        A set of functions for converting between string and integer 
+        values. <br><br>        Applying the D "import alias" mechanism to this module is highly
+        recommended, in order to limit namespace pollution:
+        <pre class="d_code">
+
+        <span class="k">import</span> <span class="i">Integer</span> = <span class="i">tango</span>.<span class="i">text</span>.<span class="i">convert</span>.<span class="i">Integer</span>;
+
+        <span class="k">auto</span> <span class="i">i</span> = <span class="i">Integer</span>.<span class="i">parse</span> (<span class="sl">"32767"</span>);
+        
+</pre><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L34">Style</a></span>
+<script>explorer.outline.addDecl('Style');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Style identifiers </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L36">Signed</a></span>
+<script>explorer.outline.addDecl('Signed');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">signed decimal</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L37">Binary</a></span>
+<script>explorer.outline.addDecl('Binary');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">binary output</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L38">Octal</a></span>
+<script>explorer.outline.addDecl('Octal');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">octal output</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L39">Hex</a></span>
+<script>explorer.outline.addDecl('Hex');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">lowercase hexadecimal</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L40">HexUpper</a></span>
+<script>explorer.outline.addDecl('HexUpper');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">uppercase hexadecimal</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L41">Unsigned</a></span>
+<script>explorer.outline.addDecl('Unsigned');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">unsigned integer</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L50">Flags</a></span>
+<script>explorer.outline.addDecl('Flags');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Style flags </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L52">None</a></span>
+<script>explorer.outline.addDecl('None');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">no flags</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L53">Prefix</a></span>
+<script>explorer.outline.addDecl('Prefix');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">prefix value with type</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L54">Zero</a></span>
+<script>explorer.outline.addDecl('Zero');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">prefix value with zeroes</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L55">Plus</a></span>
+<script>explorer.outline.addDecl('Plus');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">prefix decimal with '+'</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L56">Space</a></span>
+<script>explorer.outline.addDecl('Space');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">prefix decimal with space</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L57">Throw</a></span>
+<script>explorer.outline.addDecl('Throw');</script></li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">throw on output truncation</font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L74">toInt</a></span>
+<script>explorer.outline.addDecl('toInt');</script>(T, U=uint)(T[] <span class="funcparam">digits</span>, U <span class="funcparam">radix</span> = 0);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse an integer value from the provided 'digits' string. </font><br><br>
+<font color="black">The string is inspected for a sign and an optional radix 
+        prefix. A radix may be provided as an argument instead, 
+        whereupon it must match the prefix &#40;where present&#41;. When
+        radix is set to zero, conversion will default to decimal.<br><br>        Throws an exception where the input text is not parsable
+        in its entirety.
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L99">toLong</a></span>
+<script>explorer.outline.addDecl('toLong');</script>(T, U=uint)(T[] <span class="funcparam">digits</span>, U <span class="funcparam">radix</span> = 0);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse an integer value from the provided 'digits' string.       
+        
+        The string is inspected for a sign and an optional radix 
+        prefix. A radix may be provided as an argument instead, 
+        whereupon it must match the prefix &#40;where present&#41;. When
+        radix is set to zero, conversion will default to decimal.</font><br><br>
+<font color="black">Throws an exception where the input text is not parsable
+        in its entirety.
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L121">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(long <span class="funcparam">i</span>, Style <span class="funcparam">t</span> = Style.Signed, Flags <span class="funcparam">f</span> = Flags.None);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Template wrapper to make life simpler. Returns a text version
+        of the provided value.</font><br><br>
+<font color="black">See format&#40;&#41; for details<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>wchar[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L137">toString16</a></span>
+<script>explorer.outline.addDecl('toString16');</script>(long <span class="funcparam">i</span>, Style <span class="funcparam">t</span> = Style.Signed, Flags <span class="funcparam">f</span> = Flags.None);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Template wrapper to make life simpler. Returns a text version
+        of the provided value.</font><br><br>
+<font color="black">See format&#40;&#41; for details<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>dchar[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L153">toString32</a></span>
+<script>explorer.outline.addDecl('toString32');</script>(long <span class="funcparam">i</span>, Style <span class="funcparam">t</span> = Style.Signed, Flags <span class="funcparam">f</span> = Flags.None);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Template wrapper to make life simpler. Returns a text version
+        of the provided value.</font><br><br>
+<font color="black">See format&#40;&#41; for details<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L186">format</a></span>
+<script>explorer.outline.addDecl('format');</script>(T, U=long)(T[] <span class="funcparam">dst</span>, U <span class="funcparam">i</span>, Style <span class="funcparam">fmt</span> = Style.Signed, Flags <span class="funcparam">flags</span> = Flags.None);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Style numeric values into the provided output buffer. The
+        following types are supported:</font><br><br>
+<font color="black">Unsigned        - unsigned decimal
+        Signed          - signed decimal
+        Octal           - octal
+        Hex             - lowercase hexadecimal
+        HexUpper        - uppercase hexadecimal
+        Binary          - binary<br><br>        Modifiers supported include:<br><br>        Prefix          - prefix the conversion with a type identifier
+        Plus            - prefix positive decimals with a '+'
+        Space           - prefix positive decimals with one space
+        Zero            - left-pad the number with zeros
+        Throw           - throw an exception when output would be truncated<br><br>        The provided 'dst' buffer should be sufficiently large
+        enough to house the output. A 64-element array is often
+        the maximum required &#40;for a padded binary 64-bit string&#41;<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>long <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L317">parse</a></span>
+<script>explorer.outline.addDecl('parse');</script>(T, U=uint)(T[] <span class="funcparam">digits</span>, U <span class="funcparam">radix</span> = 0, uint* <span class="funcparam">ate</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Parse an integer value from the provided 'digits' string. </font><br><br>
+<font color="black">The string is inspected for a sign and an optional radix 
+        prefix. A radix may be provided as an argument instead, 
+        whereupon it must match the prefix &#40;where present&#41;. When
+        radix is set to zero, conversion will default to decimal.<br><br>        A non-null 'ate' will return the number of characters used
+        to construct the returned value.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ulong <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L344">convert</a></span>
+<script>explorer.outline.addDecl('convert');</script>(T, U=uint)(T[] <span class="funcparam">digits</span>, U <span class="funcparam">radix</span> = 10, uint* <span class="funcparam">ate</span> = null);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Convert the provided 'digits' into an integer value,
+        without checking for a sign or radix. The radix defaults
+        to decimal &#40;10&#41;.</font><br><br>
+<font color="black">Returns the value and updates 'ate' with the number of
+        characters consumed.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L394">trim</a></span>
+<script>explorer.outline.addDecl('trim');</script>(T, U=uint)(T[] <span class="funcparam">digits</span>, inout bool <span class="funcparam">sign</span>, inout U <span class="funcparam">radix</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Strip leading whitespace, extract an optional +/- sign,
+        and an optional radix prefix. If the radix value matches
+        an optional prefix, or the radix is zero, the prefix will
+        be consumed and assigned. Where the radix is non zero and
+        does not match an explicit prefix, the latter will remain 
+        unconsumed. Otherwise, radix will default to 10.</font><br><br>
+<font color="black">Returns the number of characters consumed.<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L468">atoi</a></span>
+<script>explorer.outline.addDecl('atoi');</script>(T)(T[] <span class="funcparam">s</span>, int <span class="funcparam">radix</span> = 10);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">quick &amp; dirty text-to-unsigned int converter. Use only when you
+        know what the content is, or use parse&#40;&#41; or convert&#40;&#41; instead.</font><br><br>
+<font color="black">Return the parsed uint
+        
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/text/convert/Integer.d?rev=3461#L491">itoa</a></span>
+<script>explorer.outline.addDecl('itoa');</script>(T, U=uint)(T[] <span class="funcparam">output</span>, U <span class="funcparam">value</span>, int <span class="funcparam">radix</span> = 10);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">quick &amp; dirty unsigned to text converter, where the provided output
+        must be large enough to house the result &#40;10 digits in the largest
+        case&#41;. For mainstream use, consider utilizing format&#40;&#41; instead.</font><br><br>
+<font color="black">Returns a populated slice of the provided output
+        
+</font><br><br></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:57 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

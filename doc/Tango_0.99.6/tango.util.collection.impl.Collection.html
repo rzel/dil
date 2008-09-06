@@ -1,0 +1,378 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.collection.impl.Collection</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.collection.impl.Collection");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461">tango.util.collection.impl.Collection</a></h1>
+                
+<b>File:</b><br>Collection.d<br><br>        Originally written by Doug Lea and released into the public domain. 
+        Thanks for the assistance and support of Sun Microsystems Labs, Agorics 
+        Inc, Loral, and everyone contributing, testing, and using this code.<br><br>
+<b>History:</b><br>
+Date     Who                What
+        24Sep95  dl@cs.oswego.edu   Create from tango.util.collection.d  working file
+        13Oct95  dl                 Add assert
+        22Oct95  dl                 Add excludeElements, removeElements
+        28jan97  dl                 make class public; isolate version changes
+        14Dec06  kb                 Adapted for Tango usage<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L37">Collection</a></span>
+<script>explorer.outline.addDecl('Collection');</script>(T) : Dispenser!(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Collection serves as a convenient base class for most implementations
+        of mutable containers. It maintains a version number and element count.
+        It also provides default implementations of many collection operations. </font><br><br>
+<b>Authors:</b><br>
+Doug Lea<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L52">vershion</a></span>
+<script>explorer.outline.addDecl('vershion');</script>; [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">version represents the current version number</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Predicate <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L60">screener</a></span>
+<script>explorer.outline.addDecl('screener');</script>; [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">screener hold the supplied element screener</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L68">count</a></span>
+<script>explorer.outline.addDecl('count');</script>; [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">count holds the number of elements.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L78">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(Predicate <span class="funcparam">screener</span> = null); [protected]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initialize at version 0, an empty count, and supplied screener</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L88">isValidArg</a></span>
+<script>explorer.outline.addDecl('isValidArg');</script>(T <span class="funcparam">element</span>); [protected, static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L106">toArray</a></span>
+<script>explorer.outline.addDecl('toArray');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">expose collection content as an array</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L124">drained</a></span>
+<script>explorer.outline.addDecl('drained');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;1&#41;.
+                </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.drained<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L137">size</a></span>
+<script>explorer.outline.addDecl('size');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;1&#41;.
+                </font><br><br>
+<b>Returns:</b><br>
+the count of elements currently in the collection<br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.size<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L154">allows</a></span>
+<script>explorer.outline.addDecl('allows');</script>(T <span class="funcparam">element</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Checks if element is an allowed element for this collection.
+                This will not throw an exception, but any other attemp to add an
+                invalid element will do.</font><br><br>
+<font color="black">Time complexity: O&#40;1&#41; + time of screener, if present<br><br>                </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.allows<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L176">matches</a></span>
+<script>explorer.outline.addDecl('matches');</script>(ViewT <span class="funcparam">other</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;n&#41;.
+                Default implementation. Fairly sleazy approach.
+                &#40;Defensible only when you remember that it is just a default impl.&#41;
+                It tries to cast to one of the known collection interface types
+                and then applies the corresponding comparison rules.
+                This suffices for all currently supported collection types,
+                but must be overridden if you define new Collection subinterfaces
+                and/or implementations.</font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.matches<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L224">mutation</a></span>
+<script>explorer.outline.addDecl('mutation');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Time complexity: O&#40;1&#41;.
+                </font><br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.version<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L243">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [public, override]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Default implementation of toString for Collections. Not
+                very pretty, but parenthesizing each element means that
+                for most kinds of elements, it's conceivable that the
+                strings could be parsed and used to build other tango.util.collection.</font><br><br>
+<font color="black">Not a very pretty implementation either. Casts are used
+                to get at elements/keys<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L255">itoa</a></span>
+<script>explorer.outline.addDecl('itoa');</script>(char[] <span class="funcparam">buf</span>, uint <span class="funcparam">i</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L273">incVersion</a></span>
+<script>explorer.outline.addDecl('incVersion');</script>(); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">change the version number</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L285">incCount</a></span>
+<script>explorer.outline.addDecl('incCount');</script>(); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Increment the element count and update version</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L297">decCount</a></span>
+<script>explorer.outline.addDecl('decCount');</script>(); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Decrement the element count and update version</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L310">addToCount</a></span>
+<script>explorer.outline.addDecl('addToCount');</script>(uint <span class="funcparam">c</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">add to the element count and update version if changed</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L326">setCount</a></span>
+<script>explorer.outline.addDecl('setCount');</script>(uint <span class="funcparam">c</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">set the element count and update version if changed</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L342">sameInclusions</a></span>
+<script>explorer.outline.addDecl('sameInclusions');</script>(ViewT <span class="funcparam">s</span>, ViewT <span class="funcparam">t</span>); [public, static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Helper method left public since it might be useful</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L367">sameOccurrences</a></span>
+<script>explorer.outline.addDecl('sameOccurrences');</script>(ViewT <span class="funcparam">s</span>, ViewT <span class="funcparam">t</span>); [public, static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Helper method left public since it might be useful</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L400">sameOrderedElements</a></span>
+<script>explorer.outline.addDecl('sameOrderedElements');</script>(ViewT <span class="funcparam">s</span>, ViewT <span class="funcparam">t</span>); [public, static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Helper method left public since it might be useful</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L433">checkIndex</a></span>
+<script>explorer.outline.addDecl('checkIndex');</script>(int <span class="funcparam">index</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Principal method to throw a NoSuchElementException.
+                Besides index checks in Seqs, you can use it to check for
+                operations on empty collections via checkIndex&#40;0&#41;</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L457">checkElement</a></span>
+<script>explorer.outline.addDecl('checkElement');</script>(T <span class="funcparam">element</span>); [protected, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Principal method to throw a IllegalElementException</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L471">checkImplementation</a></span>
+<script>explorer.outline.addDecl('checkImplementation');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<b>See Also:</b><br>
+tango.util.collection.model.View.View.checkImplementation<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L483">clear</a></span>
+<script>explorer.outline.addDecl('clear');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Cause the collection to become empty. </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L500">removeAll</a></span>
+<script>explorer.outline.addDecl('removeAll');</script>(T <span class="funcparam">element</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Exclude all occurrences of the indicated element from the collection. 
+                No effect if element not present.
+                </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">element</span></td><td>the element to exclude.
+                ---
+                !has(element) &&
+                size() == PREV(this).size() - PREV(this).instances(element) &&
+                no other element changes &&
+                Version change iff PREV(this).has(element)
+                ---</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L518">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(T <span class="funcparam">element</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove an instance of the indicated element from the collection. 
+                No effect if !has&#40;element&#41;
+                </font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">element</span></td><td>the element to remove
+                ---
+                let occ = max(1, instances(element)) in
+                 size() == PREV(this).size() - occ &&
+                 instances(element) == PREV(this).instances(element) - occ &&
+                 no other element changes &&
+                 version change iff occ == 1
+                ---</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L542">replace</a></span>
+<script>explorer.outline.addDecl('replace');</script>(T <span class="funcparam">oldElement</span>, T <span class="funcparam">newElement</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Replace an occurrence of oldElement with newElement.
+                No effect if does not hold oldElement or if oldElement.equals&#40;newElement&#41;.
+                The operation has a consistent, but slightly special interpretation
+                when applied to Sets. For Sets, because elements occur at
+                most once, if newElement is already included, replacing oldElement with
+                with newElement has the same effect as just removing oldElement.
+                <pre class="d_code">
+
+                <span class="i">let</span> <span class="k">int</span> <span class="i">delta</span> = <span class="i">oldElement</span>.<span class="i">equals</span>(<span class="i">newElement</span>)? <span class="n">0</span> : 
+                              <span class="i">max</span>(<span class="n">1</span>, <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) <span class="k">in</span>
+                 <span class="i">instances</span>(<span class="i">oldElement</span>) == <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) - <span class="i">delta</span> &amp;&amp;
+                 <span class="i">instances</span>(<span class="i">newElement</span>) ==  (<span class="k">this</span> <span class="i">instanceof</span> <span class="i">Set</span>) ? 
+                        <span class="i">max</span>(<span class="n">1</span>, <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) + <span class="i">delta</span>):
+                               <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) + <span class="i">delta</span>) &amp;&amp;
+                 <span class="i">no</span> <span class="i">other</span> <span class="i">element</span> <span class="i">changes</span> &amp;&amp;
+                 <span class="i">Version</span> <span class="i">change</span> <span class="i">iff</span> <span class="i">delta</span> != <span class="n">0</span>
+                
+</pre>
+                </font><br><br>
+<b>Throws:</b><br>
+IllegalElementException if has&#40;oldElement&#41; and !allows&#40;newElement&#41;<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L566">replaceAll</a></span>
+<script>explorer.outline.addDecl('replaceAll');</script>(T <span class="funcparam">oldElement</span>, T <span class="funcparam">newElement</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Replace all occurrences of oldElement with newElement.
+                No effect if does not hold oldElement or if oldElement.equals&#40;newElement&#41;.
+                The operation has a consistent, but slightly special interpretation
+                when applied to Sets. For Sets, because elements occur at
+                most once, if newElement is already included, replacing oldElement with
+                with newElement has the same effect as just removing oldElement.
+                <pre class="d_code">
+
+                <span class="i">let</span> <span class="k">int</span> <span class="i">delta</span> = <span class="i">oldElement</span>.<span class="i">equals</span>(<span class="i">newElement</span>)? <span class="n">0</span> : 
+                           <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) <span class="k">in</span>
+                 <span class="i">instances</span>(<span class="i">oldElement</span>) == <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) - <span class="i">delta</span> &amp;&amp;
+                 <span class="i">instances</span>(<span class="i">newElement</span>) ==  (<span class="k">this</span> <span class="i">instanceof</span> <span class="i">Set</span>) ? 
+                        <span class="i">max</span>(<span class="n">1</span>, <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) + <span class="i">delta</span>):
+                               <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) + <span class="i">delta</span></pre> &amp;&amp;
+                 <span class="i">no</span> <span class="i">other</span> <span class="i">element</span> <span class="i">changes</span> &amp;&amp;
+                 <span class="i">Version</span> <span class="i">change</span> <span class="i">iff</span> <span class="i">delta</span> != <span class="n">0</span>
+                
+</font><br><br>
+                
+<b>Throws:</b><br>
+IllegalElementException if has&#40;oldElement&#41; and !allows&#40;newElement&#41;<br><br></dd></dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L585">removeAll</a></span>
+<script>explorer.outline.addDecl('removeAll');</script>(Iterator!(T) <span class="funcparam">e</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Exclude all occurrences of each element of the Iterator.
+                Behaviorally equivalent to
+                <pre class="d_code">
+
+                <span class="k">while</span> (<span class="i">e</span>.<span class="i">more</span>())
+                  <span class="i">removeAll</span>(<span class="i">e</span>.<span class="i">get</span>());
+                
+</pre>
+                Param :
+                    e = the enumeration of elements to exclude.</font><br><br>
+<b>Throws:</b><br>
+CorruptedIteratorException is propagated if thrown<br><br>
+<b>See Also:</b><br>
+tango.util.collection.impl.Collection.Collection.removeAll<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L604">remove</a></span>
+<script>explorer.outline.addDecl('remove');</script>(Iterator!(T) <span class="funcparam">e</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove an occurrence of each element of the Iterator.
+                 Behaviorally equivalent to</font><br><br>
+<font color="black"><pre class="d_code">
+
+                 <span class="k">while</span> (<span class="i">e</span>.<span class="i">more</span>())
+                    <span class="i">remove</span> (<span class="i">e</span>.<span class="i">get</span>());
+                 
+</pre><br><br>                 </font><br><br>
+<b>Param:</b><br>e = the enumeration of elements to remove.<br><br>
+<b>Throws:</b><br>
+CorruptedIteratorException is propagated if thrown<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>T <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/Collection.d?rev=3461#L628">take</a></span>
+<script>explorer.outline.addDecl('take');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove and return an element.  Implementations
+                may strengthen the guarantee about the nature of this element.
+                but in general it is the most convenient or efficient element to remove.</font><br><br>
+<b>Examples:</b><br>
+One way to transfer all elements from 
+                MutableCollection a to MutableBag b is:
+                <pre class="d_code">
+
+                <span class="k">while</span> (!<span class="i">a</span>.<span class="i">empty</span>())
+                    <span class="i">b</span>.<span class="i">add</span>(<span class="i">a</span>.<span class="i">take</span>());
+                
+</pre><br><br>
+<b>Returns:</b><br>
+an element v such that PREV&#40;this&#41;.has&#40;v&#41; 
+                    and the postconditions of removeOneOf&#40;v&#41; hold.<br><br>
+<b>Throws:</b><br>
+NoSuchElementException iff drained.<br><br></dd></dd></dl>)</td></tr>
+                <tr><td id="docfooter">
+                         :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:54 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

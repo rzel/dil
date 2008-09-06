@@ -1,0 +1,129 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.net.model.UriView</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.net.model.UriView");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/model/UriView.d?rev=3461">tango.net.model.UriView</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Initial release: April 2004<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/model/UriView.d?rev=3461#L34">UriView</a></span>
+<script>explorer.outline.addDecl('UriView');</script>; [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Implements an RFC 2396 compliant URI specification. See 
+        <A HREF="http://ftp.ics.uci.edu/pub/ietf/uri/rfc2396.txt">this page</A>
+        for more information. </font><br><br>
+<font color="black">The implementation fails the spec on two counts: it doesn't insist
+        on a scheme being present in the UriView, and it doesn't implement the
+        "Relative References" support noted in section 5.2. 
+        
+        Note that IRI support can be implied by assuming each of userinfo, path, 
+        query, and fragment are UTF-8 encoded 
+        &#40;see <A HREF="http://www.w3.org/2001/Talks/0912-IUC-IRI/paper.html">
+        this page</A> for further details&#41;.<br><br>        Use a Uri instead where you need to alter specific uri attributes. <br><br></font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/model/UriView.d?rev=3461#L46">getDefaultPort</a></span>
+<script>explorer.outline.addDecl('getDefaultPort');</script>(char[] <span class="funcparam">scheme</span>); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the default port for the given scheme. InvalidPort
+                is returned if the scheme is unknown, or does not accept
+                a port.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/model/UriView.d?rev=3461#L55">getScheme</a></span>
+<script>explorer.outline.addDecl('getScheme');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the parsed scheme, or null if the scheme was not
+                specified</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/model/UriView.d?rev=3461#L64">getHost</a></span>
+<script>explorer.outline.addDecl('getHost');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the parsed host, or null if the host was not
+                specified</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/model/UriView.d?rev=3461#L73">getPort</a></span>
+<script>explorer.outline.addDecl('getPort');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the parsed port number, or InvalidPort if the port
+                was not provided.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/model/UriView.d?rev=3461#L82">getValidPort</a></span>
+<script>explorer.outline.addDecl('getValidPort');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return a valid port number by performing a lookup on the 
+                known schemes if the port was not explicitly specified.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/model/UriView.d?rev=3461#L91">getUserInfo</a></span>
+<script>explorer.outline.addDecl('getUserInfo');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the parsed userinfo, or null if userinfo was not 
+                provided.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/model/UriView.d?rev=3461#L100">getPath</a></span>
+<script>explorer.outline.addDecl('getPath');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the parsed path, or null if the path was not 
+                provided.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/model/UriView.d?rev=3461#L109">getQuery</a></span>
+<script>explorer.outline.addDecl('getQuery');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the parsed query, or null if a query was not 
+                provided.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/model/UriView.d?rev=3461#L118">getFragment</a></span>
+<script>explorer.outline.addDecl('getFragment');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the parsed fragment, or null if a fragment was not 
+                provided.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/model/UriView.d?rev=3461#L126">isGeneric</a></span>
+<script>explorer.outline.addDecl('isGeneric');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return whether or not the UriView scheme is considered generic.</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>char[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/net/model/UriView.d?rev=3461#L135">toString</a></span>
+<script>explorer.outline.addDecl('toString');</script>(); [abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Emit the content of this UriView. Output is constructed per
+                RFC 2396.</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

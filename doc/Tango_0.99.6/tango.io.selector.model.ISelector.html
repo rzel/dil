@@ -1,0 +1,447 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.selector.model.ISelector</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.selector.model.ISelector");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461">tango.io.selector.model.ISelector</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>author:</b><br>Juan Jose Comellas <juanjo@comellas.com.ar><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>enum <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L17">Event</a></span>
+<script>explorer.outline.addDecl('Event');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Events that are used to register a Conduit to a selector and are returned
+ in a SelectionKey after calling ISelector.select&#40;&#41;.
+ </font><br><br>
+</dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L51">SelectionKey</a></span>
+<script>explorer.outline.addDecl('SelectionKey');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">The SelectionKey class holds the information concerning the conduits and
+ their association to a selector. Each key keeps a reference to a registered
+ conduit and the events that are to be tracked for it. The 'events' member
+ of the key can take two meanings, depending on where it's used. If used
+ with the registration methods of the selector &#40;register&#40;&#41;, reregister&#40;&#41;&#41; it
+ represents the events we want to track; if used within a foreach cycle
+ on an ISelectionSet it represents the events that have been detected for a
+ conduit.</font><br><br>
+<font color="black">The SelectionKey can also hold an optional object via the 'attachment'
+ member. This member is very convenient to keep application-specific data
+ that will be needed when the tracked events are triggered.<br><br> See <a href="tango.io.selector.ISelector">tango.io.selector.ISelector</a>,
+ <a href="tango.io.selector.ISelectionSet">tango.io.selector.ISelectionSet</a>
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L60">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructor
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L80">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(ISelectable <span class="funcparam">conduit</span>, Event <span class="funcparam">events</span>, Object <span class="funcparam">attachment</span> = null); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Constructor</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">conduit</span></td><td>conduit that will be associated to this SelectionKey</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">events</span></td><td>events that will be tracked for the conduit</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">attachment</span></td><td>optional object with application-specific data that will
+                be available when an event is triggered for the conduit</td></tr></table><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="i">SocketConduit</span> <span class="i">cond</span>;
+
+ <span class="k">auto</span> <span class="i">key</span> = <span class="k">new</span> <span class="i">SelectionKey</span>(<span class="i">cond</span>, <span class="i">Event</span>.<span class="i">Read</span> | <span class="i">Event</span>.<span class="i">Write</span>);
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ISelectable <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L90">conduit</a></span>
+<script>explorer.outline.addDecl('conduit');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the conduit held by the instance.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L98">conduit</a></span>
+<script>explorer.outline.addDecl('conduit');</script>(ISelectable <span class="funcparam">conduit</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the conduit held by the instance
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Event <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L106">events</a></span>
+<script>explorer.outline.addDecl('events');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the registered events as a bit mask of different Event values.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L114">events</a></span>
+<script>explorer.outline.addDecl('events');</script>(Event <span class="funcparam">events</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the registered events as a bit mask of different Event values.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>Object <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L122">attachment</a></span>
+<script>explorer.outline.addDecl('attachment');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the attached Object held by the instance.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L130">attachment</a></span>
+<script>explorer.outline.addDecl('attachment');</script>(Object <span class="funcparam">attachment</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the attached Object held by the instance
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L138">isReadable</a></span>
+<script>explorer.outline.addDecl('isReadable');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Check if a Read event has been associated to this SelectionKey.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L146">isUrgentRead</a></span>
+<script>explorer.outline.addDecl('isUrgentRead');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Check if an UrgentRead event has been associated to this SelectionKey.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L154">isWritable</a></span>
+<script>explorer.outline.addDecl('isWritable');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Check if a Write event has been associated to this SelectionKey.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L162">isError</a></span>
+<script>explorer.outline.addDecl('isError');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Check if an Error event has been associated to this SelectionKey.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L170">isHangup</a></span>
+<script>explorer.outline.addDecl('isHangup');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Check if a Hangup event has been associated to this SelectionKey.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>bool <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L178">isInvalidHandle</a></span>
+<script>explorer.outline.addDecl('isInvalidHandle');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Check if an InvalidHandle event has been associated to this SelectionKey.
+     </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>interface <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L191">ISelectionSet</a></span>
+<script>explorer.outline.addDecl('ISelectionSet');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Container that holds the SelectionKey's for all the conduits that have
+ triggered events during a previous invocation to ISelector.select&#40;&#41;.
+ Instances of this container are normally returned from calls to
+ ISelector.selectedSet&#40;&#41;.
+ </font><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>uint <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L196">length</a></span>
+<script>explorer.outline.addDecl('length');</script>(); [public, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Returns the number of SelectionKey's in the set.
+     </font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L201">opApply</a></span>
+<script>explorer.outline.addDecl('opApply');</script>(int delegate(inout SelectionKey) <span class="funcparam">dg</span>); [public, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Operator to iterate over a set via a foreach block.
+     </font><br><br></dd></dl></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>interface <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L300">ISelector</a></span>
+<script>explorer.outline.addDecl('ISelector');</script>;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">A selector is a multiplexor for I/O events associated to a Conduit.
+ All selectors must implement this interface.</font><br><br>
+<font color="black">A selector needs to be initialized by calling the open&#40;&#41; method to pass
+ it the initial amount of conduits that it will handle and the maximum
+ amount of events that will be returned per call to select&#40;&#41;. In both cases,
+ these values are only hints and may not even be used by the specific
+ ISelector implementation you choose to use, so you cannot make any
+ assumptions regarding what results from the call to select&#40;&#41; &#40;i.e. you
+ may receive more or less events per call to select&#40;&#41; than what was passed
+ in the 'maxEvents' argument. The amount of conduits that the selector can
+ manage will be incremented dynamically if necessary.<br><br> To add, modify or remove conduit registrations to the selector you use
+ the register&#40;&#41;, reregister&#40;&#41; and unregister&#40;&#41; methods respectively.<br><br> To wait for events from the conduits you need to call any of the select&#40;&#41;
+ methods. The selector cannot be modified from another thread while
+ blocking on a call to these methods.<br><br> Once the selector is no longer used you must call the close&#40;&#41; method so
+ that the selector can free any resources it may have allocated in the call
+ to open&#40;&#41;.<br><br> </font><br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">selector</span>.<span class="i">model</span>.<span class="i">ISelector</span>;
+ <span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">SocketConduit</span>;
+ <span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">Stdout</span>;
+
+ <span class="i">ISelector</span> <span class="i">selector</span>;
+ <span class="i">SocketConduit</span> <span class="i">conduit1</span>;
+ <span class="i">SocketConduit</span> <span class="i">conduit2</span>;
+ <span class="i">MyClass</span> <span class="i">object1</span>;
+ <span class="i">MyClass</span> <span class="i">object2</span>;
+ <span class="k">int</span> <span class="i">eventCount</span>;
+
+ <span class="lc">// Initialize the selector assuming that it will deal with 2 conduits and</span>
+ <span class="lc">// will receive 2 events per invocation to the select() method.</span>
+ <span class="i">selector</span>.<span class="i">open</span>(<span class="n">2</span>, <span class="n">2</span>);
+
+ <span class="i">selector</span>.<span class="i">register</span>(<span class="i">conduit</span>, <span class="i">Event</span>.<span class="i">Read</span>, <span class="i">object1</span>);
+ <span class="i">selector</span>.<span class="i">register</span>(<span class="i">conduit</span>, <span class="i">Event</span>.<span class="i">Write</span>, <span class="i">object2</span>);
+
+ <span class="i">eventCount</span> = <span class="i">selector</span>.<span class="i">select</span>();
+
+ <span class="k">if</span> (<span class="i">eventCount</span> &gt; <span class="n">0</span>)
+ {
+     <span class="k">char</span>[<span class="n">16</span>] <span class="i">buffer</span>;
+     <span class="k">int</span> <span class="i">count</span>;
+
+     <span class="k">foreach</span> (<span class="i">SelectionKey</span> <span class="i">key</span>, <span class="i">selector</span>.<span class="i">selectedSet</span>())
+     {
+         <span class="k">if</span> (<span class="i">key</span>.<span class="i">isReadable</span>())
+         {
+             <span class="i">count</span> = (<span class="k">cast</span>(<span class="i">SocketConduit</span>) <span class="i">key</span>.<span class="i">conduit</span>).<span class="i">read</span>(<span class="i">buffer</span>);
+             <span class="k">if</span> (<span class="i">count</span> != <span class="i">IConduit</span>.<span class="i">Eof</span>)
+             {
+                 <span class="i">Stdout</span>.<span class="i">format</span>(<span class="sl">"Received '{0}' from peer\n"</span>, <span class="i">buffer</span>[<span class="n">0</span>..<span class="i">count</span>]);
+                 <span class="i">selector</span>.<span class="i">reregister</span>(<span class="i">key</span>.<span class="i">conduit</span>, <span class="i">Event</span>.<span class="i">Write</span>, <span class="i">key</span>.<span class="i">attachment</span>);
+             }
+             <span class="k">else</span>
+             {
+                 <span class="i">selector</span>.<span class="i">unregister</span>(<span class="i">key</span>.<span class="i">conduit</span>);
+                 <span class="i">key</span>.<span class="i">conduit</span>.<span class="i">close</span>();
+             }
+         }
+
+         <span class="k">if</span> (<span class="i">key</span>.<span class="i">isWritable</span>())
+         {
+             <span class="i">count</span> = (<span class="k">cast</span>(<span class="i">SocketConduit</span>) <span class="i">key</span>.<span class="i">conduit</span>).<span class="i">write</span>(<span class="sl">"MESSAGE"</span>);
+             <span class="k">if</span> (<span class="i">count</span> != <span class="i">IConduit</span>.<span class="i">Eof</span>)
+             {
+                 <span class="i">Stdout</span>.<span class="i">print</span>(<span class="sl">"Sent 'MESSAGE' to peer\n"</span>);
+                 <span class="i">selector</span>.<span class="i">reregister</span>(<span class="i">key</span>.<span class="i">conduit</span>, <span class="i">Event</span>.<span class="i">Read</span>, <span class="i">key</span>.<span class="i">attachment</span>);
+             }
+             <span class="k">else</span>
+             {
+                 <span class="i">selector</span>.<span class="i">unregister</span>(<span class="i">key</span>.<span class="i">conduit</span>);
+                 <span class="i">key</span>.<span class="i">conduit</span>.<span class="i">close</span>();
+             }
+         }
+
+         <span class="k">if</span> (<span class="i">key</span>.<span class="i">isError</span>() || <span class="i">key</span>.<span class="i">isHangup</span>() || <span class="i">key</span>.<span class="i">isInvalidHandle</span>())
+         {
+             <span class="i">selector</span>.<span class="i">unregister</span>(<span class="i">key</span>.<span class="i">conduit</span>);
+             <span class="i">key</span>.<span class="i">conduit</span>.<span class="i">close</span>();
+         }
+     }
+ }
+
+ <span class="i">selector</span>.<span class="i">close</span>();
+ 
+</pre><br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L312">open</a></span>
+<script>explorer.outline.addDecl('open');</script>(uint <span class="funcparam">size</span>, uint <span class="funcparam">maxEvents</span>); [public, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Initialize the selector.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">size</span></td><td>value that provides a hint for the maximum amount of
+                conduits that will be registered</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">maxEvents</span></td><td>value that provides a hint for the maximum amount of
+                conduit events that will be returned in the selection
+                set per call to select.</td></tr></table><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L323">close</a></span>
+<script>explorer.outline.addDecl('close');</script>(); [public, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Free any operating system resources that may have been allocated in the
+ call to open&#40;&#41;.</font><br><br>
+<b>Remarks:</b><br>Not all of the selectors need to free resources other than allocated
+ memory, but those that do will normally also add a call to close&#40;&#41; in
+ their destructors.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L345">register</a></span>
+<script>explorer.outline.addDecl('register');</script>(ISelectable <span class="funcparam">conduit</span>, Event <span class="funcparam">events</span>, Object <span class="funcparam">attachment</span> = null); [public, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Associate a conduit to the selector and track specific I/O events.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">conduit</span></td><td>conduit that will be associated to the selector;
+                must be a valid conduit (i.e. not null and open).</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">events</span></td><td>bit mask of Event values that represent the events that
+                will be tracked for the conduit.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">attachment</span></td><td>optional object with application-specific data that will
+                be available when an event is triggered for the conduit</td></tr></table><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="i">ISelector</span> <span class="i">selector</span>;
+ <span class="i">SocketConduit</span> <span class="i">conduit</span>;
+ <span class="i">MyClass</span> <span class="i">object</span>;
+
+ <span class="i">selector</span>.<span class="i">register</span>(<span class="i">conduit</span>, <span class="i">Event</span>.<span class="i">Read</span> | <span class="i">Event</span>.<span class="i">Write</span>, <span class="i">object</span>);
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L373">reregister</a></span>
+<script>explorer.outline.addDecl('reregister');</script>(ISelectable <span class="funcparam">conduit</span>, Event <span class="funcparam">events</span>, Object <span class="funcparam">attachment</span> = null); [public, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Modify the events that are being tracked or the 'attachment' field
+ for an already registered conduit.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">conduit</span></td><td>conduit that will be associated to the selector;
+                must be a valid conduit (i.e. not null and open).</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">events</span></td><td>bit mask of Event values that represent the events that
+                will be tracked for the conduit.</td></tr>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">attachment</span></td><td>optional object with application-specific data that will
+                be available when an event is triggered for the conduit</td></tr></table><br>
+<b>Remarks:</b><br>The 'attachment' member of the SelectionKey will always be overwritten,
+ even if it's null.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="i">ISelector</span> <span class="i">selector</span>;
+ <span class="i">SocketConduit</span> <span class="i">conduit</span>;
+ <span class="i">MyClass</span> <span class="i">object</span>;
+
+ <span class="i">selector</span>.<span class="i">reregister</span>(<span class="i">conduit</span>, <span class="i">Event</span>.<span class="i">Write</span>, <span class="i">object</span>);
+ 
+</pre><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L386">unregister</a></span>
+<script>explorer.outline.addDecl('unregister');</script>(ISelectable <span class="funcparam">conduit</span>); [public, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove a conduit from the selector.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">conduit</span></td><td>conduit that had been previously associated to the
+                selector; it can be null.</td></tr></table><br>
+<b>Remarks:</b><br>Unregistering a null conduit is allowed and no exception is thrown
+ if this happens.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L396">select</a></span>
+<script>explorer.outline.addDecl('select');</script>(); [public, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Wait indefinitely for I/O events from the registered conduits.</font><br><br>
+<b>Returns:</b><br>
+The amount of conduits that have received events; 0 if no conduits
+ have received events within the specified timeout and -1 if there
+ was an error.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L413">select</a></span>
+<script>explorer.outline.addDecl('select');</script>(TimeSpan <span class="funcparam">timeout</span>); [public, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Wait for I/O events from the registered conduits for a specified
+ amount of time.</font><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">timeout</span></td><td>TimeSpan with the maximum amount of time that the
+            selector will wait for events from the conduits; the
+            amount of time is relative to the current system time
+            (i.e. just the number of milliseconds that the selector
+            has to wait for the events).</td></tr></table><br>
+<b>Returns:</b><br>
+The amount of conduits that have received events; 0 if no conduits
+ have received events within the specified timeout.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L439">select</a></span>
+<script>explorer.outline.addDecl('select');</script>(double <span class="funcparam">timeout</span>); [public, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Wait for I/O events from the registered conduits for a specified
+ amount of time.</font><br><br>
+<b>Note:</b><br>This representation of timeout is not always accurate, so it is
+ possible that the function will return with a timeout before the
+ specified period.  For more accuracy, use the TimeSpan version.<br><br>
+<b>Note:</b><br>Implementers should define this method as:
+ <pre class="d_code">
+
+ <span class="i">select</span>(<span class="i">TimeSpan</span>.<span class="i">interval</span>(<span class="i">timeout</span>));
+ 
+</pre><br><br>
+<b>Params:</b><br>
+<table>
+<tr><td nowrap valign="top" style="padding-right: 8px"><span class="funcparam">timeout</span></td><td>the maximum amount of time in seconds that the
+            selector will wait for events from the conduits; the
+            amount of time is relative to the current system time
+            (i.e. just the number of milliseconds that the selector
+            has to wait for the events).</td></tr></table><br>
+<b>Returns:</b><br>
+The amount of conduits that have received events; 0 if no conduits
+ have received events within the specified timeout.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>ISelectionSet <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L449">selectedSet</a></span>
+<script>explorer.outline.addDecl('selectedSet');</script>(); [public, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the selection set resulting from the call to any of the select&#40;&#41;
+ methods.</font><br><br>
+<b>Remarks:</b><br>If the call to select&#40;&#41; was unsuccessful or it did not return any
+ events, the returned value will be null.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>SelectionKey <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/selector/model/ISelector.d?rev=3461#L459">key</a></span>
+<script>explorer.outline.addDecl('key');</script>(ISelectable <span class="funcparam">conduit</span>); [public, abstract]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the selection key resulting from the registration of a conduit
+ to the selector.</font><br><br>
+<b>Remarks:</b><br>If the conduit is not registered to the selector the returned
+ value will be null. No exception will be thrown by this method.<br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2006 Juan Jose Comellas. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

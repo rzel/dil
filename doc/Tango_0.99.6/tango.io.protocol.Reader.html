@@ -1,0 +1,444 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.io.protocol.Reader</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.io.protocol.Reader");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461">tango.io.protocol.Reader</a></h1>
+                
+<b>License:</b><br>
+BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a><br><br>
+<b>Version:</b><br>
+Oct 2004: Initial release      
+                        Dec 2006: Outback release<br><br>
+<b>author:</b><br>Kris<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L102">Reader</a></span>
+<script>explorer.outline.addDecl('Reader');</script> : IReader;</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Reader base-class. Each reader operates upon an IBuffer, which is
+        provided at construction time. Readers are simple converters of data,
+        and have reasonably rigid rules regarding data format. For example,
+        each request for data expects the content to be available; an exception
+        is thrown where this is not the case. If the data is arranged in a more
+        relaxed fashion, consider using IBuffer directly instead.</font><br><br>
+<font color="black">All readers support the full set of native data types, plus a full
+        selection of array types. The latter can be configured to produce
+        either a copy &#40;.dup&#41; of the buffer content, or a slice. See classes
+        HeapCopy, BufferSlice and HeapSlice for more on this topic. Applications
+        can disable memory management by configuring a Reader with one of the
+        binary oriented protocols, and ensuring the optional protocol 'prefix'
+        is disabled.<br><br>        Readers support Java-esque get&#40;&#41; notation. However, the Tango
+        style is to place IO elements within their own parenthesis, like
+        </font><br><br>
+<b>so:</b><br><pre class="d_code">
+
+        <span class="k">int</span> <span class="i">count</span>;
+        <span class="k">char</span>[] <span class="i">verse</span>;
+        
+        <span class="i">read</span> (<span class="i">verse</span>) (<span class="i">count</span>);
+        
+</pre><br><br>        Note that each element read is distict; this style is affectionately
+        known as "whisper". The code below illustrates basic operation upon a
+        memory buffer:
+        
+        <pre class="d_code">
+
+        <span class="k">auto</span> <span class="i">buf</span> = <span class="k">new</span> <span class="i">Buffer</span> (<span class="n">256</span>);
+
+        <span class="lc">// map same buffer into both reader and writer</span>
+        <span class="k">auto</span> <span class="i">read</span> = <span class="k">new</span> <span class="i">Reader</span> (<span class="i">buf</span>);
+        <span class="k">auto</span> <span class="i">write</span> = <span class="k">new</span> <span class="i">Writer</span> (<span class="i">buf</span>);
+
+        <span class="k">int</span> <span class="i">i</span> = <span class="n">10</span>;
+        <span class="k">long</span> <span class="i">j</span> = <span class="n">20</span>;
+        <span class="k">double</span> <span class="i">d</span> = <span class="n">3.14159</span>;
+        <span class="k">char</span>[] <span class="i">c</span> = <span class="sl">"fred"</span>;
+
+        <span class="lc">// write data using whisper syntax</span>
+        <span class="i">write</span> (<span class="i">c</span>) (<span class="i">i</span>) (<span class="i">j</span>) (<span class="i">d</span>);
+
+        <span class="lc">// read them back again</span>
+        <span class="i">read</span> (<span class="i">c</span>) (<span class="i">i</span>) (<span class="i">j</span>) (<span class="i">d</span>);
+
+
+        <span class="lc">// same thing again, but using put() syntax instead</span>
+        <span class="i">write</span>.<span class="i">put</span>(<span class="i">c</span>).<span class="i">put</span>(<span class="i">i</span>).<span class="i">put</span>(<span class="i">j</span>).<span class="i">put</span>(<span class="i">d</span>);
+        <span class="i">read</span>.<span class="i">get</span>(<span class="i">c</span>).<span class="i">get</span>(<span class="i">i</span>).<span class="i">get</span>(<span class="i">j</span>).<span class="i">get</span>(<span class="i">d</span>);
+        
+</pre><br><br>        Note that certain protocols, such as the basic binary implementation, 
+        expect to retrieve the number of array elements from the source. For<br><br>
+<b>example:</b><br>when reading an array from a file, the number of elements 
+        is read from the file also, and the configurable memory-manager is
+        invoked to provide the array space. If content is not arranged in
+        such a manner you may read array content directly either by creating
+        a Reader with a protocol configured to sidestep array-prefixing, or
+        by accessing buffer content directly &#40;via the methods exposed there&#41;
+        e.g.<br><br>        <pre class="d_code">
+
+        <span class="k">void</span>[<span class="n">10</span>] <span class="i">data</span>;
+                
+        <span class="i">reader</span>.<span class="i">buffer</span>.<span class="i">fill</span> (<span class="i">data</span>);
+        
+</pre><br><br>        Readers may also be used with any class implementing the IReadable
+        interface, along with any struct implementing an equivalent method<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L125">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(InputStream <span class="funcparam">stream</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct a Reader upon the provided stream. We do our own
+                protocol handling, equivalent to the NativeProtocol. Array
+                allocation is supported via the heap</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L143">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(IProtocol <span class="funcparam">protocol</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Construct Reader on the provided protocol. This configures
+                the IO conversion to be that of the protocol, but allocation
+                of arrays is still handled by the heap
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li><span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L158">this</a></span>
+<script>explorer.outline.addDecl('this');</script>(IAllocator <span class="funcparam">allocator</span>);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Set the array allocator, and protocol, for this Reader. See
+                method allocator&#40;&#41; for more info
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IBuffer <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L170">buffer</a></span>
+<script>explorer.outline.addDecl('buffer');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the buffer associated with this reader</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IAllocator <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L203">allocator</a></span>
+<script>explorer.outline.addDecl('allocator');</script>(); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Get the allocator to use for array management. Arrays are
+                generally allocated by the IReader, via configured managers.
+                A number of Allocator classes are available to manage memory
+                when reading array content. Alternatively, the application
+                may obtain responsibility for allocation by selecting one of
+                the NativeProtocol deriviatives and setting 'prefix' to be
+                false. The latter disables internal array management.</font><br><br>
+<font color="black">Gaining access to the allocator can expose some additional
+                controls. For example, some allocators benefit from a reset
+                operation after each data 'record' has been processed.<br><br>                By default, an IReader will allocate each array from the 
+                heap. You can change that by constructing the Reader
+                with an Allocator of choice. For instance, there is a
+                BufferSlice which will slice an array directly from
+                the buffer where possible. Also available is the record-
+                oriented HeaoSlice, which slices memory from within
+                a pre-allocated heap area, and should be reset by the client
+                code after each record has been read &#40;to avoid unnecessary
+                growth&#41;. <br><br>                See module tango.io.protocol.Allocator for more information<br><br></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L214">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(IReader.Closure <span class="funcparam">dg</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a readable class from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L226">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(IReadable <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a readable class from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L240">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout bool <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a boolean value from the current read-position  
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L252">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout ubyte <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract an unsigned byte value from the current read-position   
+                                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L264">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout byte <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a byte value from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L276">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout ushort <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract an unsigned short value from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L288">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout short <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a short value from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L300">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout uint <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a unsigned int value from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L312">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout int <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract an int value from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L324">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout ulong <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract an unsigned long value from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L336">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout long <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a long value from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L348">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout float <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a float value from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L360">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout double <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a double value from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L372">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout real <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a real value from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L384">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout char <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a char value from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L396">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout wchar <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a wide char value from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L408">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout dchar <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a double char value from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L420">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout bool[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract an boolean array from the current read-position   
+                                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L431">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout ubyte[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract an unsigned byte array from the current read-position   
+                                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L442">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout byte[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a byte array from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L453">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout ushort[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract an unsigned short array from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L464">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout short[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a short array from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L475">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout uint[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a unsigned int array from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L486">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout int[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract an int array from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L497">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout ulong[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract an unsigned long array from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L508">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout long[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a long array from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L519">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout float[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a float array from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L530">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout double[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a double array from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L541">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout real[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a real array from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L552">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout char[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a char array from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L563">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout wchar[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a wchar array from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L574">get</a></span>
+<script>explorer.outline.addDecl('get');</script>(inout dchar[] <span class="funcparam">x</span>); [final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Extract a dchar array from the current read-position
+                
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>IReader <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L585">loadArray</a></span>
+<script>explorer.outline.addDecl('loadArray');</script>(void[]* <span class="funcparam">x</span>, uint <span class="funcparam">width</span>, IProtocol.Type <span class="funcparam">type</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L595">allocate</a></span>
+<script>explorer.outline.addDecl('allocate');</script>(IProtocol.Reader <span class="funcparam">reader</span>, uint <span class="funcparam">bytes</span>, IProtocol.Type <span class="funcparam">type</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L604">readElement</a></span>
+<script>explorer.outline.addDecl('readElement');</script>(void* <span class="funcparam">dst</span>, uint <span class="funcparam">bytes</span>, IProtocol.Type <span class="funcparam">type</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void[] <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/io/protocol/Reader.d?rev=3461#L613">readArray</a></span>
+<script>explorer.outline.addDecl('readArray');</script>(void* <span class="funcparam">dst</span>, uint <span class="funcparam">bytes</span>, IProtocol.Type <span class="funcparam">type</span>, IProtocol.Allocator <span class="funcparam">alloc</span>); [private]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black"></font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                        Copyright (c) 2004 Kris Bell. All rights reserved :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:55 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

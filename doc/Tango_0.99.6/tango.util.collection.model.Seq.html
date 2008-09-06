@@ -1,0 +1,259 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.collection.model.Seq</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.collection.model.Seq");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461">tango.util.collection.model.Seq</a></h1>
+                
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>interface <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461#L33">Seq</a></span>
+<script>explorer.outline.addDecl('Seq');</script>(T) : SeqView!(T), Dispenser!(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Seqs are Seqs possessing standard modification methods</font><br><br>
+<b>author:</b><br>Doug Lea
+ @version 0.93<br><br> <P> For an introduction to this package see <A HREF="index.html"> Overview </A>.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461#L61">addAt</a></span>
+<script>explorer.outline.addDecl('addAt');</script>(int <span class="funcparam">index</span>, Iterator!(T) <span class="funcparam">e</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Insert all elements of enumeration e at a given index, preserving 
+ their order. The index can range from
+ 0..size&#40;&#41; &#40;i.e., one past the current last index&#41;. If the index is
+ equal to size&#40;&#41;, the elements are appended.
+ 
+ @param index the index to start adding at
+ @param e the elements to add
+ </font><br><br>
+<b>Returns:</b><br>
+<br><br>
+<b>condition:</b><br><PRE>
+ foreach &#40;int i in 0 .. index-1&#41; at&#40;i&#41;.equals&#40;PREV&#40;this&#41;at&#40;i&#41;&#41;; &amp;&amp;
+ All existing elements at indices at or greater than index have their
+  indices incremented by the number of elements 
+  traversable via e.get&#40;&#41; &amp;&amp;
+ The new elements are at indices index + their order in
+   the enumeration's get traversal.
+ !&#40;e.more&#40;&#41;&#41; &amp;&amp;
+ &#40;version&#40;&#41; != PREV&#40;this&#41;.version&#40;&#41;&#41; == PREV&#40;e&#41;.more&#40;&#41; 
+ </PRE><br><br>
+<b>Throws:</b><br>
+IllegalElementException if !canInclude some element of e;
+ this may or may not nullify the effect of insertions of other elements.<br><br>
+<b>Throws:</b><br>
+NoSuchElementException if index is not in range 0..size&#40;&#41;<br><br>
+<b>Throws:</b><br>
+CorruptedIteratorException is propagated if raised; this
+ may or may not nullify the effects of insertions of other elements.<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461#L82">addAt</a></span>
+<script>explorer.outline.addDecl('addAt');</script>(int <span class="funcparam">index</span>, T <span class="funcparam">element</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Insert element at indicated index. The index can range from
+ 0..size&#40;&#41; &#40;i.e., one past the current last index&#41;. If the index is
+ equal to size&#40;&#41;, the element is appended as the new last element.
+ @param index the index to add at
+ @param element the element to add
+ </font><br><br>
+<b>Returns:</b><br>
+<br><br>
+<b>condition:</b><br><PRE>
+ size&#40;&#41; == PREV&#40;this&#41;.size&#40;&#41;+1 &amp;&amp;
+ at&#40;index&#41;.equals&#40;element&#41; &amp;&amp;
+ foreach &#40;int i in 0 .. index-1&#41;      get&#40;i&#41;.equals&#40;PREV&#40;this&#41;.get&#40;i&#41;&#41;
+ foreach &#40;int i in index+1..size&#40;&#41;-1&#41; get&#40;i&#41;.equals&#40;PREV&#40;this&#41;.get&#40;i-1&#41;&#41;
+ Version change: always
+ </PRE><br><br>
+<b>Throws:</b><br>
+NoSuchElementException if index is not in range 0..size&#40;&#41;<br><br>
+<b>Throws:</b><br>
+IllegalElementException if !canInclude&#40;element&#41;<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461#L100">replaceAt</a></span>
+<script>explorer.outline.addDecl('replaceAt');</script>(int <span class="funcparam">index</span>, T <span class="funcparam">element</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">replace element at indicated index with new value
+ @param index the index at which to replace value
+ @param element the new value
+ </font><br><br>
+<b>Returns:</b><br>
+<br><br>
+<b>condition:</b><br><PRE>
+ size&#40;&#41; == PREV&#40;this&#41;.size&#40;&#41; &amp;&amp;
+ at&#40;index&#41;.equals&#40;element&#41; &amp;&amp;
+ no spurious effects
+ Version change &lt;-- !element.equals&#40;PREV&#40;this&#41;.get&#40;index&#41;
+                    &#40;but MAY change even if equal&#41;.
+ </PRE><br><br>
+<b>Throws:</b><br>
+NoSuchElementException if index is not in range 0..size&#40;&#41;-1<br><br>
+<b>Throws:</b><br>
+IllegalElementException if !canInclude&#40;element&#41;<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461#L117">opIndexAssign</a></span>
+<script>explorer.outline.addDecl('opIndexAssign');</script>(T <span class="funcparam">element</span>, int <span class="funcparam">index</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">replace element at indicated index with new value
+ @param element the new value
+ @param index the index at which to replace value
+ </font><br><br>
+<b>Returns:</b><br>
+<br><br>
+<b>condition:</b><br><PRE>
+ size&#40;&#41; == PREV&#40;this&#41;.size&#40;&#41; &amp;&amp;
+ at&#40;index&#41;.equals&#40;element&#41; &amp;&amp;
+ no spurious effects
+ Version change &lt;-- !element.equals&#40;PREV&#40;this&#41;.get&#40;index&#41;
+                    &#40;but MAY change even if equal&#41;.
+ </PRE><br><br>
+<b>Throws:</b><br>
+NoSuchElementException if index is not in range 0..size&#40;&#41;-1<br><br>
+<b>Throws:</b><br>
+IllegalElementException if !canInclude&#40;element&#41;<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461#L133">removeAt</a></span>
+<script>explorer.outline.addDecl('removeAt');</script>(int <span class="funcparam">index</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove element at indicated index. All elements to the right
+ have their indices decremented by one.
+ @param index the index of the element to remove
+ </font><br><br>
+<b>Returns:</b><br>
+<br><br>
+<b>condition:</b><br><PRE>
+ size&#40;&#41; = PREV&#40;this&#41;.size&#40;&#41;-1 &amp;&amp;
+ foreach &#40;int i in 0..index-1&#41;      get&#40;i&#41;.equals&#40;PREV&#40;this&#41;.get&#40;i&#41;&#41;; &amp;&amp;
+ foreach &#40;int i in index..size&#40;&#41;-1&#41; get&#40;i&#41;.equals&#40;PREV&#40;this&#41;.get&#40;i+1&#41;&#41;;
+ Version change: always
+ </PRE><br><br>
+<b>Throws:</b><br>
+NoSuchElementException if index is not in range 0..size&#40;&#41;-1<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461#L143">prepend</a></span>
+<script>explorer.outline.addDecl('prepend');</script>(T <span class="funcparam">element</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Insert element at front of the sequence.
+ Behaviorally equivalent to insert&#40;0, element&#41;
+ @param element the element to add
+ </font><br><br>
+<b>Throws:</b><br>
+IllegalElementException if !canInclude&#40;element&#41;<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461#L150">replaceHead</a></span>
+<script>explorer.outline.addDecl('replaceHead');</script>(T <span class="funcparam">element</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">replace element at front of the sequence with new value.
+ Behaviorally equivalent to replace&#40;0, element&#41;;
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461#L157">removeHead</a></span>
+<script>explorer.outline.addDecl('removeHead');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove the leftmost element. 
+ Behaviorally equivalent to remove&#40;0&#41;;
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461#L167">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(T <span class="funcparam">element</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">insert element at end of the sequence
+ Behaviorally equivalent to insert&#40;size&#40;&#41;, element&#41;
+ @param element the element to add
+ </font><br><br>
+<b>Throws:</b><br>
+IllegalElementException if !canInclude&#40;element&#41;<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461#L175">replaceTail</a></span>
+<script>explorer.outline.addDecl('replaceTail');</script>(T <span class="funcparam">element</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">replace element at end of the sequence with new value
+ Behaviorally equivalent to replace&#40;size&#40;&#41;-1, element&#41;;
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461#L184">removeTail</a></span>
+<script>explorer.outline.addDecl('removeTail');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove the rightmost element. 
+ Behaviorally equivalent to remove&#40;size&#40;&#41;-1&#41;;
+ </font><br><br>
+<b>Throws:</b><br>
+NoSuchElementException if isEmpty<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461#L208">removeRange</a></span>
+<script>explorer.outline.addDecl('removeRange');</script>(int <span class="funcparam">fromIndex</span>, int <span class="funcparam">toIndex</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Remove the elements from fromIndex to toIndex, inclusive.
+ No effect if fromIndex &gt; toIndex.
+ Behaviorally equivalent to
+ <PRE>
+ for &#40;int i = fromIndex; i &lt;= toIndex; ++i&#41; remove&#40;fromIndex&#41;;
+ </PRE>
+ @param index the index of the first element to remove
+ @param index the index of the last element to remove
+ </font><br><br>
+<b>Returns:</b><br>
+<br><br>
+<b>condition:</b><br><PRE>
+ let n = max&#40;0, toIndex - fromIndex + 1 in
+  size&#40;&#41; == PREV&#40;this&#41;.size&#40;&#41; - 1 &amp;&amp;
+  for &#40;int i in 0 .. fromIndex - 1&#41;     get&#40;i&#41;.equals&#40;PREV&#40;this&#41;.get&#40;i&#41;&#41; &amp;&amp; 
+  for &#40;int i in fromIndex .. size&#40;&#41;- 1&#41; get&#40;i&#41;.equals&#40;PREV&#40;this&#41;.get&#40;i+n&#41; 
+  Version change iff n &gt; 0 
+ </PRE><br><br>
+<b>Throws:</b><br>
+NoSuchElementException if fromIndex or toIndex is not in 
+ range 0..size&#40;&#41;-1<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461#L217">prepend</a></span>
+<script>explorer.outline.addDecl('prepend');</script>(Iterator!(T) <span class="funcparam">e</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Prepend all elements of enumeration e, preserving their order.
+ Behaviorally equivalent to addElementsAt&#40;0, e&#41;
+ @param e the elements to add
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/model/Seq.d?rev=3461#L225">append</a></span>
+<script>explorer.outline.addDecl('append');</script>(Iterator!(T) <span class="funcparam">e</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Append all elements of enumeration e, preserving their order.
+ Behaviorally equivalent to addElementsAt&#40;size&#40;&#41;, e&#41;
+ @param e the elements to add
+</font><br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                         :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:54 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>

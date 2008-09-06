@@ -1,0 +1,178 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>tango.util.collection.impl.LLCell</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="css/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="js/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="js/explorer.js" type="text/javascript"></script>
+<script>
+function anchorFromTitle(title, path, ext) {
+  var url = path + title + "." + ext;
+  document.write("<a href='" + url + "'>" + title + "</a>");
+  }
+</script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("tango.util.collection.impl.LLCell");</script>
+        <table class="content">
+                <tr><td id="docbody"><h1><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461">tango.util.collection.impl.LLCell</a></h1>
+                
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>class <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L40">LLCell</a></span>
+<script>explorer.outline.addDecl('LLCell');</script>(T) : Cell!(T);</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">LLCells extend Cells with standard linkedlist next-fields,
+ and provide a standard operations on them.
+ <P>
+ LLCells are pure implementation tools. They perform
+ no argument checking, no result screening, and no synchronization.
+ They rely on user-level classes &#40;see for example LinkedList&#41; to do such things.
+ Still, the class is made `public' so that you can use them to
+ build other kinds of collections or whatever, not just the ones
+ currently supported.
+ 
+        </font><br><br>
+<b>author:</b><br>Doug Lea
+ @version 0.93<br><br> <P> For an introduction to this package see <A HREF="index.html"> Overview </A>.<br><br>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LLCell <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L51">next</a></span>
+<script>explorer.outline.addDecl('next');</script>(); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Return the next cell &#40;or null if none&#41;
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L61">next</a></span>
+<script>explorer.outline.addDecl('next');</script>(LLCell <span class="funcparam">n</span>); [public]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">set to point to n as next cell
+ @param n, the new next cell
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L89">linkNext</a></span>
+<script>explorer.outline.addDecl('linkNext');</script>(LLCell <span class="funcparam">p</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Splice in p between current cell and whatever it was previously 
+ pointing to
+ @param p, the cell to splice
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>void <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L101">unlinkNext</a></span>
+<script>explorer.outline.addDecl('unlinkNext');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Cause current cell to skip over the current next&#40;&#41; one, 
+ effectively removing the next element from the list
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LLCell <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L113">find</a></span>
+<script>explorer.outline.addDecl('find');</script>(T <span class="funcparam">element</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Linear search down the list looking for element &#40;using T.equals&#41;
+ @param element to look for
+ </font><br><br>
+<b>Returns:</b><br>
+the cell containing element, or null if no such<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L126">index</a></span>
+<script>explorer.outline.addDecl('index');</script>(T <span class="funcparam">element</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">return the number of cells traversed to find first occurrence
+ of a cell with element&#40;&#41; element, or -1 if not present
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L143">count</a></span>
+<script>explorer.outline.addDecl('count');</script>(T <span class="funcparam">element</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Count the number of occurrences of element in list
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>int <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L156">_length</a></span>
+<script>explorer.outline.addDecl('_length');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">return the number of cells in the list
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LLCell <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L169">tail</a></span>
+<script>explorer.outline.addDecl('tail');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">return the cell representing the last element of the list
+ &#40;i.e., the one whose next&#40;&#41; is null
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LLCell <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L181">nth</a></span>
+<script>explorer.outline.addDecl('nth');</script>(int <span class="funcparam">n</span>); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">return the nth cell of the list, or null if no such
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LLCell <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L195">copyList</a></span>
+<script>explorer.outline.addDecl('copyList');</script>(); [public, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">make a copy of the list; i.e., a new list containing new cells
+ but including the same elements in the same order
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LLCell <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L214">duplicate</a></span>
+<script>explorer.outline.addDecl('duplicate');</script>(); [private, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Clone is SHALLOW; i.e., just makes a copy of the current cell
+</font><br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LLCell <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L228">merge</a></span>
+<script>explorer.outline.addDecl('merge');</script>(LLCell <span class="funcparam">fst</span>, LLCell <span class="funcparam">snd</span>, ComparatorT <span class="funcparam">cmp</span>); [public, static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Basic linkedlist merge algorithm.
+ Merges the lists head by fst and snd with respect to cmp
+ @param fst head of the first list
+ @param snd head of the second list
+ @param cmp a Comparator used to compare elements
+ </font><br><br>
+<b>Returns:</b><br>
+the merged ordered list<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LLCell <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L284">split</a></span>
+<script>explorer.outline.addDecl('split');</script>(LLCell <span class="funcparam">s</span>); [public, static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Standard list splitter, used by sort.
+ Splits the list in half. Returns the head of the second half
+ @param s the head of the list
+ </font><br><br>
+<b>Returns:</b><br>
+the head of the second half<br><br></dd>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><li>LLCell <span class="currsymbol"><a href="http://www.dsource.org/projects/tango/browser/trunk/tango/util/collection/impl/LLCell.d?rev=3461#L315">mergeSort</a></span>
+<script>explorer.outline.addDecl('mergeSort');</script>(LLCell <span class="funcparam">s</span>, ComparatorT <span class="funcparam">cmp</span>); [public, static, final]</li></span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd>
+<font color="black">Standard merge sort algorithm
+ @param s the list to sort
+ @param cmp, the comparator to use for ordering
+ </font><br><br>
+<b>Returns:</b><br>
+the head of the sorted list<br><br></dd></dl></dd></dl></td></tr>
+                <tr><td id="docfooter">
+                         :: page rendered by CandyDoc. Generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Jun  8 17:12:54 2008.
+                </td></tr>
+        </table>
+</div>
+<script></script>
+</body></html>
