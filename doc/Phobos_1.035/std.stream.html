@@ -1,0 +1,1205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<!--
+	Copyright (c) 1999-2008 by Digital Mars
+	All Rights Reserved
+	Written by Walter Bright
+	www.digitalmars.com
+  -->
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" >
+<title>std.stream - D Programming Language - Digital Mars</title>
+<link rel="stylesheet" type="text/css" href="./style.css">
+<link rel="icon" type="image/gif" href="./holy.gif" />
+</head>
+
+<body>
+<div id="heading">
+	<a href="http://www.digitalmars.com/"><img src="./dmlogo.gif" width="270" height="53" border="0" alt="www.digitalmars.com" align="left"></a>
+	<p align="right">D Programming Language 1.0</p>
+
+
+	<div id="headingNav">
+	<ul>
+	<li><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Phobos/StdStream" title="Read/write comments and feedback">Comments</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language" class="dlink">D</a></li>
+	<li><a href="http://www.digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a></li>
+	<li><a href="http://www.digitalmars.com/" title="www.digitalmars.com">Home</a></li>
+	</ul>
+	</div>
+
+	<div id="lastupdate">Last update Wed Oct  1 23:47:52 2008</div>
+</div>
+
+<!-- -->
+
+<div id="navigation">
+    <div class="navblock">
+<form method="get" action="http://www.google.com/search">
+<div id="searchbox">
+<input id="q" name="q" size="10" value="RTL Search" onFocus='if(this.value == "RTL Search"){this.value="";}'>
+<input type="hidden" id="domains" name="domains" value="www.digitalmars.com">
+<input type="hidden" id="sitesearch" name="sitesearch" value="www.digitalmars.com/d/1.0/phobos">
+<input type="hidden" id="sourceid" name="sourceid" value="google-search">
+<input type="submit" id="submit" name="submit" value="Go">
+</div>
+</form>
+<div id="toctop">
+    <ul>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language">D ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/lex.html" title="D Language Specification">Language ...</a></li>
+	<li><a href="phobos.html" title="D Runtime Library">Phobos ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/comparison.html" title="Language Comparisons">Comparisons ...</a></li>
+    </ul>
+</div>
+</div>
+    <div class="navblock">
+<ul>
+<li><a href="index.html" title="Index of all HTML files">Index</a></li>
+</ul>
+    <ul>
+	<li><a href="object.html" title="root of object hierarchy">object</a></li>
+    </ul>
+    <h2><a href="phobos.html#std" title="D standard modules">std</a></h2>
+    <ul>
+	<li><a href="std.base64.html" title="Encode/decode base64 format">std.base64</a></li>
+	<li><a href="std.bind.html" title="Function argument binding">std.bind</a></li>
+	<li><a href="std.bitarray.html" title="Arrays of bits">std.bitarray</a></li>
+	<li><a href="std.boxer.html" title="Box/unbox types">std.boxer</a></li>
+	<li><a href="std.compiler.html" title="Information about the D compiler implementation">std.compiler</a></li>
+	<li><a href="std.conv.html" title="Conversion of strings to integers">std.conv</a></li>
+	<li><a href="std.cover.html" title="D coverage analyzer">std.cover</a></li>
+	<li><a href="std.cpuid.html" title="CPU identification">std.cpuid</a></li>
+	<li><a href="std.ctype.html" title="Simple character classification">std.ctype</a></li>
+	<li><a href="std.date.html" title="Date and time functions">std.date</a></li>
+	<li><a href="std.demangle.html" title="Demangle D names">std.demangle</a></li>
+	<li><a href="std.file.html" title="Basic file operations">std.file</a></li>
+	<li><a href="std.format.html" title="Formatted conversions of values to strings">std.format</a></li>
+	<li><a href="std.gc.html" title="Control the garbage collector">std.gc</a></li>
+	<li><a href="std.intrinsic.html" title="Compiler built in intrinsic functions">std.intrinsic</a></li>
+	<li><a href="std.math.html" title="the usual math functions">std.math</a></li>
+	<li><a href="std.md5.html" title="Compute MD5 digests">std.md5</a></li>
+	<li><a href="std.metastrings.html" title="Metaprogramming with strings">std.metastrings</a></li>
+	<li><a href="std.mmfile.html" title="Memory mapped files">std.mmfile</a></li>
+	<li><a href="std.openrj.html" title="Basic database">std.openrj</a></li>
+	<li><a href="std.outbuffer.html" title="Assemble data into an array of bytes">std.outbuffer</a></li>
+	<li><a href="std.outofmemory.html" title="Out of memory exception">std.outofmemory</a></li>
+	<li><a href="std.path.html" title="Manipulate file names, path names, etc.">std.path</a></li>
+	<li><a href="std.process.html" title="Create/destroy threads">std.process</a></li>
+	<li><a href="std.random.html" title="Random number generation">std.random</a></li>
+	<li><a href="std.regexp.html" title="regular expressions">std.regexp</a></li>
+	<li><a href="std.signals.html" title="Signals">std.signals</a></li>
+	<li><a href="std.socket.html" title="Sockets">std.socket</a></li>
+	<li><a href="std.socketstream.html" title="Stream for a blocking, connected Socket">std.socketstream</a></li>
+	<li><a href="std.stdint.html" title="Integral types for various purposes">std.stdint</a></li>
+	<li><a href="std.stdio.html" title="Standard I/O">std.stdio</a></li>
+	<li><a href="std.cstream.html" title="Stream I/O">std.cstream</a></li>
+	<li><a href="std.stream.html" title="Stream I/O">std.stream</a></li>
+	<li><a href="std.string.html" title="Basic string operations">std.string</a></li>
+	<li><a href="std.system.html" title="Inquire about the CPU, operating system">std.system</a></li>
+	<li><a href="std.thread.html" title="Thread operations">std.thread</a></li>
+	<li><a href="std.traits.html" title="Type traits">std.traits</a></li>
+	<li><a href="std.typetuple.html" title="Type tuples">std.typetuple</a></li>
+	<li><a href="std.uni.html" title="Unicode classification">std.uni</a></li>
+	<li><a href="std.uri.html" title="Encode and decode Uniform Resource Identifiers (URIs)">std.uri</a></li>
+	<li><a href="std.utf.html" title="Encode and decode utf character encodings">std.utf</a></li>
+	<li><a href="std.zip.html" title="Read/write zip archives">std.zip</a></li>
+	<li><a href="std.zlib.html" title="Compression / Decompression of data">std.zlib</a></li>
+	<li><a href="std.c.fenv.html" title="Floating point environment">std.c.fenv</a></li>
+	<li><a href="std.c.locale.html" title="Locale">std.c.locale</a></li>
+	<li><a href="std.c.math.html" title="Math">std.c.math</a></li>
+	<li><a href="std.c.process.html" title="Process">std.c.process</a></li>
+	<li><a href="std.c.stdarg.html" title="Variadic arguments">std.c.stdarg</a></li>
+	<li><a href="std.c.stddef.html" title="Standard definitions">std.c.stddef</a></li>
+	<li><a href="std.c.stdio.html" title="Standard I/O">std.c.stdio</a></li>
+	<li><a href="std.c.stdlib.html" title="Standard library">std.c.stdlib</a></li>
+	<li><a href="std.c.string.html" title="Strings">std.c.string</a></li>
+	<li><a href="std.c.time.html" title="Time">std.c.time</a></li>
+	<li><a href="std.c.wcharh.html" title="Wide characters">std.c.wcharh</a></li>
+	<li><a href="std.windows.charset.html" title="Conversion to/from Windows character sets">std.windows.charset</a></li>
+	<li><a href="phobos.html#std_windows" title="Modules specific to Windows">std.windows</a></li>
+	<li><a href="phobos.html#std_linux" title="Modules specific to Windows">std.linux</a></li>
+	<li><a href="phobos.html#std_c_windows" title="C Windows API">std.c.windows</a></li>
+	<li><a href="phobos.html#std_c_linux" title="C Linux API">std.c.linux</a></li>
+    </ul>
+</div>
+</div>
+<div id="content">
+    <h1><a href="./htmlsrc/std.stream.html">std.stream</a></h1>
+    
+<dl>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L40" title="At line 40.">StreamException</a> : Exception;</big></dt>
+<dd>
+A base class for stream exceptions.<br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.stream.html#L42" title="At line 42.">this</a>(char[] <i>msg</i>);</big></dt>
+<dd>
+Construct a StreamException with given error message.<br><br></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L46" title="At line 46.">ReadException</a> : StreamException;</big></dt>
+<dd>
+Thrown when unable to read data from Stream.<br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.stream.html#L48" title="At line 48.">this</a>(char[] <i>msg</i>);</big></dt>
+<dd>
+Construct a ReadException with given error message.<br><br></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L52" title="At line 52.">WriteException</a> : StreamException;</big></dt>
+<dd>
+Thrown when unable to write data to Stream.<br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.stream.html#L54" title="At line 54.">this</a>(char[] <i>msg</i>);</big></dt>
+<dd>
+Construct a WriteException with given error message.<br><br></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L58" title="At line 58.">SeekException</a> : StreamException;</big></dt>
+<dd>
+Thrown when unable to move Stream pointer.<br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.stream.html#L60" title="At line 60.">this</a>(char[] <i>msg</i>);</big></dt>
+<dd>
+Construct a SeekException with given error message.<br><br></dd></dl></dd>
+<dt><big>enum <a href="./htmlsrc/std.stream.html#L64" title="At line 64.">SeekPos</a>;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.stream.html#L65" title="At line 65.">Set</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L66" title="At line 66.">Current</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L67" title="At line 67.">End</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>interface <a href="./htmlsrc/std.stream.html#L84" title="At line 84.">InputStream</a>;</big></dt>
+<dd>
+InputStream is the interface for readable streams.<br><br>
+<dl>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L91" title="At line 91.">readExact</a>(void* <i>buffer</i>, size_t <i>size</i>);</big></dt>
+<dd>
+Read exactly size bytes into the buffer.<br><br>
+Throws a ReadException if it is not correct.
+   <br><br></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L98" title="At line 98.">read</a>(ubyte[] <i>buffer</i>);</big></dt>
+<dd>
+Read a block of data big enough to fill the given array buffer.<br><br>
+<b>Returns:</b><br>
+the actual number of bytes read. Unfilled bytes are not modified.<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L108" title="At line 108.">read</a>(out byte <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L109" title="At line 109.">read</a>(out ubyte <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L110" title="At line 110.">read</a>(out short <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L111" title="At line 111.">read</a>(out ushort <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L112" title="At line 112.">read</a>(out int <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L113" title="At line 113.">read</a>(out uint <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L114" title="At line 114.">read</a>(out long <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L115" title="At line 115.">read</a>(out ulong <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L116" title="At line 116.">read</a>(out float <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L117" title="At line 117.">read</a>(out double <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L118" title="At line 118.">read</a>(out real <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L119" title="At line 119.">read</a>(out ifloat <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L120" title="At line 120.">read</a>(out idouble <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L121" title="At line 121.">read</a>(out ireal <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L122" title="At line 122.">read</a>(out cfloat <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L123" title="At line 123.">read</a>(out cdouble <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L124" title="At line 124.">read</a>(out creal <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L125" title="At line 125.">read</a>(out char <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L126" title="At line 126.">read</a>(out wchar <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L127" title="At line 127.">read</a>(out dchar <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L130" title="At line 130.">read</a>(out char[] <i>s</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L133" title="At line 133.">read</a>(out wchar[] <i>s</i>);</big></dt>
+<dd>
+Read a basic type or counted string.<br><br>
+Throw a ReadException if it could not be read.
+ Outside of byte, ubyte, and char, the format is
+ implementation-specific and should not be used except as opposite actions
+ to write.
+   <br><br></dd>
+<dt><big>char[] <a href="./htmlsrc/std.stream.html#L143" title="At line 143.">readLine</a>();</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.stream.html#L144" title="At line 144.">readLine</a>(char[] <i>result</i>);</big></dt>
+<dt><big>wchar[] <a href="./htmlsrc/std.stream.html#L145" title="At line 145.">readLineW</a>();</big></dt>
+<dt><big>wchar[] <a href="./htmlsrc/std.stream.html#L146" title="At line 146.">readLineW</a>(wchar[] <i>result</i>);</big></dt>
+<dd>
+Read a line that is terminated with some combination of carriage return and
+ line feed or end-of-file.<br><br>
+The terminators are not included. The wchar version
+ is identical. The optional buffer parameter is filled &#40;reallocating
+ it if necessary&#41; and a slice of the result is returned. 
+   <br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.stream.html#L167" title="At line 167.">opApply</a>(int delegate(inout char[] line) <i>dg</i>);</big></dt>
+<dt><big>int <a href="./htmlsrc/std.stream.html#L168" title="At line 168.">opApply</a>(int delegate(inout ulong n, inout char[] line) <i>dg</i>);</big></dt>
+<dt><big>int <a href="./htmlsrc/std.stream.html#L169" title="At line 169.">opApply</a>(int delegate(inout wchar[] line) <i>dg</i>);</big></dt>
+<dt><big>int <a href="./htmlsrc/std.stream.html#L170" title="At line 170.">opApply</a>(int delegate(inout ulong n, inout wchar[] line) <i>dg</i>);</big></dt>
+<dd>
+Overload foreach statements to read the stream line by line and call the
+ supplied delegate with each line or with each line with line number.<br><br>
+The string passed in line may be reused between calls to the delegate.
+ Line numbering starts at 1.
+ Breaking out of the foreach will leave the stream
+ position at the beginning of the next line to be read.
+ For example, to echo a file line-by-line with line numbers run:
+ <pre class="d_code">
+
+ <span class="i">Stream</span> <span class="i">file</span> = <span class="k">new</span> <span class="i">BufferedFile</span>(<span class="sl">"sample.txt"</span>);
+ <span class="k">foreach</span>(<span class="k">ulong</span> <span class="i">n</span>, <span class="k">char</span>[] <span class="i">line</span>; <span class="i">file</span>) {
+   <span class="i">stdout</span>.<span class="i">writefln</span>(<span class="sl">"line %d: %s"</span>,<span class="i">n</span>,<span class="i">line</span>);
+ }
+ <span class="i">file</span>.<span class="i">close</span>();
+ 
+</pre>
+   <br><br></dd>
+<dt><big>char[] <a href="./htmlsrc/std.stream.html#L174" title="At line 174.">readString</a>(size_t <i>length</i>);</big></dt>
+<dd>
+Read a string of the given length,
+ throwing ReadException if there was a problem.<br><br></dd>
+<dt><big>wchar[] <a href="./htmlsrc/std.stream.html#L184" title="At line 184.">readStringW</a>(size_t <i>length</i>);</big></dt>
+<dd>
+Read a string of the given length, throwing ReadException if there was a
+ problem.<br><br>
+The file format is implementation-specific and should not be used
+ except as opposite actions to <b>write</b>.
+   <br><br></dd>
+<dt><big>char <a href="./htmlsrc/std.stream.html#L195" title="At line 195.">getc</a>();</big></dt>
+<dt><big>wchar <a href="./htmlsrc/std.stream.html#L196" title="At line 196.">getcw</a>();</big></dt>
+<dd>
+Read and return the next character in the stream.<br><br>
+This is the only method that will handle ungetc properly.
+ getcw's format is implementation-specific.
+ If EOF is reached then getc returns char.init and getcw returns wchar.init.
+   <br><br></dd>
+<dt><big>char <a href="./htmlsrc/std.stream.html#L204" title="At line 204.">ungetc</a>(char <i>c</i>);</big></dt>
+<dt><big>wchar <a href="./htmlsrc/std.stream.html#L205" title="At line 205.">ungetcw</a>(wchar <i>c</i>);</big></dt>
+<dd>
+Push a character back onto the stream.<br><br>
+They will be returned in first-in last-out order from getc/getcw.
+ Only has effect on further calls to getc&#40;&#41; and getcw&#40;&#41;.
+   <br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.stream.html#L227" title="At line 227.">vreadf</a>(TypeInfo[] <i>arguments</i>, void* <i>args</i>);</big></dt>
+<dt><big>int <a href="./htmlsrc/std.stream.html#L228" title="At line 228.">readf</a>(...);</big></dt>
+<dd>
+Scan a string from the input using a similar form to C's scanf
+ and <a href="std_format.html">std.format</a>.<br><br>
+An argument of type char[] is interpreted as a format string.
+ All other arguments must be pointer types.
+ If a format string is not present a default will be supplied computed from
+ the base type of the pointer type. An argument of type char[]* is filled
+ &#40;possibly with appending characters&#41; and a slice of the result is assigned
+ back into the argument. For example the following readf statements
+ are equivalent:
+ <pre class="d_code">
+
+ <span class="k">int</span> <span class="i">x</span>;
+ <span class="k">double</span> <span class="i">y</span>;
+ <span class="k">char</span>[] <span class="i">s</span>;
+ <span class="i">file</span>.<span class="i">readf</span>(&amp;<span class="i">x</span>, <span class="sl">" hello "</span>, &amp;<span class="i">y</span>, &amp;<span class="i">s</span>);
+ <span class="i">file</span>.<span class="i">readf</span>(<span class="sl">"%d hello %f %s"</span>, &amp;<span class="i">x</span>, &amp;<span class="i">y</span>, &amp;<span class="i">s</span>);
+ <span class="i">file</span>.<span class="i">readf</span>(<span class="sl">"%d hello %f"</span>, &amp;<span class="i">x</span>, &amp;<span class="i">y</span>, <span class="sl">"%s"</span>, &amp;<span class="i">s</span>);
+ 
+</pre>
+   <br><br></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L231" title="At line 231.">available</a>();</big></dt>
+<dd>
+Retrieve the number of bytes available for immediate reading.<br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L242" title="At line 242.">eof</a>();</big></dt>
+<dd>
+Return whether the current file position is the same as the end of the
+ file.<br><br>
+This does not require actually reading past the end, as with stdio. For
+ non-seekable streams this might only return true after attempting to read
+ past the end.
+   <br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L244" title="At line 244.">isOpen</a>();</big></dt>
+<dd>
+Return true if the stream is currently open.<br><br></dd></dl></dd>
+<dt><big>interface <a href="./htmlsrc/std.stream.html#L248" title="At line 248.">OutputStream</a>;</big></dt>
+<dd>
+Interface for writable streams.<br><br>
+<dl>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L254" title="At line 254.">writeExact</a>(void* <i>buffer</i>, size_t <i>size</i>);</big></dt>
+<dd>
+Write exactly size bytes from buffer, or throw a WriteException if that
+ could not be done.
+   <br><br></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L260" title="At line 260.">write</a>(ubyte[] <i>buffer</i>);</big></dt>
+<dd>
+Write as much of the buffer as possible,
+ returning the number of bytes written.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L269" title="At line 269.">write</a>(byte <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L270" title="At line 270.">write</a>(ubyte <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L271" title="At line 271.">write</a>(short <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L272" title="At line 272.">write</a>(ushort <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L273" title="At line 273.">write</a>(int <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L274" title="At line 274.">write</a>(uint <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L275" title="At line 275.">write</a>(long <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L276" title="At line 276.">write</a>(ulong <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L277" title="At line 277.">write</a>(float <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L278" title="At line 278.">write</a>(double <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L279" title="At line 279.">write</a>(real <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L280" title="At line 280.">write</a>(ifloat <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L281" title="At line 281.">write</a>(idouble <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L282" title="At line 282.">write</a>(ireal <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L283" title="At line 283.">write</a>(cfloat <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L284" title="At line 284.">write</a>(cdouble <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L285" title="At line 285.">write</a>(creal <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L286" title="At line 286.">write</a>(char <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L287" title="At line 287.">write</a>(wchar <i>x</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L288" title="At line 288.">write</a>(dchar <i>x</i>);</big></dt>
+<dd>
+Write a basic type.<br><br>
+Outside of byte, ubyte, and char, the format is implementation-specific
+ and should only be used in conjunction with read.
+ Throw WriteException on error.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L297" title="At line 297.">write</a>(char[] <i>s</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L298" title="At line 298.">write</a>(wchar[] <i>s</i>);</big></dt>
+<dd>
+Writes a string, together with its length.<br><br>
+The format is implementation-specific
+ and should only be used in conjunction with read.
+ Throw WriteException on error.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L306" title="At line 306.">writeLine</a>(char[] <i>s</i>);</big></dt>
+<dd>
+Write a line of text,
+ appending the line with an operating-system-specific line ending.<br><br>
+Throws WriteException on error.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L315" title="At line 315.">writeLineW</a>(wchar[] <i>s</i>);</big></dt>
+<dd>
+Write a line of text,
+ appending the line with an operating-system-specific line ending.<br><br>
+The format is implementation-specific.
+ Throws WriteException on error.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L322" title="At line 322.">writeString</a>(char[] <i>s</i>);</big></dt>
+<dd>
+Write a string of text.<br><br>
+Throws WriteException if it could not be fully written.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L330" title="At line 330.">writeStringW</a>(wchar[] <i>s</i>);</big></dt>
+<dd>
+Write a string of text.<br><br>
+The format is implementation-specific.
+ Throws WriteException if it could not be fully written.
+   <br><br></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L336" title="At line 336.">vprintf</a>(char[] <i>format</i>, va_list <i>args</i>);</big></dt>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L337" title="At line 337.">printf</a>(char[] <i>format</i>, ...);</big></dt>
+<dd>
+Print a formatted string into the stream using printf-style syntax,
+ returning the number of bytes written.
+   <br><br></dd>
+<dt><big>OutputStream <a href="./htmlsrc/std.stream.html#L344" title="At line 344.">writef</a>(...);</big></dt>
+<dt><big>OutputStream <a href="./htmlsrc/std.stream.html#L345" title="At line 345.">writefln</a>(...);</big></dt>
+<dt><big>OutputStream <a href="./htmlsrc/std.stream.html#L346" title="At line 346.">writefx</a>(TypeInfo[] <i>arguments</i>, void* <i>argptr</i>, int <i>newline</i> = false);</big></dt>
+<dd>
+Print a formatted string into the stream using writef-style syntax.
+ <br><br>
+<b>References:</b><br><a href="std_format.html">std.format</a>.<br><br>
+<b>Returns:</b><br>
+self to chain with other stream commands like flush.<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L348" title="At line 348.">flush</a>();</big></dt>
+<dd>
+Flush pending output if appropriate.<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L349" title="At line 349.">close</a>();</big></dt>
+<dd>
+Close the stream, flushing output if appropriate.<br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L350" title="At line 350.">isOpen</a>();</big></dt>
+<dd>
+Return true if the stream is currently open.<br><br></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L380" title="At line 380.">Stream</a> : InputStream, OutputStream;</big></dt>
+<dd>
+Stream is the base abstract class from which the other stream classes derive.
+ 
+ Stream's byte order is the format native to the computer.<br><br>
+<b>Reading:</b><br>These methods require that the readable flag be set.
+ Problems with reading result in a ReadException being thrown.
+ Stream implements the InputStream interface in addition to the
+ readBlock method.<br><br>
+<b>Writing:</b><br>These methods require that the writeable flag be set. Problems with writing
+ result in a WriteException being thrown. Stream implements the OutputStream
+ interface in addition to the following methods:
+ writeBlock
+ copyFrom
+ copyFrom<br><br>
+<b>Seeking:</b><br>These methods require that the seekable flag be set.
+ Problems with seeking result in a SeekException being thrown.
+ seek, seekSet, seekCur, seekEnd, position, size, toString, toHash<br><br>
+<dl>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L384" title="At line 384.">readable</a>;</big></dt>
+<dd>
+Indicates whether this stream can be read from.<br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L385" title="At line 385.">writeable</a>;</big></dt>
+<dd>
+Indicates whether this stream can be written to.<br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L386" title="At line 386.">seekable</a>;</big></dt>
+<dd>
+Indicates whether this stream can be seeked within.<br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L387" title="At line 387.">isopen</a>; [protected]</big></dt>
+<dd>
+Indicates whether this stream is open.<br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L389" title="At line 389.">readEOF</a>; [protected]</big></dt>
+<dd>
+Indicates whether this stream is at eof
+ after the last read attempt.
+				   <br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L393" title="At line 393.">prevCr</a>; [protected]</big></dt>
+<dd>
+For a non-seekable stream indicates that
+ the last readLine or readLineW ended on a
+ '\r' character. 
+				  <br><br></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L398" title="At line 398.">this</a>();</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L404" title="At line 404.">readBlock</a>(void* <i>buffer</i>, size_t <i>size</i>); [abstract]</big></dt>
+<dd>
+Read up to size bytes into the buffer and return the number of bytes
+ actually read. A return value of 0 indicates end-of-file.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L408" title="At line 408.">readExact</a>(void* <i>buffer</i>, size_t <i>size</i>);</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L422" title="At line 422.">read</a>(ubyte[] <i>buffer</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L428" title="At line 428.">read</a>(out byte <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L429" title="At line 429.">read</a>(out ubyte <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L430" title="At line 430.">read</a>(out short <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L431" title="At line 431.">read</a>(out ushort <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L432" title="At line 432.">read</a>(out int <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L433" title="At line 433.">read</a>(out uint <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L434" title="At line 434.">read</a>(out long <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L435" title="At line 435.">read</a>(out ulong <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L436" title="At line 436.">read</a>(out float <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L437" title="At line 437.">read</a>(out double <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L438" title="At line 438.">read</a>(out real <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L439" title="At line 439.">read</a>(out ifloat <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L440" title="At line 440.">read</a>(out idouble <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L441" title="At line 441.">read</a>(out ireal <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L442" title="At line 442.">read</a>(out cfloat <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L443" title="At line 443.">read</a>(out cdouble <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L444" title="At line 444.">read</a>(out creal <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L445" title="At line 445.">read</a>(out char <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L446" title="At line 446.">read</a>(out wchar <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L447" title="At line 447.">read</a>(out dchar <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L450" title="At line 450.">read</a>(out char[] <i>s</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L457" title="At line 457.">read</a>(out wchar[] <i>s</i>);</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.stream.html#L464" title="At line 464.">readLine</a>();</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.stream.html#L471" title="At line 471.">readLine</a>(char[] <i>result</i>);</big></dt>
+<dd></dd>
+<dt><big>wchar[] <a href="./htmlsrc/std.stream.html#L506" title="At line 506.">readLineW</a>();</big></dt>
+<dd></dd>
+<dt><big>wchar[] <a href="./htmlsrc/std.stream.html#L513" title="At line 513.">readLineW</a>(wchar[] <i>result</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.stream.html#L546" title="At line 546.">opApply</a>(int delegate(inout char[] line) <i>dg</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.stream.html#L558" title="At line 558.">opApply</a>(int delegate(inout ulong n, inout char[] line) <i>dg</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.stream.html#L572" title="At line 572.">opApply</a>(int delegate(inout wchar[] line) <i>dg</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.stream.html#L584" title="At line 584.">opApply</a>(int delegate(inout ulong n, inout wchar[] line) <i>dg</i>);</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.stream.html#L599" title="At line 599.">readString</a>(size_t <i>length</i>);</big></dt>
+<dd></dd>
+<dt><big>wchar[] <a href="./htmlsrc/std.stream.html#L607" title="At line 607.">readStringW</a>(size_t <i>length</i>);</big></dt>
+<dd></dd>
+<dt><big>wchar[] <a href="./htmlsrc/std.stream.html#L614" title="At line 614.">unget</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L615" title="At line 615.">ungetAvailable</a>(); [final]</big></dt>
+<dd></dd>
+<dt><big>char <a href="./htmlsrc/std.stream.html#L620" title="At line 620.">getc</a>();</big></dt>
+<dd></dd>
+<dt><big>wchar <a href="./htmlsrc/std.stream.html#L640" title="At line 640.">getcw</a>();</big></dt>
+<dd></dd>
+<dt><big>char <a href="./htmlsrc/std.stream.html#L662" title="At line 662.">ungetc</a>(char <i>c</i>);</big></dt>
+<dd></dd>
+<dt><big>wchar <a href="./htmlsrc/std.stream.html#L673" title="At line 673.">ungetcw</a>(wchar <i>c</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.stream.html#L682" title="At line 682.">vreadf</a>(TypeInfo[] <i>arguments</i>, void* <i>args</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.stream.html#L1018" title="At line 1018.">readf</a>(...);</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L1023" title="At line 1023.">available</a>();</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L1029" title="At line 1029.">writeBlock</a>(void* <i>buffer</i>, size_t <i>size</i>); [abstract]</big></dt>
+<dd>
+Write up to size bytes from buffer in the stream, returning the actual
+ number of bytes that were written.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1033" title="At line 1033.">writeExact</a>(void* <i>buffer</i>, size_t <i>size</i>);</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L1047" title="At line 1047.">write</a>(ubyte[] <i>buffer</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1053" title="At line 1053.">write</a>(byte <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1054" title="At line 1054.">write</a>(ubyte <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1055" title="At line 1055.">write</a>(short <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1056" title="At line 1056.">write</a>(ushort <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1057" title="At line 1057.">write</a>(int <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1058" title="At line 1058.">write</a>(uint <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1059" title="At line 1059.">write</a>(long <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1060" title="At line 1060.">write</a>(ulong <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1061" title="At line 1061.">write</a>(float <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1062" title="At line 1062.">write</a>(double <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1063" title="At line 1063.">write</a>(real <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1064" title="At line 1064.">write</a>(ifloat <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1065" title="At line 1065.">write</a>(idouble <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1066" title="At line 1066.">write</a>(ireal <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1067" title="At line 1067.">write</a>(cfloat <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1068" title="At line 1068.">write</a>(cdouble <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1069" title="At line 1069.">write</a>(creal <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1070" title="At line 1070.">write</a>(char <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1071" title="At line 1071.">write</a>(wchar <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1072" title="At line 1072.">write</a>(dchar <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1075" title="At line 1075.">write</a>(char[] <i>s</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1081" title="At line 1081.">write</a>(wchar[] <i>s</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1087" title="At line 1087.">writeLine</a>(char[] <i>s</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1098" title="At line 1098.">writeLineW</a>(wchar[] <i>s</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1109" title="At line 1109.">writeString</a>(char[] <i>s</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1114" title="At line 1114.">writeStringW</a>(wchar[] <i>s</i>);</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L1120" title="At line 1120.">vprintf</a>(char[] <i>format</i>, va_list <i>args</i>);</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L1153" title="At line 1153.">printf</a>(char[] <i>format</i>, ...);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1160" title="At line 1160.">doFormatCallback</a>(dchar <i>c</i>); [private]</big></dt>
+<dd></dd>
+<dt><big>OutputStream <a href="./htmlsrc/std.stream.html#L1168" title="At line 1168.">writef</a>(...);</big></dt>
+<dd></dd>
+<dt><big>OutputStream <a href="./htmlsrc/std.stream.html#L1173" title="At line 1173.">writefln</a>(...);</big></dt>
+<dd></dd>
+<dt><big>OutputStream <a href="./htmlsrc/std.stream.html#L1178" title="At line 1178.">writefx</a>(TypeInfo[] <i>arguments</i>, void* <i>argptr</i>, int <i>newline</i> = false);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1190" title="At line 1190.">copyFrom</a>(Stream <i>s</i>);</big></dt>
+<dd>
+Copies all data from s into this stream.
+ This may throw ReadException or WriteException on failure.
+ This restores the file position of s so that it is unchanged.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1210" title="At line 1210.">copyFrom</a>(Stream <i>s</i>, ulong <i>count</i>);</big></dt>
+<dd>
+Copy a specified number of bytes from the given stream into this one.
+ This may throw ReadException or WriteException on failure.
+ Unlike the previous form, this doesn't restore the file position of s.
+   <br><br></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L1228" title="At line 1228.">seek</a>(long <i>offset</i>, SeekPos <i>whence</i>); [abstract]</big></dt>
+<dd>
+Change the current position of the stream. whence is either SeekPos.Set, in
+   which case the offset is an absolute index from the beginning of the stream,
+   SeekPos.Current, in which case the offset is a delta from the current
+   position, or SeekPos.End, in which case the offset is a delta from the end of
+   the stream &#40;negative or zero offsets only make sense in that case&#41;. This
+   returns the new file position.
+   <br><br></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L1233" title="At line 1233.">seekSet</a>(long <i>offset</i>);</big></dt>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L1234" title="At line 1234.">seekCur</a>(long <i>offset</i>);</big></dt>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L1235" title="At line 1235.">seekEnd</a>(long <i>offset</i>);</big></dt>
+<dd>
+Aliases for their normal seek counterparts.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1240" title="At line 1240.">position</a>(ulong <i>pos</i>);</big></dt>
+<dd>
+Sets file position. Equivalent to calling seek&#40;pos, SeekPos.Set&#41;.
+   <br><br></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L1245" title="At line 1245.">position</a>();</big></dt>
+<dd>
+Returns current file position. Equivalent to seek&#40;0, SeekPos.Current&#41;.
+   <br><br></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L1251" title="At line 1251.">size</a>();</big></dt>
+<dd>
+Retrieve the size of the stream in bytes.
+ The stream must be seekable or a SeekException is thrown.
+   <br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L1259" title="At line 1259.">eof</a>();</big></dt>
+<dd></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L1270" title="At line 1270.">isOpen</a>();</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1273" title="At line 1273.">flush</a>();</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1279" title="At line 1279.">close</a>();</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.stream.html#L1290" title="At line 1290.">toString</a>(); [override]</big></dt>
+<dd>
+Read the entire stream and return it as a string.
+ If the stream is not seekable the contents from the current position to eof
+ is read and returned.
+   <br><br></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L1324" title="At line 1324.">toHash</a>(); [override]</big></dt>
+<dd>
+Get a hash of the stream by reading each byte and using it in a CRC-32
+ checksum.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1341" title="At line 1341.">assertReadable</a>(); [protected, final]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1346" title="At line 1346.">assertWriteable</a>(); [protected, final]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1351" title="At line 1351.">assertSeekable</a>(); [protected, final]</big></dt>
+<dd></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L1370" title="At line 1370.">FilterStream</a> : Stream;</big></dt>
+<dd>
+A base class for streams that wrap a source stream with additional
+ functionality.<br><br>
+The method implementations forward read/write/seek calls to the
+ source stream. A FilterStream can change the position of the source stream
+ arbitrarily and may not keep the source stream state in sync with the
+ FilterStream, even upon flushing and closing the FilterStream. It is
+ recommended to not make any assumptions about the state of the source position
+ and read/write state after a FilterStream has acted upon it. Specifc subclasses
+ of FilterStream should document how they modify the source stream and if any
+ invariants hold true between the source and filter.
+ <br><br>
+<dl>
+<dt><big>Stream <a href="./htmlsrc/std.stream.html#L1371" title="At line 1371.">s</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L1376" title="At line 1376.">nestClose</a>;</big></dt>
+<dd>
+Property indicating when this stream closes to close the source stream as
+ well.
+ Defaults to true.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L1379" title="At line 1379.">this</a>(Stream <i>source</i>);</big></dt>
+<dd>
+Construct a FilterStream for the given source.<br><br></dd>
+<dt><big>Stream <a href="./htmlsrc/std.stream.html#L1389" title="At line 1389.">source</a>(); [final]</big></dt>
+<dd>
+Get the current source stream.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1398" title="At line 1398.">source</a>(Stream <i>s</i>);</big></dt>
+<dd>
+Set the current source stream.<br><br>
+Setting the source stream closes this stream before attaching the new
+ source. Attaching an open stream reopens this stream and resets the stream
+ state. 
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1408" title="At line 1408.">resetSource</a>();</big></dt>
+<dd>
+Indicates the source stream changed state and that this stream should reset
+ any readable, writeable, seekable, isopen and buffering flags.
+   <br><br></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L1422" title="At line 1422.">readBlock</a>(void* <i>buffer</i>, size_t <i>size</i>);</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L1429" title="At line 1429.">writeBlock</a>(void* <i>buffer</i>, size_t <i>size</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1434" title="At line 1434.">close</a>(); [override]</big></dt>
+<dd></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L1443" title="At line 1443.">seek</a>(long <i>offset</i>, SeekPos <i>whence</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L1448" title="At line 1448.">available</a>(); [override]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1449" title="At line 1449.">flush</a>(); [override]</big></dt>
+<dd></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L1461" title="At line 1461.">BufferedStream</a> : FilterStream;</big></dt>
+<dd>
+This subclass is for buffering a source stream.<br><br>
+A buffered stream must be
+ closed explicitly to ensure the final buffer content is written to the source
+ stream. The source stream position is changed according to the block size so
+ reading or writing to the BufferedStream may not change the source stream
+ position by the same amount.
+ <br><br>
+<dl>
+<dt><big>ubyte[] <a href="./htmlsrc/std.stream.html#L1462" title="At line 1462.">buffer</a>;</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.stream.html#L1463" title="At line 1463.">bufferCurPos</a>;</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.stream.html#L1464" title="At line 1464.">bufferLen</a>;</big></dt>
+<dd></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L1465" title="At line 1465.">bufferDirty</a>;</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.stream.html#L1466" title="At line 1466.">bufferSourcePos</a>;</big></dt>
+<dd></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L1467" title="At line 1467.">streamPos</a>;</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L1479" title="At line 1479.">invariant</a>;</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.stream.html#L1485" title="At line 1485.">DefaultBufferSize</a>; [const]</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L1491" title="At line 1491.">this</a>(Stream <i>source</i>, uint <i>bufferSize</i> = DefaultBufferSize);</big></dt>
+<dd>
+Create a buffered stream for the stream source with the buffer size
+ bufferSize.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1497" title="At line 1497.">resetSource</a>(); [protected]</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L1506" title="At line 1506.">readBlock</a>(void* <i>result</i>, size_t <i>len</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L1555" title="At line 1555.">writeBlock</a>(void* <i>result</i>, size_t <i>len</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L1608" title="At line 1608.">seek</a>(long <i>offset</i>, SeekPos <i>whence</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>template <a href="./htmlsrc/std.stream.html#L1627" title="At line 1627.">TreadLine</a>(T);</big></dt>
+<dd>
+<dl>
+<dt><big>T[] <a href="./htmlsrc/std.stream.html#L1628" title="At line 1628.">readLine</a>(T[] <i>inBuffer</i>);</big></dt>
+<dd></dd></dl></dd>
+<dt><big>char[] <a href="./htmlsrc/std.stream.html#L1676" title="At line 1676.">readLine</a>(char[] <i>inBuffer</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>alias Stream.readLine <a href="./htmlsrc/std.stream.html#L1682" title="At line 1682.">readLine</a>;</big></dt>
+<dd></dd>
+<dt><big>wchar[] <a href="./htmlsrc/std.stream.html#L1684" title="At line 1684.">readLineW</a>(wchar[] <i>inBuffer</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>alias Stream.readLineW <a href="./htmlsrc/std.stream.html#L1690" title="At line 1690.">readLineW</a>;</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1692" title="At line 1692.">flush</a>(); [override]</big></dt>
+<dd></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L1722" title="At line 1722.">eof</a>(); [override]</big></dt>
+<dd></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L1739" title="At line 1739.">size</a>();</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L1745" title="At line 1745.">available</a>();</big></dt>
+<dd></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L1751" title="At line 1751.">StreamFileException</a> : StreamException;</big></dt>
+<dd>
+An exception for File errors.<br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.stream.html#L1753" title="At line 1753.">this</a>(char[] <i>msg</i>);</big></dt>
+<dd>
+Construct a StreamFileException with given error message.<br><br></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L1757" title="At line 1757.">OpenException</a> : StreamFileException;</big></dt>
+<dd>
+An exception for errors during File.open.<br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.stream.html#L1759" title="At line 1759.">this</a>(char[] <i>msg</i>);</big></dt>
+<dd>
+Construct an OpenFileException with given error message.<br><br></dd></dl></dd>
+<dt><big>enum <a href="./htmlsrc/std.stream.html#L1763" title="At line 1763.">FileMode</a>;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.stream.html#L1764" title="At line 1764.">In</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L1765" title="At line 1765.">Out</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L1766" title="At line 1766.">OutNew</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L1767" title="At line 1767.">Append</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>alias int <a href="./htmlsrc/std.stream.html#L1779" title="At line 1779.">HANDLE</a>;</big></dt>
+<dd></dd>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L1783" title="At line 1783.">File</a> : Stream;</big></dt>
+<dd>
+This subclass is for unbuffered file system streams.<br><br>
+<dl>
+<dt><big>HANDLE <a href="./htmlsrc/std.stream.html#L1789" title="At line 1789.">hFile</a>; [private]</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L1792" title="At line 1792.">this</a>();</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L1804" title="At line 1804.">this</a>(HANDLE <i>hFile</i>, FileMode <i>mode</i>);</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L1830" title="At line 1830.">this</a>(char[] <i>filename</i>, FileMode <i>mode</i> = FileMode.In);</big></dt>
+<dd>
+Create the stream with no open file, an open file in read mode, or an open
+ file with explicit file mode.
+ mode, if given, is a combination of FileMode.In
+ &#40;indicating a file that can be read&#41; and FileMode.Out &#40;indicating a file
+ that can be written&#41;.
+ Opening a file for reading that doesn't exist will error.
+ Opening a file for writing that doesn't exist will create the file.
+ The FileMode.OutNew mode will open the file for writing and reset the
+ length to zero.
+ The FileMode.Append mode will open the file for writing and move the
+ file position to the end of the file.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1837" title="At line 1837.">open</a>(char[] <i>filename</i>, FileMode <i>mode</i> = FileMode.In);</big></dt>
+<dd>
+Open a file for the stream, in an identical manner to the constructors.
+ If an error occurs an OpenException is thrown.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1864" title="At line 1864.">parseMode</a>(int <i>mode</i>, out int <i>access</i>, out int <i>share</i>, out int <i>createMode</i>); [private]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1902" title="At line 1902.">create</a>(char[] <i>filename</i>);</big></dt>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1907" title="At line 1907.">create</a>(char[] <i>filename</i>, FileMode <i>mode</i>);</big></dt>
+<dd>
+Create a file for writing.<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L1913" title="At line 1913.">close</a>(); [override]</big></dt>
+<dd>
+Close the current file if it is open; otherwise it does nothing.<br><br></dd>
+<dt><big>~<a href="./htmlsrc/std.stream.html#L1929" title="At line 1929.">this</a>();</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L1941" title="At line 1941.">readBlock</a>(void* <i>buffer</i>, size_t <i>size</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L1954" title="At line 1954.">writeBlock</a>(void* <i>buffer</i>, size_t <i>size</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L1966" title="At line 1966.">seek</a>(long <i>offset</i>, SeekPos <i>rel</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L1988" title="At line 1988.">available</a>(); [override]</big></dt>
+<dd>
+For a seekable file returns the difference of the size and position and
+ otherwise returns 0.
+   <br><br></dd>
+<dt><big>HANDLE <a href="./htmlsrc/std.stream.html#L1999" title="At line 1999.">handle</a>();</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2002" title="At line 2002.">unittest</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L2083" title="At line 2083.">BufferedFile</a> : BufferedStream;</big></dt>
+<dd>
+This subclass is for buffered file system streams.<br><br>
+It is a convenience class for wrapping a File in a BufferedStream.
+ A buffered stream must be closed explicitly to ensure the final buffer
+ content is written to the file.
+ <br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.stream.html#L2086" title="At line 2086.">this</a>();</big></dt>
+<dd>
+opens file for reading<br><br></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2089" title="At line 2089.">this</a>(char[] <i>filename</i>, FileMode <i>mode</i> = FileMode.In, uint <i>bufferSize</i> = DefaultBufferSize);</big></dt>
+<dd>
+opens file in requested mode and buffer size<br><br></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2095" title="At line 2095.">this</a>(File <i>file</i>, uint <i>bufferSize</i> = DefaultBufferSize);</big></dt>
+<dd>
+opens file for reading with requested buffer size<br><br></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2100" title="At line 2100.">this</a>(HANDLE <i>hFile</i>, FileMode <i>mode</i>, uint <i>buffersize</i>);</big></dt>
+<dd>
+opens existing handle; use with care!<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2105" title="At line 2105.">open</a>(char[] <i>filename</i>, FileMode <i>mode</i> = FileMode.In);</big></dt>
+<dd>
+opens file in requested mode<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2112" title="At line 2112.">create</a>(char[] <i>filename</i>, FileMode <i>mode</i> = FileMode.OutNew);</big></dt>
+<dd>
+creates file in requested mode<br><br></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2119" title="At line 2119.">unittest</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>enum <a href="./htmlsrc/std.stream.html#L2170" title="At line 2170.">BOM</a>;</big></dt>
+<dd>
+UTF byte-order-mark signatures <br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.stream.html#L2171" title="At line 2171.">UTF8</a></big></dt>
+<dd>
+UTF-8<br><br></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2172" title="At line 2172.">UTF16LE</a></big></dt>
+<dd>
+UTF-16 Little Endian<br><br></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2173" title="At line 2173.">UTF16BE</a></big></dt>
+<dd>
+UTF-16 Big Endian<br><br></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2174" title="At line 2174.">UTF32LE</a></big></dt>
+<dd>
+UTF-32 Little Endian<br><br></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2175" title="At line 2175.">UTF32BE</a></big></dt>
+<dd>
+UTF-32 Big Endian<br><br></dd></dl></dd>
+<dt><big>int <a href="./htmlsrc/std.stream.html#L2178" title="At line 2178.">NBOMS</a>; [private, const]</big></dt>
+<dd></dd>
+<dt><big>Endian[NBOMS] <a href="./htmlsrc/std.stream.html#L2179" title="At line 2179.">BOMEndian</a>;</big></dt>
+<dd></dd>
+<dt><big>ubyte[][NBOMS] <a href="./htmlsrc/std.stream.html#L2185" title="At line 2185.">ByteOrderMarks</a>;</big></dt>
+<dd></dd>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L2208" title="At line 2208.">EndianStream</a> : FilterStream;</big></dt>
+<dd>
+This subclass wraps a stream with big-endian or little-endian byte order
+ swapping.<br><br>
+UTF Byte-Order-Mark &#40;BOM&#41; signatures can be read and deduced or
+ written.
+ Note that an EndianStream should not be used as the source of another
+ FilterStream since a FilterStream call the source with byte-oriented
+ read/write requests and the EndianStream will not perform any byte swapping.
+ The EndianStream reads and writes binary data &#40;non-getc functions&#41; in a
+ one-to-one
+ manner with the source stream so the source stream's position and state will be
+ kept in sync with the EndianStream if only non-getc functions are called.
+ <br><br>
+<dl>
+<dt><big>Endian <a href="./htmlsrc/std.stream.html#L2210" title="At line 2210.">endian</a>;</big></dt>
+<dd>
+Endianness property of the source stream.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2218" title="At line 2218.">this</a>(Stream <i>source</i>, Endian <i>end</i> = std.system.endian);</big></dt>
+<dd>
+Create the endian stream for the source stream source with endianness end.
+ The default endianness is the native byte order.
+ The Endian type is defined
+ in the std.system module.
+   <br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.stream.html#L2231" title="At line 2231.">readBOM</a>(int <i>ungetCharSize</i> = 1);</big></dt>
+<dd>
+Return -1 if no BOM and otherwise read the BOM and return it.<br><br>
+If there is no BOM or if bytes beyond the BOM are read then the bytes read
+ are pushed back onto the ungetc buffer or ungetcw buffer.
+ Pass ungetCharSize == 2 to use
+ ungetcw instead of ungetc when no BOM is present.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2275" title="At line 2275.">fixBO</a>(void* <i>buffer</i>, uint <i>size</i>); [final]</big></dt>
+<dd>
+Correct the byte order of buffer to match native endianness.
+ size must be even.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2315" title="At line 2315.">fixBlockBO</a>(void* <i>buffer</i>, uint <i>size</i>, size_t <i>repeat</i>); [final]</big></dt>
+<dd>
+Correct the byte order of the given buffer in blocks of the given size and
+ repeated the given number of times.
+ size must be even.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2322" title="At line 2322.">read</a>(out byte <i>x</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2323" title="At line 2323.">read</a>(out ubyte <i>x</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2324" title="At line 2324.">read</a>(out short <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2325" title="At line 2325.">read</a>(out ushort <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2326" title="At line 2326.">read</a>(out int <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2327" title="At line 2327.">read</a>(out uint <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2328" title="At line 2328.">read</a>(out long <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2329" title="At line 2329.">read</a>(out ulong <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2330" title="At line 2330.">read</a>(out float <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2331" title="At line 2331.">read</a>(out double <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2332" title="At line 2332.">read</a>(out real <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2333" title="At line 2333.">read</a>(out ifloat <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2334" title="At line 2334.">read</a>(out idouble <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2335" title="At line 2335.">read</a>(out ireal <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2336" title="At line 2336.">read</a>(out cfloat <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2337" title="At line 2337.">read</a>(out cdouble <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2338" title="At line 2338.">read</a>(out creal <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2339" title="At line 2339.">read</a>(out wchar <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2340" title="At line 2340.">read</a>(out dchar <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>wchar <a href="./htmlsrc/std.stream.html#L2342" title="At line 2342.">getcw</a>();</big></dt>
+<dd></dd>
+<dt><big>wchar[] <a href="./htmlsrc/std.stream.html#L2363" title="At line 2363.">readStringW</a>(size_t <i>length</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2371" title="At line 2371.">writeBOM</a>(BOM <i>b</i>);</big></dt>
+<dd>
+Write the specified BOM b to the source stream.<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2376" title="At line 2376.">write</a>(byte <i>x</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2377" title="At line 2377.">write</a>(ubyte <i>x</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2378" title="At line 2378.">write</a>(short <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2379" title="At line 2379.">write</a>(ushort <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2380" title="At line 2380.">write</a>(int <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2381" title="At line 2381.">write</a>(uint <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2382" title="At line 2382.">write</a>(long <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2383" title="At line 2383.">write</a>(ulong <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2384" title="At line 2384.">write</a>(float <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2385" title="At line 2385.">write</a>(double <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2386" title="At line 2386.">write</a>(real <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2387" title="At line 2387.">write</a>(ifloat <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2388" title="At line 2388.">write</a>(idouble <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2389" title="At line 2389.">write</a>(ireal <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2390" title="At line 2390.">write</a>(cfloat <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2391" title="At line 2391.">write</a>(cdouble <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2392" title="At line 2392.">write</a>(creal <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2393" title="At line 2393.">write</a>(wchar <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2394" title="At line 2394.">write</a>(dchar <i>x</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2396" title="At line 2396.">writeStringW</a>(wchar[] <i>str</i>);</big></dt>
+<dd></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L2403" title="At line 2403.">eof</a>(); [override]</big></dt>
+<dd></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L2404" title="At line 2404.">size</a>(); [override]</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2406" title="At line 2406.">unittest</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L2499" title="At line 2499.">TArrayStream</a>(Buffer) : Stream;</big></dt>
+<dd>
+Parameterized subclass that wraps an array-like buffer with a stream
+ interface.<br><br>
+The type Buffer must support the length property, opIndex and opSlice.
+ Compile in release mode when directly instantiating a TArrayStream to avoid
+ link errors.
+ <br><br>
+<dl>
+<dt><big>Buffer <a href="./htmlsrc/std.stream.html#L2500" title="At line 2500.">buf</a>;</big></dt>
+<dd></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L2501" title="At line 2501.">len</a>;</big></dt>
+<dd></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L2502" title="At line 2502.">cur</a>;</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2505" title="At line 2505.">this</a>(Buffer <i>buf</i>);</big></dt>
+<dd>
+Create the stream for the the buffer buf. Non-copying.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2513" title="At line 2513.">invariant</a>;</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L2518" title="At line 2518.">readBlock</a>(void* <i>buffer</i>, size_t <i>size</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L2529" title="At line 2529.">writeBlock</a>(void* <i>buffer</i>, size_t <i>size</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L2543" title="At line 2543.">seek</a>(long <i>offset</i>, SeekPos <i>rel</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L2565" title="At line 2565.">available</a>(); [override]</big></dt>
+<dd></dd>
+<dt><big>ubyte[] <a href="./htmlsrc/std.stream.html#L2568" title="At line 2568.">data</a>();</big></dt>
+<dd>
+Get the current memory data in total.<br><br></dd>
+<dt><big>char[] <a href="./htmlsrc/std.stream.html#L2575" title="At line 2575.">toString</a>(); [override]</big></dt>
+<dd></dd></dl></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2581" title="At line 2581.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L2607" title="At line 2607.">MemoryStream</a> : TArrayStream!(ubyte[]);</big></dt>
+<dd>
+This subclass reads and constructs an array of bytes in memory.<br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.stream.html#L2611" title="At line 2611.">this</a>();</big></dt>
+<dd>
+Create the output buffer and setup for reading, writing, and seeking.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2617" title="At line 2617.">this</a>(ubyte[] <i>buf</i>);</big></dt>
+<dt><big><a href="./htmlsrc/std.stream.html#L2618" title="At line 2618.">this</a>(byte[] <i>buf</i>);</big></dt>
+<dt><big><a href="./htmlsrc/std.stream.html#L2619" title="At line 2619.">this</a>(char[] <i>buf</i>);</big></dt>
+<dd>
+Create the output buffer and setup for reading, writing, and seeking.
+ Load it with specific input data.
+   <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2622" title="At line 2622.">reserve</a>(size_t <i>count</i>);</big></dt>
+<dd>
+Ensure the stream can hold count bytes.<br><br></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L2627" title="At line 2627.">writeBlock</a>(void* <i>buffer</i>, size_t <i>size</i>); [override]</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2632" title="At line 2632.">unittest</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L2684" title="At line 2684.">MmFileStream</a> : TArrayStream!(MmFile);</big></dt>
+<dd>
+This subclass wraps a memory-mapped file with the stream API.
+ See std.mmfile module.
+ <br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.stream.html#L2687" title="At line 2687.">this</a>(MmFile <i>file</i>);</big></dt>
+<dd>
+Create stream wrapper for file.<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2693" title="At line 2693.">flush</a>(); [override]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.stream.html#L2700" title="At line 2700.">close</a>(); [override]</big></dt>
+<dd></dd></dl></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2709" title="At line 2709.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>class <a href="./htmlsrc/std.stream.html#L2749" title="At line 2749.">SliceStream</a> : FilterStream;</big></dt>
+<dd>
+This subclass slices off a portion of another stream, making seeking relative
+ to the boundaries of the slice.<br><br>
+It could be used to section a large file into a
+ set of smaller files, such as with tar archives. Reading and writing a
+ SliceStream does not modify the position of the source stream if it is
+ seekable.
+ <br><br>
+<dl>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L2751" title="At line 2751.">pos</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L2752" title="At line 2752.">low</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L2753" title="At line 2753.">high</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L2754" title="At line 2754.">bounded</a>; [private]</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2764" title="At line 2764.">this</a>(Stream <i>s</i>, ulong <i>low</i>);</big></dt>
+<dd>
+Indicate both the source stream to use for reading from and the low part of
+ the slice.<br><br>
+The high part of the slice is dependent upon the end of the source
+ stream, so that if you write beyond the end it resizes the stream normally.
+   <br><br></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2781" title="At line 2781.">this</a>(Stream <i>s</i>, ulong <i>low</i>, ulong <i>high</i>);</big></dt>
+<dd>
+Indicate the high index as well.<br><br>
+Attempting to read or write past the high
+ index results in the end being clipped off.
+   <br><br></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2793" title="At line 2793.">invariant</a>;</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L2800" title="At line 2800.">readBlock</a>(void * <i>buffer</i>, size_t <i>size</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L2815" title="At line 2815.">writeBlock</a>(void * <i>buffer</i>, size_t <i>size</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>ulong <a href="./htmlsrc/std.stream.html#L2830" title="At line 2830.">seek</a>(long <i>offset</i>, SeekPos <i>rel</i>); [override]</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.stream.html#L2864" title="At line 2864.">available</a>(); [override]</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.stream.html#L2876" title="At line 2876.">unittest</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L2924" title="At line 2924.">iswhite</a>(char <i>c</i>); [private]</big></dt>
+<dd></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L2928" title="At line 2928.">isdigit</a>(char <i>c</i>); [private]</big></dt>
+<dd></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L2932" title="At line 2932.">isoctdigit</a>(char <i>c</i>); [private]</big></dt>
+<dd></dd>
+<dt><big>bool <a href="./htmlsrc/std.stream.html#L2936" title="At line 2936.">ishexdigit</a>(char <i>c</i>); [private]</big></dt>
+<dd></dd></dl>
+    <br><br>
+<br><br>
+<!-- Google ad -->
+<script type="text/javascript"><!--
+/**/google_ad_client = "pub-5628673096434613";
+/**/google_ad_width = 728;
+/**/google_ad_height = 90;
+/**/google_ad_format = "728x90_as";
+/**/google_ad_channel ="6203743411";
+/**/google_page_url = document.location;
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+
+<div id="copyright">
+Copyright &copy; 1999-2008 by Digital Mars, All Rights Reserved |
+Page generated by <a href="http://code.google.com/p/dil">dil</a> on Wed Oct  1 23:47:52 2008
+</div>
+
+</body>
+</html>

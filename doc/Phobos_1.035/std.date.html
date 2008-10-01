@@ -1,0 +1,383 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<!--
+	Copyright (c) 1999-2008 by Digital Mars
+	All Rights Reserved
+	Written by Walter Bright
+	www.digitalmars.com
+  -->
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" >
+<title>std.date - D Programming Language - Digital Mars</title>
+<link rel="stylesheet" type="text/css" href="./style.css">
+<link rel="icon" type="image/gif" href="./holy.gif" />
+</head>
+
+<body>
+<div id="heading">
+	<a href="http://www.digitalmars.com/"><img src="./dmlogo.gif" width="270" height="53" border="0" alt="www.digitalmars.com" align="left"></a>
+	<p align="right">D Programming Language 1.0</p>
+
+
+	<div id="headingNav">
+	<ul>
+	<li><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Phobos/StdDate" title="Read/write comments and feedback">Comments</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language" class="dlink">D</a></li>
+	<li><a href="http://www.digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a></li>
+	<li><a href="http://www.digitalmars.com/" title="www.digitalmars.com">Home</a></li>
+	</ul>
+	</div>
+
+	<div id="lastupdate">Last update Wed Oct  1 23:47:52 2008</div>
+</div>
+
+<!-- -->
+
+<div id="navigation">
+    <div class="navblock">
+<form method="get" action="http://www.google.com/search">
+<div id="searchbox">
+<input id="q" name="q" size="10" value="RTL Search" onFocus='if(this.value == "RTL Search"){this.value="";}'>
+<input type="hidden" id="domains" name="domains" value="www.digitalmars.com">
+<input type="hidden" id="sitesearch" name="sitesearch" value="www.digitalmars.com/d/1.0/phobos">
+<input type="hidden" id="sourceid" name="sourceid" value="google-search">
+<input type="submit" id="submit" name="submit" value="Go">
+</div>
+</form>
+<div id="toctop">
+    <ul>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language">D ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/lex.html" title="D Language Specification">Language ...</a></li>
+	<li><a href="phobos.html" title="D Runtime Library">Phobos ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/comparison.html" title="Language Comparisons">Comparisons ...</a></li>
+    </ul>
+</div>
+</div>
+    <div class="navblock">
+<ul>
+<li><a href="index.html" title="Index of all HTML files">Index</a></li>
+</ul>
+    <ul>
+	<li><a href="object.html" title="root of object hierarchy">object</a></li>
+    </ul>
+    <h2><a href="phobos.html#std" title="D standard modules">std</a></h2>
+    <ul>
+	<li><a href="std.base64.html" title="Encode/decode base64 format">std.base64</a></li>
+	<li><a href="std.bind.html" title="Function argument binding">std.bind</a></li>
+	<li><a href="std.bitarray.html" title="Arrays of bits">std.bitarray</a></li>
+	<li><a href="std.boxer.html" title="Box/unbox types">std.boxer</a></li>
+	<li><a href="std.compiler.html" title="Information about the D compiler implementation">std.compiler</a></li>
+	<li><a href="std.conv.html" title="Conversion of strings to integers">std.conv</a></li>
+	<li><a href="std.cover.html" title="D coverage analyzer">std.cover</a></li>
+	<li><a href="std.cpuid.html" title="CPU identification">std.cpuid</a></li>
+	<li><a href="std.ctype.html" title="Simple character classification">std.ctype</a></li>
+	<li><a href="std.date.html" title="Date and time functions">std.date</a></li>
+	<li><a href="std.demangle.html" title="Demangle D names">std.demangle</a></li>
+	<li><a href="std.file.html" title="Basic file operations">std.file</a></li>
+	<li><a href="std.format.html" title="Formatted conversions of values to strings">std.format</a></li>
+	<li><a href="std.gc.html" title="Control the garbage collector">std.gc</a></li>
+	<li><a href="std.intrinsic.html" title="Compiler built in intrinsic functions">std.intrinsic</a></li>
+	<li><a href="std.math.html" title="the usual math functions">std.math</a></li>
+	<li><a href="std.md5.html" title="Compute MD5 digests">std.md5</a></li>
+	<li><a href="std.metastrings.html" title="Metaprogramming with strings">std.metastrings</a></li>
+	<li><a href="std.mmfile.html" title="Memory mapped files">std.mmfile</a></li>
+	<li><a href="std.openrj.html" title="Basic database">std.openrj</a></li>
+	<li><a href="std.outbuffer.html" title="Assemble data into an array of bytes">std.outbuffer</a></li>
+	<li><a href="std.outofmemory.html" title="Out of memory exception">std.outofmemory</a></li>
+	<li><a href="std.path.html" title="Manipulate file names, path names, etc.">std.path</a></li>
+	<li><a href="std.process.html" title="Create/destroy threads">std.process</a></li>
+	<li><a href="std.random.html" title="Random number generation">std.random</a></li>
+	<li><a href="std.regexp.html" title="regular expressions">std.regexp</a></li>
+	<li><a href="std.signals.html" title="Signals">std.signals</a></li>
+	<li><a href="std.socket.html" title="Sockets">std.socket</a></li>
+	<li><a href="std.socketstream.html" title="Stream for a blocking, connected Socket">std.socketstream</a></li>
+	<li><a href="std.stdint.html" title="Integral types for various purposes">std.stdint</a></li>
+	<li><a href="std.stdio.html" title="Standard I/O">std.stdio</a></li>
+	<li><a href="std.cstream.html" title="Stream I/O">std.cstream</a></li>
+	<li><a href="std.stream.html" title="Stream I/O">std.stream</a></li>
+	<li><a href="std.string.html" title="Basic string operations">std.string</a></li>
+	<li><a href="std.system.html" title="Inquire about the CPU, operating system">std.system</a></li>
+	<li><a href="std.thread.html" title="Thread operations">std.thread</a></li>
+	<li><a href="std.traits.html" title="Type traits">std.traits</a></li>
+	<li><a href="std.typetuple.html" title="Type tuples">std.typetuple</a></li>
+	<li><a href="std.uni.html" title="Unicode classification">std.uni</a></li>
+	<li><a href="std.uri.html" title="Encode and decode Uniform Resource Identifiers (URIs)">std.uri</a></li>
+	<li><a href="std.utf.html" title="Encode and decode utf character encodings">std.utf</a></li>
+	<li><a href="std.zip.html" title="Read/write zip archives">std.zip</a></li>
+	<li><a href="std.zlib.html" title="Compression / Decompression of data">std.zlib</a></li>
+	<li><a href="std.c.fenv.html" title="Floating point environment">std.c.fenv</a></li>
+	<li><a href="std.c.locale.html" title="Locale">std.c.locale</a></li>
+	<li><a href="std.c.math.html" title="Math">std.c.math</a></li>
+	<li><a href="std.c.process.html" title="Process">std.c.process</a></li>
+	<li><a href="std.c.stdarg.html" title="Variadic arguments">std.c.stdarg</a></li>
+	<li><a href="std.c.stddef.html" title="Standard definitions">std.c.stddef</a></li>
+	<li><a href="std.c.stdio.html" title="Standard I/O">std.c.stdio</a></li>
+	<li><a href="std.c.stdlib.html" title="Standard library">std.c.stdlib</a></li>
+	<li><a href="std.c.string.html" title="Strings">std.c.string</a></li>
+	<li><a href="std.c.time.html" title="Time">std.c.time</a></li>
+	<li><a href="std.c.wcharh.html" title="Wide characters">std.c.wcharh</a></li>
+	<li><a href="std.windows.charset.html" title="Conversion to/from Windows character sets">std.windows.charset</a></li>
+	<li><a href="phobos.html#std_windows" title="Modules specific to Windows">std.windows</a></li>
+	<li><a href="phobos.html#std_linux" title="Modules specific to Windows">std.linux</a></li>
+	<li><a href="phobos.html#std_c_windows" title="C Windows API">std.c.windows</a></li>
+	<li><a href="phobos.html#std_c_linux" title="C Linux API">std.c.linux</a></li>
+    </ul>
+</div>
+</div>
+<div id="content">
+    <h1><a href="./htmlsrc/std.date.html">std.date</a></h1>
+    
+Dates are represented in several formats. The date implementation revolves
+ around a central type, d_time, from which other formats are converted to and
+ from.
+ Dates are calculated using the Gregorian calendar.
+ <br><br>
+<b>References:</b><br><a href="http://en.wikipedia.org/wiki/Gregorian_calendar">Gregorian calendar (Wikipedia)</a><br><br>
+<dl>
+<dt><big>alias long <a href="./htmlsrc/std.date.html#L35" title="At line 35.">d_time</a>;</big></dt>
+<dd>
+d_time is a signed arithmetic type giving the time elapsed since January 1,
+ 1970.
+ Negative values are for dates preceding 1970. The time unit used is Ticks.
+ Ticks are milliseconds or smaller intervals.<br><br>
+The usual arithmetic operations can be performed on d_time, such as adding,
+ subtracting, etc. Elapsed time in Ticks can be computed by subtracting a
+ starting d_time from an ending d_time. 
+ <br><br></dd>
+<dt><big>d_time <a href="./htmlsrc/std.date.html#L40" title="At line 40.">d_time_nan</a>; [const]</big></dt>
+<dd>
+A value for d_time that does not represent a valid time.
+ <br><br></dd>
+<dt><big>struct <a href="./htmlsrc/std.date.html#L45" title="At line 45.">Date</a>;</big></dt>
+<dd>
+Time broken down into its components.
+ <br><br>
+<dl>
+<dt><big>int <a href="./htmlsrc/std.date.html#L47" title="At line 47.">year</a>;</big></dt>
+<dd>
+use int.min as "nan" year value<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L48" title="At line 48.">month</a>;</big></dt>
+<dd>
+1..12<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L49" title="At line 49.">day</a>;</big></dt>
+<dd>
+1..31<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L50" title="At line 50.">hour</a>;</big></dt>
+<dd>
+0..23<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L51" title="At line 51.">minute</a>;</big></dt>
+<dd>
+0..59<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L52" title="At line 52.">second</a>;</big></dt>
+<dd>
+0..59<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L53" title="At line 53.">ms</a>;</big></dt>
+<dd>
+0..999<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L54" title="At line 54.">weekday</a>;</big></dt>
+<dd>
+0: not specified, 1..7: Sunday..Saturday<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L55" title="At line 55.">tzcorrection</a>;</big></dt>
+<dd>
+-1200..1200 correction in hours<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.date.html#L58" title="At line 58.">parse</a>(string <i>s</i>);</big></dt>
+<dd>
+Parse date out of string s[] and store it in this Date instance.<br><br></dd></dl></dd>
+<dt><big>enum;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.date.html#L68" title="At line 68.">HoursPerDay</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.date.html#L69" title="At line 69.">MinutesPerHour</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.date.html#L70" title="At line 70.">msPerMinute</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.date.html#L71" title="At line 71.">msPerHour</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.date.html#L72" title="At line 72.">msPerDay</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.date.html#L73" title="At line 73.">TicksPerMs</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.date.html#L74" title="At line 74.">TicksPerSecond</a></big></dt>
+<dd>
+Will be at least 1000<br><br></dd>
+<dt><big><a href="./htmlsrc/std.date.html#L75" title="At line 75.">TicksPerMinute</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.date.html#L76" title="At line 76.">TicksPerHour</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.date.html#L77" title="At line 77.">TicksPerDay</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>d_time <a href="./htmlsrc/std.date.html#L80" title="At line 80.">LocalTZA</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.date.html#L83" title="At line 83.">daystr</a>; [const]</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.date.html#L84" title="At line 84.">monstr</a>; [const]</big></dt>
+<dd></dd>
+<dt><big>int[12] <a href="./htmlsrc/std.date.html#L86" title="At line 86.">mdays</a>; [const]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.date.html#L95" title="At line 95.">toISO8601YearWeek</a>(d_time <i>t</i>, out int <i>year</i>, out int <i>week</i>);</big></dt>
+<dd>
+Compute year and week [1..53] from t. The ISO 8601 week 1 is the first week
+ of the year that includes January 4. Monday is the first day of the week.
+ <br><br>
+<b>References:</b><br><a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601 (Wikipedia)</a><br><br></dd>
+<dt><big>d_time <a href="./htmlsrc/std.date.html#L153" title="At line 153.">floor</a>(d_time <i>d</i>, int <i>divisor</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L160" title="At line 160.">dmod</a>(d_time <i>n</i>, d_time <i>d</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L170" title="At line 170.">HourFromTime</a>(d_time <i>t</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L175" title="At line 175.">MinFromTime</a>(d_time <i>t</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L180" title="At line 180.">SecFromTime</a>(d_time <i>t</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L185" title="At line 185.">msFromTime</a>(d_time <i>t</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L190" title="At line 190.">TimeWithinDay</a>(d_time <i>t</i>);</big></dt>
+<dd></dd>
+<dt><big>d_time <a href="./htmlsrc/std.date.html#L195" title="At line 195.">toInteger</a>(d_time <i>n</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L200" title="At line 200.">Day</a>(d_time <i>t</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L205" title="At line 205.">LeapYear</a>(int <i>y</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L211" title="At line 211.">DaysInYear</a>(int <i>y</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L216" title="At line 216.">DayFromYear</a>(int <i>y</i>);</big></dt>
+<dd></dd>
+<dt><big>d_time <a href="./htmlsrc/std.date.html#L224" title="At line 224.">TimeFromYear</a>(int <i>y</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L233" title="At line 233.">YearFromTime</a>(d_time <i>t</i>);</big></dt>
+<dd>
+Calculates the year from the d_time t.
+ <br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L272" title="At line 272.">inLeapYear</a>(d_time <i>t</i>);</big></dt>
+<dd>
+Determines if d_time t is a leap year.<br><br>
+A leap year is every 4 years except years ending in 00 that are not
+ divsible by 400.<br><br> <br><br>
+<b>Returns:</b><br>
+!=0 if it is a leap year.<br><br>
+<b>References:</b><br><a href="http://en.wikipedia.org/wiki/Leap_year">Wikipedia</a><br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L284" title="At line 284.">MonthFromTime</a>(d_time <i>t</i>);</big></dt>
+<dd>
+Calculates the month from the d_time t.<br><br>
+<b>Returns:</b><br>
+Integer in the range 0..11, where
+	0 represents January and 11 represents December.<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L344" title="At line 344.">DateFromTime</a>(d_time <i>t</i>);</big></dt>
+<dd>
+Compute which day in a month a d_time t is.
+ <br><br>
+<b>Returns:</b><br>
+Integer in the range 1..31<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L382" title="At line 382.">WeekDay</a>(d_time <i>t</i>);</big></dt>
+<dd>
+Compute which day of the week a d_time t is.
+ <br><br>
+<b>Returns:</b><br>
+Integer in the range 0..6, where 0 represents Sunday
+	and 6 represents Saturday.<br><br></dd>
+<dt><big>d_time <a href="./htmlsrc/std.date.html#L395" title="At line 395.">UTCtoLocalTime</a>(d_time <i>t</i>);</big></dt>
+<dd>
+Convert from UTC to local time.
+ <br><br></dd>
+<dt><big>d_time <a href="./htmlsrc/std.date.html#L406" title="At line 406.">LocalTimetoUTC</a>(d_time <i>t</i>);</big></dt>
+<dd>
+Convert from local time to UTC.
+ <br><br></dd>
+<dt><big>d_time <a href="./htmlsrc/std.date.html#L414" title="At line 414.">MakeTime</a>(d_time <i>hour</i>, d_time <i>min</i>, d_time <i>sec</i>, d_time <i>ms</i>);</big></dt>
+<dd></dd>
+<dt><big>d_time <a href="./htmlsrc/std.date.html#L423" title="At line 423.">MakeDay</a>(d_time <i>year</i>, d_time <i>month</i>, d_time <i>date</i>);</big></dt>
+<dd></dd>
+<dt><big>d_time <a href="./htmlsrc/std.date.html#L447" title="At line 447.">MakeDate</a>(d_time <i>day</i>, d_time <i>time</i>);</big></dt>
+<dd></dd>
+<dt><big>d_time <a href="./htmlsrc/std.date.html#L455" title="At line 455.">TimeClip</a>(d_time <i>time</i>);</big></dt>
+<dd></dd>
+<dt><big>string <a href="./htmlsrc/std.date.html#L481" title="At line 481.">toString</a>(d_time <i>time</i>);</big></dt>
+<dd>
+Converts UTC time into a text string of the form:
+ "Www Mmm dd hh:mm:ss GMT+-TZ yyyy".
+ For example, "Tue Apr 02 02:04:57 GMT-0800 1996".
+ If time is invalid, i.e. is d_time_nan,
+ the string "Invalid date" is returned.<br><br>
+<b>Example:</b><br><pre class="d_code">
+
+  <span class="i">d_time</span> <span class="i">lNow</span>;
+  <span class="k">char</span>[] <span class="i">lNowString</span>;
+
+  <span class="lc">// Grab the date and time relative to UTC</span>
+  <span class="i">lNow</span> = <span class="i">std</span>.<span class="i">date</span>.<span class="i">getUTCtime</span>();
+  <span class="lc">// Convert this into the local date and time for display.</span>
+  <span class="i">lNowString</span> = <span class="i">std</span>.<span class="i">date</span>.<span class="i">toString</span>(<span class="i">lNow</span>);
+ 
+</pre><br><br></dd>
+<dt><big>string <a href="./htmlsrc/std.date.html#L534" title="At line 534.">toUTCString</a>(d_time <i>t</i>);</big></dt>
+<dd>
+Converts t into a text string of the form: "Www, dd Mmm yyyy hh:mm:ss UTC".
+ If t is invalid, "Invalid date" is returned.
+ <br><br></dd>
+<dt><big>string <a href="./htmlsrc/std.date.html#L562" title="At line 562.">toDateString</a>(d_time <i>time</i>);</big></dt>
+<dd>
+Converts the date portion of time into a text string of the form: "Www Mmm dd
+ yyyy", for example, "Tue Apr 02 1996".
+ If time is invalid, "Invalid date" is returned.
+ <br><br></dd>
+<dt><big>string <a href="./htmlsrc/std.date.html#L599" title="At line 599.">toTimeString</a>(d_time <i>time</i>);</big></dt>
+<dd>
+Converts the time portion of t into a text string of the form: "hh:mm:ss
+ GMT+-TZ", for example, "02:04:57 GMT-0800".
+ If t is invalid, "Invalid date" is returned.
+ The input must be in UTC, and the output is in local time.
+ <br><br></dd>
+<dt><big>d_time <a href="./htmlsrc/std.date.html#L648" title="At line 648.">parse</a>(string <i>s</i>);</big></dt>
+<dd>
+Parses s as a textual date string, and returns it as a d_time.
+ If the string is not a valid date, d_time_nan is returned.
+ <br><br></dd>
+<dt><big>static <a href="./htmlsrc/std.date.html#L682" title="At line 682.">this</a>();</big></dt>
+<dd></dd>
+<dt><big>d_time <a href="./htmlsrc/std.date.html#L841" title="At line 841.">getUTCtime</a>();</big></dt>
+<dd></dd>
+<dt><big>d_time <a href="./htmlsrc/std.date.html#L854" title="At line 854.">getLocalTZA</a>();</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.date.html#L867" title="At line 867.">DaylightSavingTA</a>(d_time <i>dt</i>);</big></dt>
+<dd></dd>
+<dt><big>typedef uint <a href="./htmlsrc/std.date.html#L924" title="At line 924.">DosFileTime</a>;</big></dt>
+<dd>
+Type representing the DOS file date/time format.
+ <br><br></dd>
+<dt><big>d_time <a href="./htmlsrc/std.date.html#L930" title="At line 930.">toDtime</a>(DosFileTime <i>time</i>);</big></dt>
+<dd>
+Convert from DOS file date/time to d_time.
+ <br><br></dd>
+<dt><big>DosFileTime <a href="./htmlsrc/std.date.html#L965" title="At line 965.">toDosFileTime</a>(d_time <i>t</i>);</big></dt>
+<dd>
+Convert from d_time to DOS file date/time.
+ <br><br></dd></dl>
+    <br><br>
+<br><br>
+<!-- Google ad -->
+<script type="text/javascript"><!--
+/**/google_ad_client = "pub-5628673096434613";
+/**/google_ad_width = 728;
+/**/google_ad_height = 90;
+/**/google_ad_format = "728x90_as";
+/**/google_ad_channel ="6203743411";
+/**/google_page_url = document.location;
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+
+<div id="copyright">
+Copyright &copy; 1999-2008 by Digital Mars, All Rights Reserved |
+Page generated by <a href="http://code.google.com/p/dil">dil</a> on Wed Oct  1 23:47:52 2008
+</div>
+
+</body>
+</html>

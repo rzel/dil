@@ -1,0 +1,1049 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<!--
+	Copyright (c) 1999-2008 by Digital Mars
+	All Rights Reserved
+	Written by Walter Bright
+	www.digitalmars.com
+  -->
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" >
+<title>std.math - D Programming Language - Digital Mars</title>
+<link rel="stylesheet" type="text/css" href="./style.css">
+<link rel="icon" type="image/gif" href="./holy.gif" />
+</head>
+
+<body>
+<div id="heading">
+	<a href="http://www.digitalmars.com/"><img src="./dmlogo.gif" width="270" height="53" border="0" alt="www.digitalmars.com" align="left"></a>
+	<p align="right">D Programming Language 1.0</p>
+
+
+	<div id="headingNav">
+	<ul>
+	<li><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Phobos/StdMath" title="Read/write comments and feedback">Comments</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language" class="dlink">D</a></li>
+	<li><a href="http://www.digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a></li>
+	<li><a href="http://www.digitalmars.com/" title="www.digitalmars.com">Home</a></li>
+	</ul>
+	</div>
+
+	<div id="lastupdate">Last update Wed Oct  1 23:47:52 2008</div>
+</div>
+
+<!-- -->
+
+<div id="navigation">
+    <div class="navblock">
+<form method="get" action="http://www.google.com/search">
+<div id="searchbox">
+<input id="q" name="q" size="10" value="RTL Search" onFocus='if(this.value == "RTL Search"){this.value="";}'>
+<input type="hidden" id="domains" name="domains" value="www.digitalmars.com">
+<input type="hidden" id="sitesearch" name="sitesearch" value="www.digitalmars.com/d/1.0/phobos">
+<input type="hidden" id="sourceid" name="sourceid" value="google-search">
+<input type="submit" id="submit" name="submit" value="Go">
+</div>
+</form>
+<div id="toctop">
+    <ul>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language">D ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/lex.html" title="D Language Specification">Language ...</a></li>
+	<li><a href="phobos.html" title="D Runtime Library">Phobos ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/comparison.html" title="Language Comparisons">Comparisons ...</a></li>
+    </ul>
+</div>
+</div>
+    <div class="navblock">
+<ul>
+<li><a href="index.html" title="Index of all HTML files">Index</a></li>
+</ul>
+    <ul>
+	<li><a href="object.html" title="root of object hierarchy">object</a></li>
+    </ul>
+    <h2><a href="phobos.html#std" title="D standard modules">std</a></h2>
+    <ul>
+	<li><a href="std.base64.html" title="Encode/decode base64 format">std.base64</a></li>
+	<li><a href="std.bind.html" title="Function argument binding">std.bind</a></li>
+	<li><a href="std.bitarray.html" title="Arrays of bits">std.bitarray</a></li>
+	<li><a href="std.boxer.html" title="Box/unbox types">std.boxer</a></li>
+	<li><a href="std.compiler.html" title="Information about the D compiler implementation">std.compiler</a></li>
+	<li><a href="std.conv.html" title="Conversion of strings to integers">std.conv</a></li>
+	<li><a href="std.cover.html" title="D coverage analyzer">std.cover</a></li>
+	<li><a href="std.cpuid.html" title="CPU identification">std.cpuid</a></li>
+	<li><a href="std.ctype.html" title="Simple character classification">std.ctype</a></li>
+	<li><a href="std.date.html" title="Date and time functions">std.date</a></li>
+	<li><a href="std.demangle.html" title="Demangle D names">std.demangle</a></li>
+	<li><a href="std.file.html" title="Basic file operations">std.file</a></li>
+	<li><a href="std.format.html" title="Formatted conversions of values to strings">std.format</a></li>
+	<li><a href="std.gc.html" title="Control the garbage collector">std.gc</a></li>
+	<li><a href="std.intrinsic.html" title="Compiler built in intrinsic functions">std.intrinsic</a></li>
+	<li><a href="std.math.html" title="the usual math functions">std.math</a></li>
+	<li><a href="std.md5.html" title="Compute MD5 digests">std.md5</a></li>
+	<li><a href="std.metastrings.html" title="Metaprogramming with strings">std.metastrings</a></li>
+	<li><a href="std.mmfile.html" title="Memory mapped files">std.mmfile</a></li>
+	<li><a href="std.openrj.html" title="Basic database">std.openrj</a></li>
+	<li><a href="std.outbuffer.html" title="Assemble data into an array of bytes">std.outbuffer</a></li>
+	<li><a href="std.outofmemory.html" title="Out of memory exception">std.outofmemory</a></li>
+	<li><a href="std.path.html" title="Manipulate file names, path names, etc.">std.path</a></li>
+	<li><a href="std.process.html" title="Create/destroy threads">std.process</a></li>
+	<li><a href="std.random.html" title="Random number generation">std.random</a></li>
+	<li><a href="std.regexp.html" title="regular expressions">std.regexp</a></li>
+	<li><a href="std.signals.html" title="Signals">std.signals</a></li>
+	<li><a href="std.socket.html" title="Sockets">std.socket</a></li>
+	<li><a href="std.socketstream.html" title="Stream for a blocking, connected Socket">std.socketstream</a></li>
+	<li><a href="std.stdint.html" title="Integral types for various purposes">std.stdint</a></li>
+	<li><a href="std.stdio.html" title="Standard I/O">std.stdio</a></li>
+	<li><a href="std.cstream.html" title="Stream I/O">std.cstream</a></li>
+	<li><a href="std.stream.html" title="Stream I/O">std.stream</a></li>
+	<li><a href="std.string.html" title="Basic string operations">std.string</a></li>
+	<li><a href="std.system.html" title="Inquire about the CPU, operating system">std.system</a></li>
+	<li><a href="std.thread.html" title="Thread operations">std.thread</a></li>
+	<li><a href="std.traits.html" title="Type traits">std.traits</a></li>
+	<li><a href="std.typetuple.html" title="Type tuples">std.typetuple</a></li>
+	<li><a href="std.uni.html" title="Unicode classification">std.uni</a></li>
+	<li><a href="std.uri.html" title="Encode and decode Uniform Resource Identifiers (URIs)">std.uri</a></li>
+	<li><a href="std.utf.html" title="Encode and decode utf character encodings">std.utf</a></li>
+	<li><a href="std.zip.html" title="Read/write zip archives">std.zip</a></li>
+	<li><a href="std.zlib.html" title="Compression / Decompression of data">std.zlib</a></li>
+	<li><a href="std.c.fenv.html" title="Floating point environment">std.c.fenv</a></li>
+	<li><a href="std.c.locale.html" title="Locale">std.c.locale</a></li>
+	<li><a href="std.c.math.html" title="Math">std.c.math</a></li>
+	<li><a href="std.c.process.html" title="Process">std.c.process</a></li>
+	<li><a href="std.c.stdarg.html" title="Variadic arguments">std.c.stdarg</a></li>
+	<li><a href="std.c.stddef.html" title="Standard definitions">std.c.stddef</a></li>
+	<li><a href="std.c.stdio.html" title="Standard I/O">std.c.stdio</a></li>
+	<li><a href="std.c.stdlib.html" title="Standard library">std.c.stdlib</a></li>
+	<li><a href="std.c.string.html" title="Strings">std.c.string</a></li>
+	<li><a href="std.c.time.html" title="Time">std.c.time</a></li>
+	<li><a href="std.c.wcharh.html" title="Wide characters">std.c.wcharh</a></li>
+	<li><a href="std.windows.charset.html" title="Conversion to/from Windows character sets">std.windows.charset</a></li>
+	<li><a href="phobos.html#std_windows" title="Modules specific to Windows">std.windows</a></li>
+	<li><a href="phobos.html#std_linux" title="Modules specific to Windows">std.linux</a></li>
+	<li><a href="phobos.html#std_c_windows" title="C Windows API">std.c.windows</a></li>
+	<li><a href="phobos.html#std_c_linux" title="C Linux API">std.c.linux</a></li>
+    </ul>
+</div>
+</div>
+<div id="content">
+    <h1><a href="./htmlsrc/std.math.html">std.math</a></h1>
+    
+<dl>
+<dt><big>template <a href="./htmlsrc/std.math.html#L98" title="At line 98.">floatTraits</a>(T); [private]</big></dt>
+<dd>
+<dl>
+<dt><big>ushort <a href="./htmlsrc/std.math.html#L105" title="At line 105.">EXPMASK</a>; [const]</big></dt>
+<dd></dd>
+<dt><big>ushort <a href="./htmlsrc/std.math.html#L106" title="At line 106.">EXPBIAS</a>; [const]</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.math.html#L107" title="At line 107.">EXPMASK_INT</a>; [const]</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.math.html#L108" title="At line 108.">MANTISSAMASK_INT</a>; [const]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L109" title="At line 109.">POW2MANTDIG</a>; [const]</big></dt>
+<dd></dd></dl></dd>
+<dt><big>auto <a href="./htmlsrc/std.math.html#L165" title="At line 165.">MANTISSA_LSB</a>; [private, const]</big></dt>
+<dd></dd>
+<dt><big>auto <a href="./htmlsrc/std.math.html#L166" title="At line 166.">MANTISSA_MSB</a>; [private, const]</big></dt>
+<dd></dd>
+<dt><big>class <a href="./htmlsrc/std.math.html#L173" title="At line 173.">NotImplemented</a> : Error; [public]</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.math.html#L175" title="At line 175.">this</a>(string <i>msg</i>);</big></dt>
+<dd></dd></dl></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L181" title="At line 181.">E</a>; [public, const]</big></dt>
+<dd>
+e <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L183" title="At line 183.">LOG2T</a>; [public, const]</big></dt>
+<dd>
+log<sub>2</sub>10 <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L185" title="At line 185.">LOG2E</a>; [public, const]</big></dt>
+<dd>
+log<sub>2</sub>e <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L187" title="At line 187.">LOG2</a>; [public, const]</big></dt>
+<dd>
+log<sub>10</sub>2 <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L188" title="At line 188.">LOG10E</a>; [public, const]</big></dt>
+<dd>
+log<sub>10</sub>e <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L189" title="At line 189.">LN2</a>; [public, const]</big></dt>
+<dd>
+ln 2 <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L190" title="At line 190.">LN10</a>; [public, const]</big></dt>
+<dd>
+ln 10 <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L191" title="At line 191.">PI</a>; [public, const]</big></dt>
+<dd>
+&pi; <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L192" title="At line 192.">PI_2</a>; [public, const]</big></dt>
+<dd>
+&pi; / 2 <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L193" title="At line 193.">PI_4</a>; [public, const]</big></dt>
+<dd>
+&pi; / 4 <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L194" title="At line 194.">M_1_PI</a>; [public, const]</big></dt>
+<dd>
+1 / &pi; <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L195" title="At line 195.">M_2_PI</a>; [public, const]</big></dt>
+<dd>
+2 / &pi; <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L196" title="At line 196.">M_2_SQRTPI</a>; [public, const]</big></dt>
+<dd>
+2 / &radic;&pi; <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L197" title="At line 197.">SQRT2</a>; [public, const]</big></dt>
+<dd>
+&radic;2 <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L198" title="At line 198.">SQRT1_2</a>; [public, const]</big></dt>
+<dd>
+&radic;&frac12; <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L221" title="At line 221.">abs</a>(real <i>x</i>); [public]</big></dt>
+<dt><big>long <a href="./htmlsrc/std.math.html#L227" title="At line 227.">abs</a>(long <i>x</i>); [public]</big></dt>
+<dt><big>int <a href="./htmlsrc/std.math.html#L233" title="At line 233.">abs</a>(int <i>x</i>); [public]</big></dt>
+<dt><big>real <a href="./htmlsrc/std.math.html#L239" title="At line 239.">abs</a>(creal <i>z</i>); [public]</big></dt>
+<dt><big>real <a href="./htmlsrc/std.math.html#L245" title="At line 245.">abs</a>(ireal <i>y</i>); [public]</big></dt>
+<dd>
+Calculates the absolute value<br><br>
+For complex numbers, abs&#40;z&#41; = sqrt&#40; z.re<sup>2</sup> + z.im<sup>2</sup> &#41;
+ = hypot&#40;z.re, z.im&#41;.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L251" title="At line 251.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>creal <a href="./htmlsrc/std.math.html#L271" title="At line 271.">conj</a>(creal <i>z</i>); [public]</big></dt>
+<dt><big>ireal <a href="./htmlsrc/std.math.html#L277" title="At line 277.">conj</a>(ireal <i>y</i>); [public]</big></dt>
+<dd>
+Complex conjugate<br><br>
+conj&#40;x + iy&#41; = x - iy<br><br> Note that z * conj&#40;z&#41; = z.re<sup>2</sup> - z.im<sup>2</sup>
+ is always a real number
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L282" title="At line 282.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L301" title="At line 301.">cos</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Returns cosine of x. x is in radians.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>                 <th>cos(x)</th> <th>invalid?</th></tr>
+      <tr><td><span style="color:red">NAN</span></td>            <td><span style="color:red">NAN</span></td> <td>yes</td>     </tr>
+      <tr><td>&plusmn;&infin;</td> <td><span style="color:red">NAN</span></td> <td>yes</td>     </tr>
+      </table>
+ <br><br>
+<span style="color:red">BUGS:</span><br>
+Results are undefined if |x| &gt;= 2<sup>64</sup>.<br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L316" title="At line 316.">sin</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Returns sine of x. x is in radians.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>               <th>sin(x)</th>      <th>invalid?</th></tr>
+      <tr><td><span style="color:red">NAN</span></td>          <td><span style="color:red">NAN</span></td>      <td>yes</td></tr>
+      <tr><td>&plusmn;0.0</td>    <td>&plusmn;0.0</td> <td>no</td></tr>
+      <tr><td>&plusmn;&infin;</td>    <td><span style="color:red">NAN</span></td>      <td>yes</td></tr>
+      </table>
+ <br><br>
+<span style="color:red">BUGS:</span><br>
+Results are undefined if |x| &gt;= 2<sup>64</sup>.<br><br></dd>
+<dt><big>creal <a href="./htmlsrc/std.math.html#L327" title="At line 327.">sin</a>(creal <i>z</i>); [public]</big></dt>
+<dt><big>ireal <a href="./htmlsrc/std.math.html#L334" title="At line 334.">sin</a>(ireal <i>y</i>); [public]</big></dt>
+<dd>
+sine, complex and imaginary<br><br>
+sin&#40;z&#41; = sin&#40;z.re&#41;*cosh&#40;z.im&#41; + cos&#40;z.re&#41;*sinh&#40;z.im&#41;i<br><br> If both sin&#40;&theta;&#41; and cos&#40;&theta;&#41; are required,
+ it is most efficient to use expi&#40;&theta&#41;.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L339" title="At line 339.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>creal <a href="./htmlsrc/std.math.html#L349" title="At line 349.">cos</a>(creal <i>z</i>); [public]</big></dt>
+<dt><big>real <a href="./htmlsrc/std.math.html#L356" title="At line 356.">cos</a>(ireal <i>y</i>); [public]</big></dt>
+<dd>
+cosine, complex and imaginary<br><br>
+cos&#40;z&#41; = cos&#40;z.re&#41;*cosh&#40;z.im&#41; - sin&#40;z.re&#41;*sinh&#40;z.im&#41;i
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L361" title="At line 361.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L378" title="At line 378.">tan</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Returns tangent of x. x is in radians.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>             <th>tan(x)</th>       <th>invalid?</th></tr>
+      <tr><td><span style="color:red">NAN</span></td>        <td><span style="color:red">NAN</span></td>       <td>yes</td></tr>
+      <tr><td>&plusmn;0.0</td>  <td>&plusmn;0.0</td> <td>no</td></tr>
+      <tr><td>&plusmn;&infin;</td>  <td><span style="color:red">NAN</span></td>       <td>yes</td></tr>
+      </table>
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L414" title="At line 414.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L479" title="At line 479.">acos</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates the arc cosine of x,
+ returning a value ranging from -&pi;/2 to &pi;/2.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>         <th>acos(x)</th> <th>invalid?</th></tr>
+      <tr><td>&gt;1.0</td>  <td><span style="color:red">NAN</span></td>  <td>yes</td></tr>
+      <tr><td>&lt;-1.0</td> <td><span style="color:red">NAN</span></td>  <td>yes</td></tr>
+      <tr><td><span style="color:red">NAN</span></td>    <td><span style="color:red">NAN</span></td>  <td>yes</td></tr>
+  </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L492" title="At line 492.">asin</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates the arc sine of x,
+ returning a value ranging from -&pi;/2 to &pi;/2.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>            <th>asin(x)</th>      <th>invalid?</th></tr>
+      <tr><td>&plusmn;0.0</td> <td>&plusmn;0.0</td> <td>no</td></tr>
+      <tr><td>&gt;1.0</td>     <td><span style="color:red">NAN</span></td>       <td>yes</td></tr>
+      <tr><td>&lt;-1.0</td>    <td><span style="color:red">NAN</span></td>       <td>yes</td></tr>
+  </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L504" title="At line 504.">atan</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates the arc tangent of x,
+ returning a value ranging from -&pi;/2 to &pi;/2.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>                 <th>atan(x)</th>      <th>invalid?</th></tr>
+  <tr><td>&plusmn;0.0</td>      <td>&plusmn;0.0</td> <td>no</td></tr>
+      <tr><td>&plusmn;&infin;</td> <td><span style="color:red">NAN</span></td>       <td>yes</td></tr>
+  </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L527" title="At line 527.">atan2</a>(real <i>y</i>, real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates the arc tangent of y / x,
+ returning a value ranging from -&pi; to &pi;.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>y</th>                 <th>x</th>            <th>atan(y, x)</th></tr>
+      <tr><td><span style="color:red">NAN</span></td>            <td>anything</td>     <td><span style="color:red">NAN</span></td> </tr>
+      <tr><td>anything</td>          <td><span style="color:red">NAN</span></td>       <td><span style="color:red">NAN</span></td> </tr>
+      <tr><td>&plusmn;0.0</td>      <td>&gt;0.0</td>     <td>&plusmn;0.0</td> </tr>
+      <tr><td>&plusmn;0.0</td>      <td>+0.0</td>         <td>&plusmn;0.0</td> </tr>
+      <tr><td>&plusmn;0.0</td>      <td>&lt;0.0</td>     <td>&plusmn;&pi;</td></tr>
+      <tr><td>&plusmn;0.0</td>      <td>-0.0</td>         <td>&plusmn;&pi;</td></tr>
+      <tr><td>&gt;0.0</td>          <td>&plusmn;0.0</td> <td>&pi;/2</td> </tr>
+      <tr><td>&lt;0.0</td>          <td>&plusmn;0.0</td> <td>-&pi;/2</td> </tr>
+      <tr><td>&gt;0.0</td>          <td>&infin;</td>     <td>&plusmn;0.0</td> </tr>
+      <tr><td>&plusmn;&infin;</td> <td>anything</td>     <td>&plusmn;&pi;/2</td></tr>
+      <tr><td>&gt;0.0</td>          <td>-&infin;</td>    <td>&plusmn;&pi;</td> </tr>
+      <tr><td>&plusmn;&infin;</td> <td>&infin;</td>     <td>&plusmn;&pi;/4</td></tr>
+      <tr><td>&plusmn;&infin;</td> <td>-&infin;</td>    <td>&plusmn;3&pi;/4</td></tr>
+      </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L537" title="At line 537.">cosh</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates the hyperbolic cosine of x.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>                 <th>cosh(x)</th>      <th>invalid?</th></tr>
+      <tr><td>&plusmn;&infin;</td> <td>&plusmn;0.0</td> <td>no</td> </tr>
+      </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L548" title="At line 548.">sinh</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates the hyperbolic sine of x.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>                 <th>sinh(x)</th>           <th>invalid?</th></tr>
+      <tr><td>&plusmn;0.0</td>      <td>&plusmn;0.0</td>      <td>no</td></tr>
+      <tr><td>&plusmn;&infin;</td> <td>&plusmn;&infin;</td> <td>no</td></tr>
+      </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L559" title="At line 559.">tanh</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates the hyperbolic tangent of x.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>                 <th>tanh(x)</th>      <th>invalid?</th></tr>
+      <tr><td>&plusmn;0.0</td>      <td>&plusmn;0.0</td> <td>no</td> </tr>
+      <tr><td>&plusmn;&infin;</td> <td>&plusmn;1.0</td> <td>no</td></tr>
+      </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L581" title="At line 581.">acosh</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates the inverse hyperbolic cosine of x.<br><br>
+Mathematically, acosh&#40;x&#41; = log&#40;x + sqrt&#40; x*x - 1&#41;&#41;<br><br> <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+  <!-- undefined macro in std/math.d -->
+  <!-- undefined macro in std/math.d --> </table>
+      <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+    <tr><th>x</th> <th>acosh(x) </th></tr>
+    <tr><td><span style="color:red">NAN</span></td> <td><span style="color:red">NAN</span> </td></tr>
+    <tr><td><1</td> <td><span style="color:red">NAN</span> </td></tr>
+    <tr><td>1</td> <td>0       </td></tr>
+    <tr><td>+&infin;</td> <td>+&infin;</td></tr>
+  </table>
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L589" title="At line 589.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L613" title="At line 613.">asinh</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates the inverse hyperbolic sine of x.<br><br>
+Mathematically,
+  <pre class="d_code">
+
+  <span class="i">asinh</span>(<span class="i">x</span>) =  <span class="i">log</span>( <span class="i">x</span> + <span class="i">sqrt</span>( <span class="i">x</span>*<span class="i">x</span> + <span class="n">1</span> )) <span class="lc">// if x &gt;= +0</span>
+  <span class="i">asinh</span>(<span class="i">x</span>) = -<span class="i">log</span>(-<span class="i">x</span> + <span class="i">sqrt</span>( <span class="i">x</span>*<span class="i">x</span> + <span class="n">1</span> )) <span class="lc">// if x &lt;= -0</span>
+  
+</pre><br><br>    <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+    <tr><th>x</th> <th>asinh(x)       </th></tr>
+    <tr><td><span style="color:red">NAN</span></td> <td><span style="color:red">NAN</span>         </td></tr>
+    <tr><td>&plusmn;0</td> <td>&plusmn;0      </td></tr>
+    <tr><td>&plusmn;&infin;</td> <td>&plusmn;&infin;</td></tr>
+    </table>
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L623" title="At line 623.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L649" title="At line 649.">atanh</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates the inverse hyperbolic tangent of x,
+ returning a value from ranging from -1 to 1.<br><br>
+Mathematically, atanh&#40;x&#41; = log&#40; &#40;1+x&#41;/&#40;1-x&#41; &#41; / 2<br><br>
+ <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+  <!-- undefined macro in std/math.d -->
+  <!-- undefined macro in std/math.d --> </table>
+ <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+    <tr><th>x</th> <th>acosh(x) </th></tr>
+    <tr><td><span style="color:red">NAN</span></td> <td><span style="color:red">NAN</span> </td></tr>
+    <tr><td>&plusmn;0</td> <td>&plusmn;0</td></tr>
+    <tr><td>-&infin;</td> <td>-0</td></tr>
+ </table>
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L655" title="At line 655.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>long <a href="./htmlsrc/std.math.html#L669" title="At line 669.">rndtol</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Returns x rounded to a long value using the current rounding mode.
+ If the integer value of x is
+ greater than long.max, the result is
+ indeterminate.
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L678" title="At line 678.">rndtonl</a>(real <i>x</i>); [public, extern(C)]</big></dt>
+<dd>
+Returns x rounded to a long value using the FE_TONEAREST rounding mode.
+ If the integer value of x is
+ greater than long.max, the result is
+ indeterminate.
+ <br><br></dd>
+<dt><big>float <a href="./htmlsrc/std.math.html#L691" title="At line 691.">sqrt</a>(float <i>x</i>); [public]</big></dt>
+<dt><big>real <a href="./htmlsrc/std.math.html#L693" title="At line 693.">sqrt</a>(real <i>x</i>); [public]</big></dt>
+<dt><big>creal <a href="./htmlsrc/std.math.html#L695" title="At line 695.">sqrt</a>(creal <i>z</i>); [public]</big></dt>
+<dd>
+Compute square root of x.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>         <th>sqrt(x)</th>   <th>invalid?</th></tr>
+      <tr><td>-0.0</td>      <td>-0.0</td>      <td>no</td></tr>
+      <tr><td>&lt;0.0</td>  <td><span style="color:red">NAN</span></td>    <td>yes</td></tr>
+      <tr><td>+&infin;</td> <td>+&infin;</td> <td>no</td></tr>
+      </table>
+ <br><br></dd>
+<dt><big>double <a href="./htmlsrc/std.math.html#L692" title="At line 692.">sqrt</a>(double <i>x</i>); [public]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L745" title="At line 745.">exp</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates e<span style="vertical-align:super;font-size:smaller">x</span>.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>         <th>exp(x)</th></tr>
+      <tr><td>+&infin;</td> <td>+&infin;</td> </tr>
+      <tr><td>-&infin;</td> <td>+0.0</td> </tr>
+      </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L756" title="At line 756.">exp2</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates 2<span style="vertical-align:super;font-size:smaller">x</span>.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>         <th>exp2(x)</th></tr>
+      <tr><td>+&infin;</td> <td>+&infin;</td></tr>
+      <tr><td>-&infin;</td> <td>+0.0</td></tr>
+      </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L773" title="At line 773.">expm1</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates the value of the natural logarithm base &#40;e&#41;
+ raised to the power of x, minus 1.<br><br>
+For very small x, expm1&#40;x&#41; is more accurate
+ than exp&#40;x&#41;-1.<br><br>      <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>            <th>e<span style="vertical-align:super;font-size:smaller">x</span>-1</th></tr>
+      <tr><td>&plusmn;0.0</td> <td>&plusmn;0.0</td></tr>
+      <tr><td>+&infin;</td>    <td>+&infin;</td></tr>
+      <tr><td>-&infin;</td>    <td>-1.0</td></tr>
+      </table>
+ <br><br></dd>
+<dt><big>creal <a href="./htmlsrc/std.math.html#L782" title="At line 782.">expi</a>(real <i>y</i>); [public]</big></dt>
+<dd>
+Calculate cos&#40;y&#41; + i sin&#40;y&#41;.<br><br>
+On many CPUs &#40;such as x86&#41;, this is a very efficient operation;
+ almost twice as fast as calculating sin&#40;y&#41; and cos&#40;y&#41; separately,
+ and is the preferred method when both are required.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L799" title="At line 799.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L823" title="At line 823.">frexp</a>(real <i>value</i>, out int <i>exp</i>); [public]</big></dt>
+<dd>
+Separate floating point value into significand and exponent.<br><br>
+<b>Returns:</b><br>
+Calculate and return <i>x</i> and exp such that
+      value =<i>x</i>*2<span style="vertical-align:super;font-size:smaller">exp</span> and
+      .5 &lt;= |<i>x</i>| &lt; 1.0<br>
+      <i>x</i> has same sign as value.<br><br>      <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>value</th>           <th>returns</th>         <th>exp</th></tr>
+      <tr><td>&plusmn;0.0</td>    <td>&plusmn;0.0</td>    <td>0</td></tr>
+      <tr><td>+&infin;</td>       <td>+&infin;</td>       <td>int.max</td></tr>
+      <tr><td>-&infin;</td>       <td>-&infin;</td>       <td>int.min</td></tr>
+      <tr><td>&plusmn;<span style="color:red">NAN</span></td> <td>&plusmn;<span style="color:red">NAN</span></td> <td>int.min</td></tr>
+      </table><br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L930" title="At line 930.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.math.html#L994" title="At line 994.">ilogb</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Extracts the exponent of x as a signed integral value.<br><br>
+If x is not a special value, the result is the same as
+ <tt>cast&#40;int&#41;logb&#40;x&#41;</tt>.<br><br>      <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>                <th>ilogb(x)</th>     <th>Range error?</th></tr>
+      <tr><td>0</td>                 <td>FP_ILOGB0</td>   <td>yes</td></tr>
+      <tr><td>&plusmn;&infin;</td> <td>int.max</td>     <td>no</td></tr>
+      <tr><td><span style="color:red">NAN</span></td>            <td>FP_ILOGBNAN</td> <td>no</td></tr>
+      </table>
+ <br><br></dd>
+<dt><big>alias std.c.math.FP_ILOGB0 <a href="./htmlsrc/std.math.html#L996" title="At line 996.">FP_ILOGB0</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>alias std.c.math.FP_ILOGBNAN <a href="./htmlsrc/std.math.html#L997" title="At line 997.">FP_ILOGBNAN</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1005" title="At line 1005.">ldexp</a>(real <i>n</i>, int <i>exp</i>); [public]</big></dt>
+<dd>
+Compute n * 2<span style="vertical-align:super;font-size:smaller">exp</span>
+ <br><br>
+<b>References:</b><br>frexp<br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1018" title="At line 1018.">log</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculate the natural logarithm of x.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+    <tr><th>x</th>            <th>log(x)</th>    <th>divide by 0?</th> <th>invalid?</th></tr>
+    <tr><td>&plusmn;0.0</td> <td>-&infin;</td> <td>yes</td>          <td>no</td></tr>
+    <tr><td>&lt;0.0</td>     <td><span style="color:red">NAN</span></td>    <td>no</td>           <td>yes</td></tr>
+    <tr><td>+&infin;</td>    <td>+&infin;</td> <td>no</td>           <td>no</td></tr>
+    </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1031" title="At line 1031.">log10</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculate the base-10 logarithm of x.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>            <th>log10(x)</th>  <th>divide by 0?</th> <th>invalid?</th></tr>
+      <tr><td>&plusmn;0.0</td> <td>-&infin;</td> <td>yes</td>          <td>no</td></tr>
+      <tr><td>&lt;0.0</td>     <td><span style="color:red">NAN</span></td>    <td>no</td>           <td>yes</td></tr>
+      <tr><td>+&infin;</td>    <td>+&infin;</td> <td>no</td>           <td>no</td></tr>
+      </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1048" title="At line 1048.">log1p</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates the natural logarithm of 1 + x.<br><br>
+For very small x, log1p&#40;x&#41; will be more accurate than
+      log&#40;1 + x&#41;.<br><br>  <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+  <tr><th>x</th>            <th>log1p(x)</th>     <th>divide by 0?</th> <th>invalid?</th></tr>
+  <tr><td>&plusmn;0.0</td> <td>&plusmn;0.0</td> <td>no</td>           <td>no</td></tr>
+  <tr><td>-1.0</td>         <td>-&infin;</td>    <td>yes</td>          <td>no</td></tr>
+  <tr><td>&lt;-1.0</td>    <td><span style="color:red">NAN</span></td>       <td>no</td>           <td>yes</td></tr>
+  <tr><td>+&infin;</td>    <td>-&infin;</td>    <td>no</td>           <td>no</td></tr>
+  </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1061" title="At line 1061.">log2</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates the base-2 logarithm of x:
+ log<sub>2</sub>x<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+  <tr><th>x</th>            <th>log2(x)</th>   <th>divide by 0?</th> <th>invalid?</th></tr>
+  <tr><td>&plusmn;0.0</td> <td>-&infin;</td> <td>yes</td>          <td>no</td> </tr>
+  <tr><td>&lt;0.0</td>     <td><span style="color:red">NAN</span></td>    <td>no</td>           <td>yes</td> </tr>
+  <tr><td>+&infin;</td>    <td>+&infin;</td> <td>no</td>           <td>no</td> </tr>
+  </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1077" title="At line 1077.">logb</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Extracts the exponent of x as a signed integral value.<br><br>
+If x is subnormal, it is treated as if it were normalized.
+ For a positive, finite x:<br><br> 1 &lt;= <i>x</i> * FLT_RADIX<span style="vertical-align:super;font-size:smaller">-logb(x)</span> &lt; FLT_RADIX<br><br>      <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>                 <th>logb(x)</th>   <th>divide by 0?</th> </tr>
+      <tr><td>&plusmn;&infin;</td> <td>+&infin;</td> <td>no</td></tr>
+      <tr><td>&plusmn;0.0</td>      <td>-&infin;</td> <td>yes</td> </tr>
+      </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1093" title="At line 1093.">modf</a>(real <i>x</i>, inout real <i>y</i>); [public]</big></dt>
+<dd>
+Calculates the remainder from the calculation x/y.
+ <br><br>
+<b>Returns:</b><br>
+The value of x - i * y, where i is the number of times that y can
+ be completely subtracted from x. The result has the same sign as x.<br><br> <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+  <tr><th>x</th>              <th>y</th>             <th>modf(x, y)</th>   <th>invalid?</th></tr>
+  <tr><td>&plusmn;0.0</td>   <td>not 0.0</td>       <td>&plusmn;0.0</td> <td>no</td></tr>
+  <tr><td>&plusmn;&infin;</td>   <td>anything</td>      <td><span style="color:red">NAN</span></td>       <td>yes</td></tr>
+  <tr><td>anything</td>       <td>&plusmn;0.0</td>  <td><span style="color:red">NAN</span></td>       <td>yes</td></tr>
+  <tr><td>!=&plusmn;&infin;</td> <td>&plusmn;&infin;</td>  <td>x</td>            <td>no</td></tr>
+ </table><br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1107" title="At line 1107.">scalbn</a>(real <i>x</i>, int <i>n</i>); [public]</big></dt>
+<dd>
+Efficiently calculates x * 2<span style="vertical-align:super;font-size:smaller">n</span>.<br><br>
+scalbn handles underflow and overflow in
+ the same fashion as the basic arithmetic operators.<br><br>      <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>                 <th>scalb(x)</th></tr>
+      <tr><td>&plusmn;&infin;</td>      <td>&plusmn;&infin;</td> </tr>
+      <tr><td>&plusmn;0.0</td>      <td>&plusmn;0.0</td> </tr>
+      </table>
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L1122" title="At line 1122.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1136" title="At line 1136.">cbrt</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Calculates the cube root of x.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th><i>x</i></th>            <th>cbrt(x)</th>           <th>invalid?</th></tr>
+      <tr><td>&plusmn;0.0</td>      <td>&plusmn;0.0</td>      <td>no</td> </tr>
+      <tr><td><span style="color:red">NAN</span></td>            <td><span style="color:red">NAN</span></td>            <td>yes</td> </tr>
+      <tr><td>&plusmn;&infin;</td> <td>&plusmn;&infin;</td> <td>no</td> </tr>
+      </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1148" title="At line 1148.">fabs</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Returns |x|<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>                 <th>fabs(x)</th></tr>
+      <tr><td>&plusmn;0.0</td>      <td>+0.0</td> </tr>
+      <tr><td>&plusmn;&infin;</td> <td>+&infin;</td> </tr>
+      </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1170" title="At line 1170.">hypot</a>(real <i>x</i>, real <i>y</i>); [public]</big></dt>
+<dd>
+Calculates the length of the
+ hypotenuse of a right-angled triangle with sides of length x and y.
+ The hypotenuse is the value of the square root of
+ the sums of the squares of x and y:<br><br>
+sqrt&#40;x<sup>2</sup> + y<sup>2</sup>&#41;<br><br> Note that hypot&#40;x, y&#41;, hypot&#40;y, x&#41; and
+ hypot&#40;x, -y&#41; are equivalent.<br><br>  <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+  <tr><th>x</th>            <th>y</th>            <th>hypot(x, y)</th> <th>invalid?</th></tr>
+  <tr><td>x</td>            <td>&plusmn;0.0</td> <td>|x|</td>         <td>no</td></tr>
+  <tr><td>&plusmn;&infin;</td> <td>y</td>            <td>+&infin;</td>   <td>no</td></tr>
+  <tr><td>&plusmn;&infin;</td> <td><span style="color:red">NAN</span></td>       <td>+&infin;</td>   <td>no</td></tr>
+  </table>
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L1242" title="At line 1242.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1272" title="At line 1272.">erf</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Returns the error function of x.<br><br>
+<img src="erf.gif" alt="error function">
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1279" title="At line 1279.">erfc</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Returns the complementary error function of x, which is 1 - erf&#40;x&#41;.<br><br>
+<img src="erfc.gif" alt="complementary error function">
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1297" title="At line 1297.">lgamma</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Natural logarithm of gamma function.<br><br>
+Returns the base e &#40;2.718...&#41; logarithm of the absolute
+ value of the gamma function of the argument.<br><br> For reals, lgamma is equivalent to log&#40;fabs&#40;gamma&#40;x&#41;&#41;&#41;.<br><br>      <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>                 <th>lgamma(x)</th> <th>invalid?</th></tr>
+      <tr><td><span style="color:red">NAN</span></td>            <td><span style="color:red">NAN</span></td>    <td>yes</td></tr>
+      <tr><td>integer <= 0</td>      <td>+&infin;</td> <td>yes</td></tr>
+      <tr><td>&plusmn;&infin;</td> <td>+&infin;</td> <td>no</td></tr>
+      </table>
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1328" title="At line 1328.">tgamma</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+The Gamma function, &#915;&#40;x&#41;<br><br>
+&#915;&#40;x&#41; is a generalisation of the factorial function
+  to real and complex numbers.
+  Like x!, &#915;&#40;x+1&#41; = x*&#915;&#40;x&#41;.<br><br>  Mathematically, if z.re &gt; 0 then
+   &#915;&#40;z&#41; = <big>&#8747;<sub><small>0</small></sub><sup>&infin;</sup></big> t<sup>z-1</sup>e<sup>-t</sup> dt<br><br>    <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>              <th>&#915;(x)</th>       <th>invalid?</th></tr>
+      <tr><td><span style="color:red">NAN</span></td>         <td><span style="color:red">NAN</span></td>            <td>yes</td></tr>
+      <tr><td>&plusmn;0.0</td>   <td>&plusmn;&infin;</td>      <td>yes</td></tr>
+      <tr><td>integer &gt;0</td> <td>(x-1)!</td>            <td>no</td></tr>
+      <tr><td>integer &lt;0</td> <td><span style="color:red">NAN</span></td>            <td>yes</td></tr>
+      <tr><td>+&infin;</td>      <td>+&infin;</td>         <td>no</td></tr>
+      <tr><td>-&infin;</td>      <td><span style="color:red">NAN</span></td>            <td>yes</td></tr>
+    </table><br><br>  <br><br>
+<b>References:</b><br><a href="http://en.wikipedia.org/wiki/Gamma_function">http://en.wikipedia.org/wiki/Gamma_function</a>,
+      <a href="http://www.netlib.org/cephes/ldoubdoc.html#gamma">http://www.netlib.org/cephes/ldoubdoc.html#gamma</a><br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1339" title="At line 1339.">ceil</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Returns the value of x rounded upward to the next integer
+ &#40;toward positive infinity&#41;.
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1345" title="At line 1345.">floor</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Returns the value of x rounded downward to the next integer
+ &#40;toward negative infinity&#41;.
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1354" title="At line 1354.">nearbyint</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Rounds x to the nearest integer value, using the current rounding
+ mode.<br><br>
+Unlike the rint functions, nearbyint does not raise the
+ FE_INEXACT exception.
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1364" title="At line 1364.">rint</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Rounds x to the nearest integer value, using the current rounding
+ mode.
+ If the return value is not equal to x, the FE_INEXACT
+ exception is raised.
+ <b>nearbyint</b> performs
+ the same operation, but does not set the FE_INEXACT exception.
+ <br><br></dd>
+<dt><big>long <a href="./htmlsrc/std.math.html#L1376" title="At line 1376.">lrint</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Rounds x to the nearest integer value, using the current rounding
+ mode.<br><br>
+This is generally the fastest method to convert a floating-point number
+ to an integer. Note that the results from this function
+ depend on the rounding mode, if the fractional part of x is exactly 0.5.
+ If using the default rounding mode &#40;ties round to even integers&#41;
+ lrint&#40;4.5&#41; == 4, lrint&#40;5.5&#41;==6.
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1399" title="At line 1399.">round</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Return the value of x rounded to the nearest integer.
+ If the fractional part of x is exactly 0.5, the return value is rounded to
+ the even integer.
+ <br><br></dd>
+<dt><big>long <a href="./htmlsrc/std.math.html#L1409" title="At line 1409.">lround</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Return the value of x rounded to the nearest integer.<br><br>
+If the fractional part of x is exactly 0.5, the return value is rounded
+ away from zero.<br><br> <br><br>
+<b>Note:</b><br>Not supported on windows<br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1422" title="At line 1422.">trunc</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Returns the integer portion of x, dropping the fractional portion.<br><br>
+This is also known as "chop" rounding.
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1446" title="At line 1446.">remainder</a>(real <i>x</i>, real <i>y</i>); [public]</big></dt>
+<dd>
+Calculate the remainder x REM y, following IEC 60559.<br><br>
+REM is the value of x - y * n, where n is the integer nearest the exact
+ value of x / y.
+ If |n - x / y| == 0.5, n is even.
+ If the result is zero, it has the same sign as x.
+ Otherwise, the sign of the result is the sign of x / y.
+ Precision mode has no effect on the remainder functions.<br><br> remquo returns n in the parameter n.<br><br> <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+  <tr><th>x</th>               <th>y</th>            <th>remainder(x, y)</th> <th>n</th>   <th>invalid?</th></tr>
+  <tr><td>&plusmn;0.0</td>    <td>not 0.0</td>      <td>&plusmn;0.0</td>    <td>0.0</td> <td>no</td></tr>
+  <tr><td>&plusmn;&infin;</td>    <td>anything</td>     <td><span style="color:red">NAN</span></td>          <td>?</td>   <td>yes</td></tr>
+  <tr><td>anything</td>        <td>&plusmn;0.0</td> <td><span style="color:red">NAN</span></td>          <td>?</td>   <td>yes</td></tr>
+  <tr><td>!= &plusmn;&infin;</td> <td>&plusmn;&infin;</td> <td>x</td>               <td>?</td>   <td>no</td></tr>
+ </table><br><br> <br><br>
+<b>Note:</b><br>remquo not supported on windows<br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1448" title="At line 1448.">remquo</a>(real <i>x</i>, real <i>y</i>, out int <i>n</i>); [public]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.math.html#L1460" title="At line 1460.">isnan</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Returns !=0 if e is a NaN.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L1484" title="At line 1484.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.math.html#L1498" title="At line 1498.">isfinite</a>(real <i>e</i>); [public]</big></dt>
+<dd>
+Returns !=0 if e is finite &#40;not infinite or <span style="color:red">NAN</span>&#41;.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L1505" title="At line 1505.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.math.html#L1521" title="At line 1521.">isnormal</a>(X)(X <i>x</i>); [public]</big></dt>
+<dd>
+Returns !=0 if x is normalized &#40;not zero, subnormal, infinite, or <span style="color:red">NAN</span>&#41;.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L1536" title="At line 1536.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.math.html#L1564" title="At line 1564.">issubnormal</a>(float <i>f</i>); [public]</big></dt>
+<dt><big>int <a href="./htmlsrc/std.math.html#L1580" title="At line 1580.">issubnormal</a>(double <i>d</i>); [public]</big></dt>
+<dt><big>int <a href="./htmlsrc/std.math.html#L1597" title="At line 1597.">issubnormal</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Is number subnormal? &#40;Also called "denormal".&#41;
+ Subnormals have a 0 exponent and a 0 most significant mantissa bit.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L1570" title="At line 1570.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L1587" title="At line 1587.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L1617" title="At line 1617.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.math.html#L1629" title="At line 1629.">isinf</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Return !=0 if e is &plusmn;&infin;.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L1650" title="At line 1650.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>bool <a href="./htmlsrc/std.math.html#L1667" title="At line 1667.">isIdentical</a>(real <i>x</i>, real <i>y</i>); [public]</big></dt>
+<dd>
+Is the binary representation of x identical to y?<br><br>
+Same as ==, except that positive and negative zero are not identical,
+ and two <span style="color:red">NAN</span>s are identical if they have the same 'payload'.
+ <br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.math.html#L1688" title="At line 1688.">signbit</a>(real <i>x</i>); [public]</big></dt>
+<dd>
+Return 1 if sign bit of e is set, 0 if not.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L1693" title="At line 1693.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1708" title="At line 1708.">copysign</a>(real <i>to</i>, real <i>from</i>); [public]</big></dt>
+<dd>
+Return a value composed of to with from's sign bit.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L1719" title="At line 1719.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1746" title="At line 1746.">nan</a>(char[] <i>tagp</i>); [public]</big></dt>
+<dd>
+Creates a quiet NAN with the information from tagp[] embedded in it.<br><br>
+<span style="color:red">BUGS:</span><br>
+DMD always returns real.nan, ignoring the payload.<br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1766" title="At line 1766.">nextUp</a>(real <i>x</i>); [public]</big></dt>
+<dt><big>double <a href="./htmlsrc/std.math.html#L1839" title="At line 1839.">nextUp</a>(double <i>x</i>); [public]</big></dt>
+<dt><big>float <a href="./htmlsrc/std.math.html#L1861" title="At line 1861.">nextUp</a>(float <i>x</i>); [public]</big></dt>
+<dd>
+Calculate the next largest floating point value after x.<br><br>
+Return the least number greater than x that is representable as a real;
+ thus, it gives the next point on the IEEE number line.<br><br>  <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+    <tr><th>x</th> <th>nextUp(x)   </th></tr>
+    <tr><td>-&infin;</td> <td>-real.max   </td></tr>
+    <tr><td>&plusmn;0.0</td> <td>real.min*real.epsilon </td></tr>
+    <tr><td>real.max</td> <td>&infin; </td></tr>
+    <tr><td>&infin;</td> <td>&infin; </td></tr>
+    <tr><td><span style="color:red">NAN</span></td> <td><span style="color:red">NAN</span>   </td></tr>
+ </table><br><br> <br><br>
+<b>Remarks:</b><br>This function is included in the forthcoming IEEE 754R standard.<br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1900" title="At line 1900.">nextDown</a>(real <i>x</i>); [public]</big></dt>
+<dt><big>double <a href="./htmlsrc/std.math.html#L1906" title="At line 1906.">nextDown</a>(double <i>x</i>); [public]</big></dt>
+<dt><big>float <a href="./htmlsrc/std.math.html#L1912" title="At line 1912.">nextDown</a>(float <i>x</i>); [public]</big></dt>
+<dd>
+Calculate the next smallest floating point value before x.<br><br>
+Return the greatest number less than x that is representable as a real;
+ thus, it gives the previous point on the IEEE number line.<br><br>  <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+    <tr><th>x</th> <th>nextDown(x)   </th></tr>
+    <tr><td>&infin;</td> <td>real.max  </td></tr>
+    <tr><td>&plusmn;0.0</td> <td>-real.min*real.epsilon </td></tr>
+    <tr><td>-real.max</td> <td>-&infin; </td></tr>
+    <tr><td>-&infin;</td> <td>-&infin; </td></tr>
+    <tr><td><span style="color:red">NAN</span></td> <td><span style="color:red">NAN</span>    </td></tr>
+ </table><br><br> <br><br>
+<b>Remarks:</b><br>This function is included in the forthcoming IEEE 754R standard.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L1917" title="At line 1917.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1939" title="At line 1939.">nextafter</a>(real <i>x</i>, real <i>y</i>); [public]</big></dt>
+<dt><big>float <a href="./htmlsrc/std.math.html#L1950" title="At line 1950.">nextafter</a>(float <i>x</i>, float <i>y</i>); [public]</big></dt>
+<dt><big>double <a href="./htmlsrc/std.math.html#L1961" title="At line 1961.">nextafter</a>(double <i>x</i>, double <i>y</i>); [public]</big></dt>
+<dd>
+Calculates the next representable value after x in the direction of y.<br><br>
+If y &gt; x, the result will be the next largest floating-point value;
+ if y &lt; x, the result will be the next smallest value.
+ If x == y, the result is y.<br><br> <br><br>
+<b>Remarks:</b><br>This function is not generally very useful; it's almost always better to use
+ the faster functions nextUp&#40;&#41; or nextDown&#40;&#41; instead.<br><br> IEEE 754 requirements not implemented on Windows:
+ The FE_INEXACT and FE_OVERFLOW exceptions will be raised if x is finite and
+ the function result is infinite. The FE_INEXACT and FE_UNDERFLOW
+ exceptions will be raised if the function value is subnormal, and x is
+ not equal to y.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L1971" title="At line 1971.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L1997" title="At line 1997.">fdim</a>(real <i>x</i>, real <i>y</i>); [public]</big></dt>
+<dd>
+Returns the positive difference between x and y.
+ <br><br>
+<b>Returns:</b><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x, y</th>       <th>fdim(x, y)</th></tr>
+      <tr><td>x &gt; y</td>  <td>x - y</td></tr>
+      <tr><td>x &lt;= y</td> <td>+0.0</td></tr>
+      </table><br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L2002" title="At line 2002.">fmax</a>(real <i>x</i>, real <i>y</i>); [public]</big></dt>
+<dd>
+Returns the larger of x and y.
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L2007" title="At line 2007.">fmin</a>(real <i>x</i>, real <i>y</i>); [public]</big></dt>
+<dd>
+Returns the smaller of x and y.
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L2015" title="At line 2015.">fma</a>(real <i>x</i>, real <i>y</i>, real <i>z</i>); [public]</big></dt>
+<dd>
+Returns &#40;x * y&#41; + z, rounding only once according to the
+ current rounding mode.<br><br>
+<span style="color:red">BUGS:</span><br>
+Not currently implemented - rounds twice.<br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L2021" title="At line 2021.">pow</a>(real <i>x</i>, uint <i>n</i>); [public]</big></dt>
+<dt><big>real <a href="./htmlsrc/std.math.html#L2057" title="At line 2057.">pow</a>(real <i>x</i>, int <i>n</i>); [public]</big></dt>
+<dd>
+Fast integral powers.
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L2108" title="At line 2108.">pow</a>(real <i>x</i>, real <i>y</i>); [public]</big></dt>
+<dd>
+Calculates x<span style="vertical-align:super;font-size:smaller">y</span>.<br><br>
+<table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+ <tr><th>x</th> <th>y</th> <th>pow(x, y)</th>
+      <th>div 0</th> <th>invalid?</th></tr>
+ <tr><td>anything</td>      <td>&plusmn;0.0</td>                <td>1.0</td>
+      <td>no</td>        <td>no</td> </tr>
+ <tr><td>|x| &gt; 1</td>    <td>+&infin;</td>                  <td>+&infin;</td>
+      <td>no</td>        <td>no</td> </tr>
+ <tr><td>|x| &lt; 1</td>    <td>+&infin;</td>                  <td>+0.0</td>
+      <td>no</td>        <td>no</td> </tr>
+ <tr><td>|x| &gt; 1</td>    <td>-&infin;</td>                  <td>+0.0</td>
+      <td>no</td>        <td>no</td> </tr>
+ <tr><td>|x| &lt; 1</td>    <td>-&infin;</td>                  <td>+&infin;</td>
+      <td>no</td>        <td>no</td> </tr>
+ <tr><td>+&infin;</td>      <td>&gt; 0.0</td>                  <td>+&infin;</td>
+      <td>no</td>        <td>no</td> </tr>
+ <tr><td>+&infin;</td>      <td>&lt; 0.0</td>                  <td>+0.0</td>
+      <td>no</td>        <td>no</td> </tr>
+ <tr><td>-&infin;</td>      <td>odd integer &gt; 0.0</td>      <td>-&infin;</td>
+      <td>no</td>        <td>no</td> </tr>
+ <tr><td>-&infin;</td>      <td>&gt; 0.0, not odd integer</td> <td>+&infin;</td>
+      <td>no</td>        <td>no</td></tr>
+ <tr><td>-&infin;</td>      <td>odd integer &lt; 0.0</td>      <td>-0.0</td>
+      <td>no</td>        <td>no</td> </tr>
+ <tr><td>-&infin;</td>      <td>&lt; 0.0, not odd integer</td> <td>+0.0</td>
+      <td>no</td>        <td>no</td> </tr>
+ <tr><td>&plusmn;1.0</td>   <td>&plusmn;&infin;</td>          <td><span style="color:red">NAN</span></td>
+      <td>no</td>        <td>yes</td> </tr>
+ <tr><td>&lt; 0.0</td>      <td>finite, nonintegral</td>        <td><span style="color:red">NAN</span></td>
+      <td>no</td>        <td>yes</td></tr>
+ <tr><td>&plusmn;0.0</td>   <td>odd integer &lt; 0.0</td>      <td>&plusmn;&infin;</td>
+      <td>yes</td>       <td>no</td> </tr>
+ <tr><td>&plusmn;0.0</td>   <td>&lt; 0.0, not odd integer</td> <td>+&infin;</td>
+      <td>yes</td>       <td>no</td></tr>
+ <tr><td>&plusmn;0.0</td>   <td>odd integer &gt; 0.0</td>      <td>&plusmn;0.0</td>
+      <td>no</td>        <td>no</td> </tr>
+ <tr><td>&plusmn;0.0</td>   <td>&gt; 0.0, not odd integer</td> <td>+0.0</td>
+      <td>no</td>        <td>no</td> </tr>
+ </table>
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L2203" title="At line 2203.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.math.html#L2222" title="At line 2222.">mfeq</a>(real <i>x</i>, real <i>y</i>, real <i>precision</i>); [private]</big></dt>
+<dd>
+Simple function to compare two floating point values
+ to a specified precision.
+ <br><br>
+<b>Returns:</b><br>
+1       match
+      0       nomatch<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.math.html#L2248" title="At line 2248.">feqrel</a>(X)(X <i>x</i>, X <i>y</i>); [public]</big></dt>
+<dd>
+To what precision is x equal to y?<br><br>
+<b>Returns:</b><br>
+the number of mantissa bits which are equal in x and y.
+ eg, 0x1.F8p+60 and 0x1.F1p+60 are equal to 5 bits of precision.<br><br>      <table border=1 cellpadding=4 cellspacing=0>
+              <caption>Special Values</caption>
+              
+      <tr><th>x</th>      <th>y</th>          <th>feqrel(x, y)</th></tr>
+      <tr><td>x</td>      <td>x</td>          <td>real.mant_dig</td></tr>
+      <tr><td>x</td>      <td>&gt;= 2*x</td> <td>0</td></tr>
+      <tr><td>x</td>      <td>&lt;= x/2</td> <td>0</td></tr>
+      <tr><td><span style="color:red">NAN</span></td> <td>any</td>        <td>0</td></tr>
+      <tr><td>any</td>    <td><span style="color:red">NAN</span></td>     <td>0</td></tr>
+      </table><br><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L2321" title="At line 2321.">unittest</a>; [public]</big></dt>
+<dd></dd>
+<dt><big>T <a href="./htmlsrc/std.math.html#L2381" title="At line 2381.">ieeeMean</a>(T)(T <i>x</i>, T <i>y</i>); [package]</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L2464" title="At line 2464.">unittest</a>; [package]</big></dt>
+<dd></dd>
+<dt><big>real <a href="./htmlsrc/std.math.html#L2497" title="At line 2497.">poly</a>(real <i>x</i>, real[] <i>A</i>); [public]</big></dt>
+<dd>
+Evaluate polynomial A&#40;x&#41; = a<sub>0</sub> + a<sub>1</sub>x + a<sub>2</sub>&sup2;
+                          + a<sub>3</sub>x&sup3; ...<br><br>
+Uses Horner's rule A&#40;x&#41; = a<sub>0</sub> + x&#40;a<sub>1</sub> + x&#40;a<sub>2</sub>
+                         + x&#40;a<sub>3</sub> + ...&#41;&#41;&#41;
+ <br><br>
+<b>Params:</b><br>
+<table>
+<tr><td><i>A</i></td><td>array of coefficients a<sub>0</sub>, a<sub>1</sub>, etc.</td></tr></table><br></dd>
+<dt><big><a href="./htmlsrc/std.math.html#L2577" title="At line 2577.">unittest</a>; [public]</big></dt>
+<dd></dd></dl>
+    <br><br>
+<br><br>
+<!-- Google ad -->
+<script type="text/javascript"><!--
+/**/google_ad_client = "pub-5628673096434613";
+/**/google_ad_width = 728;
+/**/google_ad_height = 90;
+/**/google_ad_format = "728x90_as";
+/**/google_ad_channel ="6203743411";
+/**/google_page_url = document.location;
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+
+<div id="copyright">
+Copyright &copy; 1999-2008 by Digital Mars, All Rights Reserved |
+Page generated by <a href="http://code.google.com/p/dil">dil</a> on Wed Oct  1 23:47:52 2008
+</div>
+
+</body>
+</html>

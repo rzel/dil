@@ -1,0 +1,565 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<!--
+	Copyright (c) 1999-2008 by Digital Mars
+	All Rights Reserved
+	Written by Walter Bright
+	www.digitalmars.com
+  -->
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" >
+<title>std.path - D Programming Language - Digital Mars</title>
+<link rel="stylesheet" type="text/css" href="./style.css">
+<link rel="icon" type="image/gif" href="./holy.gif" />
+</head>
+
+<body>
+<div id="heading">
+	<a href="http://www.digitalmars.com/"><img src="./dmlogo.gif" width="270" height="53" border="0" alt="www.digitalmars.com" align="left"></a>
+	<p align="right">D Programming Language 1.0</p>
+
+
+	<div id="headingNav">
+	<ul>
+	<li><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Phobos/StdPath" title="Read/write comments and feedback">Comments</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language" class="dlink">D</a></li>
+	<li><a href="http://www.digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a></li>
+	<li><a href="http://www.digitalmars.com/" title="www.digitalmars.com">Home</a></li>
+	</ul>
+	</div>
+
+	<div id="lastupdate">Last update Wed Oct  1 23:47:52 2008</div>
+</div>
+
+<!-- -->
+
+<div id="navigation">
+    <div class="navblock">
+<form method="get" action="http://www.google.com/search">
+<div id="searchbox">
+<input id="q" name="q" size="10" value="RTL Search" onFocus='if(this.value == "RTL Search"){this.value="";}'>
+<input type="hidden" id="domains" name="domains" value="www.digitalmars.com">
+<input type="hidden" id="sitesearch" name="sitesearch" value="www.digitalmars.com/d/1.0/phobos">
+<input type="hidden" id="sourceid" name="sourceid" value="google-search">
+<input type="submit" id="submit" name="submit" value="Go">
+</div>
+</form>
+<div id="toctop">
+    <ul>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language">D ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/lex.html" title="D Language Specification">Language ...</a></li>
+	<li><a href="phobos.html" title="D Runtime Library">Phobos ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/comparison.html" title="Language Comparisons">Comparisons ...</a></li>
+    </ul>
+</div>
+</div>
+    <div class="navblock">
+<ul>
+<li><a href="index.html" title="Index of all HTML files">Index</a></li>
+</ul>
+    <ul>
+	<li><a href="object.html" title="root of object hierarchy">object</a></li>
+    </ul>
+    <h2><a href="phobos.html#std" title="D standard modules">std</a></h2>
+    <ul>
+	<li><a href="std.base64.html" title="Encode/decode base64 format">std.base64</a></li>
+	<li><a href="std.bind.html" title="Function argument binding">std.bind</a></li>
+	<li><a href="std.bitarray.html" title="Arrays of bits">std.bitarray</a></li>
+	<li><a href="std.boxer.html" title="Box/unbox types">std.boxer</a></li>
+	<li><a href="std.compiler.html" title="Information about the D compiler implementation">std.compiler</a></li>
+	<li><a href="std.conv.html" title="Conversion of strings to integers">std.conv</a></li>
+	<li><a href="std.cover.html" title="D coverage analyzer">std.cover</a></li>
+	<li><a href="std.cpuid.html" title="CPU identification">std.cpuid</a></li>
+	<li><a href="std.ctype.html" title="Simple character classification">std.ctype</a></li>
+	<li><a href="std.date.html" title="Date and time functions">std.date</a></li>
+	<li><a href="std.demangle.html" title="Demangle D names">std.demangle</a></li>
+	<li><a href="std.file.html" title="Basic file operations">std.file</a></li>
+	<li><a href="std.format.html" title="Formatted conversions of values to strings">std.format</a></li>
+	<li><a href="std.gc.html" title="Control the garbage collector">std.gc</a></li>
+	<li><a href="std.intrinsic.html" title="Compiler built in intrinsic functions">std.intrinsic</a></li>
+	<li><a href="std.math.html" title="the usual math functions">std.math</a></li>
+	<li><a href="std.md5.html" title="Compute MD5 digests">std.md5</a></li>
+	<li><a href="std.metastrings.html" title="Metaprogramming with strings">std.metastrings</a></li>
+	<li><a href="std.mmfile.html" title="Memory mapped files">std.mmfile</a></li>
+	<li><a href="std.openrj.html" title="Basic database">std.openrj</a></li>
+	<li><a href="std.outbuffer.html" title="Assemble data into an array of bytes">std.outbuffer</a></li>
+	<li><a href="std.outofmemory.html" title="Out of memory exception">std.outofmemory</a></li>
+	<li><a href="std.path.html" title="Manipulate file names, path names, etc.">std.path</a></li>
+	<li><a href="std.process.html" title="Create/destroy threads">std.process</a></li>
+	<li><a href="std.random.html" title="Random number generation">std.random</a></li>
+	<li><a href="std.regexp.html" title="regular expressions">std.regexp</a></li>
+	<li><a href="std.signals.html" title="Signals">std.signals</a></li>
+	<li><a href="std.socket.html" title="Sockets">std.socket</a></li>
+	<li><a href="std.socketstream.html" title="Stream for a blocking, connected Socket">std.socketstream</a></li>
+	<li><a href="std.stdint.html" title="Integral types for various purposes">std.stdint</a></li>
+	<li><a href="std.stdio.html" title="Standard I/O">std.stdio</a></li>
+	<li><a href="std.cstream.html" title="Stream I/O">std.cstream</a></li>
+	<li><a href="std.stream.html" title="Stream I/O">std.stream</a></li>
+	<li><a href="std.string.html" title="Basic string operations">std.string</a></li>
+	<li><a href="std.system.html" title="Inquire about the CPU, operating system">std.system</a></li>
+	<li><a href="std.thread.html" title="Thread operations">std.thread</a></li>
+	<li><a href="std.traits.html" title="Type traits">std.traits</a></li>
+	<li><a href="std.typetuple.html" title="Type tuples">std.typetuple</a></li>
+	<li><a href="std.uni.html" title="Unicode classification">std.uni</a></li>
+	<li><a href="std.uri.html" title="Encode and decode Uniform Resource Identifiers (URIs)">std.uri</a></li>
+	<li><a href="std.utf.html" title="Encode and decode utf character encodings">std.utf</a></li>
+	<li><a href="std.zip.html" title="Read/write zip archives">std.zip</a></li>
+	<li><a href="std.zlib.html" title="Compression / Decompression of data">std.zlib</a></li>
+	<li><a href="std.c.fenv.html" title="Floating point environment">std.c.fenv</a></li>
+	<li><a href="std.c.locale.html" title="Locale">std.c.locale</a></li>
+	<li><a href="std.c.math.html" title="Math">std.c.math</a></li>
+	<li><a href="std.c.process.html" title="Process">std.c.process</a></li>
+	<li><a href="std.c.stdarg.html" title="Variadic arguments">std.c.stdarg</a></li>
+	<li><a href="std.c.stddef.html" title="Standard definitions">std.c.stddef</a></li>
+	<li><a href="std.c.stdio.html" title="Standard I/O">std.c.stdio</a></li>
+	<li><a href="std.c.stdlib.html" title="Standard library">std.c.stdlib</a></li>
+	<li><a href="std.c.string.html" title="Strings">std.c.string</a></li>
+	<li><a href="std.c.time.html" title="Time">std.c.time</a></li>
+	<li><a href="std.c.wcharh.html" title="Wide characters">std.c.wcharh</a></li>
+	<li><a href="std.windows.charset.html" title="Conversion to/from Windows character sets">std.windows.charset</a></li>
+	<li><a href="phobos.html#std_windows" title="Modules specific to Windows">std.windows</a></li>
+	<li><a href="phobos.html#std_linux" title="Modules specific to Windows">std.linux</a></li>
+	<li><a href="phobos.html#std_c_windows" title="C Windows API">std.c.windows</a></li>
+	<li><a href="phobos.html#std_c_linux" title="C Linux API">std.c.linux</a></li>
+    </ul>
+</div>
+</div>
+<div id="content">
+    <h1><a href="./htmlsrc/std.path.html">std.path</a></h1>
+    
+<dl>
+<dt><big>char[1] <a href="./htmlsrc/std.path.html#L55" title="At line 55.">sep</a>; [const]</big></dt>
+<dd>
+String used to separate directory names in a path. Under
+  Windows this is a backslash, under Linux a slash. <br><br></dd>
+<dt><big>char[0] <a href="./htmlsrc/std.path.html#L58" title="At line 58.">altsep</a>; [const]</big></dt>
+<dd>
+Alternate version of sep[] used in Windows &#40;a slash&#41;. Under
+  Linux this is empty. <br><br></dd>
+<dt><big>char[1] <a href="./htmlsrc/std.path.html#L61" title="At line 61.">pathsep</a>; [const]</big></dt>
+<dd>
+Path separator string. A semi colon under Windows, a colon
+  under Linux. <br><br></dd>
+<dt><big>char[1] <a href="./htmlsrc/std.path.html#L64" title="At line 64.">linesep</a>; [const]</big></dt>
+<dd>
+String used to separate lines, \r\n under Windows and \n
+ under Linux. <br><br></dd>
+<dt><big>char[1] <a href="./htmlsrc/std.path.html#L65" title="At line 65.">curdir</a>; [const]</big></dt>
+<dd>
+String representing the current directory.<br><br></dd>
+<dt><big>char[2] <a href="./htmlsrc/std.path.html#L66" title="At line 66.">pardir</a>; [const]</big></dt>
+<dd>
+String representing the parent directory.<br><br></dd>
+<dt><big>alias std.string.cmp <a href="./htmlsrc/std.path.html#L81" title="At line 81.">fcmp</a>;</big></dt>
+<dd></dd>
+<dt><big>string <a href="./htmlsrc/std.path.html#L113" title="At line 113.">getExt</a>(string <i>fullname</i>);</big></dt>
+<dd>
+Extracts the extension from a filename or path.<br><br>
+This function will search fullname from the end until the
+ first dot, path separator or first character of fullname is
+ reached. Under Windows, the drive letter separator &#40;<i>colon</i>&#41;
+ also terminates the search.<br><br> <br><br>
+<b>Returns:</b><br>
+If a dot was found, characters to its right are
+ returned. If a path separator was found, or fullname didn't
+ contain any dots or path separators, returns null.<br><br>
+<b>Throws:</b><br>
+Nothing.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">version</span>(<span class="i">Win32</span>)
+ {
+     <span class="i">getExt</span>(<span class="sl">r"d:\path\foo.bat"</span>) <span class="lc">// "bat"</span>
+     <span class="i">getExt</span>(<span class="sl">r"d:\path.two\bar"</span>) <span class="lc">// null</span>
+ }
+ <span class="k">version</span>(<span class="i">linux</span>)
+ {
+     <span class="i">getExt</span>(<span class="sl">r"/home/user.name/bar."</span>)  <span class="lc">// ""</span>
+     <span class="i">getExt</span>(<span class="sl">r"d:\\path.two\\bar"</span>)     <span class="lc">// "two\\bar"</span>
+     <span class="i">getExt</span>(<span class="sl">r"/home/user/.resource"</span>)  <span class="lc">// "resource"</span>
+ }
+ 
+</pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.path.html#L137" title="At line 137.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>string <a href="./htmlsrc/std.path.html#L207" title="At line 207.">getName</a>(string <i>fullname</i>);</big></dt>
+<dd>
+Returns the extensionless version of a filename or path.<br><br>
+This function will search fullname from the end until the
+ first dot, path separator or first character of fullname is
+ reached. Under Windows, the drive letter separator &#40;<i>colon</i>&#41;
+ also terminates the search.<br><br> <br><br>
+<b>Returns:</b><br>
+If a dot was found, characters to its left are
+ returned. If a path separator was found, or fullname didn't
+ contain any dots or path separators, returns null.<br><br>
+<b>Throws:</b><br>
+Nothing.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">version</span>(<span class="i">Win32</span>)
+ {
+     <span class="i">getName</span>(<span class="sl">r"d:\path\foo.bat"</span>) =&gt; <span class="sl">r"d:\path\foo"</span>
+     <span class="i">getName</span>(<span class="sl">r"d:\path.two\bar"</span>) =&gt; <span class="k">null</span>
+ }
+ <span class="k">version</span>(<span class="i">linux</span>)
+ {
+     <span class="i">getName</span>(<span class="sl">"/home/user.name/bar."</span>)  =&gt; <span class="sl">"/home/user.name/bar"</span>
+     <span class="i">getName</span>(<span class="sl">r"d:\path.two\bar"</span>) =&gt; <span class="sl">r"d:\path"</span>
+     <span class="i">getName</span>(<span class="sl">"/home/user/.resource"</span>) =&gt; <span class="sl">"/home/user/"</span>
+ }
+ 
+</pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.path.html#L231" title="At line 231.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>string <a href="./htmlsrc/std.path.html#L275" title="At line 275.">getBaseName</a>(string <i>fullname</i>);</big></dt>
+<dd>
+Extracts the base name of a path.<br><br>
+This function will search fullname from the end until the
+ first path separator or first character of fullname is
+ reached. Under Windows, the drive letter separator &#40;<i>colon</i>&#41;
+ also terminates the search.<br><br> <br><br>
+<b>Returns:</b><br>
+If a path separator was found, all the characters to its
+ right are returned. Otherwise, fullname is returned.<br><br>
+<b>Throws:</b><br>
+Nothing.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">version</span>(<span class="i">Win32</span>)
+ {
+     <span class="i">getBaseName</span>(<span class="sl">r"d:\path\foo.bat"</span>) =&gt; <span class="sl">"foo.bat"</span>
+ }
+ <span class="k">version</span>(<span class="i">linux</span>)
+ {
+     <span class="i">getBaseName</span>(<span class="sl">"/home/user.name/bar."</span>)  =&gt; <span class="sl">"bar."</span>
+ }
+ 
+</pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.path.html#L300" title="At line 300.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>string <a href="./htmlsrc/std.path.html#L354" title="At line 354.">getDirName</a>(string <i>fullname</i>);</big></dt>
+<dd>
+Extracts the directory part of a path.<br><br>
+This function will search fullname from the end until the
+ first path separator or first character of fullname is
+ reached. Under Windows, the drive letter separator &#40;<i>colon</i>&#41;
+ also terminates the search.<br><br> <br><br>
+<b>Returns:</b><br>
+If a path separator was found, all the characters to its
+ left are returned. Otherwise, fullname is returned.<br><br> Under Windows, the found path separator will be included in the
+ returned string if it is preceeded by a colon.<br><br>
+<b>Throws:</b><br>
+Nothing.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">version</span>(<span class="i">Win32</span>)
+ {
+     <span class="i">getDirName</span>(<span class="sl">r"d:\path\foo.bat"</span>) =&gt; <span class="sl">r"d:\path"</span>
+     <span class="i">getDirName</span>(<span class="i">getDirName</span>(<span class="sl">r"d:\path\foo.bat"</span>)) =&gt; <span class="sl">r"d:\"</span>
+ }
+ <span class="k">version</span>(<span class="i">linux</span>)
+ {
+     <span class="i">getDirName</span>(<span class="sl">"/home/user"</span>)  =&gt; <span class="sl">"/home"</span>
+     <span class="i">getDirName</span>(<span class="i">getDirName</span>(<span class="sl">"/home/user"</span>))  =&gt; <span class="sl">""</span>
+ }
+ 
+</pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.path.html#L385" title="At line 385.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>string <a href="./htmlsrc/std.path.html#L410" title="At line 410.">getDrive</a>(string <i>fullname</i>);</big></dt>
+<dd>
+Extracts the drive letter of a path.<br><br>
+This function will search fullname for a colon from the beginning.<br><br> <br><br>
+<b>Returns:</b><br>
+If a colon is found, all the characters to its left
+ plus the colon are returned.  Otherwise, null is returned.<br><br> Under Linux, this function always returns null immediately.<br><br>
+<b>Throws:</b><br>
+Nothing.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="i">getDrive</span>(<span class="sl">r"d:\path\foo.bat"</span>) =&gt; <span class="sl">"d:"</span>
+ 
+</pre><br><br></dd>
+<dt><big>string <a href="./htmlsrc/std.path.html#L455" title="At line 455.">defaultExt</a>(string <i>filename</i>, string <i>ext</i>);</big></dt>
+<dd>
+Appends a default extension to a filename.<br><br>
+This function first searches filename for an extension and
+ appends ext if there is none. ext should not have any leading
+ dots, one will be inserted between filename and ext if filename
+ doesn't already end with one.<br><br> <br><br>
+<b>Returns:</b><br>
+filename if it contains an extension, otherwise filename
+ + ext.<br><br>
+<b>Throws:</b><br>
+Nothing.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="i">defaultExt</span>(<span class="sl">"foo.txt"</span>, <span class="sl">"raw"</span>) =&gt; <span class="sl">"foo.txt"</span>
+ <span class="i">defaultExt</span>(<span class="sl">"foo."</span>, <span class="sl">"raw"</span>) =&gt; <span class="sl">"foo.raw"</span>
+ <span class="i">defaultExt</span>(<span class="sl">"bar"</span>, <span class="sl">"raw"</span>) =&gt; <span class="sl">"bar.raw"</span>
+ 
+</pre><br><br></dd>
+<dt><big>string <a href="./htmlsrc/std.path.html#L495" title="At line 495.">addExt</a>(string <i>filename</i>, string <i>ext</i>);</big></dt>
+<dd>
+Adds or replaces an extension to a filename.<br><br>
+This function first searches filename for an extension and
+ replaces it with ext if found.  If there is no extension, ext
+ will be appended. ext should not have any leading dots, one will
+ be inserted between filename and ext if filename doesn't already
+ end with one.<br><br> <br><br>
+<b>Returns:</b><br>
+filename + ext if filename is extensionless. Otherwise
+ strips filename's extension off, appends ext and returns the
+ result.<br><br>
+<b>Throws:</b><br>
+Nothing.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="i">addExt</span>(<span class="sl">"foo.txt"</span>, <span class="sl">"raw"</span>) =&gt; <span class="sl">"foo.raw"</span>
+ <span class="i">addExt</span>(<span class="sl">"foo."</span>, <span class="sl">"raw"</span>) =&gt; <span class="sl">"foo.raw"</span>
+ <span class="i">addExt</span>(<span class="sl">"bar"</span>, <span class="sl">"raw"</span>) =&gt; <span class="sl">"bar.raw"</span>
+ 
+</pre><br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.path.html#L541" title="At line 541.">isabs</a>(string <i>path</i>);</big></dt>
+<dd>
+Checks if path is absolute.<br><br>
+<b>Returns:</b><br>
+non-zero if the path starts from the root directory &#40;Linux&#41; or
+ drive letter and root directory &#40;Windows&#41;,
+ zero otherwise.<br><br>
+<b>Throws:</b><br>
+Nothing.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">version</span>(<span class="i">Win32</span>)
+ {
+     <span class="i">isabs</span>(<span class="sl">r"relative\path"</span>) =&gt; <span class="n">0</span>
+     <span class="i">isabs</span>(<span class="sl">r"\relative\path"</span>) =&gt; <span class="n">0</span>
+     <span class="i">isabs</span>(<span class="sl">r"d:\absolute"</span>) =&gt; <span class="n">1</span>
+ }
+ <span class="k">version</span>(<span class="i">linux</span>)
+ {
+     <span class="i">isabs</span>(<span class="sl">"/home/user"</span>) =&gt; <span class="n">1</span>
+     <span class="i">isabs</span>(<span class="sl">"foo"</span>) =&gt; <span class="n">0</span>
+ }
+ 
+</pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.path.html#L553" title="At line 553.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>string <a href="./htmlsrc/std.path.html#L596" title="At line 596.">join</a>(string <i>p1</i>, string <i>p2</i>);</big></dt>
+<dd>
+Joins two path components.<br><br>
+If p1 doesn't have a trailing path separator, one will be appended
+ to it before concatting p2.<br><br> <br><br>
+<b>Returns:</b><br>
+p1 ~ p2. However, if p2 is an absolute path, only p2
+ will be returned.<br><br>
+<b>Throws:</b><br>
+Nothing.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">version</span>(<span class="i">Win32</span>)
+ {
+     <span class="i">join</span>(<span class="sl">r"c:\foo"</span>, <span class="sl">"bar"</span>) =&gt; <span class="sl">"c:\foo\bar"</span>
+     <span class="i">join</span>(<span class="sl">"foo"</span>, <span class="sl">r"d:\bar"</span>) =&gt; <span class="sl">"d:\bar"</span>
+ }
+ <span class="k">version</span>(<span class="i">linux</span>)
+ {
+     <span class="i">join</span>(<span class="sl">"/foo/"</span>, <span class="sl">"bar"</span>) =&gt; <span class="sl">"/foo/bar"</span>
+     <span class="i">join</span>(<span class="sl">"/foo"</span>, <span class="sl">"/bar"</span>) =&gt; <span class="sl">"/bar"</span>
+ }
+ 
+</pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.path.html#L656" title="At line 656.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.path.html#L762" title="At line 762.">fncharmatch</a>(dchar <i>c1</i>, dchar <i>c2</i>);</big></dt>
+<dd>
+Matches filename characters.<br><br>
+Under Windows, the comparison is done ignoring case. Under Linux
+ an exact match is performed.<br><br> <br><br>
+<b>Returns:</b><br>
+non zero if c1 matches c2, zero otherwise.<br><br>
+<b>Throws:</b><br>
+Nothing.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">version</span>(<span class="i">Win32</span>)
+ {
+     <span class="i">fncharmatch</span>(<span class="cl">'a'</span>, <span class="cl">'b'</span>) =&gt; <span class="n">0</span>
+     <span class="i">fncharmatch</span>(<span class="cl">'A'</span>, <span class="cl">'a'</span>) =&gt; <span class="n">1</span>
+ }
+ <span class="k">version</span>(<span class="i">linux</span>)
+ {
+     <span class="i">fncharmatch</span>(<span class="cl">'a'</span>, <span class="cl">'b'</span>) =&gt; <span class="n">0</span>
+     <span class="i">fncharmatch</span>(<span class="cl">'A'</span>, <span class="cl">'a'</span>) =&gt; <span class="n">0</span>
+ }
+ 
+</pre><br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.path.html#L829" title="At line 829.">fnmatch</a>(string <i>filename</i>, string <i>pattern</i>);</big></dt>
+<dd>
+Matches a pattern against a filename.<br><br>
+Some characters of pattern have special a meaning &#40;they are
+ <i>meta-characters</i>&#41; and <b>can't</b> be escaped. These are:
+ <p><table>
+ <tr><td><b>*</b></td>
+     <td>Matches 0 or more instances of any character.</td></tr>
+ <tr><td><b>?</b></td>
+     <td>Matches exactly one instances of any character.</td></tr>
+ <tr><td><b>[</b><i>chars</i><b>]</b></td>
+     <td>Matches one instance of any character that appears
+     between the brackets.</td></tr>
+ <tr><td><b>[!</b><i>chars</i><b>]</b></td>
+     <td>Matches one instance of any character that does not appear
+     between the brackets after the exclamation mark.</td></tr>
+ </table><p>
+ Internally individual character comparisons are done calling
+ fncharmatch&#40;&#41;, so its rules apply here too. Note that path
+ separators and dots don't stop a meta-character from matching
+ further portions of the filename.<br><br> <br><br>
+<b>Returns:</b><br>
+non zero if pattern matches filename, zero otherwise.<br><br>
+<b>See Also:</b><br>
+fncharmatch&#40;&#41;.<br><br>
+<b>Throws:</b><br>
+Nothing.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">version</span>(<span class="i">Win32</span>)
+ {
+     <span class="i">fnmatch</span>(<span class="sl">"foo.bar"</span>, <span class="sl">"*"</span>) =&gt; <span class="n">1</span>
+     <span class="i">fnmatch</span>(<span class="sl">r"foo/foo\bar"</span>, <span class="sl">"f*b*r"</span>) =&gt; <span class="n">1</span>
+     <span class="i">fnmatch</span>(<span class="sl">"foo.bar"</span>, <span class="sl">"f?bar"</span>) =&gt; <span class="n">0</span>
+     <span class="i">fnmatch</span>(<span class="sl">"Goo.bar"</span>, <span class="sl">"[fg]???bar"</span>) =&gt; <span class="n">1</span>
+     <span class="i">fnmatch</span>(<span class="sl">r"d:\foo\bar"</span>, <span class="sl">"d*foo?bar"</span>) =&gt; <span class="n">1</span>
+ }
+ <span class="k">version</span>(<span class="i">linux</span>)
+ {
+     <span class="i">fnmatch</span>(<span class="sl">"Go*.bar"</span>, <span class="sl">"[fg]???bar"</span>) =&gt; <span class="n">0</span>
+     <span class="i">fnmatch</span>(<span class="sl">"/foo*home/bar"</span>, <span class="sl">"?foo*bar"</span>) =&gt; <span class="n">1</span>
+     <span class="i">fnmatch</span>(<span class="sl">"foobar"</span>, <span class="sl">"foo?bar"</span>) =&gt; <span class="n">1</span>
+ }
+ 
+</pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.path.html#L932" title="At line 932.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>string <a href="./htmlsrc/std.path.html#L1018" title="At line 1018.">expandTilde</a>(string <i>inputPath</i>);</big></dt>
+<dd>
+Performs tilde expansion in paths.<br><br>
+There are two ways of using tilde expansion in a path. One
+ involves using the tilde alone or followed by a path separator. In
+ this case, the tilde will be expanded with the value of the
+ environment variable <i>HOME</i>.  The second way is putting
+ a username after the tilde &#40;i.e. <tt>~john/Mail</tt>&#41;. Here,
+ the username will be searched for in the user database
+ &#40;i.e. <tt>/etc/passwd</tt> on Unix systems&#41; and will expand to
+ whatever path is stored there.  The username is considered the
+ string after the tilde ending at the first instance of a path
+ separator.<br><br> Note that using the <i>~user</i> syntax may give different
+ values from just <i>~</i> if the environment variable doesn't
+ match the value stored in the user database.<br><br> When the environment variable version is used, the path won't
+ be modified if the environment variable doesn't exist or it
+ is empty. When the database version is used, the path won't be
+ modified if the user doesn't exist in the database or there is
+ not enough memory to perform the query.<br><br> <br><br>
+<b>Returns:</b><br>
+inputPath with the tilde expanded, or just inputPath
+ if it could not be expanded.
+ For Windows, expandTilde&#40;&#41; merely returns its argument inputPath.<br><br>
+<b>Throws:</b><br>
+std.outofmemory.OutOfMemoryException if there is not enough
+ memory to perform
+ the database lookup for the <i>~user</i> syntax.<br><br>
+<b>Examples:</b><br>
+<pre class="d_code">
+
+ <span class="k">import</span> <span class="i">std</span>.<span class="i">path</span>;
+
+ <span class="k">void</span> <span class="i">process_file</span>(<span class="i">string</span> <span class="i">filename</span>)
+ {
+     <span class="i">string</span> <span class="i">path</span> = <span class="i">expandTilde</span>(<span class="i">filename</span>);
+     ...
+ }
+ 
+</pre><br><br> <pre class="d_code">
+
+ <span class="k">import</span> <span class="i">std</span>.<span class="i">path</span>;
+
+ <span class="k">const</span> <span class="i">string</span> <span class="i">RESOURCE_DIR_TEMPLATE</span> = <span class="sl">"~/.applicationrc"</span>;
+ <span class="i">string</span> <span class="i">RESOURCE_DIR</span>;    <span class="lc">// This gets expanded in main().</span>
+
+ <span class="k">int</span> <span class="i">main</span>(<span class="i">string</span>[] <span class="i">args</span>)
+ {
+     <span class="i">RESOURCE_DIR</span> = <span class="i">expandTilde</span>(<span class="i">RESOURCE_DIR_TEMPLATE</span>);
+     ...
+ }
+ 
+</pre><br><br>
+<b>Version:</b><br>
+Available since v0.143.<br><br>
+<b>Authors:</b><br>
+Grzegorz Adam Hankiewicz, Thomas Kühne.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.path.html#L1045" title="At line 1045.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>string <a href="./htmlsrc/std.path.html#L1090" title="At line 1090.">expandFromEnvironment</a>(string <i>path</i>); [private]</big></dt>
+<dd>
+Replaces the tilde from path with the environment variable HOME.
+ <br><br></dd>
+<dt><big>string <a href="./htmlsrc/std.path.html#L1111" title="At line 1111.">combineCPathWithDPath</a>(char* <i>c_path</i>, string <i>path</i>, int <i>char_pos</i>); [private]</big></dt>
+<dd>
+Joins a path from a C string to the remainder of path.<br><br>
+The last path separator from c_path is discarded. The result
+ is joined to path[char_pos .. length] if char_pos is smaller
+ than length, otherwise path is not appended to c_path.
+ <br><br></dd>
+<dt><big>string <a href="./htmlsrc/std.path.html#L1138" title="At line 1138.">expandFromDatabase</a>(string <i>path</i>); [private]</big></dt>
+<dd>
+Replaces the tilde from path with the path from the user database.
+ <br><br></dd></dl>
+    <br><br>
+<br><br>
+<!-- Google ad -->
+<script type="text/javascript"><!--
+/**/google_ad_client = "pub-5628673096434613";
+/**/google_ad_width = 728;
+/**/google_ad_height = 90;
+/**/google_ad_format = "728x90_as";
+/**/google_ad_channel ="6203743411";
+/**/google_page_url = document.location;
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+
+<div id="copyright">
+Placed into public domain.
+	www.digitalmars.com
+
+ Grzegorz Adam Hankiewicz added some documentation.
+
+ This module is used to parse file names. All the operations
+ work only on strings; they don't perform any input/output
+ operations. This means that if a path contains a directory name
+ with a dot, functions like getExt() will work with it just as
+ if it was a file. To differentiate these cases,
+ use the std.file module first (i.e. std.file.isDir()). |
+Page generated by <a href="http://code.google.com/p/dil">dil</a> on Wed Oct  1 23:47:52 2008
+</div>
+
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<!--
+	Copyright (c) 1999-2008 by Digital Mars
+	All Rights Reserved
+	Written by Walter Bright
+	www.digitalmars.com
+  -->
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" >
+<title>std.c.linux.pthread - D Programming Language - Digital Mars</title>
+<link rel="stylesheet" type="text/css" href="./style.css">
+<link rel="icon" type="image/gif" href="./holy.gif" />
+</head>
+
+<body>
+<div id="heading">
+	<a href="http://www.digitalmars.com/"><img src="./dmlogo.gif" width="270" height="53" border="0" alt="www.digitalmars.com" align="left"></a>
+	<p align="right">D Programming Language 1.0</p>
+
+
+	<div id="headingNav">
+	<ul>
+	<li><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/" title="Read/write comments and feedback">Comments</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language" class="dlink">D</a></li>
+	<li><a href="http://www.digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a></li>
+	<li><a href="http://www.digitalmars.com/" title="www.digitalmars.com">Home</a></li>
+	</ul>
+	</div>
+
+	<div id="lastupdate">Last update Wed Oct  1 23:47:51 2008</div>
+</div>
+
+<!-- -->
+
+<div id="navigation">
+    <div class="navblock">
+<form method="get" action="http://www.google.com/search">
+<div id="searchbox">
+<input id="q" name="q" size="10" value="RTL Search" onFocus='if(this.value == "RTL Search"){this.value="";}'>
+<input type="hidden" id="domains" name="domains" value="www.digitalmars.com">
+<input type="hidden" id="sitesearch" name="sitesearch" value="www.digitalmars.com/d/1.0/phobos">
+<input type="hidden" id="sourceid" name="sourceid" value="google-search">
+<input type="submit" id="submit" name="submit" value="Go">
+</div>
+</form>
+<div id="toctop">
+    <ul>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language">D ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/lex.html" title="D Language Specification">Language ...</a></li>
+	<li><a href="phobos.html" title="D Runtime Library">Phobos ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/comparison.html" title="Language Comparisons">Comparisons ...</a></li>
+    </ul>
+</div>
+</div>
+    <div class="navblock">
+<ul>
+<li><a href="index.html" title="Index of all HTML files">Index</a></li>
+</ul>
+    <ul>
+	<li><a href="object.html" title="root of object hierarchy">object</a></li>
+    </ul>
+    <h2><a href="phobos.html#std" title="D standard modules">std</a></h2>
+    <ul>
+	<li><a href="std.base64.html" title="Encode/decode base64 format">std.base64</a></li>
+	<li><a href="std.bind.html" title="Function argument binding">std.bind</a></li>
+	<li><a href="std.bitarray.html" title="Arrays of bits">std.bitarray</a></li>
+	<li><a href="std.boxer.html" title="Box/unbox types">std.boxer</a></li>
+	<li><a href="std.compiler.html" title="Information about the D compiler implementation">std.compiler</a></li>
+	<li><a href="std.conv.html" title="Conversion of strings to integers">std.conv</a></li>
+	<li><a href="std.cover.html" title="D coverage analyzer">std.cover</a></li>
+	<li><a href="std.cpuid.html" title="CPU identification">std.cpuid</a></li>
+	<li><a href="std.ctype.html" title="Simple character classification">std.ctype</a></li>
+	<li><a href="std.date.html" title="Date and time functions">std.date</a></li>
+	<li><a href="std.demangle.html" title="Demangle D names">std.demangle</a></li>
+	<li><a href="std.file.html" title="Basic file operations">std.file</a></li>
+	<li><a href="std.format.html" title="Formatted conversions of values to strings">std.format</a></li>
+	<li><a href="std.gc.html" title="Control the garbage collector">std.gc</a></li>
+	<li><a href="std.intrinsic.html" title="Compiler built in intrinsic functions">std.intrinsic</a></li>
+	<li><a href="std.math.html" title="the usual math functions">std.math</a></li>
+	<li><a href="std.md5.html" title="Compute MD5 digests">std.md5</a></li>
+	<li><a href="std.metastrings.html" title="Metaprogramming with strings">std.metastrings</a></li>
+	<li><a href="std.mmfile.html" title="Memory mapped files">std.mmfile</a></li>
+	<li><a href="std.openrj.html" title="Basic database">std.openrj</a></li>
+	<li><a href="std.outbuffer.html" title="Assemble data into an array of bytes">std.outbuffer</a></li>
+	<li><a href="std.outofmemory.html" title="Out of memory exception">std.outofmemory</a></li>
+	<li><a href="std.path.html" title="Manipulate file names, path names, etc.">std.path</a></li>
+	<li><a href="std.process.html" title="Create/destroy threads">std.process</a></li>
+	<li><a href="std.random.html" title="Random number generation">std.random</a></li>
+	<li><a href="std.regexp.html" title="regular expressions">std.regexp</a></li>
+	<li><a href="std.signals.html" title="Signals">std.signals</a></li>
+	<li><a href="std.socket.html" title="Sockets">std.socket</a></li>
+	<li><a href="std.socketstream.html" title="Stream for a blocking, connected Socket">std.socketstream</a></li>
+	<li><a href="std.stdint.html" title="Integral types for various purposes">std.stdint</a></li>
+	<li><a href="std.stdio.html" title="Standard I/O">std.stdio</a></li>
+	<li><a href="std.cstream.html" title="Stream I/O">std.cstream</a></li>
+	<li><a href="std.stream.html" title="Stream I/O">std.stream</a></li>
+	<li><a href="std.string.html" title="Basic string operations">std.string</a></li>
+	<li><a href="std.system.html" title="Inquire about the CPU, operating system">std.system</a></li>
+	<li><a href="std.thread.html" title="Thread operations">std.thread</a></li>
+	<li><a href="std.traits.html" title="Type traits">std.traits</a></li>
+	<li><a href="std.typetuple.html" title="Type tuples">std.typetuple</a></li>
+	<li><a href="std.uni.html" title="Unicode classification">std.uni</a></li>
+	<li><a href="std.uri.html" title="Encode and decode Uniform Resource Identifiers (URIs)">std.uri</a></li>
+	<li><a href="std.utf.html" title="Encode and decode utf character encodings">std.utf</a></li>
+	<li><a href="std.zip.html" title="Read/write zip archives">std.zip</a></li>
+	<li><a href="std.zlib.html" title="Compression / Decompression of data">std.zlib</a></li>
+	<li><a href="std.c.fenv.html" title="Floating point environment">std.c.fenv</a></li>
+	<li><a href="std.c.locale.html" title="Locale">std.c.locale</a></li>
+	<li><a href="std.c.math.html" title="Math">std.c.math</a></li>
+	<li><a href="std.c.process.html" title="Process">std.c.process</a></li>
+	<li><a href="std.c.stdarg.html" title="Variadic arguments">std.c.stdarg</a></li>
+	<li><a href="std.c.stddef.html" title="Standard definitions">std.c.stddef</a></li>
+	<li><a href="std.c.stdio.html" title="Standard I/O">std.c.stdio</a></li>
+	<li><a href="std.c.stdlib.html" title="Standard library">std.c.stdlib</a></li>
+	<li><a href="std.c.string.html" title="Strings">std.c.string</a></li>
+	<li><a href="std.c.time.html" title="Time">std.c.time</a></li>
+	<li><a href="std.c.wcharh.html" title="Wide characters">std.c.wcharh</a></li>
+	<li><a href="std.windows.charset.html" title="Conversion to/from Windows character sets">std.windows.charset</a></li>
+	<li><a href="phobos.html#std_windows" title="Modules specific to Windows">std.windows</a></li>
+	<li><a href="phobos.html#std_linux" title="Modules specific to Windows">std.linux</a></li>
+	<li><a href="phobos.html#std_c_windows" title="C Windows API">std.c.windows</a></li>
+	<li><a href="phobos.html#std_c_linux" title="C Linux API">std.c.linux</a></li>
+    </ul>
+</div>
+</div>
+<div id="content">
+    <h1><a href="./htmlsrc/std.c.linux.pthread.html">std.c.linux.pthread</a></h1>
+    
+<dl>
+<dt><big>typedef int <a href="./htmlsrc/std.c.linux.pthread.html#L17" title="At line 17.">__time_t</a>;</big></dt>
+<dd></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.pthread.html#L22" title="At line 22.">timespec</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>__time_t <a href="./htmlsrc/std.c.linux.pthread.html#L24" title="At line 24.">tv_sec</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L25" title="At line 25.">tv_nsec</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>alias uint <a href="./htmlsrc/std.c.linux.pthread.html#L31" title="At line 31.">pthread_t</a>;</big></dt>
+<dd></dd>
+<dt><big>alias uint <a href="./htmlsrc/std.c.linux.pthread.html#L32" title="At line 32.">pthread_key_t</a>;</big></dt>
+<dd></dd>
+<dt><big>alias int <a href="./htmlsrc/std.c.linux.pthread.html#L33" title="At line 33.">pthread_once_t</a>;</big></dt>
+<dd></dd>
+<dt><big>alias int <a href="./htmlsrc/std.c.linux.pthread.html#L34" title="At line 34.">clockid_t</a>;</big></dt>
+<dd></dd>
+<dt><big>alias int <a href="./htmlsrc/std.c.linux.pthread.html#L35" title="At line 35.">pthread_spinlock_t</a>;</big></dt>
+<dd></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.pthread.html#L37" title="At line 37.">_pthread_descr_struct</a>;</big></dt>
+<dd>
+</dd>
+<dt><big>typedef _pthread_descr_struct* <a href="./htmlsrc/std.c.linux.pthread.html#L45" title="At line 45.">_pthread_descr</a>;</big></dt>
+<dd></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.pthread.html#L47" title="At line 47.">_pthread_fastlock</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L49" title="At line 49.">__status</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L50" title="At line 50.">__spinlock</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>typedef long <a href="./htmlsrc/std.c.linux.pthread.html#L53" title="At line 53.">__pthread_cond_align_t</a>;</big></dt>
+<dd></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.pthread.html#L55" title="At line 55.">pthread_cond_t</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>_pthread_fastlock <a href="./htmlsrc/std.c.linux.pthread.html#L57" title="At line 57.">__c_lock</a>;</big></dt>
+<dd></dd>
+<dt><big>_pthread_descr <a href="./htmlsrc/std.c.linux.pthread.html#L58" title="At line 58.">__c_waiting</a>;</big></dt>
+<dd></dd>
+<dt><big>char[48
+            - _pthread_fastlock.sizeof
+            - _pthread_descr.sizeof
+            - __pthread_cond_align_t.sizeof
+            ] <a href="./htmlsrc/std.c.linux.pthread.html#L59" title="At line 59.">__padding</a>;</big></dt>
+<dd></dd>
+<dt><big>__pthread_cond_align_t <a href="./htmlsrc/std.c.linux.pthread.html#L64" title="At line 64.">__align</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.pthread.html#L67" title="At line 67.">pthread_condattr_t</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L69" title="At line 69.">__dummy</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.pthread.html#L72" title="At line 72.">pthread_mutex_t</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L74" title="At line 74.">__m_reserved</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L75" title="At line 75.">__m_count</a>;</big></dt>
+<dd></dd>
+<dt><big>_pthread_descr <a href="./htmlsrc/std.c.linux.pthread.html#L76" title="At line 76.">__m_owner</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L77" title="At line 77.">__m_kind</a>;</big></dt>
+<dd></dd>
+<dt><big>_pthread_fastlock <a href="./htmlsrc/std.c.linux.pthread.html#L78" title="At line 78.">__m_lock</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.pthread.html#L81" title="At line 81.">pthread_mutexattr_t</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L83" title="At line 83.">__mutexkind</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.pthread.html#L89" title="At line 89.">_pthread_cleanup_buffer</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>void function(void*) <a href="./htmlsrc/std.c.linux.pthread.html#L91" title="At line 91.">__routine</a>;</big></dt>
+<dd></dd>
+<dt><big>void* <a href="./htmlsrc/std.c.linux.pthread.html#L92" title="At line 92.">__arg</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L93" title="At line 93.">__canceltype</a>;</big></dt>
+<dd></dd>
+<dt><big>_pthread_cleanup_buffer* <a href="./htmlsrc/std.c.linux.pthread.html#L94" title="At line 94.">__prev</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.pthread.html#L97" title="At line 97.">__sched_param</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L99" title="At line 99.">__sched_priority</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.pthread.html#L102" title="At line 102.">pthread_attr_t</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L104" title="At line 104.">__detachstate</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L105" title="At line 105.">__schedpolicy</a>;</big></dt>
+<dd></dd>
+<dt><big>__sched_param <a href="./htmlsrc/std.c.linux.pthread.html#L106" title="At line 106.">schedparam</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L107" title="At line 107.">__inheritshed</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L108" title="At line 108.">__scope</a>;</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.c.linux.pthread.html#L109" title="At line 109.">__guardsize</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L110" title="At line 110.">__stackaddr_set</a>;</big></dt>
+<dd></dd>
+<dt><big>void* <a href="./htmlsrc/std.c.linux.pthread.html#L111" title="At line 111.">__stackaddr</a>;</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.c.linux.pthread.html#L112" title="At line 112.">__stacksize</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.pthread.html#L115" title="At line 115.">pthread_barrier_t</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>_pthread_fastlock <a href="./htmlsrc/std.c.linux.pthread.html#L117" title="At line 117.">__ba_lock</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L118" title="At line 118.">__ba_required</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L119" title="At line 119.">__ba_present</a>;</big></dt>
+<dd></dd>
+<dt><big>_pthread_descr <a href="./htmlsrc/std.c.linux.pthread.html#L120" title="At line 120.">__ba_waiting</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.pthread.html#L123" title="At line 123.">pthread_barrierattr_t</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L125" title="At line 125.">__pshared</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.pthread.html#L128" title="At line 128.">pthread_rwlockattr_t</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L130" title="At line 130.">__lockkind</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L131" title="At line 131.">__pshared</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.pthread.html#L134" title="At line 134.">pthread_rwlock_t</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>_pthread_fastlock <a href="./htmlsrc/std.c.linux.pthread.html#L136" title="At line 136.">__rw_lock</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L137" title="At line 137.">__rw_readers</a>;</big></dt>
+<dd></dd>
+<dt><big>_pthread_descr <a href="./htmlsrc/std.c.linux.pthread.html#L138" title="At line 138.">__rw_writer</a>;</big></dt>
+<dd></dd>
+<dt><big>_pthread_descr <a href="./htmlsrc/std.c.linux.pthread.html#L139" title="At line 139.">__rw_read_waiting</a>;</big></dt>
+<dd></dd>
+<dt><big>_pthread_descr <a href="./htmlsrc/std.c.linux.pthread.html#L140" title="At line 140.">__rw_write_waiting</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L141" title="At line 141.">__rw_kind</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L142" title="At line 142.">__rw_pshared</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L145" title="At line 145.">pthread_mutex_init</a>(pthread_mutex_t*, pthread_mutexattr_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L146" title="At line 146.">pthread_mutex_destroy</a>(pthread_mutex_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L147" title="At line 147.">pthread_mutex_trylock</a>(pthread_mutex_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L148" title="At line 148.">pthread_mutex_lock</a>(pthread_mutex_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L149" title="At line 149.">pthread_mutex_unlock</a>(pthread_mutex_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L151" title="At line 151.">pthread_mutexattr_init</a>(pthread_mutexattr_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L152" title="At line 152.">pthread_mutexattr_destroy</a>(pthread_mutexattr_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L154" title="At line 154.">pthread_cond_init</a>(pthread_cond_t*, pthread_condattr_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L155" title="At line 155.">pthread_cond_destroy</a>(pthread_cond_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L156" title="At line 156.">pthread_cond_signal</a>(pthread_cond_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L157" title="At line 157.">pthread_cond_wait</a>(pthread_cond_t*, pthread_mutex_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L158" title="At line 158.">pthread_cond_timedwait</a>(pthread_cond_t*, pthread_mutex_t*, timespec*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L160" title="At line 160.">pthread_attr_init</a>(pthread_attr_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L161" title="At line 161.">pthread_attr_destroy</a>(pthread_attr_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L162" title="At line 162.">pthread_attr_setdetachstate</a>(pthread_attr_t*, int); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L163" title="At line 163.">pthread_attr_getdetachstate</a>(pthread_attr_t*, int*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L164" title="At line 164.">pthread_attr_setinheritsched</a>(pthread_attr_t*, int); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L165" title="At line 165.">pthread_attr_getinheritsched</a>(pthread_attr_t*, int*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L166" title="At line 166.">pthread_attr_setschedparam</a>(pthread_attr_t*, __sched_param*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L167" title="At line 167.">pthread_attr_getschedparam</a>(pthread_attr_t*, __sched_param*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L168" title="At line 168.">pthread_attr_setschedpolicy</a>(pthread_attr_t*, int); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L169" title="At line 169.">pthread_attr_getschedpolicy</a>(pthread_attr_t*, int*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L170" title="At line 170.">pthread_attr_setscope</a>(pthread_attr_t*, int); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L171" title="At line 171.">pthread_attr_getscope</a>(pthread_attr_t*, int*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L172" title="At line 172.">pthread_attr_setguardsize</a>(pthread_attr_t*, size_t); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L173" title="At line 173.">pthread_attr_getguardsize</a>(pthread_attr_t*, size_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L174" title="At line 174.">pthread_attr_setstack</a>(pthread_attr_t*, void*, size_t); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L175" title="At line 175.">pthread_attr_getstack</a>(pthread_attr_t*, void**, size_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L176" title="At line 176.">pthread_attr_setstackaddr</a>(pthread_attr_t*, void*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L177" title="At line 177.">pthread_attr_getstackaddr</a>(pthread_attr_t*, void**); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L178" title="At line 178.">pthread_attr_setstacksize</a>(pthread_attr_t*, size_t); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L179" title="At line 179.">pthread_attr_getstacksize</a>(pthread_attr_t*, size_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L181" title="At line 181.">pthread_barrierattr_init</a>(pthread_barrierattr_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L182" title="At line 182.">pthread_barrierattr_getpshared</a>(pthread_barrierattr_t*, int*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L183" title="At line 183.">pthread_barrierattr_destroy</a>(pthread_barrierattr_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L184" title="At line 184.">pthread_barrierattr_setpshared</a>(pthread_barrierattr_t*, int); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L186" title="At line 186.">pthread_barrier_init</a>(pthread_barrier_t*, pthread_barrierattr_t*, uint); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L187" title="At line 187.">pthread_barrier_destroy</a>(pthread_barrier_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L188" title="At line 188.">pthread_barrier_wait</a>(pthread_barrier_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L190" title="At line 190.">pthread_condattr_init</a>(pthread_condattr_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L191" title="At line 191.">pthread_condattr_destroy</a>(pthread_condattr_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L192" title="At line 192.">pthread_condattr_getpshared</a>(pthread_condattr_t*, int*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L193" title="At line 193.">pthread_condattr_setpshared</a>(pthread_condattr_t*, int); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L195" title="At line 195.">pthread_detach</a>(pthread_t); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.c.linux.pthread.html#L196" title="At line 196.">pthread_exit</a>(void*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L197" title="At line 197.">pthread_getattr_np</a>(pthread_t, pthread_attr_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L198" title="At line 198.">pthread_getconcurrency</a>(); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L199" title="At line 199.">pthread_getcpuclockid</a>(pthread_t, clockid_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L201" title="At line 201.">pthread_mutexattr_getpshared</a>(pthread_mutexattr_t*, int*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L202" title="At line 202.">pthread_mutexattr_setpshared</a>(pthread_mutexattr_t*, int); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L203" title="At line 203.">pthread_mutexattr_settype</a>(pthread_mutexattr_t*, int); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L204" title="At line 204.">pthread_mutexattr_gettype</a>(pthread_mutexattr_t*, int*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L205" title="At line 205.">pthread_mutex_timedlock</a>(pthread_mutex_t*, timespec*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L206" title="At line 206.">pthread_yield</a>(); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L208" title="At line 208.">pthread_rwlock_init</a>(pthread_rwlock_t*, pthread_rwlockattr_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L209" title="At line 209.">pthread_rwlock_destroy</a>(pthread_rwlock_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L210" title="At line 210.">pthread_rwlock_rdlock</a>(pthread_rwlock_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L211" title="At line 211.">pthread_rwlock_tryrdlock</a>(pthread_rwlock_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L212" title="At line 212.">pthread_rwlock_timedrdlock</a>(pthread_rwlock_t*, timespec*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L213" title="At line 213.">pthread_rwlock_wrlock</a>(pthread_rwlock_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L214" title="At line 214.">pthread_rwlock_trywrlock</a>(pthread_rwlock_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L215" title="At line 215.">pthread_rwlock_timedwrlock</a>(pthread_rwlock_t*, timespec*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L216" title="At line 216.">pthread_rwlock_unlock</a>(pthread_rwlock_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L218" title="At line 218.">pthread_rwlockattr_init</a>(pthread_rwlockattr_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L219" title="At line 219.">pthread_rwlockattr_destroy</a>(pthread_rwlockattr_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L220" title="At line 220.">pthread_rwlockattr_getpshared</a>(pthread_rwlockattr_t*, int*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L221" title="At line 221.">pthread_rwlockattr_setpshared</a>(pthread_rwlockattr_t*, int); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L222" title="At line 222.">pthread_rwlockattr_getkind_np</a>(pthread_rwlockattr_t*, int*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L223" title="At line 223.">pthread_rwlockattr_setkind_np</a>(pthread_rwlockattr_t*, int); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L225" title="At line 225.">pthread_spin_init</a>(pthread_spinlock_t*, int); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L226" title="At line 226.">pthread_spin_destroy</a>(pthread_spinlock_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L227" title="At line 227.">pthread_spin_lock</a>(pthread_spinlock_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L228" title="At line 228.">pthread_spin_trylock</a>(pthread_spinlock_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L229" title="At line 229.">pthread_spin_unlock</a>(pthread_spinlock_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L231" title="At line 231.">pthread_cancel</a>(pthread_t); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.c.linux.pthread.html#L232" title="At line 232.">pthread_testcancel</a>(); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L233" title="At line 233.">pthread_once</a>(pthread_once_t*, void function()); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L235" title="At line 235.">pthread_join</a>(pthread_t, void**); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L236" title="At line 236.">pthread_create</a>(pthread_t*, pthread_attr_t*, void*function(void*), void*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>pthread_t <a href="./htmlsrc/std.c.linux.pthread.html#L237" title="At line 237.">pthread_self</a>(); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L238" title="At line 238.">pthread_equal</a>(pthread_t, pthread_t); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L239" title="At line 239.">pthread_atfork</a>(void function(), void function(), void function()); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.c.linux.pthread.html#L240" title="At line 240.">pthread_kill_other_threads_np</a>(); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L241" title="At line 241.">pthread_setschedparam</a>(pthread_t, int, __sched_param*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L242" title="At line 242.">pthread_getschedparam</a>(pthread_t, int*, __sched_param*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L243" title="At line 243.">pthread_cond_broadcast</a>(pthread_cond_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L244" title="At line 244.">pthread_key_create</a>(pthread_key_t*, void function(void*)); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L245" title="At line 245.">pthread_key_delete</a>(pthread_key_t); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L246" title="At line 246.">pthread_setconcurrency</a>(int); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L247" title="At line 247.">pthread_setspecific</a>(pthread_key_t, void*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>void* <a href="./htmlsrc/std.c.linux.pthread.html#L248" title="At line 248.">pthread_getspecific</a>(pthread_key_t); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L249" title="At line 249.">pthread_setcanceltype</a>(int, int*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.pthread.html#L250" title="At line 250.">pthread_setcancelstate</a>(int, int*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.c.linux.pthread.html#L252" title="At line 252.">_pthread_cleanup_push</a>(_pthread_cleanup_buffer*, void function(void*), void*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.c.linux.pthread.html#L253" title="At line 253.">_pthread_cleanup_push_defer</a>(_pthread_cleanup_buffer*, void function(void*), void*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.c.linux.pthread.html#L254" title="At line 254.">_pthread_cleanup_pop</a>(_pthread_cleanup_buffer*, int); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.c.linux.pthread.html#L255" title="At line 255.">_pthread_cleanup_pop_restore</a>(_pthread_cleanup_buffer*, int); [extern(C)]</big></dt>
+<dd></dd></dl>
+    <br><br>
+<br><br>
+<!-- Google ad -->
+<script type="text/javascript"><!--
+/**/google_ad_client = "pub-5628673096434613";
+/**/google_ad_width = 728;
+/**/google_ad_height = 90;
+/**/google_ad_format = "728x90_as";
+/**/google_ad_channel ="6203743411";
+/**/google_page_url = document.location;
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+
+<div id="copyright">
+Copyright &copy; 1999-2008 by Digital Mars, All Rights Reserved |
+Page generated by <a href="http://code.google.com/p/dil">dil</a> on Wed Oct  1 23:47:51 2008
+</div>
+
+</body>
+</html>

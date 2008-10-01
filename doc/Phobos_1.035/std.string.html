@@ -1,0 +1,705 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<!--
+	Copyright (c) 1999-2008 by Digital Mars
+	All Rights Reserved
+	Written by Walter Bright
+	www.digitalmars.com
+  -->
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" >
+<title>std.string - D Programming Language - Digital Mars</title>
+<link rel="stylesheet" type="text/css" href="./style.css">
+<link rel="icon" type="image/gif" href="./holy.gif" />
+</head>
+
+<body>
+<div id="heading">
+	<a href="http://www.digitalmars.com/"><img src="./dmlogo.gif" width="270" height="53" border="0" alt="www.digitalmars.com" align="left"></a>
+	<p align="right">D Programming Language 1.0</p>
+
+
+	<div id="headingNav">
+	<ul>
+	<li><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Phobos/StdString" title="Read/write comments and feedback">Comments</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language" class="dlink">D</a></li>
+	<li><a href="http://www.digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a></li>
+	<li><a href="http://www.digitalmars.com/" title="www.digitalmars.com">Home</a></li>
+	</ul>
+	</div>
+
+	<div id="lastupdate">Last update Wed Oct  1 23:47:52 2008</div>
+</div>
+
+<!-- -->
+
+<div id="navigation">
+    <div class="navblock">
+<form method="get" action="http://www.google.com/search">
+<div id="searchbox">
+<input id="q" name="q" size="10" value="RTL Search" onFocus='if(this.value == "RTL Search"){this.value="";}'>
+<input type="hidden" id="domains" name="domains" value="www.digitalmars.com">
+<input type="hidden" id="sitesearch" name="sitesearch" value="www.digitalmars.com/d/1.0/phobos">
+<input type="hidden" id="sourceid" name="sourceid" value="google-search">
+<input type="submit" id="submit" name="submit" value="Go">
+</div>
+</form>
+<div id="toctop">
+    <ul>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language">D ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/lex.html" title="D Language Specification">Language ...</a></li>
+	<li><a href="phobos.html" title="D Runtime Library">Phobos ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/comparison.html" title="Language Comparisons">Comparisons ...</a></li>
+    </ul>
+</div>
+</div>
+    <div class="navblock">
+<ul>
+<li><a href="index.html" title="Index of all HTML files">Index</a></li>
+</ul>
+    <ul>
+	<li><a href="object.html" title="root of object hierarchy">object</a></li>
+    </ul>
+    <h2><a href="phobos.html#std" title="D standard modules">std</a></h2>
+    <ul>
+	<li><a href="std.base64.html" title="Encode/decode base64 format">std.base64</a></li>
+	<li><a href="std.bind.html" title="Function argument binding">std.bind</a></li>
+	<li><a href="std.bitarray.html" title="Arrays of bits">std.bitarray</a></li>
+	<li><a href="std.boxer.html" title="Box/unbox types">std.boxer</a></li>
+	<li><a href="std.compiler.html" title="Information about the D compiler implementation">std.compiler</a></li>
+	<li><a href="std.conv.html" title="Conversion of strings to integers">std.conv</a></li>
+	<li><a href="std.cover.html" title="D coverage analyzer">std.cover</a></li>
+	<li><a href="std.cpuid.html" title="CPU identification">std.cpuid</a></li>
+	<li><a href="std.ctype.html" title="Simple character classification">std.ctype</a></li>
+	<li><a href="std.date.html" title="Date and time functions">std.date</a></li>
+	<li><a href="std.demangle.html" title="Demangle D names">std.demangle</a></li>
+	<li><a href="std.file.html" title="Basic file operations">std.file</a></li>
+	<li><a href="std.format.html" title="Formatted conversions of values to strings">std.format</a></li>
+	<li><a href="std.gc.html" title="Control the garbage collector">std.gc</a></li>
+	<li><a href="std.intrinsic.html" title="Compiler built in intrinsic functions">std.intrinsic</a></li>
+	<li><a href="std.math.html" title="the usual math functions">std.math</a></li>
+	<li><a href="std.md5.html" title="Compute MD5 digests">std.md5</a></li>
+	<li><a href="std.metastrings.html" title="Metaprogramming with strings">std.metastrings</a></li>
+	<li><a href="std.mmfile.html" title="Memory mapped files">std.mmfile</a></li>
+	<li><a href="std.openrj.html" title="Basic database">std.openrj</a></li>
+	<li><a href="std.outbuffer.html" title="Assemble data into an array of bytes">std.outbuffer</a></li>
+	<li><a href="std.outofmemory.html" title="Out of memory exception">std.outofmemory</a></li>
+	<li><a href="std.path.html" title="Manipulate file names, path names, etc.">std.path</a></li>
+	<li><a href="std.process.html" title="Create/destroy threads">std.process</a></li>
+	<li><a href="std.random.html" title="Random number generation">std.random</a></li>
+	<li><a href="std.regexp.html" title="regular expressions">std.regexp</a></li>
+	<li><a href="std.signals.html" title="Signals">std.signals</a></li>
+	<li><a href="std.socket.html" title="Sockets">std.socket</a></li>
+	<li><a href="std.socketstream.html" title="Stream for a blocking, connected Socket">std.socketstream</a></li>
+	<li><a href="std.stdint.html" title="Integral types for various purposes">std.stdint</a></li>
+	<li><a href="std.stdio.html" title="Standard I/O">std.stdio</a></li>
+	<li><a href="std.cstream.html" title="Stream I/O">std.cstream</a></li>
+	<li><a href="std.stream.html" title="Stream I/O">std.stream</a></li>
+	<li><a href="std.string.html" title="Basic string operations">std.string</a></li>
+	<li><a href="std.system.html" title="Inquire about the CPU, operating system">std.system</a></li>
+	<li><a href="std.thread.html" title="Thread operations">std.thread</a></li>
+	<li><a href="std.traits.html" title="Type traits">std.traits</a></li>
+	<li><a href="std.typetuple.html" title="Type tuples">std.typetuple</a></li>
+	<li><a href="std.uni.html" title="Unicode classification">std.uni</a></li>
+	<li><a href="std.uri.html" title="Encode and decode Uniform Resource Identifiers (URIs)">std.uri</a></li>
+	<li><a href="std.utf.html" title="Encode and decode utf character encodings">std.utf</a></li>
+	<li><a href="std.zip.html" title="Read/write zip archives">std.zip</a></li>
+	<li><a href="std.zlib.html" title="Compression / Decompression of data">std.zlib</a></li>
+	<li><a href="std.c.fenv.html" title="Floating point environment">std.c.fenv</a></li>
+	<li><a href="std.c.locale.html" title="Locale">std.c.locale</a></li>
+	<li><a href="std.c.math.html" title="Math">std.c.math</a></li>
+	<li><a href="std.c.process.html" title="Process">std.c.process</a></li>
+	<li><a href="std.c.stdarg.html" title="Variadic arguments">std.c.stdarg</a></li>
+	<li><a href="std.c.stddef.html" title="Standard definitions">std.c.stddef</a></li>
+	<li><a href="std.c.stdio.html" title="Standard I/O">std.c.stdio</a></li>
+	<li><a href="std.c.stdlib.html" title="Standard library">std.c.stdlib</a></li>
+	<li><a href="std.c.string.html" title="Strings">std.c.string</a></li>
+	<li><a href="std.c.time.html" title="Time">std.c.time</a></li>
+	<li><a href="std.c.wcharh.html" title="Wide characters">std.c.wcharh</a></li>
+	<li><a href="std.windows.charset.html" title="Conversion to/from Windows character sets">std.windows.charset</a></li>
+	<li><a href="phobos.html#std_windows" title="Modules specific to Windows">std.windows</a></li>
+	<li><a href="phobos.html#std_linux" title="Modules specific to Windows">std.linux</a></li>
+	<li><a href="phobos.html#std_c_windows" title="C Windows API">std.c.windows</a></li>
+	<li><a href="phobos.html#std_c_linux" title="C Linux API">std.c.linux</a></li>
+    </ul>
+</div>
+</div>
+<div id="content">
+    <h1><a href="./htmlsrc/std.string.html">std.string</a></h1>
+    
+String handling functions.<br><br>
+To copy or not to copy?
+ When a function takes a string as a parameter, and returns a string,
+ is that string the same as the input string, modified in place, or
+ is it a modified copy of the input string? The D array convention is
+ "copy-on-write". This means that if no modifications are done, the
+ original string &#40;or slices of it&#41; can be returned. If any modifications
+ are done, the returned string is a copy.<br><br> <br><br>
+<dl>
+<dt><big>size_t <a href="./htmlsrc/std.string.html#L46" title="At line 46.">wcslen</a>(wchar *); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.string.html#L47" title="At line 47.">wcscmp</a>(wchar *, wchar *); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>class <a href="./htmlsrc/std.string.html#L53" title="At line 53.">StringException</a> : Exception;</big></dt>
+<dd>
+Thrown on errors in string functions.<br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.string.html#L55" title="At line 55.">this</a>(char[] <i>msg</i>);</big></dt>
+<dd></dd></dl></dd>
+<dt><big>char[16] <a href="./htmlsrc/std.string.html#L63" title="At line 63.">hexdigits</a>; [const]</big></dt>
+<dd>
+0..9A..F<br><br></dd>
+<dt><big>char[10] <a href="./htmlsrc/std.string.html#L64" title="At line 64.">digits</a>; [const]</big></dt>
+<dd>
+0..9<br><br></dd>
+<dt><big>char[8] <a href="./htmlsrc/std.string.html#L65" title="At line 65.">octdigits</a>; [const]</big></dt>
+<dd>
+0..7<br><br></dd>
+<dt><big>char[26] <a href="./htmlsrc/std.string.html#L66" title="At line 66.">lowercase</a>; [const]</big></dt>
+<dd>
+a..z<br><br></dd>
+<dt><big>char[26] <a href="./htmlsrc/std.string.html#L67" title="At line 67.">uppercase</a>; [const]</big></dt>
+<dd>
+A..Z<br><br></dd>
+<dt><big>char[52] <a href="./htmlsrc/std.string.html#L68" title="At line 68.">letters</a>; [const]</big></dt>
+<dd>
+A..Za..z<br><br></dd>
+<dt><big>char[6] <a href="./htmlsrc/std.string.html#L70" title="At line 70.">whitespace</a>; [const]</big></dt>
+<dd>
+ASCII whitespace<br><br></dd>
+<dt><big>dchar <a href="./htmlsrc/std.string.html#L72" title="At line 72.">LS</a>; [const]</big></dt>
+<dd>
+UTF line separator<br><br></dd>
+<dt><big>dchar <a href="./htmlsrc/std.string.html#L73" title="At line 73.">PS</a>; [const]</big></dt>
+<dd>
+UTF paragraph separator<br><br></dd>
+<dt><big>char[1] <a href="./htmlsrc/std.string.html#L79" title="At line 79.">newline</a>; [const]</big></dt>
+<dd></dd>
+<dt><big>bool <a href="./htmlsrc/std.string.html#L85" title="At line 85.">iswhite</a>(dchar <i>c</i>);</big></dt>
+<dd>
+Returns true if c is whitespace
+ <br><br></dd>
+<dt><big>long <a href="./htmlsrc/std.string.html#L96" title="At line 96.">atoi</a>(char[] <i>s</i>);</big></dt>
+<dd>
+Convert string to integer.
+ <br><br></dd>
+<dt><big>real <a href="./htmlsrc/std.string.html#L105" title="At line 105.">atof</a>(char[] <i>s</i>);</big></dt>
+<dd>
+Convert string to real.
+ <br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.string.html#L122" title="At line 122.">cmp</a>(char[] <i>s1</i>, char[] <i>s2</i>);</big></dt>
+<dt><big>int <a href="./htmlsrc/std.string.html#L140" title="At line 140.">icmp</a>(char[] <i>s1</i>, char[] <i>s2</i>);</big></dt>
+<dd>
+Compare two strings. cmp is case sensitive, icmp is case insensitive.
+ <br><br>
+<b>Returns:</b><br>
+<table border=1 cellpadding=4 cellspacing=0>
+	<tr><td>< 0</td>	<td>s1 < s2</td></tr>
+	<tr><td>= 0</td>	<td>s1 == s2</td></tr>
+	<tr><td>> 0</td>	<td>s1 > s2</td></tr>
+	</table><br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L175" title="At line 175.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char* <a href="./htmlsrc/std.string.html#L201" title="At line 201.">toCharz</a>(char[] <i>s</i>); [deprecated]</big></dt>
+<dd></dd>
+<dt><big>char* <a href="./htmlsrc/std.string.html#L211" title="At line 211.">toStringz</a>(char[] <i>s</i>);</big></dt>
+<dd>
+Convert array of chars s[] to a C-style 0 terminated string.
+ s[] must not contain embedded 0's.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L255" title="At line 255.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.string.html#L287" title="At line 287.">find</a>(char[] <i>s</i>, dchar <i>c</i>);</big></dt>
+<dt><big>int <a href="./htmlsrc/std.string.html#L328" title="At line 328.">ifind</a>(char[] <i>s</i>, dchar <i>c</i>);</big></dt>
+<dt><big>int <a href="./htmlsrc/std.string.html#L388" title="At line 388.">rfind</a>(char[] <i>s</i>, dchar <i>c</i>);</big></dt>
+<dt><big>int <a href="./htmlsrc/std.string.html#L429" title="At line 429.">irfind</a>(char[] <i>s</i>, dchar <i>c</i>);</big></dt>
+<dd>
+find, ifind _find first occurrence of c in string s.
+ rfind, irfind _find last occurrence of c in string s.<br><br>
+find, rfind are case sensitive; ifind, irfind are case insensitive.
+ <br><br>
+<b>Returns:</b><br>
+Index in s where c is found, -1 if not found.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L307" title="At line 307.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L357" title="At line 357.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L409" title="At line 409.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L467" title="At line 467.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.string.html#L503" title="At line 503.">find</a>(char[] <i>s</i>, char[] <i>sub</i>);</big></dt>
+<dt><big>int <a href="./htmlsrc/std.string.html#L578" title="At line 578.">ifind</a>(char[] <i>s</i>, char[] <i>sub</i>);</big></dt>
+<dt><big>int <a href="./htmlsrc/std.string.html#L687" title="At line 687.">rfind</a>(char[] <i>s</i>, char[] <i>sub</i>);</big></dt>
+<dt><big>int <a href="./htmlsrc/std.string.html#L741" title="At line 741.">irfind</a>(char[] <i>s</i>, char[] <i>sub</i>);</big></dt>
+<dd>
+find, ifind _find first occurrence of sub[] in string s[].
+ rfind, irfind _find last occurrence of sub[] in string s[].<br><br>
+find, rfind are case sensitive; ifind, irfind are case insensitive.
+ <br><br>
+<b>Returns:</b><br>
+Index in s where c is found, -1 if not found.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L554" title="At line 554.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L639" title="At line 639.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L719" title="At line 719.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L785" title="At line 785.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>string <a href="./htmlsrc/std.string.html#L826" title="At line 826.">tolower</a>(string <i>s</i>);</big></dt>
+<dd>
+Convert string s[] to lower case.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L871" title="At line 871.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>string <a href="./htmlsrc/std.string.html#L902" title="At line 902.">toupper</a>(string <i>s</i>);</big></dt>
+<dd>
+Convert string s[] to upper case.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L947" title="At line 947.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L975" title="At line 975.">capitalize</a>(char[] <i>s</i>);</big></dt>
+<dd>
+Capitalize first character of string s[], convert rest of string s[]
+ to lower case.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1013" title="At line 1013.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1041" title="At line 1041.">capwords</a>(char[] <i>s</i>);</big></dt>
+<dd>
+Capitalize all words in string s[].
+ Remove leading and trailing whitespace.
+ Replace all sequences of whitespace with a single space.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1085" title="At line 1085.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1101" title="At line 1101.">repeat</a>(char[] <i>s</i>, size_t <i>n</i>);</big></dt>
+<dd>
+Return a string that consists of s[] repeated n times.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1122" title="At line 1122.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1146" title="At line 1146.">join</a>(char[][] <i>words</i>, char[] <i>sep</i>);</big></dt>
+<dd>
+Concatenate all the strings in words[] together into one
+ string; use sep[] as the separator.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1182" title="At line 1182.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[][] <a href="./htmlsrc/std.string.html#L1207" title="At line 1207.">split</a>(char[] <i>s</i>);</big></dt>
+<dd>
+Split s[] into an array of words,
+ using whitespace as the delimiter.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1244" title="At line 1244.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[][] <a href="./htmlsrc/std.string.html#L1268" title="At line 1268.">split</a>(char[] <i>s</i>, char[] <i>delim</i>);</big></dt>
+<dd>
+Split s[] into an array of words,
+ using delim[] as the delimiter.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1368" title="At line 1368.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[][] <a href="./htmlsrc/std.string.html#L1437" title="At line 1437.">splitlines</a>(char[] <i>s</i>);</big></dt>
+<dd>
+Split s[] into an array of lines,
+ using CR, LF, or CR-LF as the delimiter.
+ The delimiter is not included in the line.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1491" title="At line 1491.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1525" title="At line 1525.">stripl</a>(char[] <i>s</i>);</big></dt>
+<dd>
+Strips leading or trailing whitespace, or both.
+ <br><br></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1537" title="At line 1537.">stripr</a>(char[] <i>s</i>);</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1549" title="At line 1549.">strip</a>(char[] <i>s</i>);</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1554" title="At line 1554.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1570" title="At line 1570.">chomp</a>(char[] <i>s</i>, char[] <i>delimiter</i> = null);</big></dt>
+<dd>
+Returns s[] sans trailing delimiter[], if any.
+ If delimiter[] is null, removes trailing CR, LF, or CRLF, if any.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1597" title="At line 1597.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1639" title="At line 1639.">chop</a>(char[] <i>s</i>);</big></dt>
+<dd>
+Returns s[] sans trailing character, if there is one.
+ If last two characters are CR-LF, then both are removed.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1661" title="At line 1661.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1682" title="At line 1682.">ljustify</a>(char[] <i>s</i>, int <i>width</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1693" title="At line 1693.">rjustify</a>(char[] <i>s</i>, int <i>width</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1704" title="At line 1704.">center</a>(char[] <i>s</i>, int <i>width</i>);</big></dt>
+<dd>
+Left justify, right justify, or center string s[]
+ in field width chars wide.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1716" title="At line 1716.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1746" title="At line 1746.">zfill</a>(char[] <i>s</i>, int <i>width</i>);</big></dt>
+<dd>
+Same as rjustify&#40;&#41;, but fill with '0's.
+ <br><br></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1760" title="At line 1760.">replace</a>(char[] <i>s</i>, char[] <i>from</i>, char[] <i>to</i>);</big></dt>
+<dd>
+Replace occurrences of from[] with to[] in s[].
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1785" title="At line 1785.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1808" title="At line 1808.">replaceSlice</a>(char[] <i>string</i>, char[] <i>slice</i>, char[] <i>replacement</i>);</big></dt>
+<dd>
+Return a _string that is string[] with slice[] replaced by replacement[].
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1831" title="At line 1831.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1848" title="At line 1848.">insert</a>(char[] <i>s</i>, size_t <i>index</i>, char[] <i>sub</i>);</big></dt>
+<dd>
+Insert sub[] into s[] at location index.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1870" title="At line 1870.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.string.html#L1902" title="At line 1902.">count</a>(char[] <i>s</i>, char[] <i>sub</i>);</big></dt>
+<dd>
+Count up all instances of sub[] in s[].
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1918" title="At line 1918.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L1936" title="At line 1936.">expandtabs</a>(char[] <i>string</i>, int <i>tabsize</i> = 8);</big></dt>
+<dd>
+Replace tabs with the appropriate number of spaces.
+ tabsize is the distance between tab stops.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L1990" title="At line 1990.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2025" title="At line 2025.">entab</a>(char[] <i>string</i>, int <i>tabsize</i> = 8);</big></dt>
+<dd>
+Replace spaces in string with the optimal number of tabs.
+ Trailing spaces or tabs in a line are removed.
+ <br><br>
+<b>Params:</b><br>
+<table>
+<tr><td><i>string</i></td><td>String to convert.</td></tr>
+<tr><td><i>tabsize</i></td><td>Tab columns are tabsize spaces apart. tabsize defaults to 8.</td></tr></table><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L2118" title="At line 2118.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2168" title="At line 2168.">maketrans</a>(char[] <i>from</i>, char[] <i>to</i>);</big></dt>
+<dd>
+Construct translation table for translate&#40;&#41;.
+ <br><br>
+<b>BUG:</b><br>only works with ASCII<br><br></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2202" title="At line 2202.">translate</a>(char[] <i>s</i>, char[] <i>transtab</i>, char[] <i>delchars</i>);</big></dt>
+<dd>
+Translate characters in s[] using table created by maketrans&#40;&#41;.
+ Delete chars in delchars[].
+ <br><br>
+<b>BUG:</b><br>only works with ASCII<br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L2241" title="At line 2241.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2263" title="At line 2263.">toString</a>(bool <i>b</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2269" title="At line 2269.">toString</a>(char <i>c</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2291" title="At line 2291.">toString</a>(ubyte <i>ub</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2292" title="At line 2292.">toString</a>(ushort <i>us</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2295" title="At line 2295.">toString</a>(uint <i>u</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2340" title="At line 2340.">toString</a>(ulong <i>u</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2380" title="At line 2380.">toString</a>(byte <i>b</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2381" title="At line 2381.">toString</a>(short <i>s</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2384" title="At line 2384.">toString</a>(int <i>i</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2439" title="At line 2439.">toString</a>(long <i>i</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2496" title="At line 2496.">toString</a>(float <i>f</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2499" title="At line 2499.">toString</a>(double <i>d</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2508" title="At line 2508.">toString</a>(real <i>r</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2517" title="At line 2517.">toString</a>(ifloat <i>f</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2520" title="At line 2520.">toString</a>(idouble <i>d</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2529" title="At line 2529.">toString</a>(ireal <i>r</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2538" title="At line 2538.">toString</a>(cfloat <i>f</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2541" title="At line 2541.">toString</a>(cdouble <i>d</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2550" title="At line 2550.">toString</a>(creal <i>r</i>);</big></dt>
+<dd>
+Convert to char[].
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L2277" title="At line 2277.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L2319" title="At line 2319.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L2360" title="At line 2360.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L2406" title="At line 2406.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L2463" title="At line 2463.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2566" title="At line 2566.">toString</a>(long <i>value</i>, uint <i>radix</i>);</big></dt>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2579" title="At line 2579.">toString</a>(ulong <i>value</i>, uint <i>radix</i>);</big></dt>
+<dd>
+Convert value to string in _radix radix.<br><br>
+radix must be a value from 2 to 36.
+ value is treated as a signed value only if radix is 10.
+ The characters A through Z are used to represent values 10 through 36.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L2603" title="At line 2603.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2630" title="At line 2630.">toString</a>(char * <i>s</i>);</big></dt>
+<dd>
+Convert C-style 0 terminated string s to char[] string.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L2635" title="At line 2635.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2657" title="At line 2657.">format</a>(...);</big></dt>
+<dd>
+Format arguments into a string.
+ <br><br></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2676" title="At line 2676.">sformat</a>(char[] <i>s</i>, ...);</big></dt>
+<dd>
+Format arguments into string <i>s</i> which must be large
+ enough to hold the result. Throws ArrayBoundsError if it is not.
+ <br><br>
+<b>Returns:</b><br>
+s<br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L2705" title="At line 2705.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>bool <a href="./htmlsrc/std.string.html#L2765" title="At line 2765.">inPattern</a>(dchar <i>c</i>, char[] <i>pattern</i>);</big></dt>
+<dd>
+See if character c is in the pattern.
+ <br><br>
+<b>Patterns:</b><br>A <i>pattern</i> is an array of characters much like a <i>character
+	class</i> in regular expressions. A sequence of characters
+	can be given, such as "abcde". The '-' can represent a range
+	of characters, as "a-e" represents the same pattern as "abcde".
+	"a-fA-F0-9" represents all the hex characters.
+	If the first character of a pattern is '^', then the pattern
+	is negated, i.e. "^0-9" means any character except a digit.
+	The functions inPattern, <b>countchars</b>, <b>removeschars</b>,
+	and <b>squeeze</b>
+	use patterns.<br><br>
+<b>Note:</b><br>In the future, the pattern syntax may be improved
+	to be more like regular expression character classes.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L2797" title="At line 2797.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.string.html#L2848" title="At line 2848.">inPattern</a>(dchar <i>c</i>, char[][] <i>patterns</i>);</big></dt>
+<dd>
+See if character c is in the intersection of the patterns.
+ <br><br></dd>
+<dt><big>size_t <a href="./htmlsrc/std.string.html#L2867" title="At line 2867.">countchars</a>(char[] <i>s</i>, char[] <i>pattern</i>);</big></dt>
+<dd>
+Count characters in s that match pattern.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L2879" title="At line 2879.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2896" title="At line 2896.">removechars</a>(char[] <i>s</i>, char[] <i>pattern</i>);</big></dt>
+<dd>
+Return string that is s with all characters removed that match pattern.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L2924" title="At line 2924.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L2945" title="At line 2945.">squeeze</a>(char[] <i>s</i>, char[] <i>pattern</i> = null);</big></dt>
+<dd>
+Return string where sequences of a character in s[] from pattern[]
+ are replaced with a single instance of that character.
+ If pattern is null, it defaults to all characters.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L2990" title="At line 2990.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L3016" title="At line 3016.">succ</a>(char[] <i>s</i>);</big></dt>
+<dd>
+Return string that is the 'successor' to s[].
+ If the rightmost character is a-zA-Z0-9, it is incremented within
+ its case or digits. If it generates a carry, the process is
+ repeated with the one to its immediate left.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L3059" title="At line 3059.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L3110" title="At line 3110.">tr</a>(char[] <i>str</i>, char[] <i>from</i>, char[] <i>to</i>, char[] <i>modifiers</i> = null);</big></dt>
+<dd>
+Replaces characters in str[] that are in from[]
+ with corresponding characters in to[] and returns the resulting
+ string.
+ <br><br>
+<b>Params:</b><br>
+<table>
+<tr><td><i>modifiers</i></td><td>a string of modifier characters</td></tr></table><br>
+<b>Modifiers:</b><br><table border=1 cellspacing=0 cellpadding=5>
+		<tr> <th>Modifier <th>Description
+		<tr> <td><b>c</b> <td>Complement the list of characters in from[]
+		<tr> <td><b>d</b> <td>Removes matching characters with no corresponding replacement in to[]
+		<tr> <td><b>s</b> <td>Removes adjacent duplicates in the replaced characters
+		</table><br><br>	If modifier <b>d</b> is present, then the number of characters
+	in to[] may be only 0 or 1.<br><br>	If modifier <b>d</b> is not present and to[] is null,
+	then to[] is taken _to be the same as from[].<br><br>	If modifier <b>d</b> is not present and to[] is shorter
+	than from[], then to[] is extended by replicating the
+	last character in to[].<br><br>	Both from[] and to[] may contain ranges using the <b>-</b>
+	character, for example <b>a-d</b> is synonymous with <b>abcd</b>.
+	Neither accept a leading <b>^</b> as meaning the complement of
+	the string &#40;use the <b>c</b> modifier for that&#41;.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L3221" title="At line 3221.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>bool <a href="./htmlsrc/std.string.html#L3310" title="At line 3310.">isNumeric</a>(in char[] <i>s</i>, in bool <i>bAllowSep</i> = false); [final]</big></dt>
+<dd>
+[in] char[] s can be formatted in the following ways:<br><br>
+Integer Whole Number:
+ &#40;for byte, ubyte, short, ushort, int, uint, long, and ulong&#41;
+ ['+'|'-']digit&#40;s&#41;[U|L|UL]<br><br> <br><br>
+<b>Examples:</b><br>
+123, 123UL, 123L, +123U, -123L<br><br> Floating-Point Number:
+ &#40;for float, double, real, ifloat, idouble, and ireal&#41;
+ ['+'|'-']digit&#40;s&#41;[.][digit&#40;s&#41;][[e-|e+]digit&#40;s&#41;][i|f|L|Li|fi]]
+      or [nan|nani|inf|-inf]<br><br>
+<b>Examples:</b><br>
++123., -123.01, 123.3e-10f, 123.3e-10fi, 123.3e-10L
+ 
+ &#40;for cfloat, cdouble, and creal&#41;
+ ['+'|'-']digit&#40;s&#41;[.][digit&#40;s&#41;][[e-|e+]digit&#40;s&#41;][+]
+         [digit&#40;s&#41;[.][digit&#40;s&#41;][[e-|e+]digit&#40;s&#41;][i|f|L|Li|fi]]
+      or [nan|nani|nan+nani|inf|-inf]<br><br>
+<b>Examples:</b><br>
+nan, -123e-1+456.9e-10Li, +123e+10+456i, 123+456<br><br> [in] bool bAllowSep 
+ False by default, but when set to true it will accept the 
+ separator characters "," and "_" within the string, but these  
+ characters should be stripped from the string before using any 
+ of the conversion functions like toInt&#40;&#41;, toFloat&#40;&#41;, and etc 
+ else an error will occur.<br><br> Also please note, that no spaces are allowed within the string  
+ anywhere whether it's a leading, trailing, or embedded space&#40;s&#41;, 
+ thus they too must be stripped from the string before using this
+ function, or any of the conversion functions.<br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.string.html#L3453" title="At line 3453.">isNumeric</a>(...);</big></dt>
+<dd>
+Allow any object as a parameter<br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.string.html#L3459" title="At line 3459.">isNumeric</a>(TypeInfo[] <i>_arguments</i>, va_list <i>_argptr</i>);</big></dt>
+<dd>
+Check only the first parameter, all others will be ignored. <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L3543" title="At line 3543.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L3625" title="At line 3625.">soundex</a>(char[] <i>string</i>, char[] <i>buffer</i> = null);</big></dt>
+<dd>
+Soundex algorithm.<br><br>
+The Soundex algorithm converts a word into 4 characters
+ based on how the word sounds phonetically. The idea is that
+ two spellings that sound alike will have the same Soundex
+ value, which means that Soundex can be used for fuzzy matching
+ of names.<br><br> <br><br>
+<b>Params:</b><br>
+<table>
+<tr><td><i>string</i></td><td>String to convert to Soundex representation.</td></tr>
+<tr><td><i>buffer</i></td><td>Optional 4 char array to put the resulting Soundex
+		characters into. If null, the return value
+		buffer will be allocated on the heap.</td></tr></table><br>
+<b>Returns:</b><br>
+The four character array with the Soundex result in it.
+	Returns null if there is no Soundex representation for the string.<br><br>
+<b>See Also:</b><br>
+<a href="http://en.wikipedia.org/wiki/Soundex">Wikipedia</a>,
+	<a href="http://www.archives.gov/publications/general-info-leaflets/55.html">The Soundex Indexing System</a><br><br>
+<span style="color:red">BUGS:</span><br>
+Only works well with English names.
+	There are other arguably better Soundex algorithms,
+	but this one is the standard one.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L3693" title="At line 3693.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[][char[]] <a href="./htmlsrc/std.string.html#L3771" title="At line 3771.">abbrev</a>(char[][] <i>values</i>);</big></dt>
+<dd>
+Construct an associative array consisting of all
+ abbreviations that uniquely map to the strings in values.<br><br>
+This is useful in cases where the user is expected to type
+ in one of a known set of strings, and the program will helpfully
+ autocomplete the string once sufficient characters have been
+ entered that uniquely identify it.
+ <br><br>
+<b>Example:</b><br><pre class="d_code">
+
+ <span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+ <span class="k">import</span> <span class="i">std</span>.<span class="i">string</span>;
+ 
+ <span class="k">void</span> <span class="i">main</span>()
+ {
+    <span class="k">static</span> <span class="k">char</span>[][] <span class="i">list</span> = [ <span class="sl">"food"</span>, <span class="sl">"foxy"</span> ];
+ 
+    <span class="k">auto</span> <span class="i">abbrevs</span> = <span class="i">std</span>.<span class="i">string</span>.<span class="i">abbrev</span>(<span class="i">list</span>);
+ 
+    <span class="k">foreach</span> (<span class="i">key</span>, <span class="i">value</span>; <span class="i">abbrevs</span>)
+    {
+       <span class="i">writefln</span>(<span class="sl">"%s =&gt; %s"</span>, <span class="i">key</span>, <span class="i">value</span>);
+    }
+ }
+ 
+</pre>
+ produces the output:
+ <pre>
+ fox =&gt; foxy
+ food =&gt; food
+ foxy =&gt; foxy
+ foo =&gt; food
+ </pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L3810" title="At line 3810.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.string.html#L3843" title="At line 3843.">column</a>(char[] <i>string</i>, int <i>tabsize</i> = 8);</big></dt>
+<dd>
+Compute column number after string if string starts in the
+ leftmost column, which is numbered starting from 0.
+ <br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L3870" title="At line 3870.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L3899" title="At line 3899.">wrap</a>(char[] <i>s</i>, int <i>columns</i> = 80, char[] <i>firstindent</i> = null, char[] <i>indent</i> = null, int <i>tabsize</i> = 8);</big></dt>
+<dd>
+Wrap text into a paragraph.<br><br>
+The input text string s is formed into a paragraph
+ by breaking it up into a sequence of lines, delineated
+ by \n, such that the number of columns is not exceeded
+ on each line.
+ The last line is terminated with a \n.
+ <br><br>
+<b>Params:</b><br>
+<table>
+<tr><td><i>s</i></td><td>text string to be wrapped</td></tr>
+<tr><td><i>columns</i></td><td>maximum number of _columns in the paragraph</td></tr>
+<tr><td><i>firstindent</i></td><td>string used to _indent first line of the paragraph</td></tr>
+<tr><td><i>indent</i></td><td>string to use to _indent following lines of the paragraph</td></tr>
+<tr><td><i>tabsize</i></td><td>column spacing of tabs</td></tr></table><br>
+<b>Returns:</b><br>
+The resulting paragraph.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.string.html#L3965" title="At line 3965.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L3989" title="At line 3989.">isEmail</a>(char[] <i>s</i>);</big></dt>
+<dd>
+Does string s[] start with an email address?
+ <br><br>
+<b>Returns:</b><br>
+null	it does not
+	char[]	it does, and this is the slice of s[] that is that email address<br><br>
+<b>References:</b><br>RFC2822<br><br></dd>
+<dt><big>char[] <a href="./htmlsrc/std.string.html#L4045" title="At line 4045.">isURL</a>(char[] <i>s</i>);</big></dt>
+<dd>
+Does string s[] start with a URL?
+ <br><br>
+<b>Returns:</b><br>
+null	it does not
+	char[]	it does, and this is the slice of s[] that is that URL<br><br></dd></dl>
+    <br><br>
+<br><br>
+<!-- Google ad -->
+<script type="text/javascript"><!--
+/**/google_ad_client = "pub-5628673096434613";
+/**/google_ad_width = 728;
+/**/google_ad_height = 90;
+/**/google_ad_format = "728x90_as";
+/**/google_ad_channel ="6203743411";
+/**/google_page_url = document.location;
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+
+<div id="copyright">
+Public Domain |
+Page generated by <a href="http://code.google.com/p/dil">dil</a> on Wed Oct  1 23:47:52 2008
+</div>
+
+</body>
+</html>

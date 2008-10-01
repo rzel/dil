@@ -1,0 +1,592 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<!--
+	Copyright (c) 1999-2008 by Digital Mars
+	All Rights Reserved
+	Written by Walter Bright
+	www.digitalmars.com
+  -->
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" >
+<title>std.c.linux.socket - D Programming Language - Digital Mars</title>
+<link rel="stylesheet" type="text/css" href="./style.css">
+<link rel="icon" type="image/gif" href="./holy.gif" />
+</head>
+
+<body>
+<div id="heading">
+	<a href="http://www.digitalmars.com/"><img src="./dmlogo.gif" width="270" height="53" border="0" alt="www.digitalmars.com" align="left"></a>
+	<p align="right">D Programming Language 1.0</p>
+
+
+	<div id="headingNav">
+	<ul>
+	<li><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/" title="Read/write comments and feedback">Comments</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language" class="dlink">D</a></li>
+	<li><a href="http://www.digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a></li>
+	<li><a href="http://www.digitalmars.com/" title="www.digitalmars.com">Home</a></li>
+	</ul>
+	</div>
+
+	<div id="lastupdate">Last update Wed Oct  1 23:47:51 2008</div>
+</div>
+
+<!-- -->
+
+<div id="navigation">
+    <div class="navblock">
+<form method="get" action="http://www.google.com/search">
+<div id="searchbox">
+<input id="q" name="q" size="10" value="RTL Search" onFocus='if(this.value == "RTL Search"){this.value="";}'>
+<input type="hidden" id="domains" name="domains" value="www.digitalmars.com">
+<input type="hidden" id="sitesearch" name="sitesearch" value="www.digitalmars.com/d/1.0/phobos">
+<input type="hidden" id="sourceid" name="sourceid" value="google-search">
+<input type="submit" id="submit" name="submit" value="Go">
+</div>
+</form>
+<div id="toctop">
+    <ul>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language">D ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/lex.html" title="D Language Specification">Language ...</a></li>
+	<li><a href="phobos.html" title="D Runtime Library">Phobos ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/comparison.html" title="Language Comparisons">Comparisons ...</a></li>
+    </ul>
+</div>
+</div>
+    <div class="navblock">
+<ul>
+<li><a href="index.html" title="Index of all HTML files">Index</a></li>
+</ul>
+    <ul>
+	<li><a href="object.html" title="root of object hierarchy">object</a></li>
+    </ul>
+    <h2><a href="phobos.html#std" title="D standard modules">std</a></h2>
+    <ul>
+	<li><a href="std.base64.html" title="Encode/decode base64 format">std.base64</a></li>
+	<li><a href="std.bind.html" title="Function argument binding">std.bind</a></li>
+	<li><a href="std.bitarray.html" title="Arrays of bits">std.bitarray</a></li>
+	<li><a href="std.boxer.html" title="Box/unbox types">std.boxer</a></li>
+	<li><a href="std.compiler.html" title="Information about the D compiler implementation">std.compiler</a></li>
+	<li><a href="std.conv.html" title="Conversion of strings to integers">std.conv</a></li>
+	<li><a href="std.cover.html" title="D coverage analyzer">std.cover</a></li>
+	<li><a href="std.cpuid.html" title="CPU identification">std.cpuid</a></li>
+	<li><a href="std.ctype.html" title="Simple character classification">std.ctype</a></li>
+	<li><a href="std.date.html" title="Date and time functions">std.date</a></li>
+	<li><a href="std.demangle.html" title="Demangle D names">std.demangle</a></li>
+	<li><a href="std.file.html" title="Basic file operations">std.file</a></li>
+	<li><a href="std.format.html" title="Formatted conversions of values to strings">std.format</a></li>
+	<li><a href="std.gc.html" title="Control the garbage collector">std.gc</a></li>
+	<li><a href="std.intrinsic.html" title="Compiler built in intrinsic functions">std.intrinsic</a></li>
+	<li><a href="std.math.html" title="the usual math functions">std.math</a></li>
+	<li><a href="std.md5.html" title="Compute MD5 digests">std.md5</a></li>
+	<li><a href="std.metastrings.html" title="Metaprogramming with strings">std.metastrings</a></li>
+	<li><a href="std.mmfile.html" title="Memory mapped files">std.mmfile</a></li>
+	<li><a href="std.openrj.html" title="Basic database">std.openrj</a></li>
+	<li><a href="std.outbuffer.html" title="Assemble data into an array of bytes">std.outbuffer</a></li>
+	<li><a href="std.outofmemory.html" title="Out of memory exception">std.outofmemory</a></li>
+	<li><a href="std.path.html" title="Manipulate file names, path names, etc.">std.path</a></li>
+	<li><a href="std.process.html" title="Create/destroy threads">std.process</a></li>
+	<li><a href="std.random.html" title="Random number generation">std.random</a></li>
+	<li><a href="std.regexp.html" title="regular expressions">std.regexp</a></li>
+	<li><a href="std.signals.html" title="Signals">std.signals</a></li>
+	<li><a href="std.socket.html" title="Sockets">std.socket</a></li>
+	<li><a href="std.socketstream.html" title="Stream for a blocking, connected Socket">std.socketstream</a></li>
+	<li><a href="std.stdint.html" title="Integral types for various purposes">std.stdint</a></li>
+	<li><a href="std.stdio.html" title="Standard I/O">std.stdio</a></li>
+	<li><a href="std.cstream.html" title="Stream I/O">std.cstream</a></li>
+	<li><a href="std.stream.html" title="Stream I/O">std.stream</a></li>
+	<li><a href="std.string.html" title="Basic string operations">std.string</a></li>
+	<li><a href="std.system.html" title="Inquire about the CPU, operating system">std.system</a></li>
+	<li><a href="std.thread.html" title="Thread operations">std.thread</a></li>
+	<li><a href="std.traits.html" title="Type traits">std.traits</a></li>
+	<li><a href="std.typetuple.html" title="Type tuples">std.typetuple</a></li>
+	<li><a href="std.uni.html" title="Unicode classification">std.uni</a></li>
+	<li><a href="std.uri.html" title="Encode and decode Uniform Resource Identifiers (URIs)">std.uri</a></li>
+	<li><a href="std.utf.html" title="Encode and decode utf character encodings">std.utf</a></li>
+	<li><a href="std.zip.html" title="Read/write zip archives">std.zip</a></li>
+	<li><a href="std.zlib.html" title="Compression / Decompression of data">std.zlib</a></li>
+	<li><a href="std.c.fenv.html" title="Floating point environment">std.c.fenv</a></li>
+	<li><a href="std.c.locale.html" title="Locale">std.c.locale</a></li>
+	<li><a href="std.c.math.html" title="Math">std.c.math</a></li>
+	<li><a href="std.c.process.html" title="Process">std.c.process</a></li>
+	<li><a href="std.c.stdarg.html" title="Variadic arguments">std.c.stdarg</a></li>
+	<li><a href="std.c.stddef.html" title="Standard definitions">std.c.stddef</a></li>
+	<li><a href="std.c.stdio.html" title="Standard I/O">std.c.stdio</a></li>
+	<li><a href="std.c.stdlib.html" title="Standard library">std.c.stdlib</a></li>
+	<li><a href="std.c.string.html" title="Strings">std.c.string</a></li>
+	<li><a href="std.c.time.html" title="Time">std.c.time</a></li>
+	<li><a href="std.c.wcharh.html" title="Wide characters">std.c.wcharh</a></li>
+	<li><a href="std.windows.charset.html" title="Conversion to/from Windows character sets">std.windows.charset</a></li>
+	<li><a href="phobos.html#std_windows" title="Modules specific to Windows">std.windows</a></li>
+	<li><a href="phobos.html#std_linux" title="Modules specific to Windows">std.linux</a></li>
+	<li><a href="phobos.html#std_c_windows" title="C Windows API">std.c.windows</a></li>
+	<li><a href="phobos.html#std_c_linux" title="C Linux API">std.c.linux</a></li>
+    </ul>
+</div>
+</div>
+<div id="content">
+    <h1><a href="./htmlsrc/std.c.linux.socket.html">std.c.linux.socket</a></h1>
+    
+<dl>
+<dt><big>alias int <a href="./htmlsrc/std.c.linux.socket.html#L14" title="At line 14.">socklen_t</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L16" title="At line 16.">F_GETFL</a>; [const, extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L17" title="At line 17.">F_SETFL</a>; [const, extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L18" title="At line 18.">O_NONBLOCK</a>; [const, extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L21" title="At line 21.">socket</a>(int <i>af</i>, int <i>type</i>, int <i>protocol</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L22" title="At line 22.">bind</a>(int <i>s</i>, sockaddr* <i>name</i>, int <i>namelen</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L23" title="At line 23.">connect</a>(int <i>s</i>, sockaddr* <i>name</i>, int <i>namelen</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L24" title="At line 24.">listen</a>(int <i>s</i>, int <i>backlog</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L25" title="At line 25.">accept</a>(int <i>s</i>, sockaddr* <i>addr</i>, int* <i>addrlen</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L26" title="At line 26.">shutdown</a>(int <i>s</i>, int <i>how</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L27" title="At line 27.">getpeername</a>(int <i>s</i>, sockaddr* <i>name</i>, int* <i>namelen</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L28" title="At line 28.">getsockname</a>(int <i>s</i>, sockaddr* <i>name</i>, int* <i>namelen</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L29" title="At line 29.">send</a>(int <i>s</i>, void* <i>buf</i>, int <i>len</i>, int <i>flags</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L30" title="At line 30.">sendto</a>(int <i>s</i>, void* <i>buf</i>, int <i>len</i>, int <i>flags</i>, sockaddr* <i>to</i>, int <i>tolen</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L31" title="At line 31.">recv</a>(int <i>s</i>, void* <i>buf</i>, int <i>len</i>, int <i>flags</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L32" title="At line 32.">recvfrom</a>(int <i>s</i>, void* <i>buf</i>, int <i>len</i>, int <i>flags</i>, sockaddr* <i>from</i>, int* <i>fromlen</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L33" title="At line 33.">getsockopt</a>(int <i>s</i>, int <i>level</i>, int <i>optname</i>, void* <i>optval</i>, int* <i>optlen</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L34" title="At line 34.">setsockopt</a>(int <i>s</i>, int <i>level</i>, int <i>optname</i>, void* <i>optval</i>, int <i>optlen</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.c.linux.socket.html#L35" title="At line 35.">inet_addr</a>(char* <i>cp</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>char* <a href="./htmlsrc/std.c.linux.socket.html#L36" title="At line 36.">inet_ntoa</a>(in_addr <i>ina</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>hostent* <a href="./htmlsrc/std.c.linux.socket.html#L37" title="At line 37.">gethostbyname</a>(char* <i>name</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L38" title="At line 38.">gethostbyname_r</a>(char* <i>name</i>, hostent* <i>ret</i>, void* <i>buf</i>, size_t <i>buflen</i>, hostent** <i>result</i>, int* <i>h_errnop</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L39" title="At line 39.">gethostbyname2_r</a>(char* <i>name</i>, int <i>af</i>, hostent* <i>ret</i>, void* <i>buf</i>, size_t <i>buflen</i>, hostent** <i>result</i>, int* <i>h_errnop</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>hostent* <a href="./htmlsrc/std.c.linux.socket.html#L40" title="At line 40.">gethostbyaddr</a>(void* <i>addr</i>, int <i>len</i>, int <i>type</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>protoent* <a href="./htmlsrc/std.c.linux.socket.html#L41" title="At line 41.">getprotobyname</a>(char* <i>name</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>protoent* <a href="./htmlsrc/std.c.linux.socket.html#L42" title="At line 42.">getprotobynumber</a>(int <i>number</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>servent* <a href="./htmlsrc/std.c.linux.socket.html#L43" title="At line 43.">getservbyname</a>(char* <i>name</i>, char* <i>proto</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>servent* <a href="./htmlsrc/std.c.linux.socket.html#L44" title="At line 44.">getservbyport</a>(int <i>port</i>, char* <i>proto</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L45" title="At line 45.">gethostname</a>(char* <i>name</i>, int <i>namelen</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L46" title="At line 46.">getaddrinfo</a>(char* <i>nodename</i>, char* <i>servname</i>, addrinfo* <i>hints</i>, addrinfo** <i>res</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.c.linux.socket.html#L47" title="At line 47.">freeaddrinfo</a>(addrinfo* <i>ai</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.c.linux.socket.html#L48" title="At line 48.">getnameinfo</a>(sockaddr* <i>sa</i>, socklen_t <i>salen</i>, char* <i>node</i>, socklen_t <i>nodelen</i>, char* <i>service</i>, socklen_t <i>servicelen</i>, int <i>flags</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>enum;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L54" title="At line 54.">AF_UNSPEC</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L55" title="At line 55.">AF_UNIX</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L56" title="At line 56.">AF_INET</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L57" title="At line 57.">AF_IPX</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L58" title="At line 58.">AF_APPLETALK</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L59" title="At line 59.">AF_INET6</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L62" title="At line 62.">PF_UNSPEC</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L63" title="At line 63.">PF_UNIX</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L64" title="At line 64.">PF_INET</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L65" title="At line 65.">PF_IPX</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L66" title="At line 66.">PF_APPLETALK</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L67" title="At line 67.">PF_INET6</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>enum;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L75" title="At line 75.">SOL_SOCKET</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>enum;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L87" title="At line 87.">SO_DEBUG</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L88" title="At line 88.">SO_BROADCAST</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L89" title="At line 89.">SO_REUSEADDR</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L90" title="At line 90.">SO_LINGER</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L91" title="At line 91.">SO_DONTLINGER</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L92" title="At line 92.">SO_OOBINLINE</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L93" title="At line 93.">SO_SNDBUF</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L94" title="At line 94.">SO_RCVBUF</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L95" title="At line 95.">SO_ACCEPTCONN</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L96" title="At line 96.">SO_DONTROUTE</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L97" title="At line 97.">SO_TYPE</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L99" title="At line 99.">TCP_NODELAY</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L101" title="At line 101.">IP_MULTICAST_LOOP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L102" title="At line 102.">IP_ADD_MEMBERSHIP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L103" title="At line 103.">IP_DROP_MEMBERSHIP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L107" title="At line 107.">IPV6_ADDRFORM</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L108" title="At line 108.">IPV6_PKTINFO</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L109" title="At line 109.">IPV6_HOPOPTS</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L110" title="At line 110.">IPV6_DSTOPTS</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L111" title="At line 111.">IPV6_RTHDR</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L112" title="At line 112.">IPV6_PKTOPTIONS</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L113" title="At line 113.">IPV6_CHECKSUM</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L114" title="At line 114.">IPV6_HOPLIMIT</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L115" title="At line 115.">IPV6_NEXTHOP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L116" title="At line 116.">IPV6_AUTHHDR</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L117" title="At line 117.">IPV6_UNICAST_HOPS</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L118" title="At line 118.">IPV6_MULTICAST_IF</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L119" title="At line 119.">IPV6_MULTICAST_HOPS</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L120" title="At line 120.">IPV6_MULTICAST_LOOP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L121" title="At line 121.">IPV6_JOIN_GROUP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L122" title="At line 122.">IPV6_LEAVE_GROUP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L123" title="At line 123.">IPV6_ROUTER_ALERT</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L124" title="At line 124.">IPV6_MTU_DISCOVER</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L125" title="At line 125.">IPV6_MTU</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L126" title="At line 126.">IPV6_RECVERR</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L127" title="At line 127.">IPV6_V6ONLY</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L128" title="At line 128.">IPV6_JOIN_ANYCAST</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L129" title="At line 129.">IPV6_LEAVE_ANYCAST</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L130" title="At line 130.">IPV6_IPSEC_POLICY</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L131" title="At line 131.">IPV6_XFRM_POLICY</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.socket.html#L135" title="At line 135.">linger</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int32_t <a href="./htmlsrc/std.c.linux.socket.html#L137" title="At line 137.">l_onoff</a>;</big></dt>
+<dd></dd>
+<dt><big>int32_t <a href="./htmlsrc/std.c.linux.socket.html#L138" title="At line 138.">l_linger</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.socket.html#L142" title="At line 142.">protoent</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>char* <a href="./htmlsrc/std.c.linux.socket.html#L144" title="At line 144.">p_name</a>;</big></dt>
+<dd></dd>
+<dt><big>char** <a href="./htmlsrc/std.c.linux.socket.html#L145" title="At line 145.">p_aliases</a>;</big></dt>
+<dd></dd>
+<dt><big>int32_t <a href="./htmlsrc/std.c.linux.socket.html#L146" title="At line 146.">p_proto</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.socket.html#L150" title="At line 150.">servent</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>char* <a href="./htmlsrc/std.c.linux.socket.html#L152" title="At line 152.">s_name</a>;</big></dt>
+<dd></dd>
+<dt><big>char** <a href="./htmlsrc/std.c.linux.socket.html#L153" title="At line 153.">s_aliases</a>;</big></dt>
+<dd></dd>
+<dt><big>int32_t <a href="./htmlsrc/std.c.linux.socket.html#L154" title="At line 154.">s_port</a>;</big></dt>
+<dd></dd>
+<dt><big>char* <a href="./htmlsrc/std.c.linux.socket.html#L155" title="At line 155.">s_proto</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>uint16_t <a href="./htmlsrc/std.c.linux.socket.html#L177" title="At line 177.">htons</a>(uint16_t <i>x</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>uint32_t <a href="./htmlsrc/std.c.linux.socket.html#L183" title="At line 183.">htonl</a>(uint32_t <i>x</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>uint16_t <a href="./htmlsrc/std.c.linux.socket.html#L194" title="At line 194.">ntohs</a>(uint16_t <i>x</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>uint32_t <a href="./htmlsrc/std.c.linux.socket.html#L200" title="At line 200.">ntohl</a>(uint32_t <i>x</i>); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>enum;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L208" title="At line 208.">SOCK_STREAM</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L209" title="At line 209.">SOCK_DGRAM</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L210" title="At line 210.">SOCK_RAW</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L211" title="At line 211.">SOCK_RDM</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L212" title="At line 212.">SOCK_SEQPACKET</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>enum;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L218" title="At line 218.">IPPROTO_IP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L219" title="At line 219.">IPPROTO_ICMP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L220" title="At line 220.">IPPROTO_IGMP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L221" title="At line 221.">IPPROTO_GGP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L222" title="At line 222.">IPPROTO_TCP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L223" title="At line 223.">IPPROTO_PUP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L224" title="At line 224.">IPPROTO_UDP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L225" title="At line 225.">IPPROTO_IDP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L226" title="At line 226.">IPPROTO_IPV6</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L227" title="At line 227.">IPPROTO_ND</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L228" title="At line 228.">IPPROTO_RAW</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L230" title="At line 230.">IPPROTO_MAX</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>enum;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L236" title="At line 236.">MSG_OOB</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L237" title="At line 237.">MSG_PEEK</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L238" title="At line 238.">MSG_DONTROUTE</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L239" title="At line 239.">MSG_NOSIGNAL</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>enum;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L245" title="At line 245.">SD_RECEIVE</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L246" title="At line 246.">SD_SEND</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L247" title="At line 247.">SD_BOTH</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>enum;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L253" title="At line 253.">INADDR_ANY</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L254" title="At line 254.">INADDR_LOOPBACK</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L255" title="At line 255.">INADDR_BROADCAST</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L256" title="At line 256.">INADDR_NONE</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L257" title="At line 257.">ADDR_ANY</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>enum;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L263" title="At line 263.">AI_PASSIVE</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L264" title="At line 264.">AI_CANONNAME</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.c.linux.socket.html#L265" title="At line 265.">AI_NUMERICHOST</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>union <a href="./htmlsrc/std.c.linux.socket.html#L269" title="At line 269.">in_addr</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>union <a href="./htmlsrc/std.c.linux.socket.html#L271" title="At line 271.">_S_un_t</a>; [private]</big></dt>
+<dd>
+<dl>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.socket.html#L273" title="At line 273.">_S_un_b_t</a>; [private]</big></dt>
+<dd>
+<dl>
+<dt><big>uint8_t <a href="./htmlsrc/std.c.linux.socket.html#L275" title="At line 275.">s_b1</a>;</big></dt>
+<dt><big>uint8_t <a href="./htmlsrc/std.c.linux.socket.html#L275" title="At line 275.">s_b2</a>;</big></dt>
+<dt><big>uint8_t <a href="./htmlsrc/std.c.linux.socket.html#L275" title="At line 275.">s_b3</a>;</big></dt>
+<dt><big>uint8_t <a href="./htmlsrc/std.c.linux.socket.html#L275" title="At line 275.">s_b4</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>_S_un_b_t <a href="./htmlsrc/std.c.linux.socket.html#L277" title="At line 277.">S_un_b</a>;</big></dt>
+<dd></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.socket.html#L279" title="At line 279.">_S_un_w_t</a>; [private]</big></dt>
+<dd>
+<dl>
+<dt><big>uint16_t <a href="./htmlsrc/std.c.linux.socket.html#L281" title="At line 281.">s_w1</a>;</big></dt>
+<dt><big>uint16_t <a href="./htmlsrc/std.c.linux.socket.html#L281" title="At line 281.">s_w2</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>_S_un_w_t <a href="./htmlsrc/std.c.linux.socket.html#L283" title="At line 283.">S_un_w</a>;</big></dt>
+<dd></dd>
+<dt><big>uint32_t <a href="./htmlsrc/std.c.linux.socket.html#L285" title="At line 285.">S_addr</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>_S_un_t <a href="./htmlsrc/std.c.linux.socket.html#L287" title="At line 287.">S_un</a>;</big></dt>
+<dd></dd>
+<dt><big>uint32_t <a href="./htmlsrc/std.c.linux.socket.html#L289" title="At line 289.">s_addr</a>;</big></dt>
+<dd></dd>
+<dt><big>struct;</big></dt>
+<dd>
+<dl>
+<dt><big>uint8_t <a href="./htmlsrc/std.c.linux.socket.html#L293" title="At line 293.">s_net</a>;</big></dt>
+<dt><big>uint8_t <a href="./htmlsrc/std.c.linux.socket.html#L293" title="At line 293.">s_host</a>;</big></dt>
+<dd></dd>
+<dt><big>union;</big></dt>
+<dd>
+<dl>
+<dt><big>uint16_t <a href="./htmlsrc/std.c.linux.socket.html#L297" title="At line 297.">s_imp</a>;</big></dt>
+<dd></dd>
+<dt><big>struct;</big></dt>
+<dd>
+<dl>
+<dt><big>uint8_t <a href="./htmlsrc/std.c.linux.socket.html#L301" title="At line 301.">s_lh</a>;</big></dt>
+<dt><big>uint8_t <a href="./htmlsrc/std.c.linux.socket.html#L301" title="At line 301.">s_impno</a>;</big></dt>
+<dd></dd></dl></dd></dl></dd></dl></dd></dl></dd>
+<dt><big>union <a href="./htmlsrc/std.c.linux.socket.html#L308" title="At line 308.">in6_addr</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>union <a href="./htmlsrc/std.c.linux.socket.html#L310" title="At line 310.">_in6_u_t</a>; [private]</big></dt>
+<dd>
+<dl>
+<dt><big>uint8_t[16] <a href="./htmlsrc/std.c.linux.socket.html#L312" title="At line 312.">u6_addr8</a>;</big></dt>
+<dd></dd>
+<dt><big>uint16_t[8] <a href="./htmlsrc/std.c.linux.socket.html#L313" title="At line 313.">u6_addr16</a>;</big></dt>
+<dd></dd>
+<dt><big>uint32_t[4] <a href="./htmlsrc/std.c.linux.socket.html#L314" title="At line 314.">u6_addr32</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>_in6_u_t <a href="./htmlsrc/std.c.linux.socket.html#L316" title="At line 316.">in6_u</a>;</big></dt>
+<dd></dd>
+<dt><big>uint8_t[16] <a href="./htmlsrc/std.c.linux.socket.html#L318" title="At line 318.">s6_addr8</a>;</big></dt>
+<dd></dd>
+<dt><big>uint16_t[8] <a href="./htmlsrc/std.c.linux.socket.html#L319" title="At line 319.">s6_addr16</a>;</big></dt>
+<dd></dd>
+<dt><big>uint32_t[4] <a href="./htmlsrc/std.c.linux.socket.html#L320" title="At line 320.">s6_addr32</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>in6_addr <a href="./htmlsrc/std.c.linux.socket.html#L324" title="At line 324.">IN6ADDR_ANY</a>; [const]</big></dt>
+<dd></dd>
+<dt><big>in6_addr <a href="./htmlsrc/std.c.linux.socket.html#L325" title="At line 325.">IN6ADDR_LOOPBACK</a>; [const]</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.c.linux.socket.html#L329" title="At line 329.">INET_ADDRSTRLEN</a>; [const, extern(C)]</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.c.linux.socket.html#L330" title="At line 330.">INET6_ADDRSTRLEN</a>; [const, extern(C)]</big></dt>
+<dd></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.socket.html#L333" title="At line 333.">sockaddr</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int16_t <a href="./htmlsrc/std.c.linux.socket.html#L335" title="At line 335.">sa_family</a>;</big></dt>
+<dd></dd>
+<dt><big>ubyte[14] <a href="./htmlsrc/std.c.linux.socket.html#L336" title="At line 336.">sa_data</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.socket.html#L340" title="At line 340.">sockaddr_in</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int16_t <a href="./htmlsrc/std.c.linux.socket.html#L342" title="At line 342.">sin_family</a>;</big></dt>
+<dd></dd>
+<dt><big>uint16_t <a href="./htmlsrc/std.c.linux.socket.html#L343" title="At line 343.">sin_port</a>;</big></dt>
+<dd></dd>
+<dt><big>in_addr <a href="./htmlsrc/std.c.linux.socket.html#L344" title="At line 344.">sin_addr</a>;</big></dt>
+<dd></dd>
+<dt><big>ubyte[8] <a href="./htmlsrc/std.c.linux.socket.html#L345" title="At line 345.">sin_zero</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.socket.html#L349" title="At line 349.">sockaddr_in6</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int16_t <a href="./htmlsrc/std.c.linux.socket.html#L351" title="At line 351.">sin6_family</a>;</big></dt>
+<dd></dd>
+<dt><big>uint16_t <a href="./htmlsrc/std.c.linux.socket.html#L352" title="At line 352.">sin6_port</a>;</big></dt>
+<dd></dd>
+<dt><big>uint32_t <a href="./htmlsrc/std.c.linux.socket.html#L353" title="At line 353.">sin6_flowinfo</a>;</big></dt>
+<dd></dd>
+<dt><big>in6_addr <a href="./htmlsrc/std.c.linux.socket.html#L354" title="At line 354.">sin6_addr</a>;</big></dt>
+<dd></dd>
+<dt><big>uint32_t <a href="./htmlsrc/std.c.linux.socket.html#L355" title="At line 355.">sin6_scope_id</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.socket.html#L359" title="At line 359.">addrinfo</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int32_t <a href="./htmlsrc/std.c.linux.socket.html#L361" title="At line 361.">ai_flags</a>;</big></dt>
+<dd></dd>
+<dt><big>int32_t <a href="./htmlsrc/std.c.linux.socket.html#L362" title="At line 362.">ai_family</a>;</big></dt>
+<dd></dd>
+<dt><big>int32_t <a href="./htmlsrc/std.c.linux.socket.html#L363" title="At line 363.">ai_socktype</a>;</big></dt>
+<dd></dd>
+<dt><big>int32_t <a href="./htmlsrc/std.c.linux.socket.html#L364" title="At line 364.">ai_protocol</a>;</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.c.linux.socket.html#L365" title="At line 365.">ai_addrlen</a>;</big></dt>
+<dd></dd>
+<dt><big>sockaddr* <a href="./htmlsrc/std.c.linux.socket.html#L366" title="At line 366.">ai_addr</a>;</big></dt>
+<dd></dd>
+<dt><big>char* <a href="./htmlsrc/std.c.linux.socket.html#L367" title="At line 367.">ai_canonname</a>;</big></dt>
+<dd></dd>
+<dt><big>addrinfo* <a href="./htmlsrc/std.c.linux.socket.html#L368" title="At line 368.">ai_next</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.c.linux.socket.html#L372" title="At line 372.">hostent</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>char* <a href="./htmlsrc/std.c.linux.socket.html#L374" title="At line 374.">h_name</a>;</big></dt>
+<dd></dd>
+<dt><big>char** <a href="./htmlsrc/std.c.linux.socket.html#L375" title="At line 375.">h_aliases</a>;</big></dt>
+<dd></dd>
+<dt><big>int32_t <a href="./htmlsrc/std.c.linux.socket.html#L376" title="At line 376.">h_addrtype</a>;</big></dt>
+<dd></dd>
+<dt><big>int32_t <a href="./htmlsrc/std.c.linux.socket.html#L377" title="At line 377.">h_length</a>;</big></dt>
+<dd></dd>
+<dt><big>char** <a href="./htmlsrc/std.c.linux.socket.html#L378" title="At line 378.">h_addr_list</a>;</big></dt>
+<dd></dd>
+<dt><big>char* <a href="./htmlsrc/std.c.linux.socket.html#L381" title="At line 381.">h_addr</a>();</big></dt>
+<dd></dd></dl></dd></dl>
+    <br><br>
+<br><br>
+<!-- Google ad -->
+<script type="text/javascript"><!--
+/**/google_ad_client = "pub-5628673096434613";
+/**/google_ad_width = 728;
+/**/google_ad_height = 90;
+/**/google_ad_format = "728x90_as";
+/**/google_ad_channel ="6203743411";
+/**/google_page_url = document.location;
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+
+<div id="copyright">
+Copyright &copy; 1999-2008 by Digital Mars, All Rights Reserved |
+Page generated by <a href="http://code.google.com/p/dil">dil</a> on Wed Oct  1 23:47:51 2008
+</div>
+
+</body>
+</html>

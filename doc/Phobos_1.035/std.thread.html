@@ -1,0 +1,375 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<!--
+	Copyright (c) 1999-2008 by Digital Mars
+	All Rights Reserved
+	Written by Walter Bright
+	www.digitalmars.com
+  -->
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" >
+<title>std.thread - D Programming Language - Digital Mars</title>
+<link rel="stylesheet" type="text/css" href="./style.css">
+<link rel="icon" type="image/gif" href="./holy.gif" />
+</head>
+
+<body>
+<div id="heading">
+	<a href="http://www.digitalmars.com/"><img src="./dmlogo.gif" width="270" height="53" border="0" alt="www.digitalmars.com" align="left"></a>
+	<p align="right">D Programming Language 1.0</p>
+
+
+	<div id="headingNav">
+	<ul>
+	<li><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Phobos/StdThread" title="Read/write comments and feedback">Comments</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language" class="dlink">D</a></li>
+	<li><a href="http://www.digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a></li>
+	<li><a href="http://www.digitalmars.com/" title="www.digitalmars.com">Home</a></li>
+	</ul>
+	</div>
+
+	<div id="lastupdate">Last update Wed Oct  1 23:47:52 2008</div>
+</div>
+
+<!-- -->
+
+<div id="navigation">
+    <div class="navblock">
+<form method="get" action="http://www.google.com/search">
+<div id="searchbox">
+<input id="q" name="q" size="10" value="RTL Search" onFocus='if(this.value == "RTL Search"){this.value="";}'>
+<input type="hidden" id="domains" name="domains" value="www.digitalmars.com">
+<input type="hidden" id="sitesearch" name="sitesearch" value="www.digitalmars.com/d/1.0/phobos">
+<input type="hidden" id="sourceid" name="sourceid" value="google-search">
+<input type="submit" id="submit" name="submit" value="Go">
+</div>
+</form>
+<div id="toctop">
+    <ul>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language">D ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/lex.html" title="D Language Specification">Language ...</a></li>
+	<li><a href="phobos.html" title="D Runtime Library">Phobos ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/comparison.html" title="Language Comparisons">Comparisons ...</a></li>
+    </ul>
+</div>
+</div>
+    <div class="navblock">
+<ul>
+<li><a href="index.html" title="Index of all HTML files">Index</a></li>
+</ul>
+    <ul>
+	<li><a href="object.html" title="root of object hierarchy">object</a></li>
+    </ul>
+    <h2><a href="phobos.html#std" title="D standard modules">std</a></h2>
+    <ul>
+	<li><a href="std.base64.html" title="Encode/decode base64 format">std.base64</a></li>
+	<li><a href="std.bind.html" title="Function argument binding">std.bind</a></li>
+	<li><a href="std.bitarray.html" title="Arrays of bits">std.bitarray</a></li>
+	<li><a href="std.boxer.html" title="Box/unbox types">std.boxer</a></li>
+	<li><a href="std.compiler.html" title="Information about the D compiler implementation">std.compiler</a></li>
+	<li><a href="std.conv.html" title="Conversion of strings to integers">std.conv</a></li>
+	<li><a href="std.cover.html" title="D coverage analyzer">std.cover</a></li>
+	<li><a href="std.cpuid.html" title="CPU identification">std.cpuid</a></li>
+	<li><a href="std.ctype.html" title="Simple character classification">std.ctype</a></li>
+	<li><a href="std.date.html" title="Date and time functions">std.date</a></li>
+	<li><a href="std.demangle.html" title="Demangle D names">std.demangle</a></li>
+	<li><a href="std.file.html" title="Basic file operations">std.file</a></li>
+	<li><a href="std.format.html" title="Formatted conversions of values to strings">std.format</a></li>
+	<li><a href="std.gc.html" title="Control the garbage collector">std.gc</a></li>
+	<li><a href="std.intrinsic.html" title="Compiler built in intrinsic functions">std.intrinsic</a></li>
+	<li><a href="std.math.html" title="the usual math functions">std.math</a></li>
+	<li><a href="std.md5.html" title="Compute MD5 digests">std.md5</a></li>
+	<li><a href="std.metastrings.html" title="Metaprogramming with strings">std.metastrings</a></li>
+	<li><a href="std.mmfile.html" title="Memory mapped files">std.mmfile</a></li>
+	<li><a href="std.openrj.html" title="Basic database">std.openrj</a></li>
+	<li><a href="std.outbuffer.html" title="Assemble data into an array of bytes">std.outbuffer</a></li>
+	<li><a href="std.outofmemory.html" title="Out of memory exception">std.outofmemory</a></li>
+	<li><a href="std.path.html" title="Manipulate file names, path names, etc.">std.path</a></li>
+	<li><a href="std.process.html" title="Create/destroy threads">std.process</a></li>
+	<li><a href="std.random.html" title="Random number generation">std.random</a></li>
+	<li><a href="std.regexp.html" title="regular expressions">std.regexp</a></li>
+	<li><a href="std.signals.html" title="Signals">std.signals</a></li>
+	<li><a href="std.socket.html" title="Sockets">std.socket</a></li>
+	<li><a href="std.socketstream.html" title="Stream for a blocking, connected Socket">std.socketstream</a></li>
+	<li><a href="std.stdint.html" title="Integral types for various purposes">std.stdint</a></li>
+	<li><a href="std.stdio.html" title="Standard I/O">std.stdio</a></li>
+	<li><a href="std.cstream.html" title="Stream I/O">std.cstream</a></li>
+	<li><a href="std.stream.html" title="Stream I/O">std.stream</a></li>
+	<li><a href="std.string.html" title="Basic string operations">std.string</a></li>
+	<li><a href="std.system.html" title="Inquire about the CPU, operating system">std.system</a></li>
+	<li><a href="std.thread.html" title="Thread operations">std.thread</a></li>
+	<li><a href="std.traits.html" title="Type traits">std.traits</a></li>
+	<li><a href="std.typetuple.html" title="Type tuples">std.typetuple</a></li>
+	<li><a href="std.uni.html" title="Unicode classification">std.uni</a></li>
+	<li><a href="std.uri.html" title="Encode and decode Uniform Resource Identifiers (URIs)">std.uri</a></li>
+	<li><a href="std.utf.html" title="Encode and decode utf character encodings">std.utf</a></li>
+	<li><a href="std.zip.html" title="Read/write zip archives">std.zip</a></li>
+	<li><a href="std.zlib.html" title="Compression / Decompression of data">std.zlib</a></li>
+	<li><a href="std.c.fenv.html" title="Floating point environment">std.c.fenv</a></li>
+	<li><a href="std.c.locale.html" title="Locale">std.c.locale</a></li>
+	<li><a href="std.c.math.html" title="Math">std.c.math</a></li>
+	<li><a href="std.c.process.html" title="Process">std.c.process</a></li>
+	<li><a href="std.c.stdarg.html" title="Variadic arguments">std.c.stdarg</a></li>
+	<li><a href="std.c.stddef.html" title="Standard definitions">std.c.stddef</a></li>
+	<li><a href="std.c.stdio.html" title="Standard I/O">std.c.stdio</a></li>
+	<li><a href="std.c.stdlib.html" title="Standard library">std.c.stdlib</a></li>
+	<li><a href="std.c.string.html" title="Strings">std.c.string</a></li>
+	<li><a href="std.c.time.html" title="Time">std.c.time</a></li>
+	<li><a href="std.c.wcharh.html" title="Wide characters">std.c.wcharh</a></li>
+	<li><a href="std.windows.charset.html" title="Conversion to/from Windows character sets">std.windows.charset</a></li>
+	<li><a href="phobos.html#std_windows" title="Modules specific to Windows">std.windows</a></li>
+	<li><a href="phobos.html#std_linux" title="Modules specific to Windows">std.linux</a></li>
+	<li><a href="phobos.html#std_c_windows" title="C Windows API">std.c.windows</a></li>
+	<li><a href="phobos.html#std_c_linux" title="C Linux API">std.c.linux</a></li>
+    </ul>
+</div>
+</div>
+<div id="content">
+    <h1><a href="./htmlsrc/std.thread.html">std.thread</a></h1>
+    
+The thread module defines the class <b>Thread</b>.<br><br>
+<b>Thread</b> is the basis
+ for writing multithreaded applications. Each thread
+ has a unique instance of class <b>Thread</b> associated with it.
+ It is important to use the <b>Thread</b> class to create and manage
+ threads as the garbage collector needs to know about all the threads.
+ <br><br>
+<dl>
+<dt><big>alias uint <a href="./htmlsrc/std.thread.html#L536" title="At line 536.">pthread_t</a>;</big></dt>
+<dd></dd>
+<dt><big>alias void (*__sighandler_t)(int) <a href="./htmlsrc/std.thread.html#L537" title="At line 537.">__sighandler_t</a>;</big></dt>
+<dd></dd>
+<dt><big>struct <a href="./htmlsrc/std.thread.html#L539" title="At line 539.">sigset_t</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>uint __val[1024 / (8 * uint.sizeof)] <a href="./htmlsrc/std.thread.html#L541" title="At line 541.">__val</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>auto <a href="./htmlsrc/std.thread.html#L544" title="At line 544.">SA_RESTART</a>; [const]</big></dt>
+<dd></dd>
+<dt><big>struct <a href="./htmlsrc/std.thread.html#L546" title="At line 546.">sigaction_t</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>__sighandler_t <a href="./htmlsrc/std.thread.html#L548" title="At line 548.">sa_handler</a>;</big></dt>
+<dd></dd>
+<dt><big>sigset_t <a href="./htmlsrc/std.thread.html#L549" title="At line 549.">sa_mask</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L550" title="At line 550.">sa_flags</a>;</big></dt>
+<dd></dd>
+<dt><big>void (*sa_restorer)() <a href="./htmlsrc/std.thread.html#L551" title="At line 551.">sa_restorer</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.thread.html#L554" title="At line 554.">pthread_attr_t</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L556" title="At line 556.">__detachstate</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L557" title="At line 557.">__schedpolicy</a>;</big></dt>
+<dd></dd>
+<dt><big>struct <a href="./htmlsrc/std.thread.html#L558" title="At line 558.">__schedparam</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L560" title="At line 560.">__sched_priority</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L562" title="At line 562.">__inheritsched</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L563" title="At line 563.">__scope</a>;</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.thread.html#L564" title="At line 564.">__guardsize</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L565" title="At line 565.">__stackaddr_set</a>;</big></dt>
+<dd></dd>
+<dt><big>void * <a href="./htmlsrc/std.thread.html#L566" title="At line 566.">__stackaddr</a>;</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.thread.html#L567" title="At line 567.">__stacksize</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big><a href="./htmlsrc/std.thread.html#L570" title="At line 570.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L579" title="At line 579.">pthread_create</a>(pthread_t*, void*, void* (*)(void*), void*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L580" title="At line 580.">pthread_join</a>(pthread_t, void**); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L581" title="At line 581.">pthread_kill</a>(pthread_t, int); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>pthread_t <a href="./htmlsrc/std.thread.html#L582" title="At line 582.">pthread_self</a>(); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L583" title="At line 583.">pthread_equal</a>(pthread_t, pthread_t); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L584" title="At line 584.">pthread_attr_init</a>(pthread_attr_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L585" title="At line 585.">pthread_attr_setstacksize</a>(pthread_attr_t *, size_t); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L586" title="At line 586.">pthread_cancel</a>(pthread_t); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L587" title="At line 587.">pthread_setcancelstate</a>(int, int*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L588" title="At line 588.">pthread_setcanceltype</a>(int, int*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L589" title="At line 589.">sched_yield</a>(); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L590" title="At line 590.">sigfillset</a>(sigset_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L591" title="At line 591.">sigdelset</a>(sigset_t*, int); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L592" title="At line 592.">sigaction</a>(int, sigaction_t*, sigaction_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L593" title="At line 593.">sigsuspend</a>(sigset_t*); [extern(C)]</big></dt>
+<dd></dd>
+<dt><big>enum;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.thread.html#L597" title="At line 597.">PTHREAD_CANCEL_ENABLE</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.thread.html#L598" title="At line 598.">PTHREAD_CANCEL_DISABLE</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>enum;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.thread.html#L603" title="At line 603.">PTHREAD_CANCEL_DEFERRED</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.thread.html#L604" title="At line 604.">PTHREAD_CANCEL_ASYNCHRONOUS</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.thread.html#L608" title="At line 608.">ThreadError</a> : Error;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.thread.html#L610" title="At line 610.">this</a>(string <i>s</i>);</big></dt>
+<dd></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.thread.html#L616" title="At line 616.">Thread</a>;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.thread.html#L620" title="At line 620.">this</a>(size_t <i>stacksize</i> = 0);</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.thread.html#L625" title="At line 625.">this</a>(int (*fp)(void *) <i>fp</i>, void * <i>arg</i>, size_t <i>stacksize</i> = 0);</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.thread.html#L632" title="At line 632.">this</a>(int delegate() <i>dg</i>, size_t <i>stacksize</i> = 0);</big></dt>
+<dd></dd>
+<dt><big>~<a href="./htmlsrc/std.thread.html#L638" title="At line 638.">this</a>();</big></dt>
+<dd></dd>
+<dt><big>pthread_t <a href="./htmlsrc/std.thread.html#L646" title="At line 646.">id</a>;</big></dt>
+<dd></dd>
+<dt><big>void* <a href="./htmlsrc/std.thread.html#L647" title="At line 647.">stackBottom</a>;</big></dt>
+<dd></dd>
+<dt><big>void* <a href="./htmlsrc/std.thread.html#L648" title="At line 648.">stackTop</a>;</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.thread.html#L650" title="At line 650.">start</a>();</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L686" title="At line 686.">run</a>();</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.thread.html#L695" title="At line 695.">wait</a>();</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.thread.html#L711" title="At line 711.">wait</a>(uint <i>milliseconds</i>);</big></dt>
+<dd></dd>
+<dt><big>enum <a href="./htmlsrc/std.thread.html#L763" title="At line 763.">TS</a>;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.thread.html#L765" title="At line 765.">INITIAL</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.thread.html#L766" title="At line 766.">RUNNING</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.thread.html#L767" title="At line 767.">TERMINATED</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.thread.html#L768" title="At line 768.">FINISHED</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>TS <a href="./htmlsrc/std.thread.html#L771" title="At line 771.">getState</a>();</big></dt>
+<dd></dd>
+<dt><big>enum <a href="./htmlsrc/std.thread.html#L776" title="At line 776.">PRIORITY</a>;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.thread.html#L778" title="At line 778.">INCREASE</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.thread.html#L779" title="At line 779.">DECREASE</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.thread.html#L780" title="At line 780.">IDLE</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.thread.html#L781" title="At line 781.">CRITICAL</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>void <a href="./htmlsrc/std.thread.html#L784" title="At line 784.">setPriority</a>(PRIORITY <i>p</i>);</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L810" title="At line 810.">isSelf</a>();</big></dt>
+<dd></dd>
+<dt><big>Thread <a href="./htmlsrc/std.thread.html#L816" title="At line 816.">getThis</a>(); [static]</big></dt>
+<dd></dd>
+<dt><big>Thread[] <a href="./htmlsrc/std.thread.html#L834" title="At line 834.">getAll</a>(); [static]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.thread.html#L839" title="At line 839.">pause</a>();</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.thread.html#L852" title="At line 852.">resume</a>();</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.thread.html#L863" title="At line 863.">pauseAll</a>(); [static]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.thread.html#L893" title="At line 893.">resumeAll</a>(); [static]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.thread.html#L911" title="At line 911.">yield</a>(); [static]</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.thread.html#L916" title="At line 916.">nthreads</a>; [static]</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.thread.html#L920" title="At line 920.">allThreadsDim</a>; [private, static]</big></dt>
+<dd></dd>
+<dt><big>Thread[0x400] <a href="./htmlsrc/std.thread.html#L925" title="At line 925.">allThreads</a>; [private, static]</big></dt>
+<dd></dd>
+<dt><big>sem_t <a href="./htmlsrc/std.thread.html#L927" title="At line 927.">flagSuspend</a>; [private, static]</big></dt>
+<dd></dd>
+<dt><big>TS <a href="./htmlsrc/std.thread.html#L929" title="At line 929.">state</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L930" title="At line 930.">idx</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.thread.html#L931" title="At line 931.">flags</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>pthread_attr_t <a href="./htmlsrc/std.thread.html#L933" title="At line 933.">threadAttrs</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>pthread_mutex_t <a href="./htmlsrc/std.thread.html#L934" title="At line 934.">waitMtx</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>pthread_cond_t <a href="./htmlsrc/std.thread.html#L935" title="At line 935.">waitCond</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>int (*fp)(void *) <a href="./htmlsrc/std.thread.html#L937" title="At line 937.">fp</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>void * <a href="./htmlsrc/std.thread.html#L938" title="At line 938.">arg</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>int delegate() <a href="./htmlsrc/std.thread.html#L940" title="At line 940.">dg</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.thread.html#L942" title="At line 942.">error</a>(string <i>msg</i>); [private]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.thread.html#L947" title="At line 947.">init</a>(size_t <i>stackSize</i>); [private]</big></dt>
+<dd></dd>
+<dt><big>void * <a href="./htmlsrc/std.thread.html#L970" title="At line 970.">threadstart</a>(void * <i>p</i>); [private, static, extern(C)]</big></dt>
+<dd>
+This is just a wrapper to interface between C rtl and Thread.run&#40;&#41;.
+     <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.thread.html#L1010" title="At line 1010.">thread_init</a>(); [public, static]</big></dt>
+<dd>
+Create a Thread for global main&#40;&#41;.
+     <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.thread.html#L1072" title="At line 1072.">pauseHandler</a>(int <i>sig</i>); [private, static, extern(C)]</big></dt>
+<dd>
+This gets called when a thread gets SIGUSR1.
+     <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.thread.html#L1112" title="At line 1112.">resumeHandler</a>(int <i>sig</i>); [private, static, extern(C)]</big></dt>
+<dd>
+This gets called when a thread gets SIGUSR2.
+     <br><br></dd>
+<dt><big>void* <a href="./htmlsrc/std.thread.html#L1119" title="At line 1119.">getESP</a>(); [public, static]</big></dt>
+<dd></dd></dl></dd></dl>
+    <br><br>
+<br><br>
+<!-- Google ad -->
+<script type="text/javascript"><!--
+/**/google_ad_client = "pub-5628673096434613";
+/**/google_ad_width = 728;
+/**/google_ad_height = 90;
+/**/google_ad_format = "728x90_as";
+/**/google_ad_channel ="6203743411";
+/**/google_page_url = document.location;
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+
+<div id="copyright">
+Copyright &copy; 1999-2008 by Digital Mars, All Rights Reserved |
+Page generated by <a href="http://code.google.com/p/dil">dil</a> on Wed Oct  1 23:47:52 2008
+</div>
+
+</body>
+</html>

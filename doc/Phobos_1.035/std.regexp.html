@@ -1,0 +1,761 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<!--
+	Copyright (c) 1999-2008 by Digital Mars
+	All Rights Reserved
+	Written by Walter Bright
+	www.digitalmars.com
+  -->
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" >
+<title>std.regexp - D Programming Language - Digital Mars</title>
+<link rel="stylesheet" type="text/css" href="./style.css">
+<link rel="icon" type="image/gif" href="./holy.gif" />
+</head>
+
+<body>
+<div id="heading">
+	<a href="http://www.digitalmars.com/"><img src="./dmlogo.gif" width="270" height="53" border="0" alt="www.digitalmars.com" align="left"></a>
+	<p align="right">D Programming Language 1.0</p>
+
+
+	<div id="headingNav">
+	<ul>
+	<li><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/StdRegexp
+	DOLLAR = $" title="Read/write comments and feedback">Comments</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language" class="dlink">D</a></li>
+	<li><a href="http://www.digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a></li>
+	<li><a href="http://www.digitalmars.com/" title="www.digitalmars.com">Home</a></li>
+	</ul>
+	</div>
+
+	<div id="lastupdate">Last update Wed Oct  1 23:47:52 2008</div>
+</div>
+
+<!-- -->
+
+<div id="navigation">
+    <div class="navblock">
+<form method="get" action="http://www.google.com/search">
+<div id="searchbox">
+<input id="q" name="q" size="10" value="RTL Search" onFocus='if(this.value == "RTL Search"){this.value="";}'>
+<input type="hidden" id="domains" name="domains" value="www.digitalmars.com">
+<input type="hidden" id="sitesearch" name="sitesearch" value="www.digitalmars.com/d/1.0/phobos">
+<input type="hidden" id="sourceid" name="sourceid" value="google-search">
+<input type="submit" id="submit" name="submit" value="Go">
+</div>
+</form>
+<div id="toctop">
+    <ul>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language">D ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/lex.html" title="D Language Specification">Language ...</a></li>
+	<li><a href="phobos.html" title="D Runtime Library">Phobos ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/comparison.html" title="Language Comparisons">Comparisons ...</a></li>
+    </ul>
+</div>
+</div>
+    <div class="navblock">
+<ul>
+<li><a href="index.html" title="Index of all HTML files">Index</a></li>
+</ul>
+    <ul>
+	<li><a href="object.html" title="root of object hierarchy">object</a></li>
+    </ul>
+    <h2><a href="phobos.html#std" title="D standard modules">std</a></h2>
+    <ul>
+	<li><a href="std.base64.html" title="Encode/decode base64 format">std.base64</a></li>
+	<li><a href="std.bind.html" title="Function argument binding">std.bind</a></li>
+	<li><a href="std.bitarray.html" title="Arrays of bits">std.bitarray</a></li>
+	<li><a href="std.boxer.html" title="Box/unbox types">std.boxer</a></li>
+	<li><a href="std.compiler.html" title="Information about the D compiler implementation">std.compiler</a></li>
+	<li><a href="std.conv.html" title="Conversion of strings to integers">std.conv</a></li>
+	<li><a href="std.cover.html" title="D coverage analyzer">std.cover</a></li>
+	<li><a href="std.cpuid.html" title="CPU identification">std.cpuid</a></li>
+	<li><a href="std.ctype.html" title="Simple character classification">std.ctype</a></li>
+	<li><a href="std.date.html" title="Date and time functions">std.date</a></li>
+	<li><a href="std.demangle.html" title="Demangle D names">std.demangle</a></li>
+	<li><a href="std.file.html" title="Basic file operations">std.file</a></li>
+	<li><a href="std.format.html" title="Formatted conversions of values to strings">std.format</a></li>
+	<li><a href="std.gc.html" title="Control the garbage collector">std.gc</a></li>
+	<li><a href="std.intrinsic.html" title="Compiler built in intrinsic functions">std.intrinsic</a></li>
+	<li><a href="std.math.html" title="the usual math functions">std.math</a></li>
+	<li><a href="std.md5.html" title="Compute MD5 digests">std.md5</a></li>
+	<li><a href="std.metastrings.html" title="Metaprogramming with strings">std.metastrings</a></li>
+	<li><a href="std.mmfile.html" title="Memory mapped files">std.mmfile</a></li>
+	<li><a href="std.openrj.html" title="Basic database">std.openrj</a></li>
+	<li><a href="std.outbuffer.html" title="Assemble data into an array of bytes">std.outbuffer</a></li>
+	<li><a href="std.outofmemory.html" title="Out of memory exception">std.outofmemory</a></li>
+	<li><a href="std.path.html" title="Manipulate file names, path names, etc.">std.path</a></li>
+	<li><a href="std.process.html" title="Create/destroy threads">std.process</a></li>
+	<li><a href="std.random.html" title="Random number generation">std.random</a></li>
+	<li><a href="std.regexp.html" title="regular expressions">std.regexp</a></li>
+	<li><a href="std.signals.html" title="Signals">std.signals</a></li>
+	<li><a href="std.socket.html" title="Sockets">std.socket</a></li>
+	<li><a href="std.socketstream.html" title="Stream for a blocking, connected Socket">std.socketstream</a></li>
+	<li><a href="std.stdint.html" title="Integral types for various purposes">std.stdint</a></li>
+	<li><a href="std.stdio.html" title="Standard I/O">std.stdio</a></li>
+	<li><a href="std.cstream.html" title="Stream I/O">std.cstream</a></li>
+	<li><a href="std.stream.html" title="Stream I/O">std.stream</a></li>
+	<li><a href="std.string.html" title="Basic string operations">std.string</a></li>
+	<li><a href="std.system.html" title="Inquire about the CPU, operating system">std.system</a></li>
+	<li><a href="std.thread.html" title="Thread operations">std.thread</a></li>
+	<li><a href="std.traits.html" title="Type traits">std.traits</a></li>
+	<li><a href="std.typetuple.html" title="Type tuples">std.typetuple</a></li>
+	<li><a href="std.uni.html" title="Unicode classification">std.uni</a></li>
+	<li><a href="std.uri.html" title="Encode and decode Uniform Resource Identifiers (URIs)">std.uri</a></li>
+	<li><a href="std.utf.html" title="Encode and decode utf character encodings">std.utf</a></li>
+	<li><a href="std.zip.html" title="Read/write zip archives">std.zip</a></li>
+	<li><a href="std.zlib.html" title="Compression / Decompression of data">std.zlib</a></li>
+	<li><a href="std.c.fenv.html" title="Floating point environment">std.c.fenv</a></li>
+	<li><a href="std.c.locale.html" title="Locale">std.c.locale</a></li>
+	<li><a href="std.c.math.html" title="Math">std.c.math</a></li>
+	<li><a href="std.c.process.html" title="Process">std.c.process</a></li>
+	<li><a href="std.c.stdarg.html" title="Variadic arguments">std.c.stdarg</a></li>
+	<li><a href="std.c.stddef.html" title="Standard definitions">std.c.stddef</a></li>
+	<li><a href="std.c.stdio.html" title="Standard I/O">std.c.stdio</a></li>
+	<li><a href="std.c.stdlib.html" title="Standard library">std.c.stdlib</a></li>
+	<li><a href="std.c.string.html" title="Strings">std.c.string</a></li>
+	<li><a href="std.c.time.html" title="Time">std.c.time</a></li>
+	<li><a href="std.c.wcharh.html" title="Wide characters">std.c.wcharh</a></li>
+	<li><a href="std.windows.charset.html" title="Conversion to/from Windows character sets">std.windows.charset</a></li>
+	<li><a href="phobos.html#std_windows" title="Modules specific to Windows">std.windows</a></li>
+	<li><a href="phobos.html#std_linux" title="Modules specific to Windows">std.linux</a></li>
+	<li><a href="phobos.html#std_c_windows" title="C Windows API">std.c.windows</a></li>
+	<li><a href="phobos.html#std_c_linux" title="C Linux API">std.c.linux</a></li>
+    </ul>
+</div>
+</div>
+<div id="content">
+    <h1><a href="./htmlsrc/std.regexp.html">std.regexp</a></h1>
+    
+<a href="http://www.digitalmars.com/ctg/regular.html">Regular expressions</a>
+ are a powerful method of string pattern matching.
+ The regular expression
+ language used is the same as that commonly used, however, some of the very
+ advanced forms may behave slightly differently.<br><br>
+std.regexp is designed to work only with valid UTF strings as input.
+ To validate untrusted input, use std.utf.validate&#40;&#41;.<br><br> In the following guide, <i>pattern</i>[] refers to a
+ <a href="http://www.digitalmars.com/ctg/regular.html">regular expression</a>.
+ The <i>attributes</i>[] refers to
+	a string controlling the interpretation
+	of the regular expression.
+	It consists of a sequence of one or more
+	of the following characters:<br><br>	<table border=1 cellspacing=0 cellpadding=5>
+	<caption>Attribute Characters</caption>
+	<tr><th>Attribute</th> <th>Action</th></tr>
+	<tr>
+	<td><b>g</b></td>
+	<td>global; repeat over the whole input string</td>
+	</tr>
+	<tr>
+	<td><b>i</b></td>
+	<td>case insensitive</td>
+	</tr>
+	<tr>
+	<td><b>m</b></td>
+	<td>treat as multiple lines separated by newlines</td>
+	</tr>
+	</table><br><br> The <i>format</i>[] string has the formatting characters:<br><br>	<table border=1 cellspacing=0 cellpadding=5>
+	<caption>Formatting Characters</caption>
+	<tr><th>Format</th> <th>Replaced With</th></tr>
+	<tr>
+	<td><b>$$</b></td>	<td>$</td>
+	</tr>
+	<tr>
+	<td><b>$&</b></td>	<td>The matched substring.</td>
+	</tr>
+	<tr>
+	<td><b>$`</b></td>	<td>The portion of string that precedes the matched substring.</td>
+	</tr>
+	<tr>
+	<td><b>$'</b></td>	<td>The portion of string that follows the matched substring.</td>
+	</tr>
+	<tr>
+	<td><b>$</b><i>n</i></td> <td>The <i>n</i>th capture, where <i>n</i>
+			is a single digit 1-9
+			and $<i>n</i> is not followed by a decimal digit.</td>
+	</tr>
+	<tr>
+	<td><b>$</b><i>nn</i></td> <td>The <i>nn</i>th capture, where <i>nn</i>
+			is a two-digit decimal
+			number 01-99.
+			If <i>nn</i>th capture is undefined or more than the number
+			of parenthesized subexpressions, use the empty
+			string instead.</td>
+	</tr>
+	</table><br><br>	Any other $ are left as is.<br><br> <br><br>
+<b>References:</b><br><a href="http://en.wikipedia.org/wiki/Regular_expressions">Wikipedia</a><br><br>
+<dl>
+<dt><big>char[] <a href="./htmlsrc/std.regexp.html#L150" title="At line 150.">email</a>; [const]</big></dt>
+<dd>
+Regular expression to extract an _email address <br><br></dd>
+<dt><big>char[] <a href="./htmlsrc/std.regexp.html#L154" title="At line 154.">url</a>; [const]</big></dt>
+<dd>
+Regular expression to extract a _url <br><br></dd>
+<dt><big>class <a href="./htmlsrc/std.regexp.html#L160" title="At line 160.">RegExpException</a> : Exception;</big></dt>
+<dd>
+One of these gets thrown on compilation errors
+ <br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.regexp.html#L162" title="At line 162.">this</a>(char[] <i>msg</i>);</big></dt>
+<dd></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.regexp.html#L168" title="At line 168.">regmatch_t</a>;</big></dt>
+<dd>
+<dl>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L170" title="At line 170.">rm_so</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L171" title="At line 171.">rm_eo</a>;</big></dt>
+<dd></dd></dl></dd>
+<dt><big>alias char <a href="./htmlsrc/std.regexp.html#L174" title="At line 174.">rchar</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.regexp.html#L201" title="At line 201.">sub</a>(char[] <i>string</i>, char[] <i>pattern</i>, char[] <i>format</i>, char[] <i>attributes</i> = null);</big></dt>
+<dd>
+Search string for matches with regular expression
+ pattern with attributes.
+ Replace each match with string generated from format.
+ <br><br>
+<b>Params:</b><br>
+<table>
+<tr><td><i>string</i></td><td>String to search.</td></tr>
+<tr><td><i>pattern</i></td><td>Regular expression pattern.</td></tr>
+<tr><td><i>format</i></td><td>Replacement string format.</td></tr>
+<tr><td><i>attributes</i></td><td>Regular expression attributes.</td></tr></table><br>
+<b>Returns:</b><br>
+the resulting string<br><br>
+<b>Example:</b><br>Replace the letters 'a' with the letters 'ZZ'.
+ <pre class="d_code">
+
+ <span class="i">s</span> = <span class="sl">"Strap a rocket engine on a chicken."</span>
+ <span class="i">sub</span>(<span class="i">s</span>, <span class="sl">"a"</span>, <span class="sl">"ZZ"</span>)        <span class="lc">// result: StrZZp a rocket engine on a chicken.</span>
+ <span class="i">sub</span>(<span class="i">s</span>, <span class="sl">"a"</span>, <span class="sl">"ZZ"</span>, <span class="sl">"g"</span>)   <span class="lc">// result: StrZZp ZZ rocket engine on ZZ chicken.</span>
+ 
+</pre>
+	The replacement format can reference the matches using
+	the $&amp;, $$, $', $`,  .. 9 notation:
+ <pre class="d_code">
+
+ <span class="i">sub</span>(<span class="i">s</span>, <span class="sl">"[ar]"</span>, <span class="sl">"[$&amp;]"</span>, <span class="sl">"g"</span>) <span class="lc">// result: St[r][a]p [a] [r]ocket engine on [a] chi</span>
+ 
+</pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L209" title="At line 209.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[] <a href="./htmlsrc/std.regexp.html#L241" title="At line 241.">sub</a>(char[] <i>string</i>, char[] <i>pattern</i>, char[] delegate(RegExp) <i>dg</i>, char[] <i>attributes</i> = null);</big></dt>
+<dd>
+Search string for matches with regular expression
+ pattern with attributes.
+ Pass each match to delegate dg.
+ Replace each match with the return value from dg.
+ <br><br>
+<b>Params:</b><br>
+<table>
+<tr><td><i>string</i></td><td>String to search.</td></tr>
+<tr><td><i>pattern</i></td><td>Regular expression pattern.</td></tr>
+<tr><td><i>dg</i></td><td>Delegate
+	attributes = Regular expression attributes.</td></tr></table><br>
+<b>Returns:</b><br>
+the resulting string.<br><br>
+<b>Example:</b><br>Capitalize the letters 'a' and 'r':
+ <pre class="d_code">
+
+ <span class="i">s</span> = <span class="sl">"Strap a rocket engine on a chicken."</span>;
+ <span class="i">sub</span>(<span class="i">s</span>, <span class="sl">"[ar]"</span>,
+    <span class="k">delegate</span> <span class="k">char</span>[] (<span class="i">RegExp</span> <span class="i">m</span>)
+    {
+         <span class="k">return</span> <span class="i">toupper</span>(<span class="i">m</span>.<span class="i">match</span>(<span class="n">0</span>));
+    },
+    <span class="sl">"g"</span>);    <span class="lc">// result: StRAp A Rocket engine on A chicken.</span>
+ 
+</pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L290" title="At line 290.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L329" title="At line 329.">find</a>(rchar[] <i>string</i>, char[] <i>pattern</i>, char[] <i>attributes</i> = null);</big></dt>
+<dd>
+Search string[] for first match with pattern[] with attributes[].
+ <br><br>
+<b>Params:</b><br>
+<table>
+<tr><td><i>string</i></td><td>String to search.</td></tr>
+<tr><td><i>pattern</i></td><td>Regular expression pattern.</td></tr>
+<tr><td><i>attributes</i></td><td>Regular expression attributes.</td></tr></table><br>
+<b>Returns:</b><br>
+index into string[] of match if found, -1 if no match.<br><br>
+<b>Example:</b><br><pre class="d_code">
+
+ <span class="k">auto</span> <span class="i">s</span> = <span class="sl">"abcabcabab"</span>;
+ <span class="i">std</span>.<span class="i">regexp</span>.<span class="i">find</span>(<span class="i">s</span>, <span class="sl">"b"</span>);    <span class="lc">// match, returns 1</span>
+ <span class="i">std</span>.<span class="i">regexp</span>.<span class="i">find</span>(<span class="i">s</span>, <span class="sl">"f"</span>);    <span class="lc">// no match, returns -1</span>
+ 
+</pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L342" title="At line 342.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L371" title="At line 371.">rfind</a>(rchar[] <i>string</i>, char[] <i>pattern</i>, char[] <i>attributes</i> = null);</big></dt>
+<dd>
+Search string[] for last match with pattern[] with attributes[].
+ <br><br>
+<b>Params:</b><br>
+<table>
+<tr><td><i>string</i></td><td>String to search.</td></tr>
+<tr><td><i>pattern</i></td><td>Regular expression pattern.</td></tr>
+<tr><td><i>attributes</i></td><td>Regular expression attributes.</td></tr></table><br>
+<b>Returns:</b><br>
+index into string[] of match if found, -1 if no match.<br><br>
+<b>Example:</b><br><pre class="d_code">
+
+ <span class="k">auto</span> <span class="i">s</span> = <span class="sl">"abcabcabab"</span>;
+ <span class="i">std</span>.<span class="i">regexp</span>.<span class="i">find</span>(<span class="i">s</span>, <span class="sl">"b"</span>);    <span class="lc">// match, returns 9</span>
+ <span class="i">std</span>.<span class="i">regexp</span>.<span class="i">find</span>(<span class="i">s</span>, <span class="sl">"f"</span>);    <span class="lc">// no match, returns -1</span>
+ 
+</pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L389" title="At line 389.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>char[][] <a href="./htmlsrc/std.regexp.html#L429" title="At line 429.">split</a>(char[] <i>string</i>, char[] <i>pattern</i>, char[] <i>attributes</i> = null);</big></dt>
+<dd>
+Split string[] into an array of strings, using the regular
+ expression pattern[] with attributes[] as the separator.
+ <br><br>
+<b>Params:</b><br>
+<table>
+<tr><td><i>string</i></td><td>String to search.</td></tr>
+<tr><td><i>pattern</i></td><td>Regular expression pattern.</td></tr>
+<tr><td><i>attributes</i></td><td>Regular expression attributes.</td></tr></table><br>
+<b>Returns:</b><br>
+array of slices into string[]<br><br>
+<b>Example:</b><br><pre class="d_code">
+
+ <span class="k">foreach</span> (<span class="i">s</span>; <span class="i">split</span>(<span class="sl">"abcabcabab"</span>, <span class="sl">"C."</span>, <span class="sl">"i"</span>))
+ {
+     <span class="i">writefln</span>(<span class="sl">"s = '%s'"</span>, <span class="i">s</span>);
+ }
+ <span class="lc">// Prints:</span>
+ <span class="lc">// s = 'ab'</span>
+ <span class="lc">// s = 'b'</span>
+ <span class="lc">// s = 'bab'</span>
+ 
+</pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L437" title="At line 437.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>RegExp <a href="./htmlsrc/std.regexp.html#L482" title="At line 482.">search</a>(char[] <i>string</i>, char[] <i>pattern</i>, char[] <i>attributes</i> = null);</big></dt>
+<dd>
+Search string[] for first match with pattern[] with attributes[].
+ <br><br>
+<b>Params:</b><br>
+<table>
+<tr><td><i>string</i></td><td>String to search.</td></tr>
+<tr><td><i>pattern</i></td><td>Regular expression pattern.</td></tr>
+<tr><td><i>attributes</i></td><td>Regular expression attributes.</td></tr></table><br>
+<b>Returns:</b><br>
+corresponding RegExp if found, null if not.<br><br>
+<b>Example:</b><br><pre class="d_code">
+
+ <span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+ <span class="k">import</span> <span class="i">std</span>.<span class="i">regexp</span>;
+
+ <span class="k">void</span> <span class="i">main</span>()
+ {
+     <span class="k">if</span> (<span class="k">auto</span> <span class="i">m</span> = <span class="i">std</span>.<span class="i">regexp</span>.<span class="i">search</span>(<span class="sl">"abcdef"</span>, <span class="sl">"c"</span>))
+     {
+         <span class="i">writefln</span>(<span class="sl">"%s[%s]%s"</span>, <span class="i">m</span>.<span class="i">pre</span>, <span class="i">m</span>.<span class="i">match</span>(<span class="n">0</span>), <span class="i">m</span>.<span class="i">post</span>);
+     }
+ }
+ <span class="lc">// Prints:</span>
+ <span class="lc">// ab[c]def</span>
+ 
+</pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L496" title="At line 496.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>class <a href="./htmlsrc/std.regexp.html#L525" title="At line 525.">RegExp</a>;</big></dt>
+<dd>
+RegExp is a class to handle regular expressions.<br><br>
+It is the core foundation for adding powerful string pattern matching
+ capabilities to programs like grep, text editors, awk, sed, etc.
+ <br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.regexp.html#L542" title="At line 542.">this</a>(rchar[] <i>pattern</i>, rchar[] <i>attributes</i> = null); [public]</big></dt>
+<dd>
+Construct a RegExp object. Compile pattern
+ with <i>attributes</i> into
+ an internal form for fast execution.
+ <br><br>
+<b>Params:</b><br>
+<table>
+<tr><td><i>pattern</i></td><td>regular expression</td></tr>
+<tr><td><i>attributes</i></td><td>_attributes</td></tr></table><br>
+<b>Throws:</b><br>
+RegExpException if there are any compilation errors.<br><br>
+<b>Example:</b><br>Declare two variables and assign to them a RegExp object:
+ <pre class="d_code">
+
+ <span class="k">auto</span> <span class="i">r</span> = <span class="k">new</span> <span class="i">RegExp</span>(<span class="sl">"pattern"</span>);
+ <span class="k">auto</span> <span class="i">s</span> = <span class="k">new</span> <span class="i">RegExp</span>(<span class="sl">r"p[1-5]\s*"</span>);
+ 
+</pre><br><br></dd>
+<dt><big>RegExp <a href="./htmlsrc/std.regexp.html#L561" title="At line 561.">opCall</a>(rchar[] <i>pattern</i>, rchar[] <i>attributes</i> = null); [public, static]</big></dt>
+<dd>
+Generate instance of RegExp.
+ <br><br>
+<b>Params:</b><br>
+<table>
+<tr><td><i>pattern</i></td><td>regular expression</td></tr>
+<tr><td><i>attributes</i></td><td>_attributes</td></tr></table><br>
+<b>Throws:</b><br>
+RegExpException if there are any compilation errors.<br><br>
+<b>Example:</b><br>Declare two variables and assign to them a RegExp object:
+ <pre class="d_code">
+
+ <span class="k">auto</span> <span class="i">r</span> = <span class="i">RegExp</span>(<span class="sl">"pattern"</span>);
+ <span class="k">auto</span> <span class="i">s</span> = <span class="i">RegExp</span>(<span class="sl">r"p[1-5]\s*"</span>);
+ 
+</pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L566" title="At line 566.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>RegExp <a href="./htmlsrc/std.regexp.html#L608" title="At line 608.">search</a>(rchar[] <i>string</i>); [public]</big></dt>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L616" title="At line 616.">opApply</a>(int delegate(inout RegExp) <i>dg</i>); [public]</big></dt>
+<dd>
+Set up for start of foreach loop.
+ <br><br>
+<b>Returns:</b><br>
+search&#40;&#41; returns instance of RegExp set up to _search string[].<br><br>
+<b>Example:</b><br><pre class="d_code">
+
+ <span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+ <span class="k">import</span> <span class="i">std</span>.<span class="i">regexp</span>;
+
+ <span class="k">void</span> <span class="i">main</span>()
+ {
+     <span class="k">foreach</span>(<span class="i">m</span>; <span class="i">RegExp</span>(<span class="sl">"ab"</span>).<span class="i">search</span>(<span class="sl">"abcabcabab"</span>))
+     {
+         <span class="i">writefln</span>(<span class="sl">"%s[%s]%s"</span>, <span class="i">m</span>.<span class="i">pre</span>, <span class="i">m</span>.<span class="i">match</span>(<span class="n">0</span>), <span class="i">m</span>.<span class="i">post</span>);
+     }
+ }
+ <span class="lc">// Prints:</span>
+ <span class="lc">// [ab]cabcabab</span>
+ <span class="lc">// abc[ab]cabab</span>
+ <span class="lc">// abcabc[ab]ab</span>
+ <span class="lc">// abcabcab[ab]</span>
+ 
+</pre><br><br></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L631" title="At line 631.">unittest</a>;</big></dt>
+
+<dt><big>char[] <a href="./htmlsrc/std.regexp.html#L656" title="At line 656.">match</a>(size_t <i>n</i>); [public]</big></dt>
+<dd>
+Retrieve match n.<br><br>
+n==0 means the matched substring, n&gt;0 means the
+ n'th parenthesized subexpression.
+ if n is larger than the number of parenthesized subexpressions,
+ null is returned.
+     <br><br></dd>
+<dt><big>char[] <a href="./htmlsrc/std.regexp.html#L673" title="At line 673.">pre</a>(); [public]</big></dt>
+<dd>
+Return the slice of the input that precedes the matched substring.
+     <br><br></dd>
+<dt><big>char[] <a href="./htmlsrc/std.regexp.html#L681" title="At line 681.">post</a>(); [public]</big></dt>
+<dd>
+Return the slice of the input that follows the matched substring.
+     <br><br></dd>
+<dt><big>uint <a href="./htmlsrc/std.regexp.html#L686" title="At line 686.">re_nsub</a>;</big></dt>
+<dd></dd>
+<dt><big>regmatch_t[] <a href="./htmlsrc/std.regexp.html#L687" title="At line 687.">pmatch</a>;</big></dt>
+<dd></dd>
+<dt><big>rchar[] <a href="./htmlsrc/std.regexp.html#L689" title="At line 689.">input</a>;</big></dt>
+<dd></dd>
+<dt><big>rchar[] <a href="./htmlsrc/std.regexp.html#L693" title="At line 693.">pattern</a>;</big></dt>
+<dd></dd>
+<dt><big>rchar[] <a href="./htmlsrc/std.regexp.html#L695" title="At line 695.">flags</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L697" title="At line 697.">errors</a>;</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.regexp.html#L699" title="At line 699.">attributes</a>;</big></dt>
+<dd></dd>
+<dt><big>enum <a href="./htmlsrc/std.regexp.html#L701" title="At line 701.">REA</a>;</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.regexp.html#L703" title="At line 703.">global</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L704" title="At line 704.">ignoreCase</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L705" title="At line 705.">multiline</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L707" title="At line 707.">dotmatchlf</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>size_t <a href="./htmlsrc/std.regexp.html#L712" title="At line 712.">src</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.regexp.html#L713" title="At line 713.">src_start</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>size_t <a href="./htmlsrc/std.regexp.html#L714" title="At line 714.">p</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>regmatch_t <a href="./htmlsrc/std.regexp.html#L715" title="At line 715.">gmatch</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>ubyte[] <a href="./htmlsrc/std.regexp.html#L718" title="At line 718.">program</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>OutBuffer <a href="./htmlsrc/std.regexp.html#L719" title="At line 719.">buf</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>enum; [private]</big></dt>
+<dd>
+<dl>
+<dt><big><a href="./htmlsrc/std.regexp.html#L730" title="At line 730.">REend</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L731" title="At line 731.">REchar</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L732" title="At line 732.">REichar</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L733" title="At line 733.">REdchar</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L734" title="At line 734.">REidchar</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L735" title="At line 735.">REanychar</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L736" title="At line 736.">REanystar</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L737" title="At line 737.">REstring</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L738" title="At line 738.">REistring</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L739" title="At line 739.">REtestbit</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L740" title="At line 740.">REbit</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L741" title="At line 741.">REnotbit</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L742" title="At line 742.">RErange</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L743" title="At line 743.">REnotrange</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L744" title="At line 744.">REor</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L745" title="At line 745.">REplus</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L746" title="At line 746.">REstar</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L747" title="At line 747.">REquest</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L748" title="At line 748.">REnm</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L749" title="At line 749.">REnmq</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L750" title="At line 750.">REbol</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L751" title="At line 751.">REeol</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L752" title="At line 752.">REparen</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L753" title="At line 753.">REgoto</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L755" title="At line 755.">REwordboundary</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L756" title="At line 756.">REnotwordboundary</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L757" title="At line 757.">REdigit</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L758" title="At line 758.">REnotdigit</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L759" title="At line 759.">REspace</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L760" title="At line 760.">REnotspace</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L761" title="At line 761.">REword</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L762" title="At line 762.">REnotword</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L763" title="At line 763.">REbackref</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L767" title="At line 767.">isword</a>(dchar <i>c</i>); [private]</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.regexp.html#L769" title="At line 769.">inf</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.regexp.html#L775" title="At line 775.">compile</a>(rchar[] <i>pattern</i>, rchar[] <i>attributes</i>); [public]</big></dt>
+<dd></dd>
+<dt><big>rchar[][] <a href="./htmlsrc/std.regexp.html#L837" title="At line 837.">split</a>(rchar[] <i>string</i>); [public]</big></dt>
+<dd>
+Split string[] into an array of strings, using the regular
+ expression as the separator.
+ <br><br>
+<b>Returns:</b><br>
+array of slices into string[]<br><br></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L880" title="At line 880.">unittest</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L936" title="At line 936.">find</a>(rchar[] <i>string</i>); [public]</big></dt>
+<dd>
+Search string[] for match with regular expression.
+ <br><br>
+<b>Returns:</b><br>
+index of match if successful, -1 if not found<br><br></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L950" title="At line 950.">unittest</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>rchar[][] <a href="./htmlsrc/std.regexp.html#L970" title="At line 970.">match</a>(rchar[] <i>string</i>); [public]</big></dt>
+<dd>
+Search string[] for match.
+ <br><br>
+<b>Returns:</b><br>
+If global attribute, return same value as exec&#40;string&#41;.
+	If not global attribute, return array of all matches.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L995" title="At line 995.">unittest</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>rchar[] <a href="./htmlsrc/std.regexp.html#L1026" title="At line 1026.">replace</a>(rchar[] <i>string</i>, rchar[] <i>format</i>); [public]</big></dt>
+<dd>
+Find regular expression matches in string[]. Replace those matches
+ with a new _string composed of format[] merged with the result of the
+ matches.
+ If global, replace all matches. Otherwise, replace first match.
+ <br><br>
+<b>Returns:</b><br>
+the new _string<br><br></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L1077" title="At line 1077.">unittest</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>rchar[][] <a href="./htmlsrc/std.regexp.html#L1103" title="At line 1103.">exec</a>(rchar[] <i>string</i>); [public]</big></dt>
+<dd>
+Search string[] for match.
+ <br><br>
+<b>Returns:</b><br>
+array of slices into string[] representing matches<br><br></dd>
+<dt><big>rchar[][] <a href="./htmlsrc/std.regexp.html#L1119" title="At line 1119.">exec</a>(); [public]</big></dt>
+<dd>
+Pick up where last exec&#40;string&#41; or exec&#40;&#41; left off,
+ searching string[] for next match.
+ <br><br>
+<b>Returns:</b><br>
+array of slices into string[] representing matches<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L1165" title="At line 1165.">test</a>(rchar[] <i>string</i>); [public]</big></dt>
+<dd>
+Search string[] for match.
+ <br><br>
+<b>Returns:</b><br>
+0 for no match, !=0 for match<br><br>
+<b>Example:</b><br><pre class="d_code">
+
+<span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">regexp</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">string</span>;
+
+<span class="k">int</span> <span class="i">grep</span>(<span class="k">int</span> <span class="k">delegate</span>(<span class="k">char</span>[]) <span class="i">pred</span>, <span class="k">char</span>[][] <span class="i">list</span>)
+{
+  <span class="k">int</span> <span class="i">count</span>;
+  <span class="k">foreach</span> (<span class="i">s</span>; <span class="i">list</span>)
+  {  <span class="k">if</span> (<span class="i">pred</span>(<span class="i">s</span>))
+       ++<span class="i">count</span>;
+  }
+  <span class="k">return</span> <span class="i">count</span>;
+}
+
+<span class="k">void</span> <span class="i">main</span>()
+{
+  <span class="k">auto</span> <span class="i">x</span> = <span class="i">grep</span>(&amp;<span class="i">RegExp</span>(<span class="sl">"[Ff]oo"</span>).<span class="i">test</span>,
+                <span class="i">std</span>.<span class="i">string</span>.<span class="i">split</span>(<span class="sl">"mary had a foo lamb"</span>));
+  <span class="i">writefln</span>(<span class="i">x</span>);
+}
+
+</pre>
+ which prints: 1<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L1175" title="At line 1175.">test</a>(); [public]</big></dt>
+<dd>
+Pick up where last test&#40;string&#41; or test&#40;&#41; left off, and search again.
+ <br><br>
+<b>Returns:</b><br>
+0 for no match, !=0 for match<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L1185" title="At line 1185.">test</a>(char[] <i>string</i>, int <i>startindex</i>); [public]</big></dt>
+<dd>
+Test string[] starting at startindex against regular expression.
+ <br><br>
+<b>Returns:</b><br>
+0 for no match, !=0 for match<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L1254" title="At line 1254.">chr</a>(inout uint <i>si</i>, rchar <i>c</i>); [private]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.regexp.html#L1265" title="At line 1265.">printProgram</a>(ubyte[] <i>prog</i>); [private]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L1474" title="At line 1474.">trymatch</a>(int <i>pc</i>, int <i>pcend</i>); [private]</big></dt>
+<dd>
+Match input against a section of the program[].
+ <br><br>
+<b>Returns:</b><br>
+1 if successful match
+	0 no match<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L2009" title="At line 2009.">parseRegexp</a>(); [private]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L2052" title="At line 2052.">parsePiece</a>(); [private]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L2160" title="At line 2160.">parseAtom</a>(); [private]</big></dt>
+<dd></dd>
+<dt><big>class <a href="./htmlsrc/std.regexp.html#L2352" title="At line 2352.">Range</a>; [private]</big></dt>
+<dd>
+<dl>
+<dt><big>uint <a href="./htmlsrc/std.regexp.html#L2354" title="At line 2354.">maxc</a>;</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.regexp.html#L2355" title="At line 2355.">maxb</a>;</big></dt>
+<dd></dd>
+<dt><big>OutBuffer <a href="./htmlsrc/std.regexp.html#L2356" title="At line 2356.">buf</a>;</big></dt>
+<dd></dd>
+<dt><big>ubyte* <a href="./htmlsrc/std.regexp.html#L2357" title="At line 2357.">base</a>;</big></dt>
+<dd></dd>
+<dt><big>BitArray <a href="./htmlsrc/std.regexp.html#L2358" title="At line 2358.">bits</a>;</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L2360" title="At line 2360.">this</a>(OutBuffer <i>buf</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.regexp.html#L2367" title="At line 2367.">setbitmax</a>(uint <i>u</i>);</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.regexp.html#L2389" title="At line 2389.">setbit2</a>(uint <i>u</i>);</big></dt>
+<dd></dd></dl></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L2398" title="At line 2398.">parseRange</a>(); [private]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.regexp.html#L2591" title="At line 2591.">error</a>(char[] <i>msg</i>); [private]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L2601" title="At line 2601.">escape</a>(); [private]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.regexp.html#L2724" title="At line 2724.">optimize</a>(); [private]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.regexp.html#L2800" title="At line 2800.">starrchars</a>(Range <i>r</i>, ubyte[] <i>prog</i>); [private]</big></dt>
+<dd></dd>
+<dt><big>rchar[] <a href="./htmlsrc/std.regexp.html#L2984" title="At line 2984.">replace</a>(rchar[] <i>format</i>); [public]</big></dt>
+<dd>
+After a match is found with test&#40;&#41;, this function
+ will take the match results and, using the format
+ string, generate and return a new string.
+ <br><br></dd>
+<dt><big>rchar[] <a href="./htmlsrc/std.regexp.html#L2991" title="At line 2991.">replace3</a>(rchar[] <i>format</i>, rchar[] <i>input</i>, regmatch_t[] <i>pmatch</i>); [public, static]</big></dt>
+<dd></dd>
+<dt><big>rchar[] <a href="./htmlsrc/std.regexp.html#L3104" title="At line 3104.">replaceOld</a>(rchar[] <i>format</i>); [public]</big></dt>
+<dd>
+Like replace&#40;char[] format&#41;, but uses old style formatting:
+		<table border=1 cellspacing=0 cellpadding=5>
+		<th>Format
+		<th>Description
+		<tr>
+		<td><b>&amp;</b>
+		<td>replace with the match
+		</tr>
+		<tr>
+		<td><b>\</b><i>n</i>
+		<td>replace with the <i>n</i>th parenthesized match, <i>n</i> is 1..9
+		</tr>
+		<tr>
+		<td><b>\</b><i>c</i>
+		<td>replace with char <i>c</i>.
+		</tr>
+		</table>
+ <br><br></dd></dl></dd>
+<dt><big><a href="./htmlsrc/std.regexp.html#L3148" title="At line 3148.">unittest</a>;</big></dt>
+<dd></dd></dl>
+    <br><br>
+<br><br>
+<!-- Google ad -->
+<script type="text/javascript"><!--
+/**/google_ad_client = "pub-5628673096434613";
+/**/google_ad_width = 728;
+/**/google_ad_height = 90;
+/**/google_ad_format = "728x90_as";
+/**/google_ad_channel ="6203743411";
+/**/google_page_url = document.location;
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+
+<div id="copyright">
+Copyright &copy; 1999-2008 by Digital Mars, All Rights Reserved |
+Page generated by <a href="http://code.google.com/p/dil">dil</a> on Wed Oct  1 23:47:52 2008
+</div>
+
+</body>
+</html>

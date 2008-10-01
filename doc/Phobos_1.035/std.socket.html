@@ -1,0 +1,789 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<!--
+	Copyright (c) 1999-2008 by Digital Mars
+	All Rights Reserved
+	Written by Walter Bright
+	www.digitalmars.com
+  -->
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" >
+<title>std.socket - D Programming Language - Digital Mars</title>
+<link rel="stylesheet" type="text/css" href="./style.css">
+<link rel="icon" type="image/gif" href="./holy.gif" />
+</head>
+
+<body>
+<div id="heading">
+	<a href="http://www.digitalmars.com/"><img src="./dmlogo.gif" width="270" height="53" border="0" alt="www.digitalmars.com" align="left"></a>
+	<p align="right">D Programming Language 1.0</p>
+
+
+	<div id="headingNav">
+	<ul>
+	<li><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Phobos/StdSocket" title="Read/write comments and feedback">Comments</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language" class="dlink">D</a></li>
+	<li><a href="http://www.digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a></li>
+	<li><a href="http://www.digitalmars.com/" title="www.digitalmars.com">Home</a></li>
+	</ul>
+	</div>
+
+	<div id="lastupdate">Last update Wed Oct  1 23:47:52 2008</div>
+</div>
+
+<!-- -->
+
+<div id="navigation">
+    <div class="navblock">
+<form method="get" action="http://www.google.com/search">
+<div id="searchbox">
+<input id="q" name="q" size="10" value="RTL Search" onFocus='if(this.value == "RTL Search"){this.value="";}'>
+<input type="hidden" id="domains" name="domains" value="www.digitalmars.com">
+<input type="hidden" id="sitesearch" name="sitesearch" value="www.digitalmars.com/d/1.0/phobos">
+<input type="hidden" id="sourceid" name="sourceid" value="google-search">
+<input type="submit" id="submit" name="submit" value="Go">
+</div>
+</form>
+<div id="toctop">
+    <ul>
+	<li><a href="http://www.digitalmars.com/d/1.0/index.html" title="D Programming Language">D ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/lex.html" title="D Language Specification">Language ...</a></li>
+	<li><a href="phobos.html" title="D Runtime Library">Phobos ...</a></li>
+	<li><a href="http://www.digitalmars.com/d/1.0/comparison.html" title="Language Comparisons">Comparisons ...</a></li>
+    </ul>
+</div>
+</div>
+    <div class="navblock">
+<ul>
+<li><a href="index.html" title="Index of all HTML files">Index</a></li>
+</ul>
+    <ul>
+	<li><a href="object.html" title="root of object hierarchy">object</a></li>
+    </ul>
+    <h2><a href="phobos.html#std" title="D standard modules">std</a></h2>
+    <ul>
+	<li><a href="std.base64.html" title="Encode/decode base64 format">std.base64</a></li>
+	<li><a href="std.bind.html" title="Function argument binding">std.bind</a></li>
+	<li><a href="std.bitarray.html" title="Arrays of bits">std.bitarray</a></li>
+	<li><a href="std.boxer.html" title="Box/unbox types">std.boxer</a></li>
+	<li><a href="std.compiler.html" title="Information about the D compiler implementation">std.compiler</a></li>
+	<li><a href="std.conv.html" title="Conversion of strings to integers">std.conv</a></li>
+	<li><a href="std.cover.html" title="D coverage analyzer">std.cover</a></li>
+	<li><a href="std.cpuid.html" title="CPU identification">std.cpuid</a></li>
+	<li><a href="std.ctype.html" title="Simple character classification">std.ctype</a></li>
+	<li><a href="std.date.html" title="Date and time functions">std.date</a></li>
+	<li><a href="std.demangle.html" title="Demangle D names">std.demangle</a></li>
+	<li><a href="std.file.html" title="Basic file operations">std.file</a></li>
+	<li><a href="std.format.html" title="Formatted conversions of values to strings">std.format</a></li>
+	<li><a href="std.gc.html" title="Control the garbage collector">std.gc</a></li>
+	<li><a href="std.intrinsic.html" title="Compiler built in intrinsic functions">std.intrinsic</a></li>
+	<li><a href="std.math.html" title="the usual math functions">std.math</a></li>
+	<li><a href="std.md5.html" title="Compute MD5 digests">std.md5</a></li>
+	<li><a href="std.metastrings.html" title="Metaprogramming with strings">std.metastrings</a></li>
+	<li><a href="std.mmfile.html" title="Memory mapped files">std.mmfile</a></li>
+	<li><a href="std.openrj.html" title="Basic database">std.openrj</a></li>
+	<li><a href="std.outbuffer.html" title="Assemble data into an array of bytes">std.outbuffer</a></li>
+	<li><a href="std.outofmemory.html" title="Out of memory exception">std.outofmemory</a></li>
+	<li><a href="std.path.html" title="Manipulate file names, path names, etc.">std.path</a></li>
+	<li><a href="std.process.html" title="Create/destroy threads">std.process</a></li>
+	<li><a href="std.random.html" title="Random number generation">std.random</a></li>
+	<li><a href="std.regexp.html" title="regular expressions">std.regexp</a></li>
+	<li><a href="std.signals.html" title="Signals">std.signals</a></li>
+	<li><a href="std.socket.html" title="Sockets">std.socket</a></li>
+	<li><a href="std.socketstream.html" title="Stream for a blocking, connected Socket">std.socketstream</a></li>
+	<li><a href="std.stdint.html" title="Integral types for various purposes">std.stdint</a></li>
+	<li><a href="std.stdio.html" title="Standard I/O">std.stdio</a></li>
+	<li><a href="std.cstream.html" title="Stream I/O">std.cstream</a></li>
+	<li><a href="std.stream.html" title="Stream I/O">std.stream</a></li>
+	<li><a href="std.string.html" title="Basic string operations">std.string</a></li>
+	<li><a href="std.system.html" title="Inquire about the CPU, operating system">std.system</a></li>
+	<li><a href="std.thread.html" title="Thread operations">std.thread</a></li>
+	<li><a href="std.traits.html" title="Type traits">std.traits</a></li>
+	<li><a href="std.typetuple.html" title="Type tuples">std.typetuple</a></li>
+	<li><a href="std.uni.html" title="Unicode classification">std.uni</a></li>
+	<li><a href="std.uri.html" title="Encode and decode Uniform Resource Identifiers (URIs)">std.uri</a></li>
+	<li><a href="std.utf.html" title="Encode and decode utf character encodings">std.utf</a></li>
+	<li><a href="std.zip.html" title="Read/write zip archives">std.zip</a></li>
+	<li><a href="std.zlib.html" title="Compression / Decompression of data">std.zlib</a></li>
+	<li><a href="std.c.fenv.html" title="Floating point environment">std.c.fenv</a></li>
+	<li><a href="std.c.locale.html" title="Locale">std.c.locale</a></li>
+	<li><a href="std.c.math.html" title="Math">std.c.math</a></li>
+	<li><a href="std.c.process.html" title="Process">std.c.process</a></li>
+	<li><a href="std.c.stdarg.html" title="Variadic arguments">std.c.stdarg</a></li>
+	<li><a href="std.c.stddef.html" title="Standard definitions">std.c.stddef</a></li>
+	<li><a href="std.c.stdio.html" title="Standard I/O">std.c.stdio</a></li>
+	<li><a href="std.c.stdlib.html" title="Standard library">std.c.stdlib</a></li>
+	<li><a href="std.c.string.html" title="Strings">std.c.string</a></li>
+	<li><a href="std.c.time.html" title="Time">std.c.time</a></li>
+	<li><a href="std.c.wcharh.html" title="Wide characters">std.c.wcharh</a></li>
+	<li><a href="std.windows.charset.html" title="Conversion to/from Windows character sets">std.windows.charset</a></li>
+	<li><a href="phobos.html#std_windows" title="Modules specific to Windows">std.windows</a></li>
+	<li><a href="phobos.html#std_linux" title="Modules specific to Windows">std.linux</a></li>
+	<li><a href="phobos.html#std_c_windows" title="C Windows API">std.c.windows</a></li>
+	<li><a href="phobos.html#std_c_linux" title="C Linux API">std.c.linux</a></li>
+    </ul>
+</div>
+</div>
+<div id="content">
+    <h1><a href="./htmlsrc/std.socket.html">std.socket</a></h1>
+    
+<b>Notes:</b><br>For Win32 systems, link with ws2_32.lib.<br><br>
+<b>Example:</b><br>See /dmd/samples/d/listener.d.<br><br>
+<b>Authors:</b><br>
+Christopher E. Miller<br><br>
+<dl>
+<dt><big>alias std.c.linux.linux.timeval <a href="./htmlsrc/std.socket.html#L69" title="At line 69.">_ctimeval</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>typedef int32_t <a href="./htmlsrc/std.socket.html#L72" title="At line 72.">socket_t</a>;</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L73" title="At line 73.">_SOCKET_ERROR</a>; [private, const]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L76" title="At line 76.">_lasterr</a>(); [private]</big></dt>
+<dd></dd>
+<dt><big>class <a href="./htmlsrc/std.socket.html#L88" title="At line 88.">SocketException</a> : Exception;</big></dt>
+<dd>
+Base exception thrown from a Socket.<br><br>
+<dl>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L90" title="At line 90.">errorCode</a>;</big></dt>
+<dd>
+Platform-specific error code.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L92" title="At line 92.">this</a>(string <i>msg</i>, int <i>err</i> = 0);</big></dt>
+<dd></dd></dl></dd>
+<dt><big>static <a href="./htmlsrc/std.socket.html#L117" title="At line 117.">this</a>();</big></dt>
+<dd></dd>
+<dt><big>static ~<a href="./htmlsrc/std.socket.html#L133" title="At line 133.">this</a>();</big></dt>
+<dd></dd>
+<dt><big>enum <a href="./htmlsrc/std.socket.html#L144" title="At line 144.">AddressFamily</a>;</big></dt>
+<dd>
+The communication domain used to resolve an address.
+ <br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.socket.html#L146" title="At line 146.">UNSPEC</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L147" title="At line 147.">UNIX</a></big></dt>
+<dd>
+local communication<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L148" title="At line 148.">INET</a></big></dt>
+<dd>
+internet protocol version 4<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L149" title="At line 149.">IPX</a></big></dt>
+<dd>
+novell IPX<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L150" title="At line 150.">APPLETALK</a></big></dt>
+<dd>
+appletalk<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L151" title="At line 151.">INET6</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>enum <a href="./htmlsrc/std.socket.html#L158" title="At line 158.">SocketType</a>;</big></dt>
+<dd>
+Communication semantics
+ <br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.socket.html#L160" title="At line 160.">STREAM</a></big></dt>
+<dd>
+sequenced, reliable, two-way communication-based byte streams<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L161" title="At line 161.">DGRAM</a></big></dt>
+<dd>
+connectionless, unreliable datagrams with a fixed maximum length; data may be lost or arrive out of order<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L162" title="At line 162.">RAW</a></big></dt>
+<dd>
+raw protocol access<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L163" title="At line 163.">RDM</a></big></dt>
+<dd>
+reliably-delivered message datagrams<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L164" title="At line 164.">SEQPACKET</a></big></dt>
+<dd>
+sequenced, reliable, two-way connection-based datagrams with a fixed maximum length<br><br></dd></dl></dd>
+<dt><big>enum <a href="./htmlsrc/std.socket.html#L171" title="At line 171.">ProtocolType</a>;</big></dt>
+<dd>
+Protocol
+ <br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.socket.html#L173" title="At line 173.">IP</a></big></dt>
+<dd>
+internet protocol version 4<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L174" title="At line 174.">ICMP</a></big></dt>
+<dd>
+internet control message protocol<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L175" title="At line 175.">IGMP</a></big></dt>
+<dd>
+internet group management protocol<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L176" title="At line 176.">GGP</a></big></dt>
+<dd>
+gateway to gateway protocol<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L177" title="At line 177.">TCP</a></big></dt>
+<dd>
+transmission control protocol<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L178" title="At line 178.">PUP</a></big></dt>
+<dd>
+PARC universal packet protocol<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L179" title="At line 179.">UDP</a></big></dt>
+<dd>
+user datagram protocol<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L180" title="At line 180.">IDP</a></big></dt>
+<dd>
+Xerox NS protocol<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L181" title="At line 181.">IPV6</a></big></dt>
+<dd>
+internet protocol version 6<br><br></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.socket.html#L188" title="At line 188.">Protocol</a>;</big></dt>
+<dd>
+Protocol is a class for retrieving protocol information.
+ <br><br>
+<dl>
+<dt><big>ProtocolType <a href="./htmlsrc/std.socket.html#L190" title="At line 190.">type</a>;</big></dt>
+<dt><big>string <a href="./htmlsrc/std.socket.html#L191" title="At line 191.">name</a>;</big></dt>
+<dt><big>string[] <a href="./htmlsrc/std.socket.html#L192" title="At line 192.">aliases</a>;</big></dt>
+<dd>
+These members are populated when one of the following functions are called without failure:<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L195" title="At line 195.">populate</a>(protoent* <i>proto</i>);</big></dt>
+
+<dt><big>bool <a href="./htmlsrc/std.socket.html#L222" title="At line 222.">getProtocolByName</a>(string <i>name</i>);</big></dt>
+<dd>
+Returns false on failure <br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.socket.html#L235" title="At line 235.">getProtocolByType</a>(ProtocolType <i>type</i>);</big></dt>
+<dd>
+Returns false on failure <br><br></dd></dl></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L247" title="At line 247.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>class <a href="./htmlsrc/std.socket.html#L262" title="At line 262.">Service</a>;</big></dt>
+<dd>
+Service is a class for retrieving service information.
+ <br><br>
+<dl>
+<dt><big>string <a href="./htmlsrc/std.socket.html#L265" title="At line 265.">name</a>;</big></dt>
+<dt><big>string[] <a href="./htmlsrc/std.socket.html#L266" title="At line 266.">aliases</a>;</big></dt>
+<dt><big>ushort <a href="./htmlsrc/std.socket.html#L267" title="At line 267.">port</a>;</big></dt>
+<dt><big>string <a href="./htmlsrc/std.socket.html#L268" title="At line 268.">protocolName</a>;</big></dt>
+<dd>
+These members are populated when one of the following functions are called without failure: <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L271" title="At line 271.">populate</a>(servent* <i>serv</i>);</big></dt>
+
+<dt><big>bool <a href="./htmlsrc/std.socket.html#L302" title="At line 302.">getServiceByName</a>(string <i>name</i>, string <i>protocolName</i>);</big></dt>
+<dt><big>bool <a href="./htmlsrc/std.socket.html#L315" title="At line 315.">getServiceByName</a>(string <i>name</i>);</big></dt>
+<dt><big>bool <a href="./htmlsrc/std.socket.html#L327" title="At line 327.">getServiceByPort</a>(ushort <i>port</i>, string <i>protocolName</i>);</big></dt>
+<dt><big>bool <a href="./htmlsrc/std.socket.html#L340" title="At line 340.">getServiceByPort</a>(ushort <i>port</i>);</big></dt>
+<dd>
+If a protocol name is omitted, any protocol will be matched.
+ <br><br>
+<b>Returns:</b><br>
+false on failure.<br><br></dd></dl></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L352" title="At line 352.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>class <a href="./htmlsrc/std.socket.html#L374" title="At line 374.">HostException</a> : Exception;</big></dt>
+<dd>
+Base exception thrown from an InternetHost.
+ <br><br>
+<dl>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L376" title="At line 376.">errorCode</a>;</big></dt>
+<dd>
+Platform-specific error code.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L379" title="At line 379.">this</a>(string <i>msg</i>, int <i>err</i> = 0);</big></dt>
+<dd></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.socket.html#L389" title="At line 389.">InternetHost</a>;</big></dt>
+<dd>
+InternetHost is a class for resolving IPv4 addresses.
+ <br><br>
+<dl>
+<dt><big>string <a href="./htmlsrc/std.socket.html#L392" title="At line 392.">name</a>;</big></dt>
+<dt><big>string[] <a href="./htmlsrc/std.socket.html#L393" title="At line 393.">aliases</a>;</big></dt>
+<dt><big>uint32_t[] <a href="./htmlsrc/std.socket.html#L394" title="At line 394.">addrList</a>;</big></dt>
+<dd>
+These members are populated when one of the following functions are called without failure: <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L397" title="At line 397.">validHostent</a>(hostent* <i>he</i>);</big></dt>
+
+<dt><big>void <a href="./htmlsrc/std.socket.html#L404" title="At line 404.">populate</a>(hostent* <i>he</i>);</big></dt>
+
+<dt><big>bool <a href="./htmlsrc/std.socket.html#L455" title="At line 455.">getHostByName</a>(string <i>name</i>);</big></dt>
+<dd>
+Resolve host name. Returns false if unable to resolve.
+	 <br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.socket.html#L470" title="At line 470.">getHostByAddr</a>(uint <i>addr</i>);</big></dt>
+<dd>
+Resolve IPv4 address number. Returns false if unable to resolve.
+	 <br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.socket.html#L488" title="At line 488.">getHostByAddr</a>(string <i>addr</i>);</big></dt>
+<dd>
+Same as previous, but addr is an IPv4 address string in the
+ dotted-decimal form <i>a.b.c.d</i>.
+ Returns false if unable to resolve.
+	 <br><br></dd></dl></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L502" title="At line 502.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>class <a href="./htmlsrc/std.socket.html#L529" title="At line 529.">AddressException</a> : Exception;</big></dt>
+<dd>
+Base exception thrown from an Address.
+ <br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.socket.html#L531" title="At line 531.">this</a>(string <i>msg</i>);</big></dt>
+<dd></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.socket.html#L541" title="At line 541.">Address</a>; [abstract]</big></dt>
+<dd>
+Address is an abstract class for representing a network addresses.
+ <br><br>
+<dl>
+<dt><big>sockaddr* <a href="./htmlsrc/std.socket.html#L543" title="At line 543.">name</a>(); [protected]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L544" title="At line 544.">nameLen</a>(); [protected]</big></dt>
+<dd></dd>
+<dt><big>AddressFamily <a href="./htmlsrc/std.socket.html#L545" title="At line 545.">addressFamily</a>();</big></dt>
+<dd>
+Family of this address.<br><br></dd>
+<dt><big>string <a href="./htmlsrc/std.socket.html#L546" title="At line 546.">toString</a>();</big></dt>
+<dd>
+Human readable string representing this address.<br><br></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.socket.html#L552" title="At line 552.">UnknownAddress</a> : Address;</big></dt>
+<dd>
+<br><br>
+<dl>
+<dt><big>sockaddr <a href="./htmlsrc/std.socket.html#L555" title="At line 555.">sa</a>; [protected]</big></dt>
+<dd></dd>
+<dt><big>sockaddr* <a href="./htmlsrc/std.socket.html#L558" title="At line 558.">name</a>(); [protected]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L564" title="At line 564.">nameLen</a>(); [protected]</big></dt>
+<dd></dd>
+<dt><big>AddressFamily <a href="./htmlsrc/std.socket.html#L571" title="At line 571.">addressFamily</a>(); [public]</big></dt>
+<dd></dd>
+<dt><big>string <a href="./htmlsrc/std.socket.html#L577" title="At line 577.">toString</a>(); [public]</big></dt>
+<dd></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.socket.html#L588" title="At line 588.">InternetAddress</a> : Address;</big></dt>
+<dd>
+InternetAddress is a class that represents an IPv4 &#40;internet protocol version
+ 4&#41; address and port.
+ <br><br>
+<dl>
+<dt><big>sockaddr_in <a href="./htmlsrc/std.socket.html#L591" title="At line 591.">sin</a>; [protected]</big></dt>
+<dd></dd>
+<dt><big>sockaddr* <a href="./htmlsrc/std.socket.html#L594" title="At line 594.">name</a>(); [protected]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L600" title="At line 600.">nameLen</a>(); [protected]</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L606" title="At line 606.">this</a>(); [protected]</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.socket.html#L612" title="At line 612.">ADDR_ANY</a>; [public, const]</big></dt>
+<dd>
+Any IPv4 address number.<br><br></dd>
+<dt><big>uint <a href="./htmlsrc/std.socket.html#L613" title="At line 613.">ADDR_NONE</a>; [public, const]</big></dt>
+<dd>
+An invalid IPv4 address number.<br><br></dd>
+<dt><big>ushort <a href="./htmlsrc/std.socket.html#L614" title="At line 614.">PORT_ANY</a>; [public, const]</big></dt>
+<dd>
+Any IPv4 port number.<br><br></dd>
+<dt><big>AddressFamily <a href="./htmlsrc/std.socket.html#L617" title="At line 617.">addressFamily</a>(); [public]</big></dt>
+<dd>
+Overridden to return AddressFamily.INET.<br><br></dd>
+<dt><big>ushort <a href="./htmlsrc/std.socket.html#L623" title="At line 623.">port</a>(); [public]</big></dt>
+<dd>
+Returns the IPv4 port number.<br><br></dd>
+<dt><big>uint <a href="./htmlsrc/std.socket.html#L629" title="At line 629.">addr</a>(); [public]</big></dt>
+<dd>
+Returns the IPv4 address number.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L641" title="At line 641.">this</a>(string <i>addr</i>, ushort <i>port</i>); [public]</big></dt>
+<dd>
+<b>Params:</b><br>
+<table>
+<tr><td><i>addr</i></td><td>an IPv4 address string in the dotted-decimal form a.b.c.d,
+          or a host name that will be resolved using an InternetHost
+          object.</td></tr>
+<tr><td><i>port</i></td><td>may be PORT_ANY as stated below.</td></tr></table><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L661" title="At line 661.">this</a>(uint <i>addr</i>, ushort <i>port</i>); [public]</big></dt>
+<dt><big><a href="./htmlsrc/std.socket.html#L668" title="At line 668.">this</a>(ushort <i>port</i>); [public]</big></dt>
+<dd>
+Construct a new Address. addr may be ADDR_ANY &#40;default&#41; and port may
+ be PORT_ANY, and the actual numbers may not be known until a connection
+ is made.
+	 <br><br></dd>
+<dt><big>string <a href="./htmlsrc/std.socket.html#L675" title="At line 675.">toAddrString</a>(); [public]</big></dt>
+<dd>
+Human readable string representing the IPv4 address in dotted-decimal form.	<br><br></dd>
+<dt><big>string <a href="./htmlsrc/std.socket.html#L681" title="At line 681.">toPortString</a>(); [public]</big></dt>
+<dd>
+Human readable string representing the IPv4 port.<br><br></dd>
+<dt><big>string <a href="./htmlsrc/std.socket.html#L687" title="At line 687.">toString</a>(); [public]</big></dt>
+<dd>
+Human readable string representing the IPv4 address and port in the form <i>a.b.c.d:e</i>.<br><br></dd>
+<dt><big>uint <a href="./htmlsrc/std.socket.html#L698" title="At line 698.">parse</a>(string <i>addr</i>); [public, static]</big></dt>
+<dd>
+Parse an IPv4 address string in the dotted-decimal form <i>a.b.c.d</i>
+ and return the number.
+ If the string is not a legitimate IPv4 address,
+ ADDR_NONE is returned.
+	 <br><br></dd></dl></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L705" title="At line 705.">unittest</a>;</big></dt>
+<dd></dd>
+<dt><big>class <a href="./htmlsrc/std.socket.html#L713" title="At line 713.">SocketAcceptException</a> : SocketException;</big></dt>
+<dd>
+<br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.socket.html#L715" title="At line 715.">this</a>(string <i>msg</i>, int <i>err</i> = 0);</big></dt>
+<dd></dd></dl></dd>
+<dt><big>enum <a href="./htmlsrc/std.socket.html#L722" title="At line 722.">SocketShutdown</a>;</big></dt>
+<dd>
+How a socket is shutdown:<br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.socket.html#L724" title="At line 724.">RECEIVE</a></big></dt>
+<dd>
+socket receives are disallowed<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L725" title="At line 725.">SEND</a></big></dt>
+<dd>
+socket sends are disallowed<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L726" title="At line 726.">BOTH</a></big></dt>
+<dd>
+both RECEIVE and SEND<br><br></dd></dl></dd>
+<dt><big>enum <a href="./htmlsrc/std.socket.html#L731" title="At line 731.">SocketFlags</a>;</big></dt>
+<dd>
+Flags may be OR'ed together:<br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.socket.html#L733" title="At line 733.">NONE</a></big></dt>
+<dd>
+no flags specified <br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L735" title="At line 735.">OOB</a></big></dt>
+<dd>
+out-of-band stream data<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L736" title="At line 736.">PEEK</a></big></dt>
+<dd>
+peek at incoming data without removing it from the queue, only for receiving<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L737" title="At line 737.">DONTROUTE</a></big></dt>
+<dd>
+data should not be subject to routing; this flag may be ignored. Only for sending<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L738" title="At line 738.">NOSIGNAL</a></big></dt>
+<dd>
+don't send SIGPIPE signal on socket write error and instead return EPIPE<br><br></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.socket.html#L743" title="At line 743.">timeval</a>;</big></dt>
+<dd>
+Duration timeout value.<br><br>
+<dl>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L746" title="At line 746.">seconds</a>;</big></dt>
+<dd>
+Number of seconds.<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L747" title="At line 747.">microseconds</a>;</big></dt>
+<dd>
+Number of additional microseconds.<br><br></dd>
+<dt><big>alias seconds <a href="./htmlsrc/std.socket.html#L752" title="At line 752.">tv_sec</a>; [deprecated]</big></dt>
+<dd></dd>
+<dt><big>alias microseconds <a href="./htmlsrc/std.socket.html#L753" title="At line 753.">tv_usec</a>; [deprecated]</big></dt>
+<dd></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.socket.html#L759" title="At line 759.">SocketSet</a>;</big></dt>
+<dd>
+A collection of sockets for use with Socket.select.<br><br>
+<dl>
+<dt><big>uint <a href="./htmlsrc/std.socket.html#L762" title="At line 762.">maxsockets</a>; [private]</big></dt>
+<dd>
+max desired sockets, the fd_set might be capable of holding more<br><br></dd>
+<dt><big>fd_set <a href="./htmlsrc/std.socket.html#L763" title="At line 763.">set</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L775" title="At line 775.">maxfd</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>uint <a href="./htmlsrc/std.socket.html#L776" title="At line 776.">count</a>; [private]</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L783" title="At line 783.">this</a>(uint <i>max</i>); [public]</big></dt>
+<dd>
+Set the maximum amount of sockets that may be added.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L790" title="At line 790.">this</a>(); [public]</big></dt>
+<dd>
+Uses the default maximum for the system.<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L796" title="At line 796.">reset</a>(); [public]</big></dt>
+<dd>
+Reset the SocketSet so that there are 0 Sockets in the collection.	<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L808" title="At line 808.">add</a>(socket_t <i>s</i>); [public]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L831" title="At line 831.">add</a>(Socket <i>s</i>); [public]</big></dt>
+<dd>
+Add a Socket to the collection. Adding more than the maximum has dangerous side affects.<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L836" title="At line 836.">remove</a>(socket_t <i>s</i>); [public]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L848" title="At line 848.">remove</a>(Socket <i>s</i>); [public]</big></dt>
+<dd>
+Remove this Socket from the collection.<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L853" title="At line 853.">isSet</a>(socket_t <i>s</i>); [public]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L860" title="At line 860.">isSet</a>(Socket <i>s</i>); [public]</big></dt>
+<dd>
+Returns nonzero if this Socket is in the collection.<br><br></dd>
+<dt><big>uint <a href="./htmlsrc/std.socket.html#L867" title="At line 867.">max</a>(); [public]</big></dt>
+<dd>
+Return maximum amount of sockets that can be added, like FD_SETSIZE.<br><br></dd>
+<dt><big>fd_set* <a href="./htmlsrc/std.socket.html#L873" title="At line 873.">toFd_set</a>(); [public]</big></dt>
+<dd></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L879" title="At line 879.">selectn</a>(); [public]</big></dt>
+<dd></dd></dl></dd>
+<dt><big>enum <a href="./htmlsrc/std.socket.html#L894" title="At line 894.">SocketOptionLevel</a>;</big></dt>
+<dd>
+The level at which a socket option is defined:<br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.socket.html#L896" title="At line 896.">SOCKET</a></big></dt>
+<dd>
+socket level<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L897" title="At line 897.">IP</a></big></dt>
+<dd>
+internet protocol version 4 level<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L898" title="At line 898.">ICMP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L899" title="At line 899.">IGMP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L900" title="At line 900.">GGP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L901" title="At line 901.">TCP</a></big></dt>
+<dd>
+transmission control protocol level<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L902" title="At line 902.">PUP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L903" title="At line 903.">UDP</a></big></dt>
+<dd>
+user datagram protocol level<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L904" title="At line 904.">IDP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L905" title="At line 905.">IPV6</a></big></dt>
+<dd>
+internet protocol version 6 level<br><br></dd></dl></dd>
+<dt><big>struct <a href="./htmlsrc/std.socket.html#L909" title="At line 909.">linger</a>;</big></dt>
+<dd>
+Linger information for use with SocketOption.LINGER.<br><br>
+<dl>
+<dt><big>int32_t <a href="./htmlsrc/std.socket.html#L919" title="At line 919.">on</a>;</big></dt>
+<dd></dd>
+<dt><big>int32_t <a href="./htmlsrc/std.socket.html#L920" title="At line 920.">time</a>;</big></dt>
+<dd></dd>
+<dt><big>alias on <a href="./htmlsrc/std.socket.html#L926" title="At line 926.">l_onoff</a>; [deprecated]</big></dt>
+<dd></dd>
+<dt><big>alias time <a href="./htmlsrc/std.socket.html#L927" title="At line 927.">l_linger</a>; [deprecated]</big></dt>
+<dd></dd></dl></dd>
+<dt><big>enum <a href="./htmlsrc/std.socket.html#L933" title="At line 933.">SocketOption</a>;</big></dt>
+<dd>
+Specifies a socket option:<br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.socket.html#L935" title="At line 935.">DEBUG</a></big></dt>
+<dd>
+record debugging information<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L936" title="At line 936.">BROADCAST</a></big></dt>
+<dd>
+allow transmission of broadcast messages<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L937" title="At line 937.">REUSEADDR</a></big></dt>
+<dd>
+allow local reuse of address<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L938" title="At line 938.">LINGER</a></big></dt>
+<dd>
+linger on close if unsent data is present<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L939" title="At line 939.">OOBINLINE</a></big></dt>
+<dd>
+receive out-of-band data in band<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L940" title="At line 940.">SNDBUF</a></big></dt>
+<dd>
+send buffer size<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L941" title="At line 941.">RCVBUF</a></big></dt>
+<dd>
+receive buffer size<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L942" title="At line 942.">DONTROUTE</a></big></dt>
+<dd>
+do not route<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L945" title="At line 945.">TCP_NODELAY</a></big></dt>
+<dd>
+disable the Nagle algorithm for send coalescing<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L948" title="At line 948.">IPV6_UNICAST_HOPS</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L949" title="At line 949.">IPV6_MULTICAST_IF</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L950" title="At line 950.">IPV6_MULTICAST_LOOP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L951" title="At line 951.">IPV6_JOIN_GROUP</a></big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L952" title="At line 952.">IPV6_LEAVE_GROUP</a></big></dt>
+<dd></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.socket.html#L960" title="At line 960.">Socket</a>;</big></dt>
+<dd>
+Socket is a class that creates a network communication endpoint using the
+ Berkeley sockets interface.
+ <br><br>
+<dl>
+<dt><big>socket_t <a href="./htmlsrc/std.socket.html#L963" title="At line 963.">sock</a>; [private]</big></dt>
+<dd></dd>
+<dt><big>AddressFamily <a href="./htmlsrc/std.socket.html#L964" title="At line 964.">_family</a>; [private]</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L971" title="At line 971.">this</a>(); [protected]</big></dt>
+<dd></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L983" title="At line 983.">this</a>(AddressFamily <i>af</i>, SocketType <i>type</i>, ProtocolType <i>protocol</i>); [public]</big></dt>
+<dt><big><a href="./htmlsrc/std.socket.html#L995" title="At line 995.">this</a>(AddressFamily <i>af</i>, SocketType <i>type</i>); [public]</big></dt>
+<dt><big><a href="./htmlsrc/std.socket.html#L1002" title="At line 1002.">this</a>(AddressFamily <i>af</i>, SocketType <i>type</i>, string <i>protocolName</i>); [public]</big></dt>
+<dd>
+Create a blocking socket. If a single protocol type exists to support
+ this socket type within the address family, the ProtocolType may be
+ omitted.
+	 <br><br></dd>
+<dt><big>~<a href="./htmlsrc/std.socket.html#L1012" title="At line 1012.">this</a>(); [public]</big></dt>
+
+<dt><big>socket_t <a href="./htmlsrc/std.socket.html#L1019" title="At line 1019.">handle</a>(); [public]</big></dt>
+<dd>
+Get underlying socket handle.<br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.socket.html#L1031" title="At line 1031.">blocking</a>(); [public]</big></dt>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L1044" title="At line 1044.">blocking</a>(bool <i>byes</i>); [public]</big></dt>
+<dd>
+Get/set socket's blocking flag.<br><br>
+When a socket is blocking, calls to receive&#40;&#41;, accept&#40;&#41;, and send&#40;&#41;
+ will block and wait for data/action.
+ A non-blocking socket will immediately return instead of blocking. 
+	 <br><br></dd>
+<dt><big>AddressFamily <a href="./htmlsrc/std.socket.html#L1073" title="At line 1073.">addressFamily</a>(); [public]</big></dt>
+<dd>
+Get the socket's address family.	<br><br></dd>
+<dt><big>bool <a href="./htmlsrc/std.socket.html#L1079" title="At line 1079.">isAlive</a>(); [public]</big></dt>
+<dd>
+Property that indicates if this is a valid, alive socket.<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L1086" title="At line 1086.">bind</a>(Address <i>addr</i>); [public]</big></dt>
+<dd>
+Associate a local address with this socket.<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L1097" title="At line 1097.">connect</a>(Address <i>to</i>); [public]</big></dt>
+<dd>
+Establish a connection. If the socket is blocking, connect waits for
+ the connection to be made. If the socket is nonblocking, connect
+ returns immediately and the connection attempt is still in progress.
+	 <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L1130" title="At line 1130.">listen</a>(int <i>backlog</i>); [public]</big></dt>
+<dd>
+Listen for an incoming connection. bind must be called before you can
+ listen. The backlog is a request of how many pending incoming
+ connections are queued until accept'ed.
+	 <br><br></dd>
+<dt><big>Socket <a href="./htmlsrc/std.socket.html#L1144" title="At line 1144.">accepting</a>(); [protected]</big></dt>
+<dd>
+Called by accept when a new Socket must be created for a new
+ connection. To use a derived class, override this method and return an
+ instance of your class. The returned Socket's handle must not be set;
+ Socket has a protected constructor this&#40;&#41; to use in this situation.
+	 <br><br></dd>
+<dt><big>Socket <a href="./htmlsrc/std.socket.html#L1154" title="At line 1154.">accept</a>(); [public]</big></dt>
+<dd>
+Accept an incoming connection. If the socket is blocking, accept
+ waits for a connection request. Throws SocketAcceptException if unable
+ to accept. See accepting for use with derived classes.
+	 <br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L1184" title="At line 1184.">shutdown</a>(SocketShutdown <i>how</i>); [public]</big></dt>
+<dd>
+Disables sends and/or receives.<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L1190" title="At line 1190.">_close</a>(socket_t <i>sock</i>); [private, static]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L1210" title="At line 1210.">close</a>(); [public]</big></dt>
+<dd>
+Immediately drop any connections and release socket resources.
+ Calling shutdown before close is recommended for connection-oriented
+ sockets. The Socket object is no longer usable after close.
+	 <br><br></dd>
+<dt><big>Address <a href="./htmlsrc/std.socket.html#L1217" title="At line 1217.">newFamilyObject</a>(); [private]</big></dt>
+<dd></dd>
+<dt><big>string <a href="./htmlsrc/std.socket.html#L1234" title="At line 1234.">hostName</a>(); [public, static]</big></dt>
+<dd>
+Returns the local machine's host name. Idea from mango.<br><br></dd>
+<dt><big>Address <a href="./htmlsrc/std.socket.html#L1243" title="At line 1243.">remoteAddress</a>(); [public]</big></dt>
+<dd>
+Remote endpoint Address.<br><br></dd>
+<dt><big>Address <a href="./htmlsrc/std.socket.html#L1254" title="At line 1254.">localAddress</a>(); [public]</big></dt>
+<dd>
+Local endpoint Address.<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1265" title="At line 1265.">ERROR</a>; [public, const]</big></dt>
+<dd>
+Send or receive error code.<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1273" title="At line 1273.">send</a>(void[] <i>buf</i>, SocketFlags <i>flags</i>); [public]</big></dt>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1281" title="At line 1281.">send</a>(void[] <i>buf</i>); [public]</big></dt>
+<dd>
+Send data on the connection. Returns the number of bytes actually
+ sent, or ERROR on failure. If the socket is blocking and there is no
+ buffer space left, send waits.
+	 <br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1289" title="At line 1289.">sendTo</a>(void[] <i>buf</i>, SocketFlags <i>flags</i>, Address <i>to</i>); [public]</big></dt>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1297" title="At line 1297.">sendTo</a>(void[] <i>buf</i>, Address <i>to</i>); [public]</big></dt>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1305" title="At line 1305.">sendTo</a>(void[] <i>buf</i>, SocketFlags <i>flags</i>); [public]</big></dt>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1315" title="At line 1315.">sendTo</a>(void[] <i>buf</i>); [public]</big></dt>
+<dd>
+Send data to a specific destination Address. If the destination address is not specified, a connection must have been made and that address is used. If the socket is blocking and there is no buffer space left, sendTo waits.
+	 <br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1328" title="At line 1328.">receive</a>(void[] <i>buf</i>, SocketFlags <i>flags</i>); [public]</big></dt>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1338" title="At line 1338.">receive</a>(void[] <i>buf</i>); [public]</big></dt>
+<dd>
+Receive data on the connection. Returns the number of bytes actually
+ received, 0 if the remote side has closed the connection, or ERROR on
+ failure. If the socket is blocking, receive waits until there is data
+ to be received.
+	 <br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1350" title="At line 1350.">receiveFrom</a>(void[] <i>buf</i>, SocketFlags <i>flags</i>, out Address <i>from</i>); [public]</big></dt>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1364" title="At line 1364.">receiveFrom</a>(void[] <i>buf</i>, out Address <i>from</i>); [public]</big></dt>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1372" title="At line 1372.">receiveFrom</a>(void[] <i>buf</i>, SocketFlags <i>flags</i>); [public]</big></dt>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1384" title="At line 1384.">receiveFrom</a>(void[] <i>buf</i>); [public]</big></dt>
+<dd>
+Receive data and get the remote endpoint Address.
+ If the socket is blocking, receiveFrom waits until there is data to
+ be received.
+ <br><br>
+<b>Returns:</b><br>
+the number of bytes actually received,
+ 0 if the remote side has closed the connection, or ERROR on failure.<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1392" title="At line 1392.">getOption</a>(SocketOptionLevel <i>level</i>, SocketOption <i>option</i>, void[] <i>result</i>); [public]</big></dt>
+<dd>
+Get a socket option. Returns the number of bytes written to result.	<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1402" title="At line 1402.">getOption</a>(SocketOptionLevel <i>level</i>, SocketOption <i>option</i>, out int32_t <i>result</i>); [public]</big></dt>
+<dd>
+Common case of getting integer and boolean options.	<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1409" title="At line 1409.">getOption</a>(SocketOptionLevel <i>level</i>, SocketOption <i>option</i>, out linger <i>result</i>); [public]</big></dt>
+<dd>
+Get the linger option.	<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L1416" title="At line 1416.">setOption</a>(SocketOptionLevel <i>level</i>, SocketOption <i>option</i>, void[] <i>value</i>); [public]</big></dt>
+<dd></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L1424" title="At line 1424.">setOption</a>(SocketOptionLevel <i>level</i>, SocketOption <i>option</i>, int32_t <i>value</i>); [public]</big></dt>
+<dd>
+Common case for setting integer and boolean options.<br><br></dd>
+<dt><big>void <a href="./htmlsrc/std.socket.html#L1431" title="At line 1431.">setOption</a>(SocketOptionLevel <i>level</i>, SocketOption <i>option</i>, linger <i>value</i>); [public]</big></dt>
+<dd>
+Set the linger option.<br><br></dd>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1446" title="At line 1446.">select</a>(SocketSet <i>checkRead</i>, SocketSet <i>checkWrite</i>, SocketSet <i>checkError</i>, timeval* <i>tv</i>); [public, static]</big></dt>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1536" title="At line 1536.">select</a>(SocketSet <i>checkRead</i>, SocketSet <i>checkWrite</i>, SocketSet <i>checkError</i>, int <i>microseconds</i>); [public, static]</big></dt>
+<dt><big>int <a href="./htmlsrc/std.socket.html#L1547" title="At line 1547.">select</a>(SocketSet <i>checkRead</i>, SocketSet <i>checkWrite</i>, SocketSet <i>checkError</i>); [public, static]</big></dt>
+<dd>
+Wait for a socket to change status. A wait timeout timeval or int microseconds may be specified; if a timeout is not specified or the timeval is null, the maximum timeout is used. The timeval timeout has an unspecified value when select returns. Returns the number of sockets with status changes, 0 on timeout, or -1 on interruption. If the return value is greater than 0, the SocketSets are updated to only contain the sockets having status changes. For a connecting socket, a write status change means the connection is established and it's able to send. For a listening socket, a read status change means there is an incoming connection request and it's able to accept.
+	 <br><br></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.socket.html#L1564" title="At line 1564.">TcpSocket</a> : Socket;</big></dt>
+<dd>
+TcpSocket is a shortcut class for a TCP Socket.<br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.socket.html#L1567" title="At line 1567.">this</a>(AddressFamily <i>family</i>);</big></dt>
+<dd>
+Constructs a blocking TCP Socket.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L1573" title="At line 1573.">this</a>();</big></dt>
+<dd>
+Constructs a blocking TCP Socket.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L1581" title="At line 1581.">this</a>(Address <i>connectTo</i>);</big></dt>
+<dd>
+Constructs a blocking TCP Socket and connects to an InternetAddress.<br><br></dd></dl></dd>
+<dt><big>class <a href="./htmlsrc/std.socket.html#L1590" title="At line 1590.">UdpSocket</a> : Socket;</big></dt>
+<dd>
+UdpSocket is a shortcut class for a UDP Socket.<br><br>
+<dl>
+<dt><big><a href="./htmlsrc/std.socket.html#L1593" title="At line 1593.">this</a>(AddressFamily <i>family</i>);</big></dt>
+<dd>
+Constructs a blocking UDP Socket.<br><br></dd>
+<dt><big><a href="./htmlsrc/std.socket.html#L1600" title="At line 1600.">this</a>();</big></dt>
+<dd>
+Constructs a blocking UDP Socket.<br><br></dd></dl></dd></dl>
+    <br><br>
+<br><br>
+<!-- Google ad -->
+<script type="text/javascript"><!--
+/**/google_ad_client = "pub-5628673096434613";
+/**/google_ad_width = 728;
+/**/google_ad_height = 90;
+/**/google_ad_format = "728x90_as";
+/**/google_ad_channel ="6203743411";
+/**/google_page_url = document.location;
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+
+<div id="copyright">
+Copyright &copy; 1999-2008 by Digital Mars, All Rights Reserved |
+Page generated by <a href="http://code.google.com/p/dil">dil</a> on Wed Oct  1 23:47:52 2008
+</div>
+
+</body>
+</html>
