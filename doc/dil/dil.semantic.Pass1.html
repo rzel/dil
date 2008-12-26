@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>dil.semantic.Pass1</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "dil.semantic.Pass1";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/dil.semantic.Pass1.html" class="symbol">dil.semantic.Pass1</a></h1>
+  
+<p class="sec_header">Author:</p>Aziz Köksal
+<p class="sec_header">License:</p>GPL3
+ <p><b>Maturity:</b> low.</p>
+<dl>
+<dt class="decl">alias FileConst.PathSeparatorChar <a class="symbol _alias" name="dirSep" href="./htmlsrc/dil.semantic.Pass1.html#L28" kind="alias" beg="28" end="28">dirSep</a>; <a title="Permalink to this symbol" href="#dirSep" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L28">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">class <a class="symbol _class" name="SemanticPass1" href="./htmlsrc/dil.semantic.Pass1.html#L35" kind="class" beg="35" end="552">SemanticPass1</a> : Visitor; <a title="Permalink to this symbol" href="#SemanticPass1" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L35">#</a></dt>
+<dd class="ddef">
+<div class="summary">The first pass is the declaration pass.</div>
+The basic task of this class is to traverse the parse tree,
+ find all kinds of declarations and add them
+ to the symbol tables of their respective scopes.
+<dl>
+<dt class="decl">Scope <a class="symbol _variable" name="SemanticPass1.scop" href="./htmlsrc/dil.semantic.Pass1.html#L37" kind="variable" beg="37" end="37">scop</a>; <a title="Permalink to this symbol" href="#SemanticPass1.scop" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L37">#</a></dt>
+<dd class="ddef">
+<div class="summary">The current scope.</div></dd>
+<dt class="decl">Module <a class="symbol _variable" name="SemanticPass1.modul" href="./htmlsrc/dil.semantic.Pass1.html#L38" kind="variable" beg="38" end="38">modul</a>; <a title="Permalink to this symbol" href="#SemanticPass1.modul" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L38">#</a></dt>
+<dd class="ddef">
+<div class="summary">The module to be semantically checked.</div></dd>
+<dt class="decl">CompilationContext <a class="symbol _variable" name="SemanticPass1.context" href="./htmlsrc/dil.semantic.Pass1.html#L39" kind="variable" beg="39" end="39">context</a>; <a title="Permalink to this symbol" href="#SemanticPass1.context" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L39">#</a></dt>
+<dd class="ddef">
+<div class="summary">The compilation context.</div></dd>
+<dt class="decl">Module delegate(string) <a class="symbol _variable" name="SemanticPass1.importModule" href="./htmlsrc/dil.semantic.Pass1.html#L40" kind="variable" beg="40" end="40">importModule</a>; <a title="Permalink to this symbol" href="#SemanticPass1.importModule" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L40">#</a></dt>
+<dd class="ddef">
+<div class="summary">Called when importing a module.</div></dd>
+<dt class="decl">LinkageType <a class="symbol _variable" name="SemanticPass1.linkageType" href="./htmlsrc/dil.semantic.Pass1.html#L43" kind="variable" beg="43" end="43">linkageType</a>; <a title="Permalink to this symbol" href="#SemanticPass1.linkageType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L43">#</a></dt>
+<dd class="ddef">
+<div class="summary">Current linkage type.</div></dd>
+<dt class="decl">Protection <a class="symbol _variable" name="SemanticPass1.protection" href="./htmlsrc/dil.semantic.Pass1.html#L44" kind="variable" beg="44" end="44">protection</a>; <a title="Permalink to this symbol" href="#SemanticPass1.protection" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L44">#</a></dt>
+<dd class="ddef">
+<div class="summary">Current protection attribute.</div></dd>
+<dt class="decl">StorageClass <a class="symbol _variable" name="SemanticPass1.storageClass" href="./htmlsrc/dil.semantic.Pass1.html#L45" kind="variable" beg="45" end="45">storageClass</a>; <a title="Permalink to this symbol" href="#SemanticPass1.storageClass" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L45">#</a></dt>
+<dd class="ddef">
+<div class="summary">Current storage classes.</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="SemanticPass1.alignSize" href="./htmlsrc/dil.semantic.Pass1.html#L46" kind="variable" beg="46" end="46">alignSize</a>; <a title="Permalink to this symbol" href="#SemanticPass1.alignSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L46">#</a></dt>
+<dd class="ddef">
+<div class="summary">Current align size.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="SemanticPass1.this" href="./htmlsrc/dil.semantic.Pass1.html#L52" kind="ctor" beg="52" end="57">this</a><span class="params">(Module <em>modul</em>, CompilationContext <em>context</em>)</span>; <a title="Permalink to this symbol" href="#SemanticPass1.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L52">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a SemanticPass1 object.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>modul</em></td><td>the module to be processed.</td></tr>
+<tr><td><em>context</em></td><td>the compilation context.</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="SemanticPass1.run" href="./htmlsrc/dil.semantic.Pass1.html#L60" kind="function" beg="60" end="67">run</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#SemanticPass1.run" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L60">#</a></dt>
+<dd class="ddef">
+<div class="summary">Starts processing the module.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SemanticPass1.enterScope" href="./htmlsrc/dil.semantic.Pass1.html#L70" kind="function" beg="70" end="73">enterScope</a><span class="params">(ScopeSymbol <em>s</em>)</span>; <a title="Permalink to this symbol" href="#SemanticPass1.enterScope" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L70">#</a></dt>
+<dd class="ddef">
+<div class="summary">Enters a new scope.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SemanticPass1.exitScope" href="./htmlsrc/dil.semantic.Pass1.html#L76" kind="function" beg="76" end="79">exitScope</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#SemanticPass1.exitScope" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L76">#</a></dt>
+<dd class="ddef">
+<div class="summary">Exits the current scope.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="SemanticPass1.isModuleScope" href="./htmlsrc/dil.semantic.Pass1.html#L82" kind="function" beg="82" end="85">isModuleScope</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#SemanticPass1.isModuleScope" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L82">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if this is the module scope.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SemanticPass1.insert" href="./htmlsrc/dil.semantic.Pass1.html#L88" kind="function" beg="88" end="91">insert</a><span class="params">(Symbol <em>symbol</em>)</span>; <a title="Permalink to this symbol" href="#SemanticPass1.insert" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L88">#</a></dt>
+<dd class="ddef">
+<div class="summary">Inserts a symbol into the current scope.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SemanticPass1.insert:2" href="./htmlsrc/dil.semantic.Pass1.html#L94" kind="function" beg="94" end="103">insert</a><span class="params">(Symbol <em>symbol</em>, Identifier* <em>name</em>)</span>; <a title="Permalink to this symbol" href="#SemanticPass1.insert:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L94">#</a></dt>
+<dd class="ddef">
+<div class="summary">Inserts a symbol into the current scope.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SemanticPass1.insert:3" href="./htmlsrc/dil.semantic.Pass1.html#L106" kind="function" beg="106" end="115">insert</a><span class="params">(Symbol <em>symbol</em>, ScopeSymbol <em>scopeSym</em>)</span>; <a title="Permalink to this symbol" href="#SemanticPass1.insert:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L106">#</a></dt>
+<dd class="ddef">
+<div class="summary">Inserts a symbol into scopeSym.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SemanticPass1.insertOverload" href="./htmlsrc/dil.semantic.Pass1.html#L118" kind="function" beg="118" end="134">insertOverload</a><span class="params">(Symbol <em>sym</em>)</span>; <a title="Permalink to this symbol" href="#SemanticPass1.insertOverload" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L118">#</a></dt>
+<dd class="ddef">
+<div class="summary">Inserts a symbol, overloading on the name, into the current scope.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SemanticPass1.reportSymbolConflict" href="./htmlsrc/dil.semantic.Pass1.html#L137" kind="function" beg="137" end="142">reportSymbolConflict</a><span class="params">(Symbol <em>s1</em>, Symbol <em>s2</em>, Identifier* <em>name</em>)</span>; <a title="Permalink to this symbol" href="#SemanticPass1.reportSymbolConflict" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L137">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reports an error: new symbol s1 conflicts with existing symbol s2.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SemanticPass1.error" href="./htmlsrc/dil.semantic.Pass1.html#L145" kind="function" beg="145" end="152">error</a><span class="params">(Token* <em>token</em>, char[] <em>formatMsg</em>, ...)</span>; <a title="Permalink to this symbol" href="#SemanticPass1.error" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L145">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creates an error report.</div></dd>
+<dt class="decl">class <a class="symbol _class" name="SemanticPass1.Deferred" href="./htmlsrc/dil.semantic.Pass1.html#L156" kind="class" beg="156" end="165">Deferred</a>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.Deferred" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L156">#</a></dt>
+<dd class="ddef">
+<div class="summary">Collects info about nodes which have to be evaluated later.</div>
+<dl>
+<dt class="decl">Node <a class="symbol _variable" name="SemanticPass1.Deferred.node" href="./htmlsrc/dil.semantic.Pass1.html#L158" kind="variable" beg="158" end="158">node</a>; <a title="Permalink to this symbol" href="#SemanticPass1.Deferred.node" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L158">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ScopeSymbol <a class="symbol _variable" name="SemanticPass1.Deferred.symbol" href="./htmlsrc/dil.semantic.Pass1.html#L159" kind="variable" beg="159" end="159">symbol</a>; <a title="Permalink to this symbol" href="#SemanticPass1.Deferred.symbol" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L159">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">LinkageType <a class="symbol _variable" name="SemanticPass1.Deferred.linkageType" href="./htmlsrc/dil.semantic.Pass1.html#L161" kind="variable" beg="161" end="161">linkageType</a>; <a title="Permalink to this symbol" href="#SemanticPass1.Deferred.linkageType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L161">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Protection <a class="symbol _variable" name="SemanticPass1.Deferred.protection" href="./htmlsrc/dil.semantic.Pass1.html#L162" kind="variable" beg="162" end="162">protection</a>; <a title="Permalink to this symbol" href="#SemanticPass1.Deferred.protection" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L162">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">StorageClass <a class="symbol _variable" name="SemanticPass1.Deferred.storageClass" href="./htmlsrc/dil.semantic.Pass1.html#L163" kind="variable" beg="163" end="163">storageClass</a>; <a title="Permalink to this symbol" href="#SemanticPass1.Deferred.storageClass" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L163">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="SemanticPass1.Deferred.alignSize" href="./htmlsrc/dil.semantic.Pass1.html#L164" kind="variable" beg="164" end="164">alignSize</a>; <a title="Permalink to this symbol" href="#SemanticPass1.Deferred.alignSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L164">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">Deferred[] <a class="symbol _variable" name="SemanticPass1.deferred" href="./htmlsrc/dil.semantic.Pass1.html#L171" kind="variable" beg="171" end="171">deferred</a>; <a title="Permalink to this symbol" href="#SemanticPass1.deferred" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L171">#</a></dt>
+<dd class="ddef">
+<div class="summary">List of mixin, static if, static assert and pragma(msg,...) declarations.</div>
+Their analysis must be deferred because they entail
+ evaluation of expressions.</dd>
+<dt class="decl">void <a class="symbol _function" name="SemanticPass1.addDeferred" href="./htmlsrc/dil.semantic.Pass1.html#L174" kind="function" beg="174" end="184">addDeferred</a><span class="params">(Node <em>node</em>)</span>; <a title="Permalink to this symbol" href="#SemanticPass1.addDeferred" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L174">#</a></dt>
+<dd class="ddef">
+<div class="summary">Adds a deferred node to the list.</div></dd>
+<dt class="decl">alias Declaration <a class="symbol _alias" name="SemanticPass1.D" href="./htmlsrc/dil.semantic.Pass1.html#L186" kind="alias" beg="186" end="186">D</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.D" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L186">#</a></dt>
+<dd class="ddef">
+<div class="summary">A handy alias. Saves typing.</div></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit" href="./htmlsrc/dil.semantic.Pass1.html#L190" kind="function" beg="190" end="195">visit</a><span class="params">(CompoundDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L190">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:2" href="./htmlsrc/dil.semantic.Pass1.html#L197" kind="function" beg="197" end="198">visit</a><span class="params">(IllegalDeclaration)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L197">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:3" href="./htmlsrc/dil.semantic.Pass1.html#L206" kind="function" beg="206" end="218">visit</a><span class="params">(ImportDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L206">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:4" href="./htmlsrc/dil.semantic.Pass1.html#L220" kind="function" beg="220" end="223">visit</a><span class="params">(AliasDeclaration <em>ad</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L220">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:5" href="./htmlsrc/dil.semantic.Pass1.html#L225" kind="function" beg="225" end="228">visit</a><span class="params">(TypedefDeclaration <em>td</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L225">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:6" href="./htmlsrc/dil.semantic.Pass1.html#L230" kind="function" beg="230" end="259">visit</a><span class="params">(EnumDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L230">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:7" href="./htmlsrc/dil.semantic.Pass1.html#L261" kind="function" beg="261" end="266">visit</a><span class="params">(EnumMemberDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L261">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:8" href="./htmlsrc/dil.semantic.Pass1.html#L268" kind="function" beg="268" end="281">visit</a><span class="params">(ClassDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L268">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:9" href="./htmlsrc/dil.semantic.Pass1.html#L283" kind="function" beg="283" end="296">visit</a><span class="params">(InterfaceDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L283">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:10" href="./htmlsrc/dil.semantic.Pass1.html#L298" kind="function" beg="298" end="320">visit</a><span class="params">(StructDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L298">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:11" href="./htmlsrc/dil.semantic.Pass1.html#L322" kind="function" beg="322" end="345">visit</a><span class="params">(UnionDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L322">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:12" href="./htmlsrc/dil.semantic.Pass1.html#L347" kind="function" beg="347" end="352">visit</a><span class="params">(ConstructorDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L347">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:13" href="./htmlsrc/dil.semantic.Pass1.html#L354" kind="function" beg="354" end="359">visit</a><span class="params">(StaticConstructorDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L354">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:14" href="./htmlsrc/dil.semantic.Pass1.html#L361" kind="function" beg="361" end="366">visit</a><span class="params">(DestructorDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L361">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:15" href="./htmlsrc/dil.semantic.Pass1.html#L368" kind="function" beg="368" end="373">visit</a><span class="params">(StaticDestructorDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L368">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:16" href="./htmlsrc/dil.semantic.Pass1.html#L375" kind="function" beg="375" end="380">visit</a><span class="params">(FunctionDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L375">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:17" href="./htmlsrc/dil.semantic.Pass1.html#L382" kind="function" beg="382" end="397">visit</a><span class="params">(VariablesDeclaration <em>vd</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L382">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:18" href="./htmlsrc/dil.semantic.Pass1.html#L399" kind="function" beg="399" end="404">visit</a><span class="params">(InvariantDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L399">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:19" href="./htmlsrc/dil.semantic.Pass1.html#L406" kind="function" beg="406" end="411">visit</a><span class="params">(UnittestDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:19" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L406">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:20" href="./htmlsrc/dil.semantic.Pass1.html#L413" kind="function" beg="413" end="433">visit</a><span class="params">(DebugDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:20" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L413">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:21" href="./htmlsrc/dil.semantic.Pass1.html#L435" kind="function" beg="435" end="455">visit</a><span class="params">(VersionDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:21" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L435">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:22" href="./htmlsrc/dil.semantic.Pass1.html#L457" kind="function" beg="457" end="466">visit</a><span class="params">(TemplateDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:22" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L457">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:23" href="./htmlsrc/dil.semantic.Pass1.html#L468" kind="function" beg="468" end="473">visit</a><span class="params">(NewDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:23" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L468">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:24" href="./htmlsrc/dil.semantic.Pass1.html#L475" kind="function" beg="475" end="480">visit</a><span class="params">(DeleteDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:24" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L475">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:25" href="./htmlsrc/dil.semantic.Pass1.html#L484" kind="function" beg="484" end="491">visit</a><span class="params">(ProtectionDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:25" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L484">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:26" href="./htmlsrc/dil.semantic.Pass1.html#L493" kind="function" beg="493" end="500">visit</a><span class="params">(StorageClassDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:26" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L493">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:27" href="./htmlsrc/dil.semantic.Pass1.html#L502" kind="function" beg="502" end="509">visit</a><span class="params">(LinkageDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:27" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L502">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:28" href="./htmlsrc/dil.semantic.Pass1.html#L511" kind="function" beg="511" end="518">visit</a><span class="params">(AlignDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:28" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L511">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:29" href="./htmlsrc/dil.semantic.Pass1.html#L522" kind="function" beg="522" end="526">visit</a><span class="params">(StaticAssertDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:29" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L522">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:30" href="./htmlsrc/dil.semantic.Pass1.html#L528" kind="function" beg="528" end="532">visit</a><span class="params">(StaticIfDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:30" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L528">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:31" href="./htmlsrc/dil.semantic.Pass1.html#L534" kind="function" beg="534" end="538">visit</a><span class="params">(MixinDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:31" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L534">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">D <a class="symbol _function" name="SemanticPass1.visit:32" href="./htmlsrc/dil.semantic.Pass1.html#L540" kind="function" beg="540" end="550">visit</a><span class="params">(PragmaDeclaration <em>d</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SemanticPass1.visit:32" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.semantic.Pass1.html#L540">#</a></dt>
+<dd class="ddef"></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 2007-2008, Aziz Köksal. All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:12:56 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

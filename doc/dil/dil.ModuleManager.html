@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>dil.ModuleManager</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "dil.ModuleManager";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/dil.ModuleManager.html" class="symbol">dil.ModuleManager</a></h1>
+  
+<p class="sec_header">Author:</p>Aziz Köksal
+<p class="sec_header">License:</p>GPL3
+ <p><b>Maturity:</b> high.</p>
+<dl>
+<dt class="decl">alias FileConst.PathSeparatorChar <a class="symbol _alias" name="dirSep" href="./htmlsrc/dil.ModuleManager.html#L20" kind="alias" beg="20" end="20">dirSep</a>; <a title="Permalink to this symbol" href="#dirSep" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L20">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">class <a class="symbol _class" name="ModuleManager" href="./htmlsrc/dil.ModuleManager.html#L23" kind="class" beg="23" end="268">ModuleManager</a>; <a title="Permalink to this symbol" href="#ModuleManager" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L23">#</a></dt>
+<dd class="ddef">
+<div class="summary">Manages loaded modules in a table.</div>
+<dl>
+<dt class="decl">Package <a class="symbol _variable" name="ModuleManager.rootPackage" href="./htmlsrc/dil.ModuleManager.html#L26" kind="variable" beg="26" end="26">rootPackage</a>; <a title="Permalink to this symbol" href="#ModuleManager.rootPackage" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L26">#</a></dt>
+<dd class="ddef">
+<div class="summary">The root package. Contains all other modules and packages.</div></dd>
+<dt class="decl">Package[string] <a class="symbol _variable" name="ModuleManager.packageTable" href="./htmlsrc/dil.ModuleManager.html#L28" kind="variable" beg="28" end="28">packageTable</a>; <a title="Permalink to this symbol" href="#ModuleManager.packageTable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L28">#</a></dt>
+<dd class="ddef">
+<div class="summary">Maps full package names to packages. E.g.: dil.ast</div></dd>
+<dt class="decl">Module[string] <a class="symbol _variable" name="ModuleManager.moduleFQNPathTable" href="./htmlsrc/dil.ModuleManager.html#L30" kind="variable" beg="30" end="30">moduleFQNPathTable</a>; <a title="Permalink to this symbol" href="#ModuleManager.moduleFQNPathTable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L30">#</a></dt>
+<dd class="ddef">
+<div class="summary">Maps FQN paths to modules. E.g.: dil/ast/Node</div></dd>
+<dt class="decl">Module[string] <a class="symbol _variable" name="ModuleManager.absFilePathTable" href="./htmlsrc/dil.ModuleManager.html#L32" kind="variable" beg="32" end="32">absFilePathTable</a>; <a title="Permalink to this symbol" href="#ModuleManager.absFilePathTable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L32">#</a></dt>
+<dd class="ddef">
+<div class="summary">Maps absolute file paths to modules. E.g.: /home/user/dil/src/main.d</div></dd>
+<dt class="decl">Module[] <a class="symbol _variable" name="ModuleManager.loadedModules" href="./htmlsrc/dil.ModuleManager.html#L34" kind="variable" beg="34" end="34">loadedModules</a>; <a title="Permalink to this symbol" href="#ModuleManager.loadedModules" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L34">#</a></dt>
+<dd class="ddef">
+<div class="summary">Loaded modules in sequential order.</div></dd>
+<dt class="decl">Module[] <a class="symbol _variable" name="ModuleManager.orderedModules" href="./htmlsrc/dil.ModuleManager.html#L37" kind="variable" beg="37" end="37">orderedModules</a>; <a title="Permalink to this symbol" href="#ModuleManager.orderedModules" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L37">#</a></dt>
+<dd class="ddef">
+<div class="summary">Loaded modules which are ordered according to the number of
+ import statements in each module (ascending order.)</div></dd>
+<dt class="decl">string[] <a class="symbol _variable" name="ModuleManager.importPaths" href="./htmlsrc/dil.ModuleManager.html#L39" kind="variable" beg="39" end="39">importPaths</a>; <a title="Permalink to this symbol" href="#ModuleManager.importPaths" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L39">#</a></dt>
+<dd class="ddef">
+<div class="summary">Where to look for module files.</div></dd>
+<dt class="decl">Diagnostics <a class="symbol _variable" name="ModuleManager.diag" href="./htmlsrc/dil.ModuleManager.html#L41" kind="variable" beg="41" end="41">diag</a>; <a title="Permalink to this symbol" href="#ModuleManager.diag" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L41">#</a></dt>
+<dd class="ddef">
+<div class="summary">Collects error messages.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="ModuleManager.this" href="./htmlsrc/dil.ModuleManager.html#L44" kind="ctor" beg="44" end="50">this</a><span class="params">(string[] <em>importPaths</em>, Diagnostics <em>diag</em>)</span>; <a title="Permalink to this symbol" href="#ModuleManager.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L44">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a ModuleManager object.</div></dd>
+<dt class="decl">Module <a class="symbol _function" name="ModuleManager.moduleByPath" href="./htmlsrc/dil.ModuleManager.html#L54" kind="function" beg="54" end="60">moduleByPath</a><span class="params">(string <em>moduleFilePath</em>)</span>; <a title="Permalink to this symbol" href="#ModuleManager.moduleByPath" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L54">#</a></dt>
+<dd class="ddef">
+<div class="summary">Looks up a module by its file path. E.g.: "src/dil/ModuleManager.d"
+ Relative paths are made absolute.</div></dd>
+<dt class="decl">Module <a class="symbol _function" name="ModuleManager.moduleByFQN" href="./htmlsrc/dil.ModuleManager.html#L63" kind="function" beg="63" end="68">moduleByFQN</a><span class="params">(string <em>moduleFQNPath</em>)</span>; <a title="Permalink to this symbol" href="#ModuleManager.moduleByFQN" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L63">#</a></dt>
+<dd class="ddef">
+<div class="summary">Looks up a module by its f.q.n. path. E.g.: "dil/ModuleManager"</div></dd>
+<dt class="decl">Module <a class="symbol _function" name="ModuleManager.loadModuleFile" href="./htmlsrc/dil.ModuleManager.html#L71" kind="function" beg="71" end="83">loadModuleFile</a><span class="params">(string <em>moduleFilePath</em>)</span>; <a title="Permalink to this symbol" href="#ModuleManager.loadModuleFile" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L71">#</a></dt>
+<dd class="ddef">
+<div class="summary">Loads a module given a file path.</div></dd>
+<dt class="decl">Module <a class="symbol _function" name="ModuleManager.loadModule" href="./htmlsrc/dil.ModuleManager.html#L86" kind="function" beg="86" end="108">loadModule</a><span class="params">(string <em>moduleFQNPath</em>)</span>; <a title="Permalink to this symbol" href="#ModuleManager.loadModule" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L86">#</a></dt>
+<dd class="ddef">
+<div class="summary">Loads a module given an FQN path. Searches import paths.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ModuleManager.addModule" href="./htmlsrc/dil.ModuleManager.html#L111" kind="function" beg="111" end="142">addModule</a><span class="params">(Module <em>newModule</em>)</span>; <a title="Permalink to this symbol" href="#ModuleManager.addModule" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L111">#</a></dt>
+<dd class="ddef">
+<div class="summary">Inserts the given module into the tables.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="ModuleManager.compareImports" href="./htmlsrc/dil.ModuleManager.html#L146" kind="function" beg="146" end="149">compareImports</a><span class="params">(Module <em>a</em>, Module <em>b</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#ModuleManager.compareImports" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L146">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares the number of imports of two modules.</div>
+<p class="sec_header">Returns:</p>true if a imports less than b.</dd>
+<dt class="decl">void <a class="symbol _function" name="ModuleManager.insertOrdered" href="./htmlsrc/dil.ModuleManager.html#L152" kind="function" beg="152" end="159">insertOrdered</a><span class="params">(Module <em>newModule</em>)</span>; <a title="Permalink to this symbol" href="#ModuleManager.insertOrdered" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L152">#</a></dt>
+<dd class="ddef">
+<div class="summary">Insert a module into the ordered list.</div></dd>
+<dt class="decl">Package <a class="symbol _function" name="ModuleManager.getPackage" href="./htmlsrc/dil.ModuleManager.html#L163" kind="function" beg="163" end="183">getPackage</a><span class="params">(string <em>pckgFQN</em>)</span>; <a title="Permalink to this symbol" href="#ModuleManager.getPackage" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L163">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the package given a f.q. package name.
+ Returns the root package for an empty string.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ModuleManager.splitPackageFQN" href="./htmlsrc/dil.ModuleManager.html#L190" kind="function" beg="190" end="203">splitPackageFQN</a><span class="params">(string <em>pckgFQN</em>, ref string <em>prevFQN</em>, ref string <em>lastName</em>)</span>; <a title="Permalink to this symbol" href="#ModuleManager.splitPackageFQN" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L190">#</a></dt>
+<dd class="ddef">
+<div class="summary">Splits e.g. 'dil.ast.xyz' into 'dil.ast' and 'xyz'.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>pckgFQN</em></td><td>the full package name to be split.</td></tr>
+<tr><td><em>prevFQN</em></td><td>set to 'dil.ast' in the example.</td></tr>
+<tr><td><em>lastName</em></td><td>the last package name; set to 'xyz' in the example.</td></tr></table></dd>
+<dt class="decl">string <a class="symbol _function" name="ModuleManager.getPackageFQN" href="./htmlsrc/dil.ModuleManager.html#L206" kind="function" beg="206" end="214">getPackageFQN</a><span class="params">(string <em>moduleFQNPath</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#ModuleManager.getPackageFQN" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L206">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns e.g. 'dil.ast' for 'dil/ast/Node'.</div></dd>
+<dt class="decl">string <a class="symbol _function" name="ModuleManager.findModuleFilePath" href="./htmlsrc/dil.ModuleManager.html#L218" kind="function" beg="218" end="235">findModuleFilePath</a><span class="params">(string <em>moduleFQNPath</em>, string[] <em>importPaths</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#ModuleManager.findModuleFilePath" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L218">#</a></dt>
+<dd class="ddef">
+<div class="summary">Searches for a module in the file system looking in importPaths.</div>
+<p class="sec_header">Returns:</p>the file path to the module, or null if it wasn't found.</dd>
+<dt class="decl">bool <a class="symbol _function" name="ModuleManager.compareSymbolNames" href="./htmlsrc/dil.ModuleManager.html#L239" kind="function" beg="239" end="242">compareSymbolNames</a><span class="params">(Symbol <em>a</em>, Symbol <em>b</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#ModuleManager.compareSymbolNames" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L239">#</a></dt>
+<dd class="ddef">
+<div class="summary">A predicate for sorting symbols in ascending order.
+ Compares symbol names ignoring case.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ModuleManager.sortPackageTree" href="./htmlsrc/dil.ModuleManager.html#L245" kind="function" beg="245" end="251">sortPackageTree</a><span class="params">(Package <em>pckg</em>)</span>; <a title="Permalink to this symbol" href="#ModuleManager.sortPackageTree" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L245">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sorts the the subpackages and submodules of pckg.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ModuleManager.sortPackageTree:2" href="./htmlsrc/dil.ModuleManager.html#L254" kind="function" beg="254" end="257">sortPackageTree</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ModuleManager.sortPackageTree:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L254">#</a></dt>
+<dd class="ddef">
+<div class="summary">Calls sortPackageTree() with this.rootPackage.</div></dd>
+<dt class="decl">string <a class="symbol _function" name="ModuleManager.absolutePath" href="./htmlsrc/dil.ModuleManager.html#L260" kind="function" beg="260" end="267">absolutePath</a><span class="params">(string <em>path</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#ModuleManager.absolutePath" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ModuleManager.html#L260">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a normalized, absolute path.</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 2007-2008, Aziz Köksal. All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:12:54 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>dil.ast.Visitor</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "dil.ast.Visitor";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/dil.ast.Visitor.html" class="symbol">dil.ast.Visitor</a></h1>
+  
+<p class="sec_header">Author:</p>Aziz Köksal
+<p class="sec_header">License:</p>GPL3
+ <p><b>Maturity:</b> very high.</p>
+<dl>
+<dt class="decl">char[] <a class="symbol _function" name="generateVisitMethods" href="./htmlsrc/dil.ast.Visitor.html#L20" kind="function" beg="20" end="26">generateVisitMethods</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#generateVisitMethods" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L20">#</a></dt>
+<dd class="ddef">
+<div class="summary">Generate visit methods.</div>
+E.g.:
+ <pre class="d_code">
+<span class="i">Declaration</span> <span class="i">visit</span>(<span class="i">ClassDeclaration</span>){<span class="k">return</span> <span class="k">null</span>;};
+<span class="i">Expression</span> <span class="i">visit</span>(<span class="i">CommaExpression</span>){<span class="k">return</span> <span class="k">null</span>;};
+</pre></dd>
+<dt class="decl">template <a class="symbol _template" name="returnType" href="./htmlsrc/dil.ast.Visitor.html#L30" kind="template" beg="30" end="45">returnType</a><span class="tparams">(char[] className)</span>; <a title="Permalink to this symbol" href="#returnType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L30">#</a></dt>
+<dd class="ddef">
+<div class="summary">Gets the appropriate return type for the provided class.</div>
+<dl>
+<dt class="decl">alias Declaration <a class="symbol _alias" name="returnType.returnType" href="./htmlsrc/dil.ast.Visitor.html#L33" kind="alias" beg="33" end="33">returnType</a>; <a title="Permalink to this symbol" href="#returnType.returnType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L33">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">char[] <a class="symbol _function" name="generateDispatchFunctions" href="./htmlsrc/dil.ast.Visitor.html#L62" kind="function" beg="62" end="69">generateDispatchFunctions</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#generateDispatchFunctions" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L62">#</a></dt>
+<dd class="ddef">
+<div class="summary">Generate functions which do the second dispatch.</div>
+E.g.:
+ <pre class="d_code">
+<span class="i">Expression</span> <span class="i">visitCommaExpression</span>(<span class="i">Visitor</span> <span class="i">visitor</span>, <span class="i">CommaExpression</span> <span class="i">c</span>)
+{ <span class="i">visitor</span>.<span class="i">visit</span>(<span class="i">c</span>); <span class="bc">/* Second dispatch. */</span> }
+</pre>
+ The equivalent in the traditional visitor pattern would be:
+ <pre class="d_code">
+<span class="k">class</span> <span class="i">CommaExpression</span> : <span class="i">Expression</span>
+{
+  <span class="k">void</span> <span class="i">accept</span>(<span class="i">Visitor</span> <span class="i">visitor</span>)
+  { <span class="i">visitor</span>.<span class="i">visit</span>(<span class="k">this</span>); }
+}
+</pre></dd>
+<dt class="decl">char[] <a class="symbol _function" name="generateVTable" href="./htmlsrc/dil.ast.Visitor.html#L82" kind="function" beg="82" end="88">generateVTable</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#generateVTable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L82">#</a></dt>
+<dd class="ddef">
+<div class="summary">Generates an array of function pointers.</div>
+<pre class="d_code">
+[
+  <span class="k">cast</span>(<span class="k">void</span>*)&amp;<span class="i">visitCommaExpression</span>,
+  <span class="lc">// etc.</span>
+]
+</pre></dd>
+<dt class="decl">class <a class="symbol _class" name="Visitor" href="./htmlsrc/dil.ast.Visitor.html#L95" kind="class" beg="95" end="158">Visitor</a>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Visitor" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L95">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements a variation of the visitor pattern.</div>
+Inherited by classes that need to traverse a D syntax tree
+ and do computations, transformations and other things on it.
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="Visitor.dispatch_vtable" href="./htmlsrc/dil.ast.Visitor.html#L106" kind="variable" beg="106" end="106">dispatch_vtable</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#Visitor.dispatch_vtable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L106">#</a></dt>
+<dd class="ddef">
+<div class="summary">The table holding function pointers to the second dispatch functions.</div></dd>
+<dt class="decl">Node function(Visitor, Node) <a class="symbol _function" name="Visitor.getDispatchFunction" href="./htmlsrc/dil.ast.Visitor.html#L111" kind="function" beg="111" end="114">getDispatchFunction</a><span class="tparams">()</span><span class="params">(Node <em>n</em>)</span>; <a title="Permalink to this symbol" href="#Visitor.getDispatchFunction" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L111">#</a></dt>
+<dd class="ddef">
+<div class="summary">Looks up the second dispatch function for n and returns that.</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Visitor.dispatch" href="./htmlsrc/dil.ast.Visitor.html#L117" kind="function" beg="117" end="120">dispatch</a><span class="params">(Node <em>n</em>)</span>; <a title="Permalink to this symbol" href="#Visitor.dispatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L117">#</a></dt>
+<dd class="ddef">
+<div class="summary">The main and first dispatch function.</div></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Visitor.visit" href="./htmlsrc/dil.ast.Visitor.html#L123" kind="function" beg="123" end="124">visit</a><span class="params">(Declaration <em>n</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Visitor.visit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L123">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Visitor.visit:2" href="./htmlsrc/dil.ast.Visitor.html#L125" kind="function" beg="125" end="126">visit</a><span class="params">(Statement <em>n</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Visitor.visit:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L125">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Visitor.visit:3" href="./htmlsrc/dil.ast.Visitor.html#L127" kind="function" beg="127" end="128">visit</a><span class="params">(Expression <em>n</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Visitor.visit:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L127">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">TypeNode <a class="symbol _function" name="Visitor.visit:4" href="./htmlsrc/dil.ast.Visitor.html#L129" kind="function" beg="129" end="130">visit</a><span class="params">(TypeNode <em>n</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Visitor.visit:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L129">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Node <a class="symbol _function" name="Visitor.visit:5" href="./htmlsrc/dil.ast.Visitor.html#L131" kind="function" beg="131" end="132">visit</a><span class="params">(Node <em>n</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Visitor.visit:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L131">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Visitor.visitD" href="./htmlsrc/dil.ast.Visitor.html#L134" kind="function" beg="134" end="137">visitD</a><span class="params">(Declaration <em>n</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Visitor.visitD" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L134">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Visitor.visitS" href="./htmlsrc/dil.ast.Visitor.html#L139" kind="function" beg="139" end="142">visitS</a><span class="params">(Statement <em>n</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Visitor.visitS" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L139">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Visitor.visitE" href="./htmlsrc/dil.ast.Visitor.html#L144" kind="function" beg="144" end="147">visitE</a><span class="params">(Expression <em>n</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Visitor.visitE" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L144">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">TypeNode <a class="symbol _function" name="Visitor.visitT" href="./htmlsrc/dil.ast.Visitor.html#L149" kind="function" beg="149" end="152">visitT</a><span class="params">(TypeNode <em>n</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Visitor.visitT" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L149">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Node <a class="symbol _function" name="Visitor.visitN" href="./htmlsrc/dil.ast.Visitor.html#L154" kind="function" beg="154" end="157">visitN</a><span class="params">(Node <em>n</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Visitor.visitN" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.ast.Visitor.html#L154">#</a></dt>
+<dd class="ddef"></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 2007-2008, Aziz Köksal. All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:12:55 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>
