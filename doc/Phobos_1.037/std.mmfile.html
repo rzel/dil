@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.mmfile</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.mmfile";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.mmfile.html" class="symbol">std.mmfile</a></h1>
+  
+<div class="summary">Read and write memory mapped files.</div>
+<dl>
+<dt class="decl">class <a class="symbol _class" name="MmFile" href="./htmlsrc/std.mmfile.html#L66" kind="class" beg="66" end="568">MmFile</a>; <a title="Permalink to this symbol" href="#MmFile" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L66">#</a></dt>
+<dd class="ddef">
+<div class="summary">MmFile objects control the memory mapped file resource.</div>
+<dl>
+<dt class="decl">enum <a class="symbol _enum" name="MmFile.Mode" href="./htmlsrc/std.mmfile.html#L71" kind="enum" beg="71" end="76">Mode</a>; <a title="Permalink to this symbol" href="#MmFile.Mode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L71">#</a></dt>
+<dd class="ddef">
+<div class="summary">The mode the memory mapped file is opened with.</div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="MmFile.Mode.Read" href="./htmlsrc/std.mmfile.html#L72" kind="enummem" beg="72" end="72">Read</a> <a title="Permalink to this symbol" href="#MmFile.Mode.Read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L72">#</a></dt>
+<dd class="ddef">
+<div class="summary">read existing file</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MmFile.Mode.ReadWriteNew" href="./htmlsrc/std.mmfile.html#L73" kind="enummem" beg="73" end="73">ReadWriteNew</a> <a title="Permalink to this symbol" href="#MmFile.Mode.ReadWriteNew" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L73">#</a></dt>
+<dd class="ddef">
+<div class="summary">delete existing file, write new file</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MmFile.Mode.ReadWrite" href="./htmlsrc/std.mmfile.html#L74" kind="enummem" beg="74" end="74">ReadWrite</a> <a title="Permalink to this symbol" href="#MmFile.Mode.ReadWrite" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L74">#</a></dt>
+<dd class="ddef">
+<div class="summary">read/write existing file, create if not existing</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MmFile.Mode.ReadCopyOnWrite" href="./htmlsrc/std.mmfile.html#L75" kind="enummem" beg="75" end="75">ReadCopyOnWrite</a> <a title="Permalink to this symbol" href="#MmFile.Mode.ReadCopyOnWrite" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L75">#</a></dt>
+<dd class="ddef">
+<div class="summary">read/write existing file, copy on write</div></dd></dl></dd>
+<dt class="decl"><a class="symbol _ctor" name="MmFile.this" href="./htmlsrc/std.mmfile.html#L84" kind="ctor" beg="84" end="87">this</a><span class="params">(string <em>filename</em>)</span>; <a title="Permalink to this symbol" href="#MmFile.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L84">#</a></dt>
+<dd class="ddef">
+<div class="summary">Open memory mapped file filename for reading.
+ File is closed when the object instance is deleted.</div>
+<p class="sec_header">Throws:</p>std.file.FileException</dd>
+<dt class="decl"><a class="symbol _ctor" name="MmFile.this:2" href="./htmlsrc/std.mmfile.html#L107" kind="ctor" beg="107" end="325">this</a><span class="params">(string <em>filename</em>, Mode <em>mode</em>, ulong <em>size</em>, void* <em>address</em>, size_t <em>window</em> = 0)</span>; <a title="Permalink to this symbol" href="#MmFile.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L107">#</a></dt>
+<dd class="ddef">
+<div class="summary">Open memory mapped file filename in mode.
+ File is closed when the object instance is deleted.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>filename</em></td><td>name of the file.
+		If null, an anonymous file mapping is created.</td></tr>
+<tr><td><em>mode</em></td><td>access mode defined above.</td></tr>
+<tr><td><em>size</em></td><td>the size of the file. If 0, it is taken to be the
+		size of the existing file.</td></tr>
+<tr><td><em>address</em></td><td>the preferred address to map the file to,
+		although the system is not required to honor it.
+		If null, the system selects the most convenient address.</td></tr>
+<tr><td><em>window</em></td><td>preferred block size of the amount of data to map at one time
+		with 0 meaning map the entire file. The window size must be a
+		multiple of the memory allocation page size.</td></tr></table>
+<p class="sec_header">Throws:</p>std.file.FileException</dd>
+<dt class="decl"><a class="symbol _dtor" name="MmFile.~this" href="./htmlsrc/std.mmfile.html#L330" kind="dtor" beg="330" end="355">~this</a>(); <a title="Permalink to this symbol" href="#MmFile.~this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L330">#</a></dt>
+<dd class="ddef">
+<div class="summary">Flushes pending output and closes the memory mapped file.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="MmFile.flush" href="./htmlsrc/std.mmfile.html#L359" kind="function" beg="359" end="378">flush</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#MmFile.flush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L359">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _function" name="MmFile.length" href="./htmlsrc/std.mmfile.html#L383" kind="function" beg="383" end="387">length</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#MmFile.length" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L383">#</a></dt>
+<dd class="ddef">
+<div class="summary">Gives size in bytes of the memory mapped file.</div></dd>
+<dt class="decl">Mode <a class="symbol _function" name="MmFile.mode" href="./htmlsrc/std.mmfile.html#L392" kind="function" beg="392" end="396">mode</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#MmFile.mode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L392">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read-only property returning the file mode.</div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="MmFile.opSlice" href="./htmlsrc/std.mmfile.html#L401" kind="function" beg="401" end="405">opSlice</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#MmFile.opSlice" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L401">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns entire file contents as an array.</div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="MmFile.opSlice:2" href="./htmlsrc/std.mmfile.html#L410" kind="function" beg="410" end="417">opSlice</a><span class="params">(ulong <em>i1</em>, ulong <em>i2</em>)</span>; <a title="Permalink to this symbol" href="#MmFile.opSlice:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L410">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns slice of file contents as an array.</div></dd>
+<dt class="decl">ubyte <a class="symbol _function" name="MmFile.opIndex" href="./htmlsrc/std.mmfile.html#L422" kind="function" beg="422" end="428">opIndex</a><span class="params">(ulong <em>i</em>)</span>; <a title="Permalink to this symbol" href="#MmFile.opIndex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L422">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns byte at index i in file.</div></dd>
+<dt class="decl">ubyte <a class="symbol _function" name="MmFile.opIndexAssign" href="./htmlsrc/std.mmfile.html#L433" kind="function" beg="433" end="439">opIndexAssign</a><span class="params">(ubyte <em>value</em>, ulong <em>i</em>)</span>; <a title="Permalink to this symbol" href="#MmFile.opIndexAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L433">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sets and returns byte at index i in file to value.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="MmFile.mapped" href="./htmlsrc/std.mmfile.html#L443" kind="function" beg="443" end="448">mapped</a><span class="params">(ulong <em>i</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.mapped" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L443">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="MmFile.unmap" href="./htmlsrc/std.mmfile.html#L451" kind="function" beg="451" end="466">unmap</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.unmap" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L451">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="MmFile.map" href="./htmlsrc/std.mmfile.html#L469" kind="function" beg="469" end="485">map</a><span class="params">(ulong <em>start</em>, size_t <em>len</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.map" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L469">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="MmFile.ensureMapped" href="./htmlsrc/std.mmfile.html#L488" kind="function" beg="488" end="503">ensureMapped</a><span class="params">(ulong <em>i</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.ensureMapped" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L488">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="MmFile.ensureMapped:2" href="./htmlsrc/std.mmfile.html#L506" kind="function" beg="506" end="523">ensureMapped</a><span class="params">(ulong <em>i</em>, ulong <em>j</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.ensureMapped:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L506">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _variable" name="MmFile.filename" href="./htmlsrc/std.mmfile.html#L526" kind="variable" beg="526" end="526">filename</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.filename" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L526">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void[] <a class="symbol _variable" name="MmFile.data" href="./htmlsrc/std.mmfile.html#L527" kind="variable" beg="527" end="527">data</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.data" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L527">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _variable" name="MmFile.start" href="./htmlsrc/std.mmfile.html#L528" kind="variable" beg="528" end="528">start</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.start" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L528">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="MmFile.window" href="./htmlsrc/std.mmfile.html#L529" kind="variable" beg="529" end="529">window</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.window" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L529">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _variable" name="MmFile.size" href="./htmlsrc/std.mmfile.html#L530" kind="variable" beg="530" end="530">size</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L530">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Mode <a class="symbol _variable" name="MmFile.mMode" href="./htmlsrc/std.mmfile.html#L531" kind="variable" beg="531" end="531">mMode</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.mMode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L531">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void* <a class="symbol _variable" name="MmFile.address" href="./htmlsrc/std.mmfile.html#L532" kind="variable" beg="532" end="532">address</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.address" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L532">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _variable" name="MmFile.fd" href="./htmlsrc/std.mmfile.html#L542" kind="variable" beg="542" end="542">fd</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.fd" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L542">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _variable" name="MmFile.prot" href="./htmlsrc/std.mmfile.html#L543" kind="variable" beg="543" end="543">prot</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.prot" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L543">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _variable" name="MmFile.flags" href="./htmlsrc/std.mmfile.html#L544" kind="variable" beg="544" end="544">flags</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.flags" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L544">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _variable" name="MmFile.fmode" href="./htmlsrc/std.mmfile.html#L545" kind="variable" beg="545" end="545">fmode</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.fmode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L545">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="MmFile.errNo" href="./htmlsrc/std.mmfile.html#L553" kind="function" beg="553" end="567">errNo</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MmFile.errNo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L553">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.mmfile.html#L570" kind="unittest" beg="570" end="602">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.mmfile.html#L570">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 03:40:08 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

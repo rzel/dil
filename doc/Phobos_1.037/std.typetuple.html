@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.typetuple</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.typetuple";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.typetuple.html" class="symbol">std.typetuple</a></h1>
+  
+<div class="summary">Templates with which to manipulate type tuples (also known as type lists).</div>
+Some operations on type tuples are built in to the language,
+ such as TL[<i>n</i>] which gets the <i>n</i>th type from the
+ type tuple. TL[<i>lwr</i> .. <i>upr</i>] returns a new type
+ list that is a slice of the old one.
+<p class="sec_header">References:</p>Based on ideas in Table 3.1 from
+	<a href="http://www.amazon.com/exec/obidos/ASIN/0201704315/ref=ase_classicempire/102-2957199-2585768">
+		Modern C++ Design</a>,
+	 Andrei Alexandrescu (Addison-Wesley Professional, 2001)
+<dl>
+<dt class="decl">template <a class="symbol _template" name="TypeTuple" href="./htmlsrc/std.typetuple.html#L49" kind="template" beg="49" end="52">TypeTuple</a><span class="tparams">(TList...)</span>; <a title="Permalink to this symbol" href="#TypeTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L49">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creates a typetuple out of a sequence of zero or more types.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">typetuple</span>;
+<span class="k">alias</span> <span class="i">TypeTuple</span>!(<span class="k">int</span>, <span class="k">double</span>) <span class="i">TL</span>;
+
+<span class="k">int</span> <span class="i">foo</span>(<span class="i">TL</span> <span class="i">td</span>)  <span class="lc">// same as int foo(int, double);</span>
+{
+   <span class="k">return</span> <span class="i">td</span>[<span class="n">0</span>] + <span class="k">cast</span>(<span class="k">int</span>)<span class="i">td</span>[<span class="n">1</span>];
+}
+</pre>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="i">TypeTuple</span>!(<span class="i">TL</span>, <span class="k">char</span>)
+<span class="lc">// is equivalent to:</span>
+<span class="i">TypeTuple</span>!(<span class="k">int</span>, <span class="k">double</span>, <span class="k">char</span>)
+</pre>
+<dl>
+<dt class="decl">alias TList <a class="symbol _alias" name="TypeTuple.TypeTuple" href="./htmlsrc/std.typetuple.html#L51" kind="alias" beg="51" end="51">TypeTuple</a>; <a title="Permalink to this symbol" href="#TypeTuple.TypeTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L51">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="IndexOf" href="./htmlsrc/std.typetuple.html#L71" kind="template" beg="71" end="82">IndexOf</a><span class="tparams">(T, TList...)</span>; <a title="Permalink to this symbol" href="#IndexOf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L71">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the index of the first occurrence of type T in the
+ sequence of zero or more types TList.
+ If not found, -1 is returned.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">typetuple</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+
+<span class="k">void</span> <span class="i">foo</span>()
+{
+   <span class="i">writefln</span>(<span class="sl">"The index of long is "</span>,
+         <span class="i">IndexOf</span>!(<span class="k">long</span>, <span class="i">TypeTuple</span>!(<span class="k">int</span>, <span class="k">long</span>, <span class="k">double</span>)));
+   <span class="lc">// prints: The index of long is 1</span>
+}
+</pre>
+<dl>
+<dt class="decl">int <a class="symbol _variable" name="IndexOf.IndexOf" href="./htmlsrc/std.typetuple.html#L74" kind="variable" beg="74" end="74">IndexOf</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#IndexOf.IndexOf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L74">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="Erase" href="./htmlsrc/std.typetuple.html#L94" kind="template" beg="94" end="102">Erase</a><span class="tparams">(T, TList...)</span>; <a title="Permalink to this symbol" href="#Erase" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L94">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a typetuple created from TList with the first occurrence,
+ if any, of T removed.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="i">Erase</span>!(<span class="k">long</span>, <span class="k">int</span>, <span class="k">long</span>, <span class="k">double</span>, <span class="k">char</span>)
+<span class="lc">// is the same as:</span>
+<span class="i">TypeTuple</span>!(<span class="k">int</span>, <span class="k">double</span>, <span class="k">char</span>)
+</pre>
+<dl>
+<dt class="decl">alias TList <a class="symbol _alias" name="Erase.Erase" href="./htmlsrc/std.typetuple.html#L97" kind="alias" beg="97" end="97">Erase</a>; <a title="Permalink to this symbol" href="#Erase.Erase" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L97">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="EraseAll" href="./htmlsrc/std.typetuple.html#L116" kind="template" beg="116" end="124">EraseAll</a><span class="tparams">(T, TList...)</span>; <a title="Permalink to this symbol" href="#EraseAll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L116">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a typetuple created from TList with the all occurrences,
+ if any, of T removed.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">alias</span> <span class="i">TypeTuple</span>!(<span class="k">int</span>, <span class="k">long</span>, <span class="k">long</span>, <span class="k">int</span>) <span class="i">TL</span>;
+
+<span class="i">EraseAll</span>!(<span class="k">long</span>, <span class="i">TL</span>)
+<span class="lc">// is the same as:</span>
+<span class="i">TypeTuple</span>!(<span class="k">int</span>, <span class="k">int</span>)
+</pre>
+<dl>
+<dt class="decl">alias TList <a class="symbol _alias" name="EraseAll.EraseAll" href="./htmlsrc/std.typetuple.html#L119" kind="alias" beg="119" end="119">EraseAll</a>; <a title="Permalink to this symbol" href="#EraseAll.EraseAll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L119">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="NoDuplicates" href="./htmlsrc/std.typetuple.html#L138" kind="template" beg="138" end="144">NoDuplicates</a><span class="tparams">(TList...)</span>; <a title="Permalink to this symbol" href="#NoDuplicates" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L138">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a typetuple created from TList with the all duplicate
+ types removed.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">alias</span> <span class="i">TypeTuple</span>!(<span class="k">int</span>, <span class="k">long</span>, <span class="k">long</span>, <span class="k">int</span>, <span class="k">float</span>) <span class="i">TL</span>;
+
+<span class="i">NoDuplicates</span>!(<span class="i">TL</span>)
+<span class="lc">// is the same as:</span>
+<span class="i">TypeTuple</span>!(<span class="k">int</span>, <span class="k">long</span>, <span class="k">float</span>)
+</pre>
+<dl>
+<dt class="decl">alias TList <a class="symbol _alias" name="NoDuplicates.NoDuplicates" href="./htmlsrc/std.typetuple.html#L141" kind="alias" beg="141" end="141">NoDuplicates</a>; <a title="Permalink to this symbol" href="#NoDuplicates.NoDuplicates" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L141">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="Replace" href="./htmlsrc/std.typetuple.html#L158" kind="template" beg="158" end="166">Replace</a><span class="tparams">(T, U, TList...)</span>; <a title="Permalink to this symbol" href="#Replace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L158">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a typetuple created from TList with the first occurrence
+ of type T, if found, replaced with type U.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">alias</span> <span class="i">TypeTuple</span>!(<span class="k">int</span>, <span class="k">long</span>, <span class="k">long</span>, <span class="k">int</span>, <span class="k">float</span>) <span class="i">TL</span>;
+
+<span class="i">Replace</span>!(<span class="k">long</span>, <span class="k">char</span>, <span class="i">TL</span>)
+<span class="lc">// is the same as:</span>
+<span class="i">TypeTuple</span>!(<span class="k">int</span>, <span class="k">char</span>, <span class="k">long</span>, <span class="k">int</span>, <span class="k">float</span>)
+</pre>
+<dl>
+<dt class="decl">alias TList <a class="symbol _alias" name="Replace.Replace" href="./htmlsrc/std.typetuple.html#L161" kind="alias" beg="161" end="161">Replace</a>; <a title="Permalink to this symbol" href="#Replace.Replace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L161">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="ReplaceAll" href="./htmlsrc/std.typetuple.html#L180" kind="template" beg="180" end="188">ReplaceAll</a><span class="tparams">(T, U, TList...)</span>; <a title="Permalink to this symbol" href="#ReplaceAll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L180">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a typetuple created from TList with all occurrences
+ of type T, if found, replaced with type U.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">alias</span> <span class="i">TypeTuple</span>!(<span class="k">int</span>, <span class="k">long</span>, <span class="k">long</span>, <span class="k">int</span>, <span class="k">float</span>) <span class="i">TL</span>;
+
+<span class="i">ReplaceAll</span>!(<span class="k">long</span>, <span class="k">char</span>, <span class="i">TL</span>)
+<span class="lc">// is the same as:</span>
+<span class="i">TypeTuple</span>!(<span class="k">int</span>, <span class="k">char</span>, <span class="k">char</span>, <span class="k">int</span>, <span class="k">float</span>)
+</pre>
+<dl>
+<dt class="decl">alias TList <a class="symbol _alias" name="ReplaceAll.ReplaceAll" href="./htmlsrc/std.typetuple.html#L183" kind="alias" beg="183" end="183">ReplaceAll</a>; <a title="Permalink to this symbol" href="#ReplaceAll.ReplaceAll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L183">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="Reverse" href="./htmlsrc/std.typetuple.html#L201" kind="template" beg="201" end="207">Reverse</a><span class="tparams">(TList...)</span>; <a title="Permalink to this symbol" href="#Reverse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L201">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a typetuple created from TList with the order reversed.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">alias</span> <span class="i">TypeTuple</span>!(<span class="k">int</span>, <span class="k">long</span>, <span class="k">long</span>, <span class="k">int</span>, <span class="k">float</span>) <span class="i">TL</span>;
+
+<span class="i">Reverse</span>!(<span class="i">TL</span>)
+<span class="lc">// is the same as:</span>
+<span class="i">TypeTuple</span>!(<span class="k">float</span>, <span class="k">int</span>, <span class="k">long</span>, <span class="k">long</span>, <span class="k">int</span>)
+</pre>
+<dl>
+<dt class="decl">alias TList <a class="symbol _alias" name="Reverse.Reverse" href="./htmlsrc/std.typetuple.html#L204" kind="alias" beg="204" end="204">Reverse</a>; <a title="Permalink to this symbol" href="#Reverse.Reverse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L204">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="MostDerived" href="./htmlsrc/std.typetuple.html#L222" kind="template" beg="222" end="230">MostDerived</a><span class="tparams">(T, TList...)</span>; <a title="Permalink to this symbol" href="#MostDerived" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L222">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the type from TList that is the most derived from type T.
+ If none are found, T is returned.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">class</span> <span class="i">A</span> { }
+<span class="k">class</span> <span class="i">B</span> : <span class="i">A</span> { }
+<span class="k">class</span> <span class="i">C</span> : <span class="i">B</span> { }
+<span class="k">alias</span> <span class="i">TypeTuple</span>!(<span class="i">A</span>, <span class="i">C</span>, <span class="i">B</span>) <span class="i">TL</span>;
+
+<span class="i">MostDerived</span>!(<span class="i">Object</span>, <span class="i">TL</span>) <span class="i">x</span>;  <span class="lc">// x is declared as type C</span>
+</pre>
+<dl>
+<dt class="decl">alias T <a class="symbol _alias" name="MostDerived.MostDerived" href="./htmlsrc/std.typetuple.html#L225" kind="alias" beg="225" end="225">MostDerived</a>; <a title="Permalink to this symbol" href="#MostDerived.MostDerived" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L225">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="DerivedToFront" href="./htmlsrc/std.typetuple.html#L247" kind="template" beg="247" end="256">DerivedToFront</a><span class="tparams">(TList...)</span>; <a title="Permalink to this symbol" href="#DerivedToFront" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L247">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the typetuple TList with the types sorted so that the most
+ derived types come first.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">class</span> <span class="i">A</span> { }
+<span class="k">class</span> <span class="i">B</span> : <span class="i">A</span> { }
+<span class="k">class</span> <span class="i">C</span> : <span class="i">B</span> { }
+<span class="k">alias</span> <span class="i">TypeTuple</span>!(<span class="i">A</span>, <span class="i">C</span>, <span class="i">B</span>) <span class="i">TL</span>;
+
+<span class="i">DerivedToFront</span>!(<span class="i">TL</span>)
+<span class="lc">// is the same as:</span>
+<span class="i">TypeTuple</span>!(<span class="i">C</span>, <span class="i">B</span>, <span class="i">A</span>)
+</pre>
+<dl>
+<dt class="decl">alias TList <a class="symbol _alias" name="DerivedToFront.DerivedToFront" href="./htmlsrc/std.typetuple.html#L250" kind="alias" beg="250" end="250">DerivedToFront</a>; <a title="Permalink to this symbol" href="#DerivedToFront.DerivedToFront" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.typetuple.html#L250">#</a></dt>
+<dd class="ddef"></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Public Domain</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 03:40:13 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

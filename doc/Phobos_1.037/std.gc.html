@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.gc</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.gc";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.gc.html" class="symbol">std.gc</a></h1>
+  
+<div class="summary">The garbage collector normally works behind the scenes without needing any
+ specific interaction. These functions are for advanced applications that
+ benefit from tuning the operation of the collector.</div>
+<dl>
+<dt class="decl">void <a class="symbol _function" name="addRoot" href="./htmlsrc/std.gc.html#L45" kind="function" beg="45" end="45">addRoot</a><span class="params">(void * <em>p</em>)</span>; <a title="Permalink to this symbol" href="#addRoot" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L45">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add p to list of roots. Roots are references to memory allocated by the
+ collector that are maintained in memory outside the collector pool. The garbage
+ collector will by default look for roots in the stacks of each thread, the
+ registers, and the default static data segment. If roots are held elsewhere,
+ use addRoot() or addRange() to tell the collector not to free the memory it
+ points to.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="removeRoot" href="./htmlsrc/std.gc.html#L50" kind="function" beg="50" end="50">removeRoot</a><span class="params">(void * <em>p</em>)</span>; <a title="Permalink to this symbol" href="#removeRoot" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L50">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove p from list of roots.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="addRange" href="./htmlsrc/std.gc.html#L55" kind="function" beg="55" end="55">addRange</a><span class="params">(void * <em>pbot</em>, void * <em>ptop</em>)</span>; <a title="Permalink to this symbol" href="#addRange" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L55">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add range to scan for roots.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="removeRange" href="./htmlsrc/std.gc.html#L60" kind="function" beg="60" end="60">removeRange</a><span class="params">(void * <em>pbot</em>)</span>; <a title="Permalink to this symbol" href="#removeRange" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L60">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove range.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="hasPointers" href="./htmlsrc/std.gc.html#L65" kind="function" beg="65" end="65">hasPointers</a><span class="params">(void* <em>p</em>)</span>; <a title="Permalink to this symbol" href="#hasPointers" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L65">#</a></dt>
+<dd class="ddef">
+<div class="summary">Mark a gc allocated block of memory as possibly containing pointers.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="hasNoPointers" href="./htmlsrc/std.gc.html#L70" kind="function" beg="70" end="70">hasNoPointers</a><span class="params">(void* <em>p</em>)</span>; <a title="Permalink to this symbol" href="#hasNoPointers" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L70">#</a></dt>
+<dd class="ddef">
+<div class="summary">Mark a gc allocated block of memory as definitely NOT containing pointers.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="setTypeInfo" href="./htmlsrc/std.gc.html#L76" kind="function" beg="76" end="76">setTypeInfo</a><span class="params">(TypeInfo <em>ti</em>, void* <em>p</em>)</span>; <a title="Permalink to this symbol" href="#setTypeInfo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L76">#</a></dt>
+<dd class="ddef">
+<div class="summary">Mark a gc allocated block of memory pointed to by p as being populated with
+ an array of TypeInfo ti (as many as will fit).</div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="malloc" href="./htmlsrc/std.gc.html#L84" kind="function" beg="84" end="84">malloc</a><span class="params">(size_t <em>nbytes</em>)</span>; <a title="Permalink to this symbol" href="#malloc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L84">#</a></dt>
+<dd class="ddef">
+<div class="summary">Allocate nbytes of uninitialized data.
+ The allocated memory will be scanned for pointers during
+ a gc collection cycle, unless
+ it is followed by a call to hasNoPointers().</div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="realloc" href="./htmlsrc/std.gc.html#L97" kind="function" beg="97" end="97">realloc</a><span class="params">(void* <em>p</em>, size_t <em>nbytes</em>)</span>; <a title="Permalink to this symbol" href="#realloc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L97">#</a></dt>
+<dd class="ddef">
+<div class="summary">Resize allocated memory block pointed to by p to be at least nbytes long.
+ It will try to resize the memory block in place.
+ If nbytes is 0, the memory block is free'd.
+ If p is null, the memory block is allocated using malloc.
+ The returned array may not be at the same location as the original
+ memory block.
+ The allocated memory will be scanned for pointers during
+ a gc collection cycle, unless
+ it is followed by a call to hasNoPointers().</div></dd>
+<dt class="decl">size_t <a class="symbol _function" name="extend" href="./htmlsrc/std.gc.html#L107" kind="function" beg="107" end="107">extend</a><span class="params">(void* <em>p</em>, size_t <em>minbytes</em>, size_t <em>maxbytes</em>)</span>; <a title="Permalink to this symbol" href="#extend" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L107">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attempt to enlarge the memory block pointed to by p
+ by at least minbytes beyond its current capacity,
+ up to a maximum of maxbytes.</div>
+<p class="sec_header">Returns:</p>0 if could not extend p,
+	total size of entire memory block if successful.</dd>
+<dt class="decl">size_t <a class="symbol _function" name="capacity" href="./htmlsrc/std.gc.html#L116" kind="function" beg="116" end="116">capacity</a><span class="params">(void* <em>p</em>)</span>; <a title="Permalink to this symbol" href="#capacity" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L116">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns capacity (size of the memory block) that p
+ points to the beginning of.
+ If p does not point into the gc memory pool, or does
+ not point to the beginning of an allocated memory block,
+ 0 is returned.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="setV1_0" href="./htmlsrc/std.gc.html#L121" kind="function" beg="121" end="121">setV1_0</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#setV1_0" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L121">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set gc behavior to match that of 1.0.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="fullCollect" href="./htmlsrc/std.gc.html#L136" kind="function" beg="136" end="136">fullCollect</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#fullCollect" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L136">#</a></dt>
+<dd class="ddef">
+<div class="summary">Run a full garbage collection cycle.</div>
+The collector normally runs synchronously with a storage allocation request
+ (i.e. it never happens when in code that does not allocate memory). In some
+ circumstances, for example when a particular task is finished, it is convenient
+ to explicitly run the collector and free up all memory used by that task. It
+ can also be helpful to run a collection before starting a new task that would
+ be annoying if it ran a collection in the middle of that task. Explicitly
+ running a collection can also be done in a separate very low priority thread,
+ so that if the program is idly waiting for input, memory can be cleaned up.</dd>
+<dt class="decl">void <a class="symbol _function" name="genCollect" href="./htmlsrc/std.gc.html#L144" kind="function" beg="144" end="144">genCollect</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#genCollect" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L144">#</a></dt>
+<dd class="ddef">
+<div class="summary">Run a generational garbage collection cycle.
+ Takes less time than a fullcollect(), but isn't
+ as effective.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="genCollectNoStack" href="./htmlsrc/std.gc.html#L146" kind="function" beg="146" end="146">genCollectNoStack</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#genCollectNoStack" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L146">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="minimize" href="./htmlsrc/std.gc.html#L151" kind="function" beg="151" end="151">minimize</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#minimize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L151">#</a></dt>
+<dd class="ddef">
+<div class="summary">Minimizes physical memory usage</div></dd>
+<dt class="decl">void <a class="symbol _function" name="disable" href="./htmlsrc/std.gc.html#L166" kind="function" beg="166" end="166">disable</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#disable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L166">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="enable" href="./htmlsrc/std.gc.html#L171" kind="function" beg="171" end="171">enable</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#enable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L171">#</a></dt>
+<dd class="ddef">
+<div class="summary">disable() temporarily disables garbage collection cycle, enable()
+ then reenables them.</div>
+This is used for brief time critical sections of code, so the amount of time
+ it will take is predictable.
+ If the collector runs out of memory while it is disabled, it will throw an
+ std.outofmemory.OutOfMemoryException.
+ The disable() function calls can be nested, but must be
+ matched with corresponding enable() calls.
+ By default collections are enabled.</dd>
+<dt class="decl">void <a class="symbol _function" name="getStats" href="./htmlsrc/std.gc.html#L173" kind="function" beg="173" end="173">getStats</a><span class="params">(out GCStats <em>stats</em>)</span>; <a title="Permalink to this symbol" href="#getStats" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L173">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void* <a class="symbol _function" name="getGCHandle" href="./htmlsrc/std.gc.html#L179" kind="function" beg="179" end="179">getGCHandle</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#getGCHandle" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L179">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get handle to the collector.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="setGCHandle" href="./htmlsrc/std.gc.html#L185" kind="function" beg="185" end="185">setGCHandle</a><span class="params">(void* <em>p</em>)</span>; <a title="Permalink to this symbol" href="#setGCHandle" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L185">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set handle to the collector.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="endGCHandle" href="./htmlsrc/std.gc.html#L187" kind="function" beg="187" end="187">endGCHandle</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#endGCHandle" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L187">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="gc_init" href="./htmlsrc/std.gc.html#L191" kind="function" beg="191" end="191">gc_init</a><span class="params">()</span>; <span class="attrs">[<span class="linkg">extern(C)</span>]</span> <a title="Permalink to this symbol" href="#gc_init" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L191">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="gc_term" href="./htmlsrc/std.gc.html#L192" kind="function" beg="192" end="192">gc_term</a><span class="params">()</span>; <span class="attrs">[<span class="linkg">extern(C)</span>]</span> <a title="Permalink to this symbol" href="#gc_term" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.gc.html#L192">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 03:40:07 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.string</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.string";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.string.html" class="symbol">std.string</a></h1>
+  
+<div class="summary">String handling functions.</div>
+To copy or not to copy?
+ When a function takes a string as a parameter, and returns a string,
+ is that string the same as the input string, modified in place, or
+ is it a modified copy of the input string? The D array convention is
+ "copy-on-write". This means that if no modifications are done, the
+ original string (or slices of it) can be returned. If any modifications
+ are done, the returned string is a copy.
+<dl>
+<dt class="decl">size_t <a class="symbol _function" name="wcslen" href="./htmlsrc/std.string.html#L46" kind="function" beg="46" end="46">wcslen</a><span class="params">(wchar *)</span>; <span class="attrs">[<span class="linkg">extern(C)</span>]</span> <a title="Permalink to this symbol" href="#wcslen" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L46">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="wcscmp" href="./htmlsrc/std.string.html#L47" kind="function" beg="47" end="47">wcscmp</a><span class="params">(wchar *, wchar *)</span>; <span class="attrs">[<span class="linkg">extern(C)</span>]</span> <a title="Permalink to this symbol" href="#wcscmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L47">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">class <a class="symbol _class" name="StringException" href="./htmlsrc/std.string.html#L53" kind="class" beg="53" end="59">StringException</a> : Exception; <a title="Permalink to this symbol" href="#StringException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L53">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown on errors in string functions.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="StringException.this" href="./htmlsrc/std.string.html#L55" kind="ctor" beg="55" end="58">this</a><span class="params">(char[] <em>msg</em>)</span>; <a title="Permalink to this symbol" href="#StringException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L55">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">char[16] <a class="symbol _variable" name="hexdigits" href="./htmlsrc/std.string.html#L63" kind="variable" beg="63" end="63">hexdigits</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#hexdigits" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L63">#</a></dt>
+<dd class="ddef">
+<div class="summary">0..9A..F</div></dd>
+<dt class="decl">char[10] <a class="symbol _variable" name="digits" href="./htmlsrc/std.string.html#L64" kind="variable" beg="64" end="64">digits</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#digits" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L64">#</a></dt>
+<dd class="ddef">
+<div class="summary">0..9</div></dd>
+<dt class="decl">char[8] <a class="symbol _variable" name="octdigits" href="./htmlsrc/std.string.html#L65" kind="variable" beg="65" end="65">octdigits</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#octdigits" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L65">#</a></dt>
+<dd class="ddef">
+<div class="summary">0..7</div></dd>
+<dt class="decl">char[26] <a class="symbol _variable" name="lowercase" href="./htmlsrc/std.string.html#L66" kind="variable" beg="66" end="66">lowercase</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#lowercase" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L66">#</a></dt>
+<dd class="ddef">
+<div class="summary">a..z</div></dd>
+<dt class="decl">char[26] <a class="symbol _variable" name="uppercase" href="./htmlsrc/std.string.html#L67" kind="variable" beg="67" end="67">uppercase</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#uppercase" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L67">#</a></dt>
+<dd class="ddef">
+<div class="summary">A..Z</div></dd>
+<dt class="decl">char[52] <a class="symbol _variable" name="letters" href="./htmlsrc/std.string.html#L68" kind="variable" beg="68" end="69">letters</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#letters" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L68">#</a></dt>
+<dd class="ddef">
+<div class="summary">A..Za..z</div></dd>
+<dt class="decl">char[6] <a class="symbol _variable" name="whitespace" href="./htmlsrc/std.string.html#L70" kind="variable" beg="70" end="70">whitespace</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#whitespace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L70">#</a></dt>
+<dd class="ddef">
+<div class="summary">ASCII whitespace</div></dd>
+<dt class="decl">dchar <a class="symbol _variable" name="LS" href="./htmlsrc/std.string.html#L72" kind="variable" beg="72" end="72">LS</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#LS" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L72">#</a></dt>
+<dd class="ddef">
+<div class="summary">UTF line separator</div></dd>
+<dt class="decl">dchar <a class="symbol _variable" name="PS" href="./htmlsrc/std.string.html#L73" kind="variable" beg="73" end="73">PS</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#PS" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L73">#</a></dt>
+<dd class="ddef">
+<div class="summary">UTF paragraph separator</div></dd>
+<dt class="decl">char[1] <a class="symbol _variable" name="newline" href="./htmlsrc/std.string.html#L79" kind="variable" beg="79" end="79">newline</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#newline" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L79">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="iswhite" href="./htmlsrc/std.string.html#L85" kind="function" beg="85" end="90">iswhite</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#iswhite" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L85">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if c is whitespace</div></dd>
+<dt class="decl">long <a class="symbol _function" name="atoi" href="./htmlsrc/std.string.html#L96" kind="function" beg="96" end="99">atoi</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#atoi" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L96">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert string to integer.</div></dd>
+<dt class="decl">real <a class="symbol _function" name="atof" href="./htmlsrc/std.string.html#L105" kind="function" beg="105" end="110">atof</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#atof" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L105">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert string to real.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="cmp" href="./htmlsrc/std.string.html#L122" kind="function" beg="122" end="134">cmp</a><span class="params">(char[] <em>s1</em>, char[] <em>s2</em>)</span>; <a title="Permalink to this symbol" href="#cmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L122">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="icmp" href="./htmlsrc/std.string.html#L140" kind="function" beg="140" end="173">icmp</a><span class="params">(char[] <em>s1</em>, char[] <em>s2</em>)</span>; <a title="Permalink to this symbol" href="#icmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L140">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compare two strings. cmp is case sensitive, icmp is case insensitive.</div>
+<p class="sec_header">Returns:</p><table border=1 cellpadding=4 cellspacing=0>
+	<tr><td>< 0</td>	<td>s1 < s2</td></tr>
+	<tr><td>= 0</td>	<td>s1 == s2</td></tr>
+	<tr><td>> 0</td>	<td>s1 > s2</td></tr>
+	</table></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.string.html#L175" kind="unittest" beg="175" end="194">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L175">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char* <a class="symbol _function" name="toCharz" href="./htmlsrc/std.string.html#L201" kind="function" beg="201" end="204">toCharz</a><span class="params">(char[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">deprecated</span>]</span> <a title="Permalink to this symbol" href="#toCharz" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L201">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char* <a class="symbol _function" name="toStringz" href="./htmlsrc/std.string.html#L211" kind="function" beg="211" end="253">toStringz</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toStringz" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L211">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert array of chars s[] to a C-style 0 terminated string.
+ s[] must not contain embedded 0's.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.string.html#L255" kind="unittest" beg="255" end="276">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L255">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="find" href="./htmlsrc/std.string.html#L287" kind="function" beg="287" end="305">find</a><span class="params">(char[] <em>s</em>, dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#find" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L287">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="ifind" href="./htmlsrc/std.string.html#L328" kind="function" beg="328" end="355">ifind</a><span class="params">(char[] <em>s</em>, dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#ifind" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L328">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="rfind" href="./htmlsrc/std.string.html#L388" kind="function" beg="388" end="407">rfind</a><span class="params">(char[] <em>s</em>, dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#rfind" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L388">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="irfind" href="./htmlsrc/std.string.html#L429" kind="function" beg="429" end="465">irfind</a><span class="params">(char[] <em>s</em>, dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#irfind" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L429">#</a></dt>
+<dd class="ddef">
+<div class="summary">find, ifind _find first occurrence of c in string s.
+ rfind, irfind _find last occurrence of c in string s.</div>
+find, rfind are case sensitive; ifind, irfind are case insensitive.
+<p class="sec_header">Returns:</p>Index in s where c is found, -1 if not found.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:3" href="./htmlsrc/std.string.html#L307" kind="unittest" beg="307" end="321">unittest</a>; <a title="Permalink to this symbol" href="#unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L307">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:4" href="./htmlsrc/std.string.html#L357" kind="unittest" beg="357" end="381">unittest</a>; <a title="Permalink to this symbol" href="#unittest:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L357">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:5" href="./htmlsrc/std.string.html#L409" kind="unittest" beg="409" end="423">unittest</a>; <a title="Permalink to this symbol" href="#unittest:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L409">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:6" href="./htmlsrc/std.string.html#L467" kind="unittest" beg="467" end="491">unittest</a>; <a title="Permalink to this symbol" href="#unittest:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L467">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="find:2" href="./htmlsrc/std.string.html#L503" kind="function" beg="503" end="551">find</a><span class="params">(char[] <em>s</em>, char[] <em>sub</em>)</span>; <a title="Permalink to this symbol" href="#find:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L503">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="ifind:2" href="./htmlsrc/std.string.html#L578" kind="function" beg="578" end="636">ifind</a><span class="params">(char[] <em>s</em>, char[] <em>sub</em>)</span>; <a title="Permalink to this symbol" href="#ifind:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L578">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="rfind:2" href="./htmlsrc/std.string.html#L687" kind="function" beg="687" end="717">rfind</a><span class="params">(char[] <em>s</em>, char[] <em>sub</em>)</span>; <a title="Permalink to this symbol" href="#rfind:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L687">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="irfind:2" href="./htmlsrc/std.string.html#L741" kind="function" beg="741" end="783">irfind</a><span class="params">(char[] <em>s</em>, char[] <em>sub</em>)</span>; <a title="Permalink to this symbol" href="#irfind:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L741">#</a></dt>
+<dd class="ddef">
+<div class="summary">find, ifind _find first occurrence of sub[] in string s[].
+ rfind, irfind _find last occurrence of sub[] in string s[].</div>
+find, rfind are case sensitive; ifind, irfind are case insensitive.
+<p class="sec_header">Returns:</p>Index in s where c is found, -1 if not found.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:7" href="./htmlsrc/std.string.html#L554" kind="unittest" beg="554" end="572">unittest</a>; <a title="Permalink to this symbol" href="#unittest:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L554">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:8" href="./htmlsrc/std.string.html#L639" kind="unittest" beg="639" end="681">unittest</a>; <a title="Permalink to this symbol" href="#unittest:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L639">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:9" href="./htmlsrc/std.string.html#L719" kind="unittest" beg="719" end="734">unittest</a>; <a title="Permalink to this symbol" href="#unittest:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L719">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:10" href="./htmlsrc/std.string.html#L785" kind="unittest" beg="785" end="819">unittest</a>; <a title="Permalink to this symbol" href="#unittest:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L785">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="tolower" href="./htmlsrc/std.string.html#L826" kind="function" beg="826" end="869">tolower</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#tolower" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L826">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert string s[] to lower case.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:11" href="./htmlsrc/std.string.html#L871" kind="unittest" beg="871" end="896">unittest</a>; <a title="Permalink to this symbol" href="#unittest:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L871">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="toupper" href="./htmlsrc/std.string.html#L902" kind="function" beg="902" end="945">toupper</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toupper" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L902">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert string s[] to upper case.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:12" href="./htmlsrc/std.string.html#L947" kind="unittest" beg="947" end="967">unittest</a>; <a title="Permalink to this symbol" href="#unittest:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L947">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="capitalize" href="./htmlsrc/std.string.html#L975" kind="function" beg="975" end="1010">capitalize</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#capitalize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L975">#</a></dt>
+<dd class="ddef">
+<div class="summary">Capitalize first character of string s[], convert rest of string s[]
+ to lower case.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:13" href="./htmlsrc/std.string.html#L1013" kind="unittest" beg="1013" end="1032">unittest</a>; <a title="Permalink to this symbol" href="#unittest:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1013">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="capwords" href="./htmlsrc/std.string.html#L1041" kind="function" beg="1041" end="1082">capwords</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#capwords" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1041">#</a></dt>
+<dd class="ddef">
+<div class="summary">Capitalize all words in string s[].
+ Remove leading and trailing whitespace.
+ Replace all sequences of whitespace with a single space.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:14" href="./htmlsrc/std.string.html#L1085" kind="unittest" beg="1085" end="1095">unittest</a>; <a title="Permalink to this symbol" href="#unittest:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1085">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="repeat" href="./htmlsrc/std.string.html#L1101" kind="function" beg="1101" end="1119">repeat</a><span class="params">(char[] <em>s</em>, size_t <em>n</em>)</span>; <a title="Permalink to this symbol" href="#repeat" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1101">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a string that consists of s[] repeated n times.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:15" href="./htmlsrc/std.string.html#L1122" kind="unittest" beg="1122" end="1138">unittest</a>; <a title="Permalink to this symbol" href="#unittest:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1122">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="join" href="./htmlsrc/std.string.html#L1146" kind="function" beg="1146" end="1180">join</a><span class="params">(char[][] <em>words</em>, char[] <em>sep</em>)</span>; <a title="Permalink to this symbol" href="#join" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1146">#</a></dt>
+<dd class="ddef">
+<div class="summary">Concatenate all the strings in words[] together into one
+ string; use sep[] as the separator.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:16" href="./htmlsrc/std.string.html#L1182" kind="unittest" beg="1182" end="1199">unittest</a>; <a title="Permalink to this symbol" href="#unittest:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1182">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[][] <a class="symbol _function" name="split" href="./htmlsrc/std.string.html#L1207" kind="function" beg="1207" end="1242">split</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#split" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1207">#</a></dt>
+<dd class="ddef">
+<div class="summary">Split s[] into an array of words,
+ using whitespace as the delimiter.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:17" href="./htmlsrc/std.string.html#L1244" kind="unittest" beg="1244" end="1260">unittest</a>; <a title="Permalink to this symbol" href="#unittest:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1244">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[][] <a class="symbol _function" name="split:2" href="./htmlsrc/std.string.html#L1268" kind="function" beg="1268" end="1366">split</a><span class="params">(char[] <em>s</em>, char[] <em>delim</em>)</span>; <a title="Permalink to this symbol" href="#split:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1268">#</a></dt>
+<dd class="ddef">
+<div class="summary">Split s[] into an array of words,
+ using delim[] as the delimiter.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:18" href="./htmlsrc/std.string.html#L1368" kind="unittest" beg="1368" end="1428">unittest</a>; <a title="Permalink to this symbol" href="#unittest:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1368">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[][] <a class="symbol _function" name="splitlines" href="./htmlsrc/std.string.html#L1437" kind="function" beg="1437" end="1489">splitlines</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#splitlines" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1437">#</a></dt>
+<dd class="ddef">
+<div class="summary">Split s[] into an array of lines,
+ using CR, LF, or CR-LF as the delimiter.
+ The delimiter is not included in the line.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:19" href="./htmlsrc/std.string.html#L1491" kind="unittest" beg="1491" end="1518">unittest</a>; <a title="Permalink to this symbol" href="#unittest:19" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1491">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="stripl" href="./htmlsrc/std.string.html#L1525" kind="function" beg="1525" end="1535">stripl</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#stripl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1525">#</a></dt>
+<dd class="ddef">
+<div class="summary">Strips leading or trailing whitespace, or both.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="stripr" href="./htmlsrc/std.string.html#L1537" kind="function" beg="1537" end="1547">stripr</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#stripr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1537">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="strip" href="./htmlsrc/std.string.html#L1549" kind="function" beg="1549" end="1552">strip</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#strip" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1549">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:20" href="./htmlsrc/std.string.html#L1554" kind="unittest" beg="1554" end="1563">unittest</a>; <a title="Permalink to this symbol" href="#unittest:20" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1554">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="chomp" href="./htmlsrc/std.string.html#L1570" kind="function" beg="1570" end="1595">chomp</a><span class="params">(char[] <em>s</em>, char[] <em>delimiter</em> = null)</span>; <a title="Permalink to this symbol" href="#chomp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1570">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns s[] sans trailing delimiter[], if any.
+ If delimiter[] is null, removes trailing CR, LF, or CRLF, if any.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:21" href="./htmlsrc/std.string.html#L1597" kind="unittest" beg="1597" end="1631">unittest</a>; <a title="Permalink to this symbol" href="#unittest:21" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1597">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="chop" href="./htmlsrc/std.string.html#L1639" kind="function" beg="1639" end="1658">chop</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#chop" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1639">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns s[] sans trailing character, if there is one.
+ If last two characters are CR-LF, then both are removed.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:22" href="./htmlsrc/std.string.html#L1661" kind="unittest" beg="1661" end="1674">unittest</a>; <a title="Permalink to this symbol" href="#unittest:22" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1661">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="ljustify" href="./htmlsrc/std.string.html#L1682" kind="function" beg="1682" end="1690">ljustify</a><span class="params">(char[] <em>s</em>, int <em>width</em>)</span>; <a title="Permalink to this symbol" href="#ljustify" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1682">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="rjustify" href="./htmlsrc/std.string.html#L1693" kind="function" beg="1693" end="1701">rjustify</a><span class="params">(char[] <em>s</em>, int <em>width</em>)</span>; <a title="Permalink to this symbol" href="#rjustify" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1693">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="center" href="./htmlsrc/std.string.html#L1704" kind="function" beg="1704" end="1714">center</a><span class="params">(char[] <em>s</em>, int <em>width</em>)</span>; <a title="Permalink to this symbol" href="#center" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1704">#</a></dt>
+<dd class="ddef">
+<div class="summary">Left justify, right justify, or center string s[]
+ in field width chars wide.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:23" href="./htmlsrc/std.string.html#L1716" kind="unittest" beg="1716" end="1739">unittest</a>; <a title="Permalink to this symbol" href="#unittest:23" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1716">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="zfill" href="./htmlsrc/std.string.html#L1746" kind="function" beg="1746" end="1754">zfill</a><span class="params">(char[] <em>s</em>, int <em>width</em>)</span>; <a title="Permalink to this symbol" href="#zfill" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1746">#</a></dt>
+<dd class="ddef">
+<div class="summary">Same as rjustify(), but fill with '0's.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="replace" href="./htmlsrc/std.string.html#L1760" kind="function" beg="1760" end="1783">replace</a><span class="params">(char[] <em>s</em>, char[] <em>from</em>, char[] <em>to</em>)</span>; <a title="Permalink to this symbol" href="#replace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1760">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace occurrences of from[] with to[] in s[].</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:24" href="./htmlsrc/std.string.html#L1785" kind="unittest" beg="1785" end="1802">unittest</a>; <a title="Permalink to this symbol" href="#unittest:24" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1785">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="replaceSlice" href="./htmlsrc/std.string.html#L1808" kind="function" beg="1808" end="1829">replaceSlice</a><span class="params">(char[] <em>string</em>, char[] <em>slice</em>, char[] <em>replacement</em>)</span>; <a title="Permalink to this symbol" href="#replaceSlice" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1808">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a _string that is string[] with slice[] replaced by replacement[].</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:25" href="./htmlsrc/std.string.html#L1831" kind="unittest" beg="1831" end="1842">unittest</a>; <a title="Permalink to this symbol" href="#unittest:25" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1831">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="insert" href="./htmlsrc/std.string.html#L1848" kind="function" beg="1848" end="1868">insert</a><span class="params">(char[] <em>s</em>, size_t <em>index</em>, char[] <em>sub</em>)</span>; <a title="Permalink to this symbol" href="#insert" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1848">#</a></dt>
+<dd class="ddef">
+<div class="summary">Insert sub[] into s[] at location index.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:26" href="./htmlsrc/std.string.html#L1870" kind="unittest" beg="1870" end="1896">unittest</a>; <a title="Permalink to this symbol" href="#unittest:26" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1870">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="count" href="./htmlsrc/std.string.html#L1902" kind="function" beg="1902" end="1916">count</a><span class="params">(char[] <em>s</em>, char[] <em>sub</em>)</span>; <a title="Permalink to this symbol" href="#count" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1902">#</a></dt>
+<dd class="ddef">
+<div class="summary">Count up all instances of sub[] in s[].</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:27" href="./htmlsrc/std.string.html#L1918" kind="unittest" beg="1918" end="1928">unittest</a>; <a title="Permalink to this symbol" href="#unittest:27" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1918">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="expandtabs" href="./htmlsrc/std.string.html#L1936" kind="function" beg="1936" end="1988">expandtabs</a><span class="params">(char[] <em>string</em>, int <em>tabsize</em> = 8)</span>; <a title="Permalink to this symbol" href="#expandtabs" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1936">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace tabs with the appropriate number of spaces.
+ tabsize is the distance between tab stops.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:28" href="./htmlsrc/std.string.html#L1990" kind="unittest" beg="1990" end="2014">unittest</a>; <a title="Permalink to this symbol" href="#unittest:28" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L1990">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="entab" href="./htmlsrc/std.string.html#L2025" kind="function" beg="2025" end="2116">entab</a><span class="params">(char[] <em>string</em>, int <em>tabsize</em> = 8)</span>; <a title="Permalink to this symbol" href="#entab" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2025">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace spaces in string with the optimal number of tabs.
+ Trailing spaces or tabs in a line are removed.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>string</em></td><td>String to convert.</td></tr>
+<tr><td><em>tabsize</em></td><td>Tab columns are tabsize spaces apart. tabsize defaults to 8.</td></tr></table></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:29" href="./htmlsrc/std.string.html#L2118" kind="unittest" beg="2118" end="2159">unittest</a>; <a title="Permalink to this symbol" href="#unittest:29" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2118">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="maketrans" href="./htmlsrc/std.string.html#L2168" kind="function" beg="2168" end="2194">maketrans</a><span class="params">(char[] <em>from</em>, char[] <em>to</em>)</span>; <a title="Permalink to this symbol" href="#maketrans" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2168">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct translation table for translate().</div>
+<p class="sec_header">BUG:</p>only works with ASCII</dd>
+<dt class="decl">char[] <a class="symbol _function" name="translate" href="./htmlsrc/std.string.html#L2202" kind="function" beg="2202" end="2239">translate</a><span class="params">(char[] <em>s</em>, char[] <em>transtab</em>, char[] <em>delchars</em>)</span>; <a title="Permalink to this symbol" href="#translate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2202">#</a></dt>
+<dd class="ddef">
+<div class="summary">Translate characters in s[] using table created by maketrans().
+ Delete chars in delchars[].</div>
+<p class="sec_header">BUG:</p>only works with ASCII</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:30" href="./htmlsrc/std.string.html#L2241" kind="unittest" beg="2241" end="2257">unittest</a>; <a title="Permalink to this symbol" href="#unittest:30" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2241">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="toString" href="./htmlsrc/std.string.html#L2263" kind="function" beg="2263" end="2266">toString</a><span class="params">(bool <em>b</em>)</span>; <a title="Permalink to this symbol" href="#toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2263">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:2" href="./htmlsrc/std.string.html#L2269" kind="function" beg="2269" end="2275">toString</a><span class="params">(char <em>c</em>)</span>; <a title="Permalink to this symbol" href="#toString:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2269">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:3" href="./htmlsrc/std.string.html#L2291" kind="function" beg="2291" end="2291">toString</a><span class="params">(ubyte <em>ub</em>)</span>; <a title="Permalink to this symbol" href="#toString:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2291">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:4" href="./htmlsrc/std.string.html#L2292" kind="function" beg="2292" end="2292">toString</a><span class="params">(ushort <em>us</em>)</span>; <a title="Permalink to this symbol" href="#toString:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2292">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:5" href="./htmlsrc/std.string.html#L2295" kind="function" beg="2295" end="2317">toString</a><span class="params">(uint <em>u</em>)</span>; <a title="Permalink to this symbol" href="#toString:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2295">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:6" href="./htmlsrc/std.string.html#L2340" kind="function" beg="2340" end="2358">toString</a><span class="params">(ulong <em>u</em>)</span>; <a title="Permalink to this symbol" href="#toString:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2340">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:7" href="./htmlsrc/std.string.html#L2380" kind="function" beg="2380" end="2380">toString</a><span class="params">(byte <em>b</em>)</span>; <a title="Permalink to this symbol" href="#toString:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2380">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:8" href="./htmlsrc/std.string.html#L2381" kind="function" beg="2381" end="2381">toString</a><span class="params">(short <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toString:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2381">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:9" href="./htmlsrc/std.string.html#L2384" kind="function" beg="2384" end="2404">toString</a><span class="params">(int <em>i</em>)</span>; <a title="Permalink to this symbol" href="#toString:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2384">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:10" href="./htmlsrc/std.string.html#L2439" kind="function" beg="2439" end="2461">toString</a><span class="params">(long <em>i</em>)</span>; <a title="Permalink to this symbol" href="#toString:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2439">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:11" href="./htmlsrc/std.string.html#L2496" kind="function" beg="2496" end="2496">toString</a><span class="params">(float <em>f</em>)</span>; <a title="Permalink to this symbol" href="#toString:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2496">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:12" href="./htmlsrc/std.string.html#L2499" kind="function" beg="2499" end="2505">toString</a><span class="params">(double <em>d</em>)</span>; <a title="Permalink to this symbol" href="#toString:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2499">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:13" href="./htmlsrc/std.string.html#L2508" kind="function" beg="2508" end="2514">toString</a><span class="params">(real <em>r</em>)</span>; <a title="Permalink to this symbol" href="#toString:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2508">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:14" href="./htmlsrc/std.string.html#L2517" kind="function" beg="2517" end="2517">toString</a><span class="params">(ifloat <em>f</em>)</span>; <a title="Permalink to this symbol" href="#toString:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2517">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:15" href="./htmlsrc/std.string.html#L2520" kind="function" beg="2520" end="2526">toString</a><span class="params">(idouble <em>d</em>)</span>; <a title="Permalink to this symbol" href="#toString:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2520">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:16" href="./htmlsrc/std.string.html#L2529" kind="function" beg="2529" end="2535">toString</a><span class="params">(ireal <em>r</em>)</span>; <a title="Permalink to this symbol" href="#toString:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2529">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:17" href="./htmlsrc/std.string.html#L2538" kind="function" beg="2538" end="2538">toString</a><span class="params">(cfloat <em>f</em>)</span>; <a title="Permalink to this symbol" href="#toString:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2538">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:18" href="./htmlsrc/std.string.html#L2541" kind="function" beg="2541" end="2547">toString</a><span class="params">(cdouble <em>d</em>)</span>; <a title="Permalink to this symbol" href="#toString:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2541">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:19" href="./htmlsrc/std.string.html#L2550" kind="function" beg="2550" end="2556">toString</a><span class="params">(creal <em>r</em>)</span>; <a title="Permalink to this symbol" href="#toString:19" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2550">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert to char[].</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:31" href="./htmlsrc/std.string.html#L2277" kind="unittest" beg="2277" end="2289">unittest</a>; <a title="Permalink to this symbol" href="#unittest:31" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2277">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:32" href="./htmlsrc/std.string.html#L2319" kind="unittest" beg="2319" end="2337">unittest</a>; <a title="Permalink to this symbol" href="#unittest:32" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2319">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:33" href="./htmlsrc/std.string.html#L2360" kind="unittest" beg="2360" end="2378">unittest</a>; <a title="Permalink to this symbol" href="#unittest:33" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2360">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:34" href="./htmlsrc/std.string.html#L2406" kind="unittest" beg="2406" end="2436">unittest</a>; <a title="Permalink to this symbol" href="#unittest:34" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2406">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:35" href="./htmlsrc/std.string.html#L2463" kind="unittest" beg="2463" end="2493">unittest</a>; <a title="Permalink to this symbol" href="#unittest:35" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2463">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="toString:20" href="./htmlsrc/std.string.html#L2566" kind="function" beg="2566" end="2576">toString</a><span class="params">(long <em>value</em>, uint <em>radix</em>)</span>; <a title="Permalink to this symbol" href="#toString:20" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2566">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="toString:21" href="./htmlsrc/std.string.html#L2579" kind="function" beg="2579" end="2601">toString</a><span class="params">(ulong <em>value</em>, uint <em>radix</em>)</span>; <a title="Permalink to this symbol" href="#toString:21" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2579">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert value to string in _radix radix.</div>
+radix must be a value from 2 to 36.
+ value is treated as a signed value only if radix is 10.
+ The characters A through Z are used to represent values 10 through 36.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:36" href="./htmlsrc/std.string.html#L2603" kind="unittest" beg="2603" end="2624">unittest</a>; <a title="Permalink to this symbol" href="#unittest:36" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2603">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="toString:22" href="./htmlsrc/std.string.html#L2630" kind="function" beg="2630" end="2633">toString</a><span class="params">(char * <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toString:22" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2630">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert C-style 0 terminated string s to char[] string.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:37" href="./htmlsrc/std.string.html#L2635" kind="unittest" beg="2635" end="2649">unittest</a>; <a title="Permalink to this symbol" href="#unittest:37" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2635">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="format" href="./htmlsrc/std.string.html#L2657" kind="function" beg="2657" end="2668">format</a><span class="params">(...)</span>; <a title="Permalink to this symbol" href="#format" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2657">#</a></dt>
+<dd class="ddef">
+<div class="summary">Format arguments into a string.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="sformat" href="./htmlsrc/std.string.html#L2676" kind="function" beg="2676" end="2702">sformat</a><span class="params">(char[] <em>s</em>, ...)</span>; <a title="Permalink to this symbol" href="#sformat" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2676">#</a></dt>
+<dd class="ddef">
+<div class="summary">Format arguments into string <i>s</i> which must be large
+ enough to hold the result. Throws ArrayBoundsError if it is not.</div>
+<p class="sec_header">Returns:</p>s</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:38" href="./htmlsrc/std.string.html#L2705" kind="unittest" beg="2705" end="2743">unittest</a>; <a title="Permalink to this symbol" href="#unittest:38" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2705">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="inPattern" href="./htmlsrc/std.string.html#L2765" kind="function" beg="2765" end="2794">inPattern</a><span class="params">(dchar <em>c</em>, char[] <em>pattern</em>)</span>; <a title="Permalink to this symbol" href="#inPattern" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2765">#</a></dt>
+<dd class="ddef">
+<div class="summary">See if character c is in the pattern.</div>
+<p class="sec_header">Patterns:</p>A <i>pattern</i> is an array of characters much like a <i>character
+	class</i> in regular expressions. A sequence of characters
+	can be given, such as "abcde". The '-' can represent a range
+	of characters, as "a-e" represents the same pattern as "abcde".
+	"a-fA-F0-9" represents all the hex characters.
+	If the first character of a pattern is '^', then the pattern
+	is negated, i.e. "^0-9" means any character except a digit.
+	The functions inPattern, <b>countchars</b>, <b>removeschars</b>,
+	and <b>squeeze</b>
+	use patterns.
+<p class="sec_header">Note:</p>In the future, the pattern syntax may be improved
+	to be more like regular expression character classes.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:39" href="./htmlsrc/std.string.html#L2797" kind="unittest" beg="2797" end="2841">unittest</a>; <a title="Permalink to this symbol" href="#unittest:39" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2797">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="inPattern:2" href="./htmlsrc/std.string.html#L2848" kind="function" beg="2848" end="2860">inPattern</a><span class="params">(dchar <em>c</em>, char[][] <em>patterns</em>)</span>; <a title="Permalink to this symbol" href="#inPattern:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2848">#</a></dt>
+<dd class="ddef">
+<div class="summary">See if character c is in the intersection of the patterns.</div></dd>
+<dt class="decl">size_t <a class="symbol _function" name="countchars" href="./htmlsrc/std.string.html#L2867" kind="function" beg="2867" end="2876">countchars</a><span class="params">(char[] <em>s</em>, char[] <em>pattern</em>)</span>; <a title="Permalink to this symbol" href="#countchars" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2867">#</a></dt>
+<dd class="ddef">
+<div class="summary">Count characters in s that match pattern.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:40" href="./htmlsrc/std.string.html#L2879" kind="unittest" beg="2879" end="2889">unittest</a>; <a title="Permalink to this symbol" href="#unittest:40" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2879">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="removechars" href="./htmlsrc/std.string.html#L2896" kind="function" beg="2896" end="2921">removechars</a><span class="params">(char[] <em>s</em>, char[] <em>pattern</em>)</span>; <a title="Permalink to this symbol" href="#removechars" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2896">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return string that is s with all characters removed that match pattern.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:41" href="./htmlsrc/std.string.html#L2924" kind="unittest" beg="2924" end="2936">unittest</a>; <a title="Permalink to this symbol" href="#unittest:41" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2924">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="squeeze" href="./htmlsrc/std.string.html#L2945" kind="function" beg="2945" end="2987">squeeze</a><span class="params">(char[] <em>s</em>, char[] <em>pattern</em> = null)</span>; <a title="Permalink to this symbol" href="#squeeze" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2945">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return string where sequences of a character in s[] from pattern[]
+ are replaced with a single instance of that character.
+ If pattern is null, it defaults to all characters.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:42" href="./htmlsrc/std.string.html#L2990" kind="unittest" beg="2990" end="3006">unittest</a>; <a title="Permalink to this symbol" href="#unittest:42" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L2990">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="succ" href="./htmlsrc/std.string.html#L3016" kind="function" beg="3016" end="3057">succ</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#succ" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3016">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return string that is the 'successor' to s[].
+ If the rightmost character is a-zA-Z0-9, it is incremented within
+ its case or digits. If it generates a carry, the process is
+ repeated with the one to its immediate left.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:43" href="./htmlsrc/std.string.html#L3059" kind="unittest" beg="3059" end="3077">unittest</a>; <a title="Permalink to this symbol" href="#unittest:43" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3059">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="tr" href="./htmlsrc/std.string.html#L3110" kind="function" beg="3110" end="3219">tr</a><span class="params">(char[] <em>str</em>, char[] <em>from</em>, char[] <em>to</em>, char[] <em>modifiers</em> = null)</span>; <a title="Permalink to this symbol" href="#tr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3110">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replaces characters in str[] that are in from[]
+ with corresponding characters in to[] and returns the resulting
+ string.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>modifiers</em></td><td>a string of modifier characters</td></tr></table>
+<p class="sec_header">Modifiers:</p><table border=1 cellspacing=0 cellpadding=5>
+		<tr> <th>Modifier <th>Description
+		<tr> <td><b>c</b> <td>Complement the list of characters in from[]
+		<tr> <td><b>d</b> <td>Removes matching characters with no corresponding replacement in to[]
+		<tr> <td><b>s</b> <td>Removes adjacent duplicates in the replaced characters
+		</table>
+<p class="bl"/>
+	If modifier <b>d</b> is present, then the number of characters
+	in to[] may be only 0 or 1.
+<p class="bl"/>
+	If modifier <b>d</b> is not present and to[] is null,
+	then to[] is taken _to be the same as from[].
+<p class="bl"/>
+	If modifier <b>d</b> is not present and to[] is shorter
+	than from[], then to[] is extended by replicating the
+	last character in to[].
+<p class="bl"/>
+	Both from[] and to[] may contain ranges using the <b>-</b>
+	character, for example <b>a-d</b> is synonymous with <b>abcd</b>.
+	Neither accept a leading <b>^</b> as meaning the complement of
+	the string (use the <b>c</b> modifier for that).</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:44" href="./htmlsrc/std.string.html#L3221" kind="unittest" beg="3221" end="3260">unittest</a>; <a title="Permalink to this symbol" href="#unittest:44" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3221">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="isNumeric" href="./htmlsrc/std.string.html#L3310" kind="function" beg="3310" end="3450">isNumeric</a><span class="params">(in char[] <em>s</em>, in bool <em>bAllowSep</em> = false)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#isNumeric" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3310">#</a></dt>
+<dd class="ddef">
+<div class="summary">[in] char[] s can be formatted in the following ways:</div>
+Integer Whole Number:
+ (for byte, ubyte, short, ushort, int, uint, long, and ulong)
+ ['+'|'-']digit(s)[U|L|UL]
+<p class="sec_header">Examples:</p>123, 123UL, 123L, +123U, -123L
+<p class="bl"/>
+ Floating-Point Number:
+ (for float, double, real, ifloat, idouble, and ireal)
+ ['+'|'-']digit(s)[.][digit(s)][[e-|e+]digit(s)][i|f|L|Li|fi]]
+      or [nan|nani|inf|-inf]
+<p class="sec_header">Examples:</p>+123., -123.01, 123.3e-10f, 123.3e-10fi, 123.3e-10L
+ 
+ (for cfloat, cdouble, and creal)
+ ['+'|'-']digit(s)[.][digit(s)][[e-|e+]digit(s)][+]
+         [digit(s)[.][digit(s)][[e-|e+]digit(s)][i|f|L|Li|fi]]
+      or [nan|nani|nan+nani|inf|-inf]
+<p class="sec_header">Examples:</p>nan, -123e-1+456.9e-10Li, +123e+10+456i, 123+456
+<p class="bl"/>
+ [in] bool bAllowSep 
+ False by default, but when set to true it will accept the 
+ separator characters "," and "_" within the string, but these  
+ characters should be stripped from the string before using any 
+ of the conversion functions like toInt(), toFloat(), and etc 
+ else an error will occur.
+<p class="bl"/>
+ Also please note, that no spaces are allowed within the string  
+ anywhere whether it's a leading, trailing, or embedded space(s), 
+ thus they too must be stripped from the string before using this
+ function, or any of the conversion functions.</dd>
+<dt class="decl">bool <a class="symbol _function" name="isNumeric:2" href="./htmlsrc/std.string.html#L3453" kind="function" beg="3453" end="3456">isNumeric</a><span class="params">(...)</span>; <a title="Permalink to this symbol" href="#isNumeric:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3453">#</a></dt>
+<dd class="ddef">
+<div class="summary">Allow any object as a parameter</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="isNumeric:3" href="./htmlsrc/std.string.html#L3459" kind="function" beg="3459" end="3541">isNumeric</a><span class="params">(TypeInfo[] <em>_arguments</em>, va_list <em>_argptr</em>)</span>; <a title="Permalink to this symbol" href="#isNumeric:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3459">#</a></dt>
+<dd class="ddef">
+<div class="summary">Check only the first parameter, all others will be ignored.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:45" href="./htmlsrc/std.string.html#L3543" kind="unittest" beg="3543" end="3594">unittest</a>; <a title="Permalink to this symbol" href="#unittest:45" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3543">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="soundex" href="./htmlsrc/std.string.html#L3625" kind="function" beg="3625" end="3691">soundex</a><span class="params">(char[] <em>string</em>, char[] <em>buffer</em> = null)</span>; <a title="Permalink to this symbol" href="#soundex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3625">#</a></dt>
+<dd class="ddef">
+<div class="summary">Soundex algorithm.</div>
+The Soundex algorithm converts a word into 4 characters
+ based on how the word sounds phonetically. The idea is that
+ two spellings that sound alike will have the same Soundex
+ value, which means that Soundex can be used for fuzzy matching
+ of names.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>string</em></td><td>String to convert to Soundex representation.</td></tr>
+<tr><td><em>buffer</em></td><td>Optional 4 char array to put the resulting Soundex
+		characters into. If null, the return value
+		buffer will be allocated on the heap.</td></tr></table>
+<p class="sec_header">Returns:</p>The four character array with the Soundex result in it.
+	Returns null if there is no Soundex representation for the string.
+<p class="sec_header">See Also:</p><a href="http://en.wikipedia.org/wiki/Soundex">Wikipedia</a>,
+	<a href="http://www.archives.gov/publications/general-info-leaflets/55.html">The Soundex Indexing System</a>
+<p class="sec_header"><span class="red">Bugs:</span></p>Only works well with English names.
+	There are other arguably better Soundex algorithms,
+	but this one is the standard one.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:46" href="./htmlsrc/std.string.html#L3693" kind="unittest" beg="3693" end="3734">unittest</a>; <a title="Permalink to this symbol" href="#unittest:46" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3693">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[][char[]] <a class="symbol _function" name="abbrev" href="./htmlsrc/std.string.html#L3771" kind="function" beg="3771" end="3808">abbrev</a><span class="params">(char[][] <em>values</em>)</span>; <a title="Permalink to this symbol" href="#abbrev" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3771">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct an associative array consisting of all
+ abbreviations that uniquely map to the strings in values.</div>
+This is useful in cases where the user is expected to type
+ in one of a known set of strings, and the program will helpfully
+ autocomplete the string once sufficient characters have been
+ entered that uniquely identify it.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">string</span>;
+
+<span class="k">void</span> <span class="i">main</span>()
+{
+   <span class="k">static</span> <span class="k">char</span>[][] <span class="i">list</span> = [ <span class="sl">"food"</span>, <span class="sl">"foxy"</span> ];
+
+   <span class="k">auto</span> <span class="i">abbrevs</span> = <span class="i">std</span>.<span class="i">string</span>.<span class="i">abbrev</span>(<span class="i">list</span>);
+
+   <span class="k">foreach</span> (<span class="i">key</span>, <span class="i">value</span>; <span class="i">abbrevs</span>)
+   {
+      <span class="i">writefln</span>(<span class="sl">"%s =&gt; %s"</span>, <span class="i">key</span>, <span class="i">value</span>);
+   }
+}
+</pre>
+ produces the output:
+ <pre>
+ fox =&gt; foxy
+ food =&gt; food
+ foxy =&gt; foxy
+ foo =&gt; food
+ </pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:47" href="./htmlsrc/std.string.html#L3810" kind="unittest" beg="3810" end="3835">unittest</a>; <a title="Permalink to this symbol" href="#unittest:47" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3810">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="column" href="./htmlsrc/std.string.html#L3843" kind="function" beg="3843" end="3868">column</a><span class="params">(char[] <em>string</em>, int <em>tabsize</em> = 8)</span>; <a title="Permalink to this symbol" href="#column" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3843">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compute column number after string if string starts in the
+ leftmost column, which is numbered starting from 0.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:48" href="./htmlsrc/std.string.html#L3870" kind="unittest" beg="3870" end="3879">unittest</a>; <a title="Permalink to this symbol" href="#unittest:48" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3870">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="wrap" href="./htmlsrc/std.string.html#L3899" kind="function" beg="3899" end="3963">wrap</a><span class="params">(char[] <em>s</em>, int <em>columns</em> = 80, char[] <em>firstindent</em> = null, char[] <em>indent</em> = null, int <em>tabsize</em> = 8)</span>; <a title="Permalink to this symbol" href="#wrap" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3899">#</a></dt>
+<dd class="ddef">
+<div class="summary">Wrap text into a paragraph.</div>
+The input text string s is formed into a paragraph
+ by breaking it up into a sequence of lines, delineated
+ by \n, such that the number of columns is not exceeded
+ on each line.
+ The last line is terminated with a \n.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>text string to be wrapped</td></tr>
+<tr><td><em>columns</em></td><td>maximum number of _columns in the paragraph</td></tr>
+<tr><td><em>firstindent</em></td><td>string used to _indent first line of the paragraph</td></tr>
+<tr><td><em>indent</em></td><td>string to use to _indent following lines of the paragraph</td></tr>
+<tr><td><em>tabsize</em></td><td>column spacing of tabs</td></tr></table>
+<p class="sec_header">Returns:</p>The resulting paragraph.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:49" href="./htmlsrc/std.string.html#L3965" kind="unittest" beg="3965" end="3978">unittest</a>; <a title="Permalink to this symbol" href="#unittest:49" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3965">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="isEmail" href="./htmlsrc/std.string.html#L3989" kind="function" beg="3989" end="4035">isEmail</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#isEmail" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L3989">#</a></dt>
+<dd class="ddef">
+<div class="summary">Does string s[] start with an email address?</div>
+<p class="sec_header">Returns:</p>null	it does not
+	char[]	it does, and this is the slice of s[] that is that email address
+<p class="sec_header">References:</p>RFC2822</dd>
+<dt class="decl">char[] <a class="symbol _function" name="isURL" href="./htmlsrc/std.string.html#L4045" kind="function" beg="4045" end="4094">isURL</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#isURL" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.string.html#L4045">#</a></dt>
+<dd class="ddef">
+<div class="summary">Does string s[] start with a URL?</div>
+<p class="sec_header">Returns:</p>null	it does not
+	char[]	it does, and this is the slice of s[] that is that URL</dd></dl>
+</div>
+<div id="footer">
+  <p>Public Domain</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 03:40:12 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

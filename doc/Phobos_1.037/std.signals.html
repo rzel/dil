@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.signals</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.signals";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.signals.html" class="symbol">std.signals</a></h1>
+  
+<div class="summary">Signals and Slots are an implementation of the Observer Pattern.
+ Essentially, when a Signal is emitted, a list of connected Observers
+ (called slots) are called.</div>
+There have been several D implementations of Signals and Slots.
+ This version makes use of several new features in D, which make
+ using it simpler and less error prone. In particular, it is no
+ longer necessary to instrument the slots.
+<p class="sec_header">References:</p><a href="http://scottcollins.net/articles/a-deeper-look-at-_signals-and-slots.html">A Deeper Look at Signals and Slots</a><br/>
+	<a href="http://en.wikipedia.org/wiki/Observer_pattern">Observer pattern</a><br/>
+	<a href="http://en.wikipedia.org/wiki/Signals_and_slots">Wikipedia</a><br/>
+	<a href="http://boost.org/doc/html/signals.html">Boost Signals</a><br/>
+	<a href="http://doc.trolltech.com/4.1/signalsandslots.html">Qt</a><br/>
+<p class="bl"/>
+	There has been a great deal of discussion in the D newsgroups
+	over this, and several implementations:
+<p class="bl"/>
+	<a href="http://www.digitalmars.com/d/archives/digitalmars/D/announce/signal_slots_library_4825.html">signal slots library</a><br/>
+	<a href="http://www.digitalmars.com/d/archives/digitalmars/D/Signals_and_Slots_in_D_42387.html">Signals and Slots in D</a><br/>
+	<a href="http://www.digitalmars.com/d/archives/digitalmars/D/Dynamic_binding_--_Qt_s_Signals_and_Slots_vs_Objective-C_42260.html">Dynamic binding -- Qt's Signals and Slots vs Objective-C</a><br/>
+	<a href="http://www.digitalmars.com/d/archives/digitalmars/D/Dissecting_the_SS_42377.html">Dissecting the SS</a><br/>
+	<a href="http://www.digitalmars.com/d/archives/digitalmars/D/dwt/about_harmonia_454.html">about harmonia</a><br/>
+	<a href="http://www.digitalmars.com/d/archives/digitalmars/D/announce/1502.html">Another event handling module</a><br/>
+	<a href="http://www.digitalmars.com/d/archives/digitalmars/D/41825.html">Suggestion: signal/slot mechanism</a><br/>
+	<a href="http://www.digitalmars.com/d/archives/digitalmars/D/13251.html">Signals and slots?</a><br/>
+	<a href="http://www.digitalmars.com/d/archives/digitalmars/D/10714.html">Signals and slots ready for evaluation</a><br/>
+	<a href="http://www.digitalmars.com/d/archives/digitalmars/D/1393.html">Signals &amp; Slots for Walter</a><br/>
+	<a href="http://www.digitalmars.com/d/archives/28456.html">Signal/Slot mechanism?</a><br/>
+	<a href="http://www.digitalmars.com/d/archives/19470.html">Modern Features?</a><br/>
+	<a href="http://www.digitalmars.com/d/archives/16592.html">Delegates vs interfaces</a><br/>
+	<a href="http://www.digitalmars.com/d/archives/16583.html">The importance of component programming (properties, signals and slots, etc)</a><br/>
+	<a href="http://www.digitalmars.com/d/archives/16368.html">signals and slots</a><br/>
+<p class="sec_header"><span class="red">Bugs:</span></p>Slots can only be delegates formed from class objects or
+	interfaces to class objects. If a delegate to something else
+	is passed to connect(), such as a struct member function,
+	a nested function or a COM interface, undefined behavior
+	will result.
+<p class="bl"/>
+	Not safe for multiple threads operating on the same signals
+	or slots.
+<p class="sec_header">Author:</p>Walter Bright, Digital Mars, www.digitalmars.com
+<dl>
+<dt class="decl">Object <a class="symbol _function" name="_d_toObject" href="./htmlsrc/std.signals.html#L65" kind="function" beg="65" end="65">_d_toObject</a><span class="params">(void* <em>p</em>)</span>; <span class="attrs">[<span class="linkg">extern(C)</span>]</span> <a title="Permalink to this symbol" href="#_d_toObject" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.signals.html#L65">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="Signal" href="./htmlsrc/std.signals.html#L132" kind="template" beg="132" end="260">Signal</a><span class="tparams">(T1...)</span>; <a title="Permalink to this symbol" href="#Signal" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.signals.html#L132">#</a></dt>
+<dd class="ddef">
+<div class="summary">Mixin to create a signal within a class object.</div>
+Different signals can be added to a class by naming the mixins.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">signals</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+
+<span class="k">class</span> <span class="i">Observer</span>
+{   <span class="lc">// our slot</span>
+    <span class="k">void</span> <span class="i">watch</span>(<span class="k">char</span>[] <span class="i">msg</span>, <span class="k">int</span> <span class="i">i</span>)
+    {
+	<span class="i">writefln</span>(<span class="sl">"Observed msg '%s' and value %s"</span>, <span class="i">msg</span>, <span class="i">i</span>);
+    }
+}
+
+<span class="k">class</span> <span class="i">Foo</span>
+{
+    <span class="k">int</span> <span class="i">value</span>() { <span class="k">return</span> <span class="i">_value</span>; }
+
+    <span class="k">int</span> <span class="i">value</span>(<span class="k">int</span> <span class="i">v</span>)
+    {
+	<span class="k">if</span> (<span class="i">v</span> != <span class="i">_value</span>)
+	{   <span class="i">_value</span> = <span class="i">v</span>;
+	    <span class="lc">// call all the connected slots with the two parameters</span>
+	    <span class="i">emit</span>(<span class="sl">"setting new value"</span>, <span class="i">v</span>);
+	}
+	<span class="k">return</span> <span class="i">v</span>;
+    }
+
+    <span class="lc">// Mix in all the code we need to make Foo into a signal</span>
+    <span class="k">mixin</span> <span class="i">Signal</span>!(<span class="k">char</span>[], <span class="k">int</span>);
+
+  <span class="k">private</span> :
+    <span class="k">int</span> <span class="i">_value</span>;
+}
+
+<span class="k">void</span> <span class="i">main</span>()
+{
+    <span class="i">Foo</span> <span class="i">a</span> = <span class="k">new</span> <span class="i">Foo</span>;
+    <span class="i">Observer</span> <span class="i">o</span> = <span class="k">new</span> <span class="i">Observer</span>;
+
+    <span class="i">a</span>.<span class="i">value</span> = <span class="n">3</span>;		<span class="lc">// should not call o.watch()</span>
+    <span class="i">a</span>.<span class="i">connect</span>(&amp;<span class="i">o</span>.<span class="i">watch</span>);	<span class="lc">// o.watch is the slot</span>
+    <span class="i">a</span>.<span class="i">value</span> = <span class="n">4</span>;		<span class="lc">// should call o.watch()</span>
+    <span class="i">a</span>.<span class="i">disconnect</span>(&amp;<span class="i">o</span>.<span class="i">watch</span>);	<span class="lc">// o.watch is no longer a slot</span>
+    <span class="i">a</span>.<span class="i">value</span> = <span class="n">5</span>;		<span class="lc">// so should not call o.watch()</span>
+    <span class="i">a</span>.<span class="i">connect</span>(&amp;<span class="i">o</span>.<span class="i">watch</span>);	<span class="lc">// connect again</span>
+    <span class="i">a</span>.<span class="i">value</span> = <span class="n">6</span>;		<span class="lc">// should call o.watch()</span>
+    <span class="k">delete</span> <span class="i">o</span>;			<span class="lc">// destroying o should automatically disconnect it</span>
+    <span class="i">a</span>.<span class="i">value</span> = <span class="n">7</span>;		<span class="lc">// should not call o.watch()</span>
+}
+</pre>
+ which should print:
+ <pre>
+ Observed msg 'setting new value' and value 4
+ Observed msg 'setting new value' and value 6
+ </pre>
+<dl>
+<dt class="decl">alias void delegate(T1) <a class="symbol _alias" name="Signal.slot_t" href="./htmlsrc/std.signals.html#L142" kind="alias" beg="142" end="142">slot_t</a>; <a title="Permalink to this symbol" href="#Signal.slot_t" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.signals.html#L142">#</a></dt>
+<dd class="ddef">
+<div class="summary">A slot is implemented as a delegate.
+ The slot_t is the type of the delegate.
+ The delegate must be to an instance of a class or an interface
+ to a class instance.
+ Delegates to struct instances or nested functions must not be
+ used as slots.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Signal.emit" href="./htmlsrc/std.signals.html#L147" kind="function" beg="147" end="153">emit</a><span class="params">(T1 <em>i</em>)</span>; <a title="Permalink to this symbol" href="#Signal.emit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.signals.html#L147">#</a></dt>
+<dd class="ddef">
+<div class="summary">Call each of the connected slots, passing the argument(s) i to them.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Signal.connect" href="./htmlsrc/std.signals.html#L158" kind="function" beg="158" end="190">connect</a><span class="params">(slot_t <em>slot</em>)</span>; <a title="Permalink to this symbol" href="#Signal.connect" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.signals.html#L158">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add a slot to the list of slots to be called when emit() is called.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Signal.disconnect" href="./htmlsrc/std.signals.html#L195" kind="function" beg="195" end="211">disconnect</a><span class="params">(slot_t <em>slot</em>)</span>; <a title="Permalink to this symbol" href="#Signal.disconnect" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.signals.html#L195">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove a slot from the list of slots to be called when emit() is called.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Signal.unhook" href="./htmlsrc/std.signals.html#L218" kind="function" beg="218" end="231">unhook</a><span class="params">(Object <em>o</em>)</span>; <a title="Permalink to this symbol" href="#Signal.unhook" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.signals.html#L218">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _dtor" name="Signal.~this" href="./htmlsrc/std.signals.html#L236" kind="dtor" beg="236" end="255">~this</a>(); <a title="Permalink to this symbol" href="#Signal.~this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.signals.html#L236">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">slot_t[] <a class="symbol _variable" name="Signal.slots" href="./htmlsrc/std.signals.html#L258" kind="variable" beg="258" end="258">slots</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Signal.slots" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.signals.html#L258">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="Signal.slots_idx" href="./htmlsrc/std.signals.html#L259" kind="variable" beg="259" end="259">slots_idx</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Signal.slots_idx" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.signals.html#L259">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">void <a class="symbol _function" name="linkin" href="./htmlsrc/std.signals.html#L264" kind="function" beg="264" end="264">linkin</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#linkin" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.signals.html#L264">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.signals.html#L266" kind="unittest" beg="266" end="307">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.signals.html#L266">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Public Domain</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 03:40:10 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

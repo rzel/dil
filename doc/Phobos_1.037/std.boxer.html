@@ -1,0 +1,372 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.boxer</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.boxer";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.boxer.html" class="symbol">std.boxer</a></h1>
+  
+<div class="summary">This module is a set of types and functions for converting any object (value
+ or heap) into a generic box type, allowing the user to pass that object
+ around without knowing what's in the box, and then allowing him to recover
+ the value afterwards.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="lc">// Convert the integer 45 into a box.</span>
+<span class="i">Box</span> <span class="i">b</span> = <span class="i">box</span>(<span class="n">45</span>);
+
+<span class="lc">// Recover the integer and cast it to real.</span>
+<span class="k">real</span> <span class="i">r</span> = <span class="i">unbox</span>!(<span class="k">real</span>)(<span class="i">b</span>);
+</pre>
+<p class="bl"/>
+ That is the basic interface and will usually be all that you need to
+ understand. If it cannot unbox the object to the given type, it throws
+ UnboxException. As demonstrated, it uses implicit casts to behave in the exact
+ same way that static types behave. So for example, you can unbox from int to
+ real, but you cannot unbox from real to int: that would require an explicit
+ cast. 
+<p class="bl"/>
+ This therefore means that attempting to unbox an int as a string will throw
+ an error instead of formatting it. In general, you can call the toString method
+ on the box and receive a good result, depending upon whether std.string.format
+ accepts it. 
+<p class="bl"/>
+ Boxes can be compared to one another and they can be used as keys for
+ associative arrays. 
+<p class="bl"/>
+ There are also functions for converting to and from arrays of boxes.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="lc">// Convert arguments into an array of boxes.</span>
+<span class="i">Box</span>[] <span class="i">a</span> = <span class="i">boxArray</span>(<span class="n">1</span>, <span class="n">45.4</span>, <span class="sl">"foobar"</span>);
+
+<span class="lc">// Convert an array of boxes back into arguments.</span>
+<span class="i">TypeInfo</span>[] <span class="i">arg_types</span>;
+<span class="k">void</span>* <span class="i">arg_data</span>;
+
+<span class="i">boxArrayToArguments</span>(<span class="i">a</span>, <span class="i">arg_types</span>, <span class="i">arg_data</span>);
+
+<span class="lc">// Convert the arguments back into boxes using a</span>
+<span class="lc">// different form of the function.</span>
+<span class="i">a</span> = <span class="i">boxArray</span>(<span class="i">arg_types</span>, <span class="i">arg_data</span>);
+</pre>
+ One use of this is to support a variadic function more easily and robustly;
+ simply call "boxArray(_arguments, _argptr)", then do whatever you need to do
+ with the array.
+<p class="sec_header">Authors:</p>Burton Radons
+<p class="sec_header">License:</p>Public Domain
+<p class="sec_header"><span class="red">Bugs:</span></p><ul>
+	<li><a href="http://d.puremagic.com/issues/show_bug.cgi?id=309">Bugzilla 309</a></li>
+	<li><a href="http://d.puremagic.com/issues/show_bug.cgi?id=1968">Bugzilla 1968</a></li>
+	</ul>
+<dl>
+<dt class="decl">bool <a class="symbol _function" name="isArrayTypeInfo" href="./htmlsrc/std.boxer.html#L120" kind="function" beg="120" end="124">isArrayTypeInfo</a><span class="params">(TypeInfo <em>type</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#isArrayTypeInfo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L120">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the next type in an array typeinfo, or null if there is none.</div></dd>
+<dt class="decl">enum <a class="symbol _enum" name="TypeClass" href="./htmlsrc/std.boxer.html#L127" kind="enum" beg="127" end="139">TypeClass</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#TypeClass" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L127">#</a></dt>
+<dd class="ddef">
+<div class="summary">The type class returned from Box.findTypeClass; the order of entries is important.</div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="TypeClass.Bool" href="./htmlsrc/std.boxer.html#L129" kind="enummem" beg="129" end="129">Bool</a> <a title="Permalink to this symbol" href="#TypeClass.Bool" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L129">#</a></dt>
+<dd class="ddef">
+<div class="summary">&lt; bool</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TypeClass.Bit" href="./htmlsrc/std.boxer.html#L130" kind="enummem" beg="130" end="130">Bit</a> <a title="Permalink to this symbol" href="#TypeClass.Bit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L130">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="TypeClass.Integer" href="./htmlsrc/std.boxer.html#L131" kind="enummem" beg="131" end="131">Integer</a> <a title="Permalink to this symbol" href="#TypeClass.Integer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L131">#</a></dt>
+<dd class="ddef">
+<div class="summary">&lt; byte, ubyte, short, ushort, int, uint, long, ulong</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TypeClass.Float" href="./htmlsrc/std.boxer.html#L132" kind="enummem" beg="132" end="132">Float</a> <a title="Permalink to this symbol" href="#TypeClass.Float" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L132">#</a></dt>
+<dd class="ddef">
+<div class="summary">&lt; float, double, real</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TypeClass.Complex" href="./htmlsrc/std.boxer.html#L133" kind="enummem" beg="133" end="133">Complex</a> <a title="Permalink to this symbol" href="#TypeClass.Complex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L133">#</a></dt>
+<dd class="ddef">
+<div class="summary">&lt; cfloat, cdouble, creal</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TypeClass.Imaginary" href="./htmlsrc/std.boxer.html#L134" kind="enummem" beg="134" end="134">Imaginary</a> <a title="Permalink to this symbol" href="#TypeClass.Imaginary" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L134">#</a></dt>
+<dd class="ddef">
+<div class="summary">&lt; ifloat, idouble, ireal</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TypeClass.Class" href="./htmlsrc/std.boxer.html#L135" kind="enummem" beg="135" end="135">Class</a> <a title="Permalink to this symbol" href="#TypeClass.Class" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L135">#</a></dt>
+<dd class="ddef">
+<div class="summary">&lt; Inherits from Object</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TypeClass.Pointer" href="./htmlsrc/std.boxer.html#L136" kind="enummem" beg="136" end="136">Pointer</a> <a title="Permalink to this symbol" href="#TypeClass.Pointer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L136">#</a></dt>
+<dd class="ddef">
+<div class="summary">&lt; Pointer type (T *)</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TypeClass.Array" href="./htmlsrc/std.boxer.html#L137" kind="enummem" beg="137" end="137">Array</a> <a title="Permalink to this symbol" href="#TypeClass.Array" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L137">#</a></dt>
+<dd class="ddef">
+<div class="summary">&lt; Array type (T [])</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TypeClass.Other" href="./htmlsrc/std.boxer.html#L138" kind="enummem" beg="138" end="138">Other</a> <a title="Permalink to this symbol" href="#TypeClass.Other" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L138">#</a></dt>
+<dd class="ddef">
+<div class="summary">&lt; Any other type, such as delegates, function pointers, struct, void...</div></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="Box" href="./htmlsrc/std.boxer.html#L149" kind="struct" beg="149" end="393">Box</a>; <a title="Permalink to this symbol" href="#Box" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L149">#</a></dt>
+<dd class="ddef">
+<div class="summary">Box is a generic container for objects (both value and heap), allowing the
+ user to box them in a generic form and recover them later.
+ A box object contains a value in a generic fashion, allowing it to be
+ passed from one place to another without having to know its type.  It is
+ created by calling the box function, and you can recover the value by
+ instantiating the unbox template.</div>
+<dl>
+<dt class="decl">TypeInfo <a class="symbol _variable" name="Box.p_type" href="./htmlsrc/std.boxer.html#L151" kind="variable" beg="151" end="151">p_type</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Box.p_type" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L151">#</a></dt>
+<dd class="ddef">
+<div class="summary">&lt; The type of the contained object.</div></dd>
+<dt class="decl"><a class="symbol _union" name="Box.union" href="./htmlsrc/std.boxer.html#L153" kind="union" beg="153" end="157">union</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Box.union" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L153">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">void* <a class="symbol _variable" name="Box.union.p_longData" href="./htmlsrc/std.boxer.html#L155" kind="variable" beg="155" end="155">p_longData</a>; <a title="Permalink to this symbol" href="#Box.union.p_longData" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L155">#</a></dt>
+<dd class="ddef">
+<div class="summary">&lt; An array of the contained object.</div></dd>
+<dt class="decl">void[8] <a class="symbol _variable" name="Box.union.p_shortData" href="./htmlsrc/std.boxer.html#L156" kind="variable" beg="156" end="156">p_shortData</a>; <a title="Permalink to this symbol" href="#Box.union.p_shortData" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L156">#</a></dt>
+<dd class="ddef">
+<div class="summary">&lt; Data used when the object is small.</div></dd></dl></dd>
+<dt class="decl">TypeClass <a class="symbol _function" name="Box.findTypeClass" href="./htmlsrc/std.boxer.html#L159" kind="function" beg="159" end="196">findTypeClass</a><span class="params">(TypeInfo <em>type</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Box.findTypeClass" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L159">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="Box.unboxable" href="./htmlsrc/std.boxer.html#L199" kind="function" beg="199" end="233">unboxable</a><span class="params">(TypeInfo <em>test</em>)</span>; <a title="Permalink to this symbol" href="#Box.unboxable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L199">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return whether this value could be unboxed as the given type without throwing.</div></dd>
+<dt class="decl">TypeInfo <a class="symbol _function" name="Box.type" href="./htmlsrc/std.boxer.html#L240" kind="function" beg="240" end="243">type</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Box.type" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L240">#</a></dt>
+<dd class="ddef">
+<div class="summary">Property for the type contained by the box.
+ This is initially null and cannot be assigned directly.</div>
+<p class="sec_header">Returns:</p>the type of the contained object.</dd>
+<dt class="decl">void[] <a class="symbol _function" name="Box.data" href="./htmlsrc/std.boxer.html#L250" kind="function" beg="250" end="255">data</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Box.data" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L250">#</a></dt>
+<dd class="ddef">
+<div class="summary">Property for the data pointer to the value of the box.
+ This is initially null and cannot be assigned directly.</div>
+<p class="sec_header">Returns:</p>the data array.</dd>
+<dt class="decl">char[] <a class="symbol _function" name="Box.toString" href="./htmlsrc/std.boxer.html#L262" kind="function" beg="262" end="286">toString</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Box.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L262">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attempt to convert the boxed value into a string using std.string.format;
+ this will throw if that function cannot handle it. If the box is
+ uninitialized then this returns "".</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Box.opEqualsInternal" href="./htmlsrc/std.boxer.html#L288" kind="function" beg="288" end="320">opEqualsInternal</a><span class="params">(Box <em>other</em>, bool <em>inverted</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Box.opEqualsInternal" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L288">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="Box.opEquals" href="./htmlsrc/std.boxer.html#L326" kind="function" beg="326" end="329">opEquals</a><span class="params">(Box <em>other</em>)</span>; <a title="Permalink to this symbol" href="#Box.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L326">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compare this box's value with another box. This implicitly casts if the
+ types are different, identical to the regular type system.</div></dd>
+<dt class="decl">float <a class="symbol _function" name="Box.opCmpInternal" href="./htmlsrc/std.boxer.html#L331" kind="function" beg="331" end="375">opCmpInternal</a><span class="params">(Box <em>other</em>, bool <em>inverted</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Box.opCmpInternal" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L331">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">float <a class="symbol _function" name="Box.opCmp" href="./htmlsrc/std.boxer.html#L381" kind="function" beg="381" end="384">opCmp</a><span class="params">(Box <em>other</em>)</span>; <a title="Permalink to this symbol" href="#Box.opCmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L381">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compare this box's value with another box. This implicitly casts if the
+ types are different, identical to the regular type system.</div></dd>
+<dt class="decl">hash_t <a class="symbol _function" name="Box.toHash" href="./htmlsrc/std.boxer.html#L389" kind="function" beg="389" end="392">toHash</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Box.toHash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L389">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the value's hash.</div></dd></dl></dd>
+<dt class="decl">Box <a class="symbol _function" name="box" href="./htmlsrc/std.boxer.html#L399" kind="function" beg="399" end="407">box</a><span class="params">(...)</span>; <a title="Permalink to this symbol" href="#box" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L399">#</a></dt>
+<dd class="ddef">
+<div class="summary">Box the single argument passed to the function. If more or fewer than one
+ argument is passed, this will assert.</div></dd>
+<dt class="decl">Box <a class="symbol _function" name="box:2" href="./htmlsrc/std.boxer.html#L414" kind="function" beg="414" end="431">box</a><span class="params">(TypeInfo <em>type</em>, void* <em>data</em>)</span>; <a title="Permalink to this symbol" href="#box:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L414">#</a></dt>
+<dd class="ddef">
+<div class="summary">Box the explicitly-defined object. type must not be null; data must not be
+ null if the type's size is greater than zero.
+ The data is copied.</div></dd>
+<dt class="decl">size_t <a class="symbol _function" name="argumentLength" href="./htmlsrc/std.boxer.html#L434" kind="function" beg="434" end="437">argumentLength</a><span class="params">(size_t <em>baseLength</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#argumentLength" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L434">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the length of an argument in bytes.</div></dd>
+<dt class="decl">Box[] <a class="symbol _function" name="boxArray" href="./htmlsrc/std.boxer.html#L442" kind="function" beg="442" end="453">boxArray</a><span class="params">(TypeInfo[] <em>types</em>, void* <em>data</em>)</span>; <a title="Permalink to this symbol" href="#boxArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L442">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert a list of arguments into a list of boxes.</div></dd>
+<dt class="decl">Box[] <a class="symbol _function" name="boxArray:2" href="./htmlsrc/std.boxer.html#L458" kind="function" beg="458" end="461">boxArray</a><span class="params">(...)</span>; <a title="Permalink to this symbol" href="#boxArray:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L458">#</a></dt>
+<dd class="ddef">
+<div class="summary">Box each argument passed to the function, returning an array of boxes.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="boxArrayToArguments" href="./htmlsrc/std.boxer.html#L466" kind="function" beg="466" end="485">boxArrayToArguments</a><span class="params">(Box[] <em>arguments</em>, out TypeInfo[] <em>types</em>, out void* <em>data</em>)</span>; <a title="Permalink to this symbol" href="#boxArrayToArguments" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L466">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert an array of boxes into an array of arguments.</div></dd>
+<dt class="decl">class <a class="symbol _class" name="UnboxException" href="./htmlsrc/std.boxer.html#L491" kind="class" beg="491" end="507">UnboxException</a> : Exception; <a title="Permalink to this symbol" href="#UnboxException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L491">#</a></dt>
+<dd class="ddef">
+<div class="summary">This class is thrown if unbox is unable to cast the value into the desired
+ result.</div>
+<dl>
+<dt class="decl">Box <a class="symbol _variable" name="UnboxException.object" href="./htmlsrc/std.boxer.html#L493" kind="variable" beg="493" end="493">object</a>; <a title="Permalink to this symbol" href="#UnboxException.object" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L493">#</a></dt>
+<dd class="ddef">
+<div class="summary">This is the box that the user attempted to unbox.</div></dd>
+<dt class="decl">TypeInfo <a class="symbol _variable" name="UnboxException.outputType" href="./htmlsrc/std.boxer.html#L495" kind="variable" beg="495" end="495">outputType</a>; <a title="Permalink to this symbol" href="#UnboxException.outputType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L495">#</a></dt>
+<dd class="ddef">
+<div class="summary">This is the type that the user attempted to unbox the value as.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="UnboxException.this" href="./htmlsrc/std.boxer.html#L501" kind="ctor" beg="501" end="506">this</a><span class="params">(Box <em>object</em>, TypeInfo <em>outputType</em>)</span>; <a title="Permalink to this symbol" href="#UnboxException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L501">#</a></dt>
+<dd class="ddef">
+<div class="summary">Assign parameters and create the message in the form
+ <tt>"Could not unbox from type ... to ... ."</tt></div></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unboxCastReal" href="./htmlsrc/std.boxer.html#L510" kind="template" beg="510" end="524">unboxCastReal</a><span class="tparams">(T)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#unboxCastReal" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L510">#</a></dt>
+<dd class="ddef">
+<div class="summary">A generic unboxer for the real numeric types.</div>
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unboxCastReal.unboxCastReal" href="./htmlsrc/std.boxer.html#L512" kind="function" beg="512" end="523">unboxCastReal</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unboxCastReal.unboxCastReal" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L512">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unboxCastInteger" href="./htmlsrc/std.boxer.html#L527" kind="template" beg="527" end="553">unboxCastInteger</a><span class="tparams">(T)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#unboxCastInteger" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L527">#</a></dt>
+<dd class="ddef">
+<div class="summary">A generic unboxer for the integral numeric types.</div>
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unboxCastInteger.unboxCastInteger" href="./htmlsrc/std.boxer.html#L529" kind="function" beg="529" end="552">unboxCastInteger</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unboxCastInteger.unboxCastInteger" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L529">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unboxCastComplex" href="./htmlsrc/std.boxer.html#L556" kind="template" beg="556" end="576">unboxCastComplex</a><span class="tparams">(T)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#unboxCastComplex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L556">#</a></dt>
+<dd class="ddef">
+<div class="summary">A generic unboxer for the complex numeric types.</div>
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unboxCastComplex.unboxCastComplex" href="./htmlsrc/std.boxer.html#L558" kind="function" beg="558" end="575">unboxCastComplex</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unboxCastComplex.unboxCastComplex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L558">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unboxCastImaginary" href="./htmlsrc/std.boxer.html#L579" kind="template" beg="579" end="593">unboxCastImaginary</a><span class="tparams">(T)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#unboxCastImaginary" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L579">#</a></dt>
+<dd class="ddef">
+<div class="summary">A generic unboxer for the imaginary numeric types.</div>
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unboxCastImaginary.unboxCastImaginary" href="./htmlsrc/std.boxer.html#L581" kind="function" beg="581" end="592">unboxCastImaginary</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unboxCastImaginary.unboxCastImaginary" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L581">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox" href="./htmlsrc/std.boxer.html#L617" kind="template" beg="617" end="627">unbox</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#unbox" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L617">#</a></dt>
+<dd class="ddef">
+<div class="summary">The unbox template takes a type parameter and returns a function that
+ takes a box object and returns the specified type.</div>
+To use it, instantiate the template with the desired result type, and then
+ call the function with the box to convert. 
+ This will implicitly cast base types as necessary and in a way consistent
+ with static types - for example, it will cast a boxed byte into int, but it
+ won't cast a boxed float into short.
+<p class="sec_header">Throws:</p>UnboxException if it cannot cast
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="i">Box</span> <span class="i">b</span> = <span class="i">box</span>(<span class="n">4.5</span>);
+<span class="i">bit</span> <span class="i">u</span> = <span class="i">unboxable</span>!(<span class="k">real</span>)(<span class="i">b</span>); <span class="lc">// This is true.</span>
+<span class="k">real</span> <span class="i">r</span> = <span class="i">unbox</span>!(<span class="k">real</span>)(<span class="i">b</span>);
+
+<span class="i">Box</span> <span class="i">y</span> = <span class="i">box</span>(<span class="n">4</span>);
+<span class="k">int</span> <span class="i">x</span> = <span class="i">unbox</span>!(<span class="k">int</span>) (<span class="i">y</span>);
+</pre>
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox" href="./htmlsrc/std.boxer.html#L619" kind="function" beg="619" end="626">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L619">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:2" href="./htmlsrc/std.boxer.html#L629" kind="template" beg="629" end="629">unbox</a><span class="tparams">(T : byte)</span>; <a title="Permalink to this symbol" href="#unbox:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L629">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:2" href="./htmlsrc/std.boxer.html#L629" kind="function" beg="629" end="629">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L629">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:3" href="./htmlsrc/std.boxer.html#L630" kind="template" beg="630" end="630">unbox</a><span class="tparams">(T : ubyte)</span>; <a title="Permalink to this symbol" href="#unbox:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L630">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:3" href="./htmlsrc/std.boxer.html#L630" kind="function" beg="630" end="630">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L630">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:4" href="./htmlsrc/std.boxer.html#L631" kind="template" beg="631" end="631">unbox</a><span class="tparams">(T : short)</span>; <a title="Permalink to this symbol" href="#unbox:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L631">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:4" href="./htmlsrc/std.boxer.html#L631" kind="function" beg="631" end="631">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L631">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:5" href="./htmlsrc/std.boxer.html#L632" kind="template" beg="632" end="632">unbox</a><span class="tparams">(T : ushort)</span>; <a title="Permalink to this symbol" href="#unbox:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L632">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:5" href="./htmlsrc/std.boxer.html#L632" kind="function" beg="632" end="632">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L632">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:6" href="./htmlsrc/std.boxer.html#L633" kind="template" beg="633" end="633">unbox</a><span class="tparams">(T : int)</span>; <a title="Permalink to this symbol" href="#unbox:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L633">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:6" href="./htmlsrc/std.boxer.html#L633" kind="function" beg="633" end="633">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L633">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:7" href="./htmlsrc/std.boxer.html#L634" kind="template" beg="634" end="634">unbox</a><span class="tparams">(T : uint)</span>; <a title="Permalink to this symbol" href="#unbox:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L634">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:7" href="./htmlsrc/std.boxer.html#L634" kind="function" beg="634" end="634">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L634">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:8" href="./htmlsrc/std.boxer.html#L635" kind="template" beg="635" end="635">unbox</a><span class="tparams">(T : long)</span>; <a title="Permalink to this symbol" href="#unbox:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L635">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:8" href="./htmlsrc/std.boxer.html#L635" kind="function" beg="635" end="635">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L635">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:9" href="./htmlsrc/std.boxer.html#L636" kind="template" beg="636" end="636">unbox</a><span class="tparams">(T : ulong)</span>; <a title="Permalink to this symbol" href="#unbox:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L636">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:9" href="./htmlsrc/std.boxer.html#L636" kind="function" beg="636" end="636">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L636">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:10" href="./htmlsrc/std.boxer.html#L637" kind="template" beg="637" end="637">unbox</a><span class="tparams">(T : float)</span>; <a title="Permalink to this symbol" href="#unbox:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L637">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:10" href="./htmlsrc/std.boxer.html#L637" kind="function" beg="637" end="637">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L637">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:11" href="./htmlsrc/std.boxer.html#L638" kind="template" beg="638" end="638">unbox</a><span class="tparams">(T : double)</span>; <a title="Permalink to this symbol" href="#unbox:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L638">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:11" href="./htmlsrc/std.boxer.html#L638" kind="function" beg="638" end="638">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L638">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:12" href="./htmlsrc/std.boxer.html#L639" kind="template" beg="639" end="639">unbox</a><span class="tparams">(T : real)</span>; <a title="Permalink to this symbol" href="#unbox:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L639">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:12" href="./htmlsrc/std.boxer.html#L639" kind="function" beg="639" end="639">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L639">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:13" href="./htmlsrc/std.boxer.html#L640" kind="template" beg="640" end="640">unbox</a><span class="tparams">(T : cfloat)</span>; <a title="Permalink to this symbol" href="#unbox:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L640">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:13" href="./htmlsrc/std.boxer.html#L640" kind="function" beg="640" end="640">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L640">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:14" href="./htmlsrc/std.boxer.html#L641" kind="template" beg="641" end="641">unbox</a><span class="tparams">(T : cdouble)</span>; <a title="Permalink to this symbol" href="#unbox:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L641">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:14" href="./htmlsrc/std.boxer.html#L641" kind="function" beg="641" end="641">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L641">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:15" href="./htmlsrc/std.boxer.html#L642" kind="template" beg="642" end="642">unbox</a><span class="tparams">(T : creal)</span>; <a title="Permalink to this symbol" href="#unbox:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L642">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:15" href="./htmlsrc/std.boxer.html#L642" kind="function" beg="642" end="642">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L642">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:16" href="./htmlsrc/std.boxer.html#L643" kind="template" beg="643" end="643">unbox</a><span class="tparams">(T : ifloat)</span>; <a title="Permalink to this symbol" href="#unbox:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L643">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:16" href="./htmlsrc/std.boxer.html#L643" kind="function" beg="643" end="643">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L643">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:17" href="./htmlsrc/std.boxer.html#L644" kind="template" beg="644" end="644">unbox</a><span class="tparams">(T : idouble)</span>; <a title="Permalink to this symbol" href="#unbox:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L644">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:17" href="./htmlsrc/std.boxer.html#L644" kind="function" beg="644" end="644">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L644">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:18" href="./htmlsrc/std.boxer.html#L645" kind="template" beg="645" end="645">unbox</a><span class="tparams">(T : ireal)</span>; <a title="Permalink to this symbol" href="#unbox:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L645">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:18" href="./htmlsrc/std.boxer.html#L645" kind="function" beg="645" end="645">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L645">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:19" href="./htmlsrc/std.boxer.html#L647" kind="template" beg="647" end="669">unbox</a><span class="tparams">(T : Object)</span>; <a title="Permalink to this symbol" href="#unbox:19" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L647">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:19" href="./htmlsrc/std.boxer.html#L649" kind="function" beg="649" end="668">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:19" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L649">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:20" href="./htmlsrc/std.boxer.html#L671" kind="template" beg="671" end="683">unbox</a><span class="tparams">(T : T[])</span>; <a title="Permalink to this symbol" href="#unbox:20" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L671">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T[] <a class="symbol _function" name="unbox.unbox:20" href="./htmlsrc/std.boxer.html#L673" kind="function" beg="673" end="682">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:20" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L673">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:21" href="./htmlsrc/std.boxer.html#L685" kind="template" beg="685" end="700">unbox</a><span class="tparams">(T : T*)</span>; <a title="Permalink to this symbol" href="#unbox:21" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L685">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T* <a class="symbol _function" name="unbox.unbox:21" href="./htmlsrc/std.boxer.html#L687" kind="function" beg="687" end="699">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:21" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L687">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unbox:22" href="./htmlsrc/std.boxer.html#L702" kind="template" beg="702" end="717">unbox</a><span class="tparams">(T : void*)</span>; <a title="Permalink to this symbol" href="#unbox:22" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L702">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unbox.unbox:22" href="./htmlsrc/std.boxer.html#L704" kind="function" beg="704" end="716">unbox</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unbox.unbox:22" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L704">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unboxable" href="./htmlsrc/std.boxer.html#L723" kind="template" beg="723" end="729">unboxable</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#unboxable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L723">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return whether the value can be unboxed as the given type; if this returns
+ false, attempting to do so will throw UnboxException.</div>
+<dl>
+<dt class="decl">bool <a class="symbol _function" name="unboxable.unboxable" href="./htmlsrc/std.boxer.html#L725" kind="function" beg="725" end="728">unboxable</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unboxable.unboxable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L725">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unboxTest" href="./htmlsrc/std.boxer.html#L732" kind="template" beg="732" end="752">unboxTest</a><span class="tparams">(T)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#unboxTest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L732">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T <a class="symbol _function" name="unboxTest.unboxTest" href="./htmlsrc/std.boxer.html#L734" kind="function" beg="734" end="751">unboxTest</a><span class="params">(Box <em>value</em>)</span>; <a title="Permalink to this symbol" href="#unboxTest.unboxTest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L734">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.boxer.html#L754" kind="unittest" beg="754" end="875">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.boxer.html#L754">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 03:40:03 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>
