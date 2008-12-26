@@ -1,0 +1,548 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>minid.bind</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "minid.bind";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/minid.bind.html" class="symbol">minid.bind</a></h1>
+  
+<div class="summary">This module contains scary template stuff to make it possible to wrap D functions,
+classes, and structs and expose them as functions and types in MiniD.</div>
+<p class="sec_header">License:</p>Copyright (c) 2008 Jarrett Billingsley
+<p class="bl"/>
+This software is provided 'as-is', without any express or implied warranty.
+In no event will the authors be held liable for any damages arising from the
+use of this software.
+<p class="bl"/>
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
+subject to the following restrictions:
+<p class="bl"/>
+    1. The origin of this software must not be misrepresented; you must not
+	claim that you wrote the original software. If you use this software in a
+	product, an acknowledgment in the product documentation would be
+	appreciated but is not required.
+<p class="bl"/>
+    2. Altered source versions must be plainly marked as such, and must not
+	be misrepresented as being the original software.
+<p class="bl"/>
+    3. This notice may not be removed or altered from any source distribution.
+<dl>
+<dt class="decl">void <a class="symbol _function" name="WrapModule" href="./htmlsrc/minid.bind.html#L60" kind="function" beg="60" end="73">WrapModule</a><span class="tparams">(char[] name, Members...)</span><span class="params">(MDThread* <em>t</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#WrapModule" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L60">#</a></dt>
+<dd class="ddef">
+<div class="summary">Wraps a module.  This registers a custom module loader in the global modules.customLoaders
+table of the given thread.  The members will not actually be wrapped until the module is imported
+the first time.</div>
+Template Params:
+	name = The name of the module, in dotted form (like "foo.bar.baz").  This is the name that will
+		be used to import it.
+<p class="bl"/>
+	Members = A variadic list of things to declare in this module.  These will be declared as module
+		globals, just as if you declared them globals in MiniD.  Supported member types include
+		WrapFunc, WrapNamespace, WrapValue, and WrapType.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>t</em></td><td>This module's loader will be added into the global modules.customLoaders table accessible
+		from this thread.</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="WrapGlobals" href="./htmlsrc/minid.bind.html#L82" kind="function" beg="82" end="85">WrapGlobals</a><span class="tparams">(Members...)</span><span class="params">(MDThread* <em>t</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#WrapGlobals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L82">#</a></dt>
+<dd class="ddef">
+<div class="summary">Wraps any number of values into the global namespace accessible from the given thread.  This is
+the root global namespace, outside of any modules.  Works just like WrapModule otherwise.
+Supported member types include WrapFunc, WrapNamespace, WrapValue, and WrapType.</div>
+The wrapped values are immediately loaded into the global namespace.</dd>
+<dt class="decl">struct <a class="symbol _struct" name="WrapFunc" href="./htmlsrc/minid.bind.html#L109" kind="struct" beg="109" end="114">WrapFunc</a><span class="tparams">(alias func)</span>; <a title="Permalink to this symbol" href="#WrapFunc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L109">#</a></dt>
+<dt class="decl">struct <a class="symbol _struct" name="WrapFunc:2" href="./htmlsrc/minid.bind.html#L117" kind="struct" beg="117" end="122">WrapFunc</a><span class="tparams">(alias func, funcType)</span>; <a title="Permalink to this symbol" href="#WrapFunc:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L117">#</a></dt>
+<dt class="decl">struct <a class="symbol _struct" name="WrapFunc:3" href="./htmlsrc/minid.bind.html#L125" kind="struct" beg="125" end="130">WrapFunc</a><span class="tparams">(alias func, char[] name)</span>; <a title="Permalink to this symbol" href="#WrapFunc:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L125">#</a></dt>
+<dt class="decl">struct <a class="symbol _struct" name="WrapFunc:4" href="./htmlsrc/minid.bind.html#L133" kind="struct" beg="133" end="138">WrapFunc</a><span class="tparams">(alias func, char[] name, funcType)</span>; <a title="Permalink to this symbol" href="#WrapFunc:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L133">#</a></dt>
+<dd class="ddef">
+<div class="summary">Wraps a static function - that is, a function that doesn't have a 'this' parameter.  These four
+template specializations allow you to fine-tune how the function is to be wrapped.</div>
+The first specialization takes just an alias to a function.  In this case, the first overload
+of the function (if any) will be wrapped and the name of the function in MiniD will be the same
+as in D.
+<p class="bl"/>
+The second specialization allows you to explicitly specify a function signature to choose, in the
+case that the function you're wrapping is overloaded.  The signature should be a function type that
+matches the signature of the overload you want to wrap.  In this case, though, the name in MiniD
+will still be the name of the D function.
+<p class="bl"/>
+The third specialization allows you to rename the function without explicitly selecting an overload.
+<p class="bl"/>
+The fourth specialization allows you to both select an overload and give it the name that should
+be used in MiniD.  This is the form you'll probably be using most often with overloaded D functions.
+<p class="bl"/>
+If you use one of the two forms where you explicitly specify the function signature, the resulting
+wrapped function will only accept exactly as many parameters as are specified in the signature.
+Otherwise, the wrapped function will be allowed to have optional parameters.
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="WrapFunc.isFunc" href="./htmlsrc/minid.bind.html#L111" kind="variable" beg="111" end="111">isFunc</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapFunc.isFunc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L111">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _variable" name="WrapFunc.Name" href="./htmlsrc/minid.bind.html#L112" kind="variable" beg="112" end="112">Name</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapFunc.Name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L112">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="WrapNamespace" href="./htmlsrc/minid.bind.html#L145" kind="struct" beg="145" end="150">WrapNamespace</a><span class="tparams">(char[] name, members...)</span>; <a title="Permalink to this symbol" href="#WrapNamespace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L145">#</a></dt>
+<dd class="ddef">
+<div class="summary">Wraps a bunch of values into a namespace object.  This works virtually the same as WrapModule,
+except that it's meant to be used as a member of something like WrapModule.  Legal member
+types include WrapFunc, WrapValue, WrapNamespace, and WrapType.</div>
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="WrapNamespace.isNamespace" href="./htmlsrc/minid.bind.html#L147" kind="variable" beg="147" end="147">isNamespace</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapNamespace.isNamespace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L147">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _variable" name="WrapNamespace.Name" href="./htmlsrc/minid.bind.html#L148" kind="variable" beg="148" end="148">Name</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapNamespace.Name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L148">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias members <a class="symbol _alias" name="WrapNamespace.Values" href="./htmlsrc/minid.bind.html#L149" kind="alias" beg="149" end="149">Values</a>; <a title="Permalink to this symbol" href="#WrapNamespace.Values" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L149">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="WrapValue" href="./htmlsrc/minid.bind.html#L157" kind="struct" beg="157" end="163">WrapValue</a><span class="tparams">(char[] name, value...)</span>; <a title="Permalink to this symbol" href="#WrapValue" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L157">#</a></dt>
+<dd class="ddef">
+<div class="summary">Wraps a single value and gives it a name.  Despite the fact that the value parameter is
+variadic, it is restricted to exactly one item.  It's variadic just so it can accept any
+value type.</div>
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="WrapValue.isValue" href="./htmlsrc/minid.bind.html#L160" kind="variable" beg="160" end="160">isValue</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapValue.isValue" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L160">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _variable" name="WrapValue.Name" href="./htmlsrc/minid.bind.html#L161" kind="variable" beg="161" end="161">Name</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapValue.Name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L161">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias value <a class="symbol _alias" name="WrapValue.Value" href="./htmlsrc/minid.bind.html#L162" kind="alias" beg="162" end="162">Value</a>; <a title="Permalink to this symbol" href="#WrapValue.Value" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L162">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="WrapType" href="./htmlsrc/minid.bind.html#L180" kind="struct" beg="180" end="226">WrapType</a><span class="tparams">(Type, char[] name = NameOfType!(Type), Members...)</span>; <a title="Permalink to this symbol" href="#WrapType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L180">#</a></dt>
+<dd class="ddef">
+<div class="summary">Wraps a class or struct type.  This supports wrapping constructors (or static opCall for structs),
+methods, properties (though they will be <b>functions</b> in MiniD), and arbitrary values.  That means
+the valid member types are WrapCtors, WrapMethod, WrapProperty, and WrapValue.</div>
+Template Params:
+	Type = The class or struct type to be wrapped.
+<p class="bl"/>
+	name = The name that will be given to the type in MiniD.
+<p class="bl"/>
+	Members = The members of the type.
+<p class="sec_header"><span class="red">Bugs:</span></p>Abstract classes cannot be wrapped.  D1 does not provide enough reflective information to do so reliably.
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="WrapType.isType" href="./htmlsrc/minid.bind.html#L186" kind="variable" beg="186" end="186">isType</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapType.isType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L186">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _variable" name="WrapType.Name" href="./htmlsrc/minid.bind.html#L187" kind="variable" beg="187" end="187">Name</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapType.Name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L187">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">word <a class="symbol _function" name="WrapType.init" href="./htmlsrc/minid.bind.html#L189" kind="function" beg="189" end="214">init</a><span class="tparams">(char[] moduleName)</span><span class="params">(MDThread* <em>t</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#WrapType.init" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L189">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uword <a class="symbol _function" name="WrapType.classAllocator" href="./htmlsrc/minid.bind.html#L216" kind="function" beg="216" end="225">classAllocator</a><span class="params">(MDThread* <em>t</em>, uword <em>numParams</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#WrapType.classAllocator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L216">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="WrapCtors" href="./htmlsrc/minid.bind.html#L241" kind="struct" beg="241" end="246">WrapCtors</a><span class="tparams">(T...)</span>; <a title="Permalink to this symbol" href="#WrapCtors" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L241">#</a></dt>
+<dd class="ddef">
+<div class="summary">D doesn't really provide any facilities for introspecting class constructors, so you'll have to specify
+to the binding library the signatures of the constructors to expose.  You'll also have to do it for structs.
+There can be at most one WrapCtors inside a WrapType, but since you specify as many constructors as you
+want all at once, it doesn't matter.  The constructor signatures should be function types; the return type
+is ignored, and only the parameter types are significant.</div>
+Unlike wrapping other functions, a form of overloading is allowed for constructors.  That is, you can have
+a constructor that takes (int) and another that takes (float), wrap them as two separate types, and they
+will be correctly dispatched when the type is instantiated in MiniD.  This also means that the usual
+implicit conversion from int to float that happens when calling other functions will not happen when calling
+constructors.
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="WrapCtors.isCtors" href="./htmlsrc/minid.bind.html#L244" kind="variable" beg="244" end="244">isCtors</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapCtors.isCtors" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L244">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias Unique!(QSort!(SortByNumParams, T)) <a class="symbol _alias" name="WrapCtors.Types" href="./htmlsrc/minid.bind.html#L245" kind="alias" beg="245" end="245">Types</a>; <a title="Permalink to this symbol" href="#WrapCtors.Types" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L245">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="WrapMethod" href="./htmlsrc/minid.bind.html#L253" kind="struct" beg="253" end="260">WrapMethod</a><span class="tparams">(alias func)</span>; <a title="Permalink to this symbol" href="#WrapMethod" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L253">#</a></dt>
+<dt class="decl">struct <a class="symbol _struct" name="WrapMethod:2" href="./htmlsrc/minid.bind.html#L263" kind="struct" beg="263" end="270">WrapMethod</a><span class="tparams">(alias func, char[] name)</span>; <a title="Permalink to this symbol" href="#WrapMethod:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L263">#</a></dt>
+<dt class="decl">struct <a class="symbol _struct" name="WrapMethod:3" href="./htmlsrc/minid.bind.html#L273" kind="struct" beg="273" end="280">WrapMethod</a><span class="tparams">(alias func, funcType)</span>; <a title="Permalink to this symbol" href="#WrapMethod:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L273">#</a></dt>
+<dt class="decl">struct <a class="symbol _struct" name="WrapMethod:4" href="./htmlsrc/minid.bind.html#L283" kind="struct" beg="283" end="290">WrapMethod</a><span class="tparams">(alias func, char[] name, funcType)</span>; <a title="Permalink to this symbol" href="#WrapMethod:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L283">#</a></dt>
+<dd class="ddef">
+<div class="summary">Wraps a method of a class or struct type.  The argument to this template will look like "A.foo" for a given
+type "A".  Other than the fact that it's a method (and therefore takes 'this'), this works pretty much
+exactly the same as WrapFunction, including the differences between the multiple specializations.</div>
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="WrapMethod.isMethod" href="./htmlsrc/minid.bind.html#L255" kind="variable" beg="255" end="255">isMethod</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapMethod.isMethod" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L255">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _variable" name="WrapMethod.Name" href="./htmlsrc/minid.bind.html#L256" kind="variable" beg="256" end="256">Name</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapMethod.Name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L256">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _variable" name="WrapMethod.explicitType" href="./htmlsrc/minid.bind.html#L257" kind="variable" beg="257" end="257">explicitType</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapMethod.explicitType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L257">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias func <a class="symbol _alias" name="WrapMethod.Func" href="./htmlsrc/minid.bind.html#L258" kind="alias" beg="258" end="258">Func</a>; <a title="Permalink to this symbol" href="#WrapMethod.Func" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L258">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias typeof(&amp;func) <a class="symbol _alias" name="WrapMethod.FuncType" href="./htmlsrc/minid.bind.html#L259" kind="alias" beg="259" end="259">FuncType</a>; <a title="Permalink to this symbol" href="#WrapMethod.FuncType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L259">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="WrapProperty" href="./htmlsrc/minid.bind.html#L315" kind="struct" beg="315" end="322">WrapProperty</a><span class="tparams">(alias func)</span>; <a title="Permalink to this symbol" href="#WrapProperty" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L315">#</a></dt>
+<dt class="decl">struct <a class="symbol _struct" name="WrapProperty:2" href="./htmlsrc/minid.bind.html#L325" kind="struct" beg="325" end="332">WrapProperty</a><span class="tparams">(alias func, char[] name)</span>; <a title="Permalink to this symbol" href="#WrapProperty:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L325">#</a></dt>
+<dt class="decl">struct <a class="symbol _struct" name="WrapProperty:3" href="./htmlsrc/minid.bind.html#L335" kind="struct" beg="335" end="342">WrapProperty</a><span class="tparams">(alias func, funcType)</span>; <a title="Permalink to this symbol" href="#WrapProperty:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L335">#</a></dt>
+<dt class="decl">struct <a class="symbol _struct" name="WrapProperty:4" href="./htmlsrc/minid.bind.html#L345" kind="struct" beg="345" end="352">WrapProperty</a><span class="tparams">(alias func, char[] name, funcType)</span>; <a title="Permalink to this symbol" href="#WrapProperty:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L345">#</a></dt>
+<dd class="ddef">
+<div class="summary">Wraps a D "property."  D of course does not have real properties but only syntactic sugar for function
+calls.  These wrap a pair of functions (or just one function, if the property is read-only) that denote
+a property.  In MiniD, each property has a method named "_prop_name" which does the actual setting and
+getting, and the wrapped type is given opField and opFieldAssign metamethods which dispatch field access
+to the appropriate property accessors.  If you want to override the behavior of setting/getting a property,
+you can do so by overriding the "_prop_name" method.</div>
+The D "property" must be one or two functions (either just a getter or a getter/setter pair).  The setter,
+if any exists, must be able to take one parameter that is the same type as the getter's return type.
+The setter may optionally return a value.
+<p class="bl"/>
+It doesn't matter whether you pass an alias to the setter or the getter to this; the library will figure
+out which one you gave and which one it needs.  So if you have a property "x" of a type "A", it'll just
+be WrapProperty!(A.x).
+<p class="bl"/>
+Since this is another variety of function wrapping, the parameters here all do the same thing as for
+WrapFunction and WrapMethod.
+<p class="sec_header"><span class="red">Bugs:</span></p>Currently overridden setters/getters are not called polymorphically and therefore will not be called
+	by D code accessing the properties.
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="WrapProperty.isProperty" href="./htmlsrc/minid.bind.html#L317" kind="variable" beg="317" end="317">isProperty</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapProperty.isProperty" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L317">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _variable" name="WrapProperty.Name" href="./htmlsrc/minid.bind.html#L318" kind="variable" beg="318" end="318">Name</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapProperty.Name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L318">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _variable" name="WrapProperty.DName" href="./htmlsrc/minid.bind.html#L319" kind="variable" beg="319" end="319">DName</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapProperty.DName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L319">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _variable" name="WrapProperty.readOnly" href="./htmlsrc/minid.bind.html#L320" kind="variable" beg="320" end="320">readOnly</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrapProperty.readOnly" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L320">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias PropType!(func, typeof(&amp;func)) <a class="symbol _alias" name="WrapProperty.propType" href="./htmlsrc/minid.bind.html#L321" kind="alias" beg="321" end="321">propType</a>; <a title="Permalink to this symbol" href="#WrapProperty.propType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L321">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">word <a class="symbol _function" name="getWrappedClass" href="./htmlsrc/minid.bind.html#L366" kind="function" beg="366" end="380">getWrappedClass</a><span class="params">(MDThread* <em>t</em>, TypeInfo <em>ti</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#getWrappedClass" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L366">#</a></dt>
+<dd class="ddef">
+<div class="summary">Given a TypeInfo instance of the desired class/struct type (that is, typeid(SomeType)), pushes
+the corresponding wrapped MiniD class, or pushes null if the type has not been wrapped.</div>
+<b>You probably won't have to call this function under normal circumstances.</b>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>ti</em></td><td>The runtime TypeInfo instance of the desired type.</td></tr></table>
+<p class="sec_header">Returns:</p>The stack index of the newly-pushed value.</dd>
+<dt class="decl">void <a class="symbol _function" name="setWrappedClass" href="./htmlsrc/minid.bind.html#L388" kind="function" beg="388" end="395">setWrappedClass</a><span class="params">(MDThread* <em>t</em>, TypeInfo <em>ti</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#setWrappedClass" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L388">#</a></dt>
+<dd class="ddef">
+<div class="summary">Expects a class object on top of the stack, and sets it to be the MiniD class that corresponds
+to the given runtime TypeInfo object.  The class object is <b>not</b> popped off the stack.</div>
+<b>You probably won't have to call this function under normal circumstances.</b></dd>
+<dt class="decl">word <a class="symbol _function" name="getWrappedInstance" href="./htmlsrc/minid.bind.html#L411" kind="function" beg="411" end="436">getWrappedInstance</a><span class="params">(MDThread* <em>t</em>, Object <em>o</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#getWrappedInstance" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L411">#</a></dt>
+<dd class="ddef">
+<div class="summary">Assuming a valid wrapped class is on the top of the stack, this function will take a D object
+and push the corresponding MiniD instance.  If a MiniD instance has already been created for
+this object, pushes that instance; otherwise, this will create an instance and link it to this
+D object.</div>
+<b>You probably won't have to call this function under normal circumstances.</b>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>o</em></td><td>The D object to convert to a MiniD instance.</td></tr></table>
+<p class="sec_header">Returns:</p>The stack index of the newly-pushed instance.</dd>
+<dt class="decl">void <a class="symbol _function" name="setWrappedInstance" href="./htmlsrc/minid.bind.html#L448" kind="function" beg="448" end="455">setWrappedInstance</a><span class="params">(MDThread* <em>t</em>, Object <em>o</em>, word <em>idx</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#setWrappedInstance" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L448">#</a></dt>
+<dd class="ddef">
+<div class="summary">For a given D object instance, sets the MiniD instance at the given stack index to be
+its corresponding object.</div>
+<b>You probably won't have to call this function under normal circumstances.</b>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>o</em></td><td>The D object that should be linked to the given MiniD instance.</td></tr>
+<tr><td><em>idx</em></td><td>The stack index of the MiniD instance that should be linked to the given D object.</td></tr></table></dd>
+<dt class="decl">Type* <a class="symbol _function" name="checkStructSelf" href="./htmlsrc/minid.bind.html#L469" kind="function" beg="469" end="477">checkStructSelf</a><span class="tparams">(Type, char[] FullName)</span><span class="params">(MDThread* <em>t</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#checkStructSelf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L469">#</a></dt>
+<dd class="ddef">
+<div class="summary">Checks that the 'this' parameter passed to a native function is an instance of the given struct
+type, and returns a pointer to the struct object that is referenced by 'this'.</div>
+Template Params:
+	Type = The D struct type that corresponds to 'this'.
+<p class="bl"/>
+	FullName = The name of the type in MiniD, in dotted form.
+<p class="sec_header">Returns:</p>A pointer to the struct object referenced by 'this'.</dd>
+<dt class="decl">Type <a class="symbol _function" name="checkClassSelf" href="./htmlsrc/minid.bind.html#L491" kind="function" beg="491" end="499">checkClassSelf</a><span class="tparams">(Type, char[] FullName)</span><span class="params">(MDThread* <em>t</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#checkClassSelf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L491">#</a></dt>
+<dd class="ddef">
+<div class="summary">Checks that the 'this' parameter passed to a native function is an instance of the given class
+type, and returns the reference to the D object instance that is referenced by 'this'.</div>
+Template Params:
+	Type = The D class type that corresponds to 'this'.
+<p class="bl"/>
+	FullName = The name of the type in MiniD, in dotted form.
+<p class="sec_header">Returns:</p>A reference to the D object instance referenced by 'this'.</dd>
+<dt class="decl">word <a class="symbol _function" name="superPush" href="./htmlsrc/minid.bind.html#L515" kind="function" beg="515" end="589">superPush</a><span class="tparams">(Type)</span><span class="params">(MDThread* <em>t</em>, Type <em>val</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#superPush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L515">#</a></dt>
+<dd class="ddef">
+<div class="summary">It's superPush!  It's better than your average push.</div>
+This is a templated push function that will take any D type that is convertible to a MiniD type
+and push its MiniD conversion onto the stack.  This includes not only simple value types, but also
+arrays, associative arrays, classes, and structs.  Classes and structs are convertible as long as they
+have been wrapped.  Arrays are convertible as long as their element type is convertible.  AAs are
+convertible as long as their key and value types are convertible.  Arrays will become MiniD arrays,
+and AAs will become MiniD tables.  Classes and structs will become MiniD instances of the wrapped
+MiniD class type.
+<p class="sec_header">Returns:</p>The stack index of the newly-pushed value.</dd>
+<dt class="decl">word <a class="symbol _function" name="multiPush" href="./htmlsrc/minid.bind.html#L602" kind="function" beg="602" end="610">multiPush</a><span class="tparams">(T, U...)</span><span class="params">(MDThread* <em>t</em>, T <em>arg1</em>, U <em>args</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#multiPush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L602">#</a></dt>
+<dd class="ddef">
+<div class="summary">Like superPush, but pushes multiple values onto the stack in one function call.  Calls superPush
+internally, so any types that are legal to pass to superPush are legal to pass to this.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>arg1</em></td><td>The first value to push.  This is separated to force you to push at least one value.</td></tr>
+<tr><td><em>args</em></td><td>Any additional values to push.</td></tr></table>
+<p class="sec_header">Returns:</p>The stack index of the first value that was pushed.</dd>
+<dt class="decl">Type <a class="symbol _function" name="superGet" href="./htmlsrc/minid.bind.html#L623" kind="function" beg="623" end="778">superGet</a><span class="tparams">(Type)</span><span class="params">(MDThread* <em>t</em>, word <em>idx</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#superGet" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L623">#</a></dt>
+<dd class="ddef">
+<div class="summary">The inverse of superPush, this function allows you to get any type of value from the MiniD stack
+and convert it into a D type.  The rules in this direction are pretty much the same as in the other:
+a MiniD array can only be converted into a D array as long as its elements can be converted to the
+D array's element type, and similarly for MiniD tables.</div>
+Strings will also be converted to the correct Unicode encoding.  Keep in mind, however, that this
+function will duplicate the string data onto the D heap, unlike the raw API getString function.
+This is because handing off pointers to internal MiniD memory to arbitrary D libraries is probably
+not a good idea.</dd>
+<dt class="decl">void <a class="symbol _function" name="multiGet" href="./htmlsrc/minid.bind.html#L790" kind="function" beg="790" end="799">multiGet</a><span class="tparams">(T, U...)</span><span class="params">(MDThread* <em>t</em>, word <em>start</em>, ref T <em>arg1</em>, ref U <em>args</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#multiGet" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L790">#</a></dt>
+<dd class="ddef">
+<div class="summary">Like superGet, but gets multiple consecutive values off the stack.  There must be at least
+as many values after the start index as you have values to get.  This calls superGet internally,
+so any types that are legal to get with superGet are legal here too.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>start</em></td><td>The stack index of the first value to retrieve.</td></tr>
+<tr><td><em>arg1</em></td><td>The first value to get.  This is separate to force you to get at least one value.</td></tr>
+<tr><td><em>args</em></td><td>Any additional values to get.</td></tr></table></dd>
+<dt class="decl">bool <a class="symbol _function" name="canCastTo" href="./htmlsrc/minid.bind.html#L805" kind="function" beg="805" end="901">canCastTo</a><span class="tparams">(Type)</span><span class="params">(MDThread* <em>t</em>, word <em>idx</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#canCastTo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L805">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the value at the given stack index can be converted to the given D type,
+or false otherwise.  That's all.</div></dd>
+<dt class="decl">template <a class="symbol _template" name="PropAnalysis" href="./htmlsrc/minid.bind.html#L907" kind="template" beg="907" end="925">PropAnalysis</a><span class="tparams">(alias func, funcType)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PropAnalysis" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L907">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias ParameterTupleOf!(funcType) <a class="symbol _alias" name="PropAnalysis.Args" href="./htmlsrc/minid.bind.html#L909" kind="alias" beg="909" end="909">Args</a>; <a title="Permalink to this symbol" href="#PropAnalysis.Args" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L909">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias ReturnTypeOf!(funcType) <a class="symbol _alias" name="PropAnalysis.propType" href="./htmlsrc/minid.bind.html#L913" kind="alias" beg="913" end="913">propType</a>; <a title="Permalink to this symbol" href="#PropAnalysis.propType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L913">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _variable" name="PropAnalysis.readOnly" href="./htmlsrc/minid.bind.html#L916" kind="variable" beg="916" end="916">readOnly</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#PropAnalysis.readOnly" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L916">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="ReadOnly" href="./htmlsrc/minid.bind.html#L927" kind="template" beg="927" end="930">ReadOnly</a><span class="tparams">(alias func, funcType)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ReadOnly" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L927">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="ReadOnly.ReadOnly" href="./htmlsrc/minid.bind.html#L929" kind="variable" beg="929" end="929">ReadOnly</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#ReadOnly.ReadOnly" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L929">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="PropType" href="./htmlsrc/minid.bind.html#L932" kind="template" beg="932" end="935">PropType</a><span class="tparams">(alias func, funcType)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PropType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L932">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias PropAnalysis!(func, funcType).propType <a class="symbol _alias" name="PropType.PropType" href="./htmlsrc/minid.bind.html#L934" kind="alias" beg="934" end="934">PropType</a>; <a title="Permalink to this symbol" href="#PropType.PropType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L934">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="commonNamespace" href="./htmlsrc/minid.bind.html#L937" kind="template" beg="937" end="956">commonNamespace</a><span class="tparams">(char[] t, char[] name, bool isModule, char[] Members)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#commonNamespace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L937">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="commonNamespace.commonNamespace" href="./htmlsrc/minid.bind.html#L939" kind="variable" beg="939" end="955">commonNamespace</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#commonNamespace.commonNamespace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L939">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">void <a class="symbol _function" name="commonNamespace:2" href="./htmlsrc/minid.bind.html#L958" kind="function" beg="958" end="983">commonNamespace</a><span class="tparams">(char[] name, bool isModule, Members...)</span><span class="params">(MDThread* <em>t</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#commonNamespace:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L958">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkInitialized" href="./htmlsrc/minid.bind.html#L985" kind="function" beg="985" end="999">checkInitialized</a><span class="params">(MDThread* <em>t</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkInitialized" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L985">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">word <a class="symbol _function" name="pushStructClass" href="./htmlsrc/minid.bind.html#L1001" kind="function" beg="1001" end="1031">pushStructClass</a><span class="tparams">(Type, char[] ModName, char[] StructName)</span><span class="params">(MDThread* <em>t</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#pushStructClass" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1001">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">class <a class="symbol _class" name="WrappedClass" href="./htmlsrc/minid.bind.html#L1033" kind="class" beg="1033" end="1222">WrappedClass</a><span class="tparams">(Type, char[] name, char[] moduleName, Members...)</span> : Type; <a title="Permalink to this symbol" href="#WrappedClass" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1033">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">MDVM* <a class="symbol _variable" name="WrappedClass._vm_" href="./htmlsrc/minid.bind.html#L1035" kind="variable" beg="1035" end="1035">_vm_</a>; <a title="Permalink to this symbol" href="#WrappedClass._vm_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1035">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _variable" name="WrappedClass.typeName" href="./htmlsrc/minid.bind.html#L1037" kind="variable" beg="1037" end="1037">typeName</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrappedClass.typeName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1037">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias GetCtors!(Members) <a class="symbol _alias" name="WrappedClass.Ctors" href="./htmlsrc/minid.bind.html#L1038" kind="alias" beg="1038" end="1038">Ctors</a>; <a title="Permalink to this symbol" href="#WrappedClass.Ctors" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1038">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">auto <a class="symbol _variable" name="WrappedClass.TypeName" href="./htmlsrc/minid.bind.html#L1042" kind="variable" beg="1042" end="1042">TypeName</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrappedClass.TypeName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1042">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">MDThread* <a class="symbol _function" name="WrappedClass._haveMDOverload_" href="./htmlsrc/minid.bind.html#L1046" kind="function" beg="1046" end="1077">_haveMDOverload_</a><span class="params">(char[] <em>methodName</em>)</span>; <a title="Permalink to this symbol" href="#WrappedClass._haveMDOverload_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1046">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias Ctors[0] <a class="symbol _alias" name="WrappedClass.DUMMY" href="./htmlsrc/minid.bind.html#L1082" kind="alias" beg="1082" end="1082">DUMMY</a>; <a title="Permalink to this symbol" href="#WrappedClass.DUMMY" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1082">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias Unique!(Tuple!(void function(), DUMMY.Types)) <a class="symbol _alias" name="WrappedClass.CleanCtors" href="./htmlsrc/minid.bind.html#L1085" kind="alias" beg="1085" end="1085">CleanCtors</a>; <a title="Permalink to this symbol" href="#WrappedClass.CleanCtors" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1085">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uword <a class="symbol _function" name="WrappedClass.constructor" href="./htmlsrc/minid.bind.html#L1091" kind="function" beg="1091" end="1143">constructor</a><span class="params">(MDThread* <em>t</em>, uword <em>numParams</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#WrappedClass.constructor" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1091">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">word <a class="symbol _function" name="WrappedClass.init" href="./htmlsrc/minid.bind.html#L1173" kind="function" beg="1173" end="1221">init</a><span class="params">(MDThread* <em>t</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#WrappedClass.init" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1173">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="StructWrapper" href="./htmlsrc/minid.bind.html#L1224" kind="class" beg="1224" end="1232">StructWrapper</a><span class="tparams">(Type)</span>; <a title="Permalink to this symbol" href="#StructWrapper" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1224">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">Type <a class="symbol _variable" name="StructWrapper.inst" href="./htmlsrc/minid.bind.html#L1226" kind="variable" beg="1226" end="1226">inst</a>; <a title="Permalink to this symbol" href="#StructWrapper.inst" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1226">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="StructWrapper.this" href="./htmlsrc/minid.bind.html#L1228" kind="ctor" beg="1228" end="1231">this</a><span class="params">(Type <em>t</em>)</span>; <a title="Permalink to this symbol" href="#StructWrapper.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1228">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="WrappedStruct" href="./htmlsrc/minid.bind.html#L1234" kind="struct" beg="1234" end="1361">WrappedStruct</a><span class="tparams">(Type, char[] name, char[] moduleName, Members...)</span>; <a title="Permalink to this symbol" href="#WrappedStruct" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1234">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">char[] <a class="symbol _variable" name="WrappedStruct.typeName" href="./htmlsrc/minid.bind.html#L1237" kind="variable" beg="1237" end="1237">typeName</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrappedStruct.typeName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1237">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias GetCtors!(Members) <a class="symbol _alias" name="WrappedStruct.Ctors" href="./htmlsrc/minid.bind.html#L1238" kind="alias" beg="1238" end="1238">Ctors</a>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#WrappedStruct.Ctors" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1238">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">auto <a class="symbol _variable" name="WrappedStruct.TypeName" href="./htmlsrc/minid.bind.html#L1242" kind="variable" beg="1242" end="1242">TypeName</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#WrappedStruct.TypeName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1242">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias Ctors[0] <a class="symbol _alias" name="WrappedStruct.DUMMY" href="./htmlsrc/minid.bind.html#L1249" kind="alias" beg="1249" end="1249">DUMMY</a>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#WrappedStruct.DUMMY" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1249">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias DUMMY.Types <a class="symbol _alias" name="WrappedStruct.CleanCtors" href="./htmlsrc/minid.bind.html#L1250" kind="alias" beg="1250" end="1250">CleanCtors</a>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#WrappedStruct.CleanCtors" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1250">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uword <a class="symbol _function" name="WrappedStruct.constructor" href="./htmlsrc/minid.bind.html#L1252" kind="function" beg="1252" end="1302">constructor</a><span class="params">(MDThread* <em>t</em>, uword <em>numParams</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#WrappedStruct.constructor" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1252">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">word <a class="symbol _function" name="WrappedStruct.init" href="./htmlsrc/minid.bind.html#L1319" kind="function" beg="1319" end="1360">init</a><span class="params">(MDThread* <em>t</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#WrappedStruct.init" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1319">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="ClassCtorShims" href="./htmlsrc/minid.bind.html#L1363" kind="template" beg="1363" end="1366">ClassCtorShims</a><span class="tparams">(Ctors...)</span>; <a title="Permalink to this symbol" href="#ClassCtorShims" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1363">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="ClassCtorShims.ClassCtorShims" href="./htmlsrc/minid.bind.html#L1365" kind="variable" beg="1365" end="1365">ClassCtorShims</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#ClassCtorShims.ClassCtorShims" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1365">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="ClassCtorShimsImpl" href="./htmlsrc/minid.bind.html#L1368" kind="template" beg="1368" end="1393">ClassCtorShimsImpl</a><span class="tparams">(uint idx, Ctors...)</span>; <a title="Permalink to this symbol" href="#ClassCtorShimsImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1368">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="ClassCtorShimsImpl.ClassCtorShimsImpl" href="./htmlsrc/minid.bind.html#L1371" kind="variable" beg="1371" end="1371">ClassCtorShimsImpl</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#ClassCtorShimsImpl.ClassCtorShimsImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1371">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="ClassOverrideMethods" href="./htmlsrc/minid.bind.html#L1398" kind="template" beg="1398" end="1398">ClassOverrideMethods</a><span class="tparams">(Type, char[] TypeName)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ClassOverrideMethods" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1398">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">template <a class="symbol _template" name="ClassOverrideMethods:2" href="./htmlsrc/minid.bind.html#L1399" kind="template" beg="1399" end="1422">ClassOverrideMethods</a><span class="tparams">(Type, char[] TypeName, alias X, T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ClassOverrideMethods:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1399">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">template <a class="symbol _template" name="ClassMiniDMethods" href="./htmlsrc/minid.bind.html#L1428" kind="template" beg="1428" end="1428">ClassMiniDMethods</a><span class="tparams">(Type, char[] TypeName)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ClassMiniDMethods" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1428">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">template <a class="symbol _template" name="ClassMiniDMethods:2" href="./htmlsrc/minid.bind.html#L1429" kind="template" beg="1429" end="1458">ClassMiniDMethods</a><span class="tparams">(Type, char[] TypeName, alias X, T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ClassMiniDMethods:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1429">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">template <a class="symbol _template" name="ClassProperties" href="./htmlsrc/minid.bind.html#L1466" kind="template" beg="1466" end="1469">ClassProperties</a><span class="tparams">(Type)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ClassProperties" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1466">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="ClassProperties.haveProperties" href="./htmlsrc/minid.bind.html#L1468" kind="variable" beg="1468" end="1468">haveProperties</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#ClassProperties.haveProperties" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1468">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="ClassProperties:2" href="./htmlsrc/minid.bind.html#L1471" kind="template" beg="1471" end="1476">ClassProperties</a><span class="tparams">(Type, X, T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ClassProperties:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1471">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="ClassProperties.haveProperties:2" href="./htmlsrc/minid.bind.html#L1473" kind="variable" beg="1473" end="1473">haveProperties</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#ClassProperties.haveProperties:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1473">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="ClassPropertiesImpl" href="./htmlsrc/minid.bind.html#L1479" kind="template" beg="1479" end="1497">ClassPropertiesImpl</a><span class="tparams">(Type, T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ClassPropertiesImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1479">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">template <a class="symbol _template" name="StructProperties" href="./htmlsrc/minid.bind.html#L1499" kind="template" beg="1499" end="1502">StructProperties</a><span class="tparams">(Type)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#StructProperties" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1499">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="StructProperties.haveProperties" href="./htmlsrc/minid.bind.html#L1501" kind="variable" beg="1501" end="1501">haveProperties</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#StructProperties.haveProperties" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1501">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="StructProperties:2" href="./htmlsrc/minid.bind.html#L1504" kind="template" beg="1504" end="1509">StructProperties</a><span class="tparams">(Type, X, T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#StructProperties:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1504">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="StructProperties.haveProperties:2" href="./htmlsrc/minid.bind.html#L1506" kind="variable" beg="1506" end="1506">haveProperties</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#StructProperties.haveProperties:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1506">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="StructPropertiesImpl" href="./htmlsrc/minid.bind.html#L1511" kind="template" beg="1511" end="1529">StructPropertiesImpl</a><span class="tparams">(Type, T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#StructPropertiesImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1511">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">template <a class="symbol _template" name="PropertiesImpl" href="./htmlsrc/minid.bind.html#L1532" kind="template" beg="1532" end="1532">PropertiesImpl</a><span class="tparams">(Type)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PropertiesImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1532">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">template <a class="symbol _template" name="PropertiesImpl:2" href="./htmlsrc/minid.bind.html#L1533" kind="template" beg="1533" end="1543">PropertiesImpl</a><span class="tparams">(Type, X, T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PropertiesImpl:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1533">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">template <a class="symbol _template" name="GetField" href="./htmlsrc/minid.bind.html#L1545" kind="template" beg="1545" end="1554">GetField</a><span class="tparams">(Type, T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#GetField" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1545">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="GetField.GetField" href="./htmlsrc/minid.bind.html#L1547" kind="variable" beg="1547" end="1553">GetField</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#GetField.GetField" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1547">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="GetFieldImpl" href="./htmlsrc/minid.bind.html#L1556" kind="template" beg="1556" end="1575">GetFieldImpl</a><span class="tparams">(Fields...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#GetFieldImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1556">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="GetFieldImpl.GetFieldImpl" href="./htmlsrc/minid.bind.html#L1559" kind="variable" beg="1559" end="1559">GetFieldImpl</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#GetFieldImpl.GetFieldImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1559">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="SetField" href="./htmlsrc/minid.bind.html#L1577" kind="template" beg="1577" end="1586">SetField</a><span class="tparams">(Type, T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SetField" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1577">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="SetField.SetField" href="./htmlsrc/minid.bind.html#L1579" kind="variable" beg="1579" end="1585">SetField</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#SetField.SetField" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1579">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="SetFieldImpl" href="./htmlsrc/minid.bind.html#L1588" kind="template" beg="1588" end="1608">SetFieldImpl</a><span class="tparams">(Fields...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SetFieldImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1588">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="SetFieldImpl.SetFieldImpl" href="./htmlsrc/minid.bind.html#L1591" kind="variable" beg="1591" end="1591">SetFieldImpl</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#SetFieldImpl.SetFieldImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1591">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="WrappedFunc" href="./htmlsrc/minid.bind.html#L1610" kind="template" beg="1610" end="1689">WrappedFunc</a><span class="tparams">(alias func, char[] name, funcType, bool explicitType)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#WrappedFunc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1610">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">uword <a class="symbol _function" name="WrappedFunc.WrappedFunc" href="./htmlsrc/minid.bind.html#L1612" kind="function" beg="1612" end="1688">WrappedFunc</a><span class="params">(MDThread* <em>t</em>, uword <em>numParams</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#WrappedFunc.WrappedFunc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1612">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="WrappedNativeMethod" href="./htmlsrc/minid.bind.html#L1691" kind="template" beg="1691" end="1765">WrappedNativeMethod</a><span class="tparams">(alias func, funcType, bool explicitType)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#WrappedNativeMethod" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1691">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">uword <a class="symbol _function" name="WrappedNativeMethod.WrappedNativeMethod" href="./htmlsrc/minid.bind.html#L1693" kind="function" beg="1693" end="1764">WrappedNativeMethod</a><span class="tparams">(Type)</span><span class="params">(MDThread* <em>t</em>, uword <em>numParams</em>, Type <em>self</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#WrappedNativeMethod.WrappedNativeMethod" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1693">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="WrappedMethod" href="./htmlsrc/minid.bind.html#L1767" kind="template" beg="1767" end="1841">WrappedMethod</a><span class="tparams">(alias func, funcType, Type, char[] FullName, bool explicitType)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#WrappedMethod" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1767">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">uword <a class="symbol _function" name="WrappedMethod.WrappedMethod" href="./htmlsrc/minid.bind.html#L1769" kind="function" beg="1769" end="1840">WrappedMethod</a><span class="params">(MDThread* <em>t</em>, uword <em>numParams</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#WrappedMethod.WrappedMethod" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1769">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">uword <a class="symbol _function" name="WrappedStructMethod" href="./htmlsrc/minid.bind.html#L1843" kind="function" beg="1843" end="1917">WrappedStructMethod</a><span class="tparams">(alias func, funcType, Type, char[] FullName, bool explicitType)</span><span class="params">(MDThread* <em>t</em>, uword <em>numParams</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#WrappedStructMethod" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1843">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="PropImpl" href="./htmlsrc/minid.bind.html#L1919" kind="template" beg="1919" end="1949">PropImpl</a><span class="tparams">(char[] name, bool readOnly, propType, char[] FullName)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PropImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1919">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">uword <a class="symbol _function" name="PropImpl.PropImpl" href="./htmlsrc/minid.bind.html#L1921" kind="function" beg="1921" end="1948">PropImpl</a><span class="tparams">(Type)</span><span class="params">(MDThread* <em>t</em>, uword <em>numParams</em>, Type <em>self</em>)</span>; <a title="Permalink to this symbol" href="#PropImpl.PropImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1921">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="ClassCtorCases" href="./htmlsrc/minid.bind.html#L1951" kind="template" beg="1951" end="1955">ClassCtorCases</a><span class="tparams">(Ctors...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ClassCtorCases" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1951">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="ClassCtorCases.ClassCtorCases" href="./htmlsrc/minid.bind.html#L1953" kind="variable" beg="1953" end="1954">ClassCtorCases</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#ClassCtorCases.ClassCtorCases" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1953">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="ClassCtorCasesImpl" href="./htmlsrc/minid.bind.html#L1957" kind="template" beg="1957" end="1979">ClassCtorCasesImpl</a><span class="tparams">(int num, int idx, Ctors...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ClassCtorCasesImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1957">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="ClassCtorCasesImpl.ClassCtorCasesImpl" href="./htmlsrc/minid.bind.html#L1960" kind="variable" beg="1960" end="1960">ClassCtorCasesImpl</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#ClassCtorCasesImpl.ClassCtorCasesImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1960">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="StructCtorCases" href="./htmlsrc/minid.bind.html#L1981" kind="template" beg="1981" end="1985">StructCtorCases</a><span class="tparams">(Ctors...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#StructCtorCases" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1981">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="StructCtorCases.StructCtorCases" href="./htmlsrc/minid.bind.html#L1983" kind="variable" beg="1983" end="1984">StructCtorCases</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#StructCtorCases.StructCtorCases" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1983">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="StructCtorCasesImpl" href="./htmlsrc/minid.bind.html#L1987" kind="template" beg="1987" end="2008">StructCtorCasesImpl</a><span class="tparams">(int num, int idx, Ctors...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#StructCtorCasesImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1987">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="StructCtorCasesImpl.StructCtorCasesImpl" href="./htmlsrc/minid.bind.html#L1990" kind="variable" beg="1990" end="1990">StructCtorCasesImpl</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#StructCtorCasesImpl.StructCtorCasesImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L1990">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="NumParams" href="./htmlsrc/minid.bind.html#L2010" kind="template" beg="2010" end="2013">NumParams</a><span class="tparams">(T)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#NumParams" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2010">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="NumParams.NumParams" href="./htmlsrc/minid.bind.html#L2012" kind="variable" beg="2012" end="2012">NumParams</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#NumParams.NumParams" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2012">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="SortByNumParams" href="./htmlsrc/minid.bind.html#L2015" kind="template" beg="2015" end="2018">SortByNumParams</a><span class="tparams">(T1, T2)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SortByNumParams" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2015">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="SortByNumParams.SortByNumParams" href="./htmlsrc/minid.bind.html#L2017" kind="variable" beg="2017" end="2017">SortByNumParams</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#SortByNumParams.SortByNumParams" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2017">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="GetCtors" href="./htmlsrc/minid.bind.html#L2020" kind="template" beg="2020" end="2028">GetCtors</a><span class="tparams">(T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#GetCtors" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2020">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias Tuple!() <a class="symbol _alias" name="GetCtors.GetCtors" href="./htmlsrc/minid.bind.html#L2023" kind="alias" beg="2023" end="2023">GetCtors</a>; <a title="Permalink to this symbol" href="#GetCtors.GetCtors" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2023">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="GetMethods" href="./htmlsrc/minid.bind.html#L2030" kind="template" beg="2030" end="2038">GetMethods</a><span class="tparams">(T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#GetMethods" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2030">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias Tuple!() <a class="symbol _alias" name="GetMethods.GetMethods" href="./htmlsrc/minid.bind.html#L2033" kind="alias" beg="2033" end="2033">GetMethods</a>; <a title="Permalink to this symbol" href="#GetMethods.GetMethods" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2033">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="GetProperties" href="./htmlsrc/minid.bind.html#L2040" kind="template" beg="2040" end="2048">GetProperties</a><span class="tparams">(T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#GetProperties" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2040">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias Tuple!() <a class="symbol _alias" name="GetProperties.GetProperties" href="./htmlsrc/minid.bind.html#L2043" kind="alias" beg="2043" end="2043">GetProperties</a>; <a title="Permalink to this symbol" href="#GetProperties.GetProperties" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2043">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="StructFieldProp" href="./htmlsrc/minid.bind.html#L2050" kind="struct" beg="2050" end="2057">StructFieldProp</a><span class="tparams">(char[] name, type)</span>; <a title="Permalink to this symbol" href="#StructFieldProp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2050">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="StructFieldProp.isProperty" href="./htmlsrc/minid.bind.html#L2052" kind="variable" beg="2052" end="2052">isProperty</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#StructFieldProp.isProperty" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2052">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _variable" name="StructFieldProp.Name" href="./htmlsrc/minid.bind.html#L2053" kind="variable" beg="2053" end="2053">Name</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#StructFieldProp.Name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2053">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _variable" name="StructFieldProp.DName" href="./htmlsrc/minid.bind.html#L2054" kind="variable" beg="2054" end="2054">DName</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#StructFieldProp.DName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2054">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _variable" name="StructFieldProp.readOnly" href="./htmlsrc/minid.bind.html#L2055" kind="variable" beg="2055" end="2055">readOnly</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#StructFieldProp.readOnly" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2055">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias type <a class="symbol _alias" name="StructFieldProp.propType" href="./htmlsrc/minid.bind.html#L2056" kind="alias" beg="2056" end="2056">propType</a>; <a title="Permalink to this symbol" href="#StructFieldProp.propType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2056">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="StructFieldsToProps" href="./htmlsrc/minid.bind.html#L2059" kind="template" beg="2059" end="2065">StructFieldsToProps</a><span class="tparams">(T, uint idx = 0)</span>; <a title="Permalink to this symbol" href="#StructFieldsToProps" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2059">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias Tuple!() <a class="symbol _alias" name="StructFieldsToProps.StructFieldsToProps" href="./htmlsrc/minid.bind.html#L2062" kind="alias" beg="2062" end="2062">StructFieldsToProps</a>; <a title="Permalink to this symbol" href="#StructFieldsToProps.StructFieldsToProps" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2062">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">bool <a class="symbol _function" name="TypesMatch" href="./htmlsrc/minid.bind.html#L2067" kind="function" beg="2067" end="2084">TypesMatch</a><span class="tparams">(T...)</span><span class="params">(MDThread* <em>t</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#TypesMatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.bind.html#L2067">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p></p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 03:29:18 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

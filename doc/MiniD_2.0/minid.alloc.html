@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>minid.alloc</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "minid.alloc";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/minid.alloc.html" class="symbol">minid.alloc</a></h1>
+  
+<p class="sec_header">License:</p>Copyright (c) 2008 Jarrett Billingsley
+<p class="bl"/>
+This software is provided 'as-is', without any express or implied warranty.
+In no event will the authors be held liable for any damages arising from the
+use of this software.
+<p class="bl"/>
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
+subject to the following restrictions:
+<p class="bl"/>
+    1. The origin of this software must not be misrepresented; you must not
+	claim that you wrote the original software. If you use this software in a
+	product, an acknowledgment in the product documentation would be
+	appreciated but is not required.
+<p class="bl"/>
+    2. Altered source versions must be plainly marked as such, and must not
+	be misrepresented as being the original software.
+<p class="bl"/>
+    3. This notice may not be removed or altered from any source distribution.
+<dl>
+<dt class="decl">alias void* function(void* ctx, void* p, size_t oldSize, size_t newSize) <a class="symbol _alias" name="MemFunc" href="./htmlsrc/minid.alloc.html#L64" kind="alias" beg="64" end="64">MemFunc</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#MemFunc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L64">#</a></dt>
+<dd class="ddef">
+<div class="summary">The type of the memory allocation function that the MiniD library uses to allocate, reallocate, and free memory.
+You pass a memory allocation function when you create a VM, and all allocations by the VM go through that function.</div>
+This type is defined as a void* function(void* ctx, void* p, size_t oldSize, size_t newSize).
+<p class="bl"/>
+The memory function works as follows:
+<p class="bl"/>
+If a new block is being requested, it will be called with a p of null, an oldSize of 0, and a newSize of the size of
+the requested block.
+<p class="bl"/>
+If an existing block is to be resized, it will be called with p being the pointer to the block, an oldSize of the current
+block size, and a newSize of the new expected size of the block.
+<p class="bl"/>
+If an existing block is to be deallocated, it will be called with p being the pointer to the block, an oldSize of the
+current block size, and a newSize of 0.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>ctx</em></td><td>The context pointer that was associated with the VM upon creation.  This pointer is just passed to the allocation
+		function on every call; MiniD doesn't use it.</td></tr>
+<tr><td><em>p</em></td><td>The pointer that is being operated on.  If this is null, an allocation is being requested.  Otherwise, either a
+		reallocation or a deallocation is being requested.</td></tr>
+<tr><td><em>oldSize</em></td><td>The current size of the block pointed to by p.  If p is null, this will always be 0.</td></tr>
+<tr><td><em>newSize</em></td><td>The new size of the block pointed to by p.  If p is null, this is the requested size of the new block.
+		Otherwise, if this is 0, a deallocation is being requested.  Otherwise, a reallocation is being requested.</td></tr></table>
+<p class="sec_header">Returns:</p>If a deallocation was requested, should return null.  Otherwise, should return a <b>non-null</b> pointer.  If memory cannot
+	be allocated, the memory allocation function should throw an exception, not return null.</dd>
+<dt class="decl">enum <a class="symbol _enum" name="GCBits" href="./htmlsrc/minid.alloc.html#L72" kind="enum" beg="72" end="76">GCBits</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#GCBits" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L72">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="GCBits.Marked" href="./htmlsrc/minid.alloc.html#L74" kind="enummem" beg="74" end="74">Marked</a> <a title="Permalink to this symbol" href="#GCBits.Marked" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L74">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="GCBits.Finalized" href="./htmlsrc/minid.alloc.html#L75" kind="enummem" beg="75" end="75">Finalized</a> <a title="Permalink to this symbol" href="#GCBits.Finalized" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L75">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="GCMixin" href="./htmlsrc/minid.alloc.html#L78" kind="template" beg="78" end="82">GCMixin</a><span class="tparams">()</span>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#GCMixin" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L78">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">GCObject* <a class="symbol _variable" name="GCMixin.next" href="./htmlsrc/minid.alloc.html#L80" kind="variable" beg="80" end="80">next</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#GCMixin.next" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L80">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="GCMixin.flags" href="./htmlsrc/minid.alloc.html#L81" kind="variable" beg="81" end="81">flags</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#GCMixin.flags" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L81">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="GCObject" href="./htmlsrc/minid.alloc.html#L84" kind="struct" beg="84" end="87">GCObject</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#GCObject" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L84">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">void <a class="symbol _function" name="append" href="./htmlsrc/minid.alloc.html#L89" kind="function" beg="89" end="93">append</a><span class="tparams">(T)</span><span class="params">(ref T[] <em>arr</em>, Allocator* <em>alloc</em>, ref T <em>item</em>)</span>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L89">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">struct <a class="symbol _struct" name="Allocator" href="./htmlsrc/minid.alloc.html#L95" kind="struct" beg="95" end="264">Allocator</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#Allocator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L95">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">MemFunc <a class="symbol _variable" name="Allocator.memFunc" href="./htmlsrc/minid.alloc.html#L97" kind="variable" beg="97" end="97">memFunc</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#Allocator.memFunc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L97">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void* <a class="symbol _variable" name="Allocator.ctx" href="./htmlsrc/minid.alloc.html#L98" kind="variable" beg="98" end="98">ctx</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#Allocator.ctx" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L98">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">GCObject* <a class="symbol _variable" name="Allocator.gcHead" href="./htmlsrc/minid.alloc.html#L100" kind="variable" beg="100" end="100">gcHead</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#Allocator.gcHead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L100">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">GCObject* <a class="symbol _variable" name="Allocator.finalizable" href="./htmlsrc/minid.alloc.html#L101" kind="variable" beg="101" end="101">finalizable</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#Allocator.finalizable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L101">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="Allocator.gcLimit" href="./htmlsrc/minid.alloc.html#L104" kind="variable" beg="104" end="104">gcLimit</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#Allocator.gcLimit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L104">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="Allocator.markVal" href="./htmlsrc/minid.alloc.html#L105" kind="variable" beg="105" end="105">markVal</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#Allocator.markVal" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L105">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="Allocator.totalBytes" href="./htmlsrc/minid.alloc.html#L106" kind="variable" beg="106" end="106">totalBytes</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#Allocator.totalBytes" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L106">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T* <a class="symbol _function" name="Allocator.allocate" href="./htmlsrc/minid.alloc.html#L124" kind="function" beg="124" end="134">allocate</a><span class="tparams">(T)</span><span class="params">(size_t <em>size</em> = T.sizeof)</span>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#Allocator.allocate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L124">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T* <a class="symbol _function" name="Allocator.duplicate" href="./htmlsrc/minid.alloc.html#L136" kind="function" beg="136" end="145">duplicate</a><span class="tparams">(T)</span><span class="params">(T* <em>o</em>, size_t <em>size</em> = T.sizeof)</span>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#Allocator.duplicate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L136">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Allocator.free" href="./htmlsrc/minid.alloc.html#L147" kind="function" beg="147" end="156">free</a><span class="tparams">(T)</span><span class="params">(T* <em>o</em>, size_t <em>size</em> = T.sizeof)</span>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#Allocator.free" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L147">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T[] <a class="symbol _function" name="Allocator.allocArray" href="./htmlsrc/minid.alloc.html#L158" kind="function" beg="158" end="169">allocArray</a><span class="tparams">(T)</span><span class="params">(size_t <em>size</em>)</span>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#Allocator.allocArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L158">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Allocator.resizeArray" href="./htmlsrc/minid.alloc.html#L171" kind="function" beg="171" end="190">resizeArray</a><span class="tparams">(T)</span><span class="params">(ref T[] <em>arr</em>, size_t <em>newLen</em>)</span>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#Allocator.resizeArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L171">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T[] <a class="symbol _function" name="Allocator.dupArray" href="./htmlsrc/minid.alloc.html#L192" kind="function" beg="192" end="200">dupArray</a><span class="tparams">(T)</span><span class="params">(T[] <em>a</em>)</span>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#Allocator.dupArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L192">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Allocator.freeArray" href="./htmlsrc/minid.alloc.html#L202" kind="function" beg="202" end="209">freeArray</a><span class="tparams">(T)</span><span class="params">(ref T[] <em>a</em>)</span>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#Allocator.freeArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L202">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="Allocator.realloc" href="./htmlsrc/minid.alloc.html#L211" kind="template" beg="211" end="255">realloc</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#Allocator.realloc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L211">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">void* <a class="symbol _function" name="Allocator.reallocImpl" href="./htmlsrc/minid.alloc.html#L257" kind="function" beg="257" end="263">reallocImpl</a><span class="params">(void* <em>p</em>, size_t <em>oldSize</em>, size_t <em>newSize</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Allocator.reallocImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.alloc.html#L257">#</a></dt>
+<dd class="ddef"></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p></p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 03:29:16 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

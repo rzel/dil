@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>minid.api</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "minid.api";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/minid.api.html" class="symbol">minid.api</a></h1>
+  
+<div class="summary">This module publicly imports the following modules: minid.alloc, minid.ex,
+minid.interpreter, minid.serialization, minid.types, minid.utils, and minid.vm.</div>
+<p class="sec_header">License:</p>Copyright (c) 2008 Jarrett Billingsley
+<p class="bl"/>
+This software is provided 'as-is', without any express or implied warranty.
+In no event will the authors be held liable for any damages arising from the
+use of this software.
+<p class="bl"/>
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
+subject to the following restrictions:
+<p class="bl"/>
+    1. The origin of this software must not be misrepresented; you must not
+	claim that you wrote the original software. If you use this software in a
+	product, an acknowledgment in the product documentation would be
+	appreciated but is not required.
+<p class="bl"/>
+    2. Altered source versions must be plainly marked as such, and must not
+	be misrepresented as being the original software.
+<p class="bl"/>
+    3. This notice may not be removed or altered from any source distribution.
+<dl>
+<dt class="decl">void* <a class="symbol _function" name="DefaultMemFunc" href="./htmlsrc/minid.api.html#L69" kind="function" beg="69" end="85">DefaultMemFunc</a><span class="params">(void* <em>ctx</em>, void* <em>p</em>, uword <em>oldSize</em>, uword <em>newSize</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#DefaultMemFunc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L69">#</a></dt>
+<dd class="ddef">
+<div class="summary">The default memory-allocation function, which uses the C allocator.</div></dd>
+<dt class="decl">MDThread* <a class="symbol _function" name="openVM" href="./htmlsrc/minid.api.html#L111" kind="function" beg="111" end="118">openVM</a><span class="params">(MDVM* <em>vm</em>, MemFunc <em>memFunc</em> = &amp;DefaultMemFunc, void* <em>ctx</em> = null)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#openVM" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L111">#</a></dt>
+<dd class="ddef">
+<div class="summary">Initialize a VM instance.  This is independent from all other VM instances.  It performs its
+own garbage collection, and as far as I know, multiple OS threads can each have their own
+VM and manipulate them at the same time without consequence.  (The library has not, however,
+been designed with multithreading in mind, so you will have to synchronize access to a single
+VM from multiple threads.)</div>
+This call also allocates an instance of tango.text.convert.Layout on the D heap, so that the
+library can perform formatting without allocating memory later.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>vm</em></td><td>The VM object to initialize.  <b>This object must have been allocated somewhere in D
+		memory</b> (either on the stack or with 'new').  If it's not in D's memory, you must inform
+		the D GC of its existence, or else D will blindly collect objects that the MiniD VM
+		references.</td></tr>
+<tr><td><em>memFunc</em></td><td>The memory allocation function to use to allocate this VM.  The VM's allocation
+		function will be set to this after creation.  Defaults to DefaultMemFunc, which uses
+		the C allocator.</td></tr>
+<tr><td><em>ctx</em></td><td>An opaque context pointer that will be passed to the memory function at each call.
+		The MiniD library does not do anything with this pointer other than store it.</td></tr></table>
+<p class="sec_header">Returns:</p>The passed-in pointer.</dd>
+<dt class="decl">enum <a class="symbol _enum" name="MDStdlib" href="./htmlsrc/minid.api.html#L126" kind="enum" beg="126" end="204">MDStdlib</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#MDStdlib" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L126">#</a></dt>
+<dd class="ddef">
+<div class="summary">This enumeration is used with the NewContext function to specify which standard libraries you
+want to load into the new context.  The base library is always loaded, so there is no
+flag for it.  You can choose which libraries you want to load by ORing together multiple
+flags.</div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="MDStdlib.None" href="./htmlsrc/minid.api.html#L131" kind="enummem" beg="131" end="131">None</a> <a title="Permalink to this symbol" href="#MDStdlib.None" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L131">#</a></dt>
+<dd class="ddef">
+<div class="summary">Nothing but the base library will be loaded if you specify this flag.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MDStdlib.Array" href="./htmlsrc/minid.api.html#L136" kind="enummem" beg="136" end="136">Array</a> <a title="Permalink to this symbol" href="#MDStdlib.Array" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L136">#</a></dt>
+<dd class="ddef">
+<div class="summary">_Array manipulation.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MDStdlib.Char" href="./htmlsrc/minid.api.html#L141" kind="enummem" beg="141" end="141">Char</a> <a title="Permalink to this symbol" href="#MDStdlib.Char" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L141">#</a></dt>
+<dd class="ddef">
+<div class="summary">Character classification.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MDStdlib.IO" href="./htmlsrc/minid.api.html#L146" kind="enummem" beg="146" end="146">IO</a> <a title="Permalink to this symbol" href="#MDStdlib.IO" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L146">#</a></dt>
+<dd class="ddef">
+<div class="summary">File system manipulation and file access.  Requires the stream lib.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MDStdlib.Math" href="./htmlsrc/minid.api.html#L151" kind="enummem" beg="151" end="151">Math</a> <a title="Permalink to this symbol" href="#MDStdlib.Math" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L151">#</a></dt>
+<dd class="ddef">
+<div class="summary">Standard math functions.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MDStdlib.String" href="./htmlsrc/minid.api.html#L156" kind="enummem" beg="156" end="156">String</a> <a title="Permalink to this symbol" href="#MDStdlib.String" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L156">#</a></dt>
+<dd class="ddef">
+<div class="summary">_String manipulation.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MDStdlib.Hash" href="./htmlsrc/minid.api.html#L161" kind="enummem" beg="161" end="161">Hash</a> <a title="Permalink to this symbol" href="#MDStdlib.Hash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L161">#</a></dt>
+<dd class="ddef">
+<div class="summary">_Hash (table and namespace) manipulation.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MDStdlib.OS" href="./htmlsrc/minid.api.html#L166" kind="enummem" beg="166" end="166">OS</a> <a title="Permalink to this symbol" href="#MDStdlib.OS" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L166">#</a></dt>
+<dd class="ddef">
+<div class="summary">_OS-specific functionality.  Requires the stream lib.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MDStdlib.Regexp" href="./htmlsrc/minid.api.html#L171" kind="enummem" beg="171" end="171">Regexp</a> <a title="Permalink to this symbol" href="#MDStdlib.Regexp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L171">#</a></dt>
+<dd class="ddef">
+<div class="summary">Regular expressions.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MDStdlib.Time" href="./htmlsrc/minid.api.html#L176" kind="enummem" beg="176" end="176">Time</a> <a title="Permalink to this symbol" href="#MDStdlib.Time" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L176">#</a></dt>
+<dd class="ddef">
+<div class="summary">_Time functions.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MDStdlib.Stream" href="./htmlsrc/minid.api.html#L181" kind="enummem" beg="181" end="181">Stream</a> <a title="Permalink to this symbol" href="#MDStdlib.Stream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L181">#</a></dt>
+<dd class="ddef">
+<div class="summary">Streamed IO classes.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MDStdlib.Debug" href="./htmlsrc/minid.api.html#L186" kind="enummem" beg="186" end="186">Debug</a> <a title="Permalink to this symbol" href="#MDStdlib.Debug" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L186">#</a></dt>
+<dd class="ddef">
+<div class="summary">Debugging introspection and hooks.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MDStdlib.Safe" href="./htmlsrc/minid.api.html#L193" kind="enummem" beg="193" end="193">Safe</a> <a title="Permalink to this symbol" href="#MDStdlib.Safe" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L193">#</a></dt>
+<dd class="ddef">
+<div class="summary">This flag is an OR of Array, Char, Math, String, Hash, Regexp, and Time.  It represents
+	all the libraries which are "safe", i.e. malicious scripts would not be able to use the IO
+	or OS libraries to do bad things.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MDStdlib.All" href="./htmlsrc/minid.api.html#L198" kind="enummem" beg="198" end="198">All</a> <a title="Permalink to this symbol" href="#MDStdlib.All" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L198">#</a></dt>
+<dd class="ddef">
+<div class="summary">_All available standard libraries except the debug library.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="MDStdlib.ReallyAll" href="./htmlsrc/minid.api.html#L203" kind="enummem" beg="203" end="203">ReallyAll</a> <a title="Permalink to this symbol" href="#MDStdlib.ReallyAll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L203">#</a></dt>
+<dd class="ddef">
+<div class="summary">All available standard libraries including the debug library.</div></dd></dl></dd>
+<dt class="decl">void <a class="symbol _function" name="loadStdlibs" href="./htmlsrc/minid.api.html#L213" kind="function" beg="213" end="247">loadStdlibs</a><span class="params">(MDThread* <em>t</em>, uint <em>libs</em> = MDStdlib.All)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#loadStdlibs" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L213">#</a></dt>
+<dd class="ddef">
+<div class="summary">Load the standard libraries into the context of the given thread.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>libs</em></td><td>An ORing together of any standard libraries you want to load (see the MDStdlib enum).
+		Defaults to MDStdlib.All.</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="closeVM" href="./htmlsrc/minid.api.html#L261" kind="function" beg="261" end="288">closeVM</a><span class="params">(MDVM* <em>vm</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#closeVM" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.api.html#L261">#</a></dt>
+<dd class="ddef">
+<div class="summary">Closes a VM object and deallocates all memory associated with it.</div>
+Normally you won't have to call this since, when the host program exits, all memory associated with
+its process will be freed.  However if you need to get rid of a context for some reason (i.e. a daemon
+process which spawns and frees contexts as necessary), you must call this to free any data associated
+with the VM.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>vm</em></td><td>The VM to free.  After all memory has been freed, the memory at this pointer will be initialized
+		to an "empty" or "dead" VM which can then be passed into openVM.</td></tr></table></dd></dl>
+</div>
+<div id="footer">
+  <p></p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 03:29:16 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

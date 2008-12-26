@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>minid.serialization</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "minid.serialization";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/minid.serialization.html" class="symbol">minid.serialization</a></h1>
+  
+<p class="sec_header">License:</p>Copyright (c) 2008 Jarrett Billingsley
+<p class="bl"/>
+This software is provided 'as-is', without any express or implied warranty.
+In no event will the authors be held liable for any damages arising from the
+use of this software.
+<p class="bl"/>
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
+subject to the following restrictions:
+<p class="bl"/>
+    1. The origin of this software must not be misrepresented; you must not
+	claim that you wrote the original software. If you use this software in a
+	product, an acknowledgment in the product documentation would be
+	appreciated but is not required.
+<p class="bl"/>
+    2. Altered source versions must be plainly marked as such, and must not
+	be misrepresented as being the original software.
+<p class="bl"/>
+    3. This notice may not be removed or altered from any source distribution.
+<dl>
+<dt class="decl">void <a class="symbol _function" name="serializeModule" href="./htmlsrc/minid.serialization.html#L52" kind="function" beg="52" end="66">serializeModule</a><span class="params">(MDThread* <em>t</em>, word <em>idx</em>, IWriter <em>s</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#serializeModule" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L52">#</a></dt>
+<dd class="ddef">
+<div class="summary">Serializes the function object at the given index into the provided writer as a module.  Serializing a function as a module
+outputs the platform-dependent MiniD module header before outputting the function, so that upon subsequent loads of the module,
+the platform can be correctly detected.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>idx</em></td><td>The stack index of the function object to serialize.  The function must be a script function with no upvalues.</td></tr>
+<tr><td><em>s</em></td><td>The writer object to be used to serialize the function.</td></tr></table></dd>
+<dt class="decl">word <a class="symbol _function" name="deserializeModule" href="./htmlsrc/minid.serialization.html#L77" kind="function" beg="77" end="84">deserializeModule</a><span class="params">(MDThread* <em>t</em>, IReader <em>s</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#deserializeModule" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L77">#</a></dt>
+<dd class="ddef">
+<div class="summary">Inverse of the above, which means it expects for there to be a module header at the beginning of the stream.  If the module
+header of the stream does not match the module header for the platform that is loading the module, the load will fail.
+A closure of the deserialized function is created with the current environment as its environment and is pushed onto the
+given thread's stack.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>The reader object that holds the data stream from which the function will be deserialized.</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="serializeFunction" href="./htmlsrc/minid.serialization.html#L89" kind="function" beg="89" end="103">serializeFunction</a><span class="params">(MDThread* <em>t</em>, word <em>idx</em>, IWriter <em>s</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#serializeFunction" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L89">#</a></dt>
+<dd class="ddef">
+<div class="summary">Same as serializeModule but does not output the module header.</div></dd>
+<dt class="decl">word <a class="symbol _function" name="deserializeFunction" href="./htmlsrc/minid.serialization.html#L108" kind="function" beg="108" end="115">deserializeFunction</a><span class="params">(MDThread* <em>t</em>, IReader <em>s</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#deserializeFunction" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L108">#</a></dt>
+<dd class="ddef">
+<div class="summary">Same as deserializeModule but does not expect for there to be a module header.</div></dd>
+<dt class="decl">struct <a class="symbol _struct" name="FileHeader" href="./htmlsrc/minid.serialization.html#L123" kind="struct" beg="123" end="138">FileHeader</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#FileHeader" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L123">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">uint <a class="symbol _variable" name="FileHeader.magic" href="./htmlsrc/minid.serialization.html#L125" kind="variable" beg="125" end="125">magic</a>; <a title="Permalink to this symbol" href="#FileHeader.magic" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L125">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="FileHeader._version" href="./htmlsrc/minid.serialization.html#L126" kind="variable" beg="126" end="126">_version</a>; <a title="Permalink to this symbol" href="#FileHeader._version" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L126">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte <a class="symbol _variable" name="FileHeader.platformBits" href="./htmlsrc/minid.serialization.html#L127" kind="variable" beg="127" end="127">platformBits</a>; <a title="Permalink to this symbol" href="#FileHeader.platformBits" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L127">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte <a class="symbol _variable" name="FileHeader.endianness" href="./htmlsrc/minid.serialization.html#L132" kind="variable" beg="132" end="132">endianness</a>; <a title="Permalink to this symbol" href="#FileHeader.endianness" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L132">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte <a class="symbol _variable" name="FileHeader.intSize" href="./htmlsrc/minid.serialization.html#L134" kind="variable" beg="134" end="134">intSize</a>; <a title="Permalink to this symbol" href="#FileHeader.intSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L134">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte <a class="symbol _variable" name="FileHeader.floatSize" href="./htmlsrc/minid.serialization.html#L135" kind="variable" beg="135" end="135">floatSize</a>; <a title="Permalink to this symbol" href="#FileHeader.floatSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L135">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte[4] <a class="symbol _variable" name="FileHeader._padding" href="./htmlsrc/minid.serialization.html#L137" kind="variable" beg="137" end="137">_padding</a>; <a title="Permalink to this symbol" href="#FileHeader._padding" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L137">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">void <a class="symbol _function" name="serializeAsModule" href="./htmlsrc/minid.serialization.html#L142" kind="function" beg="142" end="146">serializeAsModule</a><span class="params">(MDFuncDef* <em>fd</em>, IWriter <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#serializeAsModule" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L142">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">MDFuncDef* <a class="symbol _function" name="deserializeAsModule" href="./htmlsrc/minid.serialization.html#L148" kind="function" beg="148" end="157">deserializeAsModule</a><span class="params">(MDThread* <em>t</em>, IReader <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#deserializeAsModule" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L148">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="serialize" href="./htmlsrc/minid.serialization.html#L159" kind="function" beg="159" end="208">serialize</a><span class="params">(MDFuncDef* <em>fd</em>, IWriter <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#serialize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L159">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">MDFuncDef* <a class="symbol _function" name="deserialize" href="./htmlsrc/minid.serialization.html#L210" kind="function" beg="210" end="274">deserialize</a><span class="params">(MDThread* <em>t</em>, IReader <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#deserialize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L210">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Serialize" href="./htmlsrc/minid.serialization.html#L276" kind="function" beg="276" end="281">Serialize</a><span class="params">(IWriter <em>s</em>, MDString* <em>val</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Serialize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L276">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Serialize:2" href="./htmlsrc/minid.serialization.html#L283" kind="function" beg="283" end="287">Serialize</a><span class="params">(IWriter <em>s</em>, ushort[] <em>val</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Serialize:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L283">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Serialize:3" href="./htmlsrc/minid.serialization.html#L289" kind="function" beg="289" end="295">Serialize</a><span class="params">(IWriter <em>s</em>, MDValue[] <em>val</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Serialize:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L289">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Serialize:4" href="./htmlsrc/minid.serialization.html#L297" kind="function" beg="297" end="301">Serialize</a><span class="params">(IWriter <em>s</em>, Instruction[] <em>val</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Serialize:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L297">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Serialize:5" href="./htmlsrc/minid.serialization.html#L303" kind="function" beg="303" end="307">Serialize</a><span class="params">(IWriter <em>s</em>, uint[] <em>val</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Serialize:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L303">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Serialize:6" href="./htmlsrc/minid.serialization.html#L309" kind="function" beg="309" end="315">Serialize</a><span class="params">(IWriter <em>s</em>, MDString*[] <em>val</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Serialize:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L309">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Serialize:7" href="./htmlsrc/minid.serialization.html#L317" kind="function" beg="317" end="331">Serialize</a><span class="params">(IWriter <em>s</em>, ref MDValue <em>val</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Serialize:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L317">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Deserialize" href="./htmlsrc/minid.serialization.html#L333" kind="function" beg="333" end="343">Deserialize</a><span class="params">(MDVM* <em>vm</em>, IReader <em>s</em>, ref MDString* <em>val</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Deserialize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L333">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Deserialize:2" href="./htmlsrc/minid.serialization.html#L345" kind="function" beg="345" end="352">Deserialize</a><span class="params">(MDVM* <em>vm</em>, IReader <em>s</em>, ref ushort[] <em>val</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Deserialize:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L345">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Deserialize:3" href="./htmlsrc/minid.serialization.html#L354" kind="function" beg="354" end="363">Deserialize</a><span class="params">(MDVM* <em>vm</em>, IReader <em>s</em>, ref MDValue[] <em>val</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Deserialize:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L354">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Deserialize:4" href="./htmlsrc/minid.serialization.html#L365" kind="function" beg="365" end="372">Deserialize</a><span class="params">(MDVM* <em>vm</em>, IReader <em>s</em>, ref Instruction[] <em>val</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Deserialize:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L365">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Deserialize:5" href="./htmlsrc/minid.serialization.html#L374" kind="function" beg="374" end="381">Deserialize</a><span class="params">(MDVM* <em>vm</em>, IReader <em>s</em>, ref uint[] <em>val</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Deserialize:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L374">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Deserialize:6" href="./htmlsrc/minid.serialization.html#L383" kind="function" beg="383" end="392">Deserialize</a><span class="params">(MDVM* <em>vm</em>, IReader <em>s</em>, ref MDString*[] <em>val</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Deserialize:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L383">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Deserialize:7" href="./htmlsrc/minid.serialization.html#L394" kind="function" beg="394" end="410">Deserialize</a><span class="params">(MDVM* <em>vm</em>, IReader <em>s</em>, ref MDValue <em>val</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Deserialize:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/minid.serialization.html#L394">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p></p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 03:29:24 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>
