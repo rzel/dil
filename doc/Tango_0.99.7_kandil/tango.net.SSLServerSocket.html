@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.SSLServerSocket</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.SSLServerSocket";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.SSLServerSocket.html" class="symbol">tango.net.SSLServerSocket</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Author:</p>Jeff Davey <j@submersion.com>
+<dl>
+<dt class="decl">class <a class="symbol _class" name="SSLServerSocket" href="./htmlsrc/tango.net.SSLServerSocket.html#L47" kind="class" beg="47" end="96">SSLServerSocket</a> : ServerSocket; <a title="Permalink to this symbol" href="#SSLServerSocket" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLServerSocket.html#L47">#</a></dt>
+<dd class="ddef">
+<div class="summary">SSLServerSocket is a sub-class of ServerSocket. It's purpose is to provide
+    SSL encryption at the socket level as well as easily tie into existing 
+    Tango applications that may already be using ServerSocket.</div>
+SSLServerSocket requires the OpenSSL library, and uses a dynamic binding
+    to the library. You can find the library at http://www.openssl.org and a
+    Win32 specific port at http://www.slproweb.com/products/Win32OpenSSL.html.
+<p class="bl"/>
+    Example
+    <pre class="d_code">
+<span class="k">auto</span> <span class="i">cert</span> = <span class="k">new</span> <span class="i">Certificate</span>(<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">File</span>(<span class="sl">"public.pem"</span>).<span class="i">read</span>);
+<span class="k">auto</span> <span class="i">pkey</span> = <span class="k">new</span> <span class="i">PrivateKey</span>(<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">File</span>(<span class="sl">"private.pem"</span>).<span class="i">read</span>);
+<span class="k">auto</span> <span class="i">ctx</span> = <span class="k">new</span> <span class="i">SSLCtx</span>();
+<span class="i">ctx</span>.<span class="i">certificate</span>(<span class="i">cert</span>).<span class="i">privateKey</span>(<span class="i">pkey</span>);
+<span class="k">auto</span> <span class="i">server</span> = <span class="k">new</span> <span class="i">SSLServerSocket</span>(<span class="k">new</span> <span class="i">InternetAddress</span>(<span class="n">443</span>), <span class="i">ctx</span>);
+<span class="k">for</span>(;;)
+{
+    <span class="k">auto</span> <span class="i">sslSock</span> = <span class="i">server</span>.<span class="i">accept</span>();
+    <span class="i">sc</span>.<span class="i">write</span>(<span class="sl">"HTTP/1.1 200\r\n\r\n&lt;b&gt;Hello World&lt;/b&gt;"</span>);
+    <span class="i">sc</span>.<span class="i">shutdown</span>();
+    <span class="i">sc</span>.<span class="i">close</span>();
+}
+</pre>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="SSLServerSocket.this" href="./htmlsrc/tango.net.SSLServerSocket.html#L64" kind="ctor" beg="64" end="68">this</a><span class="params">(InternetAddress <em>addr</em>, SSLCtx <em>ctx</em>, int <em>backlog</em> = 32, bool <em>reuse</em> = false)</span>; <a title="Permalink to this symbol" href="#SSLServerSocket.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLServerSocket.html#L64">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a new SSLServerSocket. This constructor is similar to 
+        ServerSocket, except it takes a SSLCtx as provided by PKI.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>addr</em></td><td>the address to bind and listen on.</td></tr>
+<tr><td><em>ctx</em></td><td>the provided SSLCtx</td></tr>
+<tr><td><em>backlog</em></td><td>the number of connections to backlog before refusing connection</td></tr>
+<tr><td><em>reuse</em></td><td>if enabled, allow rebinding of existing ip/port</td></tr></table></dd>
+<dt class="decl">SSLSocketConduit <a class="symbol _function" name="SSLServerSocket.create" href="./htmlsrc/tango.net.SSLServerSocket.html#L78" kind="function" beg="78" end="81">create</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SSLServerSocket.create" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLServerSocket.html#L78">#</a></dt>
+<dd class="ddef">
+<div class="summary">This is used during the super.accept() in order to provide the proper
+      SSLSocketConduit. It allocates using the free-list provided with
+      SSLSocketConduit.</div></dd>
+<dt class="decl">SSLSocketConduit <a class="symbol _function" name="SSLServerSocket.accept" href="./htmlsrc/tango.net.SSLServerSocket.html#L90" kind="function" beg="90" end="95">accept</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#SSLServerSocket.accept" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLServerSocket.html#L90">#</a></dt>
+<dd class="ddef">
+<div class="summary">Accepts a new conection and copies the provided server SSLCtx to a new
+      SSLSocketConduit.</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2008 Jeff Davey. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:53 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

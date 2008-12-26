@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.log.Trace</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.log.Trace";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.log.Trace.html" class="symbol">tango.util.log.Trace</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Oct 2007: Initial release
+<p class="sec_header">Author:</p>Kris
+<p class="bl"/>
+        Synchronized, formatted console output. This can be used in lieu
+        of true logging where appropriate.
+<p class="bl"/>
+        Trace exposes this style of usage:
+        <pre class="d_code">
+<span class="i">Trace</span>.<span class="i">format</span> (<span class="sl">"abc {}"</span>, <span class="n">1</span>);             =&gt; <span class="i">abc</span> <span class="n">1</span>
+<span class="i">Trace</span>.<span class="i">format</span> (<span class="sl">"abc {}:{}"</span>, <span class="n">1</span>, <span class="n">2</span>);       =&gt; <span class="i">abc</span> <span class="n">1</span>:<span class="n">2</span>
+<span class="i">Trace</span>.<span class="i">format</span> (<span class="sl">"abc {1}:{0}"</span>, <span class="n">1</span>, <span class="n">2</span>);     =&gt; <span class="i">abc</span> <span class="n">2</span>:<span class="n">1</span>
+</pre>
+<p class="bl"/>
+        Special character sequences, such as "\n", are written directly to
+        the output without any translation (though an output-filter could
+        be inserted to perform translation as required). Platform-specific
+        newlines are generated instead via the formatln() method, which also
+        flushes the output when configured to do so:
+        <pre class="d_code">
+<span class="i">Trace</span>.<span class="i">formatln</span> (<span class="sl">"hello {}"</span>, <span class="sl">"world"</span>);
+</pre>
+<p class="bl"/>
+        Explicitly flushing the output is achieved via a flush() method
+        <pre class="d_code">
+<span class="i">Trace</span>.<span class="i">format</span> (<span class="sl">"hello {}"</span>, <span class="sl">"world"</span>).<span class="i">flush</span>;
+</pre>
+<dl>
+<dt class="decl">SyncPrint <a class="symbol _variable" name="Trace" href="./htmlsrc/tango.util.log.Trace.html#L52" kind="variable" beg="52" end="52">Trace</a>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Trace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.log.Trace.html#L52">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct Trace when this module is loaded</div>
+global trace instance</dd>
+<dt class="decl">class <a class="symbol _class" name="SyncPrint" href="./htmlsrc/tango.util.log.Trace.html#L65" kind="class" beg="65" end="207">SyncPrint</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SyncPrint" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.log.Trace.html#L65">#</a></dt>
+<dd class="ddef">
+<div class="summary">Intended for internal use only</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="SyncPrint.this" href="./htmlsrc/tango.util.log.Trace.html#L84" kind="ctor" beg="84" end="90">this</a><span class="params">(OutputStream <em>output</em>, Object <em>mutex</em>, bool <em>flush</em> = false)</span>; <a title="Permalink to this symbol" href="#SyncPrint.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.log.Trace.html#L84">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a Print instance, tying the provided stream
+                to a layout formatter</div></dd>
+<dt class="decl">SyncPrint <a class="symbol _function" name="SyncPrint.format" href="./htmlsrc/tango.util.log.Trace.html#L98" kind="function" beg="98" end="103">format</a><span class="params">(char[] <em>fmt</em>, ...)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SyncPrint.format" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.log.Trace.html#L98">#</a></dt>
+<dd class="ddef">
+<div class="summary">Layout using the provided formatting specification</div></dd>
+<dt class="decl">SyncPrint <a class="symbol _function" name="SyncPrint.formatln" href="./htmlsrc/tango.util.log.Trace.html#L111" kind="function" beg="111" end="121">formatln</a><span class="params">(char[] <em>fmt</em>, ...)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SyncPrint.formatln" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.log.Trace.html#L111">#</a></dt>
+<dd class="ddef">
+<div class="summary">Layout using the provided formatting specification</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SyncPrint.flush" href="./htmlsrc/tango.util.log.Trace.html#L129" kind="function" beg="129" end="133">flush</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SyncPrint.flush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.log.Trace.html#L129">#</a></dt>
+<dd class="ddef">
+<div class="summary">Flush the output stream</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="SyncPrint.sink" href="./htmlsrc/tango.util.log.Trace.html#L141" kind="function" beg="141" end="144">sink</a><span class="params">(char[] <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SyncPrint.sink" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.log.Trace.html#L141">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sink for passing to the formatter</div></dd>
+<dt class="decl">SyncPrint <a class="symbol _function" name="SyncPrint.memory" href="./htmlsrc/tango.util.log.Trace.html#L161" kind="function" beg="161" end="206">memory</a><span class="params">(void[] <em>mem</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SyncPrint.memory" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.log.Trace.html#L161">#</a></dt>
+<dd class="ddef">
+<div class="summary">Print a range of raw memory as a hex dump.
+                Characters in range 0x20..0x7E are printed, all others are
+                shown as dots.</div>
+<pre class="d_code">
+<span class="n">000000</span>:  <span class="n">47</span> <span class="n">49</span> <span class="n">46</span> <span class="n">38</span>  <span class="n">39</span> <span class="n">61</span> <span class="n">10</span> <span class="n">00</span>  <span class="n">10</span> <span class="n">00</span> <span class="n">80</span> <span class="n">00</span>  <span class="n">00</span> <span class="n">48</span> <span class="n">5</span><span class="i">D</span> <span class="n">8</span><span class="i">C</span>  <span class="i">GIF89a</span>.......<span class="i">H</span>].
+<span class="n">000010</span>:  <span class="i">FF</span> <span class="i">FF</span> <span class="i">FF</span> <span class="n">21</span>  <span class="i">F9</span> <span class="n">04</span> <span class="n">01</span> <span class="n">00</span>  <span class="n">00</span> <span class="n">01</span> <span class="n">00</span> <span class="n">2</span><span class="i">C</span>  <span class="n">00</span> <span class="n">00</span> <span class="n">00</span> <span class="n">00</span>  ...!.......,....
+<span class="n">000020</span>:  <span class="n">10</span> <span class="n">00</span> <span class="n">10</span> <span class="n">00</span>  <span class="n">00</span> <span class="n">02</span> <span class="n">11</span> <span class="n">8</span><span class="i">C</span>  <span class="n">8F</span> <span class="i">A9</span> <span class="i">CB</span> <span class="i">ED</span>  <span class="n">0F</span> <span class="i">A3</span> <span class="n">84</span> <span class="i">C0</span>  ................
+<span class="n">000030</span>:  <span class="i">D4</span> <span class="n">70</span> <span class="i">A7</span> <span class="i">DE</span>  <span class="i">BC</span> <span class="i">FB</span> <span class="n">8F</span> <span class="n">14</span>  <span class="n">00</span> <span class="n">3</span><span class="i">B</span>                     .<span class="i">p</span>.......;
+</pre></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2007 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:10 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

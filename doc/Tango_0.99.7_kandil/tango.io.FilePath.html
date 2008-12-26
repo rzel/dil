@@ -1,0 +1,445 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.FilePath</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.FilePath";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.FilePath.html" class="symbol">tango.io.FilePath</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Oct 2004: Initial version
+<p class="sec_header">Version:</p>Nov 2006: Australian version
+<p class="sec_header">Version:</p>Feb 2007: Mutating version
+<p class="sec_header">Version:</p>Mar 2007: Folded FileProxy in
+<p class="sec_header">Version:</p>Nov 2007: VFS dictates '/' always be used
+<p class="sec_header">Version:</p>Feb 2008: Split file-system calls into a struct
+<p class="sec_header">Author:</p>Kris
+<p class="bl"/>
+        FilePath provides a means to efficiently edit path components and 
+        of accessing the underlying file system.
+<p class="bl"/>
+        Use module Path.d instead when you need pedestrian access to the
+        file-system, and are not mutating the path components themselves
+<dl>
+<dt class="decl">void <a class="symbol _function" name="memmove" href="./htmlsrc/tango.io.FilePath.html#L37" kind="function" beg="37" end="37">memmove</a><span class="params">(void* <em>dst</em>, void* <em>src</em>, uint <em>bytes</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="linkg">extern(C)</span>]</span> <a title="Permalink to this symbol" href="#memmove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L37">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">class <a class="symbol _class" name="FilePath" href="./htmlsrc/tango.io.FilePath.html#L63" kind="class" beg="63" end="972">FilePath</a> : PathView; <a title="Permalink to this symbol" href="#FilePath" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L63">#</a></dt>
+<dd class="ddef">
+<div class="summary">Models a file path. These are expected to be used as the constructor
+        argument to various file classes. The intention is that they easily
+        convert to other representations such as absolute, canonical, or Url.</div>
+File paths containing non-ansi characters should be UTF-8 encoded.
+        Supporting Unicode in this manner was deemed to be more suitable
+        than providing a wchar version of FilePath, and is both consistent
+        &amp; compatible with the approach taken with the Uri class.
+<p class="bl"/>
+        FilePath is designed to be transformed, thus each mutating method
+        modifies the internal content. 
+<p class="bl"/>
+        Note that patterns of adjacent '.' separators are treated specially
+        in that they will be assigned to the name where there is no distinct
+        suffix. In addition, a '.' at the start of a name signifies it does 
+        not belong to the suffix i.e. ".file" is a name rather than a suffix.
+        Patterns of intermediate '.' characters will otherwise be assigned
+        to the suffix, such that "file....suffix" includes the dots within
+        the suffix itself [see ext() for a suffix without dots].
+<dl>
+<dt class="decl">alias bool delegate (FilePath, bool) <a class="symbol _alias" name="FilePath.Filter" href="./htmlsrc/tango.io.FilePath.html#L78" kind="alias" beg="78" end="78">Filter</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FilePath.Filter" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L78">#</a></dt>
+<dd class="ddef">
+<div class="summary">Filter used for screening paths via toList()</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.opCall" href="./htmlsrc/tango.io.FilePath.html#L88" kind="function" beg="88" end="91">opCall</a><span class="params">(char[] <em>filepath</em> = null)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#FilePath.opCall" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L88">#</a></dt>
+<dd class="ddef">
+<div class="summary">Call-site shortcut to create a FilePath instance. This
+                enables the same syntax as struct usage, so may expose
+                a migration path</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="FilePath.this" href="./htmlsrc/tango.io.FilePath.html#L114" kind="ctor" beg="114" end="117">this</a><span class="params">(char[] <em>filepath</em> = null)</span>; <a title="Permalink to this symbol" href="#FilePath.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L114">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a FilePath from a copy of the provided string.</div>
+FilePath assumes both path &amp; name are present, and therefore
+                may split what is otherwise a logically valid path. That is,
+                the 'name' of a file is typically the path segment following
+                a rightmost path-separator. The intent is to treat files and
+                directories in the same manner; as a name with an optional
+                ancestral structure. It is possible to bias the interpretation
+                by adding a trailing path-separator to the argument. Doing so
+                will result in an empty name attribute.
+<p class="bl"/>
+                With regard to the filepath copy, we found the common case to
+                be an explicit .dup, whereas aliasing appeared to be rare by
+                comparison. We also noted a large proportion interacting with
+                C-oriented OS calls, implying the postfix of a null terminator.
+                Thus, FilePath combines both as a single operation.</dd>
+<dt class="decl">char[] <a class="symbol _function" name="FilePath.toString" href="./htmlsrc/tango.io.FilePath.html#L125" kind="function" beg="125" end="128">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L125">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the complete text of this filepath</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.dup" href="./htmlsrc/tango.io.FilePath.html#L136" kind="function" beg="136" end="139">dup</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.dup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L136">#</a></dt>
+<dd class="ddef">
+<div class="summary">Duplicate this path</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="FilePath.cString" href="./htmlsrc/tango.io.FilePath.html#L153" kind="function" beg="153" end="156">cString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.cString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L153">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the complete text of this filepath as a null
+                terminated string for use with a C api. Use toString
+                instead for any D api.</div>
+Note that the nul is always embedded within the string
+                maintained by FilePath, so there's no heap overhead when
+                making a C call</dd>
+<dt class="decl">char[] <a class="symbol _function" name="FilePath.root" href="./htmlsrc/tango.io.FilePath.html#L165" kind="function" beg="165" end="168">root</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.root" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L165">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the root of this path. Roots are constructs such as
+                "c:"</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="FilePath.folder" href="./htmlsrc/tango.io.FilePath.html#L180" kind="function" beg="180" end="183">folder</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.folder" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L180">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the file path. Paths may start and end with a "/".
+                The root path is "/" and an unspecified path is returned as
+                an empty string. Directory paths may be split such that the
+                directory name is placed into the 'name' member; directory
+                paths are treated no differently than file paths</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="FilePath.parent" href="./htmlsrc/tango.io.FilePath.html#L204" kind="function" beg="204" end="207">parent</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.parent" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L204">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a path representing the parent of this one. This
+                will typically return the current path component, though
+                with a special case where the name component is empty. In 
+                such cases, the path is scanned for a prior segment:
+                <pre class="d_code">
+<span class="i">normal</span>:  /<span class="i">x</span>/<span class="i">y</span>/<span class="i">z</span> =&gt; /<span class="i">x</span>/<span class="i">y</span>
+<span class="i">special</span>: /<span class="i">x</span>/<span class="i">y</span>/  =&gt; /<span class="i">x</span>
+</pre></div>
+Note that this returns a path suitable for splitting into
+                path and name components (there's no trailing separator).
+<p class="bl"/>
+                See pop() also, which is generally more useful when working
+                with FilePath instances</dd>
+<dt class="decl">char[] <a class="symbol _function" name="FilePath.name" href="./htmlsrc/tango.io.FilePath.html#L215" kind="function" beg="215" end="218">name</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L215">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the name of this file, or directory.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="FilePath.ext" href="./htmlsrc/tango.io.FilePath.html#L229" kind="function" beg="229" end="232">ext</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.ext" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L229">#</a></dt>
+<dd class="ddef">
+<div class="summary">Ext is the tail of the filename, rightward of the rightmost
+                '.' separator e.g. path "foo.bar" has ext "bar". Note that
+                patterns of adjacent separators are treated specially; for
+                example, ".." will wind up with no ext at all</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="FilePath.suffix" href="./htmlsrc/tango.io.FilePath.html#L241" kind="function" beg="241" end="244">suffix</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.suffix" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L241">#</a></dt>
+<dd class="ddef">
+<div class="summary">Suffix is like ext, but includes the separator e.g. path
+                "foo.bar" has suffix ".bar"</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="FilePath.path" href="./htmlsrc/tango.io.FilePath.html#L252" kind="function" beg="252" end="255">path</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.path" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L252">#</a></dt>
+<dd class="ddef">
+<div class="summary">return the root + folder combination</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="FilePath.file" href="./htmlsrc/tango.io.FilePath.html#L263" kind="function" beg="263" end="266">file</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.file" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L263">#</a></dt>
+<dd class="ddef">
+<div class="summary">return the name + suffix combination</div></dd>
+<dt class="decl">int <a class="symbol _function" name="FilePath.opEquals" href="./htmlsrc/tango.io.FilePath.html#L274" kind="function" beg="274" end="277">opEquals</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L274">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if all fields are equal.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="FilePath.opEquals:2" href="./htmlsrc/tango.io.FilePath.html#L285" kind="function" beg="285" end="288">opEquals</a><span class="params">(char[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.opEquals:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L285">#</a></dt>
+<dd class="ddef">
+<div class="summary">Does this FilePath equate to the given text?</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="FilePath.isAbsolute" href="./htmlsrc/tango.io.FilePath.html#L297" kind="function" beg="297" end="300">isAbsolute</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.isAbsolute" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L297">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if this FilePath is *not* relative to the
+                current working directory</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="FilePath.isEmpty" href="./htmlsrc/tango.io.FilePath.html#L308" kind="function" beg="308" end="311">isEmpty</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.isEmpty" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L308">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if this FilePath is empty</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="FilePath.isChild" href="./htmlsrc/tango.io.FilePath.html#L322" kind="function" beg="322" end="325">isChild</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.isChild" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L322">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if this FilePath has a parent. Note that a
+                parent is defined by the presence of a path-separator in
+                the path. This means 'foo' within "\foo" is considered a
+                child of the root</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.replace" href="./htmlsrc/tango.io.FilePath.html#L333" kind="function" beg="333" end="337">replace</a><span class="params">(char <em>from</em>, char <em>to</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.replace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L333">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace all 'from' instances with 'to'</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.standard" href="./htmlsrc/tango.io.FilePath.html#L352" kind="function" beg="352" end="356">standard</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.standard" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L352">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert path separators to a standard format, using '/' as
+                the path separator. This is compatible with URI and all of 
+                the contemporary O/S which Tango supports. Known exceptions
+                include the Windows command-line processor, which considers
+                '/' characters to be switches instead. Use the native()
+                method to support that.</div>
+<p class="sec_header">Note:</p>mutates the current path.</dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.native" href="./htmlsrc/tango.io.FilePath.html#L368" kind="function" beg="368" end="372">native</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.native" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L368">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert to native O/S path separators where that is required,
+                such as when dealing with the Windows command-line.</div>
+<p class="sec_header">Note:</p>mutates the current path. Use this pattern to obtain a 
+                copy instead: path.dup.native</dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.cat" href="./htmlsrc/tango.io.FilePath.html#L381" kind="function" beg="381" end="392">cat</a><span class="params">(char[][] <em>others</em>...)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.cat" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L381">#</a></dt>
+<dd class="ddef">
+<div class="summary">Concatenate text to this path; no separators are added.
+                See join() also</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.append" href="./htmlsrc/tango.io.FilePath.html#L401" kind="function" beg="401" end="406">append</a><span class="params">(char[] <em>path</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L401">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append a folder to this path. A leading separator is added
+                as required</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.prepend" href="./htmlsrc/tango.io.FilePath.html#L415" kind="function" beg="415" end="419">prepend</a><span class="params">(char[] <em>path</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.prepend" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L415">#</a></dt>
+<dd class="ddef">
+<div class="summary">Prepend a folder to this path. A trailing separator is added
+                if needed</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.set" href="./htmlsrc/tango.io.FilePath.html#L428" kind="function" beg="428" end="431">set</a><span class="params">(FilePath <em>path</em>)</span>; <a title="Permalink to this symbol" href="#FilePath.set" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L428">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reset the content of this path to that of another and
+                reparse</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.set:2" href="./htmlsrc/tango.io.FilePath.html#L441" kind="function" beg="441" end="455">set</a><span class="params">(char[] <em>path</em>, bool <em>convert</em> = false)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.set:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L441">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reset the content of this path, and reparse. There's an
+                optional boolean flag to convert the path into standard
+                form, before parsing (converting '\' into '/')</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.isFolder" href="./htmlsrc/tango.io.FilePath.html#L465" kind="function" beg="465" end="469">isFolder</a><span class="params">(bool <em>folder</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.isFolder" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L465">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sidestep the normal lookup for paths that are known to
+                be folders. Where folder is true, file-system lookups
+                will be skipped.</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.root:2" href="./htmlsrc/tango.io.FilePath.html#L477" kind="function" beg="477" end="484">root</a><span class="params">(char[] <em>other</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.root:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L477">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace the root portion of this path</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.folder:2" href="./htmlsrc/tango.io.FilePath.html#L493" kind="function" beg="493" end="499">folder</a><span class="params">(char[] <em>other</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.folder:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L493">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace the folder portion of this path. The folder will be
+                padded with a path-separator as required</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.name:2" href="./htmlsrc/tango.io.FilePath.html#L507" kind="function" beg="507" end="512">name</a><span class="params">(char[] <em>other</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.name:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L507">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace the name portion of this path</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.suffix:2" href="./htmlsrc/tango.io.FilePath.html#L521" kind="function" beg="521" end="525">suffix</a><span class="params">(char[] <em>other</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.suffix:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L521">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace the suffix portion of this path. The suffix will be
+                prefixed with a file-separator as required</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.path:2" href="./htmlsrc/tango.io.FilePath.html#L535" kind="function" beg="535" end="539">path</a><span class="params">(char[] <em>other</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.path:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L535">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace the root and folder portions of this path and
+                reparse. The replacement will be padded with a path
+                separator as required</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.file:2" href="./htmlsrc/tango.io.FilePath.html#L549" kind="function" beg="549" end="553">file</a><span class="params">(char[] <em>other</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.file:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L549">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace the file and suffix portions of this path and
+                reparse. The replacement will be prefixed with a suffix
+                separator as required</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.pop" href="./htmlsrc/tango.io.FilePath.html#L562" kind="function" beg="562" end="568">pop</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.pop" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L562">#</a></dt>
+<dd class="ddef">
+<div class="summary">Pop to the parent of the current filepath (in situ - mutates
+                this FilePath)</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="FilePath.join" href="./htmlsrc/tango.io.FilePath.html#L577" kind="function" beg="577" end="580">join</a><span class="params">(char[][] <em>paths</em>...)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#FilePath.join" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L577">#</a></dt>
+<dd class="ddef">
+<div class="summary">Join a set of path specs together. A path separator is
+                potentially inserted between each of the segments.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="FilePath.stripped" href="./htmlsrc/tango.io.FilePath.html#L589" kind="function" beg="589" end="592">stripped</a><span class="params">(char[] <em>path</em>, char <em>c</em> = FileConst.PathSeparatorChar)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#FilePath.stripped" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L589">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return an adjusted path such that non-empty instances do not
+                have a trailing separator</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="FilePath.padded" href="./htmlsrc/tango.io.FilePath.html#L601" kind="function" beg="601" end="604">padded</a><span class="params">(char[] <em>path</em>, char <em>c</em> = FileConst.PathSeparatorChar)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#FilePath.padded" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L601">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return an adjusted path such that non-empty instances always
+                have a trailing separator</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="FilePath.prefixed" href="./htmlsrc/tango.io.FilePath.html#L613" kind="function" beg="613" end="618">prefixed</a><span class="params">(char[] <em>s</em>, char <em>c</em> = FileConst.PathSeparatorChar)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#FilePath.prefixed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L613">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return an adjusted path such that non-empty instances always
+                have a prefixed separator</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.parse" href="./htmlsrc/tango.io.FilePath.html#L626" kind="function" beg="626" end="630">parse</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.parse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L626">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parse the path spec, and mutate '\' into '/' as necessary</div></dd>
+<dt class="decl">void <a class="symbol _function" name="FilePath.expand" href="./htmlsrc/tango.io.FilePath.html#L638" kind="function" beg="638" end="643">expand</a><span class="params">(uint <em>size</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.expand" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L638">#</a></dt>
+<dd class="ddef">
+<div class="summary">Potentially make room for more content</div></dd>
+<dt class="decl">int <a class="symbol _function" name="FilePath.adjust" href="./htmlsrc/tango.io.FilePath.html#L651" kind="function" beg="651" end="675">adjust</a><span class="params">(int <em>head</em>, int <em>tail</em>, int <em>len</em>, char[] <em>sub</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.adjust" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L651">#</a></dt>
+<dd class="ddef">
+<div class="summary">Insert/delete internal content</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.create" href="./htmlsrc/tango.io.FilePath.html#L702" kind="function" beg="702" end="706">create</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.create" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L702">#</a></dt>
+<dd class="ddef">
+<div class="summary">file-system methods</div>
+Create an entire path consisting of this folder along with
+                all parent folders. The path must not contain '.' or '..'
+                segments. Related methods include PathUtil.normalize() and
+                FileSystem.toAbsolute()
+<p class="bl"/>
+                Note that each segment is created as a folder, including the
+                trailing segment.
+<p class="sec_header">Returns:</p>a chaining reference (this)
+<p class="sec_header">Throws:</p>IOException upon systen errors
+<p class="sec_header">Throws:</p>IllegalArgumentException if a segment exists but as 
+                a file instead of a folder</dd>
+<dt class="decl">FilePath[] <a class="symbol _function" name="FilePath.toList" href="./htmlsrc/tango.io.FilePath.html#L724" kind="function" beg="724" end="740">toList</a><span class="params">(Filter <em>filter</em> = null)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.toList" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L724">#</a></dt>
+<dd class="ddef">
+<div class="summary">List the set of filenames within this folder, using
+                the provided filter to control the list:
+                <pre class="d_code">
+<span class="k">bool</span> <span class="k">delegate</span> (<span class="i">FilePath</span> <span class="i">path</span>, <span class="k">bool</span> <span class="i">isFolder</span>) <span class="i">Filter</span>
+</pre></div>
+Returning true from the filter includes the given path,
+                whilst returning false excludes it. Parameter 'isFolder'
+                indicates whether the path is a file or folder.
+<p class="bl"/>
+                Note that paths composed of '.' characters are ignored.</dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.from" href="./htmlsrc/tango.io.FilePath.html#L748" kind="function" beg="748" end="760">from</a><span class="params">(ref FileInfo <em>info</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#FilePath.from" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L748">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a FilePath from the given FileInfo</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="FilePath.exists" href="./htmlsrc/tango.io.FilePath.html#L768" kind="function" beg="768" end="771">exists</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.exists" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L768">#</a></dt>
+<dd class="ddef">
+<div class="summary">Does this path currently exist?</div></dd>
+<dt class="decl">Time <a class="symbol _function" name="FilePath.modified" href="./htmlsrc/tango.io.FilePath.html#L782" kind="function" beg="782" end="785">modified</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.modified" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L782">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the time of the last modification. Accurate
+                to whatever the OS supports, and in a format dictated
+                by the file-system. For example NTFS keeps UTC time, 
+                while FAT timestamps are based on the local time.</div></dd>
+<dt class="decl">Time <a class="symbol _function" name="FilePath.accessed" href="./htmlsrc/tango.io.FilePath.html#L796" kind="function" beg="796" end="799">accessed</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.accessed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L796">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the time of the last access. Accurate to
+                whatever the OS supports, and in a format dictated
+                by the file-system. For example NTFS keeps UTC time, 
+                while FAT timestamps are based on the local time.</div></dd>
+<dt class="decl">Time <a class="symbol _function" name="FilePath.created" href="./htmlsrc/tango.io.FilePath.html#L810" kind="function" beg="810" end="813">created</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.created" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L810">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the time of file creation. Accurate to
+                whatever the OS supports, and in a format dictated
+                by the file-system. For example NTFS keeps UTC time,  
+                while FAT timestamps are based on the local time.</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.rename" href="./htmlsrc/tango.io.FilePath.html#L822" kind="function" beg="822" end="826">rename</a><span class="params">(FilePath <em>dst</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.rename" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L822">#</a></dt>
+<dd class="ddef">
+<div class="summary">change the name or location of a file/directory, and
+                adopt the provided Path</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.copy" href="./htmlsrc/tango.io.FilePath.html#L836" kind="function" beg="836" end="840">copy</a><span class="params">(char[] <em>source</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.copy" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L836">#</a></dt>
+<dd class="ddef">
+<div class="summary">Transfer the content of another file to this one. Returns a
+                reference to this class on success, or throws an IOException
+                upon failure.</div></dd>
+<dt class="decl">ulong <a class="symbol _function" name="FilePath.fileSize" href="./htmlsrc/tango.io.FilePath.html#L848" kind="function" beg="848" end="851">fileSize</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.fileSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L848">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the file length (in bytes)</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="FilePath.isWritable" href="./htmlsrc/tango.io.FilePath.html#L859" kind="function" beg="859" end="862">isWritable</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.isWritable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L859">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is this file writable?</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="FilePath.isFolder:2" href="./htmlsrc/tango.io.FilePath.html#L870" kind="function" beg="870" end="876">isFolder</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.isFolder:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L870">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is this file actually a folder/directory?</div></dd>
+<dt class="decl">Stamps <a class="symbol _function" name="FilePath.timeStamps" href="./htmlsrc/tango.io.FilePath.html#L888" kind="function" beg="888" end="891">timeStamps</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.timeStamps" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L888">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return timestamp information</div>
+Timstamps are returns in a format dictated by the 
+                file-system. For example NTFS keeps UTC time, 
+                while FAT timestamps are based on the local time</dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.copy:2" href="./htmlsrc/tango.io.FilePath.html#L901" kind="function" beg="901" end="905">copy</a><span class="params">(FilePath <em>src</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.copy:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L901">#</a></dt>
+<dd class="ddef">
+<div class="summary">Transfer the content of another file to this one. Returns a
+                reference to this class on success, or throws an IOException
+                upon failure.</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.remove" href="./htmlsrc/tango.io.FilePath.html#L913" kind="function" beg="913" end="917">remove</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L913">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove the file/directory from the file-system</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.rename:2" href="./htmlsrc/tango.io.FilePath.html#L926" kind="function" beg="926" end="930">rename</a><span class="params">(char[] <em>dst</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.rename:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L926">#</a></dt>
+<dd class="ddef">
+<div class="summary">change the name or location of a file/directory, and
+               adopt the provided Path</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.createFile" href="./htmlsrc/tango.io.FilePath.html#L938" kind="function" beg="938" end="942">createFile</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.createFile" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L938">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a new file</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="FilePath.createFolder" href="./htmlsrc/tango.io.FilePath.html#L950" kind="function" beg="950" end="954">createFolder</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.createFolder" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L950">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a new directory</div></dd>
+<dt class="decl">int <a class="symbol _function" name="FilePath.opApply" href="./htmlsrc/tango.io.FilePath.html#L968" kind="function" beg="968" end="971">opApply</a><span class="params">(int delegate(ref FileInfo) <em>dg</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilePath.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L968">#</a></dt>
+<dd class="ddef">
+<div class="summary">List the set of filenames within this folder.</div>
+Each path and filename is passed to the provided
+                delegate, along with the path prefix and whether
+                the entry is a folder or not.
+<p class="bl"/>
+                Returns the number of files scanned.</dd></dl></dd>
+<dt class="decl">interface <a class="symbol _interface" name="PathView" href="./htmlsrc/tango.io.FilePath.html#L980" kind="interface" beg="980" end="1158">PathView</a>; <a title="Permalink to this symbol" href="#PathView" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L980">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl">char[] <a class="symbol _function" name="PathView.toString" href="./htmlsrc/tango.io.FilePath.html#L991" kind="function" beg="991" end="991">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L991">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the complete text of this filepath</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="PathView.cString" href="./htmlsrc/tango.io.FilePath.html#L999" kind="function" beg="999" end="999">cString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.cString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L999">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the complete text of this filepath</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="PathView.root" href="./htmlsrc/tango.io.FilePath.html#L1008" kind="function" beg="1008" end="1008">root</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.root" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1008">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the root of this path. Roots are constructs such as
+                "c:"</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="PathView.folder" href="./htmlsrc/tango.io.FilePath.html#L1020" kind="function" beg="1020" end="1020">folder</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.folder" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1020">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the file path. Paths may start and end with a "/".
+                The root path is "/" and an unspecified path is returned as
+                an empty string. Directory paths may be split such that the
+                directory name is placed into the 'name' member; directory
+                paths are treated no differently than file paths</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="PathView.name" href="./htmlsrc/tango.io.FilePath.html#L1029" kind="function" beg="1029" end="1029">name</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1029">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the name of this file, or directory, excluding a
+                suffix.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="PathView.ext" href="./htmlsrc/tango.io.FilePath.html#L1040" kind="function" beg="1040" end="1040">ext</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.ext" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1040">#</a></dt>
+<dd class="ddef">
+<div class="summary">Ext is the tail of the filename, rightward of the rightmost
+                '.' separator e.g. path "foo.bar" has ext "bar". Note that
+                patterns of adjacent separators are treated specially; for
+                example, ".." will wind up with no ext at all</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="PathView.suffix" href="./htmlsrc/tango.io.FilePath.html#L1049" kind="function" beg="1049" end="1049">suffix</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.suffix" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1049">#</a></dt>
+<dd class="ddef">
+<div class="summary">Suffix is like ext, but includes the separator e.g. path
+                "foo.bar" has suffix ".bar"</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="PathView.path" href="./htmlsrc/tango.io.FilePath.html#L1057" kind="function" beg="1057" end="1057">path</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.path" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1057">#</a></dt>
+<dd class="ddef">
+<div class="summary">return the root + folder combination</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="PathView.file" href="./htmlsrc/tango.io.FilePath.html#L1065" kind="function" beg="1065" end="1065">file</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.file" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1065">#</a></dt>
+<dd class="ddef">
+<div class="summary">return the name + suffix combination</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="PathView.isAbsolute" href="./htmlsrc/tango.io.FilePath.html#L1074" kind="function" beg="1074" end="1074">isAbsolute</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.isAbsolute" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1074">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if this FilePath is *not* relative to the
+                current working directory.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="PathView.isEmpty" href="./htmlsrc/tango.io.FilePath.html#L1082" kind="function" beg="1082" end="1082">isEmpty</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.isEmpty" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1082">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if this FilePath is empty</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="PathView.isChild" href="./htmlsrc/tango.io.FilePath.html#L1090" kind="function" beg="1090" end="1090">isChild</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.isChild" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1090">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if this FilePath has a parent</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="PathView.exists" href="./htmlsrc/tango.io.FilePath.html#L1098" kind="function" beg="1098" end="1098">exists</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.exists" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1098">#</a></dt>
+<dd class="ddef">
+<div class="summary">Does this path currently exist?</div></dd>
+<dt class="decl">Time <a class="symbol _function" name="PathView.modified" href="./htmlsrc/tango.io.FilePath.html#L1107" kind="function" beg="1107" end="1107">modified</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.modified" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1107">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the time of the last modification. Accurate
+                to whatever the OS supports</div></dd>
+<dt class="decl">Time <a class="symbol _function" name="PathView.accessed" href="./htmlsrc/tango.io.FilePath.html#L1116" kind="function" beg="1116" end="1116">accessed</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.accessed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1116">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the time of the last access. Accurate to
+                whatever the OS supports</div></dd>
+<dt class="decl">Time <a class="symbol _function" name="PathView.created" href="./htmlsrc/tango.io.FilePath.html#L1125" kind="function" beg="1125" end="1125">created</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.created" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1125">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the time of file creation. Accurate to
+                whatever the OS supports</div></dd>
+<dt class="decl">ulong <a class="symbol _function" name="PathView.fileSize" href="./htmlsrc/tango.io.FilePath.html#L1133" kind="function" beg="1133" end="1133">fileSize</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.fileSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1133">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the file length (in bytes)</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="PathView.isWritable" href="./htmlsrc/tango.io.FilePath.html#L1141" kind="function" beg="1141" end="1141">isWritable</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.isWritable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1141">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is this file writable?</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="PathView.isFolder" href="./htmlsrc/tango.io.FilePath.html#L1149" kind="function" beg="1149" end="1149">isFolder</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.isFolder" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1149">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is this file actually a folder/directory?</div></dd>
+<dt class="decl">Stamps <a class="symbol _function" name="PathView.timeStamps" href="./htmlsrc/tango.io.FilePath.html#L1157" kind="function" beg="1157" end="1157">timeStamps</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#PathView.timeStamps" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FilePath.html#L1157">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return timestamp information</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:58 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

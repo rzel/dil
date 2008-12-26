@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.core.sync.Semaphore</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.core.sync.Semaphore";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.core.sync.Semaphore.html" class="symbol">tango.core.sync.Semaphore</a></h1>
+  
+<div class="summary">The semaphore module provides a general use semaphore for synchronization.</div>
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Authors:</p>Sean Kelly
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Semaphore" href="./htmlsrc/tango.core.sync.Semaphore.html#L41" kind="class" beg="41" end="258">Semaphore</a>; <a title="Permalink to this symbol" href="#Semaphore" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.sync.Semaphore.html#L41">#</a></dt>
+<dd class="ddef">
+<div class="summary">This class represents a general counting semaphore as concieved by Edsger
+ Dijkstra.  As per Mesa type monitors however, "signal" has been replaced
+ with "notify" to indicate that control is not transferred to the waiter when
+ a notification is sent.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="Semaphore.this" href="./htmlsrc/tango.core.sync.Semaphore.html#L57" kind="ctor" beg="57" end="71">this</a><span class="params">(uint <em>count</em> = 0)</span>; <a title="Permalink to this symbol" href="#Semaphore.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.sync.Semaphore.html#L57">#</a></dt>
+<dd class="ddef">
+<div class="summary">Initializes a semaphore object with the specified initial count.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>count</em></td><td>The initial count for the semaphore.</td></tr></table>
+<p class="sec_header">Throws:</p>SyncException on error.</dd>
+<dt class="decl">void <a class="symbol _function" name="Semaphore.wait" href="./htmlsrc/tango.core.sync.Semaphore.html#L101" kind="function" beg="101" end="119">wait</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Semaphore.wait" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.sync.Semaphore.html#L101">#</a></dt>
+<dd class="ddef">
+<div class="summary">Wait until the current count is above zero, then atomically decrement
+ the count by one and return.</div>
+<p class="sec_header">Throws:</p>SyncException on error.</dd>
+<dt class="decl">bool <a class="symbol _function" name="Semaphore.wait:2" href="./htmlsrc/tango.core.sync.Semaphore.html#L141" kind="function" beg="141" end="181">wait</a><span class="params">(double <em>period</em>)</span>; <a title="Permalink to this symbol" href="#Semaphore.wait:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.sync.Semaphore.html#L141">#</a></dt>
+<dd class="ddef">
+<div class="summary">Suspends the calling thread until the current count moves above zero or
+ until the supplied time period has elapsed.  If the count moves above
+ zero in this interval, then atomically decrement the count by one and
+ return true.  Otherwise, return false.  The supplied period may be up to
+ a maximum of (uint.max - 1) milliseconds.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>period</em></td><td>The number of seconds to wait.</td></tr></table>
+<p class="sec_header">In:</p>period must be less than (uint.max - 1) milliseconds.
+<p class="sec_header">Returns:</p>true if notified before the timeout and false if not.
+<p class="sec_header">Throws:</p>SyncException on error.</dd>
+<dt class="decl">void <a class="symbol _function" name="Semaphore.notify" href="./htmlsrc/tango.core.sync.Semaphore.html#L191" kind="function" beg="191" end="204">notify</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Semaphore.notify" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.sync.Semaphore.html#L191">#</a></dt>
+<dd class="ddef">
+<div class="summary">Atomically increment the current count by one.  This will notify one
+ waiter, if there are any in the queue.</div>
+<p class="sec_header">Throws:</p>SyncException on error.</dd>
+<dt class="decl">bool <a class="symbol _function" name="Semaphore.tryWait" href="./htmlsrc/tango.core.sync.Semaphore.html#L217" kind="function" beg="217" end="246">tryWait</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Semaphore.tryWait" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.sync.Semaphore.html#L217">#</a></dt>
+<dd class="ddef">
+<div class="summary">If the current count is equal to zero, return.  Otherwise, atomically
+ decrement the count by one and return true.</div>
+<p class="sec_header">Returns:</p>true if the count was above zero and false if not.
+<p class="sec_header">Throws:</p>SyncException on error.</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (C) 2005-2006 Sean Kelly.  All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:06 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

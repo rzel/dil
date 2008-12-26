@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.core.Signal</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.core.Signal";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.core.Signal.html" class="symbol">tango.core.Signal</a></h1>
+  
+<div class="summary">The signal module provides a basic implementation of the listener pattern
+ using the "Signals and Slots" model from Qt.</div>
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Authors:</p>Sean Kelly
+<dl>
+<dt class="decl">struct <a class="symbol _struct" name="Signal" href="./htmlsrc/tango.core.Signal.html#L52" kind="struct" beg="52" end="226">Signal</a><span class="tparams">(Args... )</span>; <a title="Permalink to this symbol" href="#Signal" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Signal.html#L52">#</a></dt>
+<dd class="ddef">
+<div class="summary">A signal is an event which contains a collection of listeners (called
+ slots).  When a signal is called, that call will be propagated to each
+ attached slot in a synchronous manner.  It is legal for a slot to call a
+ signal's attach and detach methods when it is signaled.  When this occurs,
+ attach events will be queued and processed after the signal has propagated
+ to all slots, but detach events are processed immediately.  This ensures
+ that it is safe for slots to be deleted at any time, even within a slot
+ routine.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+
+<span class="k">class</span> <span class="i">Button</span>
+{
+    <span class="i">Signal</span>!(<span class="i">Button</span>) <span class="i">press</span>;
+}
+
+<span class="k">void</span> <span class="i">wasPressed</span>( <span class="i">Button</span> <span class="i">b</span> )
+{
+    <span class="i">printf</span>( <span class="sl">"Button was pressed.\n"</span> );
+}
+
+<span class="i">Button</span> <span class="i">b</span> = <span class="k">new</span> <span class="i">Button</span>;
+
+<span class="i">b</span>.<span class="i">press</span>.<span class="i">attach</span>( &amp;<span class="i">wasPressed</span> );
+<span class="i">b</span>.<span class="i">press</span>( <span class="i">b</span> );
+
+</pre>
+<p class="bl"/>
+ Please note that this implementation does not use weak pointers to store
+ references to slots.  This design was chosen because weak pointers are
+ inherently unsafe when combined with non-deterministic destruction, with
+ many of the same limitations as destructors in the same situation.  It is
+ still possible to obtain weak-pointer behavior, but this must be done
+ through a proxy object instead.
+<dl>
+<dt class="decl">alias void delegate(Args) <a class="symbol _alias" name="Signal.SlotDg" href="./htmlsrc/tango.core.Signal.html#L54" kind="alias" beg="54" end="54">SlotDg</a>; <a title="Permalink to this symbol" href="#Signal.SlotDg" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Signal.html#L54">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias void function(Args) <a class="symbol _alias" name="Signal.SlotFn" href="./htmlsrc/tango.core.Signal.html#L55" kind="alias" beg="55" end="55">SlotFn</a>; <a title="Permalink to this symbol" href="#Signal.SlotFn" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Signal.html#L55">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias opCall <a class="symbol _alias" name="Signal.call" href="./htmlsrc/tango.core.Signal.html#L57" kind="alias" beg="57" end="57">call</a>; <a title="Permalink to this symbol" href="#Signal.call" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Signal.html#L57">#</a></dt>
+<dd class="ddef">
+<div class="summary">Alias to simplify chained calling.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Signal.opCall" href="./htmlsrc/tango.core.Signal.html#L66" kind="function" beg="66" end="90">opCall</a><span class="params">(Args <em>args</em>)</span>; <a title="Permalink to this symbol" href="#Signal.opCall" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Signal.html#L66">#</a></dt>
+<dd class="ddef">
+<div class="summary">The signal procedure.  When called, each of the attached slots will be
+ called synchronously.</div>
+args = The signal arguments.</dd>
+<dt class="decl">void <a class="symbol _function" name="Signal.attach" href="./htmlsrc/tango.core.Signal.html#L100" kind="function" beg="100" end="115">attach</a><span class="params">(SlotDg <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#Signal.attach" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Signal.html#L100">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attaches a delegate to this signal.  A delegate may be either attached
+ or detached, so successive calls to attach for the same delegate will
+ have no effect.</div>
+dg = The delegate to attach.</dd>
+<dt class="decl">void <a class="symbol _function" name="Signal.attach:2" href="./htmlsrc/tango.core.Signal.html#L125" kind="function" beg="125" end="140">attach</a><span class="params">(SlotFn <em>fn</em>)</span>; <a title="Permalink to this symbol" href="#Signal.attach:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Signal.html#L125">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attaches a function to this signal.  A function may be either attached
+ or detached, so successive calls to attach for the same function will
+ have no effect.</div>
+fn = The function to attach.</dd>
+<dt class="decl">void <a class="symbol _function" name="Signal.detach" href="./htmlsrc/tango.core.Signal.html#L148" kind="function" beg="148" end="156">detach</a><span class="params">(SlotDg <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#Signal.detach" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Signal.html#L148">#</a></dt>
+<dd class="ddef">
+<div class="summary">Detaches a delegate from this signal.</div>
+dg = The delegate to detach.</dd>
+<dt class="decl">void <a class="symbol _function" name="Signal.detach:2" href="./htmlsrc/tango.core.Signal.html#L164" kind="function" beg="164" end="172">detach</a><span class="params">(SlotFn <em>fn</em>)</span>; <a title="Permalink to this symbol" href="#Signal.detach:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Signal.html#L164">#</a></dt>
+<dd class="ddef">
+<div class="summary">Detaches a function from this signal.</div>
+fn = The function to detach.</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (C) 2005-2006 Sean Kelly.  All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:03 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

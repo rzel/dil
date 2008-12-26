@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.container.more.StackMap</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.container.more.StackMap";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.container.more.StackMap.html" class="symbol">tango.util.container.more.StackMap</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: April 2008
+<p class="sec_header">Author:</p>Kris
+<p class="sec_header">Since:</p>0.99.7
+<dl>
+<dt class="decl">class <a class="symbol _class" name="StackMap" href="./htmlsrc/tango.util.container.more.StackMap.html#L40" kind="class" beg="40" end="438">StackMap</a><span class="tparams">(K, V, alias Hash = Container.hash, 
+                      alias Reap = Container.reap, 
+                      alias Heap = Container.Collect)</span>; <a title="Permalink to this symbol" href="#StackMap" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L40">#</a></dt>
+<dd class="ddef">
+<div class="summary">StackMap extends the basic hashmap type by adding a limit to 
+        the number of items contained at any given time. In addition, 
+        StackMap retains the order in which elements were added, and
+        employs that during foreach() traversal. Additions to the map
+        beyond the capacity will result in an exception being thrown.</div>
+You can push and pop things just like an typical stack, and/or
+        traverse the entries in the order they were added, though with 
+        the additional capability of retrieving and/or removing by key.
+<p class="bl"/>
+        Note also that a push/add operation will replace an existing 
+        entry with the same key, exposing a twist on the stack notion.
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="StackMap.this" href="./htmlsrc/tango.util.container.more.StackMap.html#L65" kind="ctor" beg="65" end="81">this</a><span class="params">(uint <em>capacity</em>)</span>; <a title="Permalink to this symbol" href="#StackMap.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L65">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a cache with the specified maximum number of 
+                entries. Additions to the cache beyond this number will
+                throw an exception</div></dd>
+<dt class="decl"><a class="symbol _dtor" name="StackMap.~this" href="./htmlsrc/tango.util.container.more.StackMap.html#L89" kind="dtor" beg="89" end="92">~this</a>(); <a title="Permalink to this symbol" href="#StackMap.~this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L89">#</a></dt>
+<dd class="ddef">
+<div class="summary">clean up when done</div></dd>
+<dt class="decl">void <a class="symbol _function" name="StackMap.reaper" href="./htmlsrc/tango.util.container.more.StackMap.html#L100" kind="function" beg="100" end="103">reaper</a><span class="tparams">(K, R)</span><span class="params">(K <em>k</em>, R <em>r</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#StackMap.reaper" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L100">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reaping callback for the hashmap, acting as a trampoline</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="StackMap.size" href="./htmlsrc/tango.util.container.more.StackMap.html#L110" kind="function" beg="110" end="113">size</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#StackMap.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L110">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="StackMap.clear" href="./htmlsrc/tango.util.container.more.StackMap.html#L120" kind="function" beg="120" end="124">clear</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#StackMap.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L120">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">bool <a class="symbol _function" name="StackMap.push" href="./htmlsrc/tango.util.container.more.StackMap.html#L140" kind="function" beg="140" end="143">push</a><span class="params">(K <em>key</em>, V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#StackMap.push" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L140">#</a></dt>
+<dd class="ddef">
+<div class="summary">Place an entry into the cache and associate it with the
+                provided key. Note that there can be only one entry for
+                any particular key. If two entries are added with the 
+                same key, the second effectively overwrites the first.</div>
+Returns true if we added a new entry; false if we just
+                replaced an existing one. A replacement does not change
+                the order of the keys, and thus does not change stack
+                ordering.</dd>
+<dt class="decl">bool <a class="symbol _function" name="StackMap.popHead" href="./htmlsrc/tango.util.container.more.StackMap.html#L151" kind="function" beg="151" end="159">popHead</a><span class="params">(ref K <em>key</em>, ref V <em>value</em>)</span>; <a title="Permalink to this symbol" href="#StackMap.popHead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L151">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove and return the more recent addition to the stack</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="StackMap.popTail" href="./htmlsrc/tango.util.container.more.StackMap.html#L167" kind="function" beg="167" end="175">popTail</a><span class="params">(ref K <em>key</em>, ref V <em>value</em>)</span>; <a title="Permalink to this symbol" href="#StackMap.popTail" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L167">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove and return the oldest addition to the stack</div></dd>
+<dt class="decl">int <a class="symbol _function" name="StackMap.opApply" href="./htmlsrc/tango.util.container.more.StackMap.html#L183" kind="function" beg="183" end="199">opApply</a><span class="params">(int delegate(ref K key, ref V value) <em>dg</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#StackMap.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L183">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterate from the oldest to the most recent additions</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="StackMap.add" href="./htmlsrc/tango.util.container.more.StackMap.html#L215" kind="function" beg="215" end="231">add</a><span class="params">(K <em>key</em>, V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#StackMap.add" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L215">#</a></dt>
+<dd class="ddef">
+<div class="summary">Place an entry into the cache and associate it with the
+                provided key. Note that there can be only one entry for
+                any particular key. If two entries are added with the 
+                same key, the second effectively overwrites the first.</div>
+Returns true if we added a new entry; false if we just
+                replaced an existing one. A replacement does not change
+                the order of the keys, and thus does not change stack
+                ordering.</dd>
+<dt class="decl">bool <a class="symbol _function" name="StackMap.get" href="./htmlsrc/tango.util.container.more.StackMap.html#L239" kind="function" beg="239" end="249">get</a><span class="params">(K <em>key</em>, ref V <em>value</em>)</span>; <a title="Permalink to this symbol" href="#StackMap.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L239">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get the cache entry identified by the given key</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="StackMap.take" href="./htmlsrc/tango.util.container.more.StackMap.html#L258" kind="function" beg="258" end="277">take</a><span class="params">(K <em>key</em>, ref V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#StackMap.take" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L258">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove (and return) the cache entry associated with the 
+                provided key. Returns false if there is no such entry.</div></dd>
+<dt class="decl">Ref <a class="symbol _function" name="StackMap.deReference" href="./htmlsrc/tango.util.container.more.StackMap.html#L286" kind="function" beg="286" end="299">deReference</a><span class="params">(Ref <em>entry</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#StackMap.deReference" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L286">#</a></dt>
+<dd class="ddef">
+<div class="summary">Place a cache entry at the tail of the queue. This makes
+                it the least-recently referenced.</div></dd>
+<dt class="decl">Ref <a class="symbol _function" name="StackMap.reReference" href="./htmlsrc/tango.util.container.more.StackMap.html#L308" kind="function" beg="308" end="321">reReference</a><span class="params">(Ref <em>entry</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#StackMap.reReference" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L308">#</a></dt>
+<dd class="ddef">
+<div class="summary">Move a cache entry to the head of the queue. This makes
+                it the most-recently referenced.</div></dd>
+<dt class="decl">Ref <a class="symbol _function" name="StackMap.addEntry" href="./htmlsrc/tango.util.container.more.StackMap.html#L330" kind="function" beg="330" end="339">addEntry</a><span class="params">(K <em>key</em>, V <em>value</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#StackMap.addEntry" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L330">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add an entry into the queue. An exception is thrown if 
+                the queue is full</div></dd>
+<dt class="decl">struct <a class="symbol _struct" name="StackMap.QueuedEntry" href="./htmlsrc/tango.util.container.more.StackMap.html#L348" kind="struct" beg="348" end="437">QueuedEntry</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#StackMap.QueuedEntry" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L348">#</a></dt>
+<dd class="ddef">
+<div class="summary">A doubly-linked list entry, used as a wrapper for queued 
+                cache entries.</div>
+<dl>
+<dt class="decl">Ref <a class="symbol _function" name="StackMap.QueuedEntry.set" href="./htmlsrc/tango.util.container.more.StackMap.html#L361" kind="function" beg="361" end="366">set</a><span class="params">(K <em>key</em>, V <em>value</em>)</span>; <a title="Permalink to this symbol" href="#StackMap.QueuedEntry.set" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L361">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set this linked-list entry with the given arguments.</div></dd>
+<dt class="decl">Ref <a class="symbol _function" name="StackMap.QueuedEntry.prepend" href="./htmlsrc/tango.util.container.more.StackMap.html#L375" kind="function" beg="375" end="390">prepend</a><span class="params">(Ref <em>before</em>)</span>; <a title="Permalink to this symbol" href="#StackMap.QueuedEntry.prepend" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L375">#</a></dt>
+<dd class="ddef">
+<div class="summary">Insert this entry into the linked-list just in 
+                        front of the given entry.</div></dd>
+<dt class="decl">Ref <a class="symbol _function" name="StackMap.QueuedEntry.append" href="./htmlsrc/tango.util.container.more.StackMap.html#L399" kind="function" beg="399" end="414">append</a><span class="params">(Ref <em>after</em>)</span>; <a title="Permalink to this symbol" href="#StackMap.QueuedEntry.append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L399">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add this entry into the linked-list just after 
+                        the given entry.</div></dd>
+<dt class="decl">Ref <a class="symbol _function" name="StackMap.QueuedEntry.extract" href="./htmlsrc/tango.util.container.more.StackMap.html#L424" kind="function" beg="424" end="436">extract</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#StackMap.QueuedEntry.extract" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.more.StackMap.html#L424">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove this entry from the linked-list. The 
+                        previous and next entries are patched together 
+                        appropriately.</div></dd></dl></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2008 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:08 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

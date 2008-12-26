@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.collection.model.Seq</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.collection.model.Seq";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.collection.model.Seq.html" class="symbol">tango.util.collection.model.Seq</a></h1>
+  
+<dl>
+<dt class="decl">interface <a class="symbol _interface" name="Seq" href="./htmlsrc/tango.util.collection.model.Seq.html#L33" kind="interface" beg="33" end="228">Seq</a><span class="tparams">(T)</span> : SeqView!(T), Dispenser!(T); <a title="Permalink to this symbol" href="#Seq" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Seq.html#L33">#</a></dt>
+<dd class="ddef">
+<div class="summary">Seqs are Seqs possessing standard modification methods</div>
+<p class="sec_header">Author:</p>Doug Lea
+ @version 0.93
+<p class="bl"/>
+ <P> For an introduction to this package see <A HREF="index.html"> Overview </A>.
+<dl>
+<dt class="decl">void <a class="symbol _function" name="Seq.addAt" href="./htmlsrc/tango.util.collection.model.Seq.html#L63" kind="function" beg="63" end="63">addAt</a><span class="params">(int <em>index</em>, Iterator!(T) <em>e</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Seq.addAt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Seq.html#L63">#</a></dt>
+<dd class="ddef">
+<div class="summary">Insert all elements of enumeration e at a given index, preserving 
+ their order. The index can range from
+ 0..size() (i.e., one past the current last index). If the index is
+ equal to size(), the elements are appended.
+ 
+ @param index the index to start adding at
+ @param e the elements to add</div>
+<p class="sec_header">Returns:</p>condition:
+ <PRE>
+ foreach (int i in 0 .. index-1) at(i).equals(PREV(this)at(i)); &amp;&amp;
+ All existing elements at indices at or greater than index have their
+  indices incremented by the number of elements 
+  traversable via e.get() &amp;&amp;
+ The new elements are at indices index + their order in
+   the enumeration's get traversal.
+ !(e.more()) &amp;&amp;
+ (version() != PREV(this).version()) == PREV(e).more() 
+ </PRE>
+<p class="sec_header">Throws:</p>IllegalElementException if !canInclude some element of e;
+ this may or may not nullify the effect of insertions of other elements.
+<p class="sec_header">Throws:</p>NoSuchElementException if index is not in range 0..size()
+<p class="sec_header">Throws:</p>CorruptedIteratorException is propagated if raised; this
+ may or may not nullify the effects of insertions of other elements.</dd>
+<dt class="decl">void <a class="symbol _function" name="Seq.addAt:2" href="./htmlsrc/tango.util.collection.model.Seq.html#L84" kind="function" beg="84" end="84">addAt</a><span class="params">(int <em>index</em>, T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Seq.addAt:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Seq.html#L84">#</a></dt>
+<dd class="ddef">
+<div class="summary">Insert element at indicated index. The index can range from
+ 0..size() (i.e., one past the current last index). If the index is
+ equal to size(), the element is appended as the new last element.
+ @param index the index to add at
+ @param element the element to add</div>
+<p class="sec_header">Returns:</p>condition:
+ <PRE>
+ size() == PREV(this).size()+1 &amp;&amp;
+ at(index).equals(element) &amp;&amp;
+ foreach (int i in 0 .. index-1)      get(i).equals(PREV(this).get(i))
+ foreach (int i in index+1..size()-1) get(i).equals(PREV(this).get(i-1))
+ Version change: always
+ </PRE>
+<p class="sec_header">Throws:</p>NoSuchElementException if index is not in range 0..size()
+<p class="sec_header">Throws:</p>IllegalElementException if !canInclude(element)</dd>
+<dt class="decl">void <a class="symbol _function" name="Seq.replaceAt" href="./htmlsrc/tango.util.collection.model.Seq.html#L102" kind="function" beg="102" end="102">replaceAt</a><span class="params">(int <em>index</em>, T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Seq.replaceAt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Seq.html#L102">#</a></dt>
+<dd class="ddef">
+<div class="summary">replace element at indicated index with new value
+ @param index the index at which to replace value
+ @param element the new value</div>
+<p class="sec_header">Returns:</p>condition:
+ <PRE>
+ size() == PREV(this).size() &amp;&amp;
+ at(index).equals(element) &amp;&amp;
+ no spurious effects
+ Version change &lt;-- !element.equals(PREV(this).get(index)
+                    (but MAY change even if equal).
+ </PRE>
+<p class="sec_header">Throws:</p>NoSuchElementException if index is not in range 0..size()-1
+<p class="sec_header">Throws:</p>IllegalElementException if !canInclude(element)</dd>
+<dt class="decl">void <a class="symbol _function" name="Seq.opIndexAssign" href="./htmlsrc/tango.util.collection.model.Seq.html#L119" kind="function" beg="119" end="119">opIndexAssign</a><span class="params">(T <em>element</em>, int <em>index</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Seq.opIndexAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Seq.html#L119">#</a></dt>
+<dd class="ddef">
+<div class="summary">replace element at indicated index with new value
+ @param element the new value
+ @param index the index at which to replace value</div>
+<p class="sec_header">Returns:</p>condition:
+ <PRE>
+ size() == PREV(this).size() &amp;&amp;
+ at(index).equals(element) &amp;&amp;
+ no spurious effects
+ Version change &lt;-- !element.equals(PREV(this).get(index)
+                    (but MAY change even if equal).
+ </PRE>
+<p class="sec_header">Throws:</p>NoSuchElementException if index is not in range 0..size()-1
+<p class="sec_header">Throws:</p>IllegalElementException if !canInclude(element)</dd>
+<dt class="decl">void <a class="symbol _function" name="Seq.removeAt" href="./htmlsrc/tango.util.collection.model.Seq.html#L135" kind="function" beg="135" end="135">removeAt</a><span class="params">(int <em>index</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Seq.removeAt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Seq.html#L135">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove element at indicated index. All elements to the right
+ have their indices decremented by one.
+ @param index the index of the element to remove</div>
+<p class="sec_header">Returns:</p>condition:
+ <PRE>
+ size() = PREV(this).size()-1 &amp;&amp;
+ foreach (int i in 0..index-1)      get(i).equals(PREV(this).get(i)); &amp;&amp;
+ foreach (int i in index..size()-1) get(i).equals(PREV(this).get(i+1));
+ Version change: always
+ </PRE>
+<p class="sec_header">Throws:</p>NoSuchElementException if index is not in range 0..size()-1</dd>
+<dt class="decl">void <a class="symbol _function" name="Seq.prepend" href="./htmlsrc/tango.util.collection.model.Seq.html#L145" kind="function" beg="145" end="145">prepend</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Seq.prepend" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Seq.html#L145">#</a></dt>
+<dd class="ddef">
+<div class="summary">Insert element at front of the sequence.
+ Behaviorally equivalent to insert(0, element)
+ @param element the element to add</div>
+<p class="sec_header">Throws:</p>IllegalElementException if !canInclude(element)</dd>
+<dt class="decl">void <a class="symbol _function" name="Seq.replaceHead" href="./htmlsrc/tango.util.collection.model.Seq.html#L152" kind="function" beg="152" end="152">replaceHead</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Seq.replaceHead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Seq.html#L152">#</a></dt>
+<dd class="ddef">
+<div class="summary">replace element at front of the sequence with new value.
+ Behaviorally equivalent to replace(0, element);</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Seq.removeHead" href="./htmlsrc/tango.util.collection.model.Seq.html#L159" kind="function" beg="159" end="159">removeHead</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Seq.removeHead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Seq.html#L159">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove the leftmost element. 
+ Behaviorally equivalent to remove(0);</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Seq.append" href="./htmlsrc/tango.util.collection.model.Seq.html#L169" kind="function" beg="169" end="169">append</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Seq.append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Seq.html#L169">#</a></dt>
+<dd class="ddef">
+<div class="summary">insert element at end of the sequence
+ Behaviorally equivalent to insert(size(), element)
+ @param element the element to add</div>
+<p class="sec_header">Throws:</p>IllegalElementException if !canInclude(element)</dd>
+<dt class="decl">void <a class="symbol _function" name="Seq.replaceTail" href="./htmlsrc/tango.util.collection.model.Seq.html#L177" kind="function" beg="177" end="177">replaceTail</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Seq.replaceTail" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Seq.html#L177">#</a></dt>
+<dd class="ddef">
+<div class="summary">replace element at end of the sequence with new value
+ Behaviorally equivalent to replace(size()-1, element);</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Seq.removeTail" href="./htmlsrc/tango.util.collection.model.Seq.html#L186" kind="function" beg="186" end="186">removeTail</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Seq.removeTail" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Seq.html#L186">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove the rightmost element. 
+ Behaviorally equivalent to remove(size()-1);</div>
+<p class="sec_header">Throws:</p>NoSuchElementException if isEmpty</dd>
+<dt class="decl">void <a class="symbol _function" name="Seq.removeRange" href="./htmlsrc/tango.util.collection.model.Seq.html#L210" kind="function" beg="210" end="210">removeRange</a><span class="params">(int <em>fromIndex</em>, int <em>toIndex</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Seq.removeRange" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Seq.html#L210">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove the elements from fromIndex to toIndex, inclusive.
+ No effect if fromIndex &gt; toIndex.
+ Behaviorally equivalent to
+ <PRE>
+ for (int i = fromIndex; i &lt;= toIndex; ++i) remove(fromIndex);
+ </PRE>
+ @param index the index of the first element to remove
+ @param index the index of the last element to remove</div>
+<p class="sec_header">Returns:</p>condition:
+ <PRE>
+ let n = max(0, toIndex - fromIndex + 1 in
+  size() == PREV(this).size() - 1 &amp;&amp;
+  for (int i in 0 .. fromIndex - 1)     get(i).equals(PREV(this).get(i)) &amp;&amp; 
+  for (int i in fromIndex .. size()- 1) get(i).equals(PREV(this).get(i+n) 
+  Version change iff n &gt; 0 
+ </PRE>
+<p class="sec_header">Throws:</p>NoSuchElementException if fromIndex or toIndex is not in 
+ range 0..size()-1</dd>
+<dt class="decl">void <a class="symbol _function" name="Seq.prepend:2" href="./htmlsrc/tango.util.collection.model.Seq.html#L219" kind="function" beg="219" end="219">prepend</a><span class="params">(Iterator!(T) <em>e</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Seq.prepend:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Seq.html#L219">#</a></dt>
+<dd class="ddef">
+<div class="summary">Prepend all elements of enumeration e, preserving their order.
+ Behaviorally equivalent to addElementsAt(0, e)
+ @param e the elements to add</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Seq.append:2" href="./htmlsrc/tango.util.collection.model.Seq.html#L227" kind="function" beg="227" end="227">append</a><span class="params">(Iterator!(T) <em>e</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Seq.append:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Seq.html#L227">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append all elements of enumeration e, preserving their order.
+ Behaviorally equivalent to addElementsAt(size(), e)
+ @param e the elements to add</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p></p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:09 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

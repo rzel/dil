@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.protocol.model.IWriter</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.protocol.model.IWriter";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.protocol.model.IWriter.html" class="symbol">tango.io.protocol.model.IWriter</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Mar 2004: Initial release      
+                        Dec 2006: Outback release
+<p class="sec_header">Author:</p>Kris
+                        Ivan Senji (the "alias put" idea)
+<dl>
+<dt class="decl">class <a class="symbol _class" name="IWriter" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L71" kind="class" beg="71" end="154">IWriter</a>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L71">#</a></dt>
+<dd class="ddef">
+<div class="summary">IWriter interface. Writers provide the means to append formatted 
+        data to an IBuffer, and expose a convenient method of handling a
+        variety of data types. In addition to writing native types such
+        as integer and char[], writers also process any class which has
+        implemented the IWritable interface (one method).</div>
+All writers support the full set of native data types, plus their
+        fundamental array variants. Operations may be chained back-to-back.
+<p class="bl"/>
+        Writers support a Java-esque put() notation. However, the Tango style
+        is to place IO elements within their own parenthesis, like so:
+<p class="bl"/>
+        <pre class="d_code">
+<span class="i">write</span> (<span class="i">count</span>) (<span class="sl">" green bottles"</span>);
+</pre>
+<p class="bl"/>
+        Note that each written element is distict; this style is affectionately
+        known as "whisper". The code below illustrates basic operation upon a
+        memory buffer:
+        
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">buf</span> = <span class="k">new</span> <span class="i">Buffer</span> (<span class="n">256</span>);
+
+<span class="lc">// map same buffer into both reader and writer</span>
+<span class="k">auto</span> <span class="i">read</span> = <span class="k">new</span> <span class="i">Reader</span> (<span class="i">buf</span>);
+<span class="k">auto</span> <span class="i">write</span> = <span class="k">new</span> <span class="i">Writer</span> (<span class="i">buf</span>);
+
+<span class="k">int</span> <span class="i">i</span> = <span class="n">10</span>;
+<span class="k">long</span> <span class="i">j</span> = <span class="n">20</span>;
+<span class="k">double</span> <span class="i">d</span> = <span class="n">3.14159</span>;
+<span class="k">char</span>[] <span class="i">c</span> = <span class="sl">"fred"</span>;
+
+<span class="lc">// write data types out</span>
+<span class="i">write</span> (<span class="i">c</span>) (<span class="i">i</span>) (<span class="i">j</span>) (<span class="i">d</span>);
+
+<span class="lc">// read them back again</span>
+<span class="i">read</span> (<span class="i">c</span>) (<span class="i">i</span>) (<span class="i">j</span>) (<span class="i">d</span>);
+
+
+<span class="lc">// same thing again, but using put() syntax instead</span>
+<span class="i">write</span>.<span class="i">put</span>(<span class="i">c</span>).<span class="i">put</span>(<span class="i">i</span>).<span class="i">put</span>(<span class="i">j</span>).<span class="i">put</span>(<span class="i">d</span>);
+<span class="i">read</span>.<span class="i">get</span>(<span class="i">c</span>).<span class="i">get</span>(<span class="i">i</span>).<span class="i">get</span>(<span class="i">j</span>).<span class="i">get</span>(<span class="i">d</span>);
+
+</pre>
+<p class="bl"/>
+        Writers may also be used with any class implementing the IWritable
+        interface, along with any struct implementing an equivalent function.
+<dl>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L81" kind="function" beg="81" end="81">put</a><span class="params">(bool <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L81">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:2" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L82" kind="function" beg="82" end="82">put</a><span class="params">(ubyte <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L82">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:3" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L83" kind="function" beg="83" end="83">put</a><span class="params">(byte <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L83">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:4" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L84" kind="function" beg="84" end="84">put</a><span class="params">(ushort <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L84">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:5" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L85" kind="function" beg="85" end="85">put</a><span class="params">(short <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L85">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:6" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L86" kind="function" beg="86" end="86">put</a><span class="params">(uint <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L86">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:7" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L87" kind="function" beg="87" end="87">put</a><span class="params">(int <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L87">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:8" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L88" kind="function" beg="88" end="88">put</a><span class="params">(ulong <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L88">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:9" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L89" kind="function" beg="89" end="89">put</a><span class="params">(long <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L89">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:10" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L90" kind="function" beg="90" end="90">put</a><span class="params">(float <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L90">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:11" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L91" kind="function" beg="91" end="91">put</a><span class="params">(double <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L91">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:12" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L92" kind="function" beg="92" end="92">put</a><span class="params">(real <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L92">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:13" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L93" kind="function" beg="93" end="93">put</a><span class="params">(char <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L93">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:14" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L94" kind="function" beg="94" end="94">put</a><span class="params">(wchar <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L94">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:15" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L95" kind="function" beg="95" end="95">put</a><span class="params">(dchar <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L95">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:16" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L98" kind="function" beg="98" end="98">put</a><span class="params">(byte[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L98">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:17" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L99" kind="function" beg="99" end="99">put</a><span class="params">(short[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L99">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:18" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L100" kind="function" beg="100" end="100">put</a><span class="params">(int[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L100">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:19" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L101" kind="function" beg="101" end="101">put</a><span class="params">(long[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:19" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L101">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:20" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L102" kind="function" beg="102" end="102">put</a><span class="params">(ubyte[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:20" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L102">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:21" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L103" kind="function" beg="103" end="103">put</a><span class="params">(ushort[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:21" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L103">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:22" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L104" kind="function" beg="104" end="104">put</a><span class="params">(uint[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:22" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L104">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:23" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L105" kind="function" beg="105" end="105">put</a><span class="params">(ulong[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:23" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L105">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:24" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L106" kind="function" beg="106" end="106">put</a><span class="params">(float[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:24" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L106">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:25" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L107" kind="function" beg="107" end="107">put</a><span class="params">(double[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:25" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L107">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:26" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L108" kind="function" beg="108" end="108">put</a><span class="params">(real[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:26" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L108">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:27" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L109" kind="function" beg="109" end="109">put</a><span class="params">(char[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:27" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L109">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:28" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L110" kind="function" beg="110" end="110">put</a><span class="params">(wchar[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:28" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L110">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:29" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L111" kind="function" beg="111" end="111">put</a><span class="params">(dchar[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:29" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L111">#</a></dt>
+<dd class="ddef">
+<div class="summary">These are the basic writer methods</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:30" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L123" kind="function" beg="123" end="123">put</a><span class="params">(IWritable)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:30" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L123">#</a></dt>
+<dd class="ddef">
+<div class="summary">This is the mechanism used for binding arbitrary classes 
+                to the IO system. If a class implements IWritable, it can
+                be used as a target for IWriter put() operations. That is, 
+                implementing IWritable is intended to transform any class 
+                into an IWriter adaptor for the content held therein</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.newline" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L135" kind="function" beg="135" end="135">newline</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.newline" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L135">#</a></dt>
+<dd class="ddef">
+<div class="summary">Emit a newline</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.flush" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L144" kind="function" beg="144" end="144">flush</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.flush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L144">#</a></dt>
+<dt class="decl">IWriter <a class="symbol _function" name="IWriter.put:31" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L145" kind="function" beg="145" end="145">put</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.put:31" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L145">#</a></dt>
+<dd class="ddef">
+<div class="summary">Flush the output of this writer. Throws an IOException 
+                if the operation fails. These are aliases for each other</div></dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="IWriter.buffer" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L153" kind="function" beg="153" end="153">buffer</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IWriter.buffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L153">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the associated buffer</div></dd></dl></dd>
+<dt class="decl">interface <a class="symbol _interface" name="IWritable" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L163" kind="interface" beg="163" end="166">IWritable</a>; <a title="Permalink to this symbol" href="#IWritable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IWriter.html#L163">#</a></dt>
+<dd class="ddef">
+<div class="summary">Interface to make any class compatible with any IWriter</div>
+</dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:59 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

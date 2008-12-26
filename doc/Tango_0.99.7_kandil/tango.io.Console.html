@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.Console</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.Console";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.Console.html" class="symbol">tango.io.Console</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: Feb 2005
+<p class="sec_header">Version:</p>Heavily revised for unicode; November 2005
+                        Outback release: December 2006
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">struct <a class="symbol _struct" name="Console" href="./htmlsrc/tango.io.Console.html#L42" kind="struct" beg="42" end="607">Console</a>; <a title="Permalink to this symbol" href="#Console" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L42">#</a></dt>
+<dd class="ddef">
+<div class="summary">low level console IO support. 
+        
+        Note that for a while this was templated for each of char, wchar, 
+        and dchar. It became clear after some usage that the console is
+        more useful if it sticks to Utf8 only. See ConsoleConduit below
+        for details.</div>
+Redirecting the standard IO handles (via a shell) operates as one 
+        would expect, though the redirected content should likely restrict 
+        itself to utf8
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Console.Input" href="./htmlsrc/tango.io.Console.html#L57" kind="class" beg="57" end="205">Input</a>; <a title="Permalink to this symbol" href="#Console.Input" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L57">#</a></dt>
+<dd class="ddef">
+<div class="summary">Model console input as a buffer. Note that we read utf8
+                only.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="Console.Input.this" href="./htmlsrc/tango.io.Console.html#L70" kind="ctor" beg="70" end="74">this</a><span class="params">(Conduit <em>conduit</em>, bool <em>redirected</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Console.Input.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L70">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attach console input to the provided device</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="Console.Input.copyln" href="./htmlsrc/tango.io.Console.html#L88" kind="function" beg="88" end="93">copyln</a><span class="params">(bool <em>raw</em> = false)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Input.copyln" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L88">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the next line available from the console, 
+                        or null when there is nothing available. The value
+                        returned is a duplicate of the buffer content (it
+                        has .dup applied).</div>
+Each line ending is removed unless parameter raw is
+                        set to true</dd>
+<dt class="decl">bool <a class="symbol _function" name="Console.Input.readln" href="./htmlsrc/tango.io.Console.html#L107" kind="function" beg="107" end="129">readln</a><span class="params">(inout char[] <em>content</em>, bool <em>raw</em> = false)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Input.readln" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L107">#</a></dt>
+<dd class="ddef">
+<div class="summary">Retreive a line of text from the console and map
+                        it to the given argument. The input is sliced, 
+                        not copied, so use .dup appropriately. Each line
+                        ending is removed unless parameter raw is set to 
+                        true.
+                        
+                        Returns false when there is no more input.</div></dd>
+<dt class="decl">InputStream <a class="symbol _function" name="Console.Input.stream" href="./htmlsrc/tango.io.Console.html#L137" kind="function" beg="137" end="140">stream</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Input.stream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L137">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the associated stream</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Console.Input.redirected" href="./htmlsrc/tango.io.Console.html#L155" kind="function" beg="155" end="158">redirected</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Input.redirected" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L155">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is this device redirected?</div>
+<p class="sec_header">Returns:</p>True if redirected, false otherwise.
+<p class="sec_header">Remarks:</p>Reflects the console redirection status from when 
+                        this module was instantiated</dd>
+<dt class="decl">Input <a class="symbol _function" name="Console.Input.redirected:2" href="./htmlsrc/tango.io.Console.html#L172" kind="function" beg="172" end="176">redirected</a><span class="params">(bool <em>yes</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Input.redirected:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L172">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set redirection state to the provided boolean</div>
+<p class="sec_header">Remarks:</p>Configure the console redirection status, where 
+                        a redirected console is more efficient (dictates 
+                        whether newline() performs automatic flushing or 
+                        not)</dd>
+<dt class="decl">InputStream <a class="symbol _function" name="Console.Input.input" href="./htmlsrc/tango.io.Console.html#L189" kind="function" beg="189" end="192">input</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Input.input" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L189">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the configured source</div>
+<p class="sec_header">Remarks:</p>Provides access to the underlying mechanism for 
+                        console input. Use this to retain prior state
+                        when temporarily switching inputs</dd>
+<dt class="decl">Input <a class="symbol _function" name="Console.Input.input:2" href="./htmlsrc/tango.io.Console.html#L200" kind="function" beg="200" end="204">input</a><span class="params">(InputStream <em>source</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Input.input:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L200">#</a></dt>
+<dd class="ddef">
+<div class="summary">Divert input to an alternate source</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="Console.Output" href="./htmlsrc/tango.io.Console.html#L214" kind="class" beg="214" end="389">Output</a>; <a title="Permalink to this symbol" href="#Console.Output" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L214">#</a></dt>
+<dd class="ddef">
+<div class="summary">Console output accepts utf8 only, by default</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="Console.Output.this" href="./htmlsrc/tango.io.Console.html#L228" kind="ctor" beg="228" end="232">this</a><span class="params">(Conduit <em>conduit</em>, bool <em>redirected</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Console.Output.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L228">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attach console output to the provided device</div></dd>
+<dt class="decl">Output <a class="symbol _function" name="Console.Output.append" href="./htmlsrc/tango.io.Console.html#L242" kind="function" beg="242" end="246">append</a><span class="params">(char[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Output.append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L242">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append to the console. We accept UTF8 only, so
+                        all other encodings should be handled via some
+                        higher level API</div></dd>
+<dt class="decl">Output <a class="symbol _function" name="Console.Output.append:2" href="./htmlsrc/tango.io.Console.html#L265" kind="function" beg="265" end="268">append</a><span class="params">(Object <em>other</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Output.append:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L265">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append content</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>other</em></td><td>an object with a useful toString() method</td></tr></table>
+<p class="sec_header">Returns:</p>Returns a chaining reference if all content was 
+                        written. Throws an IOException indicating eof or 
+                        eob if not.
+<p class="sec_header">Remarks:</p>Append the result of other.toString() to the console</dd>
+<dt class="decl">Output <a class="symbol _function" name="Console.Output.newline" href="./htmlsrc/tango.io.Console.html#L288" kind="function" beg="288" end="295">newline</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Output.newline" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L288">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append a newline and flush the console buffer. If
+                        the output is redirected, flushing does not occur
+                        automatically.</div>
+<p class="sec_header">Returns:</p>Returns a chaining reference if content was written. 
+                        Throws an IOException indicating eof or eob if not.
+<p class="sec_header">Remarks:</p>Emit a newline into the buffer, and autoflush the
+                        current buffer content for an interactive console.
+                        Redirected consoles do not flush automatically on
+                        a newline.</dd>
+<dt class="decl">Output <a class="symbol _function" name="Console.Output.flush" href="./htmlsrc/tango.io.Console.html#L310" kind="function" beg="310" end="314">flush</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Output.flush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L310">#</a></dt>
+<dd class="ddef">
+<div class="summary">Explicitly flush console output</div>
+<p class="sec_header">Returns:</p>Returns a chaining reference if content was written. 
+                        Throws an IOException indicating eof or eob if not.
+<p class="sec_header">Remarks:</p>Flushes the console buffer to attached conduit</dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="Console.Output.stream" href="./htmlsrc/tango.io.Console.html#L322" kind="function" beg="322" end="325">stream</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Output.stream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L322">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the associated stream</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Console.Output.redirected" href="./htmlsrc/tango.io.Console.html#L339" kind="function" beg="339" end="342">redirected</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Output.redirected" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L339">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is this device redirected?</div>
+<p class="sec_header">Returns:</p>True if redirected, false otherwise.
+<p class="sec_header">Remarks:</p>Reflects the console redirection status</dd>
+<dt class="decl">Output <a class="symbol _function" name="Console.Output.redirected:2" href="./htmlsrc/tango.io.Console.html#L356" kind="function" beg="356" end="360">redirected</a><span class="params">(bool <em>yes</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Output.redirected:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L356">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set redirection state to the provided boolean</div>
+<p class="sec_header">Remarks:</p>Configure the console redirection status, where 
+                        a redirected console is more efficient (dictates 
+                        whether newline() performs automatic flushing or 
+                        not)</dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="Console.Output.output" href="./htmlsrc/tango.io.Console.html#L373" kind="function" beg="373" end="376">output</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Output.output" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L373">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the configured output sink</div>
+<p class="sec_header">Remarks:</p>Provides access to the underlying mechanism for 
+                        console output. Use this to retain prior state
+                        when temporarily switching outputs</dd>
+<dt class="decl">Output <a class="symbol _function" name="Console.Output.output:2" href="./htmlsrc/tango.io.Console.html#L384" kind="function" beg="384" end="388">output</a><span class="params">(OutputStream <em>sink</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Console.Output.output:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L384">#</a></dt>
+<dd class="ddef">
+<div class="summary">Divert output to an alternate sink</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="Console.Conduit" href="./htmlsrc/tango.io.Console.html#L408" kind="class" beg="408" end="606">Conduit</a> : DeviceConduit; <a title="Permalink to this symbol" href="#Console.Conduit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L408">#</a></dt>
+<dd class="ddef">
+<div class="summary">Conduit for specifically handling the console devices. This 
+                takes care of certain implementation details on the Win32 
+                platform.</div>
+Note that the console is fixed at Utf8 for both linux and
+                Win32. The latter is actually Utf16 native, but it's just
+                too much hassle for a developer to handle the distinction
+                when it really should be a no-brainer. In particular, the
+                Win32 console functions don't work with redirection. This
+                causes additional difficulties that can be ameliorated by
+                asserting console I/O is always Utf8, in all modes.
+<dl>
+<dt class="decl">char[] <a class="symbol _function" name="Console.Conduit.toString" href="./htmlsrc/tango.io.Console.html#L418" kind="function" beg="418" end="421">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Console.Conduit.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L418">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the name of this conduit</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="Console.Conduit.this" href="./htmlsrc/tango.io.Console.html#L600" kind="ctor" beg="600" end="604">this</a><span class="params">(Handle <em>handle</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Console.Conduit.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L600">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a FileConduit on the provided 
+                                FileDevice.</div>
+This is strictly for adapting existing 
+                                devices such as Stdout and friends</dd></dl></dd></dl></dd>
+<dt class="decl">Console.Input <a class="symbol _variable" name="Cin" href="./htmlsrc/tango.io.Console.html#L616" kind="variable" beg="616" end="616">Cin</a>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Cin" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L616">#</a></dt>
+<dd class="ddef">
+<div class="summary">Globals representing Console IO</div>
+the standard input stream</dd>
+<dt class="decl">Console.Output <a class="symbol _variable" name="Cout" href="./htmlsrc/tango.io.Console.html#L617" kind="variable" beg="617" end="618">Cout</a>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Cout" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L617">#</a></dt>
+<dt class="decl">Console.Output <a class="symbol _variable" name="Cerr" href="./htmlsrc/tango.io.Console.html#L617" kind="variable" beg="617" end="618">Cerr</a>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Cerr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L617">#</a></dt>
+<dd class="ddef">
+<div class="summary">the standard error stream</div></dd>
+<dt class="decl">static <a class="symbol _sctor" name="this" href="./htmlsrc/tango.io.Console.html#L627" kind="sctor" beg="627" end="637">this</a>(); <a title="Permalink to this symbol" href="#this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L627">#</a></dt>
+<dd class="ddef">
+<div class="summary">Instantiate Console access</div></dd>
+<dt class="decl">static <a class="symbol _sdtor" name="~this" href="./htmlsrc/tango.io.Console.html#L648" kind="sdtor" beg="648" end="655">~this</a>(); <a title="Permalink to this symbol" href="#~this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Console.html#L648">#</a></dt>
+<dd class="ddef">
+<div class="summary">Flush outputs before we exit</div>
+(good idea from Frits Van Bommel)</dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:58 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

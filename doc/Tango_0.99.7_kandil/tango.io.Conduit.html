@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.Conduit</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.Conduit";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.Conduit.html" class="symbol">tango.io.Conduit</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: March 2004
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Conduit" href="./htmlsrc/tango.io.Conduit.html#L41" kind="class" beg="41" end="281">Conduit</a> : IConduit, ISelectable; <a title="Permalink to this symbol" href="#Conduit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L41">#</a></dt>
+<dd class="ddef">
+<div class="summary">Conduit abstract base-class, implementing interface IConduit.
+        Only the conduit-specific read(), write(), fileHandle() and 
+        bufferSize() need to be implemented for a concrete conduit 
+        implementation. See FileConduit for an example.</div>
+Conduits provide virtualized access to external content, and
+        represent things like files or Internet connections. Conduits
+        expose a pair of streams, are modelled by tango.io.model.IConduit, 
+        and are implemented via classes such as FileConduit &amp; SocketConduit. 
+<p class="bl"/>
+        Additional kinds of conduit are easy to construct: one either
+        subclasses tango.io.Conduit, or implements tango.io.model.IConduit.
+        A conduit typically reads and writes from/to an IBuffer in large
+        chunks, typically the entire buffer. Alternatively, one can invoke
+        input.read(dst[]) and/or output.write(src[]) directly.
+<dl>
+<dt class="decl">char[] <a class="symbol _function" name="Conduit.toString" href="./htmlsrc/tango.io.Conduit.html#L49" kind="function" beg="49" end="49">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Conduit.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L49">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the name of this conduit</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="Conduit.bufferSize" href="./htmlsrc/tango.io.Conduit.html#L57" kind="function" beg="57" end="57">bufferSize</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Conduit.bufferSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L57">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a preferred size for buffering conduit I/O</div></dd>
+<dt class="decl">Handle <a class="symbol _function" name="Conduit.fileHandle" href="./htmlsrc/tango.io.Conduit.html#L68" kind="function" beg="68" end="68">fileHandle</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Conduit.fileHandle" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L68">#</a></dt>
+<dd class="ddef">
+<div class="summary">Models a handle-oriented device. We need to revisit this</div>
+<p class="sec_header">TODO:</p>figure out how to avoid exposing this in the general
+                case</dd>
+<dt class="decl">uint <a class="symbol _function" name="Conduit.read" href="./htmlsrc/tango.io.Conduit.html#L81" kind="function" beg="81" end="81">read</a><span class="params">(void[] <em>dst</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Conduit.read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L81">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read from conduit into a target array. The provided dst 
+                will be populated with content from the conduit.</div>
+Returns the number of bytes read, which may be less than
+                requested in dst. Eof is returned whenever an end-of-flow 
+                condition arises.</dd>
+<dt class="decl">uint <a class="symbol _function" name="Conduit.write" href="./htmlsrc/tango.io.Conduit.html#L94" kind="function" beg="94" end="94">write</a><span class="params">(void [] <em>src</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Conduit.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L94">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write to conduit from a source array. The provided src
+                content will be written to the conduit.</div>
+Returns the number of bytes written from src, which may
+                be less than the quantity provided. Eof is returned when 
+                an end-of-flow condition arises.</dd>
+<dt class="decl">void <a class="symbol _function" name="Conduit.detach" href="./htmlsrc/tango.io.Conduit.html#L102" kind="function" beg="102" end="102">detach</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Conduit.detach" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L102">#</a></dt>
+<dd class="ddef">
+<div class="summary">Disconnect this conduit</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Conduit.isAlive" href="./htmlsrc/tango.io.Conduit.html#L110" kind="function" beg="110" end="113">isAlive</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Conduit.isAlive" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L110">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is the conduit alive? Default behaviour returns true</div></dd>
+<dt class="decl">IConduit <a class="symbol _function" name="Conduit.conduit" href="./htmlsrc/tango.io.Conduit.html#L121" kind="function" beg="121" end="124">conduit</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Conduit.conduit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L121">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the host. This is part of the Stream interface</div></dd>
+<dt class="decl">InputStream <a class="symbol _function" name="Conduit.clear" href="./htmlsrc/tango.io.Conduit.html#L132" kind="function" beg="132" end="132">clear</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Conduit.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L132">#</a></dt>
+<dd class="ddef">
+<div class="summary">clear any buffered input</div></dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="Conduit.flush" href="./htmlsrc/tango.io.Conduit.html#L140" kind="function" beg="140" end="140">flush</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Conduit.flush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L140">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write buffered output</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Conduit.close" href="./htmlsrc/tango.io.Conduit.html#L151" kind="function" beg="151" end="154">close</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Conduit.close" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L151">#</a></dt>
+<dd class="ddef">
+<div class="summary">Close this conduit</div>
+<p class="sec_header">Remarks:</p>Both input and output are detached, and are no longer usable</dd>
+<dt class="decl">InputStream <a class="symbol _function" name="Conduit.input" href="./htmlsrc/tango.io.Conduit.html#L162" kind="function" beg="162" end="165">input</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Conduit.input" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L162">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the current input stream</div></dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="Conduit.output" href="./htmlsrc/tango.io.Conduit.html#L173" kind="function" beg="173" end="176">output</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Conduit.output" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L173">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the current output stream</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Conduit.error" href="./htmlsrc/tango.io.Conduit.html#L184" kind="function" beg="184" end="187">error</a><span class="params">(char[] <em>msg</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Conduit.error" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L184">#</a></dt>
+<dd class="ddef">
+<div class="summary">Throw an IOException, with the provided message</div></dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="Conduit.copy" href="./htmlsrc/tango.io.Conduit.html#L196" kind="function" beg="196" end="200">copy</a><span class="params">(InputStream <em>src</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Conduit.copy" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L196">#</a></dt>
+<dd class="ddef">
+<div class="summary">Transfer the content of another conduit to this one. Returns
+                the dst OutputStream, or throws IOException on failure.</div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="Conduit.load" href="./htmlsrc/tango.io.Conduit.html#L214" kind="function" beg="214" end="217">load</a><span class="params">(void[] <em>dst</em> = null)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Conduit.load" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L214">#</a></dt>
+<dd class="ddef">
+<div class="summary">Load the bits from a stream, and return them all in an
+                array. The dst array can be provided as an option, which
+                will be expanded as necessary to consume the input.</div>
+Returns an array representing the content, and throws
+                IOException on error</dd>
+<dt class="decl">void[] <a class="symbol _function" name="Conduit.load:2" href="./htmlsrc/tango.io.Conduit.html#L231" kind="function" beg="231" end="245">load</a><span class="params">(InputStream <em>src</em>, void[] <em>dst</em> = null)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Conduit.load:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L231">#</a></dt>
+<dd class="ddef">
+<div class="summary">Load the bits from a stream, and return them all in an
+                array. The dst array can be provided as an option, which
+                will be expanded as necessary to consume the input.</div>
+Returns an array representing the content, and throws
+                IOException on error</dd>
+<dt class="decl">size_t <a class="symbol _function" name="Conduit.transfer" href="./htmlsrc/tango.io.Conduit.html#L255" kind="function" beg="255" end="280">transfer</a><span class="params">(InputStream <em>src</em>, OutputStream <em>dst</em>, size_t <em>max</em> = size_t.max)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Conduit.transfer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L255">#</a></dt>
+<dd class="ddef">
+<div class="summary">Low-level data transfer, where max represents the maximum
+                number of bytes to transfer, and tmp represents space for
+                buffering the transfer. Throws IOException on failure.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="InputFilter" href="./htmlsrc/tango.io.Conduit.html#L290" kind="class" beg="290" end="371">InputFilter</a> : InputStream; <a title="Permalink to this symbol" href="#InputFilter" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L290">#</a></dt>
+<dd class="ddef">
+<div class="summary">Base class for input stream filtering</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="InputFilter.this" href="./htmlsrc/tango.io.Conduit.html#L300" kind="ctor" beg="300" end="304">this</a><span class="params">(InputStream <em>host</em>)</span>; <a title="Permalink to this symbol" href="#InputFilter.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L300">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attach to the provided stream</div></dd>
+<dt class="decl">IConduit <a class="symbol _function" name="InputFilter.conduit" href="./htmlsrc/tango.io.Conduit.html#L312" kind="function" beg="312" end="315">conduit</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#InputFilter.conduit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L312">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the hosting conduit</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="InputFilter.read" href="./htmlsrc/tango.io.Conduit.html#L328" kind="function" beg="328" end="331">read</a><span class="params">(void[] <em>dst</em>)</span>; <a title="Permalink to this symbol" href="#InputFilter.read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L328">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read from conduit into a target array. The provided dst 
+                will be populated with content from the conduit.</div>
+Returns the number of bytes read, which may be less than
+                requested in dst. Eof is returned whenever an end-of-flow 
+                condition arises.</dd>
+<dt class="decl">InputStream <a class="symbol _function" name="InputFilter.clear" href="./htmlsrc/tango.io.Conduit.html#L339" kind="function" beg="339" end="343">clear</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#InputFilter.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L339">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clear any buffered content</div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="InputFilter.load" href="./htmlsrc/tango.io.Conduit.html#L356" kind="function" beg="356" end="359">load</a><span class="params">(void[] <em>dst</em> = null)</span>; <a title="Permalink to this symbol" href="#InputFilter.load" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L356">#</a></dt>
+<dd class="ddef">
+<div class="summary">Load the bits from a stream, and return them all in an
+                array. The dst array can be provided as an option, which
+                will be expanded as necessary to consume the input.</div>
+Returns an array representing the content, and throws
+                IOException on error</dd>
+<dt class="decl">void <a class="symbol _function" name="InputFilter.close" href="./htmlsrc/tango.io.Conduit.html#L367" kind="function" beg="367" end="370">close</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#InputFilter.close" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L367">#</a></dt>
+<dd class="ddef">
+<div class="summary">Close the input</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="OutputFilter" href="./htmlsrc/tango.io.Conduit.html#L380" kind="class" beg="380" end="458">OutputFilter</a> : OutputStream; <a title="Permalink to this symbol" href="#OutputFilter" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L380">#</a></dt>
+<dd class="ddef">
+<div class="summary">Base class for output stream filtering</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="OutputFilter.this" href="./htmlsrc/tango.io.Conduit.html#L390" kind="ctor" beg="390" end="394">this</a><span class="params">(OutputStream <em>host</em>)</span>; <a title="Permalink to this symbol" href="#OutputFilter.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L390">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attach to the provided stream</div></dd>
+<dt class="decl">IConduit <a class="symbol _function" name="OutputFilter.conduit" href="./htmlsrc/tango.io.Conduit.html#L402" kind="function" beg="402" end="405">conduit</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#OutputFilter.conduit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L402">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the hosting conduit</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="OutputFilter.write" href="./htmlsrc/tango.io.Conduit.html#L418" kind="function" beg="418" end="421">write</a><span class="params">(void[] <em>src</em>)</span>; <a title="Permalink to this symbol" href="#OutputFilter.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L418">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write to conduit from a source array. The provided src
+                content will be written to the conduit.</div>
+Returns the number of bytes written from src, which may
+                be less than the quantity provided. Eof is returned when 
+                an end-of-flow condition arises.</dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="OutputFilter.flush" href="./htmlsrc/tango.io.Conduit.html#L429" kind="function" beg="429" end="433">flush</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#OutputFilter.flush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L429">#</a></dt>
+<dd class="ddef">
+<div class="summary">Emit/purge buffered content</div></dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="OutputFilter.copy" href="./htmlsrc/tango.io.Conduit.html#L442" kind="function" beg="442" end="446">copy</a><span class="params">(InputStream <em>src</em>)</span>; <a title="Permalink to this symbol" href="#OutputFilter.copy" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L442">#</a></dt>
+<dd class="ddef">
+<div class="summary">Transfer the content of another conduit to this one. Returns
+                a reference to this class, or throws IOException on failure.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="OutputFilter.close" href="./htmlsrc/tango.io.Conduit.html#L454" kind="function" beg="454" end="457">close</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#OutputFilter.close" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Conduit.html#L454">#</a></dt>
+<dd class="ddef">
+<div class="summary">Close the output</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:58 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

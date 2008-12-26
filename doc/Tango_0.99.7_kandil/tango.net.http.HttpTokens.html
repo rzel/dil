@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.http.HttpTokens</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.http.HttpTokens";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.http.HttpTokens.html" class="symbol">tango.net.http.HttpTokens</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: April 2004
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">struct <a class="symbol _struct" name="HttpToken" href="./htmlsrc/tango.net.http.HttpTokens.html#L38" kind="struct" beg="38" end="42">HttpToken</a>; <a title="Permalink to this symbol" href="#HttpToken" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L38">#</a></dt>
+<dd class="ddef">
+<div class="summary">Struct used to expose freachable HttpToken instances.</div>
+</dd>
+<dt class="decl">class <a class="symbol _class" name="HttpTokens" href="./htmlsrc/tango.net.http.HttpTokens.html#L60" kind="class" beg="60" end="554">HttpTokens</a> : IWritable; <a title="Permalink to this symbol" href="#HttpTokens" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L60">#</a></dt>
+<dd class="ddef">
+<div class="summary">Maintains a set of HTTP tokens. These tokens include headers, query-
+        parameters, and anything else vaguely related. Both input and output
+        are supported, though a subclass may choose to expose as read-only.</div>
+All tokens are mapped directly onto a buffer, so there is no memory
+        allocation or copying involved. 
+<p class="bl"/>
+        Note that this class does not support deleting tokens, per se. Instead
+        it marks tokens as being 'unused' by setting content to null, avoiding 
+        unwarranted reshaping of the token stack. The token stack is reused as
+        time goes on, so there's only minor runtime overhead.
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="HttpTokens.this" href="./htmlsrc/tango.net.http.HttpTokens.html#L83" kind="ctor" beg="83" end="95">this</a><span class="params">(char <em>separator</em>, bool <em>inclusive</em> = false)</span>; <a title="Permalink to this symbol" href="#HttpTokens.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L83">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a set of tokens based upon the given delimiter, 
+                and an indication of whether said delimiter should be
+                considered part of the left side (effectively the name).
+        
+                The latter is useful with headers, since the seperating
+                ':' character should really be considered part of the 
+                name for purposes of subsequent token matching.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="HttpTokens.this:2" href="./htmlsrc/tango.net.http.HttpTokens.html#L103" kind="ctor" beg="103" end="112">this</a><span class="params">(HttpTokens <em>source</em>)</span>; <a title="Permalink to this symbol" href="#HttpTokens.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L103">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clone a source set of HttpTokens</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HttpTokens.parse" href="./htmlsrc/tango.net.http.HttpTokens.html#L121" kind="function" beg="121" end="121">parse</a><span class="params">(IBuffer <em>input</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#HttpTokens.parse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L121">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read all tokens. Everything is mapped rather than being 
+                allocated &amp; copied</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HttpTokens.parse:2" href="./htmlsrc/tango.net.http.HttpTokens.html#L129" kind="function" beg="129" end="133">parse</a><span class="params">(char[] <em>content</em>)</span>; <a title="Permalink to this symbol" href="#HttpTokens.parse:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L129">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parse an input string.</div></dd>
+<dt class="decl">HttpTokens <a class="symbol _function" name="HttpTokens.reset" href="./htmlsrc/tango.net.http.HttpTokens.html#L141" kind="function" beg="141" end="151">reset</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#HttpTokens.reset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L141">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reset this set of tokens.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HttpTokens.isParsed" href="./htmlsrc/tango.net.http.HttpTokens.html#L159" kind="function" beg="159" end="162">isParsed</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#HttpTokens.isParsed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L159">#</a></dt>
+<dd class="ddef">
+<div class="summary">Have tokens been parsed yet?</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HttpTokens.setParsed" href="./htmlsrc/tango.net.http.HttpTokens.html#L170" kind="function" beg="170" end="173">setParsed</a><span class="params">(bool <em>parsed</em>)</span>; <a title="Permalink to this symbol" href="#HttpTokens.setParsed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L170">#</a></dt>
+<dd class="ddef">
+<div class="summary">Indicate whether tokens have been parsed or not.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="HttpTokens.get" href="./htmlsrc/tango.net.http.HttpTokens.html#L182" kind="function" beg="182" end="193">get</a><span class="params">(char[] <em>name</em>, char[] <em>ret</em> = null)</span>; <a title="Permalink to this symbol" href="#HttpTokens.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L182">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the value of the provided header, or null if the
+                header does not exist</div></dd>
+<dt class="decl">int <a class="symbol _function" name="HttpTokens.getInt" href="./htmlsrc/tango.net.http.HttpTokens.html#L202" kind="function" beg="202" end="210">getInt</a><span class="params">(char[] <em>name</em>, int <em>ret</em> = -1)</span>; <a title="Permalink to this symbol" href="#HttpTokens.getInt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L202">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the integer value of the provided header, or the 
+                provided default-vaule if the header does not exist</div></dd>
+<dt class="decl">Time <a class="symbol _function" name="HttpTokens.getDate" href="./htmlsrc/tango.net.http.HttpTokens.html#L219" kind="function" beg="219" end="227">getDate</a><span class="params">(char[] <em>name</em>, Time <em>date</em> = Time.epoch)</span>; <a title="Permalink to this symbol" href="#HttpTokens.getDate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L219">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the date value of the provided header, or the 
+                provided default-value if the header does not exist</div></dd>
+<dt class="decl">int <a class="symbol _function" name="HttpTokens.opApply" href="./htmlsrc/tango.net.http.HttpTokens.html#L235" kind="function" beg="235" end="248">opApply</a><span class="params">(int delegate(inout HttpToken) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#HttpTokens.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L235">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterate over the set of tokens</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HttpTokens.write" href="./htmlsrc/tango.net.http.HttpTokens.html#L256" kind="function" beg="256" end="259">write</a><span class="params">(IWriter <em>writer</em>)</span>; <a title="Permalink to this symbol" href="#HttpTokens.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L256">#</a></dt>
+<dd class="ddef">
+<div class="summary">Output the token list to the provided writer</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HttpTokens.produce" href="./htmlsrc/tango.net.http.HttpTokens.html#L267" kind="function" beg="267" end="275">produce</a><span class="params">(void delegate (void[]) <em>consume</em>, char[] <em>eol</em>)</span>; <a title="Permalink to this symbol" href="#HttpTokens.produce" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L267">#</a></dt>
+<dd class="ddef">
+<div class="summary">Output the token list to the provided consumer</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HttpTokens.handleMissingSeparator" href="./htmlsrc/tango.net.http.HttpTokens.html#L285" kind="function" beg="285" end="288">handleMissingSeparator</a><span class="params">(char[] <em>s</em>, inout HttpToken <em>element</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#HttpTokens.handleMissingSeparator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L285">#</a></dt>
+<dd class="ddef">
+<div class="summary">overridable method to handle the case where a token does
+                not have a separator. Apparently, this can happen in HTTP 
+                usage</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HttpTokens.split" href="./htmlsrc/tango.net.http.HttpTokens.html#L296" kind="function" beg="296" end="317">split</a><span class="params">(Token <em>t</em>, inout HttpToken <em>element</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HttpTokens.split" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L296">#</a></dt>
+<dd class="ddef">
+<div class="summary">split basic token into an HttpToken</div></dd>
+<dt class="decl">FilteredTokens <a class="symbol _function" name="HttpTokens.createFilter" href="./htmlsrc/tango.net.http.HttpTokens.html#L326" kind="function" beg="326" end="329">createFilter</a><span class="params">(char[] <em>match</em>)</span>; <a title="Permalink to this symbol" href="#HttpTokens.createFilter" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L326">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a filter for iterating over the tokens matching
+                a particular name.</div></dd>
+<dt class="decl">class <a class="symbol _class" name="HttpTokens.FilteredTokens" href="./htmlsrc/tango.net.http.HttpTokens.html#L340" kind="class" beg="340" end="380">FilteredTokens</a>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#HttpTokens.FilteredTokens" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L340">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements a filter for iterating over tokens matching
+                a particular name. We do it like this because there's no 
+                means of passing additional information to an opApply() 
+                method.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="HttpTokens.FilteredTokens.this" href="./htmlsrc/tango.net.http.HttpTokens.html#L352" kind="ctor" beg="352" end="356">this</a><span class="params">(HttpTokens <em>tokens</em>, char[] <em>match</em>)</span>; <a title="Permalink to this symbol" href="#HttpTokens.FilteredTokens.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L352">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct this filter upon the given tokens, and
+                        set the pattern to match against.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="HttpTokens.FilteredTokens.opApply" href="./htmlsrc/tango.net.http.HttpTokens.html#L364" kind="function" beg="364" end="378">opApply</a><span class="params">(int delegate(inout HttpToken) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#HttpTokens.FilteredTokens.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L364">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterate over all tokens matching the given name</div></dd></dl></dd>
+<dt class="decl">bool <a class="symbol _function" name="HttpTokens.isSpace" href="./htmlsrc/tango.net.http.HttpTokens.html#L388" kind="function" beg="388" end="391">isSpace</a><span class="params">(char <em>c</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HttpTokens.isSpace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L388">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is the argument a whitespace character?</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="HttpTokens.trim" href="./htmlsrc/tango.net.http.HttpTokens.html#L400" kind="function" beg="400" end="414">trim</a><span class="params">(char[] <em>source</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HttpTokens.trim" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L400">#</a></dt>
+<dd class="ddef">
+<div class="summary">Trim the provided string by stripping whitespace from 
+                both ends. Returns a slice of the original content.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HttpTokens.setOutputBuffer" href="./htmlsrc/tango.net.http.HttpTokens.html#L429" kind="function" beg="429" end="432">setOutputBuffer</a><span class="params">(IBuffer <em>output</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#HttpTokens.setOutputBuffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L429">#</a></dt>
+<dd class="ddef">
+<div class="summary">these should be exposed carefully ******************</div>
+Set the output buffer for adding tokens to. This is used
+                by the various mutating classes.</dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="HttpTokens.getOutputBuffer" href="./htmlsrc/tango.net.http.HttpTokens.html#L440" kind="function" beg="440" end="443">getOutputBuffer</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#HttpTokens.getOutputBuffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L440">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the buffer used for output.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="HttpTokens.formatTokens" href="./htmlsrc/tango.net.http.HttpTokens.html#L455" kind="function" beg="455" end="471">formatTokens</a><span class="params">(IBuffer <em>dst</em>, char[] <em>delim</em>)</span>; <a title="Permalink to this symbol" href="#HttpTokens.formatTokens" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L455">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a char[] representing the output. An empty array
+                is returned if output was not configured. This perhaps
+                could just return our 'output' buffer content, but that
+                would not reflect deletes, or seperators. Better to do 
+                it like this instead, for a small cost.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HttpTokens.add" href="./htmlsrc/tango.net.http.HttpTokens.html#L482" kind="function" beg="482" end="499">add</a><span class="params">(char[] <em>name</em>, void delegate (IBuffer) <em>dg</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#HttpTokens.add" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L482">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add a token with the given name. The content is provided
+                via the specified delegate. We stuff this name &amp; content
+                into the output buffer, and map a new Token onto the
+                appropriate buffer slice.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HttpTokens.add:2" href="./htmlsrc/tango.net.http.HttpTokens.html#L507" kind="function" beg="507" end="515">add</a><span class="params">(char[] <em>name</em>, char[] <em>value</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#HttpTokens.add:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L507">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add a simple name/value pair to the output</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HttpTokens.addInt" href="./htmlsrc/tango.net.http.HttpTokens.html#L523" kind="function" beg="523" end="528">addInt</a><span class="params">(char[] <em>name</em>, int <em>value</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#HttpTokens.addInt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L523">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add a name/integer pair to the output</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HttpTokens.addDate" href="./htmlsrc/tango.net.http.HttpTokens.html#L536" kind="function" beg="536" end="541">addDate</a><span class="params">(char[] <em>name</em>, Time <em>value</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#HttpTokens.addDate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L536">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add a name/date(long) pair to the output</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HttpTokens.remove" href="./htmlsrc/tango.net.http.HttpTokens.html#L550" kind="function" beg="550" end="553">remove</a><span class="params">(char[] <em>name</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#HttpTokens.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpTokens.html#L550">#</a></dt>
+<dd class="ddef">
+<div class="summary">remove a token from our list. Returns false if the named
+               token is not found.</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:57 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

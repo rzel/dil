@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.MulticastConduit</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.MulticastConduit";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.MulticastConduit.html" class="symbol">tango.net.MulticastConduit</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Jun 2004 : Initial release
+<p class="sec_header">Version:</p>Dec 2006 : South pacific version
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="MulticastConduit" href="./htmlsrc/tango.net.MulticastConduit.html#L57" kind="class" beg="57" end="163">MulticastConduit</a> : DatagramConduit; <a title="Permalink to this symbol" href="#MulticastConduit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.MulticastConduit.html#L57">#</a></dt>
+<dd class="ddef">
+<div class="summary">MulticastConduit sends and receives data on a multicast group, as
+        described by a class-D address. To send data, the recipient group
+        should be handed to the write() method. To receive, the socket is
+        bound to an available local adapter/port as a listener and must
+        join() the group before it becomes eligible for input from there.</div>
+While MulticastConduit is a flavour of datagram, it doesn't support
+        being connected to a specific endpoint.
+<p class="bl"/>
+        Sending and receiving via a multicast group:
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">group</span> = <span class="k">new</span> <span class="i">InternetAddress</span> (<span class="sl">"225.0.0.10"</span>, <span class="n">8080</span>);
+
+<span class="lc">// listen for datagrams on the group address (via port 8080)</span>
+<span class="k">auto</span> <span class="i">multi</span> = <span class="k">new</span> <span class="i">MulticastConduit</span> (<span class="i">group</span>);
+
+<span class="lc">// join and broadcast to the group</span>
+<span class="i">multi</span>.<span class="i">join</span>.<span class="i">write</span> (<span class="sl">"hello"</span>, <span class="i">group</span>);
+
+<span class="lc">// we are listening also ...</span>
+<span class="k">char</span>[<span class="n">8</span>] <span class="i">tmp</span>;
+<span class="k">auto</span> <span class="i">bytes</span> = <span class="i">multi</span>.<span class="i">read</span> (<span class="i">tmp</span>);
+</pre>
+<p class="bl"/>
+        Note that this example is expecting to receive its own broadcast;
+        thus it may be necessary to enable loopback operation (see below)
+        for successful receipt of the broadcast.
+<p class="bl"/>
+        Note that class D addresses range from 225.0.0.0 to 239.255.255.255
+<p class="sec_header">see:</p>http://www.kohala.com/start/mcast.api.txt
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="MulticastConduit.this" href="./htmlsrc/tango.net.MulticastConduit.html#L69" kind="ctor" beg="69" end="72">this</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#MulticastConduit.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.MulticastConduit.html#L69">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a writable multicast socket</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="MulticastConduit.this:2" href="./htmlsrc/tango.net.MulticastConduit.html#L96" kind="ctor" beg="96" end="102">this</a><span class="params">(InternetAddress <em>group</em>, bool <em>reuse</em> = false)</span>; <a title="Permalink to this symbol" href="#MulticastConduit.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.MulticastConduit.html#L96">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a read/write multicast socket</div>
+This flavour is necessary only for a multicast receiver
+                (e.g. use this ctor in conjunction with SocketListener).
+<p class="bl"/>
+                You should specify both a group address and a port to 
+                listen upon. The resultant socket will be bound to the
+                specified port (locally), and listening on the class-D
+                address. Expect this to fail without a network adapter
+                present, as bind() will not find anything to work with.
+<p class="bl"/>
+                The reuse parameter dictates how to behave when the port
+                is already in use. Default behaviour is to throw an IO
+                exception, and the alternate is to force usage.
+                
+                To become eligible for incoming group datagrams, you must
+                also invoke the join() method</dd>
+<dt class="decl">MulticastConduit <a class="symbol _function" name="MulticastConduit.loopback" href="./htmlsrc/tango.net.MulticastConduit.html#L111" kind="function" beg="111" end="116">loopback</a><span class="params">(bool <em>yes</em> = true)</span>; <a title="Permalink to this symbol" href="#MulticastConduit.loopback" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.MulticastConduit.html#L111">#</a></dt>
+<dd class="ddef">
+<div class="summary">Enable/disable the receipt of multicast packets sent
+                from the same adapter. The default state is OS specific</div></dd>
+<dt class="decl">MulticastConduit <a class="symbol _function" name="MulticastConduit.ttl" href="./htmlsrc/tango.net.MulticastConduit.html#L133" kind="function" beg="133" end="138">ttl</a><span class="params">(uint <em>value</em> = Subnet)</span>; <a title="Permalink to this symbol" href="#MulticastConduit.ttl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.MulticastConduit.html#L133">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the number of hops (time to live) of this socket. 
+                Convenient values are
+                <pre class="d_code">
+<span class="i">Host</span>:           <span class="i">packets</span> <span class="i">are</span> <span class="i">restricted</span> <span class="i">to</span> <span class="i">the</span> <span class="i">same</span> <span class="i">host</span>
+<span class="i">Subnet</span>:         <span class="i">packets</span> <span class="i">are</span> <span class="i">restricted</span> <span class="i">to</span> <span class="i">the</span> <span class="i">same</span> <span class="i">subnet</span>
+<span class="i">Site</span>:           <span class="i">packets</span> <span class="i">are</span> <span class="i">restricted</span> <span class="i">to</span> <span class="i">the</span> <span class="i">same</span> <span class="i">site</span>
+<span class="i">Region</span>:         <span class="i">packets</span> <span class="i">are</span> <span class="i">restricted</span> <span class="i">to</span> <span class="i">the</span> <span class="i">same</span> <span class="i">region</span>
+<span class="i">Continent</span>:      <span class="i">packets</span> <span class="i">are</span> <span class="i">restricted</span> <span class="i">to</span> <span class="i">the</span> <span class="i">same</span> <span class="i">continent</span>
+<span class="i">Unrestricted</span>:   <span class="i">packets</span> <span class="i">are</span> <span class="i">unrestricted</span> <span class="k">in</span> <span class="k">scope</span>
+</pre></div></dd>
+<dt class="decl">MulticastConduit <a class="symbol _function" name="MulticastConduit.join" href="./htmlsrc/tango.net.MulticastConduit.html#L146" kind="function" beg="146" end="150">join</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#MulticastConduit.join" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.MulticastConduit.html#L146">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add this socket to the listening group</div></dd>
+<dt class="decl">MulticastConduit <a class="symbol _function" name="MulticastConduit.leave" href="./htmlsrc/tango.net.MulticastConduit.html#L158" kind="function" beg="158" end="162">leave</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#MulticastConduit.leave" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.MulticastConduit.html#L158">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove this socket from the listening group</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:53 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

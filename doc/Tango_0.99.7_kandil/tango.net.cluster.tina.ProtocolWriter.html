@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.cluster.tina.ProtocolWriter</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.cluster.tina.ProtocolWriter";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html" class="symbol">tango.net.cluster.tina.ProtocolWriter</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>July 2004: Initial release
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="ProtocolWriter" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L44" kind="class" beg="44" end="198">ProtocolWriter</a>; <a title="Permalink to this symbol" href="#ProtocolWriter" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L44">#</a></dt>
+<dd class="ddef">
+<div class="summary">Objects passed around a cluster are prefixed with a header, so the 
+        receiver can pick them apart correctly. This header consists of:
+        <pre class="d_code">
+<span class="i">the</span> <span class="i">packet</span> <span class="i">size</span>, <span class="i">including</span> <span class="i">the</span> <span class="i">header</span> (<span class="n">16</span> <span class="i">bits</span>)
+<span class="i">a</span> <span class="i">command</span> <span class="i">code</span> (<span class="n">8</span> <span class="i">bits</span>)
+<span class="i">a</span> <span class="k">version</span> <span class="i">id</span> (<span class="n">8</span> <span class="i">bits</span>)
+<span class="i">a</span> <span class="i">timestamp</span> (<span class="n">64</span> <span class="i">bits</span>)
+<span class="i">length</span> <span class="i">of</span> <span class="i">the</span> <span class="i">channel</span> <span class="i">name</span> (<span class="n">32</span> <span class="i">bits</span>)
+<span class="i">the</span> <span class="i">channel</span> <span class="i">name</span>
+<span class="i">length</span> <span class="i">of</span> <span class="i">the</span> <span class="i">key</span> (<span class="n">32</span> <span class="i">bits</span>)
+<span class="i">the</span> <span class="i">key</span>
+<span class="i">an</span> <span class="i">optional</span> <span class="i">payload</span> (<span class="i">an</span> <span class="i">IMessage</span> <span class="i">instance</span>)
+</pre></div>
+Everything is written in Network order (big endian)
+<dl>
+<dt class="decl">enum <a class="symbol _enum" name="ProtocolWriter.Command" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L57" kind="enum" beg="57" end="70">Command</a>; <a title="Permalink to this symbol" href="#ProtocolWriter.Command" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L57">#</a></dt>
+<dd class="ddef">
+<div class="summary">protocol commands</div>
+</dd>
+<dt class="decl"><a class="symbol _ctor" name="ProtocolWriter.this" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L83" kind="ctor" beg="83" end="87">this</a><span class="params">(IBuffer <em>buffer</em>)</span>; <a title="Permalink to this symbol" href="#ProtocolWriter.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L83">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a ProtocolWriter upon the given buffer. As
+                Objects are serialized, their content is written to this
+                buffer. The buffer content is then typically flushed to 
+                some external conduit, such as a file or socket.</div>
+Note that serialized data is always in Network order.</dd>
+<dt class="decl">ProtocolWriter <a class="symbol _function" name="ProtocolWriter.put" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L100" kind="function" beg="100" end="124">put</a><span class="params">(Command <em>cmd</em>, char[] <em>channel</em>, char[] <em>element</em> = null, IMessage <em>msg</em> = null)</span>; <a title="Permalink to this symbol" href="#ProtocolWriter.put" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L100">#</a></dt>
+<dd class="ddef">
+<div class="summary">Stuff the request into our output buffer. Note that this
+                protocol is prefixed by a 'size' value, requiring that
+                all messages can be contained within the buffer. This is
+                not considered a serious limitation, as the messages are
+                not intended to be "large" given that they're traversing 
+                the network.</div></dd>
+<dt class="decl">ProtocolWriter <a class="symbol _function" name="ProtocolWriter.reply" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L132" kind="function" beg="132" end="153">reply</a><span class="params">(ClusterContent <em>content</em>)</span>; <a title="Permalink to this symbol" href="#ProtocolWriter.reply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L132">#</a></dt>
+<dd class="ddef">
+<div class="summary">Emit a ClusterContent constructed by ProtocolReader.getPacket</div></dd>
+<dt class="decl">ProtocolWriter <a class="symbol _function" name="ProtocolWriter.exception" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L161" kind="function" beg="161" end="164">exception</a><span class="params">(char[] <em>message</em>)</span>; <a title="Permalink to this symbol" href="#ProtocolWriter.exception" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L161">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write an exception message</div></dd>
+<dt class="decl">ProtocolWriter <a class="symbol _function" name="ProtocolWriter.success" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L172" kind="function" beg="172" end="175">success</a><span class="params">(char[] <em>message</em> = null)</span>; <a title="Permalink to this symbol" href="#ProtocolWriter.success" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L172">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write an "OK" confirmation</div></dd>
+<dt class="decl">ProtocolWriter <a class="symbol _function" name="ProtocolWriter.full" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L183" kind="function" beg="183" end="186">full</a><span class="params">(char[] <em>message</em>)</span>; <a title="Permalink to this symbol" href="#ProtocolWriter.full" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L183">#</a></dt>
+<dd class="ddef">
+<div class="summary">Indicate something has filled up</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ProtocolWriter.flush" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L194" kind="function" beg="194" end="197">flush</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ProtocolWriter.flush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ProtocolWriter.html#L194">#</a></dt>
+<dd class="ddef">
+<div class="summary">Flush the output</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:55 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

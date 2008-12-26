@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.collection.iterator.InterleavingIterator</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.collection.iterator.InterleavingIterator";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html" class="symbol">tango.util.collection.iterator.InterleavingIterator</a></h1>
+  
+<dl>
+<dt class="decl">class <a class="symbol _class" name="InterleavingIterator" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L54" kind="class" beg="54" end="163">InterleavingIterator</a><span class="tparams">(T)</span> : Iterator!(T); <a title="Permalink to this symbol" href="#InterleavingIterator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L54">#</a></dt>
+<dd class="ddef">
+<div class="summary">InterleavingIterators allow you to combine the elements
+ of two different enumerations as if they were one enumeration
+ before they are seen by their `consumers'.
+ This sometimes allows you to avoid having to use a 
+ Collection object to temporarily combine two sets of Collection elements()
+ that need to be collected together for common processing.
+ <P>
+ The elements are revealed (via get()) in a purely
+ interleaved fashion, alternating between the first and second
+ enumerations unless one of them has been exhausted, in which case
+ all remaining elements of the other are revealed until it too is
+ exhausted. 
+ <P>
+ InterleavingIterators work as wrappers around other Iterators.
+ To build one, you need two existing Iterators.
+ For example, if you want to process together the elements of
+ two Collections a and b, you could write something of the form:
+ <PRE>
+ Iterator items = InterleavingIterator(a.elements(), b.elements());
+ while (items.more()) 
+  doSomethingWith(items.get());
+ </PRE></div>
+<p class="sec_header">Author:</p>Doug Lea
+ @version 0.93
+<p class="bl"/>
+ <P> For an introduction to this package see <A HREF="index.html"> Overview </A>.
+<dl>
+<dt class="decl">Iterator!(T) <a class="symbol _variable" name="InterleavingIterator.fst_" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L61" kind="variable" beg="61" end="61">fst_</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#InterleavingIterator.fst_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L61">#</a></dt>
+<dd class="ddef">
+<div class="summary">The first source; nulled out once it is exhausted</div></dd>
+<dt class="decl">Iterator!(T) <a class="symbol _variable" name="InterleavingIterator.snd_" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L67" kind="variable" beg="67" end="67">snd_</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#InterleavingIterator.snd_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L67">#</a></dt>
+<dd class="ddef">
+<div class="summary">The second source; nulled out once it is exhausted</div></dd>
+<dt class="decl">Iterator!(T) <a class="symbol _variable" name="InterleavingIterator.current_" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L73" kind="variable" beg="73" end="73">current_</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#InterleavingIterator.current_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L73">#</a></dt>
+<dd class="ddef">
+<div class="summary">The source currently being used</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="InterleavingIterator.this" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L81" kind="ctor" beg="81" end="87">this</a><span class="params">(Iterator!(T) <em>fst</em>, Iterator!(T) <em>snd</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#InterleavingIterator.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L81">#</a></dt>
+<dd class="ddef">
+<div class="summary">Make an enumeration interleaving elements from fst and snd</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="InterleavingIterator.more" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L92" kind="function" beg="92" end="95">more</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#InterleavingIterator.more" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L92">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.model.Iterator.more</div></dd>
+<dt class="decl">T <a class="symbol _function" name="InterleavingIterator.get" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L100" kind="function" beg="100" end="112">get</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#InterleavingIterator.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L100">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.model.Iterator.get.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="InterleavingIterator.flip" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L132" kind="function" beg="132" end="160">flip</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#InterleavingIterator.flip" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.InterleavingIterator.html#L132">#</a></dt>
+<dd class="ddef">
+<div class="summary">Alternate sources</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p></p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:10 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

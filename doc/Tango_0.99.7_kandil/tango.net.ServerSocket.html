@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.ServerSocket</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.ServerSocket";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.ServerSocket.html" class="symbol">tango.net.ServerSocket</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: March 2004      
+                        Outback release: December 2006
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="ServerSocket" href="./htmlsrc/tango.net.ServerSocket.html#L36" kind="class" beg="36" end="158">ServerSocket</a> : ISelectable; <a title="Permalink to this symbol" href="#ServerSocket" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ServerSocket.html#L36">#</a></dt>
+<dd class="ddef">
+<div class="summary">ServerSocket is a wrapper upon the basic socket functionality to
+        simplify the API somewhat. You use a ServerSocket to listen for 
+        inbound connection requests, and get back a SocketConduit when a
+        connection is made.</div>
+Accepted SocketConduit instances are held in a free-list to help
+        avoid heap activity. These instances are recycled upon invoking
+        the close() method, and one should ensure that occurs
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="ServerSocket.this" href="./htmlsrc/tango.net.ServerSocket.html#L53" kind="ctor" beg="53" end="57">this</a><span class="params">(InternetAddress <em>addr</em>, int <em>backlog</em> = 32, bool <em>reuse</em> = false)</span>; <a title="Permalink to this symbol" href="#ServerSocket.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ServerSocket.html#L53">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a ServerSocket on the given address, with the
+                specified number of backlog connections supported. The
+                socket is bound to the given address, and set to listen
+                for incoming connections. Note that the socket address 
+                can be setup for reuse, so that a halted server may be 
+                restarted immediately.</div></dd>
+<dt class="decl">Handle <a class="symbol _function" name="ServerSocket.fileHandle" href="./htmlsrc/tango.net.ServerSocket.html#L68" kind="function" beg="68" end="71">fileHandle</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ServerSocket.fileHandle" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ServerSocket.html#L68">#</a></dt>
+<dd class="ddef">
+<div class="summary">Models a handle-oriented device.</div>
+<p class="sec_header">TODO:</p>figure out how to avoid exposing this in the general
+                case</dd>
+<dt class="decl">ServerSocket <a class="symbol _function" name="ServerSocket.setLingerPeriod" href="./htmlsrc/tango.net.ServerSocket.html#L80" kind="function" beg="80" end="84">setLingerPeriod</a><span class="params">(int <em>period</em>)</span>; <a title="Permalink to this symbol" href="#ServerSocket.setLingerPeriod" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ServerSocket.html#L80">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the period in which dead sockets are left lying around
+                by the O/S</div></dd>
+<dt class="decl">ServerSocket <a class="symbol _function" name="ServerSocket.setTimeout" href="./htmlsrc/tango.net.ServerSocket.html#L97" kind="function" beg="97" end="101">setTimeout</a><span class="params">(float <em>timeout</em>)</span>; <a title="Permalink to this symbol" href="#ServerSocket.setTimeout" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ServerSocket.html#L97">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the default read timeout to the specified interval. Set
+                a value of zero to disable timeout support.</div>
+The interval is in units of seconds, where 0.500 would
+                represent 500 milliseconds. Use TimeSpan.interval to
+                convert from a TimeSpan instance.</dd>
+<dt class="decl">Socket <a class="symbol _function" name="ServerSocket.socket" href="./htmlsrc/tango.net.ServerSocket.html#L109" kind="function" beg="109" end="112">socket</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ServerSocket.socket" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ServerSocket.html#L109">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the wrapped socket</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="ServerSocket.isAlive" href="./htmlsrc/tango.net.ServerSocket.html#L120" kind="function" beg="120" end="123">isAlive</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ServerSocket.isAlive" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ServerSocket.html#L120">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is this server still alive?</div></dd>
+<dt class="decl">SocketConduit <a class="symbol _function" name="ServerSocket.create" href="./htmlsrc/tango.net.ServerSocket.html#L132" kind="function" beg="132" end="135">create</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#ServerSocket.create" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ServerSocket.html#L132">#</a></dt>
+<dd class="ddef">
+<div class="summary">Produce a SocketConduit instance. This can be overridden
+                to return SocketConduit derivatives</div></dd>
+<dt class="decl">SocketConduit <a class="symbol _function" name="ServerSocket.accept" href="./htmlsrc/tango.net.ServerSocket.html#L144" kind="function" beg="144" end="157">accept</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ServerSocket.accept" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ServerSocket.html#L144">#</a></dt>
+<dd class="ddef">
+<div class="summary">Wait for a client to connect to us, and return a connected
+                SocketConduit.</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:54 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

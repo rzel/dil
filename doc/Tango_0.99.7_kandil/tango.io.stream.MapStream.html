@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.stream.MapStream</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.stream.MapStream";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.stream.MapStream.html" class="symbol">tango.io.stream.MapStream</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: Oct 2007
+<p class="sec_header">Author:</p>Kris
+<p class="bl"/>
+        Simple serialization for text-based name/value pairs
+<dl>
+<dt class="decl">class <a class="symbol _class" name="MapInput" href="./htmlsrc/tango.io.stream.MapStream.html#L31" kind="class" beg="31" end="105">MapInput</a><span class="tparams">(T)</span> : LineIterator!(T); <a title="Permalink to this symbol" href="#MapInput" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.stream.MapStream.html#L31">#</a></dt>
+<dd class="ddef">
+<div class="summary">Provides load facilities for a properties stream. That is, a file
+        or other medium containing lines of text with a name=value layout</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="MapInput.this" href="./htmlsrc/tango.io.stream.MapStream.html#L39" kind="ctor" beg="39" end="42">this</a><span class="params">(InputStream <em>stream</em>)</span>; <a title="Permalink to this symbol" href="#MapInput.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.stream.MapStream.html#L39">#</a></dt>
+<dd class="ddef">
+<div class="summary">Propagate ctor to superclass</div></dd>
+<dt class="decl">int <a class="symbol _function" name="MapInput.opApply" href="./htmlsrc/tango.io.stream.MapStream.html#L66" kind="function" beg="66" end="91">opApply</a><span class="params">(int delegate(ref T[] name, ref T[] value) <em>dg</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#MapInput.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.stream.MapStream.html#L66">#</a></dt>
+<dd class="ddef">
+<div class="summary">Load properties from the provided stream, via a foreach.</div>
+We use an iterator to sweep text lines, and extract lValue
+                and rValue pairs from each one, The expected file format is
+                as follows:
+<p class="bl"/>
+                <pre class="d_code">
+<p class="error L">tango.io.stream.MapStream(5,1)L: expected 'line' after '#'.</p>
+<span class="i">x</span> = <span class="i">y</span>
+<span class="i">abc</span> = <span class="n">123</span>
+<span class="i">x</span>.<span class="i">y</span>.<span class="i">z</span> = <span class="k">this</span> <span class="k">is</span> <span class="i">a</span> <span class="i">single</span> <span class="i">property</span>
+
+<span class="hl">#</span> <span class="k">this</span> <span class="k">is</span> <span class="i">a</span> <span class="i">comment</span> <span class="i">line</span>
+</pre>
+<p class="bl"/>
+                Note that the provided name and value are actually slices
+                and should be copied if you intend to retain them (using
+                name.dup and value.dup where appropriate)</dd>
+<dt class="decl">MapInput <a class="symbol _function" name="MapInput.load" href="./htmlsrc/tango.io.stream.MapStream.html#L99" kind="function" beg="99" end="104">load</a><span class="params">(ref T[][T[]] <em>properties</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#MapInput.load" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.stream.MapStream.html#L99">#</a></dt>
+<dd class="ddef">
+<div class="summary">Load the input stream into an AA</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="MapOutput" href="./htmlsrc/tango.io.stream.MapStream.html#L116" kind="class" beg="116" end="197">MapOutput</a><span class="tparams">(T)</span> : OutputFilter, Buffered; <a title="Permalink to this symbol" href="#MapOutput" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.stream.MapStream.html#L116">#</a></dt>
+<dd class="ddef">
+<div class="summary">Provides write facilities on a properties stream. That is, a file
+        or other medium which will contain lines of text with a name=value 
+        layout</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="MapOutput.this" href="./htmlsrc/tango.io.stream.MapStream.html#L133" kind="ctor" beg="133" end="136">this</a><span class="params">(OutputStream <em>stream</em>, T[] <em>newline</em> = NL)</span>; <a title="Permalink to this symbol" href="#MapOutput.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.stream.MapStream.html#L133">#</a></dt>
+<dd class="ddef">
+<div class="summary">Propagate ctor to superclass</div></dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="MapOutput.buffer" href="./htmlsrc/tango.io.stream.MapStream.html#L144" kind="function" beg="144" end="147">buffer</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#MapOutput.buffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.stream.MapStream.html#L144">#</a></dt>
+<dd class="ddef">
+<div class="summary">Buffered interface</div></dd>
+<dt class="decl">MapOutput <a class="symbol _function" name="MapOutput.newline" href="./htmlsrc/tango.io.stream.MapStream.html#L155" kind="function" beg="155" end="159">newline</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#MapOutput.newline" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.stream.MapStream.html#L155">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append a newline to the provided stream</div></dd>
+<dt class="decl">MapOutput <a class="symbol _function" name="MapOutput.comment" href="./htmlsrc/tango.io.stream.MapStream.html#L167" kind="function" beg="167" end="171">comment</a><span class="params">(T[] <em>text</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#MapOutput.comment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.stream.MapStream.html#L167">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append a comment to the provided stream</div></dd>
+<dt class="decl">MapOutput <a class="symbol _function" name="MapOutput.append" href="./htmlsrc/tango.io.stream.MapStream.html#L179" kind="function" beg="179" end="183">append</a><span class="params">(T[] <em>name</em>, T[] <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#MapOutput.append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.stream.MapStream.html#L179">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append name &amp; value to the provided stream</div></dd>
+<dt class="decl">MapOutput <a class="symbol _function" name="MapOutput.append:2" href="./htmlsrc/tango.io.stream.MapStream.html#L191" kind="function" beg="191" end="196">append</a><span class="params">(T[][T[]] <em>properties</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#MapOutput.append:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.stream.MapStream.html#L191">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append AA properties to the provided stream</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2007 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:01 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

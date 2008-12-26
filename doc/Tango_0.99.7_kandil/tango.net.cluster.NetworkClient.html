@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.cluster.NetworkClient</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.cluster.NetworkClient";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.cluster.NetworkClient.html" class="symbol">tango.net.cluster.NetworkClient</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>July 2004: Initial release
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="NetworkClient" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L34" kind="class" beg="34" end="130">NetworkClient</a>; <a title="Permalink to this symbol" href="#NetworkClient" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L34">#</a></dt>
+<dd class="ddef">
+<div class="summary">The base class for all cluster clients (such as CacheInvalidator)
+        which acts simply as a container for the operating IChannel and
+        the configured ICluster. The former specifies something akin to
+        a 'topic' in the pub/sub world, while the latter provides access
+        to the underlying functional substrate (the QOS implementation).</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="NetworkClient.this" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L58" kind="ctor" beg="58" end="65">this</a><span class="params">(ICluster <em>cluster</em>, char[] <em>channel</em>)</span>; <a title="Permalink to this symbol" href="#NetworkClient.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L58">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct this client with the specified channel and cluster. 
+                The former specifies something akin to a 'topic', whilst the 
+                latter provides access to the underlying functional substrate 
+                (the QOS implementation). A good way to think about channels
+                is to map them directly to a class name. That is, since you
+                send and recieve classes on a channel, you might utilize the 
+                class name as the channel name (this.classinfo.name).</div></dd>
+<dt class="decl">IChannel <a class="symbol _function" name="NetworkClient.channel" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L73" kind="function" beg="73" end="76">channel</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#NetworkClient.channel" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L73">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the channel we're tuned to</div></dd>
+<dt class="decl">ICluster <a class="symbol _function" name="NetworkClient.cluster" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L84" kind="function" beg="84" end="87">cluster</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#NetworkClient.cluster" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L84">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the cluster specified during construction</div></dd>
+<dt class="decl">Time <a class="symbol _function" name="NetworkClient.time" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L95" kind="function" beg="95" end="98">time</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#NetworkClient.time" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L95">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the current time</div></dd>
+<dt class="decl">ILogger <a class="symbol _function" name="NetworkClient.log" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L106" kind="function" beg="106" end="109">log</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#NetworkClient.log" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L106">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the Log instance</div></dd>
+<dt class="decl">IChannel <a class="symbol _function" name="NetworkClient.createChannel" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L126" kind="function" beg="126" end="129">createChannel</a><span class="params">(char[] <em>name</em>)</span>; <a title="Permalink to this symbol" href="#NetworkClient.createChannel" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L126">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a channel with the specified name. A channel 
+                represents something akin to a publush/subscribe topic, 
+                or a radio station. These are used to segregate cluster 
+                operations into a set of groups, where each group is 
+                represented by a channel. Channel names are whatever you 
+                want then to be; use of dot notation has proved useful 
+                in the past. In fact, a good way to think about channels
+                is to map them directly to a class name. That is, since you
+                typically send and recieve classes on a channel, you might 
+                utilize the class name as the channel (this.classinfo.name).</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="ClusterFullException" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L139" kind="class" beg="139" end="145">ClusterFullException</a> : ClusterException; <a title="Permalink to this symbol" href="#ClusterFullException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L139">#</a></dt>
+<dd class="ddef">
+<div class="summary">This exception is thrown by the cluster subsystem when an attempt
+        is made to place additional content into a full queue</div>
+</dd>
+<dt class="decl">class <a class="symbol _class" name="ClusterEmptyException" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L155" kind="class" beg="155" end="161">ClusterEmptyException</a> : ClusterException; <a title="Permalink to this symbol" href="#ClusterEmptyException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkClient.html#L155">#</a></dt>
+<dd class="ddef">
+<div class="summary">This exception is thrown by the cluster subsystem when an attempt
+        is made to converse with a non-existant cluster, or one where all
+        cluster-servers have died.</div>
+</dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:55 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

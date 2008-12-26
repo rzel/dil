@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.collection.model.Dispenser</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.collection.model.Dispenser";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.collection.model.Dispenser.html" class="symbol">tango.util.collection.model.Dispenser</a></h1>
+  
+<dl>
+<dt class="decl">interface <a class="symbol _interface" name="Dispenser" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L31" kind="interface" beg="31" end="163">Dispenser</a><span class="tparams">(T)</span> : View!(T); <a title="Permalink to this symbol" href="#Dispenser" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L31">#</a></dt>
+<dd class="ddef">
+<div class="summary">Dispenser is the root interface of all mutable collections; i.e.,
+ collections that may have elements dynamically added, removed,
+ and/or replaced in accord with their collection semantics.</div>
+<p class="sec_header">Author:</p>Doug Lea
+<p class="bl"/>
+ <P> For an introduction to this package see <A HREF="index.html"> Overview </A>.
+<dl>
+<dt class="decl">void <a class="symbol _function" name="Dispenser.clear" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L44" kind="function" beg="44" end="44">clear</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Dispenser.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L44">#</a></dt>
+<dd class="ddef">
+<div class="summary">Cause the collection to become empty.</div>
+<p class="sec_header">Returns:</p>condition:
+ <PRE>
+ isEmpty() &amp;&amp;
+ Version change iff !PREV(this).isEmpty();
+ </PRE></dd>
+<dt class="decl">void <a class="symbol _function" name="Dispenser.replace" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L67" kind="function" beg="67" end="67">replace</a><span class="params">(T <em>oldElement</em>, T <em>newElement</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Dispenser.replace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L67">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace an occurrence of oldElement with newElement.
+ No effect if does not hold oldElement or if oldElement.equals(newElement).
+ The operation has a consistent, but slightly special interpretation
+ when applied to Sets. For Sets, because elements occur at
+ most once, if newElement is already included, replacing oldElement with
+ with newElement has the same effect as just removing oldElement.</div>
+<p class="sec_header">Returns:</p>condition:
+ <PRE>
+ let int delta = oldElement.equals(newElement)? 0 : 
+               max(1, PREV(this).instances(oldElement) in
+  instances(oldElement) == PREV(this).instances(oldElement) - delta &amp;&amp;
+  instances(newElement) ==  (this instanceof Set) ? 
+         max(1, PREV(this).instances(oldElement) + delta):
+                PREV(this).instances(oldElement) + delta) &amp;&amp;
+  no other element changes &amp;&amp;
+  Version change iff delta != 0
+ </PRE>
+<p class="sec_header">Throws:</p>IllegalElementException if has(oldElement) and !allows(newElement)</dd>
+<dt class="decl">void <a class="symbol _function" name="Dispenser.replaceAll" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L90" kind="function" beg="90" end="90">replaceAll</a><span class="params">(T <em>oldElement</em>, T <em>newElement</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Dispenser.replaceAll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L90">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace all occurrences of oldElement with newElement.
+ No effect if does not hold oldElement or if oldElement.equals(newElement).
+ The operation has a consistent, but slightly special interpretation
+ when applied to Sets. For Sets, because elements occur at
+ most once, if newElement is already included, replacing oldElement with
+ with newElement has the same effect as just removing oldElement.</div>
+<p class="sec_header">Returns:</p>condition:
+ <PRE>
+ let int delta = oldElement.equals(newElement)? 0 : 
+                           PREV(this).instances(oldElement) in
+  instances(oldElement) == PREV(this).instances(oldElement) - delta &amp;&amp;
+  instances(newElement) ==  (this instanceof Set) ? 
+         max(1, PREV(this).instances(oldElement) + delta):
+                PREV(this).instances(oldElement) + delta) &amp;&amp;
+  no other element changes &amp;&amp;
+  Version change iff delta != 0
+ </PRE>
+<p class="sec_header">Throws:</p>IllegalElementException if has(oldElement) and !allows(newElement)</dd>
+<dt class="decl">T <a class="symbol _function" name="Dispenser.take" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L107" kind="function" beg="107" end="107">take</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Dispenser.take" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L107">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove and return an element.  Implementations
+ may strengthen the guarantee about the nature of this element.
+ but in general it is the most convenient or efficient element to remove.
+ <P>
+ Example usage. One way to transfer all elements from 
+ Dispenser a to MutableBag b is:
+ <PRE>
+ while (!a.empty()) b.add(a.take());
+ </PRE></div>
+<p class="sec_header">Returns:</p>an element v such that PREV(this).has(v) 
+ and the postconditions of removeOneOf(v) hold.
+<p class="sec_header">Throws:</p>NoSuchElementException iff isEmpty.</dd>
+<dt class="decl">void <a class="symbol _function" name="Dispenser.removeAll" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L119" kind="function" beg="119" end="119">removeAll</a><span class="params">(Iterator!(T) <em>e</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Dispenser.removeAll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L119">#</a></dt>
+<dd class="ddef">
+<div class="summary">Exclude all occurrences of each element of the Iterator.
+ Behaviorally equivalent to
+ <PRE>
+ while (e.more()) removeAll(e.value());
+ @param e the enumeration of elements to exclude.</div>
+<p class="sec_header">Throws:</p>CorruptedIteratorException is propagated if thrown</dd>
+<dt class="decl">void <a class="symbol _function" name="Dispenser.remove" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L130" kind="function" beg="130" end="130">remove</a><span class="params">(Iterator!(T) <em>e</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Dispenser.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L130">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove an occurrence of each element of the Iterator.
+ Behaviorally equivalent to
+ <PRE>
+ while (e.more()) remove (e.value());
+ @param e the enumeration of elements to remove.</div>
+<p class="sec_header">Throws:</p>CorruptedIteratorException is propagated if thrown</dd>
+<dt class="decl">void <a class="symbol _function" name="Dispenser.removeAll:2" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L145" kind="function" beg="145" end="145">removeAll</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Dispenser.removeAll:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L145">#</a></dt>
+<dd class="ddef">
+<div class="summary">Exclude all occurrences of the indicated element from the collection. 
+ No effect if element not present.
+ @param element the element to exclude.</div>
+<p class="sec_header">Returns:</p>condition: 
+ <PRE>
+ !has(element) &amp;&amp;
+ size() == PREV(this).size() - PREV(this).instances(element) &amp;&amp;
+ no other element changes &amp;&amp;
+ Version change iff PREV(this).has(element)
+ </PRE></dd>
+<dt class="decl">void <a class="symbol _function" name="Dispenser.remove:2" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L162" kind="function" beg="162" end="162">remove</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Dispenser.remove:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Dispenser.html#L162">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove an instance of the indicated element from the collection. 
+ No effect if !has(element)
+ @param element the element to remove</div>
+<p class="sec_header">Returns:</p>condition: 
+ <PRE>
+ let occ = max(1, instances(element)) in
+  size() == PREV(this).size() - occ &amp;&amp;
+  instances(element) == PREV(this).instances(element) - occ &amp;&amp;
+  no other element changes &amp;&amp;
+  version change iff occ == 1
+ </PRE></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p></p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:09 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

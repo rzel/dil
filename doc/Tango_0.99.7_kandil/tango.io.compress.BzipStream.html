@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.compress.BzipStream</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.compress.BzipStream";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.compress.BzipStream.html" class="symbol">tango.io.compress.BzipStream</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: July 2007
+<p class="sec_header">Author:</p>Daniel Keep
+<dl>
+<dt class="decl">class <a class="symbol _class" name="BzipOutput" href="./htmlsrc/tango.io.compress.BzipStream.html#L42" kind="class" beg="42" end="264">BzipOutput</a> : OutputFilter; <a title="Permalink to this symbol" href="#BzipOutput" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.BzipStream.html#L42">#</a></dt>
+<dd class="ddef">
+<div class="summary">This output filter can be used to perform compression of data into a bzip2
+    stream.</div>
+<dl>
+<dt class="decl">enum <a class="symbol _enum" name="BzipOutput.BlockSize" href="./htmlsrc/tango.io.compress.BzipStream.html#L52" kind="enum" beg="52" end="57">BlockSize</a>; <a title="Permalink to this symbol" href="#BzipOutput.BlockSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.BzipStream.html#L52">#</a></dt>
+<dd class="ddef">
+<div class="summary">This enumeration represents several pre-defined compression block
+        sizes, measured in hundreds of kilobytes.  See the documentation for
+        the BzipOutput class' constructor for more details.</div>
+</dd>
+<dt class="decl"><a class="symbol _ctor" name="BzipOutput.this" href="./htmlsrc/tango.io.compress.BzipStream.html#L91" kind="ctor" beg="91" end="105">this</a><span class="params">(OutputStream <em>stream</em>, int <em>blockSize</em> = BlockSize.Normal)</span>; <a title="Permalink to this symbol" href="#BzipOutput.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.BzipStream.html#L91">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a new bzip2 compression filter.  You need to pass in the
+        stream that the compression filter will write to.  If you are using
+        this filter with a conduit, the idiom to use is:</div>
+<pre class="d_code">
+<span class="k">auto</span> <span class="i">output</span> = <span class="k">new</span> <span class="i">BzipOutput</span>(<span class="i">myConduit</span>.<span class="i">output</span>);
+<span class="i">output</span>.<span class="i">write</span>(<span class="i">myContent</span>);
+</pre>
+<p class="bl"/>
+        blockSize relates to the size of the window bzip2 uses when
+        compressing data and determines how much memory is required to
+        decompress a stream.  It is measured in hundreds of kilobytes.
+        
+        ccording to the bzip2 documentation, there is no dramatic difference
+        between the various block sizes, so the default should suffice in most
+        cases.
+<p class="bl"/>
+        BlockSize.Normal (the default) is the same as BlockSize.Best
+        (or 9).  The blockSize may be any integer between 1 and 9 inclusive.</dd>
+<dt class="decl">uint <a class="symbol _function" name="BzipOutput.write" href="./htmlsrc/tango.io.compress.BzipStream.html#L122" kind="function" beg="122" end="160">write</a><span class="params">(void[] <em>src</em>)</span>; <a title="Permalink to this symbol" href="#BzipOutput.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.BzipStream.html#L122">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compresses the given data to the underlying conduit.</div>
+Returns the number of bytes from src that were compressed, which may
+        be less than given.</dd>
+<dt class="decl">size_t <a class="symbol _function" name="BzipOutput.written" href="./htmlsrc/tango.io.compress.BzipStream.html#L171" kind="function" beg="171" end="174">written</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#BzipOutput.written" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.BzipStream.html#L171">#</a></dt>
+<dd class="ddef">
+<div class="summary">This read-only property returns the number of compressed bytes that
+        have been written to the underlying stream.  Following a call to
+        either close or commit, this will contain the total compressed size of
+        the input data stream.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="BzipOutput.close" href="./htmlsrc/tango.io.compress.BzipStream.html#L182" kind="function" beg="182" end="186">close</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#BzipOutput.close" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.BzipStream.html#L182">#</a></dt>
+<dd class="ddef">
+<div class="summary">commit the output</div></dd>
+<dt class="decl">void <a class="symbol _function" name="BzipOutput.commit" href="./htmlsrc/tango.io.compress.BzipStream.html#L197" kind="function" beg="197" end="245">commit</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#BzipOutput.commit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.BzipStream.html#L197">#</a></dt>
+<dd class="ddef">
+<div class="summary">Purge any buffered content.  Calling this will implicitly end the
+        bzip2 stream, so it should not be called until you are finished
+        compressing data.  Any calls to either write or commit after a
+        compression filter has been committed will throw an exception.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="BzipInput" href="./htmlsrc/tango.io.compress.BzipStream.html#L272" kind="class" beg="272" end="396">BzipInput</a> : InputFilter; <a title="Permalink to this symbol" href="#BzipInput" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.BzipStream.html#L272">#</a></dt>
+<dd class="ddef">
+<div class="summary">This input filter can be used to perform decompression of bzip2 streams.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="BzipInput.this" href="./htmlsrc/tango.io.compress.BzipStream.html#L298" kind="ctor" beg="298" end="308">this</a><span class="params">(InputStream <em>stream</em>, bool <em>small</em> = false)</span>; <a title="Permalink to this symbol" href="#BzipInput.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.BzipStream.html#L298">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a new bzip2 decompression filter.  You need to pass in the
+        stream that the decompression filter will read from.  If you are using
+        this filter with a conduit, the idiom to use is:</div>
+<pre class="d_code">
+<span class="k">auto</span> <span class="i">input</span> = <span class="k">new</span> <span class="i">BzipInput</span>(<span class="i">myConduit</span>.<span class="i">input</span>);
+<span class="i">input</span>.<span class="i">read</span>(<span class="i">myContent</span>);
+</pre>
+<p class="bl"/>
+        The small argument, if set to true, instructs bzip2 to perform
+        decompression using half the regular amount of memory, at the cost of
+        running at half speed.</dd>
+<dt class="decl">uint <a class="symbol _function" name="BzipInput.read" href="./htmlsrc/tango.io.compress.BzipStream.html#L325" kind="function" beg="325" end="359">read</a><span class="params">(void[] <em>dst</em>)</span>; <a title="Permalink to this symbol" href="#BzipInput.read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.BzipStream.html#L325">#</a></dt>
+<dd class="ddef">
+<div class="summary">Decompresses data from the underlying conduit into a target array.</div>
+Returns the number of bytes stored into dst, which may be less than
+        requested.</dd>
+<dt class="decl">InputStream <a class="symbol _function" name="BzipInput.clear" href="./htmlsrc/tango.io.compress.BzipStream.html#L367" kind="function" beg="367" end="377">clear</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#BzipInput.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.BzipStream.html#L367">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clear any buffered content.  No-op.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="BzipException" href="./htmlsrc/tango.io.compress.BzipStream.html#L405" kind="class" beg="405" end="441">BzipException</a> : IOException; <a title="Permalink to this symbol" href="#BzipException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.BzipStream.html#L405">#</a></dt>
+<dd class="ddef">
+<div class="summary">This exception is thrown when an error occurs in the underlying bzip2
+    library.</div>
+</dd>
+<dt class="decl">class <a class="symbol _class" name="BzipClosedException" href="./htmlsrc/tango.io.compress.BzipStream.html#L451" kind="class" beg="451" end="457">BzipClosedException</a> : IOException; <a title="Permalink to this symbol" href="#BzipClosedException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.BzipStream.html#L451">#</a></dt>
+<dd class="ddef">
+<div class="summary">This exception is thrown if you attempt to perform a read, write or flush
+    operation on a closed bzip2 filter stream.  This can occur if the input
+    stream has finished, or an output stream was flushed.</div>
+</dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (C) 2007 Daniel Keep.  All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:00 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

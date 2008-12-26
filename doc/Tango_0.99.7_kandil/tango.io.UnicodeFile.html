@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.UnicodeFile</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.UnicodeFile";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.UnicodeFile.html" class="symbol">tango.io.UnicodeFile</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: December 2005
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="UnicodeFile" href="./htmlsrc/tango.io.UnicodeFile.html#L101" kind="class" beg="101" end="261">UnicodeFile</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#UnicodeFile" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.UnicodeFile.html#L101">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read and write unicode files</div>
+For our purposes, unicode files are an encoding of textual material.
+        The goal of this module is to interface that external-encoding with
+        a programmer-defined internal-encoding. This internal encoding is
+        declared via the template argument T, whilst the external encoding
+        is either specified or derived.
+<p class="bl"/>
+        Three internal encodings are supported: char, wchar, and dchar. The
+        methods herein operate upon arrays of this type. For example, read()
+        returns an array of the type, whilst write() and append() expect an
+        array of said type.
+<p class="bl"/>
+        Supported external encodings are as follow:
+<p class="bl"/>
+                <ul>Encoding.Unknown</ul>
+                <ul>Encoding.UTF_8</ul>
+                <ul>Encoding.UTF_8N</ul>
+                <ul>Encoding.UTF_16</ul>
+                <ul>Encoding.UTF_16BE</ul>
+                <ul>Encoding.UTF_16LE</ul> 
+                <ul>Encoding.UTF_32</ul>
+                <ul>Encoding.UTF_32BE</ul>
+                <ul>Encoding.UTF_32LE</ul> 
+<p class="bl"/>
+        These can be divided into implicit and explicit encodings. Here are
+        the implicit subset:
+<p class="bl"/>
+                <ul>Encoding.Unknown</ul>
+                <ul>Encoding.UTF_8</ul>
+                <ul>Encoding.UTF_16</ul>
+                <ul>Encoding.UTF_32</ul> 
+<p class="bl"/>
+        Implicit encodings may be used to 'discover'
+        an unknown encoding, by examining the first few bytes of the file
+        content for a signature. This signature is optional for all files, 
+        but is often written such that the content is self-describing. When
+        the encoding is unknown, using one of the non-explicit encodings will
+        cause the read() method to look for a signature and adjust itself 
+        accordingly. It is possible that a ZWNBSP character might be confused 
+        with the signature; today's files are supposed to use the WORD-JOINER 
+        character instead.
+<p class="bl"/>
+        Explicit encodings are as follows:
+       
+                <ul>Encoding.UTF_8N</ul>
+                <ul>Encoding.UTF_16BE</ul>
+                <ul>Encoding.UTF_16LE</ul> 
+                <ul>Encoding.UTF_32BE</ul>
+                <ul>Encoding.UTF_32LE</ul> 
+        
+        This group of encodings are for use when the file encoding is
+        known. These *must* be used when writing or appending, since written
+        content must be in a known format. It should be noted that, during a
+        read operation, the presence of a signature is in conflict with these 
+        explicit varieties.
+<p class="bl"/>
+        Method read() returns the current content of the file, whilst write()
+        sets the file content, and file length, to the provided array. Method
+        append() adds content to the tail of the file. When appending, it is
+        your responsibility to ensure the existing and current encodings are
+        correctly matched.
+<p class="bl"/>
+        Methods to inspect the file system, check the status of a file or
+        directory, and other facilities are made available via the FilePath
+        superclass.
+<p class="bl"/>
+        See these links for more info:
+        <ul><a href="http://www.utf-8.com/">http://www.utf-8.com/</a></ul>
+        <ul><a href="http://www.hackcraft.net/xmlUnicode/">http://www.hackcraft.net/xmlUnicode/</a></ul>
+        <ul><a href="http://www.unicode.org/faq/utf_bom.html/">http://www.unicode.org/faq/utf_bom.html/</a></ul>
+        <ul><a href="http://www.azillionmonkeys.com/qed/unicode.html/">http://www.azillionmonkeys.com/qed/unicode.html/</a></ul>
+        <ul><a href="http://icu.sourceforge.net/docs/papers/forms_of_unicode/">http://icu.sourceforge.net/docs/papers/forms_of_unicode/</a></ul>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="UnicodeFile.this" href="./htmlsrc/tango.io.UnicodeFile.html#L114" kind="ctor" beg="114" end="118">this</a><span class="params">(char[] <em>path</em>, Encoding <em>encoding</em>)</span>; <a title="Permalink to this symbol" href="#UnicodeFile.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.UnicodeFile.html#L114">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a UnicodeFile from the provided FilePath. The given 
+                encoding represents the external file encoding, and should
+                be one of the Encoding.xx types</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="UnicodeFile.this:2" href="./htmlsrc/tango.io.UnicodeFile.html#L128" kind="ctor" beg="128" end="131">this</a><span class="params">(FilePath <em>path</em>, Encoding <em>encoding</em>)</span>; <a title="Permalink to this symbol" href="#UnicodeFile.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.UnicodeFile.html#L128">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a UnicodeFile from a text string. The provided 
+                encoding represents the external file encoding, and should
+                be one of the Encoding.xx types</div></dd>
+<dt class="decl">UnicodeFile <a class="symbol _function" name="UnicodeFile.opCall" href="./htmlsrc/tango.io.UnicodeFile.html#L141" kind="function" beg="141" end="144">opCall</a><span class="params">(char[] <em>name</em>, Encoding <em>encoding</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#UnicodeFile.opCall" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.UnicodeFile.html#L141">#</a></dt>
+<dd class="ddef">
+<div class="summary">Call-site shortcut to create a UnicodeFile instance. This 
+                enables the same syntax as struct usage, so may expose
+                a migration path</div></dd>
+<dt class="decl">PathView <a class="symbol _function" name="UnicodeFile.path" href="./htmlsrc/tango.io.UnicodeFile.html#L152" kind="function" beg="152" end="155">path</a><span class="params">()</span>; <span class="attrs">[<span class="stc">deprecated</span>]</span> <a title="Permalink to this symbol" href="#UnicodeFile.path" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.UnicodeFile.html#L152">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the associated FilePath instance</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="UnicodeFile.toString" href="./htmlsrc/tango.io.UnicodeFile.html#L163" kind="function" beg="163" end="166">toString</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#UnicodeFile.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.UnicodeFile.html#L163">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the associated file path</div></dd>
+<dt class="decl">Encoding <a class="symbol _function" name="UnicodeFile.encoding" href="./htmlsrc/tango.io.UnicodeFile.html#L177" kind="function" beg="177" end="180">encoding</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#UnicodeFile.encoding" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.UnicodeFile.html#L177">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the current encoding. This is either the originally
+                specified encoding, or a derived one obtained by inspecting
+                the file content for a BOM. The latter is performed as part
+                of the read() method.</div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="UnicodeFile.read" href="./htmlsrc/tango.io.UnicodeFile.html#L193" kind="function" beg="193" end="207">read</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#UnicodeFile.read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.UnicodeFile.html#L193">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the content of the file. The content is inspected 
+                for a BOM signature, which is stripped. An exception is
+                thrown if a signature is present when, according to the
+                encoding type, it should not be. Conversely, An exception
+                is thrown if there is no known signature where the current
+                encoding expects one to be present.</div></dd>
+<dt class="decl">UnicodeFile <a class="symbol _function" name="UnicodeFile.write" href="./htmlsrc/tango.io.UnicodeFile.html#L216" kind="function" beg="216" end="219">write</a><span class="params">(T[] <em>content</em>, bool <em>writeBom</em> = false)</span>; <a title="Permalink to this symbol" href="#UnicodeFile.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.UnicodeFile.html#L216">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the file content and length to reflect the given array.
+                The content will be encoded accordingly.</div></dd>
+<dt class="decl">UnicodeFile <a class="symbol _function" name="UnicodeFile.append" href="./htmlsrc/tango.io.UnicodeFile.html#L231" kind="function" beg="231" end="234">append</a><span class="params">(T[] <em>content</em>)</span>; <a title="Permalink to this symbol" href="#UnicodeFile.append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.UnicodeFile.html#L231">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append content to the file; the content will be encoded 
+                accordingly.</div>
+Note that it is your responsibility to ensure the 
+                existing and current encodings are correctly matched.</dd>
+<dt class="decl">UnicodeFile <a class="symbol _function" name="UnicodeFile.write:2" href="./htmlsrc/tango.io.UnicodeFile.html#L244" kind="function" beg="244" end="260">write</a><span class="params">(T[] <em>content</em>, FileConduit.Style <em>style</em>, bool <em>writeBom</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#UnicodeFile.write:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.UnicodeFile.html#L244">#</a></dt>
+<dd class="ddef">
+<div class="summary">Internal method to perform writing of content. Note that
+                the encoding must be of the explicit variety by the time
+                we get here.</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2005 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:58 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

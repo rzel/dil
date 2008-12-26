@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.cluster.tina.ClusterServer</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.cluster.tina.ClusterServer";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html" class="symbol">tango.net.cluster.tina.ClusterServer</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>July 2004: Initial release
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="ClusterServer" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L37" kind="class" beg="37" end="188">ClusterServer</a> : AbstractServer; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#ClusterServer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L37">#</a></dt>
+<dd class="ddef">
+<div class="summary">Extends the AbstractServer to glue cluster support together.</div>
+<dl>
+<dt class="decl">void <a class="symbol _function" name="ClusterServer.service" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L50" kind="function" beg="50" end="50">service</a><span class="params">(SocketConduit <em>conduit</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#ClusterServer.service" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L50">#</a></dt>
+<dd class="ddef">
+<div class="summary">Concrete server must expose a service handler</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="ClusterServer.this" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L67" kind="ctor" beg="67" end="75">this</a><span class="params">(char[] <em>name</em>, InternetAddress <em>bind</em>, Logger <em>logger</em>)</span>; <a title="Permalink to this symbol" href="#ClusterServer.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L67">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct this server with the requisite attributes. The 
+                'bind' address is the local address we'll be listening on, 
+                'threads' represents the number of socket-accept threads, 
+                and backlog is the number of "simultaneous" connection 
+                requests that a socket layer will buffer on our behalf.</div>
+We also set up a listener for client discovery-requests, 
+                and lastly, we tell active clients that we're available 
+                for work. Clients should be listening on the appropriate 
+                channel for an instance of the RollCall payload.</dd>
+<dt class="decl">void <a class="symbol _function" name="ClusterServer.enroll" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L81" kind="function" beg="81" end="84">enroll</a><span class="params">(IMessage <em>task</em>)</span>; <a title="Permalink to this symbol" href="#ClusterServer.enroll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L81">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="ClusterServer.start" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L103" kind="function" beg="103" end="123">start</a><span class="params">(RollCall <em>id</em>, bool <em>reuse</em> = false)</span>; <a title="Permalink to this symbol" href="#ClusterServer.start" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L103">#</a></dt>
+<dd class="ddef">
+<div class="summary">Start the server</div>
+Note that we hijack the calling thread, and use it to 
+                generate a hearbeat. The hearbeat has two functions: it
+                tells all clients when this server starts, and it tells
+                them we're still alive. The latter is important if, for
+                example, a client request to this server had timed-out
+                due to the server being too busy. In such a case, the
+                client will mark the server as being unavailable, and 
+                the heartbeat will presumably revert that.
+<p class="bl"/>
+                It would also be useful to monitor the GC from here.</dd>
+<dt class="decl">char[] <a class="symbol _function" name="ClusterServer.getProtocol" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L131" kind="function" beg="131" end="134">getProtocol</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ClusterServer.getProtocol" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L131">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a text string identifying this server</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="ClusterServer.toString" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L142" kind="function" beg="142" end="145">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#ClusterServer.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L142">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a text string identifying this server</div></dd>
+<dt class="decl">ServerSocket <a class="symbol _function" name="ClusterServer.createSocket" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L153" kind="function" beg="153" end="156">createSocket</a><span class="params">(InternetAddress <em>bind</em>, int <em>backlog</em>, bool <em>reuse</em> = false)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#ClusterServer.createSocket" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L153">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a ServerSocket instance.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ClusterServer.createThread" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L166" kind="function" beg="166" end="169">createThread</a><span class="params">(ServerSocket <em>socket</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#ClusterServer.createThread" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L166">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a ServerThread instance. This can be overridden to 
+                create other thread-types, perhaps with additional thread-
+                level data attached.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ClusterServer.notify" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L179" kind="function" beg="179" end="187">notify</a><span class="params">(IEvent <em>event</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ClusterServer.notify" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterServer.html#L179">#</a></dt>
+<dd class="ddef">
+<div class="summary">Interface method that's invoked when a client is making
+                discovery requests. We just send back our identity in a
+                reply</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:56 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

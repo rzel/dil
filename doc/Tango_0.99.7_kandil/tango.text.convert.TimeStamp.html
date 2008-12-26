@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.text.convert.TimeStamp</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.text.convert.TimeStamp";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.text.convert.TimeStamp.html" class="symbol">tango.text.convert.TimeStamp</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: May 2005
+<p class="sec_header">Author:</p>Kris
+<p class="bl"/>
+        Converts between native and text representations of HTTP time
+        values. Internally, time is represented as UTC with an epoch 
+        fixed at Jan 1st 1970. The text representation is formatted in
+        accordance with RFC 1123, and the parser will accept one of 
+        RFC 1123, RFC 850, or asctime formats.
+<p class="bl"/>
+        See http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html for
+        further detail.
+<p class="bl"/>
+        Applying the D "import alias" mechanism to this module is highly
+        recommended, in order to limit namespace pollution:
+        <pre class="d_code">
+<span class="k">import</span> <span class="i">TimeStamp</span> = <span class="i">tango</span>.<span class="i">text</span>.<span class="i">convert</span>.<span class="i">TimeStamp</span>;
+
+<span class="k">auto</span> <span class="i">t</span> = <span class="i">TimeStamp</span>.<span class="i">parse</span> (<span class="sl">"Sun, 06 Nov 1994 08:49:37 GMT"</span>);
+</pre>
+<dl>
+<dt class="decl">ulong <a class="symbol _function" name="toTime" href="./htmlsrc/tango.text.convert.TimeStamp.html#L49" kind="function" beg="49" end="57">toTime</a><span class="tparams">(T)</span><span class="params">(T[] <em>src</em>)</span>; <a title="Permalink to this symbol" href="#toTime" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L49">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parse provided input and return a UTC epoch time. An exception
+        is raised where the provided string is not fully parsed.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="toString" href="./htmlsrc/tango.text.convert.TimeStamp.html#L68" kind="function" beg="68" end="73">toString</a><span class="params">(Time <em>time</em>)</span>; <a title="Permalink to this symbol" href="#toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L68">#</a></dt>
+<dd class="ddef">
+<div class="summary">Template wrapper to make life simpler. Returns a text version
+        of the provided value.</div>
+See format() for details</dd>
+<dt class="decl">wchar[] <a class="symbol _function" name="toString16" href="./htmlsrc/tango.text.convert.TimeStamp.html#L84" kind="function" beg="84" end="89">toString16</a><span class="params">(Time <em>time</em>)</span>; <a title="Permalink to this symbol" href="#toString16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L84">#</a></dt>
+<dd class="ddef">
+<div class="summary">Template wrapper to make life simpler. Returns a text version
+        of the provided value.</div>
+See format() for details</dd>
+<dt class="decl">dchar[] <a class="symbol _function" name="toString32" href="./htmlsrc/tango.text.convert.TimeStamp.html#L100" kind="function" beg="100" end="105">toString32</a><span class="params">(Time <em>time</em>)</span>; <a title="Permalink to this symbol" href="#toString32" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L100">#</a></dt>
+<dd class="ddef">
+<div class="summary">Template wrapper to make life simpler. Returns a text version
+        of the provided value.</div>
+See format() for details</dd>
+<dt class="decl">T[] <a class="symbol _function" name="format" href="./htmlsrc/tango.text.convert.TimeStamp.html#L120" kind="function" beg="120" end="121">format</a><span class="tparams">(T, U=Time)</span><span class="params">(T[] <em>output</em>, U <em>t</em>)</span>; <a title="Permalink to this symbol" href="#format" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L120">#</a></dt>
+<dd class="ddef">
+<div class="summary">RFC1123 formatted time</div>
+Converts to the format "Sun, 06 Nov 1994 08:49:37 GMT", and
+        returns a populated slice of the provided buffer. Note that
+        RFC1123 format is always in absolute GMT time, and a thirty-
+        element buffer is sufficient for the produced output
+<p class="bl"/>
+        Throws an exception where the supplied time is invalid</dd>
+<dt class="decl">Time <a class="symbol _function" name="parse" href="./htmlsrc/tango.text.convert.TimeStamp.html#L167" kind="function" beg="167" end="182">parse</a><span class="tparams">(T)</span><span class="params">(T[] <em>src</em>, uint* <em>ate</em> = null)</span>; <a title="Permalink to this symbol" href="#parse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L167">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parse provided input and return a UTC epoch time. A return value 
+      of Time.max indicated a parse-failure.</div>
+An option is provided to return the count of characters parsed - 
+      an unchanged value here also indicates invalid input.</dd>
+<dt class="decl">int <a class="symbol _function" name="rfc1123" href="./htmlsrc/tango.text.convert.TimeStamp.html#L194" kind="function" beg="194" end="223">rfc1123</a><span class="tparams">(T)</span><span class="params">(T[] <em>src</em>, inout Time <em>value</em>)</span>; <a title="Permalink to this symbol" href="#rfc1123" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L194">#</a></dt>
+<dd class="ddef">
+<div class="summary">RFC 822, updated by RFC 1123 :: "Sun, 06 Nov 1994 08:49:37 GMT"</div>
+Returns the number of elements consumed by the parse; zero if
+        the parse failed</dd>
+<dt class="decl">int <a class="symbol _function" name="rfc850" href="./htmlsrc/tango.text.convert.TimeStamp.html#L235" kind="function" beg="235" end="270">rfc850</a><span class="tparams">(T)</span><span class="params">(T[] <em>src</em>, inout Time <em>value</em>)</span>; <a title="Permalink to this symbol" href="#rfc850" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L235">#</a></dt>
+<dd class="ddef">
+<div class="summary">RFC 850, obsoleted by RFC 1036 :: "Sunday, 06-Nov-94 08:49:37 GMT"</div>
+Returns the number of elements consumed by the parse; zero if
+        the parse failed</dd>
+<dt class="decl">int <a class="symbol _function" name="asctime" href="./htmlsrc/tango.text.convert.TimeStamp.html#L282" kind="function" beg="282" end="310">asctime</a><span class="tparams">(T)</span><span class="params">(T[] <em>src</em>, inout Time <em>value</em>)</span>; <a title="Permalink to this symbol" href="#asctime" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L282">#</a></dt>
+<dd class="ddef">
+<div class="summary">ANSI C's asctime() format :: "Sun Nov 6 08:49:37 1994"</div>
+Returns the number of elements consumed by the parse; zero if
+        the parse failed</dd>
+<dt class="decl">int <a class="symbol _function" name="dostime" href="./htmlsrc/tango.text.convert.TimeStamp.html#L321" kind="function" beg="321" end="357">dostime</a><span class="tparams">(T)</span><span class="params">(T[] <em>src</em>, inout Time <em>value</em>)</span>; <a title="Permalink to this symbol" href="#dostime" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L321">#</a></dt>
+<dd class="ddef">
+<div class="summary">DOS time format :: "12-31-06 08:49AM"</div>
+Returns the number of elements consumed by the parse; zero if
+        the parse failed</dd>
+<dt class="decl">int <a class="symbol _function" name="iso8601" href="./htmlsrc/tango.text.convert.TimeStamp.html#L368" kind="function" beg="368" end="394">iso8601</a><span class="tparams">(T)</span><span class="params">(T[] <em>src</em>, inout Time <em>value</em>)</span>; <a title="Permalink to this symbol" href="#iso8601" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L368">#</a></dt>
+<dd class="ddef">
+<div class="summary">ISO-8601 format :: "2006-01-31 14:49:30,001"</div>
+Returns the number of elements consumed by the parse; zero if
+        the parse failed</dd>
+<dt class="decl">bool <a class="symbol _function" name="time" href="./htmlsrc/tango.text.convert.TimeStamp.html#L403" kind="function" beg="403" end="410">time</a><span class="tparams">(T)</span><span class="params">(inout TimeOfDay <em>time</em>, inout T* <em>p</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#time" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L403">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parse a time field</div></dd>
+<dt class="decl">int <a class="symbol _function" name="parseMonth" href="./htmlsrc/tango.text.convert.TimeStamp.html#L419" kind="function" beg="419" end="467">parseMonth</a><span class="tparams">(T)</span><span class="params">(inout T* <em>p</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#parseMonth" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L419">#</a></dt>
+<dd class="ddef">
+<div class="summary">Match a month from the input</div></dd>
+<dt class="decl">int <a class="symbol _function" name="parseShortDay" href="./htmlsrc/tango.text.convert.TimeStamp.html#L476" kind="function" beg="476" end="509">parseShortDay</a><span class="tparams">(T)</span><span class="params">(inout T* <em>p</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#parseShortDay" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L476">#</a></dt>
+<dd class="ddef">
+<div class="summary">Match a day from the input</div></dd>
+<dt class="decl">int <a class="symbol _function" name="parseFullDay" href="./htmlsrc/tango.text.convert.TimeStamp.html#L518" kind="function" beg="518" end="538">parseFullDay</a><span class="tparams">(T)</span><span class="params">(inout T* <em>p</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#parseFullDay" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L518">#</a></dt>
+<dd class="ddef">
+<div class="summary">Match a day from the input. Sunday is 0</div></dd>
+<dt class="decl">int <a class="symbol _function" name="parseInt" href="./htmlsrc/tango.text.convert.TimeStamp.html#L547" kind="function" beg="547" end="554">parseInt</a><span class="tparams">(T)</span><span class="params">(inout T* <em>p</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#parseInt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.TimeStamp.html#L547">#</a></dt>
+<dd class="ddef">
+<div class="summary">Extract an integer from the input</div></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:47 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

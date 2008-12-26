@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.cluster.CacheInvalidator</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.cluster.CacheInvalidator";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.cluster.CacheInvalidator.html" class="symbol">tango.net.cluster.CacheInvalidator</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>July 2004: Initial release
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="CacheInvalidator" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L28" kind="class" beg="28" end="75">CacheInvalidator</a> : NetworkClient; <a title="Permalink to this symbol" href="#CacheInvalidator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L28">#</a></dt>
+<dd class="ddef">
+<div class="summary">Utility class to invalidate specific cache entries across a 
+        network. Any active CacheInvalidatee objects listening upon
+        the channel specified for this class will "wake up" whenever
+        the invalidate() method is invoked.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="CacheInvalidator.this" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L40" kind="ctor" beg="40" end="47">this</a><span class="params">(ICluster <em>cluster</em>, char[] <em>channel</em>)</span>; <a title="Permalink to this symbol" href="#CacheInvalidator.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L40">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct an invalidator on the specified channel. Only
+                those CacheInvalidatee instances configured for the same
+                channel will be listening to this invalidator.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="CacheInvalidator.invalidate" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L66" kind="function" beg="66" end="74">invalidate</a><span class="params">(char[] <em>key</em>, Time <em>timeLimit</em> = Time.max)</span>; <a title="Permalink to this symbol" href="#CacheInvalidator.invalidate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L66">#</a></dt>
+<dd class="ddef">
+<div class="summary">Invalidate all network cache instances on this channel
+                using the specified key. When 'timeLimit' is specified, 
+                only those cache entries with a time lesser or equal to
+                that specified will be removed. This is often useful if 
+                you wish to avoid invalidating a cache (local or remote)
+                that has just been updated; simply pass the time value
+                of the 'old' IMessage as the argument.</div>
+Note that this is asynchronous! An invalidation is just
+                a request to remove the item within a short time period.
+                If you need the entry removed synchronously, you should
+                use the NetworkCache extract() method instead.</dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="InvalidatorPayload" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L82" kind="class" beg="82" end="133">InvalidatorPayload</a> : NetworkMessage; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#InvalidatorPayload" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L82">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl">char[] <a class="symbol _function" name="InvalidatorPayload.key" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L90" kind="function" beg="90" end="93">key</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#InvalidatorPayload.key" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L90">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="InvalidatorPayload.key:2" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L99" kind="function" beg="99" end="103">key</a><span class="params">(char[] <em>key</em>)</span>; <a title="Permalink to this symbol" href="#InvalidatorPayload.key:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L99">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="InvalidatorPayload.read" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L118" kind="function" beg="118" end="122">read</a><span class="params">(IReader <em>input</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#InvalidatorPayload.read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L118">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read our attributes, after telling our superclass to do
+                likewise. The order of this is important with respect to
+                inheritance, such that a subclass and superclass may be 
+                populated in isolation where appropriate.</div>
+Note that we slice our text attribute, rather than copying
+                it. Since this class is temporal we can forego allocation
+                of memory, and just map it directly from the input buffer.</dd>
+<dt class="decl">void <a class="symbol _function" name="InvalidatorPayload.write" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L128" kind="function" beg="128" end="132">write</a><span class="params">(IWriter <em>output</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#InvalidatorPayload.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.CacheInvalidator.html#L128">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:55 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

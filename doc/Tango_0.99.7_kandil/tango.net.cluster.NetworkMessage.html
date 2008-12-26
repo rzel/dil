@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.cluster.NetworkMessage</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.cluster.NetworkMessage";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.cluster.NetworkMessage.html" class="symbol">tango.net.cluster.NetworkMessage</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>July 2004: Initial release
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="NetworkMessage" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L43" kind="class" beg="43" end="197">NetworkMessage</a> : IMessage; <a title="Permalink to this symbol" href="#NetworkMessage" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L43">#</a></dt>
+<dd class="ddef">
+<div class="summary">A cluster-based messaging class. You should override both read() and 
+        write() methods to transport non-transient content along with the msg.</div>
+Note that when using read() and write(), invoke the superclass first 
+        so that your Message can potentially be deserialized as a superclass 
+        instance. That is, read() and write() might look something like this:
+        <pre class="d_code">
+<span class="k">void</span> <span class="i">read</span> (<span class="i">IReader</span> <span class="i">input</span>)
+{       
+        <span class="k">super</span>.<span class="i">read</span> (<span class="i">input</span>);
+        <span class="i">input</span> (<span class="i">myAttribute</span>) (<span class="i">myOtherAttribute</span>);
+}
+
+<span class="k">void</span> <span class="i">write</span> (<span class="i">IWriter</span> <span class="i">output</span>)
+{
+        <span class="k">super</span>.<span class="i">write</span> (<span class="i">output</span>);
+        <span class="i">output</span> (<span class="i">myAttribute</span>) (<span class="i">myOtherAttribute2</span>);
+}
+</pre>
+<dl>
+<dt class="decl">char[] <a class="symbol _function" name="NetworkMessage.toString" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L59" kind="function" beg="59" end="62">toString</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#NetworkMessage.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L59">#</a></dt>
+<dd class="ddef">
+<div class="summary">Have to proxy this to satisfy interface requirements. It's 
+                both annoying and fragile to be forced into this kind of 
+                call-brokering, but then interfaces also don't expose the
+                methods from Object either. Interfaces in D are still a
+                bit too immature</div></dd>
+<dt class="decl">void <a class="symbol _function" name="NetworkMessage.reply" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L70" kind="function" beg="70" end="73">reply</a><span class="params">(char[] <em>channel</em>)</span>; <a title="Permalink to this symbol" href="#NetworkMessage.reply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L70">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the optional reply-channel</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="NetworkMessage.reply:2" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L81" kind="function" beg="81" end="84">reply</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#NetworkMessage.reply:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L81">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the optional reply-channel</div></dd>
+<dt class="decl">void <a class="symbol _function" name="NetworkMessage.time" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L100" kind="function" beg="100" end="103">time</a><span class="params">(Time <em>time</em>)</span>; <a title="Permalink to this symbol" href="#NetworkMessage.time" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L100">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the waterline of the cache-entries that should not be 
+                touched by an invalidation. This is typically the time of
+                an entry in a local cache on the machine originating the 
+                invalidation. Without the ability to guard against local 
+                invalidation, the cache entry just added locally would be 
+                removed along with others across the cluster. 
+                
+                An alternative would be to invalidate before adding, though 
+                that can become complicated by network race conditions.</div></dd>
+<dt class="decl">Time <a class="symbol _function" name="NetworkMessage.time:2" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L111" kind="function" beg="111" end="114">time</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#NetworkMessage.time:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L111">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return our time value</div></dd>
+<dt class="decl">void <a class="symbol _function" name="NetworkMessage.id" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L120" kind="function" beg="120" end="123">id</a><span class="params">(uint <em>value</em>)</span>; <a title="Permalink to this symbol" href="#NetworkMessage.id" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L120">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="NetworkMessage.id:2" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L129" kind="function" beg="129" end="132">id</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#NetworkMessage.id:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L129">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="NetworkMessage.read" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L140" kind="function" beg="140" end="143">read</a><span class="params">(IReader <em>input</em>)</span>; <a title="Permalink to this symbol" href="#NetworkMessage.read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L140">#</a></dt>
+<dd class="ddef">
+<div class="summary">Recover the reply-channel from the provided reader</div></dd>
+<dt class="decl">void <a class="symbol _function" name="NetworkMessage.write" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L151" kind="function" beg="151" end="154">write</a><span class="params">(IWriter <em>output</em>)</span>; <a title="Permalink to this symbol" href="#NetworkMessage.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L151">#</a></dt>
+<dd class="ddef">
+<div class="summary">Emit our reply-channel to the provided writer</div></dd>
+<dt class="decl">IMessage <a class="symbol _function" name="NetworkMessage.clone" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L172" kind="function" beg="172" end="184">clone</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#NetworkMessage.clone" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L172">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creates a shallow object copy. This is used internally 
+                for setting up templates/hosts of registered objects and 
+                should be overridden where deep(er) copying is desired.</div>
+<p class="sec_header">Specifically:</p>it makes a bit-copy only. Dynamic arrays or
+                pointer/reference oriented attributes are not duplicated.
+<p class="bl"/>
+                In general, there should be zero heap activity ocurring
+                during cluster requests. Thus, specific cluster services 
+                utilize this method to construct message hosts, up-front, 
+                helping to ensure the heap remains untouched during normal 
+                operation.</dd>
+<dt class="decl">void <a class="symbol _function" name="NetworkMessage.execute" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L194" kind="function" beg="194" end="196">execute</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#NetworkMessage.execute" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkMessage.html#L194">#</a></dt>
+<dd class="ddef">
+<div class="summary">Interface issues mean that we'd have to reimplement all 
+                the above methods again to support the ITask derivative. 
+                Just hack this in here instead :[</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:55 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

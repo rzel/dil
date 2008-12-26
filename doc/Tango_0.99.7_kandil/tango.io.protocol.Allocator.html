@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.protocol.Allocator</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.protocol.Allocator";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.protocol.Allocator.html" class="symbol">tango.io.protocol.Allocator</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: October 2004      
+                        Outback release: December 2006
+<p class="sec_header">Author:</p>Kris
+<p class="bl"/>
+        Allocators to use in conjunction with the Reader class. These are
+        intended to manage array allocation for a variety of Reader.get()
+        methods
+<dl>
+<dt class="decl">class <a class="symbol _class" name="HeapCopy" href="./htmlsrc/tango.io.protocol.Allocator.html#L30" kind="class" beg="30" end="68">HeapCopy</a> : IAllocator; <a title="Permalink to this symbol" href="#HeapCopy" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Allocator.html#L30">#</a></dt>
+<dd class="ddef">
+<div class="summary">Simple allocator, copying into the heap for each array requested:
+        this is the default behaviour for Reader instances</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="HeapCopy.this" href="./htmlsrc/tango.io.protocol.Allocator.html#L38" kind="ctor" beg="38" end="41">this</a><span class="params">(IProtocol <em>protocol</em>)</span>; <a title="Permalink to this symbol" href="#HeapCopy.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Allocator.html#L38">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">IProtocol <a class="symbol _function" name="HeapCopy.protocol" href="./htmlsrc/tango.io.protocol.Allocator.html#L47" kind="function" beg="47" end="50">protocol</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HeapCopy.protocol" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Allocator.html#L47">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="HeapCopy.reset" href="./htmlsrc/tango.io.protocol.Allocator.html#L56" kind="function" beg="56" end="58">reset</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HeapCopy.reset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Allocator.html#L56">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="HeapCopy.allocate" href="./htmlsrc/tango.io.protocol.Allocator.html#L64" kind="function" beg="64" end="67">allocate</a><span class="params">(IProtocol.Reader <em>reader</em>, uint <em>bytes</em>, IProtocol.Type <em>type</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HeapCopy.allocate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Allocator.html#L64">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="HeapSlice" href="./htmlsrc/tango.io.protocol.Allocator.html#L83" kind="class" beg="83" end="146">HeapSlice</a> : IAllocator; <a title="Permalink to this symbol" href="#HeapSlice" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Allocator.html#L83">#</a></dt>
+<dd class="ddef">
+<div class="summary">Allocate from within a private heap space. This supports reading
+        data as 'records', reusing the same chunk of memory for each record
+        loaded. The ctor takes an argument defining the initial allocation
+        made, and this will be increased as necessary to accomodate larger
+        records. Use the reset() method to indicate end of record (reuse
+        memory for subsequent requests), or set the autoreset flag to reuse
+        upon each array request.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="HeapSlice.this" href="./htmlsrc/tango.io.protocol.Allocator.html#L94" kind="ctor" beg="94" end="99">this</a><span class="params">(IProtocol <em>protocol</em>, uint <em>width</em> = 4096, bool <em>autoreset</em> = false)</span>; <a title="Permalink to this symbol" href="#HeapSlice.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Allocator.html#L94">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">IProtocol <a class="symbol _function" name="HeapSlice.protocol" href="./htmlsrc/tango.io.protocol.Allocator.html#L105" kind="function" beg="105" end="108">protocol</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HeapSlice.protocol" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Allocator.html#L105">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="HeapSlice.reset" href="./htmlsrc/tango.io.protocol.Allocator.html#L116" kind="function" beg="116" end="119">reset</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HeapSlice.reset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Allocator.html#L116">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reset content length to zero</div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="HeapSlice.allocate" href="./htmlsrc/tango.io.protocol.Allocator.html#L133" kind="function" beg="133" end="145">allocate</a><span class="params">(IProtocol.Reader <em>reader</em>, uint <em>bytes</em>, IProtocol.Type <em>type</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HeapSlice.allocate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Allocator.html#L133">#</a></dt>
+<dd class="ddef">
+<div class="summary">No allocation: copy into a reserved arena.</div>
+With HeapSlice, it is normal to allocate space large
+                enough to contain, say, a record of data. The reserved
+                space will grow to accomodate larger records. A reset()
+                call should be made between each record read, to ensure
+                the space is being reused.</dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="BufferSlice" href="./htmlsrc/tango.io.protocol.Allocator.html#L157" kind="class" beg="157" end="221">BufferSlice</a> : IAllocator; <a title="Permalink to this symbol" href="#BufferSlice" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Allocator.html#L157">#</a></dt>
+<dd class="ddef">
+<div class="summary">Alias directly from the buffer instead of allocating from the heap.
+        This avoids both heap activity and copying, but requires some care
+        in terms of usage. See methods allocate() for details</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="BufferSlice.this" href="./htmlsrc/tango.io.protocol.Allocator.html#L165" kind="ctor" beg="165" end="168">this</a><span class="params">(IProtocol <em>protocol</em>)</span>; <a title="Permalink to this symbol" href="#BufferSlice.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Allocator.html#L165">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">IProtocol <a class="symbol _function" name="BufferSlice.protocol" href="./htmlsrc/tango.io.protocol.Allocator.html#L174" kind="function" beg="174" end="177">protocol</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#BufferSlice.protocol" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Allocator.html#L174">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="BufferSlice.reset" href="./htmlsrc/tango.io.protocol.Allocator.html#L186" kind="function" beg="186" end="189">reset</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#BufferSlice.reset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Allocator.html#L186">#</a></dt>
+<dd class="ddef">
+<div class="summary">Move all unconsumed data to the front of the buffer, freeing
+                up space for more</div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="BufferSlice.allocate" href="./htmlsrc/tango.io.protocol.Allocator.html#L217" kind="function" beg="217" end="220">allocate</a><span class="params">(IProtocol.Reader <em>reader</em>, uint <em>bytes</em>, IProtocol.Type <em>type</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#BufferSlice.allocate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Allocator.html#L217">#</a></dt>
+<dd class="ddef">
+<div class="summary">No alloc or copy: alias directly from buffer. While this is
+                very efficient (no heap activity) it should be used only in
+                scenarios where content is known to fit within a buffer, and
+                there is no conversion of said content e.g. take care when
+                using with EndianProtocol since it will convert within the
+                buffer, potentially confusing additional buffer clients.</div>
+With BufferSlice, it is considered normal to create a Buffer
+                large enough to contain, say, a file and subsequently slice
+                all strings/arrays directly from this buffer. Smaller Buffers
+                can be used in a record-oriented manner similar to HeapSlice:
+                invoke reset() before each record is processed to ensure here
+                is sufficient space available in the buffer to house a complete
+                record. GrowBuffer could be used in the latter case, to ensure
+                the largest record width is always accomodated.
+<p class="bl"/>
+                A good use of this is in handling of network traffic, where
+                incoming data is often transient and of a known extent. For
+                another potential use, consider the quantity of distinct text
+                arrays generated by an XML parser -- would be convenient to
+                slice all of them from a single allocation instead</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:58 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

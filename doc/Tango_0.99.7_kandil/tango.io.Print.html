@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.Print</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.Print";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.Print.html" class="symbol">tango.io.Print</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Feb 2007: Separated from Stdout
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Print" href="./htmlsrc/tango.io.Print.html#L89" kind="class" beg="89" end="317">Print</a><span class="tparams">(T)</span> : OutputStream; <a title="Permalink to this symbol" href="#Print" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L89">#</a></dt>
+<dd class="ddef">
+<div class="summary">A bridge between a Layout instance and a Buffer. This is used for
+        the Stdout &amp; Stderr globals, but can be used for general purpose
+        buffer-formatting as desired. The Template type 'T' dictates the
+        text arrangement within the target buffer ~ one of char, wchar or
+        dchar (utf8, utf16, or utf32). 
+        
+        Print exposes this style of usage:
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">print</span> = <span class="k">new</span> <span class="i">Print</span>!(<span class="k">char</span>) (...);
+
+<span class="i">print</span> (<span class="sl">"hello"</span>);                        =&gt; <span class="i">hello</span>
+<span class="i">print</span> (<span class="n">1</span>);                              =&gt; <span class="n">1</span>
+<span class="i">print</span> (<span class="n">3.14</span>);                           =&gt; <span class="n">3.14</span>
+<span class="i">print</span> (<span class="cl">'b'</span>);                            =&gt; <span class="i">b</span>
+<span class="i">print</span> (<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>);                        =&gt; <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>         
+<span class="i">print</span> (<span class="sl">"abc"</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>);                 =&gt; <span class="i">abc</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>        
+<span class="i">print</span> (<span class="sl">"abc"</span>, <span class="n">1</span>, <span class="n">2</span>) (<span class="sl">"foo"</span>);            =&gt; <span class="i">abc</span>, <span class="n">1</span>, <span class="n">2f</span><span class="i">oo</span>        
+<span class="i">print</span> (<span class="sl">"abc"</span>) (<span class="sl">"def"</span>) (<span class="n">3.14</span>);           =&gt; <span class="i">abcdef3</span><span class="n">.14</span>
+
+<span class="i">print</span>.<span class="i">format</span> (<span class="sl">"abc {}"</span>, <span class="n">1</span>);             =&gt; <span class="i">abc</span> <span class="n">1</span>
+<span class="i">print</span>.<span class="i">format</span> (<span class="sl">"abc {}:{}"</span>, <span class="n">1</span>, <span class="n">2</span>);       =&gt; <span class="i">abc</span> <span class="n">1</span>:<span class="n">2</span>
+<span class="i">print</span>.<span class="i">format</span> (<span class="sl">"abc {1}:{0}"</span>, <span class="n">1</span>, <span class="n">2</span>);     =&gt; <span class="i">abc</span> <span class="n">2</span>:<span class="n">1</span>
+<span class="i">print</span>.<span class="i">format</span> (<span class="sl">"abc "</span>, <span class="n">1</span>);               =&gt; <span class="i">abc</span>
+</pre></div>
+Note that the last example does not throw an exception. There
+        are several use-cases where dropping an argument is legitimate,
+        so we're currently not enforcing any particular trap mechanism.
+<p class="bl"/>
+        Flushing the output is achieved through the flush() method, or
+        via an empty pair of parens: 
+        <pre class="d_code">
+<span class="i">print</span> (<span class="sl">"hello world"</span>) ();
+<span class="i">print</span> (<span class="sl">"hello world"</span>).<span class="i">flush</span>;
+
+<span class="i">print</span>.<span class="i">format</span> (<span class="sl">"hello {}"</span>, <span class="sl">"world"</span>) ();
+<span class="i">print</span>.<span class="i">format</span> (<span class="sl">"hello {}"</span>, <span class="sl">"world"</span>).<span class="i">flush</span>;
+</pre>
+        
+        Special character sequences, such as "\n", are written directly to
+        the output without any translation (though an output-filter could
+        be inserted to perform translation as required). Platform-specific 
+        newlines are generated instead via the newline() method, which also 
+        flushes the output when configured to do so:
+        <pre class="d_code">
+<span class="i">print</span> (<span class="sl">"hello "</span>) (<span class="sl">"world"</span>).<span class="i">newline</span>;
+<span class="i">print</span>.<span class="i">format</span> (<span class="sl">"hello {}"</span>, <span class="sl">"world"</span>).<span class="i">newline</span>;
+<span class="i">print</span>.<span class="i">formatln</span> (<span class="sl">"hello {}"</span>, <span class="sl">"world"</span>);
+</pre>
+<p class="bl"/>
+        The format() method supports the range of formatting options 
+        exposed by tango.text.convert.Layout and extensions thereof; 
+        including the full I18N extensions where configured in that 
+        manner. To create a French instance of Print:
+        <pre class="d_code">
+<span class="k">import</span> <span class="i">tango</span>.<span class="i">text</span>.<span class="i">locale</span>.<span class="i">Locale</span>;
+
+<span class="k">auto</span> <span class="i">locale</span> = <span class="k">new</span> <span class="i">Locale</span> (<span class="i">Culture</span>.<span class="i">getCulture</span> (<span class="sl">"fr-FR"</span>));
+<span class="k">auto</span> <span class="i">print</span> = <span class="k">new</span> <span class="i">Print</span>!(<span class="k">char</span>) (<span class="i">locale</span>, ...);
+</pre>
+<p class="bl"/>
+        Note that Print is *not* intended to be thread-safe. Use either
+        tango.util.log.Trace or the standard logging facilities in order 
+        to enable atomic console I/O
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="Print.this" href="./htmlsrc/tango.io.Print.html#L110" kind="ctor" beg="110" end="118">this</a><span class="params">(Layout!(T) <em>convert</em>, OutputStream <em>output</em>, T[] <em>eol</em> = Eol)</span>; <a title="Permalink to this symbol" href="#Print.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L110">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a Print instance, tying the provided stream
+                to a layout formatter</div></dd>
+<dt class="decl">Print <a class="symbol _function" name="Print.format" href="./htmlsrc/tango.io.Print.html#L126" kind="function" beg="126" end="130">format</a><span class="params">(T[] <em>fmt</em>, ...)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Print.format" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L126">#</a></dt>
+<dd class="ddef">
+<div class="summary">Layout using the provided formatting specification</div></dd>
+<dt class="decl">Print <a class="symbol _function" name="Print.formatln" href="./htmlsrc/tango.io.Print.html#L138" kind="function" beg="138" end="142">formatln</a><span class="params">(T[] <em>fmt</em>, ...)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Print.formatln" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L138">#</a></dt>
+<dd class="ddef">
+<div class="summary">Layout using the provided formatting specification</div></dd>
+<dt class="decl">Print <a class="symbol _function" name="Print.print" href="./htmlsrc/tango.io.Print.html#L151" kind="function" beg="151" end="165">print</a><span class="params">(...)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Print.print" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L151">#</a></dt>
+<dd class="ddef">
+<div class="summary">Unformatted layout, with commas inserted between args. 
+                Currently supports a maximum of 24 arguments</div></dd>
+<dt class="decl">Print <a class="symbol _function" name="Print.newline" href="./htmlsrc/tango.io.Print.html#L173" kind="function" beg="173" end="179">newline</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Print.newline" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L173">#</a></dt>
+<dd class="ddef">
+<div class="summary">Output a newline and optionally flush</div></dd>
+<dt class="decl">Print <a class="symbol _function" name="Print.flush" href="./htmlsrc/tango.io.Print.html#L188" kind="function" beg="188" end="192">flush</a><span class="params">(bool <em>yes</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Print.flush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L188">#</a></dt>
+<dd class="ddef">
+<div class="summary">Control implicit flushing of newline(), where true enables
+                flushing. An explicit flush() will always flush the output.</div></dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="Print.stream" href="./htmlsrc/tango.io.Print.html#L200" kind="function" beg="200" end="203">stream</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Print.stream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L200">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the associated output stream</div></dd>
+<dt class="decl">Print <a class="symbol _function" name="Print.stream:2" href="./htmlsrc/tango.io.Print.html#L211" kind="function" beg="211" end="215">stream</a><span class="params">(OutputStream <em>output</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Print.stream:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L211">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the associated output stream</div></dd>
+<dt class="decl">Layout!(T) <a class="symbol _function" name="Print.layout" href="./htmlsrc/tango.io.Print.html#L223" kind="function" beg="223" end="226">layout</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Print.layout" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L223">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the associated Layout</div></dd>
+<dt class="decl">Print <a class="symbol _function" name="Print.layout:2" href="./htmlsrc/tango.io.Print.html#L234" kind="function" beg="234" end="238">layout</a><span class="params">(Layout!(T) <em>layout</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Print.layout:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L234">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the associated Layout</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="Print.sink" href="./htmlsrc/tango.io.Print.html#L246" kind="function" beg="246" end="249">sink</a><span class="params">(T[] <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Print.sink" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L246">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sink for passing to the formatter</div></dd>
+<dt class="decl">IConduit <a class="symbol _function" name="Print.conduit" href="./htmlsrc/tango.io.Print.html#L262" kind="function" beg="262" end="265">conduit</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Print.conduit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L262">#</a></dt>
+<dd class="ddef">
+<div class="summary">OutputStream Interface</div>
+Return the host conduit</dd>
+<dt class="decl">uint <a class="symbol _function" name="Print.write" href="./htmlsrc/tango.io.Print.html#L277" kind="function" beg="277" end="280">write</a><span class="params">(void[] <em>src</em>)</span>; <a title="Permalink to this symbol" href="#Print.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L277">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write to conduit from a source array. The provided src
+                content will be written to the conduit.</div>
+Returns the number of bytes written from src, which may
+                be less than the quantity provided</dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="Print.flush:2" href="./htmlsrc/tango.io.Print.html#L288" kind="function" beg="288" end="292">flush</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Print.flush:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L288">#</a></dt>
+<dd class="ddef">
+<div class="summary">Flush the output stream</div></dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="Print.copy" href="./htmlsrc/tango.io.Print.html#L301" kind="function" beg="301" end="305">copy</a><span class="params">(InputStream <em>src</em>)</span>; <a title="Permalink to this symbol" href="#Print.copy" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L301">#</a></dt>
+<dd class="ddef">
+<div class="summary">Transfer the content of another conduit to this one. Returns
+                a reference to this class, and throws IOException on failure.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Print.close" href="./htmlsrc/tango.io.Print.html#L313" kind="function" beg="313" end="316">close</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Print.close" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Print.html#L313">#</a></dt>
+<dd class="ddef">
+<div class="summary">Close the output</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2007 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:58 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

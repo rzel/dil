@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.container.HashSet</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.container.HashSet";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.container.HashSet.html" class="symbol">tango.util.container.HashSet</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Apr 2008: Initial release
+<p class="sec_header">Authors:</p>Kris
+<p class="sec_header">Since:</p>0.99.7
+<p class="bl"/>
+        Based upon Doug Lea's Java collection package
+<dl>
+<dt class="decl">class <a class="symbol _class" name="HashSet" href="./htmlsrc/tango.util.container.HashSet.html#L55" kind="class" beg="55" end="750">HashSet</a><span class="tparams">(V, alias Hash = Container.hash, 
+                  alias Reap = Container.reap, 
+                  alias Heap = Container.Collect)</span> : IContainer!(V); <a title="Permalink to this symbol" href="#HashSet" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L55">#</a></dt>
+<dd class="ddef">
+<div class="summary">Hash table implementation of a Set</div>
+<pre class="d_code">
+<span class="i">Iterator</span> <span class="i">iterator</span> ()
+<span class="k">int</span> <span class="i">opApply</span> (<span class="k">int</span> <span class="k">delegate</span>(<span class="k">ref</span> <span class="i">V</span> <span class="i">value</span>) <span class="i">dg</span>)
+
+<span class="k">bool</span> <span class="i">add</span> (<span class="i">V</span> <span class="i">element</span>)
+<span class="k">bool</span> <span class="i">contains</span> (<span class="i">V</span> <span class="i">element</span>)
+<span class="k">bool</span> <span class="i">take</span> (<span class="k">ref</span> <span class="i">V</span> <span class="i">element</span>)
+<span class="k">bool</span> <span class="i">remove</span> (<span class="i">V</span> <span class="i">element</span>)
+<span class="k">uint</span> <span class="i">remove</span> (<span class="i">IContainer</span>!(<span class="i">V</span>) <span class="i">e</span>)
+<span class="k">bool</span> <span class="i">replace</span> (<span class="i">V</span> <span class="i">oldElement</span>, <span class="i">V</span> <span class="i">newElement</span>)
+
+<span class="k">uint</span> <span class="i">size</span> ()
+<span class="k">bool</span> <span class="i">isEmpty</span> ()
+<span class="i">V</span>[] <span class="i">toArray</span> (<span class="i">V</span>[] <span class="i">dst</span>)
+<span class="i">HashSet</span> <span class="i">dup</span> ()
+<span class="i">HashSet</span> <span class="i">clear</span> ()
+<span class="i">HashSet</span> <span class="i">reset</span> ()
+
+<span class="k">uint</span> <span class="i">buckets</span> ()
+<span class="k">void</span> <span class="i">buckets</span> (<span class="k">uint</span> <span class="i">cap</span>)
+<span class="k">float</span> <span class="i">threshold</span> ()
+<span class="k">void</span> <span class="i">threshold</span> (<span class="k">float</span> <span class="i">desired</span>)
+</pre>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="HashSet.this" href="./htmlsrc/tango.util.container.HashSet.html#L88" kind="ctor" beg="88" end="91">this</a><span class="params">(float <em>f</em> = Container.defaultLoadFactor)</span>; <a title="Permalink to this symbol" href="#HashSet.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L88">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a HashSet instance</div></dd>
+<dt class="decl"><a class="symbol _dtor" name="HashSet.~this" href="./htmlsrc/tango.util.container.HashSet.html#L99" kind="dtor" beg="99" end="102">~this</a>(); <a title="Permalink to this symbol" href="#HashSet.~this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L99">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clean up when deleted</div></dd>
+<dt class="decl">Alloc <a class="symbol _function" name="HashSet.allocator" href="./htmlsrc/tango.util.container.HashSet.html#L110" kind="function" beg="110" end="113">allocator</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.allocator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L110">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the configured allocator</div></dd>
+<dt class="decl">Iterator <a class="symbol _function" name="HashSet.iterator" href="./htmlsrc/tango.util.container.HashSet.html#L121" kind="function" beg="121" end="130">iterator</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.iterator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L121">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a generic iterator for contained elements</div></dd>
+<dt class="decl">int <a class="symbol _function" name="HashSet.opApply" href="./htmlsrc/tango.util.container.HashSet.html#L137" kind="function" beg="137" end="141">opApply</a><span class="params">(int delegate(ref V value) <em>dg</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L137">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="HashSet.size" href="./htmlsrc/tango.util.container.HashSet.html#L149" kind="function" beg="149" end="152">size</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L149">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the number of elements contained</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashSet.add" href="./htmlsrc/tango.util.container.HashSet.html#L164" kind="function" beg="164" end="182">add</a><span class="params">(V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.add" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L164">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add a new element to the set. Does not add if there is an
+                equivalent already present. Returns true where an element
+                is added, false where it already exists
+                
+                Time complexity: O(1) average; O(n) worst.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashSet.contains" href="./htmlsrc/tango.util.container.HashSet.html#L192" kind="function" beg="192" end="201">contains</a><span class="params">(V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.contains" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L192">#</a></dt>
+<dd class="ddef">
+<div class="summary">Does this set contain the given element?
+        
+                Time complexity: O(1) average; O(n) worst</div></dd>
+<dt class="decl">HashSet <a class="symbol _function" name="HashSet.dup" href="./htmlsrc/tango.util.container.HashSet.html#L212" kind="function" beg="212" end="224">dup</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.dup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L212">#</a></dt>
+<dd class="ddef">
+<div class="summary">Make an independent copy of the container. Does not clone
+                elements
+                
+                Time complexity: O(n)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="HashSet.remove" href="./htmlsrc/tango.util.container.HashSet.html#L235" kind="function" beg="235" end="238">remove</a><span class="params">(V <em>element</em>, bool <em>all</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L235">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove the provided element. Returns true if found, false
+                otherwise
+                
+                Time complexity: O(1) average; O(n) worst</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashSet.remove:2" href="./htmlsrc/tango.util.container.HashSet.html#L249" kind="function" beg="249" end="281">remove</a><span class="params">(V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.remove:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L249">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove the provided element. Returns true if found, false
+                otherwise
+                
+                Time complexity: O(1) average; O(n) worst</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="HashSet.replace" href="./htmlsrc/tango.util.container.HashSet.html#L291" kind="function" beg="291" end="294">replace</a><span class="params">(V <em>oldElement</em>, V <em>newElement</em>, bool <em>all</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.replace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L291">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace the first instance of oldElement with newElement.
+                Returns true if oldElement was found and replaced, false
+                otherwise.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashSet.replace:2" href="./htmlsrc/tango.util.container.HashSet.html#L304" kind="function" beg="304" end="315">replace</a><span class="params">(V <em>oldElement</em>, V <em>newElement</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.replace:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L304">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace the first instance of oldElement with newElement.
+                Returns true if oldElement was found and replaced, false
+                otherwise.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashSet.take" href="./htmlsrc/tango.util.container.HashSet.html#L326" kind="function" beg="326" end="339">take</a><span class="params">(ref V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.take" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L326">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove and expose the first element. Returns false when no
+                more elements are contained
+        
+                Time complexity: O(n)</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HashSet.add:2" href="./htmlsrc/tango.util.container.HashSet.html#L345" kind="function" beg="345" end="349">add</a><span class="params">(IContainer!(V) <em>e</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#HashSet.add:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L345">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="HashSet.remove:3" href="./htmlsrc/tango.util.container.HashSet.html#L355" kind="function" beg="355" end="362">remove</a><span class="params">(IContainer!(V) <em>e</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#HashSet.remove:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L355">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">HashSet <a class="symbol _function" name="HashSet.clear" href="./htmlsrc/tango.util.container.HashSet.html#L374" kind="function" beg="374" end="377">clear</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L374">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clears the HashMap contents. Various attributes are
+                retained, such as the internal table itself. Invoke
+                reset() to drop everything.</div>
+Time complexity: O(n)</dd>
+<dt class="decl">HashSet <a class="symbol _function" name="HashSet.reset" href="./htmlsrc/tango.util.container.HashSet.html#L388" kind="function" beg="388" end="394">reset</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.reset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L388">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reset the HashSet contents and optionally configure a new
+                heap manager. This releases more memory than clear() does</div>
+Time complexity: O(1)</dd>
+<dt class="decl">uint <a class="symbol _function" name="HashSet.buckets" href="./htmlsrc/tango.util.container.HashSet.html#L404" kind="function" beg="404" end="407">buckets</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.buckets" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L404">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the number of buckets</div>
+Time complexity: O(1)</dd>
+<dt class="decl">void <a class="symbol _function" name="HashSet.buckets:2" href="./htmlsrc/tango.util.container.HashSet.html#L417" kind="function" beg="417" end="424">buckets</a><span class="params">(uint <em>cap</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.buckets:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L417">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the number of buckets and resize as required
+                
+                Time complexity: O(n)</div></dd>
+<dt class="decl">float <a class="symbol _function" name="HashSet.threshold" href="./htmlsrc/tango.util.container.HashSet.html#L434" kind="function" beg="434" end="437">threshold</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.threshold" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L434">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the resize threshold
+                
+                Time complexity: O(1)</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HashSet.threshold:2" href="./htmlsrc/tango.util.container.HashSet.html#L447" kind="function" beg="447" end="453">threshold</a><span class="params">(float <em>desired</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.threshold:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L447">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the resize threshold, and resize as required
+                
+                Time complexity: O(n)</div></dd>
+<dt class="decl">V[] <a class="symbol _function" name="HashSet.toArray" href="./htmlsrc/tango.util.container.HashSet.html#L467" kind="function" beg="467" end="476">toArray</a><span class="params">(V[] <em>dst</em> = null)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.toArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L467">#</a></dt>
+<dd class="ddef">
+<div class="summary">Copy and return the contained set of values in an array, 
+                using the optional dst as a recipient (which is resized 
+                as necessary).</div>
+Returns a slice of dst representing the container values.
+                
+                Time complexity: O(n)</dd>
+<dt class="decl">bool <a class="symbol _function" name="HashSet.isEmpty" href="./htmlsrc/tango.util.container.HashSet.html#L486" kind="function" beg="486" end="489">isEmpty</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.isEmpty" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L486">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is this container empty?
+                
+                Time complexity: O(1)</div></dd>
+<dt class="decl">HashSet <a class="symbol _function" name="HashSet.check" href="./htmlsrc/tango.util.container.HashSet.html#L497" kind="function" beg="497" end="518">check</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashSet.check" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L497">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sanity check</div></dd>
+<dt class="decl">Ref <a class="symbol _function" name="HashSet.allocate" href="./htmlsrc/tango.util.container.HashSet.html#L526" kind="function" beg="526" end="529">allocate</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashSet.allocate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L526">#</a></dt>
+<dd class="ddef">
+<div class="summary">Allocate a node instance. This is used as the default allocator</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HashSet.checkLoad" href="./htmlsrc/tango.util.container.HashSet.html#L538" kind="function" beg="538" end="544">checkLoad</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashSet.checkLoad" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L538">#</a></dt>
+<dd class="ddef">
+<div class="summary">Check to see if we are past load factor threshold. If so,
+                 resize so that we are at half of the desired threshold.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HashSet.resize" href="./htmlsrc/tango.util.container.HashSet.html#L552" kind="function" beg="552" end="571">resize</a><span class="params">(uint <em>newCap</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashSet.resize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L552">#</a></dt>
+<dd class="ddef">
+<div class="summary">resize table to new capacity, rehashing all elements</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashSet.remove:4" href="./htmlsrc/tango.util.container.HashSet.html#L583" kind="function" beg="583" end="608">remove</a><span class="params">(Ref <em>node</em>, uint <em>row</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashSet.remove:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L583">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove the indicated node. We need to traverse buckets
+                for this, since we're singly-linked only. Better to save
+                the per-node memory than to gain a little on each remove</div>
+Used by iterators only</dd>
+<dt class="decl">HashSet <a class="symbol _function" name="HashSet.clear:2" href="./htmlsrc/tango.util.container.HashSet.html#L620" kind="function" beg="620" end="640">clear</a><span class="params">(bool <em>all</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashSet.clear:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L620">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clears the HashSet contents. Various attributes are
+                retained, such as the internal table itself. Invoke
+                reset() to drop everything.</div>
+Time complexity: O(n)</dd>
+<dt class="decl">void <a class="symbol _function" name="HashSet.increment" href="./htmlsrc/tango.util.container.HashSet.html#L648" kind="function" beg="648" end="652">increment</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashSet.increment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L648">#</a></dt>
+<dd class="ddef">
+<div class="summary">new element was added</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HashSet.decrement" href="./htmlsrc/tango.util.container.HashSet.html#L660" kind="function" beg="660" end="666">decrement</a><span class="params">(Ref <em>p</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashSet.decrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L660">#</a></dt>
+<dd class="ddef">
+<div class="summary">element was removed</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HashSet.mutate" href="./htmlsrc/tango.util.container.HashSet.html#L674" kind="function" beg="674" end="677">mutate</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashSet.mutate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L674">#</a></dt>
+<dd class="ddef">
+<div class="summary">set was changed</div></dd>
+<dt class="decl">struct <a class="symbol _struct" name="HashSet.Freach" href="./htmlsrc/tango.util.container.HashSet.html#L685" kind="struct" beg="685" end="699">Freach</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashSet.Freach" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L685">#</a></dt>
+<dd class="ddef">
+<div class="summary">foreach support for iterators</div>
+</dd>
+<dt class="decl">struct <a class="symbol _struct" name="HashSet.Iterator" href="./htmlsrc/tango.util.container.HashSet.html#L707" kind="struct" beg="707" end="749">Iterator</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashSet.Iterator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashSet.html#L707">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterator with no filtering</div>
+</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2008 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:07 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

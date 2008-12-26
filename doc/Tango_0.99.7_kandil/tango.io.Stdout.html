@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.Stdout</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.Stdout";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.Stdout.html" class="symbol">tango.io.Stdout</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Nov 2005: Initial release
+<p class="sec_header">Author:</p>Kris
+<p class="bl"/>
+        Standard, global formatters for console output. If you don't need
+        formatted output or unicode translation, consider using the module
+        tango.io.Console directly
+<p class="bl"/>
+        Stdout &amp; Stderr expose this style of usage:
+        <pre class="d_code">
+<span class="i">Stdout</span> (<span class="sl">"hello"</span>);                       =&gt; <span class="i">hello</span>
+<span class="i">Stdout</span> (<span class="n">1</span>);                             =&gt; <span class="n">1</span>
+<span class="i">Stdout</span> (<span class="n">3.14</span>);                          =&gt; <span class="n">3.14</span>
+<span class="i">Stdout</span> (<span class="cl">'b'</span>);                           =&gt; <span class="i">b</span>
+<span class="i">Stdout</span> (<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>);                       =&gt; <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>         
+<span class="i">Stdout</span> (<span class="sl">"abc"</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>);                =&gt; <span class="i">abc</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>        
+<span class="i">Stdout</span> (<span class="sl">"abc"</span>, <span class="n">1</span>, <span class="n">2</span>) (<span class="sl">"foo"</span>);           =&gt; <span class="i">abc</span>, <span class="n">1</span>, <span class="n">2f</span><span class="i">oo</span>        
+<span class="i">Stdout</span> (<span class="sl">"abc"</span>) (<span class="sl">"def"</span>) (<span class="n">3.14</span>);          =&gt; <span class="i">abcdef3</span><span class="n">.14</span>
+
+<span class="i">Stdout</span>.<span class="i">format</span> (<span class="sl">"abc {}"</span>, <span class="n">1</span>);            =&gt; <span class="i">abc</span> <span class="n">1</span>
+<span class="i">Stdout</span>.<span class="i">format</span> (<span class="sl">"abc {}:{}"</span>, <span class="n">1</span>, <span class="n">2</span>);      =&gt; <span class="i">abc</span> <span class="n">1</span>:<span class="n">2</span>
+<span class="i">Stdout</span>.<span class="i">format</span> (<span class="sl">"abc {1}:{0}"</span>, <span class="n">1</span>, <span class="n">2</span>);    =&gt; <span class="i">abc</span> <span class="n">2</span>:<span class="n">1</span>
+<span class="i">Stdout</span>.<span class="i">format</span> (<span class="sl">"abc "</span>, <span class="n">1</span>);              =&gt; <span class="i">abc</span>
+</pre>
+<p class="bl"/>
+        Note that the last example does not throw an exception. There
+        are several use-cases where dropping an argument is legitimate,
+        so we're currently not enforcing any particular trap mechanism.
+<p class="bl"/>
+        Flushing the output is achieved through the flush() method, or
+        via an empty pair of parens: 
+        <pre class="d_code">
+<span class="i">Stdout</span> (<span class="sl">"hello world"</span>) ();
+<span class="i">Stdout</span> (<span class="sl">"hello world"</span>).<span class="i">flush</span>;
+
+<span class="i">Stdout</span>.<span class="i">format</span> (<span class="sl">"hello {}"</span>, <span class="sl">"world"</span>) ();
+<span class="i">Stdout</span>.<span class="i">format</span> (<span class="sl">"hello {}"</span>, <span class="sl">"world"</span>).<span class="i">flush</span>;
+</pre>
+        
+        Special character sequences, such as "\n", are written directly to
+        the output without any translation (though an output-filter could
+        be inserted to perform translation as required). Platform-specific 
+        newlines are generated instead via the newline() method, which also 
+        flushes the output when configured to do so:
+        <pre class="d_code">
+<span class="i">Stdout</span> (<span class="sl">"hello "</span>) (<span class="sl">"world"</span>).<span class="i">newline</span>;
+<span class="i">Stdout</span>.<span class="i">format</span> (<span class="sl">"hello {}"</span>, <span class="sl">"world"</span>).<span class="i">newline</span>;
+<span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"hello {}"</span>, <span class="sl">"world"</span>);
+</pre>
+<p class="bl"/>
+        The format() method of both Stderr and Stdout support the range
+        of formatting options provided by tango.text.convert.Layout and
+        extensions thereof; including the full I18N extensions where it
+        has been configured in that manner. To enable a French Stdout, 
+        do the following:
+        <pre class="d_code">
+<span class="k">import</span> <span class="i">tango</span>.<span class="i">text</span>.<span class="i">locale</span>.<span class="i">Locale</span>;
+
+<span class="i">Stdout</span>.<span class="i">layout</span> = <span class="k">new</span> <span class="i">Locale</span> (<span class="i">Culture</span>.<span class="i">getCulture</span> (<span class="sl">"fr-FR"</span>));
+</pre>
+        
+        Note that Stdout is a shared entity, so every usage of it will
+        be affected by the above example. For applications supporting 
+        multiple regions, create multiple Locale instances instead and 
+        cache them in an appropriate manner
+<p class="bl"/>
+        Note also that the output-stream in use is exposed by these
+        global instances ~ this can be leveraged, for instance, to copy a
+        file to the standard output:
+        <pre class="d_code">
+<span class="i">Stdout</span>.<span class="i">copy</span> (<span class="k">new</span> <span class="i">FileConduit</span> (<span class="sl">"myfile"</span>));
+</pre>
+<p class="bl"/>
+        Note that Stdout is *not* intended to be thread-safe. Use either
+        tango.util.log.Trace or the standard logging facilities in order 
+        to enable atomic console I/O
+<dl>
+<dt class="decl">static <a class="symbol _sctor" name="this" href="./htmlsrc/tango.io.Stdout.html#L99" kind="sctor" beg="99" end="108">this</a>(); <a title="Permalink to this symbol" href="#this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Stdout.html#L99">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct Stdout &amp; Stderr when this module is loaded</div></dd>
+<dt class="decl">Print!(char) <a class="symbol _variable" name="Stdout" href="./htmlsrc/tango.io.Stdout.html#L110" kind="variable" beg="110" end="111">Stdout</a>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Stdout" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Stdout.html#L110">#</a></dt>
+<dt class="decl">Print!(char) <a class="symbol _variable" name="Stderr" href="./htmlsrc/tango.io.Stdout.html#L110" kind="variable" beg="110" end="111">Stderr</a>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Stderr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Stdout.html#L110">#</a></dt>
+<dd class="ddef">
+<div class="summary">global error output</div></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2005 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:58 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.collection.ArrayBag</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.collection.ArrayBag";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.collection.ArrayBag.html" class="symbol">tango.util.collection.ArrayBag</a></h1>
+  
+<dl>
+<dt class="decl">class <a class="symbol _class" name="ArrayBag" href="./htmlsrc/tango.util.collection.ArrayBag.html#L54" kind="class" beg="54" end="588">ArrayBag</a><span class="tparams">(T)</span> : BagCollection!(T); <a title="Permalink to this symbol" href="#ArrayBag" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L54">#</a></dt>
+<dd class="ddef">
+<div class="summary">Linked Buffer implementation of Bags. The Bag consists of
+ any number of buffers holding elements, arranged in a list.
+ Each buffer holds an array of elements. The size of each
+ buffer is the value of chunkSize that was current during the
+ operation that caused the Bag to grow. The chunkSize() may
+ be adjusted at any time. (It is not considered a version change.)
+ 
+ <P>
+ All but the final buffer is always kept full.
+ When a buffer has no elements, it is released (so is
+ available for garbage collection).
+ <P>
+ ArrayBags are good choices for collections in which
+ you merely put a lot of things in, and then look at
+ them via enumerations, but don't often look for
+ particular elements.</div>
+<p class="sec_header">Author:</p>Doug Lea
+ @version 0.93
+<p class="bl"/>
+ <P> For an introduction to this package see <A HREF="index.html"> Overview </A>.
+<dl>
+<dt class="decl">int <a class="symbol _variable" name="ArrayBag.defaultChunkSize" href="./htmlsrc/tango.util.collection.ArrayBag.html#L65" kind="variable" beg="65" end="65">defaultChunkSize</a>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.defaultChunkSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L65">#</a></dt>
+<dd class="ddef">
+<div class="summary">The default chunk size to use for buffers</div></dd>
+<dt class="decl">CLCellT <a class="symbol _variable" name="ArrayBag.tail" href="./htmlsrc/tango.util.collection.ArrayBag.html#L73" kind="variable" beg="73" end="73">tail</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.tail" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L73">#</a></dt>
+<dd class="ddef">
+<div class="summary">The last node of the circular list of chunks. Null if empty.</div></dd>
+<dt class="decl">int <a class="symbol _variable" name="ArrayBag.lastCount" href="./htmlsrc/tango.util.collection.ArrayBag.html#L79" kind="variable" beg="79" end="79">lastCount</a>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.lastCount" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L79">#</a></dt>
+<dd class="ddef">
+<div class="summary">The number of elements of the tail node actually used. (all others
+ are kept full).</div></dd>
+<dt class="decl">int <a class="symbol _variable" name="ArrayBag.chunkSize_" href="./htmlsrc/tango.util.collection.ArrayBag.html#L85" kind="variable" beg="85" end="85">chunkSize_</a>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.chunkSize_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L85">#</a></dt>
+<dd class="ddef">
+<div class="summary">The chunk size to use for making next buffer</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="ArrayBag.this" href="./htmlsrc/tango.util.collection.ArrayBag.html#L92" kind="ctor" beg="92" end="95">this</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L92">#</a></dt>
+<dd class="ddef">
+<div class="summary">Make an empty buffer.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="ArrayBag.this:2" href="./htmlsrc/tango.util.collection.ArrayBag.html#L101" kind="ctor" beg="101" end="104">this</a><span class="params">(Predicate <em>s</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L101">#</a></dt>
+<dd class="ddef">
+<div class="summary">Make an empty buffer, using the supplied element screener.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="ArrayBag.this:3" href="./htmlsrc/tango.util.collection.ArrayBag.html#L109" kind="ctor" beg="109" end="116">this</a><span class="params">(Predicate <em>s</em>, int <em>n</em>, CLCellT <em>t</em>, int <em>lc</em>, int <em>cs</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.this:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L109">#</a></dt>
+<dd class="ddef">
+<div class="summary">Special version of constructor needed by clone()</div></dd>
+<dt class="decl">ArrayBag!(T) <a class="symbol _function" name="ArrayBag.duplicate" href="./htmlsrc/tango.util.collection.ArrayBag.html#L122" kind="function" beg="122" end="144">duplicate</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.duplicate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L122">#</a></dt>
+<dd class="ddef">
+<div class="summary">Make an independent copy. Does not clone elements.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="ArrayBag.chunkSize" href="./htmlsrc/tango.util.collection.ArrayBag.html#L151" kind="function" beg="151" end="154">chunkSize</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.chunkSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L151">#</a></dt>
+<dd class="ddef">
+<div class="summary">Report the chunk size used when adding new buffers to the list</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ArrayBag.chunkSize:2" href="./htmlsrc/tango.util.collection.ArrayBag.html#L163" kind="function" beg="163" end="169">chunkSize</a><span class="params">(int <em>newChunkSize</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.chunkSize:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L163">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the chunk size to be used when adding new buffers to the 
+ list during future add() operations.
+ Any value greater than 0 is OK. (A value of 1 makes this a
+ into very slow simulation of a linked list!)</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="ArrayBag.contains" href="./htmlsrc/tango.util.collection.ArrayBag.html#L183" kind="function" beg="183" end="213">contains</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.contains" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L183">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.impl.Collection.Collection.contains
+ Time complexity: O(n).</div>
+<p class="sec_header">See Also:</p>tango.util.collection.impl.Collection.Collection.contains</dd>
+<dt class="decl">uint <a class="symbol _function" name="ArrayBag.instances" href="./htmlsrc/tango.util.collection.ArrayBag.html#L220" kind="function" beg="220" end="251">instances</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.instances" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L220">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.impl.Collection.Collection.instances
+ Time complexity: O(n).</div>
+<p class="sec_header">See Also:</p>tango.util.collection.impl.Collection.instances</dd>
+<dt class="decl">GuardIterator!(T) <a class="symbol _function" name="ArrayBag.elements" href="./htmlsrc/tango.util.collection.ArrayBag.html#L258" kind="function" beg="258" end="261">elements</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.elements" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L258">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.impl.Collection.Collection.elements
+ Time complexity: O(1).</div>
+<p class="sec_header">See Also:</p>tango.util.collection.impl.Collection.Collection.elements</dd>
+<dt class="decl">int <a class="symbol _function" name="ArrayBag.opApply" href="./htmlsrc/tango.util.collection.ArrayBag.html#L268" kind="function" beg="268" end="272">opApply</a><span class="params">(int delegate (inout T value) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#ArrayBag.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L268">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.model.View.View.opApply
+ Time complexity: O(n).</div>
+<p class="sec_header">See Also:</p>tango.util.collection.model.View.View.opApply</dd>
+<dt class="decl">void <a class="symbol _function" name="ArrayBag.clear" href="./htmlsrc/tango.util.collection.ArrayBag.html#L281" kind="function" beg="281" end="286">clear</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L281">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.impl.Collection.Collection.clear.
+ Time complexity: O(1).</div>
+<p class="sec_header">See Also:</p>tango.util.collection.impl.Collection.Collection.clear</dd>
+<dt class="decl">void <a class="symbol _function" name="ArrayBag.removeAll" href="./htmlsrc/tango.util.collection.ArrayBag.html#L293" kind="function" beg="293" end="296">removeAll</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.removeAll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L293">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.impl.Collection.Collection.removeAll.
+ Time complexity: O(n).</div>
+<p class="sec_header">See Also:</p>tango.util.collection.impl.Collection.Collection.removeAll</dd>
+<dt class="decl">void <a class="symbol _function" name="ArrayBag.remove" href="./htmlsrc/tango.util.collection.ArrayBag.html#L304" kind="function" beg="304" end="307">remove</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L304">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.impl.Collection.Collection.removeOneOf.
+ Time complexity: O(n).</div>
+<p class="sec_header">See Also:</p>tango.util.collection.impl.Collection.Collection.removeOneOf</dd>
+<dt class="decl">void <a class="symbol _function" name="ArrayBag.replace" href="./htmlsrc/tango.util.collection.ArrayBag.html#L314" kind="function" beg="314" end="317">replace</a><span class="params">(T <em>oldElement</em>, T <em>newElement</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.replace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L314">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.impl.Collection.Collection.replaceOneOf
+ Time complexity: O(n).</div>
+<p class="sec_header">See Also:</p>tango.util.collection.impl.Collection.Collection.replaceOneOf</dd>
+<dt class="decl">void <a class="symbol _function" name="ArrayBag.replaceAll" href="./htmlsrc/tango.util.collection.ArrayBag.html#L324" kind="function" beg="324" end="327">replaceAll</a><span class="params">(T <em>oldElement</em>, T <em>newElement</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.replaceAll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L324">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.impl.Collection.Collection.replaceAllOf.
+ Time complexity: O(n).</div>
+<p class="sec_header">See Also:</p>tango.util.collection.impl.Collection.Collection.replaceAllOf</dd>
+<dt class="decl">T <a class="symbol _function" name="ArrayBag.take" href="./htmlsrc/tango.util.collection.ArrayBag.html#L335" kind="function" beg="335" end="347">take</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.take" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L335">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.impl.Collection.Collection.take.
+ Time complexity: O(1).
+ Takes the least element.</div>
+<p class="sec_header">See Also:</p>tango.util.collection.impl.Collection.Collection.take</dd>
+<dt class="decl">void <a class="symbol _function" name="ArrayBag.addIf" href="./htmlsrc/tango.util.collection.ArrayBag.html#L358" kind="function" beg="358" end="362">addIf</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.addIf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L358">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.MutableBag.addIfAbsent.
+ Time complexity: O(n).</div>
+<p class="sec_header">See Also:</p>tango.util.collection.MutableBag.addIfAbsent</dd>
+<dt class="decl">void <a class="symbol _function" name="ArrayBag.add" href="./htmlsrc/tango.util.collection.ArrayBag.html#L370" kind="function" beg="370" end="391">add</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.add" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L370">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.MutableBag.add.
+ Time complexity: O(1).</div>
+<p class="sec_header">See Also:</p>tango.util.collection.MutableBag.add</dd>
+<dt class="decl">void <a class="symbol _function" name="ArrayBag.remove_" href="./htmlsrc/tango.util.collection.ArrayBag.html#L397" kind="function" beg="397" end="433">remove_</a><span class="params">(T <em>element</em>, bool <em>allOccurrences</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.remove_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L397">#</a></dt>
+<dd class="ddef">
+<div class="summary">helper for remove/exclude</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ArrayBag.checkImplementation" href="./htmlsrc/tango.util.collection.ArrayBag.html#L497" kind="function" beg="497" end="537">checkImplementation</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#ArrayBag.checkImplementation" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L497">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.model.View.View.checkImplementation.</div>
+<p class="sec_header">See Also:</p>tango.util.collection.model.View.View.checkImplementation</dd>
+<dt class="decl">class <a class="symbol _class" name="ArrayBag.ArrayIterator" href="./htmlsrc/tango.util.collection.ArrayBag.html#L548" kind="class" beg="548" end="587">ArrayIterator</a><span class="tparams">(T)</span> : AbstractIterator!(T); <a title="Permalink to this symbol" href="#ArrayBag.ArrayIterator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.ArrayBag.html#L548">#</a></dt>
+<dd class="ddef">
+<div class="summary">opApply() has migrated here to mitigate the virtual call
+                on method get()</div>
+</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p></p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:08 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

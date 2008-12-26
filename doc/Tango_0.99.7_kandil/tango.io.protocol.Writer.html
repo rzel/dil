@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.protocol.Writer</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.protocol.Writer";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.protocol.Writer.html" class="symbol">tango.io.protocol.Writer</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Oct 2004: Initial release      
+                        Dec 2006: Outback release
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Writer" href="./htmlsrc/tango.io.protocol.Writer.html#L77" kind="class" beg="77" end="586">Writer</a> : IWriter; <a title="Permalink to this symbol" href="#Writer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L77">#</a></dt>
+<dd class="ddef">
+<div class="summary">Writer base-class. Writers provide the means to append formatted 
+        data to an IBuffer, and expose a convenient method of handling a
+        variety of data types. In addition to writing native types such
+        as integer and char[], writers also process any class which has
+        implemented the IWritable interface (one method).</div>
+All writers support the full set of native data types, plus their
+        fundamental array variants. Operations may be chained back-to-back.
+<p class="bl"/>
+        Writers support a Java-esque put() notation. However, the Tango style
+        is to place IO elements within their own parenthesis, like so:
+<p class="bl"/>
+        <pre class="d_code">
+<span class="i">write</span> (<span class="i">count</span>) (<span class="sl">" green bottles"</span>);
+</pre>
+<p class="bl"/>
+        Note that each written element is distict; this style is affectionately
+        known as "whisper". The code below illustrates basic operation upon a
+        memory buffer:
+        
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">buf</span> = <span class="k">new</span> <span class="i">Buffer</span> (<span class="n">256</span>);
+
+<span class="lc">// map same buffer into both reader and writer</span>
+<span class="k">auto</span> <span class="i">read</span> = <span class="k">new</span> <span class="i">Reader</span> (<span class="i">buf</span>);
+<span class="k">auto</span> <span class="i">write</span> = <span class="k">new</span> <span class="i">Writer</span> (<span class="i">buf</span>);
+
+<span class="k">int</span> <span class="i">i</span> = <span class="n">10</span>;
+<span class="k">long</span> <span class="i">j</span> = <span class="n">20</span>;
+<span class="k">double</span> <span class="i">d</span> = <span class="n">3.14159</span>;
+<span class="k">char</span>[] <span class="i">c</span> = <span class="sl">"fred"</span>;
+
+<span class="lc">// write data types out</span>
+<span class="i">write</span> (<span class="i">c</span>) (<span class="i">i</span>) (<span class="i">j</span>) (<span class="i">d</span>);
+
+<span class="lc">// read them back again</span>
+<span class="i">read</span> (<span class="i">c</span>) (<span class="i">i</span>) (<span class="i">j</span>) (<span class="i">d</span>);
+
+
+<span class="lc">// same thing again, but using put() syntax instead</span>
+<span class="i">write</span>.<span class="i">put</span>(<span class="i">c</span>).<span class="i">put</span>(<span class="i">i</span>).<span class="i">put</span>(<span class="i">j</span>).<span class="i">put</span>(<span class="i">d</span>);
+<span class="i">read</span>.<span class="i">get</span>(<span class="i">c</span>).<span class="i">get</span>(<span class="i">i</span>).<span class="i">get</span>(<span class="i">j</span>).<span class="i">get</span>(<span class="i">d</span>);
+</pre>
+<p class="bl"/>
+        Writers may also be used with any class implementing the IWritable
+        interface, along with any struct implementing an equivalent function.
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="Writer.this" href="./htmlsrc/tango.io.protocol.Writer.html#L96" kind="ctor" beg="96" end="101">this</a><span class="params">(IProtocol <em>protocol</em>)</span>; <a title="Permalink to this symbol" href="#Writer.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L96">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a Writer on the provided Protocol</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="Writer.this:2" href="./htmlsrc/tango.io.protocol.Writer.html#L110" kind="ctor" beg="110" end="117">this</a><span class="params">(OutputStream <em>stream</em>)</span>; <a title="Permalink to this symbol" href="#Writer.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L110">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a Writer on the given OutputStream. We do our own
+                protocol handling, equivalent to the NativeProtocol.</div></dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="Writer.buffer" href="./htmlsrc/tango.io.protocol.Writer.html#L125" kind="function" beg="125" end="128">buffer</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.buffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L125">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the associated buffer</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.newline" href="./htmlsrc/tango.io.protocol.Writer.html#L136" kind="function" beg="136" end="139">newline</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Writer.newline" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L136">#</a></dt>
+<dd class="ddef">
+<div class="summary">Emit a newline</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.newline:2" href="./htmlsrc/tango.io.protocol.Writer.html#L147" kind="function" beg="147" end="151">newline</a><span class="params">(char[] <em>eol</em>)</span>; <a title="Permalink to this symbol" href="#Writer.newline:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L147">#</a></dt>
+<dd class="ddef">
+<div class="summary">set the newline sequence</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.flush" href="./htmlsrc/tango.io.protocol.Writer.html#L159" kind="function" beg="159" end="163">flush</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.flush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L159">#</a></dt>
+<dd class="ddef">
+<div class="summary">Flush the output of this writer and return a chaining ref</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put" href="./htmlsrc/tango.io.protocol.Writer.html#L172" kind="function" beg="172" end="175">put</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L172">#</a></dt>
+<dd class="ddef">
+<div class="summary">Flush this writer. This is a convenience method used by
+                the "whisper" syntax.</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:2" href="./htmlsrc/tango.io.protocol.Writer.html#L183" kind="function" beg="183" end="187">put</a><span class="params">(IWriter.Closure <em>dg</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L183">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write via a delegate to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:3" href="./htmlsrc/tango.io.protocol.Writer.html#L195" kind="function" beg="195" end="201">put</a><span class="params">(IWritable <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L195">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a class to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:4" href="./htmlsrc/tango.io.protocol.Writer.html#L209" kind="function" beg="209" end="213">put</a><span class="params">(bool <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L209">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a boolean value to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:5" href="./htmlsrc/tango.io.protocol.Writer.html#L221" kind="function" beg="221" end="225">put</a><span class="params">(ubyte <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L221">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write an unsigned byte value to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:6" href="./htmlsrc/tango.io.protocol.Writer.html#L233" kind="function" beg="233" end="237">put</a><span class="params">(byte <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L233">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a byte value to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:7" href="./htmlsrc/tango.io.protocol.Writer.html#L245" kind="function" beg="245" end="249">put</a><span class="params">(ushort <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L245">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write an unsigned short value to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:8" href="./htmlsrc/tango.io.protocol.Writer.html#L257" kind="function" beg="257" end="261">put</a><span class="params">(short <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L257">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a short value to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:9" href="./htmlsrc/tango.io.protocol.Writer.html#L269" kind="function" beg="269" end="273">put</a><span class="params">(uint <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L269">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a unsigned int value to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:10" href="./htmlsrc/tango.io.protocol.Writer.html#L281" kind="function" beg="281" end="285">put</a><span class="params">(int <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L281">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write an int value to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:11" href="./htmlsrc/tango.io.protocol.Writer.html#L293" kind="function" beg="293" end="297">put</a><span class="params">(ulong <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L293">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write an unsigned long value to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:12" href="./htmlsrc/tango.io.protocol.Writer.html#L305" kind="function" beg="305" end="309">put</a><span class="params">(long <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L305">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a long value to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:13" href="./htmlsrc/tango.io.protocol.Writer.html#L317" kind="function" beg="317" end="321">put</a><span class="params">(float <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L317">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a float value to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:14" href="./htmlsrc/tango.io.protocol.Writer.html#L329" kind="function" beg="329" end="333">put</a><span class="params">(double <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L329">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a double value to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:15" href="./htmlsrc/tango.io.protocol.Writer.html#L341" kind="function" beg="341" end="345">put</a><span class="params">(real <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L341">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a real value to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:16" href="./htmlsrc/tango.io.protocol.Writer.html#L353" kind="function" beg="353" end="357">put</a><span class="params">(char <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L353">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a char value to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:17" href="./htmlsrc/tango.io.protocol.Writer.html#L365" kind="function" beg="365" end="369">put</a><span class="params">(wchar <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L365">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a wchar value to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:18" href="./htmlsrc/tango.io.protocol.Writer.html#L377" kind="function" beg="377" end="381">put</a><span class="params">(dchar <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L377">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a dchar value to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:19" href="./htmlsrc/tango.io.protocol.Writer.html#L389" kind="function" beg="389" end="393">put</a><span class="params">(bool[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:19" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L389">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a boolean array to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:20" href="./htmlsrc/tango.io.protocol.Writer.html#L401" kind="function" beg="401" end="405">put</a><span class="params">(byte[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:20" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L401">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a byte array to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:21" href="./htmlsrc/tango.io.protocol.Writer.html#L413" kind="function" beg="413" end="417">put</a><span class="params">(ubyte[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:21" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L413">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write an unsigned byte array to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:22" href="./htmlsrc/tango.io.protocol.Writer.html#L425" kind="function" beg="425" end="429">put</a><span class="params">(short[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:22" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L425">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a short array to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:23" href="./htmlsrc/tango.io.protocol.Writer.html#L437" kind="function" beg="437" end="441">put</a><span class="params">(ushort[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:23" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L437">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write an unsigned short array to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:24" href="./htmlsrc/tango.io.protocol.Writer.html#L449" kind="function" beg="449" end="453">put</a><span class="params">(int[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:24" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L449">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write an int array to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:25" href="./htmlsrc/tango.io.protocol.Writer.html#L461" kind="function" beg="461" end="465">put</a><span class="params">(uint[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:25" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L461">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write an unsigned int array to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:26" href="./htmlsrc/tango.io.protocol.Writer.html#L473" kind="function" beg="473" end="477">put</a><span class="params">(long[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:26" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L473">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a long array to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:27" href="./htmlsrc/tango.io.protocol.Writer.html#L485" kind="function" beg="485" end="489">put</a><span class="params">(ulong[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:27" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L485">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write an unsigned long array to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:28" href="./htmlsrc/tango.io.protocol.Writer.html#L497" kind="function" beg="497" end="501">put</a><span class="params">(float[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:28" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L497">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a float array to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:29" href="./htmlsrc/tango.io.protocol.Writer.html#L509" kind="function" beg="509" end="513">put</a><span class="params">(double[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:29" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L509">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a double array to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:30" href="./htmlsrc/tango.io.protocol.Writer.html#L521" kind="function" beg="521" end="525">put</a><span class="params">(real[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:30" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L521">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a real array to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:31" href="./htmlsrc/tango.io.protocol.Writer.html#L533" kind="function" beg="533" end="537">put</a><span class="params">(char[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:31" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L533">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a char array to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:32" href="./htmlsrc/tango.io.protocol.Writer.html#L545" kind="function" beg="545" end="549">put</a><span class="params">(wchar[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:32" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L545">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a wchar array to the current buffer-position</div></dd>
+<dt class="decl">IWriter <a class="symbol _function" name="Writer.put:33" href="./htmlsrc/tango.io.protocol.Writer.html#L557" kind="function" beg="557" end="561">put</a><span class="params">(dchar[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Writer.put:33" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L557">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a dchar array to the current buffer-position</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Writer.writeArray" href="./htmlsrc/tango.io.protocol.Writer.html#L570" kind="function" beg="570" end="574">writeArray</a><span class="params">(void* <em>src</em>, uint <em>bytes</em>, IProtocol.Type <em>type</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Writer.writeArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L570">#</a></dt>
+<dd class="ddef">
+<div class="summary">Dump array content into the buffer. Note that the default
+                behaviour is to prefix with the array byte count</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Writer.writeElement" href="./htmlsrc/tango.io.protocol.Writer.html#L582" kind="function" beg="582" end="585">writeElement</a><span class="params">(void* <em>src</em>, uint <em>bytes</em>, IProtocol.Type <em>type</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Writer.writeElement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.Writer.html#L582">#</a></dt>
+<dd class="ddef">
+<div class="summary">Dump content into the buffer</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:58 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

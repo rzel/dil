@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.core.Tuple</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.core.Tuple";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.core.Tuple.html" class="symbol">tango.core.Tuple</a></h1>
+  
+<div class="summary">The tuple module defines a template struct used for arbitrary data grouping.</div>
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Authors:</p>Walter Bright, Sean Kelly
+<dl>
+<dt class="decl">template <a class="symbol _template" name="Tuple" href="./htmlsrc/tango.core.Tuple.html#L69" kind="template" beg="69" end="72">Tuple</a><span class="tparams">(TList... )</span>; <a title="Permalink to this symbol" href="#Tuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Tuple.html#L69">#</a></dt>
+<dd class="ddef">
+<div class="summary">A Tuple is a an aggregate of typed values.  Tuples are useful for returning
+ a set of values from a function or for passing a set of parameters to a
+ function.</div>
+<p class="sec_header">NOTE:</p>Since the transition from user-defined to built-in tuples, the ability
+       to return tuples from a function has been lost.  Until this issue is
+       addressed within the language, tuples must be enclosed in a struct
+       if they are to be returned from a function.
+<p class="sec_header">Example:</p><pre class="d_code">
+
+<span class="k">alias</span> <span class="i">Tuple</span>!(<span class="k">int</span>, <span class="k">real</span>) <span class="i">T1</span>;
+<span class="k">alias</span> <span class="i">Tuple</span>!(<span class="k">int</span>, <span class="k">long</span>) <span class="i">T2</span>;
+<span class="k">struct</span> <span class="i">Wrap</span>( <span class="i">Vals</span>... )
+{
+    <span class="i">Vals</span> <span class="i">val</span>;
+}
+
+<span class="i">Wrap</span>!(<span class="i">T2</span>) <span class="i">func</span>( <span class="i">T1</span> <span class="i">val</span> )
+{
+    <span class="i">Wrap</span>!(<span class="i">T2</span>) <span class="i">ret</span>;
+    <span class="i">ret</span>.<span class="i">val</span>[<span class="n">0</span>] = <span class="i">val</span>[<span class="n">0</span>];
+    <span class="i">ret</span>.<span class="i">val</span>[<span class="n">1</span>] = <span class="i">val</span>[<span class="n">0</span>] * <span class="k">cast</span>(<span class="k">long</span>) <span class="i">val</span>[<span class="n">1</span>];
+    <span class="k">return</span> <span class="i">ret</span>;
+}
+
+</pre>
+<p class="bl"/>
+ This is the original tuple example, and demonstates what should be possible
+ with tuples.  Hopefully, language support will be added for this feature
+ soon.
+<p class="sec_header">Example:</p><pre class="d_code">
+
+<span class="k">alias</span> <span class="i">Tuple</span>!(<span class="k">int</span>, <span class="k">real</span>) <span class="i">T1</span>;
+<span class="k">alias</span> <span class="i">Tuple</span>!(<span class="k">int</span>, <span class="k">long</span>) <span class="i">T2</span>;
+
+<span class="i">T2</span> <span class="i">func</span>( <span class="i">T1</span> <span class="i">val</span> )
+{
+    <span class="i">T2</span> <span class="i">ret</span>;
+    <span class="i">ret</span>[<span class="n">0</span>] = <span class="i">val</span>[<span class="n">0</span>];
+    <span class="i">ret</span>[<span class="n">1</span>] = <span class="i">val</span>[<span class="n">0</span>] * <span class="k">cast</span>(<span class="k">long</span>) <span class="i">val</span>[<span class="n">1</span>];
+    <span class="k">return</span> <span class="i">ret</span>;
+}
+
+
+<span class="lc">// tuples may be composed</span>
+<span class="k">alias</span> <span class="i">Tuple</span>!(<span class="k">int</span>) <span class="i">IntTuple</span>;
+<span class="k">alias</span> <span class="i">Tuple</span>!(<span class="i">IntTuple</span>, <span class="k">long</span>) <span class="i">RetTuple</span>;
+
+<span class="lc">// tuples are equivalent to a set of function parameters of the same type</span>
+<span class="i">RetTuple</span> <span class="i">t</span> = <span class="i">func</span>( <span class="n">1</span>, <span class="n">2.3</span> );
+
+</pre>
+</dd>
+<dt class="decl">template <a class="symbol _template" name="IndexOf" href="./htmlsrc/tango.core.Tuple.html#L79" kind="template" beg="79" end="87">IndexOf</a><span class="tparams">(T, TList... )</span>; <a title="Permalink to this symbol" href="#IndexOf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Tuple.html#L79">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the index of the first occurrence of T in TList or Tlist.length if
+ not found.</div>
+</dd>
+<dt class="decl">template <a class="symbol _template" name="Remove" href="./htmlsrc/tango.core.Tuple.html#L93" kind="template" beg="93" end="101">Remove</a><span class="tparams">(T, TList... )</span>; <a title="Permalink to this symbol" href="#Remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Tuple.html#L93">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a Tuple with the first occurrence of T removed from TList.</div>
+</dd>
+<dt class="decl">template <a class="symbol _template" name="RemoveAll" href="./htmlsrc/tango.core.Tuple.html#L107" kind="template" beg="107" end="115">RemoveAll</a><span class="tparams">(T, TList... )</span>; <a title="Permalink to this symbol" href="#RemoveAll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Tuple.html#L107">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a Tuple with all occurrences of T removed from TList.</div>
+</dd>
+<dt class="decl">template <a class="symbol _template" name="Replace" href="./htmlsrc/tango.core.Tuple.html#L121" kind="template" beg="121" end="129">Replace</a><span class="tparams">(T, U, TList... )</span>; <a title="Permalink to this symbol" href="#Replace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Tuple.html#L121">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a Tuple with the first offuccrence of T replaced with U.</div>
+</dd>
+<dt class="decl">template <a class="symbol _template" name="ReplaceAll" href="./htmlsrc/tango.core.Tuple.html#L135" kind="template" beg="135" end="143">ReplaceAll</a><span class="tparams">(T, U, TList... )</span>; <a title="Permalink to this symbol" href="#ReplaceAll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Tuple.html#L135">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a Tuple with all occurrences of T replaced with U.</div>
+</dd>
+<dt class="decl">template <a class="symbol _template" name="Reverse" href="./htmlsrc/tango.core.Tuple.html#L149" kind="template" beg="149" end="155">Reverse</a><span class="tparams">(TList... )</span>; <a title="Permalink to this symbol" href="#Reverse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Tuple.html#L149">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a Tuple with the types from TList declared in reverse order.</div>
+</dd>
+<dt class="decl">template <a class="symbol _template" name="Unique" href="./htmlsrc/tango.core.Tuple.html#L161" kind="template" beg="161" end="169">Unique</a><span class="tparams">(TList... )</span>; <a title="Permalink to this symbol" href="#Unique" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Tuple.html#L161">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a Tuple with all duplicate types removed.</div>
+</dd>
+<dt class="decl">template <a class="symbol _template" name="MostDerived" href="./htmlsrc/tango.core.Tuple.html#L176" kind="template" beg="176" end="184">MostDerived</a><span class="tparams">(T, TList... )</span>; <a title="Permalink to this symbol" href="#MostDerived" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Tuple.html#L176">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the type from TList that is the most derived from T.  If no such
+ type is found then T will be returned.</div>
+</dd>
+<dt class="decl">template <a class="symbol _template" name="DerivedToFront" href="./htmlsrc/tango.core.Tuple.html#L191" kind="template" beg="191" end="200">DerivedToFront</a><span class="tparams">(TList... )</span>; <a title="Permalink to this symbol" href="#DerivedToFront" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Tuple.html#L191">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a Tuple with the types sorted so that the most derived types are
+ ordered before the remaining types.</div>
+</dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (C) 2005-2006 Sean Kelly.  All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:03 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

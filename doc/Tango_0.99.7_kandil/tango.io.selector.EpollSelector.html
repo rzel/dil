@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.selector.EpollSelector</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.selector.EpollSelector";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.selector.EpollSelector.html" class="symbol">tango.io.selector.EpollSelector</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Author:</p>Juan Jose Comellas <juanjo@comellas.com.ar>
+<dl>
+<dt class="decl">class <a class="symbol _class" name="EpollSelector" href="./htmlsrc/tango.io.selector.EpollSelector.html#L104" kind="class" beg="104" end="412">EpollSelector</a> : AbstractSelector; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#EpollSelector" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L104">#</a></dt>
+<dd class="ddef">
+<div class="summary">Selector that uses the Linux epoll* family of system calls.</div>
+This selector is the best option when dealing with large amounts of
+ conduits under Linux. It will scale much better than any of the other
+ options (PollSelector, SelectSelector). For small amounts of conduits
+ (n &lt; 20) the PollSelector will probably be more performant.
+<p class="sec_header">See Also:</p>ISelector, AbstractSelector
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">selector</span>.<span class="i">EpollSelector</span>;
+<span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">Stdout</span>;
+<span class="k">import</span> <span class="i">tango</span>.<span class="i">net</span>.<span class="i">SocketConduit</span>;
+
+<span class="i">SocketConduit</span> <span class="i">conduit1</span>;
+<span class="i">SocketConduit</span> <span class="i">conduit2</span>;
+<span class="i">EpollSelector</span> <span class="i">selector</span> = <span class="k">new</span> <span class="i">EpollSelector</span>();
+<span class="i">MyClass</span> <span class="i">object1</span> = <span class="k">new</span> <span class="i">MyClass</span>();
+<span class="i">MyClass</span> <span class="i">object2</span> = <span class="k">new</span> <span class="i">MyClass</span>();
+<span class="k">uint</span> <span class="i">eventCount</span>;
+
+<span class="lc">// Initialize the selector assuming that it will deal with 10 conduits and</span>
+<span class="lc">// will receive 3 events per invocation to the select() method.</span>
+<span class="i">selector</span>.<span class="i">open</span>(<span class="n">10</span>, <span class="n">3</span>);
+
+<span class="i">selector</span>.<span class="i">register</span>(<span class="i">conduit1</span>, <span class="i">Event</span>.<span class="i">Read</span>, <span class="i">object1</span>);
+<span class="i">selector</span>.<span class="i">register</span>(<span class="i">conduit2</span>, <span class="i">Event</span>.<span class="i">Write</span>, <span class="i">object2</span>);
+
+<span class="i">eventCount</span> = <span class="i">selector</span>.<span class="i">select</span>();
+
+<span class="k">if</span> (<span class="i">eventCount</span> &gt; <span class="n">0</span>)
+{
+    <span class="k">char</span>[<span class="n">16</span>] <span class="i">buffer</span>;
+    <span class="k">int</span> <span class="i">count</span>;
+
+    <span class="k">foreach</span> (<span class="i">SelectionKey</span> <span class="i">key</span>; <span class="i">selector</span>.<span class="i">selectedSet</span>())
+    {
+        <span class="k">if</span> (<span class="i">key</span>.<span class="i">isReadable</span>())
+        {
+            <span class="i">count</span> = (<span class="k">cast</span>(<span class="i">SocketConduit</span>) <span class="i">key</span>.<span class="i">conduit</span>).<span class="i">read</span>(<span class="i">buffer</span>);
+            <span class="k">if</span> (<span class="i">count</span> != <span class="i">IConduit</span>.<span class="i">Eof</span>)
+            {
+                <span class="i">Stdout</span>.<span class="i">format</span>(<span class="sl">"Received '{0}' from peer\n"</span>, <span class="i">buffer</span>[<span class="n">0</span>..<span class="i">count</span>]);
+                <span class="i">selector</span>.<span class="i">reregister</span>(<span class="i">key</span>.<span class="i">conduit</span>, <span class="i">Event</span>.<span class="i">Write</span>, <span class="i">key</span>.<span class="i">attachment</span>);
+            }
+            <span class="k">else</span>
+            {
+                <span class="i">selector</span>.<span class="i">unregister</span>(<span class="i">key</span>.<span class="i">conduit</span>);
+                <span class="i">key</span>.<span class="i">conduit</span>.<span class="i">close</span>();
+            }
+        }
+
+        <span class="k">if</span> (<span class="i">key</span>.<span class="i">isWritable</span>())
+        {
+            <span class="i">count</span> = (<span class="k">cast</span>(<span class="i">SocketConduit</span>) <span class="i">key</span>.<span class="i">conduit</span>).<span class="i">write</span>(<span class="sl">"MESSAGE"</span>);
+            <span class="k">if</span> (<span class="i">count</span> != <span class="i">IConduit</span>.<span class="i">Eof</span>)
+            {
+                <span class="i">Stdout</span>(<span class="sl">"Sent 'MESSAGE' to peer"</span>);
+                <span class="i">selector</span>.<span class="i">reregister</span>(<span class="i">key</span>.<span class="i">conduit</span>, <span class="i">Event</span>.<span class="i">Read</span>, <span class="i">key</span>.<span class="i">attachment</span>);
+            }
+            <span class="k">else</span>
+            {
+                <span class="i">selector</span>.<span class="i">unregister</span>(<span class="i">key</span>.<span class="i">conduit</span>);
+                <span class="i">key</span>.<span class="i">conduit</span>.<span class="i">close</span>();
+            }
+        }
+
+        <span class="k">if</span> (<span class="i">key</span>.<span class="i">isError</span>() || <span class="i">key</span>.<span class="i">isHangup</span>() || <span class="i">key</span>.<span class="i">isInvalidHandle</span>())
+        {
+            <span class="i">selector</span>.<span class="i">unregister</span>(<span class="i">key</span>.<span class="i">conduit</span>);
+            <span class="i">key</span>.<span class="i">conduit</span>.<span class="i">close</span>();
+        }
+    }
+}
+
+<span class="i">selector</span>.<span class="i">close</span>();
+</pre>
+<dl>
+<dt class="decl">alias AbstractSelector.select <a class="symbol _alias" name="EpollSelector.select" href="./htmlsrc/tango.io.selector.EpollSelector.html#L110" kind="alias" beg="110" end="110">select</a>; <a title="Permalink to this symbol" href="#EpollSelector.select" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L110">#</a></dt>
+<dd class="ddef">
+<div class="summary">Alias for the select() method as we're not reimplementing it in 
+ this class.</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="EpollSelector.DefaultSize" href="./htmlsrc/tango.io.selector.EpollSelector.html#L116" kind="variable" beg="116" end="116">DefaultSize</a>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#EpollSelector.DefaultSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L116">#</a></dt>
+<dd class="ddef">
+<div class="summary">Default number of SelectionKey's that will be handled by the
+ EpollSelector.</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="EpollSelector.DefaultMaxEvents" href="./htmlsrc/tango.io.selector.EpollSelector.html#L121" kind="variable" beg="121" end="121">DefaultMaxEvents</a>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#EpollSelector.DefaultMaxEvents" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L121">#</a></dt>
+<dd class="ddef">
+<div class="summary">Default maximum number of events that will be received per
+ invocation to select().</div></dd>
+<dt class="decl">SelectionKey[ISelectable.Handle] <a class="symbol _variable" name="EpollSelector._keys" href="./htmlsrc/tango.io.selector.EpollSelector.html#L125" kind="variable" beg="125" end="125">_keys</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#EpollSelector._keys" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L125">#</a></dt>
+<dd class="ddef">
+<div class="summary">Map to associate the conduit handles with their selection keys</div></dd>
+<dt class="decl">int <a class="symbol _variable" name="EpollSelector._epfd" href="./htmlsrc/tango.io.selector.EpollSelector.html#L127" kind="variable" beg="127" end="127">_epfd</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#EpollSelector._epfd" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L127">#</a></dt>
+<dd class="ddef">
+<div class="summary">File descriptor returned by the epoll_create() system call.</div></dd>
+<dt class="decl">epoll_event[] <a class="symbol _variable" name="EpollSelector._events" href="./htmlsrc/tango.io.selector.EpollSelector.html#L132" kind="variable" beg="132" end="132">_events</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#EpollSelector._events" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L132">#</a></dt>
+<dd class="ddef">
+<div class="summary">Array of events that is filled by epoll_wait() inside the call
+ to select().</div></dd>
+<dt class="decl">int <a class="symbol _variable" name="EpollSelector._eventCount" href="./htmlsrc/tango.io.selector.EpollSelector.html#L134" kind="variable" beg="134" end="134">_eventCount</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#EpollSelector._eventCount" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L134">#</a></dt>
+<dd class="ddef">
+<div class="summary">Number of events resulting from the call to select()</div></dd>
+<dt class="decl"><a class="symbol _dtor" name="EpollSelector.~this" href="./htmlsrc/tango.io.selector.EpollSelector.html#L140" kind="dtor" beg="140" end="145">~this</a>(); <a title="Permalink to this symbol" href="#EpollSelector.~this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L140">#</a></dt>
+<dd class="ddef">
+<div class="summary">Destructor</div></dd>
+<dt class="decl">void <a class="symbol _function" name="EpollSelector.open" href="./htmlsrc/tango.io.selector.EpollSelector.html#L161" kind="function" beg="161" end="176">open</a><span class="params">(uint <em>size</em> = DefaultSize, uint <em>maxEvents</em> = DefaultMaxEvents)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#EpollSelector.open" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L161">#</a></dt>
+<dd class="ddef">
+<div class="summary">Open the epoll selector, makes a call to epoll_create()</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>size</em></td><td>maximum amount of conduits that will be registered;
+                it will grow dynamically if needed.</td></tr>
+<tr><td><em>maxEvents</em></td><td>maximum amount of conduit events that will be
+                returned in the selection set per call to select();
+                this limit is enforced by this selector.</td></tr></table>
+<p class="sec_header">Throws:</p>SelectorException if there are not enough resources to open the
+ selector (e.g. not enough file handles or memory available).</dd>
+<dt class="decl">void <a class="symbol _function" name="EpollSelector.close" href="./htmlsrc/tango.io.selector.EpollSelector.html#L185" kind="function" beg="185" end="194">close</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#EpollSelector.close" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L185">#</a></dt>
+<dd class="ddef">
+<div class="summary">Close the selector, releasing the file descriptor that had been
+ created in the previous call to open().</div>
+<p class="sec_header">Remarks:</p>It can be called multiple times without harmful side-effects.</dd>
+<dt class="decl">void <a class="symbol _function" name="EpollSelector.register" href="./htmlsrc/tango.io.selector.EpollSelector.html#L218" kind="function" beg="218" end="246">register</a><span class="params">(ISelectable <em>conduit</em>, Event <em>events</em>, Object <em>attachment</em> = null)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#EpollSelector.register" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L218">#</a></dt>
+<dd class="ddef">
+<div class="summary">Associate a conduit to the selector and track specific I/O events.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>conduit</em></td><td>conduit that will be associated to the selector;
+                must be a valid conduit (i.e. not null and open).</td></tr>
+<tr><td><em>events</em></td><td>bit mask of Event values that represent the events
+                that will be tracked for the conduit.</td></tr>
+<tr><td><em>attachment</em></td><td>optional object with application-specific data that
+                will be available when an event is triggered for the
+                conduit</td></tr></table>
+<p class="sec_header">Throws:</p>RegisteredConduitException if the conduit had already been
+ registered to the selector; SelectorException if there are not
+ enough resources to add the conduit to the selector.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">selector</span>.<span class="i">register</span>(<span class="i">conduit</span>, <span class="i">Event</span>.<span class="i">Read</span> | <span class="i">Event</span>.<span class="i">Write</span>, <span class="i">object</span>);
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="EpollSelector.reregister" href="./htmlsrc/tango.io.selector.EpollSelector.html#L275" kind="function" beg="275" end="303">reregister</a><span class="params">(ISelectable <em>conduit</em>, Event <em>events</em>, Object <em>attachment</em> = null)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#EpollSelector.reregister" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L275">#</a></dt>
+<dd class="ddef">
+<div class="summary">Modify the events that are being tracked or the 'attachment' field
+ for an already registered conduit.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>conduit</em></td><td>conduit that will be associated to the selector;
+                must be a valid conduit (i.e. not null and open).</td></tr>
+<tr><td><em>events</em></td><td>bit mask of Event values that represent the events
+                that will be tracked for the conduit.</td></tr>
+<tr><td><em>attachment</em></td><td>optional object with application-specific data that
+                will be available when an event is triggered for the
+                conduit</td></tr></table>
+<p class="sec_header">Remarks:</p>The 'attachment' member of the SelectionKey will always be
+ overwritten, even if it's null.
+<p class="sec_header">Throws:</p>UnregisteredConduitException if the conduit had not been previously
+ registered to the selector; SelectorException if there are not
+ enough resources to modify the conduit registration.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">selector</span>.<span class="i">reregister</span>(<span class="i">conduit</span>, <span class="i">Event</span>.<span class="i">Write</span>, <span class="i">object</span>);
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="EpollSelector.unregister" href="./htmlsrc/tango.io.selector.EpollSelector.html#L321" kind="function" beg="321" end="334">unregister</a><span class="params">(ISelectable <em>conduit</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#EpollSelector.unregister" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L321">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove a conduit from the selector.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>conduit</em></td><td>conduit that had been previously associated to the
+                selector; it can be null.</td></tr></table>
+<p class="sec_header">Remarks:</p>Unregistering a null conduit is allowed and no exception is thrown
+ if this happens.
+<p class="sec_header">Throws:</p>UnregisteredConduitException if the conduit had not been previously
+ registered to the selector; SelectorException if there are not
+ enough resources to remove the conduit registration.</dd>
+<dt class="decl">int <a class="symbol _function" name="EpollSelector.select:2" href="./htmlsrc/tango.io.selector.EpollSelector.html#L358" kind="function" beg="358" end="381">select</a><span class="params">(TimeSpan <em>timeout</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#EpollSelector.select:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L358">#</a></dt>
+<dd class="ddef">
+<div class="summary">Wait for I/O events from the registered conduits for a specified
+ amount of time.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>timeout</em></td><td>TimeSpan with the maximum amount of time that the
+            selector will wait for events from the conduits; the
+            amount of time is relative to the current system time
+            (i.e. just the number of milliseconds that the selector
+            has to wait for the events).</td></tr></table>
+<p class="sec_header">Returns:</p>The amount of conduits that have received events; 0 if no conduits
+ have received events within the specified timeout; and -1 if the
+ wakeup() method has been called from another thread.
+<p class="sec_header">Throws:</p>InterruptedSystemCallException if the underlying system call was
+ interrupted by a signal and the 'restartInterruptedSystemCall'
+ property was set to false; SelectorException if there were no
+ resources available to wait for events from the conduits.</dd>
+<dt class="decl">ISelectionSet <a class="symbol _function" name="EpollSelector.selectedSet" href="./htmlsrc/tango.io.selector.EpollSelector.html#L391" kind="function" beg="391" end="394">selectedSet</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#EpollSelector.selectedSet" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L391">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the selection set resulting from the call to any of the
+ select() methods.</div>
+<p class="sec_header">Remarks:</p>If the call to select() was unsuccessful or it did not return any
+ events, the returned value will be null.</dd>
+<dt class="decl">SelectionKey <a class="symbol _function" name="EpollSelector.key" href="./htmlsrc/tango.io.selector.EpollSelector.html#L404" kind="function" beg="404" end="407">key</a><span class="params">(ISelectable <em>conduit</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#EpollSelector.key" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L404">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the selection key resulting from the registration of a
+ conduit to the selector.</div>
+<p class="sec_header">Remarks:</p>If the conduit is not registered to the selector the returned
+ value will be null. No exception will be thrown by this method.</dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="EpollSelectionSet" href="./htmlsrc/tango.io.selector.EpollSelector.html#L417" kind="class" beg="417" end="463">EpollSelectionSet</a> : ISelectionSet; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#EpollSelectionSet" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L417">#</a></dt>
+<dd class="ddef">
+<div class="summary">Class used to hold the list of Conduits that have received events.</div>
+<dl>
+<dt class="decl">int <a class="symbol _function" name="EpollSelectionSet.opApply" href="./htmlsrc/tango.io.selector.EpollSelector.html#L434" kind="function" beg="434" end="462">opApply</a><span class="params">(int delegate(inout SelectionKey) <em>dg</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#EpollSelectionSet.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.selector.EpollSelector.html#L434">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterate over all the Conduits that have received events.</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2006 Juan Jose Comellas. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:02 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

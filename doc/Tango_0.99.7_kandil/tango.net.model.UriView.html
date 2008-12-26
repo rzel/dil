@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.model.UriView</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.model.UriView";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.model.UriView.html" class="symbol">tango.net.model.UriView</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: April 2004
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="UriView" href="./htmlsrc/tango.net.model.UriView.html#L34" kind="class" beg="34" end="136">UriView</a>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#UriView" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.model.UriView.html#L34">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements an RFC 2396 compliant URI specification. See 
+        <A HREF="http://ftp.ics.uci.edu/pub/ietf/uri/rfc2396.txt">this page</A>
+        for more information.</div>
+The implementation fails the spec on two counts: it doesn't insist
+        on a scheme being present in the UriView, and it doesn't implement the
+        "Relative References" support noted in section 5.2. 
+        
+        Note that IRI support can be implied by assuming each of userinfo, path, 
+        query, and fragment are UTF-8 encoded 
+        (see <A HREF="http://www.w3.org/2001/Talks/0912-IUC-IRI/paper.html">
+        this page</A> for further details).
+<p class="bl"/>
+        Use a Uri instead where you need to alter specific uri attributes.
+<dl>
+<dt class="decl">int <a class="symbol _function" name="UriView.getDefaultPort" href="./htmlsrc/tango.net.model.UriView.html#L46" kind="function" beg="46" end="46">getDefaultPort</a><span class="params">(char[] <em>scheme</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#UriView.getDefaultPort" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.model.UriView.html#L46">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the default port for the given scheme. InvalidPort
+                is returned if the scheme is unknown, or does not accept
+                a port.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="UriView.getScheme" href="./htmlsrc/tango.net.model.UriView.html#L55" kind="function" beg="55" end="55">getScheme</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#UriView.getScheme" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.model.UriView.html#L55">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the parsed scheme, or null if the scheme was not
+                specified</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="UriView.getHost" href="./htmlsrc/tango.net.model.UriView.html#L64" kind="function" beg="64" end="64">getHost</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#UriView.getHost" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.model.UriView.html#L64">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the parsed host, or null if the host was not
+                specified</div></dd>
+<dt class="decl">int <a class="symbol _function" name="UriView.getPort" href="./htmlsrc/tango.net.model.UriView.html#L73" kind="function" beg="73" end="73">getPort</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#UriView.getPort" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.model.UriView.html#L73">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the parsed port number, or InvalidPort if the port
+                was not provided.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="UriView.getValidPort" href="./htmlsrc/tango.net.model.UriView.html#L82" kind="function" beg="82" end="82">getValidPort</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#UriView.getValidPort" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.model.UriView.html#L82">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a valid port number by performing a lookup on the 
+                known schemes if the port was not explicitly specified.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="UriView.getUserInfo" href="./htmlsrc/tango.net.model.UriView.html#L91" kind="function" beg="91" end="91">getUserInfo</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#UriView.getUserInfo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.model.UriView.html#L91">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the parsed userinfo, or null if userinfo was not 
+                provided.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="UriView.getPath" href="./htmlsrc/tango.net.model.UriView.html#L100" kind="function" beg="100" end="100">getPath</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#UriView.getPath" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.model.UriView.html#L100">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the parsed path, or null if the path was not 
+                provided.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="UriView.getQuery" href="./htmlsrc/tango.net.model.UriView.html#L109" kind="function" beg="109" end="109">getQuery</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#UriView.getQuery" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.model.UriView.html#L109">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the parsed query, or null if a query was not 
+                provided.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="UriView.getFragment" href="./htmlsrc/tango.net.model.UriView.html#L118" kind="function" beg="118" end="118">getFragment</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#UriView.getFragment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.model.UriView.html#L118">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the parsed fragment, or null if a fragment was not 
+                provided.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="UriView.isGeneric" href="./htmlsrc/tango.net.model.UriView.html#L126" kind="function" beg="126" end="126">isGeneric</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#UriView.isGeneric" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.model.UriView.html#L126">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return whether or not the UriView scheme is considered generic.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="UriView.toString" href="./htmlsrc/tango.net.model.UriView.html#L135" kind="function" beg="135" end="135">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#UriView.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.model.UriView.html#L135">#</a></dt>
+<dd class="ddef">
+<div class="summary">Emit the content of this UriView. Output is constructed per
+                RFC 2396.</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:56 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

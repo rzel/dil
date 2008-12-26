@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.math.random.Kiss</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.math.random.Kiss";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.math.random.Kiss.html" class="symbol">tango.math.random.Kiss</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: May 2008
+<p class="sec_header">Author:</p>Various
+<p class="sec_header">Since:</p>0.99.7
+<p class="bl"/>
+        With gratitude to Dr Jurgen A Doornik. See his paper entitled
+        "Conversion of high-period random numbers to floating point"
+<dl>
+<dt class="decl">struct <a class="symbol _struct" name="Kiss" href="./htmlsrc/tango.math.random.Kiss.html#L56" kind="struct" beg="56" end="205">Kiss</a>; <a title="Permalink to this symbol" href="#Kiss" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.random.Kiss.html#L56">#</a></dt>
+<dd class="ddef">
+<div class="summary">KISS (from George Marsaglia)</div>
+The idea is to use simple, fast, individually promising
+        generators to get a composite that will be fast, easy to code
+        have a very long period and pass all the tests put to it.
+        The three components of KISS are
+        <pre class="d_code">
+<span class="i">x</span>(<span class="i">n</span>)=<span class="i">a</span>*<span class="i">x</span>(<span class="i">n</span>-<span class="n">1</span>)+<span class="n">1</span> <span class="i">mod</span> <span class="n">2</span>^<span class="n">32</span>
+<span class="i">y</span>(<span class="i">n</span>)=<span class="i">y</span>(<span class="i">n</span>-<span class="n">1</span>)(<span class="i">I</span>+<span class="i">L</span>^<span class="n">13</span>)(<span class="i">I</span>+<span class="i">R</span>^<span class="n">17</span>)(<span class="i">I</span>+<span class="i">L</span>^<span class="n">5</span>),
+<span class="i">z</span>(<span class="i">n</span>)=<span class="n">2</span>*<span class="i">z</span>(<span class="i">n</span>-<span class="n">1</span>)+<span class="i">z</span>(<span class="i">n</span>-<span class="n">2</span>) +<span class="i">carry</span> <span class="i">mod</span> <span class="n">2</span>^<span class="n">32</span>
+</pre>
+<p class="bl"/>
+        The y's are a shift register sequence on 32bit binary vectors
+        period 2^32-1; The z's are a simple multiply-with-carry sequence
+        with period 2^63+2^32-1. The period of KISS is thus
+        <pre class="d_code">
+<span class="n">2</span>^<span class="n">32</span>*(<span class="n">2</span>^<span class="n">32</span>-<span class="n">1</span>)*(<span class="n">2</span>^<span class="n">63</span>+<span class="n">2</span>^<span class="n">32</span>-<span class="n">1</span>) &gt; <span class="n">2</span>^<span class="n">127</span>
+</pre>
+<p class="bl"/>
+        Note that this should be passed by reference, unless you really
+        intend to provide a local copy to a callee
+<dl>
+<dt class="decl">Kiss <a class="symbol _variable" name="Kiss.shared" href="./htmlsrc/tango.math.random.Kiss.html#L75" kind="variable" beg="75" end="75">shared</a>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Kiss.shared" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.random.Kiss.html#L75">#</a></dt>
+<dd class="ddef">
+<div class="summary">A global, shared instance, seeded via startup time</div></dd>
+<dt class="decl">Kiss <a class="symbol _function" name="Kiss.opCall" href="./htmlsrc/tango.math.random.Kiss.html#L88" kind="function" beg="88" end="93">opCall</a><span class="params">()</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Kiss.opCall" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.random.Kiss.html#L88">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creates and seeds a new generator with the current time</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Kiss.seed" href="./htmlsrc/tango.math.random.Kiss.html#L101" kind="function" beg="101" end="116">seed</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Kiss.seed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.random.Kiss.html#L101">#</a></dt>
+<dd class="ddef">
+<div class="summary">Seed the generator with current time</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Kiss.seed:2" href="./htmlsrc/tango.math.random.Kiss.html#L124" kind="function" beg="124" end="131">seed</a><span class="params">(uint <em>seed</em>)</span>; <a title="Permalink to this symbol" href="#Kiss.seed:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.random.Kiss.html#L124">#</a></dt>
+<dd class="ddef">
+<div class="summary">Seed the generator with a provided value</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="Kiss.toInt" href="./htmlsrc/tango.math.random.Kiss.html#L139" kind="function" beg="139" end="151">toInt</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Kiss.toInt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.random.Kiss.html#L139">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns X such that 0 &lt;= X &lt;= uint.max</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="Kiss.toInt:2" href="./htmlsrc/tango.math.random.Kiss.html#L162" kind="function" beg="162" end="165">toInt</a><span class="params">(uint <em>max</em>)</span>; <a title="Permalink to this symbol" href="#Kiss.toInt:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.random.Kiss.html#L162">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns X such that 0 &lt;= X &lt; max</div>
+Note that max is exclusive, making it compatible with
+                array indexing</dd>
+<dt class="decl">uint <a class="symbol _function" name="Kiss.toInt:3" href="./htmlsrc/tango.math.random.Kiss.html#L176" kind="function" beg="176" end="179">toInt</a><span class="params">(uint <em>min</em>, uint <em>max</em>)</span>; <a title="Permalink to this symbol" href="#Kiss.toInt:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.random.Kiss.html#L176">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns X such that min &lt;= X &lt; max</div>
+Note that max is exclusive, making it compatible with
+                array indexing</dd>
+<dt class="decl">double <a class="symbol _function" name="Kiss.toReal" href="./htmlsrc/tango.math.random.Kiss.html#L188" kind="function" beg="188" end="191">toReal</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Kiss.toReal" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.random.Kiss.html#L188">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a value between 0 and 1, exclusive, using 32 bits
+                of precision (with thanks to Dr Jurgen A Doornik)</div></dd>
+<dt class="decl">double <a class="symbol _function" name="Kiss.toRealEx" href="./htmlsrc/tango.math.random.Kiss.html#L200" kind="function" beg="200" end="204">toRealEx</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Kiss.toRealEx" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.random.Kiss.html#L200">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a value between 0 and 1, exclusive, using 52 bits
+                of precision (with thanks to Dr Jurgen A Doornik)</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2008. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:14 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

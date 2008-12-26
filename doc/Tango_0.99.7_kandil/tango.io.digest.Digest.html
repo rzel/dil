@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.digest.Digest</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.digest.Digest";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.digest.Digest.html" class="symbol">tango.io.digest.Digest</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see doc/license.txt for details
+<p class="sec_header">Version:</p>Initial release: Feb 2006
+<p class="sec_header">Author:</p>Regan Heath, Oskar Linde
+<p class="bl"/>
+        This module defines the Digest interface.
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Digest" href="./htmlsrc/tango.io.digest.Digest.html#L55" kind="class" beg="55" end="139">Digest</a>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Digest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.digest.Digest.html#L55">#</a></dt>
+<dd class="ddef">
+<div class="summary">The DigestTransform interface defines the interface of message
+        digest algorithms, such as MD5 and SHA. Message digests are
+        secure hash functions that take a message of arbitrary length
+        and produce a fix length digest as output.</div>
+A object implementing the DigestTransform should start out initialized.
+        The data is processed though calls to the update method. Once all data
+        has been sent to the algorithm, the digest is finalized and computed
+        with the digest method.
+<p class="bl"/>
+        The digest method may only be called once. After the digest
+        method has been called, the algorithm is reset to its initial
+        state.
+<p class="bl"/>
+        Using the update method, data may be processed piece by piece, 
+        which is useful for cases involving streams of data.
+<p class="bl"/>
+        For example:
+        <pre class="d_code">
+<span class="lc">// create an MD5 hash algorithm</span>
+<span class="i">Md5</span> <span class="i">hash</span> = <span class="k">new</span> <span class="i">Md5</span>();
+
+<span class="lc">// process some data</span>
+<span class="i">hash</span>.<span class="i">update</span>(<span class="sl">"The quick brown fox"</span>);
+
+<span class="lc">// process some more data</span>
+<span class="i">hash</span>.<span class="i">update</span>(<span class="sl">" jumps over the lazy dog"</span>);
+
+<span class="lc">// conclude algorithm and produce digest</span>
+<span class="k">ubyte</span>[] <span class="i">digest</span> = <span class="i">hash</span>.<span class="i">binaryDigest</span>();
+</pre>
+<dl>
+<dt class="decl">void <a class="symbol _function" name="Digest.update" href="./htmlsrc/tango.io.digest.Digest.html#L66" kind="function" beg="66" end="66">update</a><span class="params">(void[] <em>data</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Digest.update" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.digest.Digest.html#L66">#</a></dt>
+<dd class="ddef">
+<div class="summary">Processes data</div>
+<p class="sec_header">Remarks:</p>Updates the hash algorithm state with new data</dd>
+<dt class="decl">ubyte[] <a class="symbol _function" name="Digest.binaryDigest" href="./htmlsrc/tango.io.digest.Digest.html#L85" kind="function" beg="85" end="85">binaryDigest</a><span class="params">(ubyte[] <em>buffer</em> = null)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Digest.binaryDigest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.digest.Digest.html#L85">#</a></dt>
+<dd class="ddef">
+<div class="summary">Computes the digest and resets the state</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>buffer</em></td><td>a buffer can be supplied for the digest to be
+                            written to</td></tr></table>
+<p class="sec_header">Remarks:</p>If the buffer is not large enough to hold the
+                   digest, a new buffer is allocated and returned.
+                   The algorithm state is always reset after a call to
+                   binaryDigest. Use the digestSize method to find out how
+                   large the buffer has to be.</dd>
+<dt class="decl">uint <a class="symbol _function" name="Digest.digestSize" href="./htmlsrc/tango.io.digest.Digest.html#L99" kind="function" beg="99" end="99">digestSize</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Digest.digestSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.digest.Digest.html#L99">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the size in bytes of the digest</div>
+<p class="sec_header">Returns:</p>the size of the digest in bytes
+<p class="sec_header">Remarks:</p>Returns the size of the digest.</dd>
+<dt class="decl">char[] <a class="symbol _function" name="Digest.hexDigest" href="./htmlsrc/tango.io.digest.Digest.html#L117" kind="function" beg="117" end="138">hexDigest</a><span class="params">(char[] <em>buffer</em> = null)</span>; <a title="Permalink to this symbol" href="#Digest.hexDigest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.digest.Digest.html#L117">#</a></dt>
+<dd class="ddef">
+<div class="summary">Computes the digest as a hex string and resets the state</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>buffer</em></td><td>a buffer can be supplied in which the digest
+                            will be written. It needs to be able to hold
+                            2 * digestSize chars</td></tr></table>
+<p class="sec_header">Remarks:</p>If the buffer is not large enough to hold the hex digest,
+                    a new buffer is allocated and returned. The algorithm
+                    state is always reset after a call to hexDigest.</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2006 Tango. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:03 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

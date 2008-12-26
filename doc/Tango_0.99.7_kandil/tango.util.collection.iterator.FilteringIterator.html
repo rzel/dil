@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.collection.iterator.FilteringIterator</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.collection.iterator.FilteringIterator";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html" class="symbol">tango.util.collection.iterator.FilteringIterator</a></h1>
+  
+<dl>
+<dt class="decl">class <a class="symbol _class" name="FilteringIterator" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L51" kind="class" beg="51" end="178">FilteringIterator</a><span class="tparams">(T)</span> : Iterator!(T); <a title="Permalink to this symbol" href="#FilteringIterator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L51">#</a></dt>
+<dd class="ddef">
+<div class="summary">FilteringIterators allow you to filter out elements from
+ other enumerations before they are seen by their `consumers'
+ (i.e., the callers of `get').</div>
+FilteringIterators work as wrappers around other Iterators.
+ To build one, you need an existing Iterator (perhaps one
+ from coll.elements(), for some Collection coll), and a Predicate
+ object (i.e., implementing interface Predicate). 
+ For example, if you want to screen out everything but Panel
+ objects from a collection coll that might hold things other than Panels,
+ write something of the form:
+ <pre class="d_code">
+<span class="i">Iterator</span> <span class="i">e</span> = <span class="i">coll</span>.<span class="i">elements</span>();
+<span class="i">Iterator</span> <span class="i">panels</span> = <span class="i">FilteringIterator</span>(<span class="i">e</span>, <span class="i">IsPanel</span>);
+<span class="k">while</span> (<span class="i">panels</span>.<span class="i">more</span>())
+ <span class="i">doSomethingWith</span>(<span class="k">cast</span>(<span class="i">Panel</span>)(<span class="i">panels</span>.<span class="i">get</span>()));
+</pre>
+ To use this, you will also need to write a little class of the form:
+ <pre class="d_code">
+<span class="k">class</span> <span class="i">IsPanel</span> : <span class="i">Predicate</span> {
+ <span class="k">bool</span> <span class="i">predicate</span>(<span class="i">Object</span> <span class="i">v</span>) { <span class="k">return</span> <span class="k">cast</span>(<span class="i">Panel</span>) <span class="i">v</span> !<span class="k">is</span> <span class="k">null</span>; }
+}
+</pre>
+<p class="sec_header">See Also:</p>tango.util.collection.Predicate.predicate
+<p class="sec_header">Author:</p>Doug Lea
+<dl>
+<dt class="decl">Iterator!(T) <a class="symbol _variable" name="FilteringIterator.src_" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L61" kind="variable" beg="61" end="61">src_</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#FilteringIterator.src_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L61">#</a></dt>
+<dd class="ddef">
+<div class="summary">The enumeration we are wrapping</div></dd>
+<dt class="decl">Predicate <a class="symbol _variable" name="FilteringIterator.pred_" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L67" kind="variable" beg="67" end="67">pred_</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#FilteringIterator.pred_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L67">#</a></dt>
+<dd class="ddef">
+<div class="summary">The screening predicate</div></dd>
+<dt class="decl">bool <a class="symbol _variable" name="FilteringIterator.sign_" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L73" kind="variable" beg="73" end="73">sign_</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#FilteringIterator.sign_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L73">#</a></dt>
+<dd class="ddef">
+<div class="summary">The sense of the predicate. False means to invert</div></dd>
+<dt class="decl">T <a class="symbol _variable" name="FilteringIterator.get_" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L79" kind="variable" beg="79" end="79">get_</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#FilteringIterator.get_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L79">#</a></dt>
+<dd class="ddef">
+<div class="summary">The next element to hand out</div></dd>
+<dt class="decl">bool <a class="symbol _variable" name="FilteringIterator.haveNext_" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L85" kind="variable" beg="85" end="85">haveNext_</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#FilteringIterator.haveNext_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L85">#</a></dt>
+<dd class="ddef">
+<div class="summary">True if we have a next element</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="FilteringIterator.this" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L92" kind="ctor" beg="92" end="95">this</a><span class="params">(Iterator!(T) <em>src</em>, Predicate <em>p</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FilteringIterator.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L92">#</a></dt>
+<dd class="ddef">
+<div class="summary">Make a Filter using src for the elements, and p as the screener,
+ selecting only those elements of src for which p is true</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="FilteringIterator.this:2" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L103" kind="ctor" beg="103" end="109">this</a><span class="params">(Iterator!(T) <em>src</em>, Predicate <em>p</em>, bool <em>sense</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FilteringIterator.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L103">#</a></dt>
+<dd class="ddef">
+<div class="summary">Make a Filter using src for the elements, and p as the screener,
+ selecting only those elements of src for which p.predicate(v) == sense.
+ A value of true for sense selects only values for which p.predicate
+ is true. A value of false selects only those for which it is false.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="FilteringIterator.more" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L115" kind="function" beg="115" end="118">more</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilteringIterator.more" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L115">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.model.Iterator.more</div></dd>
+<dt class="decl">T <a class="symbol _function" name="FilteringIterator.get" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L123" kind="function" beg="123" end="133">get</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilteringIterator.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L123">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements tango.util.collection.model.Iterator.get.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="FilteringIterator.findNext" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L153" kind="function" beg="153" end="177">findNext</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilteringIterator.findNext" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.iterator.FilteringIterator.html#L153">#</a></dt>
+<dd class="ddef">
+<div class="summary">Traverse through src_ elements finding one passing predicate</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p></p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:10 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.FileScan</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.FileScan";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.FileScan.html" class="symbol">tango.io.FileScan</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Jun 2004: Initial release
+<p class="sec_header">Version:</p>Dec 2006: Pacific release
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="FileScan" href="./htmlsrc/tango.io.FileScan.html#L46" kind="class" beg="46" end="173">FileScan</a>; <a title="Permalink to this symbol" href="#FileScan" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FileScan.html#L46">#</a></dt>
+<dd class="ddef">
+<div class="summary">Recursively scan files and directories, adding filtered files to
+        an output structure as we go. This can be used to produce a list
+        of subdirectories and the files contained therein. The following
+        example lists all files with suffix ".d" located via the current
+        directory, along with the folders containing them:
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">scan</span> = <span class="k">new</span> <span class="i">FileScan</span>;
+
+<span class="i">scan</span> (<span class="sl">"."</span>, <span class="sl">".d"</span>);
+
+<span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"{} Folders"</span>, <span class="i">scan</span>.<span class="i">folders</span>.<span class="i">length</span>);
+<span class="k">foreach</span> (<span class="i">folder</span>; <span class="i">scan</span>.<span class="i">folders</span>)
+         <span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"{}"</span>, <span class="i">folder</span>);
+
+<span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"\n{} Files"</span>, <span class="i">scan</span>.<span class="i">files</span>.<span class="i">length</span>);
+<span class="k">foreach</span> (<span class="i">file</span>; <span class="i">scan</span>.<span class="i">files</span>)
+         <span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"{}"</span>, <span class="i">file</span>);
+</pre></div>
+This is unlikely the most efficient method to scan a vast number of
+        files, but operates in a convenient manner
+<dl>
+<dt class="decl">alias FilePath.Filter <a class="symbol _alias" name="FileScan.Filter" href="./htmlsrc/tango.io.FileScan.html#L72" kind="alias" beg="72" end="72">Filter</a>; <a title="Permalink to this symbol" href="#FileScan.Filter" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FileScan.html#L72">#</a></dt>
+<dd class="ddef">
+<div class="summary">Alias for Filter delegate. Accepts a FilePath &amp; a bool as 
+            arguments and returns a bool.</div>
+The FilePath argument represents a file found by the scan, 
+            and the bool whether the FilePath represents a folder.
+<p class="bl"/>
+            The filter should return true, if matched by the filter. Note
+            that returning false where the path is a folder will result 
+            in all files contained being ignored. To always recurse folders, 
+            do something like this:
+            <pre class="d_code">
+<span class="k">return</span> (<span class="i">isDir</span> || <span class="i">match</span> (<span class="i">fp</span>.<span class="i">name</span>));
+</pre></dd>
+<dt class="decl">char[][] <a class="symbol _function" name="FileScan.errors" href="./htmlsrc/tango.io.FileScan.html#L80" kind="function" beg="80" end="83">errors</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FileScan.errors" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FileScan.html#L80">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return all the errors found in the last scan</div></dd>
+<dt class="decl">FilePath[] <a class="symbol _function" name="FileScan.files" href="./htmlsrc/tango.io.FileScan.html#L91" kind="function" beg="91" end="94">files</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FileScan.files" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FileScan.html#L91">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return all the files found in the last scan</div></dd>
+<dt class="decl">FilePath[] <a class="symbol _function" name="FileScan.folders" href="./htmlsrc/tango.io.FileScan.html#L102" kind="function" beg="102" end="105">folders</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FileScan.folders" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FileScan.html#L102">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return all directories found in the last scan</div></dd>
+<dt class="decl">FileScan <a class="symbol _function" name="FileScan.sweep" href="./htmlsrc/tango.io.FileScan.html#L114" kind="function" beg="114" end="117">sweep</a><span class="params">(char[] <em>path</em>, bool <em>recurse</em> = true)</span>; <a title="Permalink to this symbol" href="#FileScan.sweep" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FileScan.html#L114">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sweep a set of files and directories from the given parent
+                path, with no filtering applied</div></dd>
+<dt class="decl">FileScan <a class="symbol _function" name="FileScan.sweep:2" href="./htmlsrc/tango.io.FileScan.html#L126" kind="function" beg="126" end="130">sweep</a><span class="params">(char[] <em>path</em>, char[] <em>match</em>, bool <em>recurse</em> = true)</span>; <a title="Permalink to this symbol" href="#FileScan.sweep:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FileScan.html#L126">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sweep a set of files and directories from the given parent
+                path, where the files are filtered by the given suffix</div></dd>
+<dt class="decl">FileScan <a class="symbol _function" name="FileScan.sweep:3" href="./htmlsrc/tango.io.FileScan.html#L139" kind="function" beg="139" end="143">sweep</a><span class="params">(char[] <em>path</em>, Filter <em>filter</em>, bool <em>recurse</em> = true)</span>; <a title="Permalink to this symbol" href="#FileScan.sweep:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FileScan.html#L139">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sweep a set of files and directories from the given parent
+                path, where the files are filtered by the provided delegate</div></dd>
+<dt class="decl">FileScan <a class="symbol _function" name="FileScan.scan" href="./htmlsrc/tango.io.FileScan.html#L152" kind="function" beg="152" end="172">scan</a><span class="params">(FilePath <em>folder</em>, Filter <em>filter</em>, bool <em>recurse</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#FileScan.scan" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.FileScan.html#L152">#</a></dt>
+<dd class="ddef">
+<div class="summary">Internal routine to locate files and sub-directories. We
+                skip entries with names composed only of '.' characters.</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:58 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

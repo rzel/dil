@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.collection.model.MapView</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.collection.model.MapView";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.collection.model.MapView.html" class="symbol">tango.util.collection.model.MapView</a></h1>
+  
+<dl>
+<dt class="decl">interface <a class="symbol _interface" name="MapView" href="./htmlsrc/tango.util.collection.model.MapView.html#L34" kind="interface" beg="34" end="113">MapView</a><span class="tparams">(K, V)</span> : View!(V); <a title="Permalink to this symbol" href="#MapView" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.MapView.html#L34">#</a></dt>
+<dd class="ddef">
+<div class="summary">Maps maintain keyed elements. Any kind of Object 
+ may serve as a key for an element.</div>
+<p class="sec_header">Author:</p>Doug Lea
+ @version 0.93
+<p class="bl"/>
+ <P> For an introduction to this package see <A HREF="index.html"> Overview </A>.
+<dl>
+<dt class="decl">bool <a class="symbol _function" name="MapView.allowsKey" href="./htmlsrc/tango.util.collection.model.MapView.html#L43" kind="function" beg="43" end="43">allowsKey</a><span class="params">(K <em>key</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#MapView.allowsKey" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.MapView.html#L43">#</a></dt>
+<dd class="ddef">
+<div class="summary">Report whether the MapT COULD include k as a key
+ Always returns false if k is null</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="MapView.containsKey" href="./htmlsrc/tango.util.collection.model.MapView.html#L50" kind="function" beg="50" end="50">containsKey</a><span class="params">(K <em>key</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#MapView.containsKey" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.MapView.html#L50">#</a></dt>
+<dd class="ddef">
+<div class="summary">Report whether there exists any element with Key key.</div>
+<p class="sec_header">Returns:</p>true if there is such an element</dd>
+<dt class="decl">bool <a class="symbol _function" name="MapView.containsPair" href="./htmlsrc/tango.util.collection.model.MapView.html#L57" kind="function" beg="57" end="57">containsPair</a><span class="params">(K <em>key</em>, V <em>value</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#MapView.containsPair" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.MapView.html#L57">#</a></dt>
+<dd class="ddef">
+<div class="summary">Report whether there exists a (key, value) pair</div>
+<p class="sec_header">Returns:</p>true if there is such an element</dd>
+<dt class="decl">PairIterator!(K, V) <a class="symbol _function" name="MapView.keys" href="./htmlsrc/tango.util.collection.model.MapView.html#L75" kind="function" beg="75" end="75">keys</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#MapView.keys" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.MapView.html#L75">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return an enumeration that may be used to traverse through
+ the keys (not elements) of the collection. The corresponding
+ elements can be looked at by using at(k) for each key k. For example:
+ <PRE>
+ Iterator keys = amap.keys();
+ while (keys.more()) {
+   K key = keys.get();
+   T value = amap.get(key)
+ // ...
+ }
+ </PRE></div>
+<p class="sec_header">Returns:</p>the enumeration</dd>
+<dt class="decl">int <a class="symbol _function" name="MapView.opApply" href="./htmlsrc/tango.util.collection.model.MapView.html#L82" kind="function" beg="82" end="82">opApply</a><span class="params">(int delegate (inout K key, inout V value) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#MapView.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.MapView.html#L82">#</a></dt>
+<dd class="ddef">
+<div class="summary">traverse the collection content. This is cheaper than using an
+         iterator since there is no creation cost involved.</div></dd>
+<dt class="decl">V <a class="symbol _function" name="MapView.get" href="./htmlsrc/tango.util.collection.model.MapView.html#L91" kind="function" beg="91" end="91">get</a><span class="params">(K <em>key</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#MapView.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.MapView.html#L91">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the element associated with Key key. 
+ @param key a key</div>
+<p class="sec_header">Returns:</p>element such that contains(key, element)
+<p class="sec_header">Throws:</p>NoSuchElementException if !containsKey(key)</dd>
+<dt class="decl">bool <a class="symbol _function" name="MapView.get:2" href="./htmlsrc/tango.util.collection.model.MapView.html#L100" kind="function" beg="100" end="100">get</a><span class="params">(K <em>key</em>, inout V <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#MapView.get:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.MapView.html#L100">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the element associated with Key key. 
+ @param key a key</div>
+<p class="sec_header">Returns:</p>whether the key is contained or not</dd>
+<dt class="decl">bool <a class="symbol _function" name="MapView.keyOf" href="./htmlsrc/tango.util.collection.model.MapView.html#L112" kind="function" beg="112" end="112">keyOf</a><span class="params">(inout K <em>key</em>, V <em>value</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#MapView.keyOf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.MapView.html#L112">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a key associated with element. There may be any
+ number of keys associated with any element, but this returns only
+ one of them (any arbitrary one), or false if no such key exists.
+ @param key, a place to return a located key
+ @param element, a value to try to find a key for.</div>
+<p class="sec_header">Returns:</p>true where value is found; false otherwise</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p></p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:09 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

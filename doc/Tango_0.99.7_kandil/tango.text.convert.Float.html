@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.text.convert.Float</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.text.convert.Float";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.text.convert.Float.html" class="symbol">tango.text.convert.Float</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: Nov 2005
+<p class="sec_header">Author:</p>Kris
+<p class="bl"/>
+        A set of functions for converting between string and floating-
+        point values.
+<p class="bl"/>
+        Applying the D "import alias" mechanism to this module is highly
+        recommended, in order to limit namespace pollution:
+        <pre class="d_code">
+<span class="k">import</span> <span class="i">Float</span> = <span class="i">tango</span>.<span class="i">text</span>.<span class="i">convert</span>.<span class="i">Float</span>;
+
+<span class="k">auto</span> <span class="i">f</span> = <span class="i">Float</span>.<span class="i">parse</span> (<span class="sl">"3.14159"</span>);
+</pre>
+<dl>
+<dt class="decl"><a class="symbol _enum" name="enum" href="./htmlsrc/tango.text.convert.Float.html#L40" kind="enum" beg="40" end="44">enum</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#enum" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Float.html#L40">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constants</div>
+</dd>
+<dt class="decl">NumType <a class="symbol _function" name="toFloat" href="./htmlsrc/tango.text.convert.Float.html#L54" kind="function" beg="54" end="62">toFloat</a><span class="tparams">(T)</span><span class="params">(T[] <em>src</em>)</span>; <a title="Permalink to this symbol" href="#toFloat" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Float.html#L54">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert a formatted string of digits to a floating-point
+        number. Throws an exception where the input text is not
+        parsable in its entirety.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="toString" href="./htmlsrc/tango.text.convert.Float.html#L73" kind="function" beg="73" end="78">toString</a><span class="params">(NumType <em>d</em>, uint <em>decimals</em> = Dec, int <em>e</em> = Exp)</span>; <a title="Permalink to this symbol" href="#toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Float.html#L73">#</a></dt>
+<dd class="ddef">
+<div class="summary">Template wrapper to make life simpler. Returns a text version
+        of the provided value.</div>
+See format() for details</dd>
+<dt class="decl">wchar[] <a class="symbol _function" name="toString16" href="./htmlsrc/tango.text.convert.Float.html#L89" kind="function" beg="89" end="94">toString16</a><span class="params">(NumType <em>d</em>, uint <em>decimals</em> = Dec, int <em>e</em> = Exp)</span>; <a title="Permalink to this symbol" href="#toString16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Float.html#L89">#</a></dt>
+<dd class="ddef">
+<div class="summary">Template wrapper to make life simpler. Returns a text version
+        of the provided value.</div>
+See format() for details</dd>
+<dt class="decl">dchar[] <a class="symbol _function" name="toString32" href="./htmlsrc/tango.text.convert.Float.html#L105" kind="function" beg="105" end="110">toString32</a><span class="params">(NumType <em>d</em>, uint <em>decimals</em> = Dec, int <em>e</em> = Exp)</span>; <a title="Permalink to this symbol" href="#toString32" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Float.html#L105">#</a></dt>
+<dd class="ddef">
+<div class="summary">Template wrapper to make life simpler. Returns a text version
+        of the provided value.</div>
+See format() for details</dd>
+<dt class="decl">T[] <a class="symbol _function" name="format" href="./htmlsrc/tango.text.convert.Float.html#L133" kind="function" beg="133" end="134">format</a><span class="tparams">(T, D=double, U=uint)</span><span class="params">(T[] <em>dst</em>, D <em>x</em>, U <em>decimals</em> = Dec, int <em>e</em> = Exp)</span>; <a title="Permalink to this symbol" href="#format" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Float.html#L133">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert a float to a string. This produces pretty good results
+        for the most part, though one should use David Gay's dtoa package
+        for best accuracy.</div>
+Note that the approach first normalizes a base10 mantissa, then
+        pulls digits from the left side whilst emitting them (rightward)
+        to the output.
+<p class="bl"/>
+        The e parameter controls the number of exponent places emitted, 
+        and can thus control where the output switches to the scientific 
+        notation. For example, setting e=2 for 0.01 or 10.0 would result
+        in normal output. Whereas setting e=1 would result in both those
+        values being rendered in scientific notation instead. Setting e
+        to 0 forces that notation on for everything.
+<p class="sec_header">TODO:</p>this should be replaced, as it is not sufficiently accurate</dd>
+<dt class="decl">NumType <a class="symbol _function" name="parse" href="./htmlsrc/tango.text.convert.Float.html#L298" kind="function" beg="298" end="381">parse</a><span class="tparams">(T)</span><span class="params">(T[] <em>src</em>, uint* <em>ate</em> = null)</span>; <a title="Permalink to this symbol" href="#parse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Float.html#L298">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert a formatted string of digits to a floating-point number.
+        Good for general use, but use David Gay's dtoa package if serious
+        rounding adjustments should be applied.</div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="truncate" href="./htmlsrc/tango.text.convert.Float.html#L392" kind="function" beg="392" end="410">truncate</a><span class="tparams">(T)</span><span class="params">(T[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#truncate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Float.html#L392">#</a></dt>
+<dd class="ddef">
+<div class="summary">Truncate trailing '0' and '.' from a string, such that 200.000 
+        becomes 200, and 20.10 becomes 20.1</div>
+Returns a potentially shorter slice of what you give it.</dd>
+<dt class="decl">NumType <a class="symbol _function" name="pow10" href="./htmlsrc/tango.text.convert.Float.html#L419" kind="function" beg="419" end="449">pow10</a><span class="params">(uint <em>exp</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#pow10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Float.html#L419">#</a></dt>
+<dd class="ddef">
+<div class="summary">Internal function to convert an exponent specifier to a floating
+        point value.</div></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:50 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.ArgParser</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.ArgParser";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.ArgParser.html" class="symbol">tango.util.ArgParser</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: December 2005
+<p class="sec_header">Author:</p>Lars Ivar Igesund, Eric Anderton
+<dl>
+<dt class="decl">alias void delegate (char[] value) <a class="symbol _alias" name="ArgParserCallback" href="./htmlsrc/tango.util.ArgParser.html#L23" kind="alias" beg="23" end="23">ArgParserCallback</a>; <a title="Permalink to this symbol" href="#ArgParserCallback" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L23">#</a></dt>
+<dd class="ddef">
+<div class="summary">An alias to a delegate taking a char[] as a parameter. The value 
+    parameter will hold any chars immediately
+    following the argument.</div></dd>
+<dt class="decl">alias void delegate (char[] value,uint ordinal) <a class="symbol _alias" name="DefaultArgParserCallback" href="./htmlsrc/tango.util.ArgParser.html#L36" kind="alias" beg="36" end="36">DefaultArgParserCallback</a>; <a title="Permalink to this symbol" href="#DefaultArgParserCallback" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L36">#</a></dt>
+<dd class="ddef">
+<div class="summary">An alias to a delegate taking a char[] as a parameter. The value 
+    parameter will hold any chars immediately
+    following the argument.</div>
+The ordinal argument represents which default argument this is for
+    the given stream of arguments.  The first default argument will
+    be ordinal=0 with each successive call to this callback having
+    ordinal values of 1, 2, 3 and so forth. This can be reset to zero
+    in new calls to parse.</dd>
+<dt class="decl">alias void delegate () <a class="symbol _alias" name="ArgParserSimpleCallback" href="./htmlsrc/tango.util.ArgParser.html#L41" kind="alias" beg="41" end="41">ArgParserSimpleCallback</a>; <a title="Permalink to this symbol" href="#ArgParserSimpleCallback" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L41">#</a></dt>
+<dd class="ddef">
+<div class="summary">An alias to a delegate taking no parameters</div></dd>
+<dt class="decl">struct <a class="symbol _struct" name="Argument" href="./htmlsrc/tango.util.ArgParser.html#L47" kind="struct" beg="47" end="62">Argument</a>; <a title="Permalink to this symbol" href="#Argument" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L47">#</a></dt>
+<dd class="ddef">
+<div class="summary">A struct that represents a "{Prefix}{Identifier}" string.</div>
+<dl>
+<dt class="decl">Argument <a class="symbol _function" name="Argument.opCall" href="./htmlsrc/tango.util.ArgParser.html#L54" kind="function" beg="54" end="61">opCall</a><span class="params">(char[] <em>prefix</em>, char[] <em>identifier</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Argument.opCall" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L54">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creates a new Argument instance with given prefix and identifier.</div></dd></dl></dd>
+<dt class="decl">alias Argument <a class="symbol _alias" name="Arg" href="./htmlsrc/tango.util.ArgParser.html#L67" kind="alias" beg="67" end="67">Arg</a>; <a title="Permalink to this symbol" href="#Arg" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L67">#</a></dt>
+<dd class="ddef">
+<div class="summary">Alias for for the lazy people.</div></dd>
+<dt class="decl">class <a class="symbol _class" name="ArgParser" href="./htmlsrc/tango.util.ArgParser.html#L73" kind="class" beg="73" end="315">ArgParser</a>; <a title="Permalink to this symbol" href="#ArgParser" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L73">#</a></dt>
+<dd class="ddef">
+<div class="summary">A utility class to parse and handle your command line arguments.</div>
+<dl>
+<dt class="decl">struct <a class="symbol _struct" name="ArgParser.PrefixCallback" href="./htmlsrc/tango.util.ArgParser.html#L79" kind="struct" beg="79" end="82">PrefixCallback</a>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#ArgParser.PrefixCallback" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L79">#</a></dt>
+<dd class="ddef">
+<div class="summary">A helper struct containing a callback and an id, corresponding to
+        the argId passed to one of the bind methods.</div>
+</dd>
+<dt class="decl">void <a class="symbol _function" name="ArgParser.bind" href="./htmlsrc/tango.util.ArgParser.html#L107" kind="function" beg="107" end="112">bind</a><span class="params">(char[] <em>argPrefix</em>, char[] <em>argId</em>, ArgParserCallback <em>cb</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#ArgParser.bind" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L107">#</a></dt>
+<dd class="ddef">
+<div class="summary">Binds a delegate callback to argument with a prefix and 
+        a argId.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>argPrefix</em></td><td>the prefix of the argument, e.g. a dash '-'.</td></tr>
+<tr><td><em>argId</em></td><td>the name of the argument, what follows the prefix</td></tr>
+<tr><td><em>cb</em></td><td>the delegate that should be called when this argument is found</td></tr></table></dd>
+<dt class="decl"><a class="symbol _ctor" name="ArgParser.this" href="./htmlsrc/tango.util.ArgParser.html#L117" kind="ctor" beg="117" end="119">this</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#ArgParser.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L117">#</a></dt>
+<dd class="ddef">
+<div class="summary">The constructor, creates an empty ArgParser instance.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="ArgParser.this:2" href="./htmlsrc/tango.util.ArgParser.html#L124" kind="ctor" beg="124" end="126">this</a><span class="params">(DefaultArgParserCallback <em>callback</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#ArgParser.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L124">#</a></dt>
+<dd class="ddef">
+<div class="summary">The constructor, creates an ArgParser instance with a defined default callback.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ArgParser.bind:2" href="./htmlsrc/tango.util.ArgParser.html#L148" kind="function" beg="148" end="154">bind</a><span class="params">(char[] <em>argPrefix</em>, char[] <em>argId</em>, ArgParserSimpleCallback <em>cb</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#ArgParser.bind:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L148">#</a></dt>
+<dd class="ddef">
+<div class="summary">Binds a delegate callback to argument with a prefix and 
+        a argId.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>argPrefix</em></td><td>the prefix of the argument, e.g. a dash '-'.</td></tr>
+<tr><td><em>argId</em></td><td>the name of the argument, what follows the prefix</td></tr>
+<tr><td><em>cb</em></td><td>the delegate that should be called when this argument is found</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="ArgParser.bindDefault" href="./htmlsrc/tango.util.ArgParser.html#L164" kind="function" beg="164" end="170">bindDefault</a><span class="params">(char[] <em>argPrefix</em>, DefaultArgParserCallback <em>callback</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#ArgParser.bindDefault" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L164">#</a></dt>
+<dd class="ddef">
+<div class="summary">Binds a delegate callback to all arguments with prefix argPrefix, but that
+        do not conform to an argument bound in a call to bind().</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>argPrefix</em></td><td>the prefix for the callback</td></tr>
+<tr><td><em>callback</em></td><td>the default callback</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="ArgParser.bindDefault:2" href="./htmlsrc/tango.util.ArgParser.html#L180" kind="function" beg="180" end="182">bindDefault</a><span class="params">(DefaultArgParserCallback <em>callback</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#ArgParser.bindDefault:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L180">#</a></dt>
+<dd class="ddef">
+<div class="summary">Binds a delegate callback to all arguments not conforming to an
+        argument bound in a call to bind(). These arguments will be passed to the
+        delegate without having any matching prefixes removed.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>callback</em></td><td>the default callback</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="ArgParser.bind:3" href="./htmlsrc/tango.util.ArgParser.html#L191" kind="function" beg="191" end="193">bind</a><span class="params">(Argument <em>argument</em>, ArgParserCallback <em>callback</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#ArgParser.bind:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L191">#</a></dt>
+<dd class="ddef">
+<div class="summary">Binds a delegate callback to an argument.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>argument</em></td><td>argument to respond to</td></tr>
+<tr><td><em>callback</em></td><td>the delegate that should be called when the argument is found</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="ArgParser.bind:4" href="./htmlsrc/tango.util.ArgParser.html#L202" kind="function" beg="202" end="204">bind</a><span class="params">(Argument[] <em>arguments</em>, void delegate(char[]) <em>callback</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#ArgParser.bind:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L202">#</a></dt>
+<dd class="ddef">
+<div class="summary">Binds a delegate callback to any number of arguments.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>arguments</em></td><td>an array of Argument struct instances</td></tr>
+<tr><td><em>callback</em></td><td>the delegate that should be called when one of the arguments is found</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="ArgParser.bindPosix" href="./htmlsrc/tango.util.ArgParser.html#L215" kind="function" beg="215" end="218">bindPosix</a><span class="params">(char[] <em>identifier</em>, ArgParserCallback <em>callback</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#ArgParser.bindPosix" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L215">#</a></dt>
+<dd class="ddef">
+<div class="summary">Binds a delegate callback to an identifier with Posix-like prefixes. This means,
+        it binds for both prefixes "-" and "--", as well as identifier with, and
+        without a delimiting "=" between identifier and value.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>identifier</em></td><td>argument identifier</td></tr>
+<tr><td><em>callback</em></td><td>the delegate that should be called when one of the arguments is found</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="ArgParser.bindPosix:2" href="./htmlsrc/tango.util.ArgParser.html#L228" kind="function" beg="228" end="230">bindPosix</a><span class="params">(char[][] <em>identifiers</em>, ArgParserCallback <em>callback</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#ArgParser.bindPosix:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L228">#</a></dt>
+<dd class="ddef">
+<div class="summary">Binds a delegate callback to any number of identifiers with Posix-like prefixes.
+        See bindPosix(identifier, callback).</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>arguments</em></td><td>an array of argument identifiers</td></tr>
+<tr><td><em>callback</em></td><td>the delegate that should be called when one of the arguments is found</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="ArgParser.parse" href="./htmlsrc/tango.util.ArgParser.html#L242" kind="function" beg="242" end="314">parse</a><span class="params">(char[][] <em>arguments</em>, bool <em>resetOrdinals</em> = false)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#ArgParser.parse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.ArgParser.html#L242">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses the arguments provided by the parameter. The bound callbacks are called as
+        arguments are recognized. If two arguments have the same prefix, and start with 
+        the same characters (e.g.: --open, --opened), the longest matching bound callback
+        is called.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>arguments</em></td><td>the command line arguments from the application</td></tr>
+<tr><td><em>resetOrdinals</em></td><td>if true, all ordinal counts will be set to zero</td></tr></table></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2005-2006 Lars Ivar Igesund, 
+                        Eric Anderton. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:06 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

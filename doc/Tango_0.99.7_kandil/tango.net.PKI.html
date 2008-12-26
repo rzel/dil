@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.PKI</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.PKI";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.PKI.html" class="symbol">tango.net.PKI</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Author:</p>Jeff Davey <j@submersion.com>
+<dl>
+<dt class="decl">int <a class="symbol _variable" name="SSL_VERIFY_NONE" href="./htmlsrc/tango.net.PKI.html#L49" kind="variable" beg="49" end="49">SSL_VERIFY_NONE</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#SSL_VERIFY_NONE" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L49">#</a></dt>
+<dd class="ddef">
+<div class="summary">PKI provides Public Key Infrastructure.</div>
+Specifically, it provides the ability to:
+<p class="bl"/>
+  - Make a X509 Certificate (SSL Certificate)
+<p class="bl"/>
+  - Make a Public and Private key pair
+<p class="bl"/>
+  - Validate a X509 Certificate against a Certificate Authority
+<p class="bl"/>
+  - Generate a SSLCtx for SSLSocketConduit and SSLServerSocket
+<p class="bl"/>
+  - Wrap a SSLVerifyCallback so that retrieving the peer cert is easier
+<p class="bl"/>
+  PKI requires the OpenSSL library, and uses a dynamic binding to the library.
+  You can find the library at http://www.openssl.org and a Win32 specific port 
+  at http://www.slproweb.com/products/Win32OpenSSL.html.
+<p class="bl"/>
+
+<p class="bl"/>
+
+  Do not verify the peer certificate. Nor fail if it's not provided (server 
+  only).</dd>
+<dt class="decl">int <a class="symbol _variable" name="SSL_VERIFY_PEER" href="./htmlsrc/tango.net.PKI.html#L57" kind="variable" beg="57" end="57">SSL_VERIFY_PEER</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#SSL_VERIFY_PEER" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L57">#</a></dt>
+<dd class="ddef">
+<div class="summary">Ask for a peer certificate, but do not fail if it is not provided.</div></dd>
+<dt class="decl">int <a class="symbol _variable" name="SSL_VERIFY_FAIL_IF_NO_PEER_CERT" href="./htmlsrc/tango.net.PKI.html#L65" kind="variable" beg="65" end="65">SSL_VERIFY_FAIL_IF_NO_PEER_CERT</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#SSL_VERIFY_FAIL_IF_NO_PEER_CERT" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L65">#</a></dt>
+<dd class="ddef">
+<div class="summary">Ask for a peer certificate, however, fail if it is not provided</div></dd>
+<dt class="decl">int <a class="symbol _variable" name="SSL_VERIFY_CLIENT_ONCE" href="./htmlsrc/tango.net.PKI.html#L73" kind="variable" beg="73" end="73">SSL_VERIFY_CLIENT_ONCE</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#SSL_VERIFY_CLIENT_ONCE" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L73">#</a></dt>
+<dd class="ddef">
+<div class="summary">Only validate once, do not re-validate during handshake renegotiation.</div></dd>
+<dt class="decl">typedef int function(int, X509_STORE_CTX *ctx) <a class="symbol _typedef" name="SSLVerifyCallback" href="./htmlsrc/tango.net.PKI.html#L87" kind="typedef" beg="87" end="87">SSLVerifyCallback</a>; <a title="Permalink to this symbol" href="#SSLVerifyCallback" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L87">#</a></dt>
+<dd class="ddef">
+<div class="summary">SSLVerifyCallback is passed into SSLCtx and is called during handshake
+  when OpenSSL is doing certificate validation.</div>
+Wrapping the X509_STORE_CTX in the CertificateStoreCtx utility class
+  gives the ability to access the peer certificate, and reason for error.</dd>
+<dt class="decl">class <a class="symbol _class" name="SSLCtx" href="./htmlsrc/tango.net.PKI.html#L109" kind="class" beg="109" end="251">SSLCtx</a>; <a title="Permalink to this symbol" href="#SSLCtx" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L109">#</a></dt>
+<dd class="ddef">
+<div class="summary">SSLCtx is provided to SSLSocketConduit and SSLServerSocket.</div>
+It contains the public/private keypair, and some additional options that
+    control how the SSL streams work.
+<p class="bl"/>
+    Example
+    <pre class="d_code">
+<span class="k">auto</span> <span class="i">cert</span> = <span class="k">new</span> <span class="i">Certificate</span>(<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">File</span>(<span class="sl">"public.pem"</span>).<span class="i">read</span>);
+<span class="k">auto</span> <span class="i">pkey</span> = <span class="k">new</span> <span class="i">PrivateKey</span>(<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">File</span>(<span class="sl">"private.pem"</span>).<span class="i">read</span>);;
+<span class="k">auto</span> <span class="i">ctx</span> = <span class="k">new</span> <span class="i">SSLCtx</span>();
+<span class="i">ctx</span>.<span class="i">certificate</span> = <span class="i">cert</span>;
+<span class="i">ctx</span>.<span class="i">pkey</span> = <span class="i">pkey</span>;
+<span class="i">ctx</span>.<span class="i">checkKey</span>();
+</pre>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="SSLCtx.this" href="./htmlsrc/tango.net.PKI.html#L122" kind="ctor" beg="122" end="126">this</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#SSLCtx.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L122">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creates a new SSLCtx supporting SSLv3 and TLSv1 methods.</div></dd>
+<dt class="decl">SSLCtx <a class="symbol _function" name="SSLCtx.certificate" href="./htmlsrc/tango.net.PKI.html#L148" kind="function" beg="148" end="155">certificate</a><span class="params">(Certificate <em>cert</em>)</span>; <a title="Permalink to this symbol" href="#SSLCtx.certificate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L148">#</a></dt>
+<dd class="ddef">
+<div class="summary">Assigns a X509 Certificate to the SSLCtx.</div>
+This is required for SSL</dd>
+<dt class="decl">SSLCtx <a class="symbol _function" name="SSLCtx.privateKey" href="./htmlsrc/tango.net.PKI.html#L166" kind="function" beg="166" end="173">privateKey</a><span class="params">(PrivateKey <em>key</em>)</span>; <a title="Permalink to this symbol" href="#SSLCtx.privateKey" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L166">#</a></dt>
+<dd class="ddef">
+<div class="summary">Assigns a PrivateKey (public/private keypair to the SSLCtx.</div>
+This is required for SSL.</dd>
+<dt class="decl">SSLCtx <a class="symbol _function" name="SSLCtx.checkKey" href="./htmlsrc/tango.net.PKI.html#L182" kind="function" beg="182" end="187">checkKey</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#SSLCtx.checkKey" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L182">#</a></dt>
+<dd class="ddef">
+<div class="summary">Validates that the X509 certificate was signed with the provided
+        public/private keypair. Throws an exception if this is not the case.</div></dd>
+<dt class="decl">SSLCtx <a class="symbol _function" name="SSLCtx.setVerification" href="./htmlsrc/tango.net.PKI.html#L196" kind="function" beg="196" end="200">setVerification</a><span class="params">(int <em>flags</em>, SSLVerifyCallback <em>cb</em>)</span>; <a title="Permalink to this symbol" href="#SSLCtx.setVerification" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L196">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sets a SSLVerifyCallback function using the SSL_VERIFY_(NONE|PEER|etc) flags
+        to control how verification is handled.</div></dd>
+<dt class="decl">SSLCtx <a class="symbol _function" name="SSLCtx.store" href="./htmlsrc/tango.net.PKI.html#L210" kind="function" beg="210" end="215">store</a><span class="params">(CertificateStore <em>store</em>)</span>; <a title="Permalink to this symbol" href="#SSLCtx.store" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L210">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sets a CertificateStore of certs that are valid and trust Certificate
+        Authorities during verification.</div></dd>
+<dt class="decl">SSLCtx <a class="symbol _function" name="SSLCtx.caCertsPath" href="./htmlsrc/tango.net.PKI.html#L232" kind="function" beg="232" end="237">caCertsPath</a><span class="params">(char[] <em>path</em>)</span>; <a title="Permalink to this symbol" href="#SSLCtx.caCertsPath" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L232">#</a></dt>
+<dd class="ddef">
+<div class="summary">Loads valid Certificate Authorities from the specified path.</div>
+From the SSL_CTX_load_verify_locations manpage:
+<p class="bl"/>
+        Each file must contain only one CA certificate. Also, the files are
+        looked up by the CA subject name hash value, which must be available. If
+        more than one CA certificate with the same name hash value exists, the
+        extension must be different. (ie: 9d66eef0.0, 9d66eef0.1, etc). The search 
+        is performed in the ordering of the extension, regardless of other properties
+        of the certificates. Use the c_rehash utility to create the necessary symlinks</dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="CertificateStoreCtx" href="./htmlsrc/tango.net.PKI.html#L280" kind="class" beg="280" end="322">CertificateStoreCtx</a>; <a title="Permalink to this symbol" href="#CertificateStoreCtx" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L280">#</a></dt>
+<dd class="ddef">
+<div class="summary">The CertificateStoreCtx is a wrapper to the SSLVerifyCallback X509_STORE_CTX
+    parameter.</div>
+It allows retrieving the peer certificate, and examining any errors during
+    validation.
+<p class="bl"/>
+
+    The following example will probably change sometime soon.
+<p class="bl"/>
+    Example
+    <pre class="d_code">
+<span class="k">extern</span> (<span class="i">C</span>)
+{
+    <span class="k">int</span> <span class="i">myCallback</span>(<span class="k">int</span> <span class="i">code</span>, <span class="i">X509_STORE_CTX</span> *<span class="i">ctx</span>)
+    {
+        <span class="k">auto</span> <span class="i">myCtx</span> = <span class="k">new</span> <span class="i">CertificateStoreCtx</span>(<span class="i">ctx</span>);
+        <span class="i">Certificate</span> <span class="i">cert</span> = <span class="i">myCtx</span>.<span class="i">cert</span>;
+        <span class="i">Stdout</span>(<span class="i">cert</span>.<span class="i">subject</span>).<span class="i">newline</span>;
+        <span class="k">return</span> <span class="n">0</span>; <span class="lc">// BAD CERT! (1 is good)</span>
+    }
+}
+</pre>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="CertificateStoreCtx.this" href="./htmlsrc/tango.net.PKI.html#L291" kind="ctor" beg="291" end="294">this</a><span class="params">(X509_STORE_CTX * <em>ctx</em>)</span>; <a title="Permalink to this symbol" href="#CertificateStoreCtx.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L291">#</a></dt>
+<dd class="ddef">
+<div class="summary">This constructor takes a X509_STORE_CTX as provided by the SSLVerifyCallback
+        function.</div></dd>
+<dt class="decl">Certificate <a class="symbol _function" name="CertificateStoreCtx.cert" href="./htmlsrc/tango.net.PKI.html#L302" kind="function" beg="302" end="308">cert</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#CertificateStoreCtx.cert" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L302">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the peer certificate.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="CertificateStore" href="./htmlsrc/tango.net.PKI.html#L343" kind="class" beg="343" end="378">CertificateStore</a>; <a title="Permalink to this symbol" href="#CertificateStore" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L343">#</a></dt>
+<dd class="ddef">
+<div class="summary">CertificateStore stores numerous X509 Certificates for use in CRL lists,
+    CA lists, etc.</div>
+Example
+    <pre class="d_code">
+<span class="k">auto</span> <span class="i">store</span> = <span class="k">new</span> <span class="i">CertificateStore</span>();
+<span class="k">auto</span> <span class="i">caCert</span> = <span class="k">new</span> <span class="i">Certificate</span>(<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">File</span>(<span class="sl">"cacert.pem"</span>).<span class="i">read</span>);
+<span class="i">store</span>.<span class="i">add</span>(<span class="i">caCert</span>);
+<span class="k">auto</span> <span class="i">untrustedCert</span> = <span class="k">new</span> <span class="i">Certificate</span>(<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">File</span>(<span class="sl">"cert.pem"</span>).<span class="i">read</span>);
+<span class="k">if</span> (<span class="i">untrustedCert</span>.<span class="i">verify</span>(<span class="i">store</span>))
+    <span class="i">Stdout</span>(<span class="sl">"The untrusted cert was signed by our caCert and is valid."</span>).<span class="i">newline</span>;
+<span class="k">else</span>
+    <span class="i">Stdout</span>(<span class="sl">"The untrusted cert was expired, or not signed by the caCert"</span>).<span class="i">newline</span>;
+</pre>
+<dl>
+<dt class="decl">CertificateStore <a class="symbol _function" name="CertificateStore.add" href="./htmlsrc/tango.net.PKI.html#L370" kind="function" beg="370" end="377">add</a><span class="params">(Certificate <em>cert</em>)</span>; <a title="Permalink to this symbol" href="#CertificateStore.add" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L370">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add a Certificate to the store.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="PublicKey" href="./htmlsrc/tango.net.PKI.html#L398" kind="class" beg="398" end="545">PublicKey</a>; <a title="Permalink to this symbol" href="#PublicKey" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L398">#</a></dt>
+<dd class="ddef">
+<div class="summary">PublicKey contains the RSA public key from a private/public keypair.</div>
+It also allows extraction of the public key from a keypair.
+<p class="bl"/>
+    This is useful for encryption, you can encrypt data with someone's public key
+    and they can decrypt it with their private key.
+<p class="bl"/>
+    Example
+    <pre class="d_code">
+<span class="k">auto</span> <span class="k">public</span> = <span class="k">new</span> <span class="i">PublicKey</span>(<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">File</span>(<span class="sl">"public.pem"</span>).<span class="i">read</span>);
+<span class="k">auto</span> <span class="i">encrypted</span> = <span class="k">public</span>.<span class="i">encrypt</span>(<span class="k">cast</span>(<span class="k">ubyte</span>[])<span class="sl">"Hello, how are you today?"</span>);
+<span class="k">auto</span> <span class="i">pemData</span> = <span class="k">public</span>.<span class="i">pemFormat</span>;
+</pre>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="PublicKey.this" href="./htmlsrc/tango.net.PKI.html#L411" kind="ctor" beg="411" end="422">this</a><span class="params">(char[] <em>publicPemData</em>)</span>; <a title="Permalink to this symbol" href="#PublicKey.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L411">#</a></dt>
+<dd class="ddef">
+<div class="summary">Generate a PublicKey object from the passed PEM formatted data</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>publicPemData</em></td><td>pem encoded data containing the public key</td></tr></table></dd>
+<dt class="decl">char[] <a class="symbol _function" name="PublicKey.pemFormat" href="./htmlsrc/tango.net.PKI.html#L449" kind="function" beg="449" end="466">pemFormat</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#PublicKey.pemFormat" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L449">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a PublicKey in the PEM format.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="PublicKey.verify" href="./htmlsrc/tango.net.PKI.html#L477" kind="function" beg="477" end="488">verify</a><span class="params">(ubyte[] <em>data</em>, ubyte[] <em>signature</em>)</span>; <a title="Permalink to this symbol" href="#PublicKey.verify" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L477">#</a></dt>
+<dd class="ddef">
+<div class="summary">Verify the data passed was signed with the public key.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>the data to verify</td></tr>
+<tr><td><em>signature</em></td><td>the digital signature</td></tr></table></dd>
+<dt class="decl">ubyte[] <a class="symbol _function" name="PublicKey.encrypt" href="./htmlsrc/tango.net.PKI.html#L504" kind="function" beg="504" end="518">encrypt</a><span class="params">(ubyte[] <em>data</em>)</span>; <a title="Permalink to this symbol" href="#PublicKey.encrypt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L504">#</a></dt>
+<dd class="ddef">
+<div class="summary">Encrypt the passed data using the PublicKey</div>
+<p class="sec_header">Notes:</p>This is size limited based off the key
+        Not recommended for general encryption, use RSA for encrypting a 
+        random key instead and switch to a block cipher.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>the data to encrypt</td></tr></table></dd>
+<dt class="decl">ubyte[] <a class="symbol _function" name="PublicKey.decrypt" href="./htmlsrc/tango.net.PKI.html#L531" kind="function" beg="531" end="543">decrypt</a><span class="params">(ubyte[] <em>data</em>)</span>; <a title="Permalink to this symbol" href="#PublicKey.decrypt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L531">#</a></dt>
+<dd class="ddef">
+<div class="summary">Decrypts data previously encrypted with the matching PrivateKey</div>
+Please see the encrypt notes.
+<p class="sec_header">Parmas:</p>data = the data to encrypt</dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="PrivateKey" href="./htmlsrc/tango.net.PKI.html#L563" kind="class" beg="563" end="766">PrivateKey</a>; <a title="Permalink to this symbol" href="#PrivateKey" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L563">#</a></dt>
+<dd class="ddef">
+<div class="summary">Generates a RSA public/private key pair for use with X509 Certificates
+    and other applications search as S/MIME, DomainKeys, etc.</div>
+Example
+    <pre class="d_code">
+<span class="k">auto</span> <span class="i">newPkey</span> = <span class="k">new</span> <span class="i">PrivateKey</span>(<span class="n">2048</span>); <span class="lc">// create new keypair</span>
+<span class="i">Stdout</span>(<span class="i">newPkey</span>.<span class="i">pemFormat</span>(<span class="sl">"password"</span>)); <span class="lc">// dumps in pemFormat with encryption</span>
+<span class="i">Stdout</span>(<span class="i">newPkey</span>.<span class="i">pemFormat</span>()); <span class="lc">// dumps in pemFormat without encryption</span>
+<span class="i">Stdout</span>(<span class="i">newPkey</span>.<span class="i">publicKey</span>.<span class="i">pemFormat</span>); <span class="lc">// dump out just the public key portion</span>
+<span class="k">auto</span> <span class="i">data</span> = <span class="i">newPkey</span>.<span class="i">decrypt</span>(<span class="i">someData</span>); <span class="lc">// decrypt data encrypted with public Key</span>
+</pre>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="PrivateKey.this" href="./htmlsrc/tango.net.PKI.html#L578" kind="ctor" beg="578" end="589">this</a><span class="params">(char[] <em>privatePemData</em>, char[] <em>certPass</em> = null)</span>; <a title="Permalink to this symbol" href="#PrivateKey.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L578">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reads in the provided PEM data, with an optional password to decrypt
+        the private key.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>privatePemData</em></td><td>the PEM encoded data of the private key</td></tr>
+<tr><td><em>certPass</em></td><td>an optional password to decrypt the key.</td></tr></table></dd>
+<dt class="decl"><a class="symbol _ctor" name="PrivateKey.this:2" href="./htmlsrc/tango.net.PKI.html#L601" kind="ctor" beg="601" end="614">this</a><span class="params">(int <em>bits</em>)</span>; <a title="Permalink to this symbol" href="#PrivateKey.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L601">#</a></dt>
+<dd class="ddef">
+<div class="summary">Generates a new private/public key at the specified bit leve.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>bits</em></td><td>Number of bits to use, 2048 is a good number for this.</td></tr></table></dd>
+<dt class="decl">int <a class="symbol _function" name="PrivateKey.opEquals" href="./htmlsrc/tango.net.PKI.html#L633" kind="function" beg="633" end="636">opEquals</a><span class="params">(PrivateKey <em>obj</em>)</span>; <a title="Permalink to this symbol" href="#PrivateKey.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L633">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two PrivateKey classes to see if the internal structures are 
+        the same.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="PrivateKey.pemFormat" href="./htmlsrc/tango.net.PKI.html#L649" kind="function" beg="649" end="666">pemFormat</a><span class="params">(char[] <em>pass</em> = null)</span>; <a title="Permalink to this symbol" href="#PrivateKey.pemFormat" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L649">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the underlying public/private key pair in PEM format.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>pass</em></td><td>If this is provided, the private key will be encrypted using
+            AES 256bit encryption, with this as the key.</td></tr></table></dd>
+<dt class="decl">PublicKey <a class="symbol _function" name="PrivateKey.publicKey" href="./htmlsrc/tango.net.PKI.html#L674" kind="function" beg="674" end="678">publicKey</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#PrivateKey.publicKey" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L674">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the underlying PublicKey</div></dd>
+<dt class="decl">ubyte[] <a class="symbol _function" name="PrivateKey.sign" href="./htmlsrc/tango.net.PKI.html#L691" kind="function" beg="691" end="709">sign</a><span class="params">(ubyte[] <em>data</em>, ubyte[] <em>sigbuf</em>)</span>; <a title="Permalink to this symbol" href="#PrivateKey.sign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L691">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sign the given data with the private key</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>the data to sign</td></tr>
+<tr><td><em>sigbuf</em></td><td>the buffer to store the signature in
+        
+        Returns a slice of the signature or null</td></tr></table></dd>
+<dt class="decl">ubyte[] <a class="symbol _function" name="PrivateKey.encrypt" href="./htmlsrc/tango.net.PKI.html#L725" kind="function" beg="725" end="739">encrypt</a><span class="params">(ubyte[] <em>data</em>)</span>; <a title="Permalink to this symbol" href="#PrivateKey.encrypt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L725">#</a></dt>
+<dd class="ddef">
+<div class="summary">Encrypt the passed data using the PrivateKey</div>
+<p class="sec_header">Notes:</p>This is size limited based off the key
+        Not recommended for general encryption, use RSA for encrypting a 
+        random key instead and switch to a block cipher.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>the data to encrypt</td></tr></table></dd>
+<dt class="decl">ubyte[] <a class="symbol _function" name="PrivateKey.decrypt" href="./htmlsrc/tango.net.PKI.html#L752" kind="function" beg="752" end="764">decrypt</a><span class="params">(ubyte[] <em>data</em>)</span>; <a title="Permalink to this symbol" href="#PrivateKey.decrypt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L752">#</a></dt>
+<dd class="ddef">
+<div class="summary">Decrypts data previously encrypted with the matching PublicKey</div>
+Please see the encrypt notes.
+<p class="sec_header">Parmas:</p>data = the data to encrypt</dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="Certificate" href="./htmlsrc/tango.net.PKI.html#L794" kind="class" beg="794" end="1172">Certificate</a>; <a title="Permalink to this symbol" href="#Certificate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L794">#</a></dt>
+<dd class="ddef">
+<div class="summary">Certificate provides necessary functionality to create and read X509 
+    Certificates.</div>
+Note, once a Certificate has been signed, it is immutable, and cannot
+    be modified.
+<p class="bl"/>
+    X509 Certificates are sometimes called SSL Certificates.
+<p class="bl"/>
+    Example
+    <pre class="d_code">
+<span class="k">auto</span> <span class="i">newPkey</span> = <span class="k">new</span> <span class="i">PrivateKey</span>(<span class="n">2048</span>); <span class="lc">// create new keypair</span>
+<span class="k">auto</span> <span class="i">cert</span> = <span class="k">new</span> <span class="i">Certificate</span>();
+<span class="i">cert</span>.<span class="i">privateKey</span> = <span class="i">newPkey</span>;
+<span class="i">cert</span>.<span class="i">serialNumber</span> = <span class="n">1</span>;
+<span class="i">cert</span>.<span class="i">dateBeforeOffset</span> = <span class="i">TimeSpan</span>.<span class="i">zero</span>;
+<span class="i">cert</span>.<span class="i">dateAfterOffset</span> = <span class="i">TimeSpan</span>.<span class="i">days</span>(<span class="n">365</span>); <span class="lc">// cert is valid for one year</span>
+<span class="i">cert</span>.<span class="i">setSubject</span>(<span class="sl">"US"</span>, <span class="sl">"State"</span>, <span class="sl">"City"</span>, <span class="sl">"Organization"</span>, <span class="sl">"CN"</span>, <span class="sl">"Organizational Unit"</span>, <span class="sl">"Email"</span>);
+<span class="i">cert</span>.<span class="i">sign</span>(<span class="i">cert</span>, <span class="i">newPkey</span>); <span class="lc">// self signed cert</span>
+<span class="i">Stdout</span>(<span class="i">newPkey</span>.<span class="i">pemFormat</span>).<span class="i">newline</span>;
+<span class="i">Stdout</span>(<span class="i">cert</span>.<span class="i">pemFormat</span>).<span class="i">newline</span>;
+</pre>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="Certificate.this" href="./htmlsrc/tango.net.PKI.html#L812" kind="ctor" beg="812" end="822">this</a><span class="params">(char[] <em>publicPemData</em>)</span>; <a title="Permalink to this symbol" href="#Certificate.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L812">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses a X509 Certificate from the provided PEM encoded data.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="Certificate.this:2" href="./htmlsrc/tango.net.PKI.html#L830" kind="ctor" beg="830" end="844">this</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Certificate.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L830">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creates a new and un-signed (empty) X509 certificate. Useful for generating
+        X509 certificates programatically.</div></dd>
+<dt class="decl">Certificate <a class="symbol _function" name="Certificate.serialNumber" href="./htmlsrc/tango.net.PKI.html#L866" kind="function" beg="866" end="872">serialNumber</a><span class="params">(uint <em>serial</em>)</span>; <a title="Permalink to this symbol" href="#Certificate.serialNumber" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L866">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sets the serial number of the new unsigned certificate.</div>
+Note, this serial number should be unique for all certificates signed
+        by the provided certificate authority. Having two Certificates with the
+        same serial number can cause problems with web browsers and other apps
+        because they will be different certificates.</dd>
+<dt class="decl">uint <a class="symbol _function" name="Certificate.serialNumber:2" href="./htmlsrc/tango.net.PKI.html#L879" kind="function" beg="879" end="884">serialNumber</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Certificate.serialNumber:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L879">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the serial number of the Certificate</div></dd>
+<dt class="decl">Certificate <a class="symbol _function" name="Certificate.dateBeforeOffset" href="./htmlsrc/tango.net.PKI.html#L899" kind="function" beg="899" end="905">dateBeforeOffset</a><span class="params">(TimeSpan <em>t</em>)</span>; <a title="Permalink to this symbol" href="#Certificate.dateBeforeOffset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L899">#</a></dt>
+<dd class="ddef">
+<div class="summary">If the current date is "before" the date set here, the certificate will be
+        invalid.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>t</em></td><td>A TimeSpan representing the earliest time the Certificate will be valid</td></tr></table>
+<p class="sec_header">Example:</p>cert.dateBeforeOffset = TimeSpan.seconds(-86400); // Certificate is invalid before yesterday</dd>
+<dt class="decl">Certificate <a class="symbol _function" name="Certificate.dateAfterOffset" href="./htmlsrc/tango.net.PKI.html#L921" kind="function" beg="921" end="927">dateAfterOffset</a><span class="params">(TimeSpan <em>t</em>)</span>; <a title="Permalink to this symbol" href="#Certificate.dateAfterOffset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L921">#</a></dt>
+<dd class="ddef">
+<div class="summary">If the current date is "after" the date set here, the certificate will be
+        invalid.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>t</em></td><td>A TimeSpan representing the amount of time from now that the
+            Certificate will be valid. This must be larger than dateBefore</td></tr></table>
+<p class="sec_header">Example:</p>cert.dateAfterOffset = TimeSpan.seconds(86400 * 365); // Certificate is valid up to one year from now</dd>
+<dt class="decl">char[] <a class="symbol _function" name="Certificate.dateAfter" href="./htmlsrc/tango.net.PKI.html#L938" kind="function" beg="938" end="949">dateAfter</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Certificate.dateAfter" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L938">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the dateAfter field of the certificate in ASN1_GENERALIZEDTIME.</div>
+Note, this will eventually befome a DateTime struct.</dd>
+<dt class="decl">char[] <a class="symbol _function" name="Certificate.dateBefore" href="./htmlsrc/tango.net.PKI.html#L959" kind="function" beg="959" end="969">dateBefore</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Certificate.dateBefore" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L959">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the dateBefore field of the certificate in ASN1_GENERALIZEDTIME.</div>
+Note, this will eventually befome a DateTime struct.</dd>
+<dt class="decl">Certificate <a class="symbol _function" name="Certificate.privateKey" href="./htmlsrc/tango.net.PKI.html#L977" kind="function" beg="977" end="986">privateKey</a><span class="params">(PrivateKey <em>key</em>)</span>; <a title="Permalink to this symbol" href="#Certificate.privateKey" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L977">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sets the public/private keypair of an unsigned certificate.</div></dd>
+<dt class="decl">Certificate <a class="symbol _function" name="Certificate.setSubject" href="./htmlsrc/tango.net.PKI.html#L1007" kind="function" beg="1007" end="1034">setSubject</a><span class="params">(char[] <em>country</em>, char[] <em>stateProvince</em>, char[] <em>city</em>, char[] <em>organization</em>, char[] <em>cn</em>, char[] <em>organizationalUnit</em> = null, char[] <em>email</em> = null)</span>; <a title="Permalink to this symbol" href="#Certificate.setSubject" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L1007">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sets the subject (who this certificate is for) of an unsigned certificate.</div>
+The country code must be a valid two-letter country code (ie: CA, US, etc)
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>country</em></td><td>the two letter country code of the subject</td></tr>
+<tr><td><em>stateProvince</em></td><td>the state or province of the subject</td></tr>
+<tr><td><em>city</em></td><td>the city the subject belong to</td></tr>
+<tr><td><em>organization</em></td><td>the organization the subject belongs to</td></tr>
+<tr><td><em>cn</em></td><td>the cn of the subject. For websites, this should be the website url
+        or a wildcard version of it (ie: *.dsource.org)</td></tr>
+<tr><td><em>organizationUnit</em></td><td>the optional orgnizationalUnit of the subject</td></tr>
+<tr><td><em>email</em></td><td>the optional email address of the subject</td></tr></table></dd>
+<dt class="decl">char[] <a class="symbol _function" name="Certificate.subject" href="./htmlsrc/tango.net.PKI.html#L1042" kind="function" beg="1042" end="1063">subject</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Certificate.subject" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L1042">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the Certificate subject in a multi-line string.</div></dd>
+<dt class="decl">Certificate <a class="symbol _function" name="Certificate.sign" href="./htmlsrc/tango.net.PKI.html#L1074" kind="function" beg="1074" end="1096">sign</a><span class="params">(Certificate <em>caCert</em>, PrivateKey <em>caKey</em>)</span>; <a title="Permalink to this symbol" href="#Certificate.sign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L1074">#</a></dt>
+<dd class="ddef">
+<div class="summary">Signs the unsigned Certificate with the specified CA X509 Certificate and
+        it's corresponding public/private keypair.</div>
+Once the Certificate is signed, it can no longer be modified.</dd>
+<dt class="decl">int <a class="symbol _function" name="Certificate.opEquals" href="./htmlsrc/tango.net.PKI.html#L1104" kind="function" beg="1104" end="1107">opEquals</a><span class="params">(Certificate <em>obj</em>)</span>; <a title="Permalink to this symbol" href="#Certificate.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L1104">#</a></dt>
+<dd class="ddef">
+<div class="summary">Checks if the underlying data structur of the Certificate is equal</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Certificate.verify" href="./htmlsrc/tango.net.PKI.html#L1119" kind="function" beg="1119" end="1134">verify</a><span class="params">(CertificateStore <em>store</em>)</span>; <a title="Permalink to this symbol" href="#Certificate.verify" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L1119">#</a></dt>
+<dd class="ddef">
+<div class="summary">Verifies that the Certificate was signed and issues by a CACert in the 
+        passed CertificateStore.</div>
+This will also verify the dateBefore and dateAfter fields to see if the
+        current date falls between them.</dd>
+<dt class="decl">char[] <a class="symbol _function" name="Certificate.pemFormat" href="./htmlsrc/tango.net.PKI.html#L1142" kind="function" beg="1142" end="1159">pemFormat</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Certificate.pemFormat" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.PKI.html#L1142">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the Certificate in a PEM encoded string.</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2008 Jeff Davey. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:53 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

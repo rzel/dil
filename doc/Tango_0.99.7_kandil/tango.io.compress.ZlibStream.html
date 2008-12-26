@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.compress.ZlibStream</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.compress.ZlibStream";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.compress.ZlibStream.html" class="symbol">tango.io.compress.ZlibStream</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: July 2007
+<p class="sec_header">Author:</p>Daniel Keep
+<p class="sec_header">History:</p>Added support for "window bits", needed for Zip support.
+<dl>
+<dt class="decl">class <a class="symbol _class" name="ZlibInput" href="./htmlsrc/tango.io.compress.ZlibStream.html#L46" kind="class" beg="46" end="217">ZlibInput</a> : InputFilter; <a title="Permalink to this symbol" href="#ZlibInput" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.ZlibStream.html#L46">#</a></dt>
+<dd class="ddef">
+<div class="summary">This input filter can be used to perform decompression of zlib streams.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="ZlibInput.this" href="./htmlsrc/tango.io.compress.ZlibStream.html#L77" kind="ctor" beg="77" end="97">this</a><span class="params">(InputStream <em>stream</em>)</span>; <a title="Permalink to this symbol" href="#ZlibInput.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.ZlibStream.html#L77">#</a></dt>
+<dt class="decl"><a class="symbol _ctor" name="ZlibInput.this:2" href="./htmlsrc/tango.io.compress.ZlibStream.html#L100" kind="ctor" beg="100" end="120">this</a><span class="params">(InputStream <em>stream</em>, int <em>windowBits</em>)</span>; <a title="Permalink to this symbol" href="#ZlibInput.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.ZlibStream.html#L100">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a new zlib decompression filter.  You need to pass in the
+        stream that the decompression filter will read from.  If you are using
+        this filter with a conduit, the idiom to use is:</div>
+<pre class="d_code">
+<span class="k">auto</span> <span class="i">input</span> = <span class="k">new</span> <span class="i">ZlibInput</span>(<span class="i">myConduit</span>.<span class="i">input</span>)</pre>;
+<span class="i">input</span>.<span class="i">read</span>(<span class="i">myContent</span>);
+
+<p class="bl"/>
+        The optional windowBits parameter is the base two logarithm of the
+        window size, and should be in the range 8-15, defaulting to 15 if not
+        specified.  Additionally, the windowBits parameter may be negative to
+        indicate that zlib should omit the standard zlib header and trailer,
+        with the window size being -windowBits.</dd></dl>
+<dt class="decl">uint <a class="symbol _function" name="ZlibInput.read" href="./htmlsrc/tango.io.compress.ZlibStream.html#L137" kind="function" beg="137" end="179">read</a><span class="params">(void[] <em>dst</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#ZlibInput.read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.ZlibStream.html#L137">#</a></dt>
+<dd class="ddef">
+<div class="summary">Decompresses data from the underlying conduit into a target array.</div>
+Returns the number of bytes stored into dst, which may be less than
+        requested.</dd>
+<dt class="decl">InputStream <a class="symbol _function" name="ZlibInput.clear" href="./htmlsrc/tango.io.compress.ZlibStream.html#L187" kind="function" beg="187" end="198">clear</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#ZlibInput.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.ZlibStream.html#L187">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clear any buffered content.  No-op.</div></dd></dd></dl>
+<dt class="decl">class <a class="symbol _class" name="ZlibOutput" href="./htmlsrc/tango.io.compress.ZlibStream.html#L226" kind="class" beg="226" end="487">ZlibOutput</a> : OutputFilter; <a title="Permalink to this symbol" href="#ZlibOutput" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.ZlibStream.html#L226">#</a></dt>
+<dd class="ddef">
+<div class="summary">This output filter can be used to perform compression of data into a zlib
+    stream.</div>
+<dl>
+<dt class="decl">enum <a class="symbol _enum" name="ZlibOutput.Level" href="./htmlsrc/tango.io.compress.ZlibStream.html#L248" kind="enum" beg="248" end="254">Level</a>; <a title="Permalink to this symbol" href="#ZlibOutput.Level" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.ZlibStream.html#L248">#</a></dt>
+<dd class="ddef">
+<div class="summary">This enumeration represents several pre-defined compression levels.</div>
+None instructs zlib to perform no compression whatsoever, and simply
+        store the data stream.  Note that this actually expands the stream
+        slightly to accommodate the zlib stream metadata.
+<p class="bl"/>
+        Fast instructs zlib to perform a minimal amount of compression, Best
+        indicates that you want the maximum level of compression and Normal
+        (the default level) is a compromise between the two.  The exact
+        compression level Normal represents is determined by the underlying
+        zlib library, but is typically level 6.
+<p class="bl"/>
+        Any integer between -1 and 9 inclusive may be used as a level,
+        although the symbols in this enumeration should suffice for most
+        use-cases.
+</dd>
+<dt class="decl"><a class="symbol _ctor" name="ZlibOutput.this" href="./htmlsrc/tango.io.compress.ZlibStream.html#L283" kind="ctor" beg="283" end="301">this</a><span class="params">(OutputStream <em>stream</em>, Level <em>level</em> = Level.Normal)</span>; <a title="Permalink to this symbol" href="#ZlibOutput.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.ZlibStream.html#L283">#</a></dt>
+<dt class="decl"><a class="symbol _ctor" name="ZlibOutput.this:2" href="./htmlsrc/tango.io.compress.ZlibStream.html#L304" kind="ctor" beg="304" end="323">this</a><span class="params">(OutputStream <em>stream</em>, Level <em>level</em>, int <em>windowBits</em>)</span>; <a title="Permalink to this symbol" href="#ZlibOutput.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.ZlibStream.html#L304">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a new zlib compression filter.  You need to pass in the
+        stream that the compression filter will write to.  If you are using
+        this filter with a conduit, the idiom to use is:</div>
+<pre class="d_code">
+<span class="k">auto</span> <span class="i">output</span> = <span class="k">new</span> <span class="i">ZlibOutput</span>(<span class="i">myConduit</span>.<span class="i">output</span>);
+<span class="i">output</span>.<span class="i">write</span>(<span class="i">myContent</span>);
+</pre>
+<p class="bl"/>
+        The optional windowBits parameter is the base two logarithm of the
+        window size, and should be in the range 8-15, defaulting to 15 if not
+        specified.  Additionally, the windowBits parameter may be negative to
+        indicate that zlib should omit the standard zlib header and trailer,
+        with the window size being -windowBits.</dd>
+<dt class="decl">uint <a class="symbol _function" name="ZlibOutput.write" href="./htmlsrc/tango.io.compress.ZlibStream.html#L341" kind="function" beg="341" end="379">write</a><span class="params">(void[] <em>src</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#ZlibOutput.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.ZlibStream.html#L341">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compresses the given data to the underlying conduit.</div>
+Returns the number of bytes from src that were compressed; write
+        should always consume all data provided to it, although it may not be
+        immediately written to the underlying output stream.</dd>
+<dt class="decl">size_t <a class="symbol _function" name="ZlibOutput.written" href="./htmlsrc/tango.io.compress.ZlibStream.html#L390" kind="function" beg="390" end="393">written</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ZlibOutput.written" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.ZlibStream.html#L390">#</a></dt>
+<dd class="ddef">
+<div class="summary">This read-only property returns the number of compressed bytes that
+        have been written to the underlying stream.  Following a call to
+        either close or commit, this will contain the total compressed size of
+        the input data stream.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ZlibOutput.close" href="./htmlsrc/tango.io.compress.ZlibStream.html#L401" kind="function" beg="401" end="407">close</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#ZlibOutput.close" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.ZlibStream.html#L401">#</a></dt>
+<dd class="ddef">
+<div class="summary">commit the output</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ZlibOutput.commit" href="./htmlsrc/tango.io.compress.ZlibStream.html#L418" kind="function" beg="418" end="468">commit</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ZlibOutput.commit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.ZlibStream.html#L418">#</a></dt>
+<dd class="ddef">
+<div class="summary">Purge any buffered content.  Calling this will implicitly end the zlib
+        stream, so it should not be called until you are finished compressing
+        data.  Any calls to either write or commit after a compression filter
+        has been committed will throw an exception.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="ZlibClosedException" href="./htmlsrc/tango.io.compress.ZlibStream.html#L497" kind="class" beg="497" end="503">ZlibClosedException</a> : IOException; <a title="Permalink to this symbol" href="#ZlibClosedException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.ZlibStream.html#L497">#</a></dt>
+<dd class="ddef">
+<div class="summary">This exception is thrown if you attempt to perform a read, write or flush
+    operation on a closed zlib filter stream.  This can occur if the input
+    stream has finished, or an output stream was flushed.</div>
+<dl></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="ZlibException" href="./htmlsrc/tango.io.compress.ZlibStream.html#L513" kind="class" beg="513" end="545">ZlibException</a> : IOException; <a title="Permalink to this symbol" href="#ZlibException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.compress.ZlibStream.html#L513">#</a></dt>
+<dd class="ddef">
+<div class="summary">This exception is thrown when an error occurs in the underlying zlib
+    library.  Where possible, it will indicate both the name of the error, and
+    any textural message zlib has provided.</div>
+<dl></dl></dd>)
+</div>
+<div id="footer">
+  <p>Copyright (C) 2007 Daniel Keep.  All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:00 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

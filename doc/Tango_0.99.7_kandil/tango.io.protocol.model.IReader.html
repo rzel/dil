@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.protocol.model.IReader</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.protocol.model.IReader";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.protocol.model.IReader.html" class="symbol">tango.io.protocol.model.IReader</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Oct 2004: Initial release      
+                        Dec 2006: Outback release
+<p class="sec_header">Author:</p>Kris
+                        Ivan Senji (the "alias get" idea)
+<dl>
+<dt class="decl">class <a class="symbol _class" name="IReader" href="./htmlsrc/tango.io.protocol.model.IReader.html#L98" kind="class" beg="98" end="193">IReader</a>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L98">#</a></dt>
+<dd class="ddef">
+<div class="summary">IReader interface. Each reader operates upon an IBuffer, which is
+        provided at construction time. Readers are simple converters of data,
+        and have reasonably rigid rules regarding data format. For example,
+        each request for data expects the content to be available; an exception
+        is thrown where this is not the case. If the data is arranged in a more
+        relaxed fashion, consider using IBuffer directly instead.</div>
+All readers support the full set of native data types, plus a full
+        selection of array types. The latter can be configured to produce
+        either a copy (.dup) of the buffer content, or a slice. See classes
+        HeapCopy, BufferSlice and HeapSlice for more on this topic. Applications
+        can disable memory management by configuring a Reader with one of the
+        binary oriented protocols, and ensuring the optional protocol 'prefix'
+        is disabled.
+<p class="bl"/>
+        Readers support Java-esque get() notation. However, the Tango
+        style is to place IO elements within their own parenthesis, like
+<p class="sec_header">so:</p><pre class="d_code">
+<span class="k">int</span> <span class="i">count</span>;
+<span class="k">char</span>[] <span class="i">verse</span>;
+
+<span class="i">read</span> (<span class="i">verse</span>) (<span class="i">count</span>);
+</pre>
+<p class="bl"/>
+        Note that each element read is distict; this style is affectionately
+        known as "whisper". The code below illustrates basic operation upon a
+        memory buffer:
+        
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">buf</span> = <span class="k">new</span> <span class="i">Buffer</span> (<span class="n">256</span>);
+
+<span class="lc">// map same buffer into both reader and writer</span>
+<span class="k">auto</span> <span class="i">read</span> = <span class="k">new</span> <span class="i">Reader</span> (<span class="i">buf</span>);
+<span class="k">auto</span> <span class="i">write</span> = <span class="k">new</span> <span class="i">Writer</span> (<span class="i">buf</span>);
+
+<span class="k">int</span> <span class="i">i</span> = <span class="n">10</span>;
+<span class="k">long</span> <span class="i">j</span> = <span class="n">20</span>;
+<span class="k">double</span> <span class="i">d</span> = <span class="n">3.14159</span>;
+<span class="k">char</span>[] <span class="i">c</span> = <span class="sl">"fred"</span>;
+
+<span class="lc">// write data using whisper syntax</span>
+<span class="i">write</span> (<span class="i">c</span>) (<span class="i">i</span>) (<span class="i">j</span>) (<span class="i">d</span>);
+
+<span class="lc">// read them back again</span>
+<span class="i">read</span> (<span class="i">c</span>) (<span class="i">i</span>) (<span class="i">j</span>) (<span class="i">d</span>);
+
+
+<span class="lc">// same thing again, but using put() syntax instead</span>
+<span class="i">write</span>.<span class="i">put</span>(<span class="i">c</span>).<span class="i">put</span>(<span class="i">i</span>).<span class="i">put</span>(<span class="i">j</span>).<span class="i">put</span>(<span class="i">d</span>);
+<span class="i">read</span>.<span class="i">get</span>(<span class="i">c</span>).<span class="i">get</span>(<span class="i">i</span>).<span class="i">get</span>(<span class="i">j</span>).<span class="i">get</span>(<span class="i">d</span>);
+</pre>
+<p class="bl"/>
+        Note that certain protocols, such as the basic binary implementation, 
+        expect to retrieve the number of array elements from the source. For
+<p class="sec_header">example:</p>when reading an array from a file, the number of elements 
+        is read from the file also, and the configurable memory-manager is
+        invoked to provide the array space. If content is not arranged in
+        such a manner you may read array content directly either by creating
+        a Reader with a protocol configured to sidestep array-prefixing, or
+        by accessing buffer content directly (via the methods exposed there)
+        e.g.
+<p class="bl"/>
+        <pre class="d_code">
+<span class="k">void</span>[<span class="n">10</span>] <span class="i">data</span>;
+
+<span class="i">reader</span>.<span class="i">buffer</span>.<span class="i">fill</span> (<span class="i">data</span>);
+</pre>
+<p class="bl"/>
+        Readers may also be used with any class implementing the IReadable
+        interface, along with any struct implementing an equivalent method
+<dl>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get" href="./htmlsrc/tango.io.protocol.model.IReader.html#L108" kind="function" beg="108" end="108">get</a><span class="params">(inout bool <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L108">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:2" href="./htmlsrc/tango.io.protocol.model.IReader.html#L109" kind="function" beg="109" end="109">get</a><span class="params">(inout byte <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L109">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:3" href="./htmlsrc/tango.io.protocol.model.IReader.html#L110" kind="function" beg="110" end="110">get</a><span class="params">(inout ubyte <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L110">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:4" href="./htmlsrc/tango.io.protocol.model.IReader.html#L111" kind="function" beg="111" end="111">get</a><span class="params">(inout short <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L111">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:5" href="./htmlsrc/tango.io.protocol.model.IReader.html#L112" kind="function" beg="112" end="112">get</a><span class="params">(inout ushort <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L112">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:6" href="./htmlsrc/tango.io.protocol.model.IReader.html#L113" kind="function" beg="113" end="113">get</a><span class="params">(inout int <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L113">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:7" href="./htmlsrc/tango.io.protocol.model.IReader.html#L114" kind="function" beg="114" end="114">get</a><span class="params">(inout uint <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L114">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:8" href="./htmlsrc/tango.io.protocol.model.IReader.html#L115" kind="function" beg="115" end="115">get</a><span class="params">(inout long <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L115">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:9" href="./htmlsrc/tango.io.protocol.model.IReader.html#L116" kind="function" beg="116" end="116">get</a><span class="params">(inout ulong <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L116">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:10" href="./htmlsrc/tango.io.protocol.model.IReader.html#L117" kind="function" beg="117" end="117">get</a><span class="params">(inout float <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L117">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:11" href="./htmlsrc/tango.io.protocol.model.IReader.html#L118" kind="function" beg="118" end="118">get</a><span class="params">(inout double <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L118">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:12" href="./htmlsrc/tango.io.protocol.model.IReader.html#L119" kind="function" beg="119" end="119">get</a><span class="params">(inout real <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L119">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:13" href="./htmlsrc/tango.io.protocol.model.IReader.html#L120" kind="function" beg="120" end="120">get</a><span class="params">(inout char <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L120">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:14" href="./htmlsrc/tango.io.protocol.model.IReader.html#L121" kind="function" beg="121" end="121">get</a><span class="params">(inout wchar <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L121">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:15" href="./htmlsrc/tango.io.protocol.model.IReader.html#L122" kind="function" beg="122" end="122">get</a><span class="params">(inout dchar <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L122">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:16" href="./htmlsrc/tango.io.protocol.model.IReader.html#L124" kind="function" beg="124" end="124">get</a><span class="params">(inout bool[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L124">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:17" href="./htmlsrc/tango.io.protocol.model.IReader.html#L125" kind="function" beg="125" end="125">get</a><span class="params">(inout byte[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L125">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:18" href="./htmlsrc/tango.io.protocol.model.IReader.html#L126" kind="function" beg="126" end="126">get</a><span class="params">(inout short[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L126">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:19" href="./htmlsrc/tango.io.protocol.model.IReader.html#L127" kind="function" beg="127" end="127">get</a><span class="params">(inout int[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:19" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L127">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:20" href="./htmlsrc/tango.io.protocol.model.IReader.html#L128" kind="function" beg="128" end="128">get</a><span class="params">(inout long[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:20" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L128">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:21" href="./htmlsrc/tango.io.protocol.model.IReader.html#L129" kind="function" beg="129" end="129">get</a><span class="params">(inout ubyte[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:21" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L129">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:22" href="./htmlsrc/tango.io.protocol.model.IReader.html#L130" kind="function" beg="130" end="130">get</a><span class="params">(inout ushort[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:22" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L130">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:23" href="./htmlsrc/tango.io.protocol.model.IReader.html#L131" kind="function" beg="131" end="131">get</a><span class="params">(inout uint[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:23" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L131">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:24" href="./htmlsrc/tango.io.protocol.model.IReader.html#L132" kind="function" beg="132" end="132">get</a><span class="params">(inout ulong[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:24" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L132">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:25" href="./htmlsrc/tango.io.protocol.model.IReader.html#L133" kind="function" beg="133" end="133">get</a><span class="params">(inout float[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:25" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L133">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:26" href="./htmlsrc/tango.io.protocol.model.IReader.html#L134" kind="function" beg="134" end="134">get</a><span class="params">(inout double[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:26" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L134">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:27" href="./htmlsrc/tango.io.protocol.model.IReader.html#L135" kind="function" beg="135" end="135">get</a><span class="params">(inout real[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:27" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L135">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:28" href="./htmlsrc/tango.io.protocol.model.IReader.html#L136" kind="function" beg="136" end="136">get</a><span class="params">(inout char[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:28" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L136">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:29" href="./htmlsrc/tango.io.protocol.model.IReader.html#L137" kind="function" beg="137" end="137">get</a><span class="params">(inout wchar[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:29" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L137">#</a></dt>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:30" href="./htmlsrc/tango.io.protocol.model.IReader.html#L138" kind="function" beg="138" end="138">get</a><span class="params">(inout dchar[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:30" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L138">#</a></dt>
+<dd class="ddef">
+<div class="summary">These are the basic reader methods</div></dd>
+<dt class="decl">IReader <a class="symbol _function" name="IReader.get:31" href="./htmlsrc/tango.io.protocol.model.IReader.html#L150" kind="function" beg="150" end="150">get</a><span class="params">(IReadable)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.get:31" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L150">#</a></dt>
+<dd class="ddef">
+<div class="summary">This is the mechanism used for binding arbitrary classes 
+                to the IO system. If a class implements IReadable, it can
+                be used as a target for IReader get() operations. That is, 
+                implementing IReadable is intended to transform any class 
+                into an IReader adaptor for the content held therein.</div></dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="IReader.buffer" href="./htmlsrc/tango.io.protocol.model.IReader.html#L162" kind="function" beg="162" end="162">buffer</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.buffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L162">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the buffer associated with this reader</div></dd>
+<dt class="decl">IAllocator <a class="symbol _function" name="IReader.allocator" href="./htmlsrc/tango.io.protocol.model.IReader.html#L192" kind="function" beg="192" end="192">allocator</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#IReader.allocator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L192">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get the allocator to use for array management. Arrays are
+                generally allocated by the IReader, via configured managers.
+                A number of Allocator classes are available to manage memory
+                when reading array content. Alternatively, the application
+                may obtain responsibility for allocation by selecting one of
+                the NativeProtocol deriviatives and setting 'prefix' to be
+                false. The latter disables internal array management.</div>
+Gaining access to the allocator can expose some additional
+                controls. For example, some allocators benefit from a reset
+                operation after each data 'record' has been processed.
+<p class="bl"/>
+                By default, an IReader will allocate each array from the 
+                heap. You can change that by constructing the Reader
+                with an Allocator of choice. For instance, there is a
+                BufferSlice which will slice an array directly from
+                the buffer where possible. Also available is the record-
+                oriented HeaoSlice, which slices memory from within
+                a pre-allocated heap area, and should be reset by the client
+                code after each record has been read (to avoid unnecessary
+                growth). 
+<p class="bl"/>
+                See module tango.io.protocol.Allocator for more information</dd></dl></dd>
+<dt class="decl">interface <a class="symbol _interface" name="IReadable" href="./htmlsrc/tango.io.protocol.model.IReader.html#L201" kind="interface" beg="201" end="204">IReadable</a>; <a title="Permalink to this symbol" href="#IReadable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.protocol.model.IReader.html#L201">#</a></dt>
+<dd class="ddef">
+<div class="summary">Any class implementing IReadable becomes part of the Reader framework</div>
+</dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:59 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

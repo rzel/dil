@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.core.sync.Condition</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.core.sync.Condition";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.core.sync.Condition.html" class="symbol">tango.core.sync.Condition</a></h1>
+  
+<div class="summary">The condition module provides a primitive for synchronized condition
+ checking.</div>
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Authors:</p>Sean Kelly
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Condition" href="./htmlsrc/tango.core.sync.Condition.html#L44" kind="class" beg="44" end="388">Condition</a>; <a title="Permalink to this symbol" href="#Condition" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.sync.Condition.html#L44">#</a></dt>
+<dd class="ddef">
+<div class="summary">This class represents a condition variable as concieved by C.A.R. Hoare.  As
+ per Mesa type monitors however, "signal" has been replaced with "notify" to
+ indicate that control is not transferred to the waiter when a notification
+ is sent.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="Condition.this" href="./htmlsrc/tango.core.sync.Condition.html#L61" kind="ctor" beg="61" end="86">this</a><span class="params">(Mutex <em>m</em>)</span>; <a title="Permalink to this symbol" href="#Condition.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.sync.Condition.html#L61">#</a></dt>
+<dd class="ddef">
+<div class="summary">Initializes a condition object which is associated with the supplied
+ mutex object.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>m</em></td><td>The mutex with which this condition will be associated.</td></tr></table>
+<p class="sec_header">Throws:</p>SyncException on error.</dd>
+<dt class="decl">void <a class="symbol _function" name="Condition.wait" href="./htmlsrc/tango.core.sync.Condition.html#L118" kind="function" beg="118" end="130">wait</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Condition.wait" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.sync.Condition.html#L118">#</a></dt>
+<dd class="ddef">
+<div class="summary">Wait until notified.</div>
+<p class="sec_header">Throws:</p>SyncException on error.</dd>
+<dt class="decl">bool <a class="symbol _function" name="Condition.wait:2" href="./htmlsrc/tango.core.sync.Condition.html#L150" kind="function" beg="150" end="175">wait</a><span class="params">(double <em>period</em>)</span>; <a title="Permalink to this symbol" href="#Condition.wait:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.sync.Condition.html#L150">#</a></dt>
+<dd class="ddef">
+<div class="summary">Suspends the calling thread until a notification occurs or until the
+ supplied time period has elapsed.  The supplied period may be up to a
+ maximum of (uint.max - 1) milliseconds.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>period</em></td><td>The time to wait, in seconds (fractional values are accepted).</td></tr></table>
+<p class="sec_header">In:</p>period must be less than (uint.max - 1) milliseconds.
+<p class="sec_header">Returns:</p>true if notified before the timeout and false if not.
+<p class="sec_header">Throws:</p>SyncException on error.</dd>
+<dt class="decl">void <a class="symbol _function" name="Condition.notify" href="./htmlsrc/tango.core.sync.Condition.html#L183" kind="function" beg="183" end="195">notify</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Condition.notify" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.sync.Condition.html#L183">#</a></dt>
+<dd class="ddef">
+<div class="summary">Notifies one waiter.</div>
+<p class="sec_header">Throws:</p>SyncException on error.</dd>
+<dt class="decl">void <a class="symbol _function" name="Condition.notifyAll" href="./htmlsrc/tango.core.sync.Condition.html#L204" kind="function" beg="204" end="216">notifyAll</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Condition.notifyAll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.sync.Condition.html#L204">#</a></dt>
+<dd class="ddef">
+<div class="summary">Notifies all waiters.</div>
+<p class="sec_header">Throws:</p>SyncException on error.</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (C) 2005-2006 Sean Kelly.  All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:05 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

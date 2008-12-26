@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.cluster.model.IChannel</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.cluster.model.IChannel";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.cluster.model.IChannel.html" class="symbol">tango.net.cluster.model.IChannel</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>July 2004: Initial release
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">interface <a class="symbol _interface" name="IChannel" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L30" kind="interface" beg="30" end="140">IChannel</a>; <a title="Permalink to this symbol" href="#IChannel" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L30">#</a></dt>
+<dd class="ddef">
+<div class="summary">A channel represents something akin to a publish/subscribe topic, 
+        or a radio station. These are used to segregate cluster operations
+        into a set of groups, where each group is represented by a channel.
+        Channel names are whatever you want then to be: use of dot notation 
+        has proved useful in the past. See Client.createChannel</div>
+<dl>
+<dt class="decl">ILogger <a class="symbol _function" name="IChannel.log" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L38" kind="function" beg="38" end="38">log</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#IChannel.log" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L38">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the Logger associated with this cluster</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="IChannel.name" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L47" kind="function" beg="47" end="47">name</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#IChannel.name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L47">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the name of this channel. This is the name provided
+                when the channel was constructed.</div></dd>
+<dt class="decl">IConsumer <a class="symbol _function" name="IChannel.createConsumer" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L58" kind="function" beg="58" end="58">createConsumer</a><span class="params">(ChannelListener <em>notify</em>)</span>; <a title="Permalink to this symbol" href="#IChannel.createConsumer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L58">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a message listener on the given
+                channel. The ChannelListener should be called whenever
+                a corresponding cluster event happens. Note that the
+                notification is expected to be on a seperate thread.</div></dd>
+<dt class="decl">IConsumer <a class="symbol _function" name="IChannel.createBulletinConsumer" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L69" kind="function" beg="69" end="69">createBulletinConsumer</a><span class="params">(ChannelListener <em>notify</em>)</span>; <a title="Permalink to this symbol" href="#IChannel.createBulletinConsumer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L69">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a bulletin listener on the given
+                channel. The ChannelListener should be called whenever
+                a corresponding cluster event happens. Note that the
+                notification is expected to be on a seperate thread.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="IChannel.putCache" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L78" kind="function" beg="78" end="78">putCache</a><span class="params">(char[] <em>key</em>, IMessage <em>message</em>)</span>; <a title="Permalink to this symbol" href="#IChannel.putCache" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L78">#</a></dt>
+<dd class="ddef">
+<div class="summary">Place a cache entry into the cluster. If there is already
+                a matching entry, it is replaced.</div></dd>
+<dt class="decl">IMessage <a class="symbol _function" name="IChannel.getCache" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L87" kind="function" beg="87" end="87">getCache</a><span class="params">(char[] <em>key</em>, bool <em>remove</em>, IMessage <em>host</em> = null)</span>; <a title="Permalink to this symbol" href="#IChannel.getCache" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L87">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a cluster cache entry, and optionally remove it
+                from the cluster.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="IChannel.loadCache" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L101" kind="function" beg="101" end="101">loadCache</a><span class="params">(char[] <em>key</em>, IMessage <em>message</em>)</span>; <a title="Permalink to this symbol" href="#IChannel.loadCache" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L101">#</a></dt>
+<dd class="ddef">
+<div class="summary">Ask the cache host to load an entry, via the provided
+                message. Note that the message itself should contain all 
+                pertinent information to load the entry (such as whatever
+                key values are required). 
+                
+                The host executes the message in a manner akin to RPC, thus
+                the message also needs to be registered with the host server</div></dd>
+<dt class="decl">IMessage <a class="symbol _function" name="IChannel.putQueue" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L111" kind="function" beg="111" end="111">putQueue</a><span class="params">(IMessage <em>message</em>)</span>; <a title="Permalink to this symbol" href="#IChannel.putQueue" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L111">#</a></dt>
+<dd class="ddef">
+<div class="summary">Place a new entry into the cluster queue. This may throw
+                a ClusterFullException when there is no space left within
+                the cluster queues.</div></dd>
+<dt class="decl">IMessage <a class="symbol _function" name="IChannel.getQueue" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L121" kind="function" beg="121" end="121">getQueue</a><span class="params">(IMessage <em>host</em> = null)</span>; <a title="Permalink to this symbol" href="#IChannel.getQueue" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L121">#</a></dt>
+<dd class="ddef">
+<div class="summary">Query the cluster for queued entries on our corresponding 
+                channel. Removes, and returns, the first matching entry 
+                from the cluster.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="IChannel.broadcast" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L130" kind="function" beg="130" end="130">broadcast</a><span class="params">(IMessage <em>message</em> = null)</span>; <a title="Permalink to this symbol" href="#IChannel.broadcast" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L130">#</a></dt>
+<dd class="ddef">
+<div class="summary">Scatter a message to all registered listeners. This is
+                akin to multicast.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="IChannel.execute" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L139" kind="function" beg="139" end="139">execute</a><span class="params">(IMessage <em>message</em>)</span>; <a title="Permalink to this symbol" href="#IChannel.execute" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L139">#</a></dt>
+<dd class="ddef">
+<div class="summary">Execute the provided message on the cluster, and return the
+                results internally</div></dd></dl></dd>
+<dt class="decl">interface <a class="symbol _interface" name="IEvent" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L149" kind="interface" beg="149" end="193">IEvent</a>; <a title="Permalink to this symbol" href="#IEvent" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L149">#</a></dt>
+<dd class="ddef">
+<div class="summary">An IEvent is passed as the argument to each ChannelListener callback</div>
+<dl>
+<dt class="decl">IChannel <a class="symbol _function" name="IEvent.channel" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L157" kind="function" beg="157" end="157">channel</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#IEvent.channel" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L157">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the channel used to initiate the listener</div></dd>
+<dt class="decl">IMessage <a class="symbol _function" name="IEvent.get" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L166" kind="function" beg="166" end="166">get</a><span class="params">(IMessage <em>host</em> = null)</span>; <a title="Permalink to this symbol" href="#IEvent.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L166">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return one or more messages associated with this event, or
+                null if there is nothing available</div></dd>
+<dt class="decl">void <a class="symbol _function" name="IEvent.reply" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L175" kind="function" beg="175" end="175">reply</a><span class="params">(IChannel <em>channel</em>, IMessage <em>message</em>)</span>; <a title="Permalink to this symbol" href="#IEvent.reply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L175">#</a></dt>
+<dd class="ddef">
+<div class="summary">Send a message back to the producer. This should support all
+                the various event styles.</div></dd>
+<dt class="decl">IChannel <a class="symbol _function" name="IEvent.replyChannel" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L184" kind="function" beg="184" end="184">replyChannel</a><span class="params">(IMessage <em>message</em>)</span>; <a title="Permalink to this symbol" href="#IEvent.replyChannel" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L184">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return an appropriate reply channel for the given message, 
+                or return null if no reply is expected</div></dd>
+<dt class="decl">ILogger <a class="symbol _function" name="IEvent.log" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L192" kind="function" beg="192" end="192">log</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#IEvent.log" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L192">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the Logger associated with this cluster</div></dd></dl></dd>
+<dt class="decl">alias void delegate (IEvent event) <a class="symbol _alias" name="ChannelListener" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L204" kind="alias" beg="204" end="204">ChannelListener</a>; <a title="Permalink to this symbol" href="#ChannelListener" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.model.IChannel.html#L204">#</a></dt>
+<dd class="ddef">
+<div class="summary">Declares the contract for listeners within the cluster package.
+        When creating a listener, you provide a callback delegate matching
+        this signature. The delegate is invoked, on a seperate thread, each
+        time a relevant event occurs.</div></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:55 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

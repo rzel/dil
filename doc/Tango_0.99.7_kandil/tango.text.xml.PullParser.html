@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.text.xml.PullParser</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.text.xml.PullParser";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.text.xml.PullParser.html" class="symbol">tango.text.xml.PullParser</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: February 2008
+<p class="sec_header">Authors:</p>Aaron, Kris
+<dl>
+<dt class="decl">enum <a class="symbol _enum" name="XmlNodeType" href="./htmlsrc/tango.text.xml.PullParser.html#L29" kind="enum" beg="29" end="30">XmlNodeType</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#XmlNodeType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L29">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+</dd>
+<dt class="decl">enum <a class="symbol _enum" name="XmlTokenType" href="./htmlsrc/tango.text.xml.PullParser.html#L36" kind="enum" beg="36" end="38">XmlTokenType</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#XmlTokenType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L36">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+</dd>
+<dt class="decl">class <a class="symbol _class" name="PullParser" href="./htmlsrc/tango.text.xml.PullParser.html#L64" kind="class" beg="64" end="595">PullParser</a><span class="tparams">(Ch = char)</span>; <a title="Permalink to this symbol" href="#PullParser" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L64">#</a></dt>
+<dd class="ddef">
+<div class="summary">Token based XML Parser.  Templated to operate with char[], wchar[], 
+        and dchar[] based Xml strings.</div>
+The parser is constructed with some tradeoffs relating to document
+        integrity. It is generally optimized for well-formed documents, and
+        currently may read past a document-end for those that are not well
+        formed. There are various compilation options to enable checks and
+        balances, depending on how things should be handled. We'll settle
+        on a common configuration over the next few weeks, but for now all
+        settings are somewhat experimental. Partly because making some tiny 
+        unrelated change to the code can cause notable throughput changes, 
+        and we need to track that down.
+<p class="bl"/>
+        We're not yet clear why these swings are so pronounced (for changes
+        outside the code path) but they seem to be related to the alignment
+        of codegen. It could be a cache-line issue, or something else. We'll
+        figure it out, yet it's interesting that some hardware buttons are 
+        clearly being pushed
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="PullParser.this" href="./htmlsrc/tango.text.xml.PullParser.html#L80" kind="ctor" beg="80" end="83">this</a><span class="params">(Ch[] <em>content</em> = null)</span>; <a title="Permalink to this symbol" href="#PullParser.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L80">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">XmlTokenType <a class="symbol _function" name="PullParser.next" href="./htmlsrc/tango.text.xml.PullParser.html#L89" kind="function" beg="89" end="118">next</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#PullParser.next" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L89">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">XmlTokenType <a class="symbol _function" name="PullParser.doMain" href="./htmlsrc/tango.text.xml.PullParser.html#L124" kind="function" beg="124" end="267">doMain</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PullParser.doMain" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L124">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">XmlTokenType <a class="symbol _function" name="PullParser.doAttributeName" href="./htmlsrc/tango.text.xml.PullParser.html#L273" kind="function" beg="273" end="337">doAttributeName</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PullParser.doAttributeName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L273">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">XmlTokenType <a class="symbol _function" name="PullParser.doEndEmptyElement" href="./htmlsrc/tango.text.xml.PullParser.html#L343" kind="function" beg="343" end="352">doEndEmptyElement</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PullParser.doEndEmptyElement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L343">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">XmlTokenType <a class="symbol _function" name="PullParser.doComment" href="./htmlsrc/tango.text.xml.PullParser.html#L358" kind="function" beg="358" end="378">doComment</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PullParser.doComment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L358">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">XmlTokenType <a class="symbol _function" name="PullParser.doCData" href="./htmlsrc/tango.text.xml.PullParser.html#L384" kind="function" beg="384" end="404">doCData</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PullParser.doCData" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L384">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">XmlTokenType <a class="symbol _function" name="PullParser.doPI" href="./htmlsrc/tango.text.xml.PullParser.html#L410" kind="function" beg="410" end="430">doPI</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PullParser.doPI" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L410">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">XmlTokenType <a class="symbol _function" name="PullParser.doDoctype" href="./htmlsrc/tango.text.xml.PullParser.html#L436" kind="function" beg="436" end="464">doDoctype</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PullParser.doDoctype" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L436">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">XmlTokenType <a class="symbol _function" name="PullParser.doUnexpectedEOF" href="./htmlsrc/tango.text.xml.PullParser.html#L470" kind="function" beg="470" end="473">doUnexpectedEOF</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PullParser.doUnexpectedEOF" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L470">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">XmlTokenType <a class="symbol _function" name="PullParser.doUnexpected" href="./htmlsrc/tango.text.xml.PullParser.html#L479" kind="function" beg="479" end="482">doUnexpected</a><span class="params">(char[] <em>msg</em> = null)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PullParser.doUnexpected" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L479">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">XmlTokenType <a class="symbol _function" name="PullParser.doEndOfStream" href="./htmlsrc/tango.text.xml.PullParser.html#L488" kind="function" beg="488" end="491">doEndOfStream</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PullParser.doEndOfStream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L488">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">XmlTokenType <a class="symbol _function" name="PullParser.error" href="./htmlsrc/tango.text.xml.PullParser.html#L497" kind="function" beg="497" end="502">error</a><span class="params">(char[] <em>msg</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PullParser.error" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L497">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">Ch[] <a class="symbol _function" name="PullParser.value" href="./htmlsrc/tango.text.xml.PullParser.html#L508" kind="function" beg="508" end="511">value</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#PullParser.value" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L508">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">Ch[] <a class="symbol _function" name="PullParser.name" href="./htmlsrc/tango.text.xml.PullParser.html#L517" kind="function" beg="517" end="522">name</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#PullParser.name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L517">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">bool <a class="symbol _function" name="PullParser.error:2" href="./htmlsrc/tango.text.xml.PullParser.html#L528" kind="function" beg="528" end="531">error</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#PullParser.error:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L528">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">bool <a class="symbol _function" name="PullParser.reset" href="./htmlsrc/tango.text.xml.PullParser.html#L537" kind="function" beg="537" end="542">reset</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#PullParser.reset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L537">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="PullParser.reset:2" href="./htmlsrc/tango.text.xml.PullParser.html#L548" kind="function" beg="548" end="552">reset</a><span class="params">(Ch[] <em>newText</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#PullParser.reset:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L548">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="PullParser.reset_" href="./htmlsrc/tango.text.xml.PullParser.html#L558" kind="function" beg="558" end="594">reset_</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PullParser.reset_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L558">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="XmlIterator" href="./htmlsrc/tango.text.xml.PullParser.html#L602" kind="struct" beg="602" end="746">XmlIterator</a><span class="tparams">(Ch)</span>; <a title="Permalink to this symbol" href="#XmlIterator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.PullParser.html#L602">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+</dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (C) 2007 Aaron Craelius and Kris Bell  
+                   All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:39 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

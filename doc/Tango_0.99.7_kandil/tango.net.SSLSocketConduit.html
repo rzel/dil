@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.SSLSocketConduit</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.SSLSocketConduit";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.SSLSocketConduit.html" class="symbol">tango.net.SSLSocketConduit</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Author:</p>Jeff Davey <j@submersion.com>
+<dl>
+<dt class="decl">class <a class="symbol _class" name="SSLSocketConduit" href="./htmlsrc/tango.net.SSLSocketConduit.html#L58" kind="class" beg="58" end="382">SSLSocketConduit</a> : SocketConduit; <a title="Permalink to this symbol" href="#SSLSocketConduit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLSocketConduit.html#L58">#</a></dt>
+<dd class="ddef">
+<div class="summary">SSLSocketConduit is a sub-class of SocketConduit. It's purpose is to
+    provide SSL encryption at the socket level as well as easily fit into
+    existing Tango network applications that may already be using SocketConduit.</div>
+SSLSocketConduit requires the OpenSSL library, and uses a dynamic binding
+    to the library. You can find the library at http://www.openssl.org and a
+    Win32 specific port at http://www.slproweb.com/products/Win32OpenSSL.html.
+<p class="bl"/>
+    SSLSocketConduit's have two modes:
+<p class="bl"/>
+    1. Client mode, useful for connecting to existing servers, but not
+    accepting new connections. Accepting a new connection will cause 
+    the library to stall on a write on connection.
+<p class="bl"/>
+    2. Server mode, useful for creating an SSL server, but not connecting
+    to an existing server. Connection will cause the library to stall on a 
+    read on connection.
+<p class="bl"/>
+    Example
+    <pre class="d_code">
+<span class="k">auto</span> <span class="i">s1</span> = <span class="k">new</span> <span class="i">SSLSocketConduit</span>();
+<span class="k">if</span> (<span class="i">s1</span>.<span class="i">connect</span>(<span class="k">new</span> <span class="i">InternetAddress</span>(<span class="sl">"www.yahoo.com"</span>, <span class="n">443</span>)))
+{
+    <span class="k">char</span>[] <span class="i">cmd</span> = <span class="sl">"GET / HTTP/1.0\r\n\r\n"</span>;
+    <span class="i">s1</span>.<span class="i">write</span>(<span class="i">cmd</span>);
+    <span class="k">char</span>[<span class="n">1024</span>] <span class="i">buff</span>;
+    <span class="k">uint</span> <span class="i">bytesRead</span> = <span class="i">read</span>(<span class="i">buff</span>);
+    <span class="k">if</span> (<span class="i">byteRead</span> != <span class="i">SSLSocketConduit</span>.<span class="i">Eof</span>)
+        <span class="i">Stdout</span>.<span class="i">formatln</span>(<span class="sl">"received: {}"</span>, <span class="i">buff</span>[<span class="n">0</span>..<span class="i">bytesRead</span>]);
+}
+</pre>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="SSLSocketConduit.this" href="./htmlsrc/tango.net.SSLSocketConduit.html#L77" kind="ctor" beg="77" end="82">this</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SSLSocketConduit.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLSocketConduit.html#L77">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a default Client Mode SSLSocketConduit.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="SSLSocketConduit.this:2" href="./htmlsrc/tango.net.SSLSocketConduit.html#L96" kind="ctor" beg="96" end="108">this</a><span class="params">(SocketType <em>type</em>, ProtocolType <em>protocol</em>, bool <em>create</em> = true)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SSLSocketConduit.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLSocketConduit.html#L96">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creates a Client Mode SSLSocketConduit</div>
+This is overriding the SocketConduit ctor in order to emulate the 
+        existing free-list frameowrk.
+<p class="bl"/>
+        Specifying anything other than ProtocolType.TCP or SocketType.STREAM will
+        cause an Exception to be thrown.</dd>
+<dt class="decl"><a class="symbol _ctor" name="SSLSocketConduit.this:3" href="./htmlsrc/tango.net.SSLSocketConduit.html#L126" kind="ctor" beg="126" end="132">this</a><span class="params">(Socket <em>sock</em>, SSLCtx <em>ctx</em>, bool <em>clientMode</em> = true)</span>; <a title="Permalink to this symbol" href="#SSLSocketConduit.this:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLSocketConduit.html#L126">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creates a SSLSocketConduit</div>
+This class allows the ability to turn a regular Socket into an
+        SSLSocketConduit. It also gives the ability to change an SSLSocketConduit 
+        into Server Mode or ClientMode.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>sock</em></td><td>The socket to wrap in SSL</td></tr>
+<tr><td><em>SSLCtx</em></td><td>the SSL Context as provided by the PKI layer.</td></tr>
+<tr><td><em>clientMode</em></td><td>if true the socket will be Client Mode, Server otherwise.</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="SSLSocketConduit.detach" href="./htmlsrc/tango.net.SSLSocketConduit.html#L153" kind="function" beg="153" end="165">detach</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SSLSocketConduit.detach" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLSocketConduit.html#L153">#</a></dt>
+<dd class="ddef">
+<div class="summary">Release this SSLSocketConduit. 
+        
+        As per SocketConduit.detach.</div></dd>
+<dt class="decl">SSLSocketConduit <a class="symbol _function" name="SSLSocketConduit.allocate" href="./htmlsrc/tango.net.SSLSocketConduit.html#L176" kind="function" beg="176" end="190">allocate</a><span class="params">()</span>; <span class="attrs">[<span class="prot">package</span>, <span class="stc">synchronized</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#SSLSocketConduit.allocate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLSocketConduit.html#L176">#</a></dt>
+<dd class="ddef">
+<div class="summary">Allocate a SSLSocketConduit from a free-list, rather than creating a new
+        one. 
+        
+        As per SocketConduit.allocate</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="SSLSocketConduit.write" href="./htmlsrc/tango.net.SSLSocketConduit.html#L207" kind="function" beg="207" end="213">write</a><span class="params">(void[] <em>src</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SSLSocketConduit.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLSocketConduit.html#L207">#</a></dt>
+<dd class="ddef">
+<div class="summary">Writes the passed buffer to the underlying socket stream. This will
+        block until socket error.</div>
+As per SocketConduit.write</dd>
+<dt class="decl">uint <a class="symbol _function" name="SSLSocketConduit.read" href="./htmlsrc/tango.net.SSLSocketConduit.html#L225" kind="function" beg="225" end="290">read</a><span class="params">(void[] <em>dst</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SSLSocketConduit.read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLSocketConduit.html#L225">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reads from the underlying socket stream. If needed, setTimeout will 
+        set the max length of time the read will take before returning.</div>
+As per SocketConduit.read</dd>
+<dt class="decl">bool <a class="symbol _function" name="SSLSocketConduit.hadTimeout" href="./htmlsrc/tango.net.SSLSocketConduit.html#L300" kind="function" beg="300" end="303">hadTimeout</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SSLSocketConduit.hadTimeout" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLSocketConduit.html#L300">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the last read operation timed out.</div>
+As per SocketConduit.hadTimeout;</dd>
+<dt class="decl">SocketConduit <a class="symbol _function" name="SSLSocketConduit.shutdown" href="./htmlsrc/tango.net.SSLSocketConduit.html#L313" kind="function" beg="313" end="323">shutdown</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SSLSocketConduit.shutdown" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLSocketConduit.html#L313">#</a></dt>
+<dd class="ddef">
+<div class="summary">Shuts down the underlying socket for reading and writing.</div>
+As per SocketConduit.shutdown</dd>
+<dt class="decl">SocketConduit <a class="symbol _function" name="SSLSocketConduit.setTimeout" href="./htmlsrc/tango.net.SSLSocketConduit.html#L333" kind="function" beg="333" end="338">setTimeout</a><span class="params">(float <em>timeout</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SSLSocketConduit.setTimeout" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLSocketConduit.html#L333">#</a></dt>
+<dd class="ddef">
+<div class="summary">Used to set the max timeout on read operations.</div>
+As per SocketConduit.setTimeout;</dd>
+<dt class="decl">void <a class="symbol _function" name="SSLSocketConduit.setCtx" href="./htmlsrc/tango.net.SSLSocketConduit.html#L353" kind="function" beg="353" end="357">setCtx</a><span class="params">(SSLCtx <em>ctx</em>, bool <em>clientMode</em> = true)</span>; <a title="Permalink to this symbol" href="#SSLSocketConduit.setCtx" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SSLSocketConduit.html#L353">#</a></dt>
+<dd class="ddef">
+<div class="summary">Used in conjuction with the above ctor with the create flag disabled. It is
+        useful for accepting a new socket into a SSLSocketConduit, and then re-using
+        the Server's existing SSLCtx.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>ctx</em></td><td>SSLCtx class as provided by PKI</td></tr>
+<tr><td><em>clientMode</em></td><td>if true, the socket will be in Client Mode, Server otherwise.</td></tr></table></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2008 Jeff Davey. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:53 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

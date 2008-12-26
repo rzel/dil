@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.core.Atomic</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.core.Atomic";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.core.Atomic.html" class="symbol">tango.core.Atomic</a></h1>
+  
+<div class="summary">The atomic module is intended to provide some basic support for lock-free
+ concurrent programming.  Some common operations are defined, each of which
+ may be performed using the specified memory barrier or a less granular
+ barrier if the hardware does not support the version requested.  This
+ model is based on a design by Alexander Terekhov as outlined in
+ <a href=http://groups.google.com/groups?threadm=3E4820EE.6F408B25%40web.de>
+ this thread</a>.  Another useful reference for memory ordering on modern
+ architectures is <a href=http://www.linuxjournal.com/article/8211>this
+ article by Paul McKenney</a>.</div>
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Authors:</p>Sean Kelly
+<dl>
+<dt class="decl">enum <a class="symbol _enum" name="msync" href="./htmlsrc/tango.core.Atomic.html#L28" kind="enum" beg="28" end="38">msync</a>; <a title="Permalink to this symbol" href="#msync" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L28">#</a></dt>
+<dd class="ddef">
+<div class="summary">Memory synchronization flag.  If the supplied option is not available on the
+ current platform then a stronger method will be used instead.</div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="msync.raw" href="./htmlsrc/tango.core.Atomic.html#L30" kind="enummem" beg="30" end="30">raw</a> <a title="Permalink to this symbol" href="#msync.raw" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L30">#</a></dt>
+<dd class="ddef">
+<div class="summary">not sequenced</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="msync.hlb" href="./htmlsrc/tango.core.Atomic.html#L31" kind="enummem" beg="31" end="31">hlb</a> <a title="Permalink to this symbol" href="#msync.hlb" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L31">#</a></dt>
+<dd class="ddef">
+<div class="summary">hoist-load barrier</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="msync.hsb" href="./htmlsrc/tango.core.Atomic.html#L32" kind="enummem" beg="32" end="32">hsb</a> <a title="Permalink to this symbol" href="#msync.hsb" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L32">#</a></dt>
+<dd class="ddef">
+<div class="summary">hoist-store barrier</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="msync.slb" href="./htmlsrc/tango.core.Atomic.html#L33" kind="enummem" beg="33" end="33">slb</a> <a title="Permalink to this symbol" href="#msync.slb" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L33">#</a></dt>
+<dd class="ddef">
+<div class="summary">sink-load barrier</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="msync.ssb" href="./htmlsrc/tango.core.Atomic.html#L34" kind="enummem" beg="34" end="34">ssb</a> <a title="Permalink to this symbol" href="#msync.ssb" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L34">#</a></dt>
+<dd class="ddef">
+<div class="summary">sink-store barrier</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="msync.acq" href="./htmlsrc/tango.core.Atomic.html#L35" kind="enummem" beg="35" end="35">acq</a> <a title="Permalink to this symbol" href="#msync.acq" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L35">#</a></dt>
+<dd class="ddef">
+<div class="summary">hoist-load + hoist-store barrier</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="msync.rel" href="./htmlsrc/tango.core.Atomic.html#L36" kind="enummem" beg="36" end="36">rel</a> <a title="Permalink to this symbol" href="#msync.rel" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L36">#</a></dt>
+<dd class="ddef">
+<div class="summary">sink-load + sink-store barrier</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="msync.seq" href="./htmlsrc/tango.core.Atomic.html#L37" kind="enummem" beg="37" end="37">seq</a> <a title="Permalink to this symbol" href="#msync.seq" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L37">#</a></dt>
+<dd class="ddef">
+<div class="summary">fully sequenced (acq + rel)</div></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="atomicLoad" href="./htmlsrc/tango.core.Atomic.html#L108" kind="template" beg="108" end="124">atomicLoad</a><span class="tparams">(msync ms, T )</span>; <a title="Permalink to this symbol" href="#atomicLoad" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L108">#</a></dt>
+<dd class="ddef">
+<div class="summary">Supported msync values:
+  msync.raw
+  msync.hlb
+  msync.acq
+  msync.seq</div>
+<dl>
+<dt class="decl">T <a class="symbol _function" name="atomicLoad.atomicLoad" href="./htmlsrc/tango.core.Atomic.html#L120" kind="function" beg="120" end="123">atomicLoad</a><span class="params">(inout T <em>val</em>)</span>; <a title="Permalink to this symbol" href="#atomicLoad.atomicLoad" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L120">#</a></dt>
+<dd class="ddef">
+<div class="summary">Refreshes the contents of 'val' from main memory.  This operation is
+ both lock-free and atomic.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>val</em></td><td>The value to load.  This value must be properly aligned.</td></tr></table>
+<p class="sec_header">Returns:</p>The loaded value.</dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="atomicStore" href="./htmlsrc/tango.core.Atomic.html#L140" kind="template" beg="140" end="154">atomicStore</a><span class="tparams">(msync ms, T )</span>; <a title="Permalink to this symbol" href="#atomicStore" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L140">#</a></dt>
+<dd class="ddef">
+<div class="summary">Supported msync values:
+  msync.raw
+  msync.ssb
+  msync.acq
+  msync.rel
+  msync.seq</div>
+<dl>
+<dt class="decl">void <a class="symbol _function" name="atomicStore.atomicStore" href="./htmlsrc/tango.core.Atomic.html#L150" kind="function" beg="150" end="153">atomicStore</a><span class="params">(inout T <em>val</em>, T <em>newval</em>)</span>; <a title="Permalink to this symbol" href="#atomicStore.atomicStore" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L150">#</a></dt>
+<dd class="ddef">
+<div class="summary">Stores 'newval' to the memory referenced by 'val'.  This operation
+ is both lock-free and atomic.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>val</em></td><td>The destination variable.</td></tr>
+<tr><td><em>newval</em></td><td>The value to store.</td></tr></table></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="atomicStoreIf" href="./htmlsrc/tango.core.Atomic.html#L170" kind="template" beg="170" end="188">atomicStoreIf</a><span class="tparams">(msync ms, T )</span>; <a title="Permalink to this symbol" href="#atomicStoreIf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L170">#</a></dt>
+<dd class="ddef">
+<div class="summary">Supported msync values:
+  msync.raw
+  msync.ssb
+  msync.acq
+  msync.rel
+  msync.seq</div>
+<dl>
+<dt class="decl">bool <a class="symbol _function" name="atomicStoreIf.atomicStoreIf" href="./htmlsrc/tango.core.Atomic.html#L184" kind="function" beg="184" end="187">atomicStoreIf</a><span class="params">(inout T <em>val</em>, T <em>newval</em>, T <em>equalTo</em>)</span>; <a title="Permalink to this symbol" href="#atomicStoreIf.atomicStoreIf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L184">#</a></dt>
+<dd class="ddef">
+<div class="summary">Stores 'newval' to the memory referenced by 'val' if val is equal to
+ 'equalTo'.  This operation is both lock-free and atomic.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>val</em></td><td>The destination variable.</td></tr>
+<tr><td><em>newval</em></td><td>The value to store.</td></tr>
+<tr><td><em>equalTo</em></td><td>The comparison value.</td></tr></table>
+<p class="sec_header">Returns:</p>true if the store occurred, false if not.</dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="atomicIncrement" href="./htmlsrc/tango.core.Atomic.html#L204" kind="template" beg="204" end="228">atomicIncrement</a><span class="tparams">(msync ms, T )</span>; <a title="Permalink to this symbol" href="#atomicIncrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L204">#</a></dt>
+<dd class="ddef">
+<div class="summary">Supported msync values:
+  msync.raw
+  msync.ssb
+  msync.acq
+  msync.rel
+  msync.seq</div>
+<dl>
+<dt class="decl">T <a class="symbol _function" name="atomicIncrement.atomicIncrement" href="./htmlsrc/tango.core.Atomic.html#L224" kind="function" beg="224" end="227">atomicIncrement</a><span class="params">(inout T <em>val</em>)</span>; <a title="Permalink to this symbol" href="#atomicIncrement.atomicIncrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L224">#</a></dt>
+<dd class="ddef">
+<div class="summary">This operation is only legal for built-in value and pointer types,
+ and is equivalent to an atomic "val = val + 1" operation.  This
+ function exists to facilitate use of the optimized increment
+ instructions provided by some architecures.  If no such instruction
+ exists on the target platform then the behavior will perform the
+ operation using more traditional means.  This operation is both
+ lock-free and atomic.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>val</em></td><td>The value to increment.</td></tr></table>
+<p class="sec_header">Returns:</p>The result of an atomicLoad of val immediately following the
+  increment operation.  This value is not required to be equal to the
+  newly stored value.  Thus, competing writes are allowed to occur
+  between the increment and successive load operation.</dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="atomicDecrement" href="./htmlsrc/tango.core.Atomic.html#L244" kind="template" beg="244" end="268">atomicDecrement</a><span class="tparams">(msync ms, T )</span>; <a title="Permalink to this symbol" href="#atomicDecrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L244">#</a></dt>
+<dd class="ddef">
+<div class="summary">Supported msync values:
+  msync.raw
+  msync.ssb
+  msync.acq
+  msync.rel
+  msync.seq</div>
+<dl>
+<dt class="decl">T <a class="symbol _function" name="atomicDecrement.atomicDecrement" href="./htmlsrc/tango.core.Atomic.html#L264" kind="function" beg="264" end="267">atomicDecrement</a><span class="params">(inout T <em>val</em>)</span>; <a title="Permalink to this symbol" href="#atomicDecrement.atomicDecrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L264">#</a></dt>
+<dd class="ddef">
+<div class="summary">This operation is only legal for built-in value and pointer types,
+ and is equivalent to an atomic "val = val - 1" operation.  This
+ function exists to facilitate use of the optimized decrement
+ instructions provided by some architecures.  If no such instruction
+ exists on the target platform then the behavior will perform the
+ operation using more traditional means.  This operation is both
+ lock-free and atomic.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>val</em></td><td>The value to decrement.</td></tr></table>
+<p class="sec_header">Returns:</p>The result of an atomicLoad of val immediately following the
+  increment operation.  This value is not required to be equal to the
+  newly stored value.  Thus, competing writes are allowed to occur
+  between the increment and successive load operation.</dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="Atomic" href="./htmlsrc/tango.core.Atomic.html#L1308" kind="struct" beg="1308" end="1471">Atomic</a><span class="tparams">(T )</span>; <a title="Permalink to this symbol" href="#Atomic" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L1308">#</a></dt>
+<dd class="ddef">
+<div class="summary">This struct represents a value which will be subject to competing access.
+ All accesses to this value will be synchronized with main memory, and
+ various memory barriers may be employed for instruction ordering.  Any
+ primitive type of size equal to or smaller than the memory bus size is
+ allowed, so 32-bit machines may use values with size &lt;= int.sizeof and
+ 64-bit machines may use values with size &lt;= long.sizeof.  The one exception
+ to this rule is that architectures that support DCAS will allow double-wide
+ storeIf operations.  The 32-bit x86 architecture, for example, supports
+ 64-bit storeIf operations.</div>
+<dl>
+<dt class="decl">template <a class="symbol _template" name="Atomic.load" href="./htmlsrc/tango.core.Atomic.html#L1315" kind="template" beg="1315" end="1332">load</a><span class="tparams">(msync ms = msync.seq )</span>; <a title="Permalink to this symbol" href="#Atomic.load" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L1315">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl">T <a class="symbol _function" name="Atomic.load.load" href="./htmlsrc/tango.core.Atomic.html#L1328" kind="function" beg="1328" end="1331">load</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Atomic.load.load" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L1328">#</a></dt>
+<dd class="ddef">
+<div class="summary">Refreshes the contents of this value from main memory.  This
+ operation is both lock-free and atomic.</div>
+<p class="sec_header">Returns:</p>The loaded value.</dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="Atomic.store" href="./htmlsrc/tango.core.Atomic.html#L1340" kind="template" beg="1340" end="1358">store</a><span class="tparams">(msync ms = msync.seq )</span>; <a title="Permalink to this symbol" href="#Atomic.store" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L1340">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl">void <a class="symbol _function" name="Atomic.store.store" href="./htmlsrc/tango.core.Atomic.html#L1354" kind="function" beg="1354" end="1357">store</a><span class="params">(T <em>newval</em>)</span>; <a title="Permalink to this symbol" href="#Atomic.store.store" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L1354">#</a></dt>
+<dd class="ddef">
+<div class="summary">Stores 'newval' to the memory referenced by this value.  This
+ operation is both lock-free and atomic.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>newval</em></td><td>The value to store.</td></tr></table></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="Atomic.storeIf" href="./htmlsrc/tango.core.Atomic.html#L1366" kind="template" beg="1366" end="1388">storeIf</a><span class="tparams">(msync ms = msync.seq )</span>; <a title="Permalink to this symbol" href="#Atomic.storeIf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L1366">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl">bool <a class="symbol _function" name="Atomic.storeIf.storeIf" href="./htmlsrc/tango.core.Atomic.html#L1384" kind="function" beg="1384" end="1387">storeIf</a><span class="params">(T <em>newval</em>, T <em>equalTo</em>)</span>; <a title="Permalink to this symbol" href="#Atomic.storeIf.storeIf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L1384">#</a></dt>
+<dd class="ddef">
+<div class="summary">Stores 'newval' to the memory referenced by this value if val is
+ equal to 'equalTo'.  This operation is both lock-free and atomic.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>newval</em></td><td>The value to store.</td></tr>
+<tr><td><em>equalTo</em></td><td>The comparison value.</td></tr></table>
+<p class="sec_header">Returns:</p>true if the store occurred, false if not.</dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="Atomic.increment" href="./htmlsrc/tango.core.Atomic.html#L1406" kind="template" beg="1406" end="1432">increment</a><span class="tparams">(msync ms = msync.seq )</span>; <a title="Permalink to this symbol" href="#Atomic.increment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L1406">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl">T <a class="symbol _function" name="Atomic.increment.increment" href="./htmlsrc/tango.core.Atomic.html#L1428" kind="function" beg="1428" end="1431">increment</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Atomic.increment.increment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L1428">#</a></dt>
+<dd class="ddef">
+<div class="summary">This operation is only legal for built-in value and pointer
+ types, and is equivalent to an atomic "val = val + 1" operation.
+ This function exists to facilitate use of the optimized
+ increment instructions provided by some architecures.  If no
+ such instruction exists on the target platform then the
+ behavior will perform the operation using more traditional
+ means.  This operation is both lock-free and atomic.</div>
+<p class="sec_header">Returns:</p>The result of an atomicLoad of val immediately following the
+  increment operation.  This value is not required to be equal to
+  the newly stored value.  Thus, competing writes are allowed to
+  occur between the increment and successive load operation.</dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="Atomic.decrement" href="./htmlsrc/tango.core.Atomic.html#L1440" kind="template" beg="1440" end="1466">decrement</a><span class="tparams">(msync ms = msync.seq )</span>; <a title="Permalink to this symbol" href="#Atomic.decrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L1440">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl">T <a class="symbol _function" name="Atomic.decrement.decrement" href="./htmlsrc/tango.core.Atomic.html#L1462" kind="function" beg="1462" end="1465">decrement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Atomic.decrement.decrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Atomic.html#L1462">#</a></dt>
+<dd class="ddef">
+<div class="summary">This operation is only legal for built-in value and pointer
+ types, and is equivalent to an atomic "val = val - 1" operation.
+ This function exists to facilitate use of the optimized
+ decrement instructions provided by some architecures.  If no
+ such instruction exists on the target platform then the behavior
+ will perform the operation using more traditional means.  This
+ operation is both lock-free and atomic.</div>
+<p class="sec_header">Returns:</p>The result of an atomicLoad of val immediately following the
+  increment operation.  This value is not required to be equal to
+  the newly stored value.  Thus, competing writes are allowed to
+  occur between the increment and successive load operation.</dd></dl></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (C) 2005-2006 Sean Kelly.  All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:04 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

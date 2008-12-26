@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.sys.SharedLib</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.sys.SharedLib";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.sys.SharedLib.html" class="symbol">tango.sys.SharedLib</a></h1>
+  
+<div class="summary">The shared library module provides a basic layer around the native functions
+ used to load symbols from shared libraries.</div>
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Authors:</p>Tomasz Stachowiak, Anders Bergh
+<dl>
+<dt class="decl">class <a class="symbol _class" name="SharedLib" href="./htmlsrc/tango.sys.SharedLib.html#L85" kind="class" beg="85" end="358">SharedLib</a>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SharedLib" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.sys.SharedLib.html#L85">#</a></dt>
+<dd class="ddef">
+<div class="summary">SharedLib is an interface to system-specific shared libraries, such
+    as ".dll", ".so" or ".dylib" files. It provides a simple interface to obtain
+    symbol addresses (such as function pointers) from these libraries.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+
+<span class="k">void</span> <span class="i">main</span>() {
+    <span class="k">if</span> (<span class="k">auto</span> <span class="i">lib</span> = <span class="i">SharedLib</span>.<span class="i">load</span>(<span class="sl">`c:\windows\system32\opengl32.dll`</span>)) {
+        <span class="i">Trace</span>.<span class="i">formatln</span>(<span class="sl">"Library successfully loaded"</span>);
+
+        <span class="k">void</span>* <span class="i">ptr</span> = <span class="i">lib</span>.<span class="i">getSymbol</span>(<span class="sl">"glClear"</span>);
+        <span class="k">if</span> (<span class="i">ptr</span>) {
+            <span class="i">Trace</span>.<span class="i">formatln</span>(<span class="sl">"Symbol glClear found. Address = 0x{:x}"</span>, <span class="i">ptr</span>);
+        } <span class="k">else</span> {
+            <span class="i">Trace</span>.<span class="i">formatln</span>(<span class="sl">"Symbol glClear not found"</span>);
+        }
+
+        <span class="i">lib</span>.<span class="i">unload</span>();
+    } <span class="k">else</span> {
+        <span class="i">Trace</span>.<span class="i">formatln</span>(<span class="sl">"Could not load the library"</span>);
+    }
+
+    <span class="k">assert</span> (<span class="n">0</span> == <span class="i">SharedLib</span>.<span class="i">numLoadedLibs</span>);
+}
+
+</pre>
+<p class="bl"/>
+    This implementation uses reference counting, thus a library is not loaded
+    again if it has been loaded before and not unloaded by the user.
+    Unloading a SharedLib decreases its reference count. When it reaches 0,
+    the shared library associated with it is unloaded and the SharedLib instance
+    is deleted. Please do not delete SharedLib instances manually, unload() will
+    take care of it.
+<p class="sec_header">Note:</p>SharedLib is thread-safe.
+<dl>
+<dt class="decl">enum <a class="symbol _enum" name="SharedLib.LoadMode" href="./htmlsrc/tango.sys.SharedLib.html#L87" kind="enum" beg="87" end="92">LoadMode</a>; <a title="Permalink to this symbol" href="#SharedLib.LoadMode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.sys.SharedLib.html#L87">#</a></dt>
+<dd class="ddef">
+<div class="summary">Mapped from RTLD_NOW, RTLD_LAZY, RTLD_GLOBAL and RTLD_LOCAL</div>
+</dd>
+<dt class="decl">SharedLib <a class="symbol _function" name="SharedLib.load" href="./htmlsrc/tango.sys.SharedLib.html#L110" kind="function" beg="110" end="170">load</a><span class="params">(char[] <em>path</em>, LoadMode <em>mode</em> = LoadMode.Now | LoadMode.Global)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#SharedLib.load" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.sys.SharedLib.html#L110">#</a></dt>
+<dd class="ddef">
+<div class="summary">Loads an OS-specific shared library.</div>
+<p class="sec_header">Note:</p>Please use this function instead of the constructor, which is private.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>The path to a shared library to be loaded</td></tr>
+<tr><td><em>mode</em></td><td>Library loading mode. See LoadMode</td></tr></table>
+<p class="sec_header">Returns:</p>A SharedLib instance being a handle to the library, or null if it
+            could not be loaded and SharedLib.throwExceptions is set to false.
+            Otherwise, throws SharedLibException</dd>
+<dt class="decl">void <a class="symbol _function" name="SharedLib.unload" href="./htmlsrc/tango.sys.SharedLib.html#L182" kind="function" beg="182" end="210">unload</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#SharedLib.unload" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.sys.SharedLib.html#L182">#</a></dt>
+<dd class="ddef">
+<div class="summary">Unloads the OS-specific shared library associated with this SharedLib instance.</div>
+<p class="sec_header">Note:</p>It's invalid to use the object after unload() has been called, as unload()
+        will delete it if it's not referenced any more.
+<p class="bl"/>
+        Throws SharedLibException on failure. In this case, the SharedLib object is not deleted.</dd>
+<dt class="decl">char[] <a class="symbol _function" name="SharedLib.path" href="./htmlsrc/tango.sys.SharedLib.html#L216" kind="function" beg="216" end="218">path</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#SharedLib.path" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.sys.SharedLib.html#L216">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the path to the OS-specific shared library associated with this object.</div></dd>
+<dt class="decl">void* <a class="symbol _function" name="SharedLib.getSymbol" href="./htmlsrc/tango.sys.SharedLib.html#L231" kind="function" beg="231" end="234">getSymbol</a><span class="params">(char* <em>name</em>)</span>; <a title="Permalink to this symbol" href="#SharedLib.getSymbol" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.sys.SharedLib.html#L231">#</a></dt>
+<dd class="ddef">
+<div class="summary">Obtains the address of a symbol within the shared library</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>name</em></td><td>The name of the symbol; must be a null-terminated C string</td></tr></table>
+<p class="sec_header">Returns:</p>A pointer to the symbol or null if it's not present in the library
+            and SharedLib.throwExceptions is set to false. Otherwise, throws SharedLibException</dd>
+<dt class="decl">uint <a class="symbol _function" name="SharedLib.numLoadedLibs" href="./htmlsrc/tango.sys.SharedLib.html#L241" kind="function" beg="241" end="243">numLoadedLibs</a><span class="params">()</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#SharedLib.numLoadedLibs" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.sys.SharedLib.html#L241">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the total number of libraries currently loaded by SharedLib</div></dd>
+<dt class="decl">bool <a class="symbol _variable" name="SharedLib.throwExceptions" href="./htmlsrc/tango.sys.SharedLib.html#L357" kind="variable" beg="357" end="357">throwExceptions</a>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#SharedLib.throwExceptions" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.sys.SharedLib.html#L357">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set this to false if you don't want SharedLib to throw exceptions in symbol(),  load() and unload()</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (C) 2007 Tomasz Stachowiak</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:46 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

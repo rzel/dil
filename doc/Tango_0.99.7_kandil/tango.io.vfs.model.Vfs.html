@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.vfs.model.Vfs</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.vfs.model.Vfs";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.vfs.model.Vfs.html" class="symbol">tango.io.vfs.model.Vfs</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Jul 2007: Initial version
+<p class="sec_header">Author:</p>Lars Ivar, Kris
+<dl>
+<dt class="decl">struct <a class="symbol _struct" name="VfsFilterInfo" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L23" kind="struct" beg="23" end="29">VfsFilterInfo</a>; <a title="Permalink to this symbol" href="#VfsFilterInfo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L23">#</a></dt>
+<dd class="ddef">
+<div class="summary">Passed around during filtering</div>
+</dd>
+<dt class="decl">struct <a class="symbol _struct" name="VfsStats" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L41" kind="struct" beg="41" end="46">VfsStats</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#VfsStats" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L41">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+</dd>
+<dt class="decl">interface <a class="symbol _interface" name="VfsHost" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L52" kind="interface" beg="52" end="103">VfsHost</a> : VfsFolder; <a title="Permalink to this symbol" href="#VfsHost" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L52">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl">VfsHost <a class="symbol _function" name="VfsHost.mount" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L66" kind="function" beg="66" end="66">mount</a><span class="params">(VfsFolder <em>folder</em>, char[] <em>name</em> = null)</span>; <a title="Permalink to this symbol" href="#VfsHost.mount" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L66">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add a child folder. The child cannot 'overlap' with others
+                in the tree of the same type. Circular references across a
+                tree of virtual folders are detected and trapped.</div>
+The second argument represents an optional name that the
+                mount should be known as, instead of the name exposed by 
+                the provided folder (it is not an alias).</dd>
+<dt class="decl">VfsHost <a class="symbol _function" name="VfsHost.mount:2" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L76" kind="function" beg="76" end="76">mount</a><span class="params">(VfsFolders <em>group</em>)</span>; <a title="Permalink to this symbol" href="#VfsHost.mount:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L76">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add a set of child folders. The children cannot 'overlap' 
+                with others in the tree of the same type. Circular references 
+                are detected and trapped.</div></dd>
+<dt class="decl">VfsHost <a class="symbol _function" name="VfsHost.dismount" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L84" kind="function" beg="84" end="84">dismount</a><span class="params">(VfsFolder <em>folder</em>)</span>; <a title="Permalink to this symbol" href="#VfsHost.dismount" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L84">#</a></dt>
+<dd class="ddef">
+<div class="summary">Unhook a child folder</div></dd>
+<dt class="decl">VfsHost <a class="symbol _function" name="VfsHost.map" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L93" kind="function" beg="93" end="93">map</a><span class="params">(VfsFile <em>target</em>, char[] <em>name</em>)</span>; <a title="Permalink to this symbol" href="#VfsHost.map" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L93">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add a symbolic link to another file. These are referenced
+                by file() alone, and do not show up in tree traversals</div></dd>
+<dt class="decl">VfsHost <a class="symbol _function" name="VfsHost.map:2" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L102" kind="function" beg="102" end="102">map</a><span class="params">(VfsFolderEntry <em>target</em>, char[] <em>name</em>)</span>; <a title="Permalink to this symbol" href="#VfsHost.map:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L102">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add a symbolic link to another folder. These are referenced
+                by folder() alone, and do not show up in tree traversals</div></dd></dl></dd>
+<dt class="decl">interface <a class="symbol _interface" name="VfsFolder" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L199" kind="interface" beg="199" end="300">VfsFolder</a>; <a title="Permalink to this symbol" href="#VfsFolder" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L199">#</a></dt>
+<dd class="ddef">
+<div class="summary">Supports a model a bit like CSS selectors, where a selection
+        of operands is made before applying some operation. For example:
+        <pre class="d_code">
+<span class="lc">// count of files in this folder</span>
+<span class="k">auto</span> <span class="i">count</span> = <span class="i">folder</span>.<span class="i">self</span>.<span class="i">files</span>;
+
+<span class="lc">// accumulated file byte-count</span>
+<span class="k">auto</span> <span class="i">bytes</span> = <span class="i">folder</span>.<span class="i">self</span>.<span class="i">bytes</span>;
+
+<span class="lc">// a group of one folder (itself)</span>
+<span class="k">auto</span> <span class="i">folders</span> = <span class="i">folder</span>.<span class="i">self</span>;
+</pre></div>
+The same approach is used to select the subtree descending from
+        a folder:
+        <pre class="d_code">
+<span class="lc">// count of files in this tree</span>
+<span class="k">auto</span> <span class="i">count</span> = <span class="i">folder</span>.<span class="i">tree</span>.<span class="i">files</span>;
+
+<span class="lc">// accumulated file byte-count</span>
+<span class="k">auto</span> <span class="i">bytes</span> = <span class="i">folder</span>.<span class="i">tree</span>.<span class="i">bytes</span>;
+
+<span class="lc">// the group of child folders</span>
+<span class="k">auto</span> <span class="i">folders</span> = <span class="i">folder</span>.<span class="i">tree</span>;
+</pre>
+<p class="bl"/>
+        Filtering can be applied to the tree resulting in a sub-group. 
+        Group operations remain applicable. Note that various wildcard 
+        characters may be used in the filtering:
+        <pre class="d_code">
+<span class="lc">// select a subset of the resultant tree</span>
+<span class="k">auto</span> <span class="i">folders</span> = <span class="i">folder</span>.<span class="i">tree</span>.<span class="i">subset</span>(<span class="sl">"install"</span>);
+
+<span class="lc">// get total file bytes for a tree subset, using wildcards</span>
+<span class="k">auto</span> <span class="i">bytes</span> = <span class="i">folder</span>.<span class="i">tree</span>.<span class="i">subset</span>(<span class="sl">"foo*"</span>).<span class="i">bytes</span>;
+</pre>
+<p class="bl"/>
+        Files are selected from a set of folders in a similar manner:
+        <pre class="d_code">
+<span class="lc">// files called "readme.txt" in this folder</span>
+<span class="k">auto</span> <span class="i">count</span> = <span class="i">folder</span>.<span class="i">self</span>.<span class="i">catalog</span>(<span class="sl">"readme.txt"</span>).<span class="i">files</span>;
+
+<span class="lc">// files called "read*.*" in this tree</span>
+<span class="k">auto</span> <span class="i">count</span> = <span class="i">folder</span>.<span class="i">tree</span>.<span class="i">catalog</span>(<span class="sl">"read*.*"</span>).<span class="i">files</span>;
+
+<span class="lc">// all txt files belonging to folders starting with "ins"</span>
+<span class="k">auto</span> <span class="i">count</span> = <span class="i">folder</span>.<span class="i">tree</span>.<span class="i">subset</span>(<span class="sl">"ins*"</span>).<span class="i">catalog</span>(<span class="sl">"*.txt"</span>).<span class="i">files</span>;
+
+<span class="lc">// custom-filtered files within a subtree</span>
+<span class="k">auto</span> <span class="i">count</span> = <span class="i">folder</span>.<span class="i">tree</span>.<span class="i">catalog</span>(&amp;<span class="i">filter</span>).<span class="i">files</span>;
+</pre>
+<p class="bl"/>
+        Sets of folders and files support iteration via foreach:
+        <pre class="d_code">
+<span class="k">foreach</span> (<span class="i">folder</span>; <span class="i">root</span>.<span class="i">tree</span>)
+         <span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"folder name:{}"</span>, <span class="i">folder</span>.<span class="i">name</span>);
+
+<span class="k">foreach</span> (<span class="i">folder</span>; <span class="i">root</span>.<span class="i">tree</span>.<span class="i">subset</span>(<span class="sl">"ins*"</span>))
+         <span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"folder name:{}"</span>, <span class="i">folder</span>.<span class="i">name</span>);
+
+<span class="k">foreach</span> (<span class="i">file</span>; <span class="i">root</span>.<span class="i">tree</span>.<span class="i">catalog</span>(<span class="sl">"*.d"</span>))
+         <span class="i">Stdout</span>.<span class="i">formatln</span> (<span class="sl">"file name:{}"</span>, <span class="i">file</span>.<span class="i">name</span>);
+</pre>
+<p class="bl"/>
+        Creating and opening a sub-folder is supported in a similar
+        manner, where the single instance is 'selected' before the
+        operation is applied. Open differs from create in that the
+        folder must exist for the former:
+        <pre class="d_code">
+<span class="i">root</span>.<span class="i">folder</span>(<span class="sl">"myNewFolder"</span>).<span class="i">create</span>;
+
+<span class="i">root</span>.<span class="i">folder</span>(<span class="sl">"myExistingFolder"</span>).<span class="i">open</span>;
+</pre>
+      
+        File manipulation is handled in much the same way:
+        <pre class="d_code">
+<span class="i">root</span>.<span class="i">file</span>(<span class="sl">"myNewFile"</span>).<span class="i">create</span>;
+
+<span class="k">auto</span> <span class="i">source</span> = <span class="i">root</span>.<span class="i">file</span>(<span class="sl">"myExistingFile"</span>);
+<span class="i">root</span>.<span class="i">file</span>(<span class="sl">"myCopiedFile"</span>).<span class="i">copy</span>(<span class="i">source</span>);
+</pre>
+<p class="bl"/>
+        The principal benefits of these approaches are twofold: 1) it 
+        turns out to be notably more efficient in terms of traversal, and 
+        2) there's no casting required, since there is a clean separation 
+        between files and folders.
+        
+        See VfsFile for more information on file handling
+<dl>
+<dt class="decl">char[] <a class="symbol _function" name="VfsFolder.name" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L207" kind="function" beg="207" end="207">name</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFolder.name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L207">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a short name</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="VfsFolder.toString" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L215" kind="function" beg="215" end="215">toString</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFolder.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L215">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a long name</div></dd>
+<dt class="decl">VfsFile <a class="symbol _function" name="VfsFolder.file" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L223" kind="function" beg="223" end="223">file</a><span class="params">(char[] <em>path</em>)</span>; <a title="Permalink to this symbol" href="#VfsFolder.file" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L223">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a contained file representation</div></dd>
+<dt class="decl">VfsFolderEntry <a class="symbol _function" name="VfsFolder.folder" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L231" kind="function" beg="231" end="231">folder</a><span class="params">(char[] <em>path</em>)</span>; <a title="Permalink to this symbol" href="#VfsFolder.folder" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L231">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a contained folder representation</div></dd>
+<dt class="decl">VfsFolders <a class="symbol _function" name="VfsFolder.self" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L240" kind="function" beg="240" end="240">self</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFolder.self" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L240">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a folder set containing only this one. Statistics 
+                are inclusive of entries within this folder only</div></dd>
+<dt class="decl">VfsFolders <a class="symbol _function" name="VfsFolder.tree" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L249" kind="function" beg="249" end="249">tree</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFolder.tree" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L249">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a subtree of folders. Statistics are inclusive of 
+                files within this folder and all others within the tree</div></dd>
+<dt class="decl">int <a class="symbol _function" name="VfsFolder.opApply" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L258" kind="function" beg="258" end="258">opApply</a><span class="params">(int delegate(inout VfsFolder) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#VfsFolder.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L258">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterate over the set of immediate child folders. This is 
+                useful for reflecting the hierarchy</div></dd>
+<dt class="decl">VfsFolder <a class="symbol _function" name="VfsFolder.clear" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L266" kind="function" beg="266" end="266">clear</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFolder.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L266">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clear all content from this folder and subordinates</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="VfsFolder.writable" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L274" kind="function" beg="274" end="274">writable</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFolder.writable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L274">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is folder writable?</div></dd>
+<dt class="decl">VfsFolder <a class="symbol _function" name="VfsFolder.close" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L285" kind="function" beg="285" end="285">close</a><span class="params">(bool <em>commit</em> = true)</span>; <a title="Permalink to this symbol" href="#VfsFolder.close" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L285">#</a></dt>
+<dd class="ddef">
+<div class="summary">Close and/or synchronize changes made to this folder. Each
+                driver should take advantage of this as appropriate, perhaps
+                combining multiple files together, or possibly copying to a 
+                remote location</div></dd>
+<dt class="decl">void <a class="symbol _function" name="VfsFolder.verify" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L295" kind="function" beg="295" end="295">verify</a><span class="params">(VfsFolder <em>folder</em>, bool <em>mounting</em>)</span>; <a title="Permalink to this symbol" href="#VfsFolder.verify" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L295">#</a></dt>
+<dd class="ddef">
+<div class="summary">A folder is being added or removed from the hierarchy. Use 
+                this to test for validity (or whatever) and throw exceptions 
+                as necessary</div></dd></dl></dd>
+<dt class="decl">interface <a class="symbol _interface" name="VfsFolders" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L309" kind="interface" beg="309" end="374">VfsFolders</a>; <a title="Permalink to this symbol" href="#VfsFolders" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L309">#</a></dt>
+<dd class="ddef">
+<div class="summary">Operations upon a set of folders</div>
+<dl>
+<dt class="decl">int <a class="symbol _function" name="VfsFolders.opApply" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L317" kind="function" beg="317" end="317">opApply</a><span class="params">(int delegate(inout VfsFolder) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#VfsFolders.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L317">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterate over the set of contained VfsFolder instances</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="VfsFolders.files" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L325" kind="function" beg="325" end="325">files</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFolders.files" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L325">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the number of files</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="VfsFolders.folders" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L333" kind="function" beg="333" end="333">folders</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFolders.folders" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L333">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the number of folders</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="VfsFolders.entries" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L341" kind="function" beg="341" end="341">entries</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFolders.entries" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L341">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the total number of entries (files + folders)</div></dd>
+<dt class="decl">ulong <a class="symbol _function" name="VfsFolders.bytes" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L349" kind="function" beg="349" end="349">bytes</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFolders.bytes" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L349">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the total size of contained files</div></dd>
+<dt class="decl">VfsFolders <a class="symbol _function" name="VfsFolders.subset" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L357" kind="function" beg="357" end="357">subset</a><span class="params">(char[] <em>pattern</em>)</span>; <a title="Permalink to this symbol" href="#VfsFolders.subset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L357">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a subset of folders matching the given pattern</div></dd>
+<dt class="decl">VfsFiles <a class="symbol _function" name="VfsFolders.catalog" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L365" kind="function" beg="365" end="365">catalog</a><span class="params">(char[] <em>pattern</em>)</span>; <a title="Permalink to this symbol" href="#VfsFolders.catalog" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L365">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set of files matching the given pattern</div></dd>
+<dt class="decl">VfsFiles <a class="symbol _function" name="VfsFolders.catalog:2" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L373" kind="function" beg="373" end="373">catalog</a><span class="params">(VfsFilter <em>filter</em> = null)</span>; <a title="Permalink to this symbol" href="#VfsFolders.catalog:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L373">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set of files matching the given filter</div></dd></dl></dd>
+<dt class="decl">interface <a class="symbol _interface" name="VfsFiles" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L383" kind="interface" beg="383" end="408">VfsFiles</a>; <a title="Permalink to this symbol" href="#VfsFiles" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L383">#</a></dt>
+<dd class="ddef">
+<div class="summary">Operations upon a set of files</div>
+<dl>
+<dt class="decl">int <a class="symbol _function" name="VfsFiles.opApply" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L391" kind="function" beg="391" end="391">opApply</a><span class="params">(int delegate(inout VfsFile) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#VfsFiles.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L391">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterate over the set of contained VfsFile instances</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="VfsFiles.files" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L399" kind="function" beg="399" end="399">files</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFiles.files" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L399">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the total number of entries</div></dd>
+<dt class="decl">ulong <a class="symbol _function" name="VfsFiles.bytes" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L407" kind="function" beg="407" end="407">bytes</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFiles.bytes" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L407">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the total size of all files</div></dd></dl></dd>
+<dt class="decl">interface <a class="symbol _interface" name="VfsFile" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L417" kind="interface" beg="417" end="514">VfsFile</a>; <a title="Permalink to this symbol" href="#VfsFile" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L417">#</a></dt>
+<dd class="ddef">
+<div class="summary">A specific file representation</div>
+<dl>
+<dt class="decl">char[] <a class="symbol _function" name="VfsFile.name" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L425" kind="function" beg="425" end="425">name</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFile.name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L425">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a short name</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="VfsFile.toString" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L433" kind="function" beg="433" end="433">toString</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFile.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L433">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a long name</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="VfsFile.exists" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L441" kind="function" beg="441" end="441">exists</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFile.exists" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L441">#</a></dt>
+<dd class="ddef">
+<div class="summary">Does this file exist?</div></dd>
+<dt class="decl">ulong <a class="symbol _function" name="VfsFile.size" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L449" kind="function" beg="449" end="449">size</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFile.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L449">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the file size</div></dd>
+<dt class="decl">VfsFile <a class="symbol _function" name="VfsFile.copy" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L457" kind="function" beg="457" end="457">copy</a><span class="params">(VfsFile <em>source</em>)</span>; <a title="Permalink to this symbol" href="#VfsFile.copy" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L457">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create and copy the given source</div></dd>
+<dt class="decl">VfsFile <a class="symbol _function" name="VfsFile.move" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L465" kind="function" beg="465" end="465">move</a><span class="params">(VfsFile <em>source</em>)</span>; <a title="Permalink to this symbol" href="#VfsFile.move" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L465">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create and copy the given source, and remove the source</div></dd>
+<dt class="decl">VfsFile <a class="symbol _function" name="VfsFile.create" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L473" kind="function" beg="473" end="473">create</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFile.create" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L473">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a new file instance</div></dd>
+<dt class="decl">VfsFile <a class="symbol _function" name="VfsFile.create:2" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L481" kind="function" beg="481" end="481">create</a><span class="params">(InputStream <em>stream</em>)</span>; <a title="Permalink to this symbol" href="#VfsFile.create:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L481">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a new file instance and populate with stream</div></dd>
+<dt class="decl">VfsFile <a class="symbol _function" name="VfsFile.remove" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L489" kind="function" beg="489" end="489">remove</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFile.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L489">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove this file</div></dd>
+<dt class="decl">InputStream <a class="symbol _function" name="VfsFile.input" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L497" kind="function" beg="497" end="497">input</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFile.input" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L497">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the input stream. Don't forget to close it</div></dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="VfsFile.output" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L505" kind="function" beg="505" end="505">output</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFile.output" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L505">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the output stream. Don't forget to close it</div></dd>
+<dt class="decl">VfsFile <a class="symbol _function" name="VfsFile.dup" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L513" kind="function" beg="513" end="513">dup</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFile.dup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L513">#</a></dt>
+<dd class="ddef">
+<div class="summary">Duplicate this entry</div></dd></dl></dd>
+<dt class="decl">interface <a class="symbol _interface" name="VfsFolderEntry" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L523" kind="interface" beg="523" end="548">VfsFolderEntry</a>; <a title="Permalink to this symbol" href="#VfsFolderEntry" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L523">#</a></dt>
+<dd class="ddef">
+<div class="summary">Handler for folder operations. Needs some work ...</div>
+<dl>
+<dt class="decl">VfsFolder <a class="symbol _function" name="VfsFolderEntry.open" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L531" kind="function" beg="531" end="531">open</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFolderEntry.open" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L531">#</a></dt>
+<dd class="ddef">
+<div class="summary">Open a folder</div></dd>
+<dt class="decl">VfsFolder <a class="symbol _function" name="VfsFolderEntry.create" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L539" kind="function" beg="539" end="539">create</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFolderEntry.create" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L539">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a new folder</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="VfsFolderEntry.exists" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L547" kind="function" beg="547" end="547">exists</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsFolderEntry.exists" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L547">#</a></dt>
+<dd class="ddef">
+<div class="summary">Test to see if a folder exists</div></dd></dl></dd>
+<dt class="decl">interface <a class="symbol _interface" name="VfsSync" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L560" kind="interface" beg="560" end="567">VfsSync</a>; <a title="Permalink to this symbol" href="#VfsSync" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L560">#</a></dt>
+<dd class="ddef">
+<div class="summary">Would be used for things like zip files, where the
+    implementation mantains the contents in memory or on disk, and where
+    the actual zip file isn't/shouldn't be written until one is finished
+    filling it up (for zip due to inefficient file format).</div>
+<dl>
+<dt class="decl">VfsFolder <a class="symbol _function" name="VfsSync.sync" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L566" kind="function" beg="566" end="566">sync</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#VfsSync.sync" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.model.Vfs.html#L566">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2007 Tango. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:01 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

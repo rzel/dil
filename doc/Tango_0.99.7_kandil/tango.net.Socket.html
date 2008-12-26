@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.Socket</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.Socket";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.Socket.html" class="symbol">tango.net.Socket</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: March 2004
+<p class="sec_header">Author:</p>Christopher Miller
+                        Kris Bell
+                        Anders F Bjorklund (Darwin patches)
+<p class="bl"/>
+
+        The original code has been modified in several ways:
+<p class="bl"/>
+        1) It has been altered to fit within the Tango environment, meaning
+           that certain original classes have been reorganized, and/or have
+           subclassed Tango base-classes. For example, the original Socket
+           class has been wrapped with three distinct subclasses, and now
+           derives from class tango.io.Resource.
+<p class="bl"/>
+        2) All exception instances now subclass the Tango IOException.
+<p class="bl"/>
+        3) Construction of new Socket instances via accept() is now
+           overloadable.
+<p class="bl"/>
+        4) Constants and enums have been moved within a class boundary to
+           ensure explicit namespace usage.
+<p class="bl"/>
+        5) changed Socket.select() to loop if it was interrupted.
+<p class="bl"/>
+
+        All changes within the main body of code all marked with "Tango:"
+<p class="bl"/>
+        For a good tutorial on socket-programming I highly recommend going
+<p class="sec_header">here:</p>http://www.ecst.csuchico.edu/~beej/guide/net/
+<dl>
+<dt class="decl">socket_t <a class="symbol _variable" name="INVALID_SOCKET" href="./htmlsrc/tango.net.Socket.html#L226" kind="variable" beg="226" end="226">INVALID_SOCKET</a>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#INVALID_SOCKET" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L226">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">struct <a class="symbol _struct" name="timeval" href="./htmlsrc/tango.net.Socket.html#L237" kind="struct" beg="237" end="241">timeval</a>; <a title="Permalink to this symbol" href="#timeval" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L237">#</a></dt>
+<dd class="ddef">
+<div class="summary">Internal structs:</div>
+</dd>
+<dt class="decl">int <a class="symbol _function" name="strlen" href="./htmlsrc/tango.net.Socket.html#L339" kind="function" beg="339" end="339">strlen</a><span class="params">(char*)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="linkg">extern(C)</span>]</span> <a title="Permalink to this symbol" href="#strlen" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L339">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">int <a class="symbol _function" name="lastError" href="./htmlsrc/tango.net.Socket.html#L368" kind="function" beg="368" end="378">lastError</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#lastError" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L368">#</a></dt>
+<dd class="ddef">
+<div class="summary">Public interface ...</div></dd>
+<dt class="decl">enum <a class="symbol _enum" name="SocketOption" href="./htmlsrc/tango.net.Socket.html#L519" kind="enum" beg="519" end="545">SocketOption</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketOption" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L519">#</a></dt>
+<dd class="ddef">
+<div class="summary">these appear to be compatible with x86 platforms,
+                but not others!</div>
+</dd>
+<dt class="decl">union <a class="symbol _union" name="linger" href="./htmlsrc/tango.net.Socket.html#L552" kind="union" beg="552" end="559">linger</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#linger" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L552">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+</dd>
+<dt class="decl">enum <a class="symbol _enum" name="SocketOptionLevel" href="./htmlsrc/tango.net.Socket.html#L566" kind="enum" beg="566" end="572">SocketOptionLevel</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketOptionLevel" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L566">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+</dd>
+<dt class="decl">enum <a class="symbol _enum" name="SocketShutdown" href="./htmlsrc/tango.net.Socket.html#L580" kind="enum" beg="580" end="585">SocketShutdown</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketShutdown" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L580">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+</dd>
+<dt class="decl">enum <a class="symbol _enum" name="SocketFlags" href="./htmlsrc/tango.net.Socket.html#L592" kind="enum" beg="592" end="598">SocketFlags</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketFlags" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L592">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+</dd>
+<dt class="decl">enum <a class="symbol _enum" name="SocketType" href="./htmlsrc/tango.net.Socket.html#L606" kind="enum" beg="606" end="613">SocketType</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L606">#</a></dt>
+<dd class="ddef">
+<div class="summary">Communication semantics</div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="SocketType.STREAM" href="./htmlsrc/tango.net.Socket.html#L608" kind="enummem" beg="608" end="608">STREAM</a> <a title="Permalink to this symbol" href="#SocketType.STREAM" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L608">#</a></dt>
+<dd class="ddef">
+<div class="summary">sequenced, reliable, two-way communication-based byte streams</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="SocketType.DGRAM" href="./htmlsrc/tango.net.Socket.html#L609" kind="enummem" beg="609" end="609">DGRAM</a> <a title="Permalink to this symbol" href="#SocketType.DGRAM" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L609">#</a></dt>
+<dd class="ddef">
+<div class="summary">connectionless, unreliable datagrams with a fixed maximum length; data may be lost or arrive out of order</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="SocketType.RAW" href="./htmlsrc/tango.net.Socket.html#L610" kind="enummem" beg="610" end="610">RAW</a> <a title="Permalink to this symbol" href="#SocketType.RAW" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L610">#</a></dt>
+<dd class="ddef">
+<div class="summary">raw protocol access</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="SocketType.RDM" href="./htmlsrc/tango.net.Socket.html#L611" kind="enummem" beg="611" end="611">RDM</a> <a title="Permalink to this symbol" href="#SocketType.RDM" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L611">#</a></dt>
+<dd class="ddef">
+<div class="summary">reliably-delivered message datagrams</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="SocketType.SEQPACKET" href="./htmlsrc/tango.net.Socket.html#L612" kind="enummem" beg="612" end="612">SEQPACKET</a> <a title="Permalink to this symbol" href="#SocketType.SEQPACKET" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L612">#</a></dt>
+<dd class="ddef">
+<div class="summary">sequenced, reliable, two-way connection-based datagrams with a fixed maximum length</div></dd></dl></dd>
+<dt class="decl">enum <a class="symbol _enum" name="ProtocolType" href="./htmlsrc/tango.net.Socket.html#L622" kind="enum" beg="622" end="632">ProtocolType</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#ProtocolType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L622">#</a></dt>
+<dd class="ddef">
+<div class="summary">Protocol</div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="ProtocolType.IP" href="./htmlsrc/tango.net.Socket.html#L624" kind="enummem" beg="624" end="624">IP</a> <a title="Permalink to this symbol" href="#ProtocolType.IP" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L624">#</a></dt>
+<dd class="ddef">
+<div class="summary">internet protocol version 4</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="ProtocolType.ICMP" href="./htmlsrc/tango.net.Socket.html#L625" kind="enummem" beg="625" end="625">ICMP</a> <a title="Permalink to this symbol" href="#ProtocolType.ICMP" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L625">#</a></dt>
+<dd class="ddef">
+<div class="summary">internet control message protocol</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="ProtocolType.IGMP" href="./htmlsrc/tango.net.Socket.html#L626" kind="enummem" beg="626" end="626">IGMP</a> <a title="Permalink to this symbol" href="#ProtocolType.IGMP" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L626">#</a></dt>
+<dd class="ddef">
+<div class="summary">internet group management protocol</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="ProtocolType.GGP" href="./htmlsrc/tango.net.Socket.html#L627" kind="enummem" beg="627" end="627">GGP</a> <a title="Permalink to this symbol" href="#ProtocolType.GGP" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L627">#</a></dt>
+<dd class="ddef">
+<div class="summary">gateway to gateway protocol</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="ProtocolType.TCP" href="./htmlsrc/tango.net.Socket.html#L628" kind="enummem" beg="628" end="628">TCP</a> <a title="Permalink to this symbol" href="#ProtocolType.TCP" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L628">#</a></dt>
+<dd class="ddef">
+<div class="summary">transmission control protocol</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="ProtocolType.PUP" href="./htmlsrc/tango.net.Socket.html#L629" kind="enummem" beg="629" end="629">PUP</a> <a title="Permalink to this symbol" href="#ProtocolType.PUP" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L629">#</a></dt>
+<dd class="ddef">
+<div class="summary">PARC universal packet protocol</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="ProtocolType.UDP" href="./htmlsrc/tango.net.Socket.html#L630" kind="enummem" beg="630" end="630">UDP</a> <a title="Permalink to this symbol" href="#ProtocolType.UDP" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L630">#</a></dt>
+<dd class="ddef">
+<div class="summary">user datagram protocol</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="ProtocolType.IDP" href="./htmlsrc/tango.net.Socket.html#L631" kind="enummem" beg="631" end="631">IDP</a> <a title="Permalink to this symbol" href="#ProtocolType.IDP" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L631">#</a></dt>
+<dd class="ddef">
+<div class="summary">Xerox NS protocol</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="Socket" href="./htmlsrc/tango.net.Socket.html#L686" kind="class" beg="686" end="1402">Socket</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Socket" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L686">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="Socket.this" href="./htmlsrc/tango.net.Socket.html#L707" kind="ctor" beg="707" end="714">this</a><span class="params">(AddressFamily <em>family</em>, SocketType <em>type</em>, ProtocolType <em>protocol</em>, bool <em>create</em> = true)</span>; <a title="Permalink to this symbol" href="#Socket.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L707">#</a></dt>
+<dd class="ddef">
+<div class="summary">Describe a socket flavor. If a single protocol type exists to support
+ this socket type within the address family, the ProtocolType may be
+ omitted.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Socket.initialize" href="./htmlsrc/tango.net.Socket.html#L720" kind="function" beg="720" end="733">initialize</a><span class="params">(socket_t <em>sock</em> = sock.init)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Socket.initialize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L720">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create or assign a socket</div></dd>
+<dt class="decl">socket_t <a class="symbol _function" name="Socket.fileHandle" href="./htmlsrc/tango.net.Socket.html#L741" kind="function" beg="741" end="744">fileHandle</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Socket.fileHandle" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L741">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the underlying OS handle of this Conduit</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Socket.reopen" href="./htmlsrc/tango.net.Socket.html#L752" kind="function" beg="752" end="755">reopen</a><span class="params">(socket_t <em>sock</em> = sock.init)</span>; <a title="Permalink to this symbol" href="#Socket.reopen" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L752">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a new native socket instance for this Socket</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Socket.isAlive" href="./htmlsrc/tango.net.Socket.html#L764" kind="function" beg="764" end="770">isAlive</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Socket.isAlive" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L764">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is this socket still alive? A closed socket is considered to
+                be dead, but a shutdown socket is still alive.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="Socket.toString" href="./htmlsrc/tango.net.Socket.html#L778" kind="function" beg="778" end="781">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Socket.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L778">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Socket.blocking" href="./htmlsrc/tango.net.Socket.html#L790" kind="function" beg="790" end="800">blocking</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Socket.blocking" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L790">#</a></dt>
+<dd class="ddef">
+<div class="summary">getter</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Socket.blocking:2" href="./htmlsrc/tango.net.Socket.html#L809" kind="function" beg="809" end="832">blocking</a><span class="params">(bool <em>byes</em>)</span>; <a title="Permalink to this symbol" href="#Socket.blocking:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L809">#</a></dt>
+<dd class="ddef">
+<div class="summary">setter</div></dd>
+<dt class="decl">AddressFamily <a class="symbol _function" name="Socket.addressFamily" href="./htmlsrc/tango.net.Socket.html#L840" kind="function" beg="840" end="843">addressFamily</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Socket.addressFamily" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L840">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">Socket <a class="symbol _function" name="Socket.bind" href="./htmlsrc/tango.net.Socket.html#L851" kind="function" beg="851" end="856">bind</a><span class="params">(Address <em>addr</em>)</span>; <a title="Permalink to this symbol" href="#Socket.bind" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L851">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">Socket <a class="symbol _function" name="Socket.connect" href="./htmlsrc/tango.net.Socket.html#L864" kind="function" beg="864" end="888">connect</a><span class="params">(Address <em>to</em>)</span>; <a title="Permalink to this symbol" href="#Socket.connect" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L864">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">Socket <a class="symbol _function" name="Socket.listen" href="./htmlsrc/tango.net.Socket.html#L897" kind="function" beg="897" end="902">listen</a><span class="params">(int <em>backlog</em>)</span>; <a title="Permalink to this symbol" href="#Socket.listen" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L897">#</a></dt>
+<dd class="ddef">
+<div class="summary">need to bind() first</div></dd>
+<dt class="decl">Socket <a class="symbol _function" name="Socket.accept" href="./htmlsrc/tango.net.Socket.html#L909" kind="function" beg="909" end="912">accept</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Socket.accept" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L909">#</a></dt>
+<dd class="ddef">
+<div class="summary">Accept an incoming connection. If the socket is blocking, accept
+ waits for a connection request. Throws SocketAcceptException if unable
+ to accept. See accepting for use with derived classes.</div></dd>
+<dt class="decl">Socket <a class="symbol _function" name="Socket.shutdown" href="./htmlsrc/tango.net.Socket.html#L946" kind="function" beg="946" end="950">shutdown</a><span class="params">(SocketShutdown <em>how</em>)</span>; <a title="Permalink to this symbol" href="#Socket.shutdown" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L946">#</a></dt>
+<dd class="ddef">
+<div class="summary">The shutdown function shuts down the connection of the socket.
+                Depending on the argument value, it will:</div>
+-   stop receiving data for this socket. If further data
+                        arrives, it is rejected.
+<p class="bl"/>
+                    -   stop trying to transmit data from this socket. Also
+                        discards any data waiting to be sent. Stop looking for
+                        acknowledgement of data already sent; don't retransmit
+                        if any data is lost.</dd>
+<dt class="decl">Socket <a class="symbol _function" name="Socket.setLingerPeriod" href="./htmlsrc/tango.net.Socket.html#L959" kind="function" beg="959" end="967">setLingerPeriod</a><span class="params">(int <em>period</em>)</span>; <a title="Permalink to this symbol" href="#Socket.setLingerPeriod" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L959">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">Tango:</p>added</dd>
+<dt class="decl">Socket <a class="symbol _function" name="Socket.setAddressReuse" href="./htmlsrc/tango.net.Socket.html#L977" kind="function" beg="977" end="981">setAddressReuse</a><span class="params">(bool <em>enabled</em>)</span>; <a title="Permalink to this symbol" href="#Socket.setAddressReuse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L977">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">Tango:</p>added</dd>
+<dt class="decl">Socket <a class="symbol _function" name="Socket.setNoDelay" href="./htmlsrc/tango.net.Socket.html#L991" kind="function" beg="991" end="995">setNoDelay</a><span class="params">(bool <em>enabled</em>)</span>; <a title="Permalink to this symbol" href="#Socket.setNoDelay" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L991">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">Tango:</p>added</dd>
+<dt class="decl">void <a class="symbol _function" name="Socket.joinGroup" href="./htmlsrc/tango.net.Socket.html#L1007" kind="function" beg="1007" end="1025">joinGroup</a><span class="params">(IPv4Address <em>address</em>, bool <em>onOff</em>)</span>; <a title="Permalink to this symbol" href="#Socket.joinGroup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1007">#</a></dt>
+<dd class="ddef">
+<div class="summary">Helper function to handle the adding and dropping of group
+                membership.</div>
+<p class="sec_header">Tango:</p>Added</dd>
+<dt class="decl">void <a class="symbol _function" name="Socket.detach" href="./htmlsrc/tango.net.Socket.html#L1035" kind="function" beg="1035" end="1053">detach</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Socket.detach" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1035">#</a></dt>
+<dd class="ddef">
+<div class="summary">calling shutdown() before this is recommended for connection-
+                oriented sockets</div></dd>
+<dt class="decl">Address <a class="symbol _function" name="Socket.newFamilyObject" href="./htmlsrc/tango.net.Socket.html#L1060" kind="function" beg="1060" end="1073">newFamilyObject</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Socket.newFamilyObject" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1060">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="Socket.hostName" href="./htmlsrc/tango.net.Socket.html#L1082" kind="function" beg="1082" end="1089">hostName</a><span class="params">()</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Socket.hostName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1082">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">Tango:</p>added this to return the hostname</dd>
+<dt class="decl">uint <a class="symbol _function" name="Socket.hostAddress" href="./htmlsrc/tango.net.Socket.html#L1098" kind="function" beg="1098" end="1106">hostAddress</a><span class="params">()</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Socket.hostAddress" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1098">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">Tango:</p>added this to return the default host address (IPv4)</dd>
+<dt class="decl">Address <a class="symbol _function" name="Socket.remoteAddress" href="./htmlsrc/tango.net.Socket.html#L1114" kind="function" beg="1114" end="1122">remoteAddress</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Socket.remoteAddress" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1114">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">Address <a class="symbol _function" name="Socket.localAddress" href="./htmlsrc/tango.net.Socket.html#L1130" kind="function" beg="1130" end="1138">localAddress</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Socket.localAddress" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1130">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">int <a class="symbol _variable" name="Socket.ERROR" href="./htmlsrc/tango.net.Socket.html#L1141" kind="variable" beg="1141" end="1141">ERROR</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#Socket.ERROR" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1141">#</a></dt>
+<dd class="ddef">
+<div class="summary">Send or receive error code.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="Socket.send" href="./htmlsrc/tango.net.Socket.html#L1150" kind="function" beg="1150" end="1153">send</a><span class="params">(void[] <em>buf</em>, SocketFlags <em>flags</em> = SocketFlags.NONE)</span>; <a title="Permalink to this symbol" href="#Socket.send" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1150">#</a></dt>
+<dd class="ddef">
+<div class="summary">Send data on the connection. Returns the number of bytes actually
+ sent, or ERROR on failure. If the socket is blocking and there is no
+ buffer space left, send waits.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="Socket.sendTo" href="./htmlsrc/tango.net.Socket.html#L1158" kind="function" beg="1158" end="1161">sendTo</a><span class="params">(void[] <em>buf</em>, SocketFlags <em>flags</em>, Address <em>to</em>)</span>; <a title="Permalink to this symbol" href="#Socket.sendTo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1158">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="Socket.sendTo:2" href="./htmlsrc/tango.net.Socket.html#L1164" kind="function" beg="1164" end="1167">sendTo</a><span class="params">(void[] <em>buf</em>, Address <em>to</em>)</span>; <a title="Permalink to this symbol" href="#Socket.sendTo:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1164">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="Socket.sendTo:3" href="./htmlsrc/tango.net.Socket.html#L1172" kind="function" beg="1172" end="1175">sendTo</a><span class="params">(void[] <em>buf</em>, SocketFlags <em>flags</em> = SocketFlags.NONE)</span>; <a title="Permalink to this symbol" href="#Socket.sendTo:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1172">#</a></dt>
+<dd class="ddef">
+<div class="summary">Send data to a specific destination Address. If the destination address is not specified, a connection must have been made and that address is used. If the socket is blocking and there is no buffer space left, sendTo waits.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="Socket.receive" href="./htmlsrc/tango.net.Socket.html#L1185" kind="function" beg="1185" end="1191">receive</a><span class="params">(void[] <em>buf</em>, SocketFlags <em>flags</em> = SocketFlags.NONE)</span>; <a title="Permalink to this symbol" href="#Socket.receive" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1185">#</a></dt>
+<dd class="ddef">
+<div class="summary">Receive data on the connection. Returns the number of bytes actually
+ received, 0 if the remote side has closed the connection, or ERROR on
+ failure. If the socket is blocking, receive waits until there is data
+ to be received.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="Socket.receiveFrom" href="./htmlsrc/tango.net.Socket.html#L1196" kind="function" beg="1196" end="1204">receiveFrom</a><span class="params">(void[] <em>buf</em>, SocketFlags <em>flags</em>, Address <em>from</em>)</span>; <a title="Permalink to this symbol" href="#Socket.receiveFrom" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1196">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="Socket.receiveFrom:2" href="./htmlsrc/tango.net.Socket.html#L1208" kind="function" beg="1208" end="1211">receiveFrom</a><span class="params">(void[] <em>buf</em>, Address <em>from</em>)</span>; <a title="Permalink to this symbol" href="#Socket.receiveFrom:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1208">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="Socket.receiveFrom:3" href="./htmlsrc/tango.net.Socket.html#L1216" kind="function" beg="1216" end="1222">receiveFrom</a><span class="params">(void[] <em>buf</em>, SocketFlags <em>flags</em> = SocketFlags.NONE)</span>; <a title="Permalink to this symbol" href="#Socket.receiveFrom:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1216">#</a></dt>
+<dd class="ddef">
+<div class="summary">Receive data and get the remote endpoint Address. Returns the number of bytes actually received, 0 if the remote side has closed the connection, or ERROR on failure. If the socket is blocking, receiveFrom waits until there is data to be received.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="Socket.getOption" href="./htmlsrc/tango.net.Socket.html#L1232" kind="function" beg="1232" end="1238">getOption</a><span class="params">(SocketOptionLevel <em>level</em>, SocketOption <em>option</em>, void[] <em>result</em>)</span>; <a title="Permalink to this symbol" href="#Socket.getOption" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1232">#</a></dt>
+<dd class="ddef">
+<div class="summary">returns the length, in bytes, of the actual result - very
+                different from getsockopt()</div></dd>
+<dt class="decl">Socket <a class="symbol _function" name="Socket.setOption" href="./htmlsrc/tango.net.Socket.html#L1246" kind="function" beg="1246" end="1251">setOption</a><span class="params">(SocketOptionLevel <em>level</em>, SocketOption <em>option</em>, void[] <em>value</em>)</span>; <a title="Permalink to this symbol" href="#Socket.setOption" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1246">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="Socket.exception" href="./htmlsrc/tango.net.Socket.html#L1260" kind="function" beg="1260" end="1263">exception</a><span class="params">(char[] <em>msg</em>)</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Socket.exception" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1260">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">Tango:</p>added this common function</dd>
+<dt class="decl">void <a class="symbol _function" name="Socket.badArg" href="./htmlsrc/tango.net.Socket.html#L1272" kind="function" beg="1272" end="1275">badArg</a><span class="params">(char[] <em>msg</em>)</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Socket.badArg" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1272">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">Tango:</p>added this common function</dd>
+<dt class="decl">int <a class="symbol _function" name="Socket.select" href="./htmlsrc/tango.net.Socket.html#L1292" kind="function" beg="1292" end="1364">select</a><span class="params">(SocketSet <em>checkRead</em>, SocketSet <em>checkWrite</em>, SocketSet <em>checkError</em>, timeval* <em>tv</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Socket.select" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1292">#</a></dt>
+<dd class="ddef">
+<div class="summary">SocketSet's are updated to include only those sockets which an
+                event occured.</div>
+Returns the number of events, 0 on timeout, or -1 on error
+<p class="bl"/>
+                for a connect()ing socket, writeability means connected
+                for a listen()ing socket, readability means listening
+<p class="sec_header">Winsock:</p>possibly internally limited to 64 sockets per set</dd>
+<dt class="decl">int <a class="symbol _function" name="Socket.select:2" href="./htmlsrc/tango.net.Socket.html#L1372" kind="function" beg="1372" end="1376">select</a><span class="params">(SocketSet <em>checkRead</em>, SocketSet <em>checkWrite</em>, SocketSet <em>checkError</em>, TimeSpan <em>time</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Socket.select:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1372">#</a></dt>
+<dd class="ddef">
+<div class="summary">select with specified timeout</div></dd>
+<dt class="decl">int <a class="symbol _function" name="Socket.select:3" href="./htmlsrc/tango.net.Socket.html#L1384" kind="function" beg="1384" end="1387">select</a><span class="params">(SocketSet <em>checkRead</em>, SocketSet <em>checkWrite</em>, SocketSet <em>checkError</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Socket.select:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1384">#</a></dt>
+<dd class="ddef">
+<div class="summary">select with maximum timeout</div></dd>
+<dt class="decl">timeval <a class="symbol _function" name="Socket.toTimeval" href="./htmlsrc/tango.net.Socket.html#L1395" kind="function" beg="1395" end="1401">toTimeval</a><span class="params">(TimeSpan <em>time</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Socket.toTimeval" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1395">#</a></dt>
+<dd class="ddef">
+<div class="summary">Handy utility for converting TimeSpan into timeval</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="Address" href="./htmlsrc/tango.net.Socket.html#L1411" kind="class" beg="1411" end="1429">Address</a>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Address" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1411">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl">void <a class="symbol _function" name="Address.exception" href="./htmlsrc/tango.net.Socket.html#L1424" kind="function" beg="1424" end="1427">exception</a><span class="params">(char[] <em>msg</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Address.exception" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1424">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">Tango:</p>added this common function</dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="UnknownAddress" href="./htmlsrc/tango.net.Socket.html#L1437" kind="class" beg="1437" end="1486">UnknownAddress</a> : Address; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#UnknownAddress" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1437">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl">sockaddr* <a class="symbol _function" name="UnknownAddress.name" href="./htmlsrc/tango.net.Socket.html#L1448" kind="function" beg="1448" end="1451">name</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#UnknownAddress.name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1448">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">int <a class="symbol _function" name="UnknownAddress.nameLen" href="./htmlsrc/tango.net.Socket.html#L1459" kind="function" beg="1459" end="1462">nameLen</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#UnknownAddress.nameLen" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1459">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">AddressFamily <a class="symbol _function" name="UnknownAddress.addressFamily" href="./htmlsrc/tango.net.Socket.html#L1471" kind="function" beg="1471" end="1474">addressFamily</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#UnknownAddress.addressFamily" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1471">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="UnknownAddress.toString" href="./htmlsrc/tango.net.Socket.html#L1482" kind="function" beg="1482" end="1485">toString</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#UnknownAddress.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1482">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="NetHost" href="./htmlsrc/tango.net.Socket.html#L1494" kind="class" beg="1494" end="1629">NetHost</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#NetHost" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1494">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl">void <a class="symbol _function" name="NetHost.validHostent" href="./htmlsrc/tango.net.Socket.html#L1506" kind="function" beg="1506" end="1510">validHostent</a><span class="params">(hostent* <em>he</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#NetHost.validHostent" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1506">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="NetHost.populate" href="./htmlsrc/tango.net.Socket.html#L1518" kind="function" beg="1518" end="1564">populate</a><span class="params">(hostent* <em>he</em>)</span>; <a title="Permalink to this symbol" href="#NetHost.populate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1518">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">bool <a class="symbol _function" name="NetHost.getHostByName" href="./htmlsrc/tango.net.Socket.html#L1572" kind="function" beg="1572" end="1585">getHostByName</a><span class="params">(char[] <em>name</em>)</span>; <a title="Permalink to this symbol" href="#NetHost.getHostByName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1572">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">bool <a class="symbol _function" name="NetHost.getHostByAddr" href="./htmlsrc/tango.net.Socket.html#L1593" kind="function" beg="1593" end="1605">getHostByAddr</a><span class="params">(uint <em>addr</em>)</span>; <a title="Permalink to this symbol" href="#NetHost.getHostByAddr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1593">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">bool <a class="symbol _function" name="NetHost.getHostByAddr:2" href="./htmlsrc/tango.net.Socket.html#L1614" kind="function" beg="1614" end="1628">getHostByAddr</a><span class="params">(char[] <em>addr</em>)</span>; <a title="Permalink to this symbol" href="#NetHost.getHostByAddr:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1614">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="IPv4Address" href="./htmlsrc/tango.net.Socket.html#L1671" kind="class" beg="1671" end="1855">IPv4Address</a> : Address; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#IPv4Address" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1671">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl">struct <a class="symbol _struct" name="IPv4Address.sockaddr_in" href="./htmlsrc/tango.net.Socket.html#L1681" kind="struct" beg="1681" end="1687">sockaddr_in</a>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#IPv4Address.sockaddr_in" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1681">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+</dd>
+<dt class="decl">sockaddr* <a class="symbol _function" name="IPv4Address.name" href="./htmlsrc/tango.net.Socket.html#L1697" kind="function" beg="1697" end="1700">name</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#IPv4Address.name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1697">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">int <a class="symbol _function" name="IPv4Address.nameLen" href="./htmlsrc/tango.net.Socket.html#L1708" kind="function" beg="1708" end="1711">nameLen</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#IPv4Address.nameLen" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1708">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl"><a class="symbol _ctor" name="IPv4Address.this" href="./htmlsrc/tango.net.Socket.html#L1721" kind="ctor" beg="1721" end="1723">this</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#IPv4Address.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1721">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">AddressFamily <a class="symbol _function" name="IPv4Address.addressFamily" href="./htmlsrc/tango.net.Socket.html#L1736" kind="function" beg="1736" end="1739">addressFamily</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#IPv4Address.addressFamily" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1736">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">ushort <a class="symbol _function" name="IPv4Address.port" href="./htmlsrc/tango.net.Socket.html#L1747" kind="function" beg="1747" end="1750">port</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#IPv4Address.port" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1747">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="IPv4Address.addr" href="./htmlsrc/tango.net.Socket.html#L1758" kind="function" beg="1758" end="1761">addr</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#IPv4Address.addr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1758">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl"><a class="symbol _ctor" name="IPv4Address.this:2" href="./htmlsrc/tango.net.Socket.html#L1771" kind="ctor" beg="1771" end="1783">this</a><span class="params">(char[] <em>addr</em>, int <em>port</em> = PORT_ANY)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#IPv4Address.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1771">#</a></dt>
+<dd class="ddef">
+<div class="summary">-port- can be PORT_ANY
+                -addr- is an IP address or host name</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="IPv4Address.this:3" href="./htmlsrc/tango.net.Socket.html#L1791" kind="ctor" beg="1791" end="1795">this</a><span class="params">(uint <em>addr</em>, ushort <em>port</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#IPv4Address.this:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1791">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl"><a class="symbol _ctor" name="IPv4Address.this:4" href="./htmlsrc/tango.net.Socket.html#L1803" kind="ctor" beg="1803" end="1807">this</a><span class="params">(ushort <em>port</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#IPv4Address.this:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1803">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="IPv4Address.toAddrString" href="./htmlsrc/tango.net.Socket.html#L1814" kind="function" beg="1814" end="1817">toAddrString</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">synchronized</span>]</span> <a title="Permalink to this symbol" href="#IPv4Address.toAddrString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1814">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="IPv4Address.toPortString" href="./htmlsrc/tango.net.Socket.html#L1825" kind="function" beg="1825" end="1828">toPortString</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#IPv4Address.toPortString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1825">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="IPv4Address.toString" href="./htmlsrc/tango.net.Socket.html#L1836" kind="function" beg="1836" end="1839">toString</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#IPv4Address.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1836">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="IPv4Address.parse" href="./htmlsrc/tango.net.Socket.html#L1849" kind="function" beg="1849" end="1854">parse</a><span class="params">(char[] <em>addr</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#IPv4Address.parse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1849">#</a></dt>
+<dd class="ddef">
+<div class="summary">-addr- is an IP address in the format "a.b.c.d"
+                returns ADDR_NONE on failure</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="SocketSet" href="./htmlsrc/tango.net.Socket.html#L1872" kind="class" beg="1872" end="2180">SocketSet</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketSet" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1872">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="SocketSet.this" href="./htmlsrc/tango.net.Socket.html#L1936" kind="ctor" beg="1936" end="1958">this</a><span class="params">(uint <em>max</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketSet.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1936">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl"><a class="symbol _ctor" name="SocketSet.this:2" href="./htmlsrc/tango.net.Socket.html#L1966" kind="ctor" beg="1966" end="1980">this</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketSet.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1966">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="SocketSet.reset" href="./htmlsrc/tango.net.Socket.html#L1988" kind="function" beg="1988" end="2003">reset</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketSet.reset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L1988">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="SocketSet.add" href="./htmlsrc/tango.net.Socket.html#L2011" kind="function" beg="2011" end="2038">add</a><span class="params">(socket_t <em>s</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketSet.add" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L2011">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="SocketSet.add:2" href="./htmlsrc/tango.net.Socket.html#L2046" kind="function" beg="2046" end="2049">add</a><span class="params">(Socket <em>s</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketSet.add:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L2046">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="SocketSet.remove" href="./htmlsrc/tango.net.Socket.html#L2057" kind="function" beg="2057" end="2102">remove</a><span class="params">(socket_t <em>s</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketSet.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L2057">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="SocketSet.remove:2" href="./htmlsrc/tango.net.Socket.html#L2110" kind="function" beg="2110" end="2113">remove</a><span class="params">(Socket <em>s</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketSet.remove:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L2110">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">int <a class="symbol _function" name="SocketSet.isSet" href="./htmlsrc/tango.net.Socket.html#L2121" kind="function" beg="2121" end="2145">isSet</a><span class="params">(socket_t <em>s</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketSet.isSet" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L2121">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">int <a class="symbol _function" name="SocketSet.isSet:2" href="./htmlsrc/tango.net.Socket.html#L2153" kind="function" beg="2153" end="2156">isSet</a><span class="params">(Socket <em>s</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketSet.isSet:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L2153">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="SocketSet.max" href="./htmlsrc/tango.net.Socket.html#L2165" kind="function" beg="2165" end="2168">max</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketSet.max" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L2165">#</a></dt>
+<dd class="ddef">
+<div class="summary">max sockets that can be added, like FD_SETSIZE</div></dd>
+<dt class="decl">fd_set* <a class="symbol _function" name="SocketSet.toFd_set" href="./htmlsrc/tango.net.Socket.html#L2176" kind="function" beg="2176" end="2179">toFd_set</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SocketSet.toFd_set" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.Socket.html#L2176">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:54 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

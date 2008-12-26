@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.sys.win32.CodePage</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.sys.win32.CodePage";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.sys.win32.CodePage.html" class="symbol">tango.sys.win32.CodePage</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: April 2007
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">struct <a class="symbol _struct" name="CodePage" href="./htmlsrc/tango.sys.win32.CodePage.html#L26" kind="struct" beg="26" end="136">CodePage</a>; <a title="Permalink to this symbol" href="#CodePage" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.sys.win32.CodePage.html#L26">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert text to and from Windows 'code pages'. This is non-portable,
+        and will be unlikely to operate even across all Windows platforms.</div>
+<dl>
+<dt class="decl">bool <a class="symbol _function" name="CodePage.isAscii" href="./htmlsrc/tango.sys.win32.CodePage.html#L35" kind="function" beg="35" end="41">isAscii</a><span class="params">(char[] <em>src</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#CodePage.isAscii" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.sys.win32.CodePage.html#L35">#</a></dt>
+<dd class="ddef">
+<div class="summary">Test a text array to see if it contains non-ascii elements.
+                Returns true if ascii, false otherwise</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="CodePage.into" href="./htmlsrc/tango.sys.win32.CodePage.html#L67" kind="function" beg="67" end="70">into</a><span class="params">(char[] <em>src</em>, char[] <em>dst</em>, uint <em>page</em> = 0)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#CodePage.into" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.sys.win32.CodePage.html#L67">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert utf8 text to a codepage representation</div>
+page  0     - the ansi code page
+                      1     - the oem code page
+                      2     - the mac code page
+                      3     - ansi code page for the calling thread
+                      65000 - UTF-7 translation
+                      65001 - UTF-8 translation
+<p class="bl"/>
+                      or a region-specific codepage
+<p class="sec_header">Returns:</p>a slice of the provided output buffer 
+                         representing converted text
+<p class="bl"/>
+                Note that the input must be utf8 encoded. Note also
+                that the dst output should be sufficiently large to
+                accomodate the output; a size of 2*src.length would
+                be enough to host almost any conversion</dd>
+<dt class="decl">char[] <a class="symbol _function" name="CodePage.from" href="./htmlsrc/tango.sys.win32.CodePage.html#L96" kind="function" beg="96" end="99">from</a><span class="params">(char[] <em>src</em>, char[] <em>dst</em>, uint <em>page</em> = 0)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#CodePage.from" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.sys.win32.CodePage.html#L96">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert codepage text to a utf8 representation</div>
+page  0     - the ansi code page
+                      1     - the oem code page
+                      2     - the mac code page
+                      3     - ansi code page for the calling thread
+                      65000 - UTF-7 translation
+                      65001 - UTF-8 translation
+<p class="bl"/>
+                      or a region-specific codepage
+<p class="sec_header">Returns:</p>a slice of the provided output buffer 
+                         representing converted text
+<p class="bl"/>
+                Note that the input will be utf8 encoded. Note also
+                that the dst output should be sufficiently large to
+                accomodate the output; a size of 2*src.length would
+                be enough to host almost any conversion</dd>
+<dt class="decl">char[] <a class="symbol _function" name="CodePage.convert" href="./htmlsrc/tango.sys.win32.CodePage.html#L110" kind="function" beg="110" end="135">convert</a><span class="params">(char[] <em>src</em>, char[] <em>dst</em>, uint <em>from</em>, uint <em>into</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#CodePage.convert" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.sys.win32.CodePage.html#L110">#</a></dt>
+<dd class="ddef">
+<div class="summary">Internal conversion routine; we avoid heap activity for
+                strings of short and medium length. A zero is appended 
+                to the dst array in order to simplify C API conversions</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2007 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:47 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

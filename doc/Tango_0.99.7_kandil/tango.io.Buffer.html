@@ -1,0 +1,668 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.Buffer</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.Buffer";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.Buffer.html" class="symbol">tango.io.Buffer</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Mar 2004: Initial release
+                        Dec 2006: Outback release
+<p class="sec_header">Authors:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Buffer" href="./htmlsrc/tango.io.Buffer.html#L124" kind="class" beg="124" end="1456">Buffer</a> : IBuffer; <a title="Permalink to this symbol" href="#Buffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L124">#</a></dt>
+<dd class="ddef">
+<div class="summary">Buffer is central concept in Tango I/O. Each buffer acts
+        as a queue (line) where items are removed from the front
+        and new items are added to the back. Buffers are modeled
+        by tango.io.model.IBuffer, and a concrete implementation
+        is provided by this class.</div>
+Buffer can be read from and written to directly, though
+        various data-converters and filters are often leveraged
+        to apply structure to what might otherwise be simple raw
+        data.
+<p class="bl"/>
+        Buffers may also be tokenized by applying an Iterator.
+        This can be handy when one is dealing with text input,
+        and/or the content suits a more fluid format than most
+        typical converters support. Iterator tokens are mapped
+        directly onto buffer content (sliced), making them quite
+        efficient in practice. Like other types of buffer client,
+        multiple iterators can be mapped onto one common buffer
+        and access will be serialized.
+<p class="bl"/>
+        Buffers are sometimes memory-only, in which case there
+        is nothing left to do when a client has consumed all the
+        content. Other buffers are themselves bound to an external
+        device called a conduit. When this is the case, a consumer
+        will eventually cause a buffer to reload via its associated
+        conduit and previous buffer content will be lost.
+<p class="bl"/>
+        A similar approach is applied to clients which populate a
+        buffer, whereby the content of a full buffer will be flushed
+        to a bound conduit before continuing. Another variation is
+        that of a memory-mapped buffer, whereby the buffer content
+        is mapped directly to virtual memory exposed via the OS. This
+        can be used to address large files as an array of content.
+<p class="bl"/>
+        Direct buffer manipulation typically involves appending,
+        as in the following example:
+        <pre class="d_code">
+<span class="lc">// create a small buffer</span>
+<span class="k">auto</span> <span class="i">buf</span> = <span class="k">new</span> <span class="i">Buffer</span> (<span class="n">256</span>);
+
+<span class="k">auto</span> <span class="i">foo</span> = <span class="sl">"to write some D"</span>;
+
+<span class="lc">// append some text directly to it</span>
+<span class="i">buf</span>.<span class="i">append</span> (<span class="sl">"now is the time for all good men "</span>).<span class="i">append</span>(<span class="i">foo</span>);
+</pre>
+<p class="bl"/>
+        Alternatively, one might use a formatter to append the buffer:
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">output</span> = <span class="k">new</span> <span class="i">FormatOutput</span> (<span class="k">new</span> <span class="i">Buffer</span>(<span class="n">256</span>));
+<span class="i">output</span>.<span class="i">format</span> (<span class="sl">"now is the time for {} good men {}"</span>, <span class="n">3</span>, <span class="i">foo</span>);
+</pre>
+<p class="bl"/>
+        A slice() method will return all valid content within a buffer.
+        GrowBuffer can be used instead, where one wishes to append beyond
+        a specified limit.
+<p class="bl"/>
+        A common usage of a buffer is in conjunction with a conduit,
+        such as FileConduit. Each conduit exposes a preferred-size for
+        its associated buffers, utilized during buffer construction:
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">file</span> = <span class="k">new</span> <span class="i">FileConduit</span> (<span class="sl">"file.name"</span>);
+<span class="k">auto</span> <span class="i">buf</span> = <span class="k">new</span> <span class="i">Buffer</span> (<span class="i">file</span>);
+</pre>
+<p class="bl"/>
+        However, this is typically hidden by higher level constructors
+        such as those exposed via the stream wrappers. For example:
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">input</span> = <span class="k">new</span> <span class="i">DataInput</span> (<span class="k">new</span> <span class="i">FileInput</span>(<span class="sl">"file.name"</span>));
+</pre>
+<p class="bl"/>
+        There is indeed a buffer between the resultant stream and the
+        file source, but explicit buffer construction is unecessary in
+        common cases.
+<p class="bl"/>
+        An Iterator is constructed in a similar manner, where you provide
+        it an input stream to operate upon. There's a variety of iterators
+        available in the tango.text.stream package, and they are templated
+        for each of utf8, utf16, and utf32. This example uses a line iterator
+        to sweep a text file:
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">lines</span> = <span class="k">new</span> <span class="i">LineInput</span> (<span class="k">new</span> <span class="i">FileInput</span>(<span class="sl">"file.name"</span>));
+<span class="k">foreach</span> (<span class="i">line</span>; <span class="i">lines</span>)
+         <span class="i">Cout</span>(<span class="i">line</span>).<span class="i">newline</span>;
+</pre>
+<p class="bl"/>
+        Buffers are useful for many purposes within Tango, but there
+        are times when it may be more appropriate to sidestep them. For
+        such cases, all conduit derivatives (such as FileConduit) support
+        direct array-based IO via a pair of read() and write() methods.
+<dl>
+<dt class="decl"><a class="symbol _invariant" name="Buffer.invariant" href="./htmlsrc/tango.io.Buffer.html#L146" kind="invariant" beg="146" end="150">invariant</a>; <a title="Permalink to this symbol" href="#Buffer.invariant" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L146">#</a></dt>
+<dd class="ddef">
+<div class="summary">Ensure the buffer remains valid between method calls</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="Buffer.this" href="./htmlsrc/tango.io.Buffer.html#L165" kind="ctor" beg="165" end="171">this</a><span class="params">(IConduit <em>conduit</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L165">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a buffer</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>conduit</em></td><td>the conduit to buffer</td></tr></table>
+<p class="sec_header">Remarks:</p>Construct a Buffer upon the provided conduit. A relevant
+                buffer size is supplied via the provided conduit.</dd>
+<dt class="decl"><a class="symbol _ctor" name="Buffer.this:2" href="./htmlsrc/tango.io.Buffer.html#L186" kind="ctor" beg="186" end="190">this</a><span class="params">(InputStream <em>stream</em>, uint <em>capacity</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L186">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a buffer</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>stream</em></td><td>an input stream</td></tr>
+<tr><td><em>capacity</em></td><td>desired buffer capacity</td></tr></table>
+<p class="sec_header">Remarks:</p>Construct a Buffer upon the provided input stream.</dd>
+<dt class="decl"><a class="symbol _ctor" name="Buffer.this:3" href="./htmlsrc/tango.io.Buffer.html#L205" kind="ctor" beg="205" end="209">this</a><span class="params">(OutputStream <em>stream</em>, uint <em>capacity</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.this:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L205">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a buffer</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>stream</em></td><td>an output stream</td></tr>
+<tr><td><em>capacity</em></td><td>desired buffer capacity</td></tr></table>
+<p class="sec_header">Remarks:</p>Construct a Buffer upon the provided output stream.</dd>
+<dt class="decl"><a class="symbol _ctor" name="Buffer.this:4" href="./htmlsrc/tango.io.Buffer.html#L223" kind="ctor" beg="223" end="226">this</a><span class="params">(uint <em>capacity</em> = 0)</span>; <a title="Permalink to this symbol" href="#Buffer.this:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L223">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a buffer</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>capacity</em></td><td>the number of bytes to make available</td></tr></table>
+<p class="sec_header">Remarks:</p>Construct a Buffer with the specified number of bytes.</dd>
+<dt class="decl"><a class="symbol _ctor" name="Buffer.this:5" href="./htmlsrc/tango.io.Buffer.html#L242" kind="ctor" beg="242" end="245">this</a><span class="params">(void[] <em>data</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.this:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L242">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a buffer</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>the backing array to buffer within</td></tr></table>
+<p class="sec_header">Remarks:</p>Prime a buffer with an application-supplied array. All content
+                is considered valid for reading, and thus there is no writable
+                space initially available.</dd>
+<dt class="decl"><a class="symbol _ctor" name="Buffer.this:6" href="./htmlsrc/tango.io.Buffer.html#L267" kind="ctor" beg="267" end="270">this</a><span class="params">(void[] <em>data</em>, uint <em>readable</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.this:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L267">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a buffer</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>the backing array to buffer within</td></tr>
+<tr><td><em>readable</em></td><td>the number of bytes initially made
+                                readable</td></tr></table>
+<p class="sec_header">Remarks:</p>Prime buffer with an application-supplied array, and
+                indicate how much readable data is already there. A
+                write operation will begin writing immediately after
+                the existing readable content.
+<p class="bl"/>
+                This is commonly used to attach a Buffer instance to
+                a local array.</dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="Buffer.share" href="./htmlsrc/tango.io.Buffer.html#L289" kind="function" beg="289" end="299">share</a><span class="params">(InputStream <em>stream</em>, uint <em>size</em> = uint.max)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Buffer.share" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L289">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attempt to share an upstream Buffer, and create an instance
+                where there not one available.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>stream</em></td><td>an input stream</td></tr>
+<tr><td><em>size</em></td><td>a hint of the desired buffer size. Defaults to the
+                conduit-defined size</td></tr></table>
+<p class="sec_header">Remarks:</p>If an upstream Buffer instances is visible, it will be shared.
+                Otherwise, a new instance is created based upon the bufferSize
+                exposed by the stream endpoint (conduit).</dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="Buffer.share:2" href="./htmlsrc/tango.io.Buffer.html#L318" kind="function" beg="318" end="328">share</a><span class="params">(OutputStream <em>stream</em>, uint <em>size</em> = uint.max)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Buffer.share:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L318">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attempt to share an upstream Buffer, and create an instance
+                where there not one available.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>stream</em></td><td>an output stream</td></tr>
+<tr><td><em>size</em></td><td>a hint of the desired buffer size. Defaults to the
+                conduit-defined size</td></tr></table>
+<p class="sec_header">Remarks:</p>If an upstream Buffer instances is visible, it will be shared.
+                Otherwise, a new instance is created based upon the bufferSize
+                exposed by the stream endpoint (conduit).</dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="Buffer.setContent" href="./htmlsrc/tango.io.Buffer.html#L349" kind="function" beg="349" end="352">setContent</a><span class="params">(void[] <em>data</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.setContent" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L349">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reset the buffer content</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>the backing array to buffer within. All content
+                        is considered valid</td></tr></table>
+<p class="sec_header">Returns:</p>the buffer instance
+<p class="sec_header">Remarks:</p>Set the backing array with all content readable. Writing
+                to this will either flush it to an associated conduit, or
+                raise an Eof condition. Use clear() to reset the content
+                (make it all writable).</dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="Buffer.setContent:2" href="./htmlsrc/tango.io.Buffer.html#L374" kind="function" beg="374" end="384">setContent</a><span class="params">(void[] <em>data</em>, uint <em>readable</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.setContent:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L374">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reset the buffer content</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>the backing array to buffer within</td></tr>
+<tr><td><em>readable</em></td><td>the number of bytes within data considered
+                                valid</td></tr></table>
+<p class="sec_header">Returns:</p>the buffer instance
+<p class="sec_header">Remarks:</p>Set the backing array with some content readable. Writing
+                to this will either flush it to an associated conduit, or
+                raise an Eof condition. Use clear() to reset the content
+                (make it all writable).</dd>
+<dt class="decl">void[] <a class="symbol _function" name="Buffer.slice" href="./htmlsrc/tango.io.Buffer.html#L423" kind="function" beg="423" end="452">slice</a><span class="params">(uint <em>size</em>, bool <em>eat</em> = true)</span>; <a title="Permalink to this symbol" href="#Buffer.slice" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L423">#</a></dt>
+<dd class="ddef">
+<div class="summary">Access buffer content</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>size</em></td><td>number of bytes to access</td></tr>
+<tr><td><em>eat</em></td><td>whether to consume the content or not</td></tr></table>
+<p class="sec_header">Returns:</p>the corresponding buffer slice when successful, or
+                null if there's not enough data available (Eof; Eob).
+<p class="sec_header">Remarks:</p>Read a slice of data from the buffer, loading from the
+                conduit as necessary. The specified number of bytes is
+                sliced from the buffer, and marked as having been read
+                when the 'eat' parameter is set true. When 'eat' is set
+                false, the read position is not adjusted.
+<p class="bl"/>
+                Note that the slice cannot be larger than the size of
+                the buffer ~ use method fill(void[]) instead where you
+                simply want the content copied, or use conduit.read()
+                to extract directly from an attached conduit. Also note
+                that if you need to retain the slice, then it should be
+                .dup'd before the buffer is compressed or repopulated.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="lc">// create a buffer with some content</span>
+<span class="k">auto</span> <span class="i">buffer</span> = <span class="k">new</span> <span class="i">Buffer</span> (<span class="sl">"hello world"</span>);
+
+<span class="lc">// consume everything unread</span>
+<span class="k">auto</span> <span class="i">slice</span> = <span class="i">buffer</span>.<span class="i">slice</span> (<span class="i">buffer</span>.<span class="i">readable</span>);
+</pre></dd>
+<dt class="decl">uint <a class="symbol _function" name="Buffer.fill" href="./htmlsrc/tango.io.Buffer.html#L462" kind="function" beg="462" end="474">fill</a><span class="params">(void[] <em>dst</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.fill" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L462">#</a></dt>
+<dd class="ddef">
+<div class="summary">Fill the provided buffer. Returns the number of bytes
+                actually read, which will be less that dst.length when
+                Eof has been reached and IConduit.Eof thereafter</div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="Buffer.readExact" href="./htmlsrc/tango.io.Buffer.html#L494" kind="function" beg="494" end="501">readExact</a><span class="params">(void* <em>dst</em>, uint <em>bytes</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.readExact" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L494">#</a></dt>
+<dd class="ddef">
+<div class="summary">Copy buffer content into the provided dst</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>dst</em></td><td>destination of the content</td></tr>
+<tr><td><em>bytes</em></td><td>size of dst</td></tr></table>
+<p class="sec_header">Returns:</p>A reference to the populated content
+<p class="sec_header">Remarks:</p>Fill the provided array with content. We try to satisfy
+                the request from the buffer content, and read directly
+                from an attached conduit where more is required.</dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="Buffer.append" href="./htmlsrc/tango.io.Buffer.html#L520" kind="function" beg="520" end="523">append</a><span class="params">(void[] <em>src</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L520">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append content</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>src</em></td><td>the content to _append
+
+                Returns a chaining reference if all content was written.
+                Throws an IOException indicating eof or eob if not.</td></tr></table>
+<p class="sec_header">Remarks:</p>Append an array to this buffer, and flush to the
+                conduit as necessary. This is often used in lieu of
+                a Writer.</dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="Buffer.append:2" href="./htmlsrc/tango.io.Buffer.html#L543" kind="function" beg="543" end="567">append</a><span class="params">(void* <em>src</em>, uint <em>length</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.append:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L543">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append content</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>src</em></td><td>the content to _append</td></tr>
+<tr><td><em>length</em></td><td>the number of bytes in src
+
+                Returns a chaining reference if all content was written.
+                Throws an IOException indicating eof or eob if not.</td></tr></table>
+<p class="sec_header">Remarks:</p>Append an array to this buffer, and flush to the
+                conduit as necessary. This is often used in lieu of
+                a Writer.</dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="Buffer.append:3" href="./htmlsrc/tango.io.Buffer.html#L587" kind="function" beg="587" end="590">append</a><span class="params">(IBuffer <em>other</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.append:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L587">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append content</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>other</em></td><td>a buffer with content available</td></tr></table>
+<p class="sec_header">Returns:</p>Returns a chaining reference if all content was written.
+                Throws an IOException indicating eof or eob if not.
+<p class="sec_header">Remarks:</p>Append another buffer to this one, and flush to the
+                conduit as necessary. This is often used in lieu of
+                a Writer.</dd>
+<dt class="decl">void <a class="symbol _function" name="Buffer.consume" href="./htmlsrc/tango.io.Buffer.html#L614" kind="function" beg="614" end="617">consume</a><span class="params">(void[] <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.consume" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L614">#</a></dt>
+<dd class="ddef">
+<div class="summary">Consume content from a producer</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>raw</em></td><td>The content to consume. This is consumed verbatim, and in
+                raw binary format ~ no implicit conversions are performed.</td></tr></table>
+<p class="sec_header">Remarks:</p>This is often used in lieu of a Writer, and enables simple
+                classes, such as FilePath and Uri, to emit content directly
+                into a buffer (thus avoiding potential heap activity)
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">path</span> = <span class="k">new</span> <span class="i">FilePath</span> (<span class="i">somepath</span>);
+
+<span class="i">path</span>.<span class="i">produce</span> (&amp;<span class="i">buffer</span>.<span class="i">consume</span>);
+</pre></dd>
+<dt class="decl">void[] <a class="symbol _function" name="Buffer.slice:2" href="./htmlsrc/tango.io.Buffer.html#L633" kind="function" beg="633" end="636">slice</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Buffer.slice:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L633">#</a></dt>
+<dd class="ddef">
+<div class="summary">Retrieve the valid content</div>
+<p class="sec_header">Returns:</p>a void[] slice of the buffer
+<p class="sec_header">Remarks:</p>Return a void[] slice of the buffer, from the current position
+                up to the limit of valid content. The content remains in the
+                buffer for future extraction.</dd>
+<dt class="decl">bool <a class="symbol _function" name="Buffer.skip" href="./htmlsrc/tango.io.Buffer.html#L659" kind="function" beg="659" end="672">skip</a><span class="params">(int <em>size</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.skip" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L659">#</a></dt>
+<dd class="ddef">
+<div class="summary">Move the current read location</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>size</em></td><td>the number of bytes to move</td></tr></table>
+<p class="sec_header">Returns:</p>Returns true if successful, false otherwise.
+<p class="sec_header">Remarks:</p>Skip ahead by the specified number of bytes, streaming from
+                the associated conduit as necessary.
+<p class="bl"/>
+                Can also reverse the read position by 'size' bytes, when size
+                is negative. This may be used to support lookahead operations.
+                Note that a negative size will fail where there is not sufficient
+                content available in the buffer (can't _skip beyond the beginning).</dd>
+<dt class="decl">bool <a class="symbol _function" name="Buffer.next" href="./htmlsrc/tango.io.Buffer.html#L700" kind="function" beg="700" end="723">next</a><span class="params">(uint delegate (void[]) <em>scan</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.next" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L700">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterator support</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>scan</em></td><td>the delagate to invoke with the current content</td></tr></table>
+<p class="sec_header">Returns:</p>Returns true if a token was isolated, false otherwise.
+<p class="sec_header">Remarks:</p>Upon success, the delegate should return the byte-based
+                index of the consumed pattern (tail end of it). Failure
+                to match a pattern should be indicated by returning an
+                IConduit.Eof
+<p class="bl"/>
+                Each pattern is expected to be stripped of the delimiter.
+                An end-of-file condition causes trailing content to be
+                placed into the token. Requests made beyond Eof result
+                in empty matches (length is zero).
+<p class="bl"/>
+                Note that additional iterator and/or reader instances
+                will operate in lockstep when bound to a common buffer.</dd>
+<dt class="decl">bool <a class="symbol _function" name="Buffer.compress" href="./htmlsrc/tango.io.Buffer.html#L736" kind="function" beg="736" end="741">compress</a><span class="params">(bool <em>yes</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Buffer.compress" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L736">#</a></dt>
+<dd class="ddef">
+<div class="summary">Configure the compression strategy for iterators</div>
+<p class="sec_header">Remarks:</p>Iterators will tend to compress the buffered content in
+                order to maximize space for new data. You can disable this
+                behaviour by setting this boolean to false</dd>
+<dt class="decl">uint <a class="symbol _function" name="Buffer.readable" href="./htmlsrc/tango.io.Buffer.html#L753" kind="function" beg="753" end="756">readable</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Buffer.readable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L753">#</a></dt>
+<dd class="ddef">
+<div class="summary">Available content</div>
+<p class="sec_header">Remarks:</p>Return count of _readable bytes remaining in buffer. This is
+                calculated simply as limit() - position()</dd>
+<dt class="decl">uint <a class="symbol _function" name="Buffer.writable" href="./htmlsrc/tango.io.Buffer.html#L768" kind="function" beg="768" end="771">writable</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Buffer.writable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L768">#</a></dt>
+<dd class="ddef">
+<div class="summary">Available space</div>
+<p class="sec_header">Remarks:</p>Return count of _writable bytes available in buffer. This is
+                calculated simply as capacity() - limit()</dd>
+<dt class="decl">uint <a class="symbol _function" name="Buffer.write" href="./htmlsrc/tango.io.Buffer.html#L793" kind="function" beg="793" end="803">write</a><span class="params">(uint delegate (void[]) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L793">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write into this buffer</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>dg</em></td><td>the callback to provide buffer access to</td></tr></table>
+<p class="sec_header">Returns:</p>Returns whatever the delegate returns.
+<p class="sec_header">Remarks:</p>Exposes the raw data buffer at the current _write position,
+                The delegate is provided with a void[] representing space
+                available within the buffer at the current _write position.
+<p class="bl"/>
+                The delegate should return the appropriate number of bytes
+                if it writes valid content, or IConduit.Eof on error.</dd>
+<dt class="decl">uint <a class="symbol _function" name="Buffer.read" href="./htmlsrc/tango.io.Buffer.html#L826" kind="function" beg="826" end="836">read</a><span class="params">(uint delegate (void[]) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L826">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read directly from this buffer</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>dg</em></td><td>callback to provide buffer access to</td></tr></table>
+<p class="sec_header">Returns:</p>Returns whatever the delegate returns.
+<p class="sec_header">Remarks:</p>Exposes the raw data buffer at the current _read position. The
+                delegate is provided with a void[] representing the available
+                data, and should return zero to leave the current _read position
+                intact.
+<p class="bl"/>
+                If the delegate consumes data, it should return the number of
+                bytes consumed; or IConduit.Eof to indicate an error.</dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="Buffer.compress:2" href="./htmlsrc/tango.io.Buffer.html#L856" kind="function" beg="856" end="867">compress</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Buffer.compress:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L856">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compress buffer space</div>
+<p class="sec_header">Returns:</p>the buffer instance
+<p class="sec_header">Remarks:</p>If we have some data left after an export, move it to
+                front-of-buffer and set position to be just after the
+                remains. This is for supporting certain conduits which
+                choose to write just the initial portion of a request.
+<p class="bl"/>
+                Limit is set to the amount of data remaining. Position
+                is always reset to zero.</dd>
+<dt class="decl">uint <a class="symbol _function" name="Buffer.fill:2" href="./htmlsrc/tango.io.Buffer.html#L885" kind="function" beg="885" end="897">fill</a><span class="params">(InputStream <em>src</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.fill:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L885">#</a></dt>
+<dd class="ddef">
+<div class="summary">Fill buffer from the specific conduit</div>
+<p class="sec_header">Returns:</p>Returns the number of bytes read, or Conduit.Eof
+<p class="sec_header">Remarks:</p>Try to _fill the available buffer with content from the
+                specified conduit. We try to read as much as possible
+                by clearing the buffer when all current content has been
+                eaten. If there is no space available, nothing will be
+                read.</dd>
+<dt class="decl">uint <a class="symbol _function" name="Buffer.drain" href="./htmlsrc/tango.io.Buffer.html#L915" kind="function" beg="915" end="926">drain</a><span class="params">(OutputStream <em>dst</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Buffer.drain" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L915">#</a></dt>
+<dd class="ddef">
+<div class="summary">Drain buffer content to the specific conduit</div>
+<p class="sec_header">Returns:</p>Returns the number of bytes written
+<p class="sec_header">Remarks:</p>Write as much of the buffer that the associated conduit
+                can consume. The conduit is not obliged to consume all
+                content, so some may remain within the buffer.
+<p class="bl"/>
+                Throws an IOException on premature Eof.</dd>
+<dt class="decl">bool <a class="symbol _function" name="Buffer.truncate" href="./htmlsrc/tango.io.Buffer.html#L938" kind="function" beg="938" end="946">truncate</a><span class="params">(uint <em>length</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.truncate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L938">#</a></dt>
+<dd class="ddef">
+<div class="summary">Truncate buffer content</div>
+<p class="sec_header">Remarks:</p>Truncate the buffer within its extent. Returns true if
+                the new length is valid, false otherwise.</dd>
+<dt class="decl">uint <a class="symbol _function" name="Buffer.limit" href="./htmlsrc/tango.io.Buffer.html#L963" kind="function" beg="963" end="966">limit</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Buffer.limit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L963">#</a></dt>
+<dd class="ddef">
+<div class="summary">Access buffer limit</div>
+<p class="sec_header">Returns:</p>Returns the limit of readable content within this buffer.
+<p class="sec_header">Remarks:</p>Each buffer has a capacity, a limit, and a position. The
+                capacity is the maximum content a buffer can contain, limit
+                represents the extent of valid content, and position marks
+                the current read location.</dd>
+<dt class="decl">uint <a class="symbol _function" name="Buffer.capacity" href="./htmlsrc/tango.io.Buffer.html#L983" kind="function" beg="983" end="986">capacity</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Buffer.capacity" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L983">#</a></dt>
+<dd class="ddef">
+<div class="summary">Access buffer capacity</div>
+<p class="sec_header">Returns:</p>Returns the maximum capacity of this buffer
+<p class="sec_header">Remarks:</p>Each buffer has a capacity, a limit, and a position. The
+                capacity is the maximum content a buffer can contain, limit
+                represents the extent of valid content, and position marks
+                the current read location.</dd>
+<dt class="decl">uint <a class="symbol _function" name="Buffer.position" href="./htmlsrc/tango.io.Buffer.html#L1003" kind="function" beg="1003" end="1006">position</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Buffer.position" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1003">#</a></dt>
+<dd class="ddef">
+<div class="summary">Access buffer read position</div>
+<p class="sec_header">Returns:</p>Returns the current read-position within this buffer
+<p class="sec_header">Remarks:</p>Each buffer has a capacity, a limit, and a position. The
+                capacity is the maximum content a buffer can contain, limit
+                represents the extent of valid content, and position marks
+                the current read location.</dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="Buffer.setConduit" href="./htmlsrc/tango.io.Buffer.html#L1024" kind="function" beg="1024" end="1029">setConduit</a><span class="params">(IConduit <em>conduit</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.setConduit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1024">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set external conduit</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>conduit</em></td><td>the conduit to attach to</td></tr></table>
+<p class="sec_header">Remarks:</p>Sets the external conduit associated with this buffer.
+<p class="bl"/>
+                Buffers do not require an external conduit to operate, but
+                it can be convenient to associate one. For example, methods
+                fill() &amp; drain() use it to import/export content as necessary.</dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="Buffer.output" href="./htmlsrc/tango.io.Buffer.html#L1047" kind="function" beg="1047" end="1051">output</a><span class="params">(OutputStream <em>sink</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Buffer.output" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1047">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set output stream</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>sink</em></td><td>the stream to attach to</td></tr></table>
+<p class="sec_header">Remarks:</p>Sets the external output stream associated with this buffer.
+<p class="bl"/>
+                Buffers do not require an external stream to operate, but
+                it can be convenient to associate one. For example, methods
+                fill &amp; drain use them to import/export content as necessary.</dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="Buffer.input" href="./htmlsrc/tango.io.Buffer.html#L1069" kind="function" beg="1069" end="1073">input</a><span class="params">(InputStream <em>source</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Buffer.input" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1069">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set input stream</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>source</em></td><td>the stream to attach to</td></tr></table>
+<p class="sec_header">Remarks:</p>Sets the external input stream associated with this buffer.
+<p class="bl"/>
+                Buffers do not require an external stream to operate, but
+                it can be convenient to associate one. For example, methods
+                fill &amp; drain use them to import/export content as necessary.</dd>
+<dt class="decl">void[] <a class="symbol _function" name="Buffer.getContent" href="./htmlsrc/tango.io.Buffer.html#L1085" kind="function" beg="1085" end="1088">getContent</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#Buffer.getContent" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1085">#</a></dt>
+<dd class="ddef">
+<div class="summary">Access buffer content</div>
+<p class="sec_header">Remarks:</p>Return the entire backing array. Exposed for subclass usage
+                only</dd>
+<dt class="decl">void <a class="symbol _function" name="Buffer.copy" href="./htmlsrc/tango.io.Buffer.html#L1105" kind="function" beg="1105" end="1114">copy</a><span class="params">(void * <em>src</em>, uint <em>size</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#Buffer.copy" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1105">#</a></dt>
+<dd class="ddef">
+<div class="summary">Copy content into buffer</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>src</em></td><td>the soure of the content</td></tr>
+<tr><td><em>size</em></td><td>the length of content at src</td></tr></table>
+<p class="sec_header">Remarks:</p>Bulk _copy of data from 'src'. The new content is made
+                available for reading. This is exposed for subclass use
+                only</dd>
+<dt class="decl">T[] <a class="symbol _function" name="Buffer.convert" href="./htmlsrc/tango.io.Buffer.html#L1124" kind="function" beg="1124" end="1127">convert</a><span class="tparams">(T)</span><span class="params">(void[] <em>x</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Buffer.convert" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1124">#</a></dt>
+<dd class="ddef">
+<div class="summary">Cast to a target type without invoking the wrath of the
+                runtime checks for misalignment. Instead, we truncate the
+                array length</div></dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="Buffer.buffer" href="./htmlsrc/tango.io.Buffer.html#L1135" kind="function" beg="1135" end="1138">buffer</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Buffer.buffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1135">#</a></dt>
+<dd class="ddef">
+<div class="summary">Buffered Interface</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="Buffer.toString" href="./htmlsrc/tango.io.Buffer.html#L1152" kind="function" beg="1152" end="1155">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Buffer.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1152">#</a></dt>
+<dd class="ddef">
+<div class="summary">Stream &amp; Conduit Interfaces</div>
+Return the name of this conduit</dd>
+<dt class="decl">void <a class="symbol _function" name="Buffer.error" href="./htmlsrc/tango.io.Buffer.html#L1169" kind="function" beg="1169" end="1172">error</a><span class="params">(char[] <em>msg</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Buffer.error" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1169">#</a></dt>
+<dd class="ddef">
+<div class="summary">Generic IOException thrower</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>msg</em></td><td>a text message describing the exception reason</td></tr></table>
+<p class="sec_header">Remarks:</p>Throw an IOException with the provided message</dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="Buffer.flush" href="./htmlsrc/tango.io.Buffer.html#L1190" kind="function" beg="1190" end="1201">flush</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Buffer.flush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1190">#</a></dt>
+<dd class="ddef">
+<div class="summary">Flush all buffer content to the specific conduit</div>
+<p class="sec_header">Remarks:</p>Flush the contents of this buffer. This will block until
+                all content is actually flushed via the associated conduit,
+                whereas drain() will not.
+<p class="bl"/>
+                Do nothing where a conduit is not attached, enabling memory
+                buffers to treat flush as a noop.
+<p class="bl"/>
+                Throws an IOException on premature Eof.</dd>
+<dt class="decl">InputStream <a class="symbol _function" name="Buffer.clear" href="./htmlsrc/tango.io.Buffer.html#L1213" kind="function" beg="1213" end="1221">clear</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Buffer.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1213">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clear buffer content</div>
+<p class="sec_header">Remarks:</p>Reset 'position' and 'limit' to zero. This effectively
+                clears all content from the buffer.</dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="Buffer.copy:2" href="./htmlsrc/tango.io.Buffer.html#L1238" kind="function" beg="1238" end="1248">copy</a><span class="params">(InputStream <em>src</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Buffer.copy:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1238">#</a></dt>
+<dd class="ddef">
+<div class="summary">Copy content via this buffer from the provided src
+                conduit.</div>
+<p class="sec_header">Remarks:</p>The src conduit has its content transferred through
+                this buffer via a series of fill &amp; drain operations,
+                until there is no more content available. The buffer
+                content should be explicitly flushed by the caller.
+<p class="bl"/>
+                Throws an IOException on premature eof</dd>
+<dt class="decl">void[] <a class="symbol _function" name="Buffer.load" href="./htmlsrc/tango.io.Buffer.html#L1261" kind="function" beg="1261" end="1264">load</a><span class="params">(void[] <em>dst</em> = null)</span>; <a title="Permalink to this symbol" href="#Buffer.load" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1261">#</a></dt>
+<dd class="ddef">
+<div class="summary">Load the bits from a stream, and return them all in an
+                array. The dst array can be provided as an option, which
+                will be expanded as necessary to consume the input.</div>
+Returns an array representing the content, and throws
+                IOException on error</dd>
+<dt class="decl">uint <a class="symbol _function" name="Buffer.read:2" href="./htmlsrc/tango.io.Buffer.html#L1286" kind="function" beg="1286" end="1312">read</a><span class="params">(void[] <em>dst</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Buffer.read:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1286">#</a></dt>
+<dd class="ddef">
+<div class="summary">Transfer content into the provided dst</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>dst</em></td><td>destination of the content</td></tr></table>
+<p class="sec_header">Returns:</p>return the number of bytes read, which may be less than
+                dst.length. Eof is returned when no further content is
+                available.
+<p class="sec_header">Remarks:</p>Populates the provided array with content. We try to
+                satisfy the request from the buffer content, and read
+                directly from an attached conduit when the buffer is
+                empty.</dd>
+<dt class="decl">uint <a class="symbol _function" name="Buffer.write:2" href="./htmlsrc/tango.io.Buffer.html#L1332" kind="function" beg="1332" end="1336">write</a><span class="params">(void[] <em>src</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Buffer.write:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1332">#</a></dt>
+<dd class="ddef">
+<div class="summary">Emulate OutputStream.write()</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>src</em></td><td>the content to write</td></tr></table>
+<p class="sec_header">Returns:</p>return the number of bytes written, which may be less than
+                provided (conceptually).
+<p class="sec_header">Remarks:</p>Appends src content to the buffer, flushing to an attached
+                conduit as necessary. An IOException is thrown upon write
+                failure.</dd>
+<dt class="decl">IConduit <a class="symbol _function" name="Buffer.conduit" href="./htmlsrc/tango.io.Buffer.html#L1354" kind="function" beg="1354" end="1362">conduit</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Buffer.conduit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1354">#</a></dt>
+<dd class="ddef">
+<div class="summary">Access configured conduit</div>
+<p class="sec_header">Returns:</p>Returns the conduit associated with this buffer. Returns
+                null if the buffer is purely memory based; that is, it's
+                not backed by some external medium.
+<p class="sec_header">Remarks:</p>Buffers do not require an external conduit to operate, but
+                it can be convenient to associate one. For example, methods
+                fill() &amp; drain() use it to import/export content as necessary.</dd>
+<dt class="decl">uint <a class="symbol _function" name="Buffer.bufferSize" href="./htmlsrc/tango.io.Buffer.html#L1370" kind="function" beg="1370" end="1373">bufferSize</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Buffer.bufferSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1370">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a preferred size for buffering conduit I/O</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Buffer.isAlive" href="./htmlsrc/tango.io.Buffer.html#L1381" kind="function" beg="1381" end="1384">isAlive</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Buffer.isAlive" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1381">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is the conduit alive?</div></dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="Buffer.output:2" href="./htmlsrc/tango.io.Buffer.html#L1402" kind="function" beg="1402" end="1405">output</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Buffer.output:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1402">#</a></dt>
+<dd class="ddef">
+<div class="summary">Exposes configured output stream</div>
+<p class="sec_header">Returns:</p>Returns the OutputStream associated with this buffer. Returns
+                null if the buffer is not attached to an output; that is, it's
+                not backed by some external medium.
+<p class="sec_header">Remarks:</p>Buffers do not require an external stream to operate, but
+                it can be convenient to associate them. For example, methods
+                fill &amp; drain use them to import/export content as necessary.</dd>
+<dt class="decl">InputStream <a class="symbol _function" name="Buffer.input:2" href="./htmlsrc/tango.io.Buffer.html#L1423" kind="function" beg="1423" end="1426">input</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Buffer.input:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1423">#</a></dt>
+<dd class="ddef">
+<div class="summary">Exposes configured input stream</div>
+<p class="sec_header">Returns:</p>Returns the InputStream associated with this buffer. Returns
+                null if the buffer is not attached to an input; that is, it's
+                not backed by some external medium.
+<p class="sec_header">Remarks:</p>Buffers do not require an external stream to operate, but
+                it can be convenient to associate them. For example, methods
+                fill &amp; drain use them to import/export content as necessary.</dd>
+<dt class="decl">void <a class="symbol _function" name="Buffer.detach" href="./htmlsrc/tango.io.Buffer.html#L1434" kind="function" beg="1434" end="1436">detach</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Buffer.detach" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1434">#</a></dt>
+<dd class="ddef">
+<div class="summary">Release external resources</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Buffer.close" href="./htmlsrc/tango.io.Buffer.html#L1448" kind="function" beg="1448" end="1455">close</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Buffer.close" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1448">#</a></dt>
+<dd class="ddef">
+<div class="summary">Close the stream</div>
+<p class="sec_header">Remarks:</p>Propagate request to an attached OutputStream (this is a
+                requirement for the OutputStream interface)</dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="GrowBuffer" href="./htmlsrc/tango.io.Buffer.html#L1467" kind="class" beg="1467" end="1600">GrowBuffer</a> : Buffer; <a title="Permalink to this symbol" href="#GrowBuffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1467">#</a></dt>
+<dd class="ddef">
+<div class="summary">Subclass to provide support for content growth. This is handy when
+        you want to keep a buffer around as a scratchpad.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="GrowBuffer.this" href="./htmlsrc/tango.io.Buffer.html#L1480" kind="ctor" beg="1480" end="1486">this</a><span class="params">(uint <em>size</em> = 1024, uint <em>increment</em> = 1024)</span>; <a title="Permalink to this symbol" href="#GrowBuffer.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1480">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a GrowBuffer with the specified initial size.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="GrowBuffer.this:2" href="./htmlsrc/tango.io.Buffer.html#L1494" kind="ctor" beg="1494" end="1498">this</a><span class="params">(IConduit <em>conduit</em>, uint <em>size</em> = 1024)</span>; <a title="Permalink to this symbol" href="#GrowBuffer.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1494">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a GrowBuffer with the specified initial size.</div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="GrowBuffer.slice" href="./htmlsrc/tango.io.Buffer.html#L1512" kind="function" beg="1512" end="1533">slice</a><span class="params">(uint <em>size</em>, bool <em>eat</em> = true)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#GrowBuffer.slice" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1512">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read a chunk of data from the buffer, loading from the
+                conduit as necessary. The specified number of bytes is
+                loaded into the buffer, and marked as having been read 
+                when the 'eat' parameter is set true. When 'eat' is set
+                false, the read position is not adjusted.</div>
+Returns the corresponding buffer slice when successful.</dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="GrowBuffer.append" href="./htmlsrc/tango.io.Buffer.html#L1542" kind="function" beg="1542" end="1549">append</a><span class="params">(void * <em>src</em>, uint <em>length</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#GrowBuffer.append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1542">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append an array of data to this buffer. This is often used 
+                in lieu of a Writer.</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="GrowBuffer.fill" href="./htmlsrc/tango.io.Buffer.html#L1560" kind="function" beg="1560" end="1566">fill</a><span class="params">(InputStream <em>src</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#GrowBuffer.fill" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1560">#</a></dt>
+<dd class="ddef">
+<div class="summary">Try to fill the available buffer with content from the 
+                specified conduit.</div>
+Returns the number of bytes read, or IConduit.Eof</dd>
+<dt class="decl">uint <a class="symbol _function" name="GrowBuffer.fill:2" href="./htmlsrc/tango.io.Buffer.html#L1577" kind="function" beg="1577" end="1583">fill</a><span class="params">(uint <em>size</em> = uint.max)</span>; <a title="Permalink to this symbol" href="#GrowBuffer.fill:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1577">#</a></dt>
+<dd class="ddef">
+<div class="summary">Expand and consume the conduit content, up to the maximum 
+                size indicated by the argument or until conduit.Eof</div>
+Returns the number of bytes in the buffer</dd>
+<dt class="decl">uint <a class="symbol _function" name="GrowBuffer.makeRoom" href="./htmlsrc/tango.io.Buffer.html#L1591" kind="function" beg="1591" end="1599">makeRoom</a><span class="params">(uint <em>size</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#GrowBuffer.makeRoom" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.Buffer.html#L1591">#</a></dt>
+<dd class="ddef">
+<div class="summary">make some room in the buffer</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:57 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

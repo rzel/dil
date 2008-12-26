@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.container.CircularList</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.container.CircularList";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.container.CircularList.html" class="symbol">tango.util.container.CircularList</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Apr 2008: Initial release
+<p class="sec_header">Authors:</p>Kris
+<p class="sec_header">Since:</p>0.99.7
+<p class="bl"/>
+        Based upon Doug Lea's Java collection package
+<dl>
+<dt class="decl">class <a class="symbol _class" name="CircularList" href="./htmlsrc/tango.util.container.CircularList.html#L74" kind="class" beg="74" end="1076">CircularList</a><span class="tparams">(V, alias Reap = Container.reap, 
+                       alias Heap = Container.Collect)</span> : IContainer!(V); <a title="Permalink to this symbol" href="#CircularList" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L74">#</a></dt>
+<dd class="ddef">
+<div class="summary">Circular linked list</div>
+<pre class="d_code">
+<span class="i">Iterator</span> <span class="i">iterator</span> ()
+<span class="i">IteratorMatch</span> <span class="i">iterator</span> (<span class="i">V</span> <span class="i">value</span>)
+<span class="k">uint</span> <span class="i">opApply</span> (<span class="k">int</span> <span class="k">delegate</span>(<span class="k">ref</span> <span class="i">V</span> <span class="i">value</span>) <span class="i">dg</span>)
+
+<span class="i">CircularList</span> <span class="i">add</span> (<span class="i">V</span> <span class="i">element</span>)
+<span class="i">CircularList</span> <span class="i">addAt</span> (<span class="k">uint</span> <span class="i">index</span>, <span class="i">V</span> <span class="i">element</span>)
+<span class="i">CircularList</span> <span class="i">append</span> (<span class="i">V</span> <span class="i">element</span>)
+<span class="i">CircularList</span> <span class="i">prepend</span> (<span class="i">V</span> <span class="i">element</span>)
+<span class="k">uint</span> <span class="i">addAt</span> (<span class="k">uint</span> <span class="i">index</span>, <span class="i">IContainer</span>!(<span class="i">V</span>) <span class="i">e</span>)
+<span class="k">uint</span> <span class="i">append</span> (<span class="i">IContainer</span>!(<span class="i">V</span>) <span class="i">e</span>)
+<span class="k">uint</span> <span class="i">prepend</span> (<span class="i">IContainer</span>!(<span class="i">V</span>) <span class="i">e</span>)
+
+<span class="k">bool</span> <span class="i">take</span> (<span class="k">ref</span> <span class="i">V</span> <span class="i">v</span>)
+<span class="k">bool</span> <span class="i">contains</span> (<span class="i">V</span> <span class="i">element</span>)
+<span class="i">V</span> <span class="i">get</span> (<span class="k">uint</span> <span class="i">index</span>)
+<span class="k">uint</span> <span class="i">first</span> (<span class="i">V</span> <span class="i">element</span>, <span class="k">uint</span> <span class="i">startingIndex</span> = <span class="n">0</span>)
+<span class="k">uint</span> <span class="i">last</span> (<span class="i">V</span> <span class="i">element</span>, <span class="k">uint</span> <span class="i">startingIndex</span> = <span class="n">0</span>)
+
+<span class="i">V</span> <span class="i">head</span> ()
+<span class="i">V</span> <span class="i">tail</span> ()
+<span class="i">V</span> <span class="i">head</span> (<span class="i">V</span> <span class="i">element</span>)
+<span class="i">V</span> <span class="i">tail</span> (<span class="i">V</span> <span class="i">element</span>)
+<span class="i">V</span> <span class="i">removeHead</span> ()
+<span class="i">V</span> <span class="i">removeTail</span> ()
+
+<span class="k">bool</span> <span class="i">removeAt</span> (<span class="k">uint</span> <span class="i">index</span>)
+<span class="k">uint</span> <span class="i">remove</span> (<span class="i">V</span> <span class="i">element</span>, <span class="k">bool</span> <span class="i">all</span>)
+<span class="k">uint</span> <span class="i">removeRange</span> (<span class="k">uint</span> <span class="i">fromIndex</span>, <span class="k">uint</span> <span class="i">toIndex</span>)
+
+<span class="k">uint</span> <span class="i">replace</span> (<span class="i">V</span> <span class="i">oldElement</span>, <span class="i">V</span> <span class="i">newElement</span>, <span class="k">bool</span> <span class="i">all</span>)
+<span class="k">bool</span> <span class="i">replaceAt</span> (<span class="k">uint</span> <span class="i">index</span>, <span class="i">V</span> <span class="i">element</span>)
+
+<span class="k">uint</span> <span class="i">size</span> ()
+<span class="k">bool</span> <span class="i">isEmpty</span> ()
+<span class="i">V</span>[] <span class="i">toArray</span> (<span class="i">V</span>[] <span class="i">dst</span>)
+<span class="i">CircularList</span> <span class="i">dup</span> ()
+<span class="i">CircularList</span> <span class="i">subset</span> (<span class="k">uint</span> <span class="i">from</span>, <span class="k">uint</span> <span class="i">length</span>)
+<span class="i">CircularList</span> <span class="i">clear</span> ()
+<span class="i">CircularList</span> <span class="i">reset</span> ()
+<span class="i">CircularList</span> <span class="i">check</span> ()
+</pre>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="CircularList.this" href="./htmlsrc/tango.util.container.CircularList.html#L104" kind="ctor" beg="104" end="107">this</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#CircularList.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L104">#</a></dt>
+<dd class="ddef">
+<div class="summary">Make an empty list</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="CircularList.this:2" href="./htmlsrc/tango.util.container.CircularList.html#L115" kind="ctor" beg="115" end="119">this</a><span class="params">(Ref <em>h</em>, uint <em>c</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#CircularList.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L115">#</a></dt>
+<dd class="ddef">
+<div class="summary">Make an configured list</div></dd>
+<dt class="decl"><a class="symbol _dtor" name="CircularList.~this" href="./htmlsrc/tango.util.container.CircularList.html#L127" kind="dtor" beg="127" end="130">~this</a>(); <a title="Permalink to this symbol" href="#CircularList.~this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L127">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clean up when deleted</div></dd>
+<dt class="decl">Alloc <a class="symbol _function" name="CircularList.allocator" href="./htmlsrc/tango.util.container.CircularList.html#L138" kind="function" beg="138" end="141">allocator</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.allocator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L138">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the configured allocator</div></dd>
+<dt class="decl">Iterator <a class="symbol _function" name="CircularList.iterator" href="./htmlsrc/tango.util.container.CircularList.html#L149" kind="function" beg="149" end="158">iterator</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.iterator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L149">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a generic iterator for contained elements</div></dd>
+<dt class="decl">IteratorMatch <a class="symbol _function" name="CircularList.iterator:2" href="./htmlsrc/tango.util.container.CircularList.html#L166" kind="function" beg="166" end="172">iterator</a><span class="params">(V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.iterator:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L166">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return an iterator which filters on the provided value</div></dd>
+<dt class="decl">int <a class="symbol _function" name="CircularList.opApply" href="./htmlsrc/tango.util.container.CircularList.html#L179" kind="function" beg="179" end="183">opApply</a><span class="params">(int delegate(ref V value) <em>dg</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L179">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="CircularList.size" href="./htmlsrc/tango.util.container.CircularList.html#L191" kind="function" beg="191" end="194">size</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L191">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the number of elements contained</div></dd>
+<dt class="decl">CircularList <a class="symbol _function" name="CircularList.dup" href="./htmlsrc/tango.util.container.CircularList.html#L203" kind="function" beg="203" end="206">dup</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.dup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L203">#</a></dt>
+<dd class="ddef">
+<div class="summary">Make an independent copy of the list. Elements themselves 
+                are not cloned</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="CircularList.contains" href="./htmlsrc/tango.util.container.CircularList.html#L214" kind="function" beg="214" end="219">contains</a><span class="params">(V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.contains" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L214">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">V <a class="symbol _function" name="CircularList.head" href="./htmlsrc/tango.util.container.CircularList.html#L227" kind="function" beg="227" end="230">head</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.head" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L227">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">V <a class="symbol _function" name="CircularList.tail" href="./htmlsrc/tango.util.container.CircularList.html#L238" kind="function" beg="238" end="241">tail</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.tail" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L238">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">V <a class="symbol _function" name="CircularList.get" href="./htmlsrc/tango.util.container.CircularList.html#L249" kind="function" beg="249" end="252">get</a><span class="params">(uint <em>index</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L249">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="CircularList.first" href="./htmlsrc/tango.util.container.CircularList.html#L260" kind="function" beg="260" end="279">first</a><span class="params">(V <em>element</em>, uint <em>startingIndex</em> = 0)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.first" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L260">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="CircularList.last" href="./htmlsrc/tango.util.container.CircularList.html#L287" kind="function" beg="287" end="314">last</a><span class="params">(V <em>element</em>, uint <em>startingIndex</em> = 0)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.last" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L287">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">CircularList <a class="symbol _function" name="CircularList.subset" href="./htmlsrc/tango.util.container.CircularList.html#L322" kind="function" beg="322" end="346">subset</a><span class="params">(uint <em>from</em>, uint <em>length</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.subset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L322">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(length)</div></dd>
+<dt class="decl">CircularList <a class="symbol _function" name="CircularList.clear" href="./htmlsrc/tango.util.container.CircularList.html#L354" kind="function" beg="354" end="357">clear</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L354">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">CircularList <a class="symbol _function" name="CircularList.reset" href="./htmlsrc/tango.util.container.CircularList.html#L368" kind="function" beg="368" end="371">reset</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.reset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L368">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reset the HashMap contents and optionally configure a new
+                heap manager. This releases more memory than clear() does</div>
+Time complexity: O(n)</dd>
+<dt class="decl">bool <a class="symbol _function" name="CircularList.take" href="./htmlsrc/tango.util.container.CircularList.html#L381" kind="function" beg="381" end="390">take</a><span class="params">(ref V <em>v</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.take" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L381">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div>
+Takes the last element on the list</dd>
+<dt class="decl">CircularList <a class="symbol _function" name="CircularList.prepend" href="./htmlsrc/tango.util.container.CircularList.html#L398" kind="function" beg="398" end="406">prepend</a><span class="params">(V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.prepend" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L398">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">V <a class="symbol _function" name="CircularList.head:2" href="./htmlsrc/tango.util.container.CircularList.html#L414" kind="function" beg="414" end="421">head</a><span class="params">(V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.head:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L414">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">V <a class="symbol _function" name="CircularList.removeHead" href="./htmlsrc/tango.util.container.CircularList.html#L429" kind="function" beg="429" end="444">removeHead</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.removeHead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L429">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">CircularList <a class="symbol _function" name="CircularList.add" href="./htmlsrc/tango.util.container.CircularList.html#L452" kind="function" beg="452" end="455">add</a><span class="params">(V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.add" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L452">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">CircularList <a class="symbol _function" name="CircularList.append" href="./htmlsrc/tango.util.container.CircularList.html#L463" kind="function" beg="463" end="473">append</a><span class="params">(V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L463">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">V <a class="symbol _function" name="CircularList.tail:2" href="./htmlsrc/tango.util.container.CircularList.html#L481" kind="function" beg="481" end="488">tail</a><span class="params">(V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.tail:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L481">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">V <a class="symbol _function" name="CircularList.removeTail" href="./htmlsrc/tango.util.container.CircularList.html#L496" kind="function" beg="496" end="507">removeTail</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.removeTail" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L496">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">CircularList <a class="symbol _function" name="CircularList.addAt" href="./htmlsrc/tango.util.container.CircularList.html#L515" kind="function" beg="515" end="525">addAt</a><span class="params">(uint <em>index</em>, V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.addAt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L515">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">CircularList <a class="symbol _function" name="CircularList.replaceAt" href="./htmlsrc/tango.util.container.CircularList.html#L533" kind="function" beg="533" end="538">replaceAt</a><span class="params">(uint <em>index</em>, V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.replaceAt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L533">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">CircularList <a class="symbol _function" name="CircularList.removeAt" href="./htmlsrc/tango.util.container.CircularList.html#L546" kind="function" beg="546" end="557">removeAt</a><span class="params">(uint <em>index</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.removeAt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L546">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="CircularList.remove" href="./htmlsrc/tango.util.container.CircularList.html#L565" kind="function" beg="565" end="602">remove</a><span class="params">(V <em>element</em>, bool <em>all</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L565">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="CircularList.replace" href="./htmlsrc/tango.util.container.CircularList.html#L610" kind="function" beg="610" end="629">replace</a><span class="params">(V <em>oldElement</em>, V <em>newElement</em>, bool <em>all</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.replace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L610">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="CircularList.prepend:2" href="./htmlsrc/tango.util.container.CircularList.html#L637" kind="function" beg="637" end="672">prepend</a><span class="params">(IContainer!(V) <em>e</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.prepend:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L637">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(number of elements in e)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="CircularList.append:2" href="./htmlsrc/tango.util.container.CircularList.html#L680" kind="function" beg="680" end="696">append</a><span class="params">(IContainer!(V) <em>e</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.append:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L680">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(number of elements in e)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="CircularList.addAt:2" href="./htmlsrc/tango.util.container.CircularList.html#L704" kind="function" beg="704" end="720">addAt</a><span class="params">(uint <em>index</em>, IContainer!(V) <em>e</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.addAt:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L704">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(size() + number of elements in e)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="CircularList.removeRange" href="./htmlsrc/tango.util.container.CircularList.html#L728" kind="function" beg="728" end="751">removeRange</a><span class="params">(uint <em>fromIndex</em>, uint <em>toIndex</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.removeRange" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L728">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">V[] <a class="symbol _function" name="CircularList.toArray" href="./htmlsrc/tango.util.container.CircularList.html#L765" kind="function" beg="765" end="774">toArray</a><span class="params">(V[] <em>dst</em> = null)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.toArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L765">#</a></dt>
+<dd class="ddef">
+<div class="summary">Copy and return the contained set of values in an array, 
+                using the optional dst as a recipient (which is resized 
+                as necessary).</div>
+Returns a slice of dst representing the container values.
+                
+                Time complexity: O(n)</dd>
+<dt class="decl">bool <a class="symbol _function" name="CircularList.isEmpty" href="./htmlsrc/tango.util.container.CircularList.html#L784" kind="function" beg="784" end="787">isEmpty</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.isEmpty" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L784">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is this container empty?
+                
+                Time complexity: O(1)</div></dd>
+<dt class="decl">CircularList <a class="symbol _function" name="CircularList.check" href="./htmlsrc/tango.util.container.CircularList.html#L794" kind="function" beg="794" end="814">check</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#CircularList.check" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L794">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="CircularList.instances" href="./htmlsrc/tango.util.container.CircularList.html#L822" kind="function" beg="822" end="827">instances</a><span class="params">(V <em>element</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CircularList.instances" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L822">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">void <a class="symbol _function" name="CircularList.checkIndex" href="./htmlsrc/tango.util.container.CircularList.html#L834" kind="function" beg="834" end="838">checkIndex</a><span class="params">(uint <em>i</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CircularList.checkIndex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L834">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">Ref <a class="symbol _function" name="CircularList.firstCell" href="./htmlsrc/tango.util.container.CircularList.html#L846" kind="function" beg="846" end="850">firstCell</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CircularList.firstCell" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L846">#</a></dt>
+<dd class="ddef">
+<div class="summary">return the first cell, or throw exception if empty</div></dd>
+<dt class="decl">Ref <a class="symbol _function" name="CircularList.lastCell" href="./htmlsrc/tango.util.container.CircularList.html#L858" kind="function" beg="858" end="862">lastCell</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CircularList.lastCell" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L858">#</a></dt>
+<dd class="ddef">
+<div class="summary">return the last cell, or throw exception if empty</div></dd>
+<dt class="decl">Ref <a class="symbol _function" name="CircularList.cellAt" href="./htmlsrc/tango.util.container.CircularList.html#L870" kind="function" beg="870" end="874">cellAt</a><span class="params">(uint <em>index</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CircularList.cellAt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L870">#</a></dt>
+<dd class="ddef">
+<div class="summary">return the index'th cell, or throw exception if bad index</div></dd>
+<dt class="decl">CircularList <a class="symbol _function" name="CircularList.clear:2" href="./htmlsrc/tango.util.container.CircularList.html#L882" kind="function" beg="882" end="900">clear</a><span class="params">(bool <em>all</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CircularList.clear:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L882">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">void <a class="symbol _function" name="CircularList.increment" href="./htmlsrc/tango.util.container.CircularList.html#L908" kind="function" beg="908" end="912">increment</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CircularList.increment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L908">#</a></dt>
+<dd class="ddef">
+<div class="summary">new element was added</div></dd>
+<dt class="decl">void <a class="symbol _function" name="CircularList.decrement" href="./htmlsrc/tango.util.container.CircularList.html#L920" kind="function" beg="920" end="926">decrement</a><span class="params">(Ref <em>p</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CircularList.decrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L920">#</a></dt>
+<dd class="ddef">
+<div class="summary">element was removed</div></dd>
+<dt class="decl">void <a class="symbol _function" name="CircularList.mutate" href="./htmlsrc/tango.util.container.CircularList.html#L934" kind="function" beg="934" end="937">mutate</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CircularList.mutate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L934">#</a></dt>
+<dd class="ddef">
+<div class="summary">set was changed</div></dd>
+<dt class="decl">struct <a class="symbol _struct" name="CircularList.Freach" href="./htmlsrc/tango.util.container.CircularList.html#L945" kind="struct" beg="945" end="959">Freach</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CircularList.Freach" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L945">#</a></dt>
+<dd class="ddef">
+<div class="summary">foreach support for iterators</div>
+</dd>
+<dt class="decl">struct <a class="symbol _struct" name="CircularList.Iterator" href="./htmlsrc/tango.util.container.CircularList.html#L967" kind="struct" beg="967" end="1039">Iterator</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CircularList.Iterator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L967">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterator with no filtering</div>
+</dd>
+<dt class="decl">struct <a class="symbol _struct" name="CircularList.IteratorMatch" href="./htmlsrc/tango.util.container.CircularList.html#L1047" kind="struct" beg="1047" end="1075">IteratorMatch</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CircularList.IteratorMatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.CircularList.html#L1047">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterator with value filtering</div>
+</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2008 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:06 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

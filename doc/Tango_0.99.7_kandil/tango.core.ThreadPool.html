@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.core.ThreadPool</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.core.ThreadPool";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.core.ThreadPool.html" class="symbol">tango.core.ThreadPool</a></h1>
+  
+<div class="summary">This module provides an implementation of the classical thread-pool model.</div>
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Author:</p>Anders Halager
+<dl>
+<dt class="decl">class <a class="symbol _class" name="ThreadPool" href="./htmlsrc/tango.core.ThreadPool.html#L56" kind="class" beg="56" end="254">ThreadPool</a><span class="tparams">(Args...)</span>; <a title="Permalink to this symbol" href="#ThreadPool" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.ThreadPool.html#L56">#</a></dt>
+<dd class="ddef">
+<div class="summary">A thread pool is a way to process multiple jobs in parallel without creating
+ a new thread for each job. This way the overhead of creating a thread is
+ only paid once, and not once for each job and you can limit the maximum
+ number of threads active at any one point.</div>
+In this case a "job" is simply a delegate and some parameters the delegate
+ will be called with after having been added to the thread pool's queue.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="lc">// create a new pool with two threads</span>
+<span class="k">auto</span> <span class="i">pool</span> = <span class="k">new</span> <span class="i">ThreadPool</span>!(<span class="k">int</span>)(<span class="n">2</span>);
+<span class="k">void</span> <span class="k">delegate</span>(<span class="k">int</span>) <span class="i">f</span> = (<span class="k">int</span> <span class="i">x</span>) { <span class="i">Stdout</span>(<span class="i">x</span>).<span class="i">newline</span>; };
+
+<span class="lc">// Now we have three ways of telling the pool to execute our jobs</span>
+<span class="lc">// First we can say we just want it done at some later point</span>
+<span class="i">pool</span>.<span class="i">append</span>(<span class="i">f</span>, <span class="n">1</span>);
+<span class="lc">// Secondly we can ask for a job to be done as soon as possible, blocking</span>
+<span class="lc">// until it is started by some thread</span>
+<span class="i">pool</span>.<span class="i">assign</span>(<span class="i">f</span>, <span class="n">2</span>);
+<span class="lc">// Finally we can say we either want it done immediately or not at all</span>
+<span class="k">if</span> (<span class="i">pool</span>.<span class="i">tryAssign</span>(<span class="i">f</span>, <span class="n">3</span>))
+    <span class="i">Stdout</span>(<span class="sl">"Someone took the job!"</span>).<span class="i">newline</span>;
+<span class="k">else</span>
+    <span class="i">Stdout</span>(<span class="sl">"No one was available to do the job right now"</span>).<span class="i">newline</span>;
+<span class="lc">// After giving the pool some jobs to do, we need to give it a chance to</span>
+<span class="lc">// finish, so we can do one of two things.</span>
+<span class="lc">// Choice no. 1 is to finish what has already been assigned to the threads,</span>
+<span class="lc">// but ignore any remaining queued jobs</span>
+<span class="lc">//   pool.shutdown();</span>
+<span class="lc">// The other choice is to finish all jobs currently executing or in queue:</span>
+<span class="i">pool</span>.<span class="i">finish</span>();
+</pre>
+<p class="bl"/>
+ If append isn't called there should be no additional heap allocations after
+ initialization.
+<dl>
+<dt class="decl">alias void delegate(Args) <a class="symbol _alias" name="ThreadPool.JobD" href="./htmlsrc/tango.core.ThreadPool.html#L59" kind="alias" beg="59" end="59">JobD</a>; <a title="Permalink to this symbol" href="#ThreadPool.JobD" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.ThreadPool.html#L59">#</a></dt>
+<dd class="ddef">
+<div class="summary">An alias for the type of delegates this thread pool considers a job</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="ThreadPool.this" href="./htmlsrc/tango.core.ThreadPool.html#L69" kind="ctor" beg="69" end="92">this</a><span class="params">(size_t <em>workers</em>, size_t <em>q_size</em> = 0)</span>; <a title="Permalink to this symbol" href="#ThreadPool.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.ThreadPool.html#L69">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a new ThreadPool.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>workers</em></td><td>The amount of threads to spawn</td></tr>
+<tr><td><em>q_size</em></td><td>The expected size of the queue (how many elements are
+   preallocated)</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="ThreadPool.assign" href="./htmlsrc/tango.core.ThreadPool.html#L98" kind="function" beg="98" end="108">assign</a><span class="params">(JobD <em>job</em>, Args <em>args</em>)</span>; <a title="Permalink to this symbol" href="#ThreadPool.assign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.ThreadPool.html#L98">#</a></dt>
+<dd class="ddef">
+<div class="summary">Assign the given job to a thread immediately or block until one is
+      available</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="ThreadPool.tryAssign" href="./htmlsrc/tango.core.ThreadPool.html#L114" kind="function" beg="114" end="120">tryAssign</a><span class="params">(JobD <em>job</em>, Args <em>args</em>)</span>; <a title="Permalink to this symbol" href="#ThreadPool.tryAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.ThreadPool.html#L114">#</a></dt>
+<dd class="ddef">
+<div class="summary">Assign the given job to a thread immediately or return false if none is
+      available. (Returns true if one was available)</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ThreadPool.append" href="./htmlsrc/tango.core.ThreadPool.html#L127" kind="function" beg="127" end="133">append</a><span class="params">(JobD <em>job</em>, Args <em>args</em>)</span>; <a title="Permalink to this symbol" href="#ThreadPool.append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.ThreadPool.html#L127">#</a></dt>
+<dd class="ddef">
+<div class="summary">Put a job into the pool for eventual execution.</div>
+<p class="sec_header">Warning:</p>Acts as a stack, not a queue as you would expect</dd>
+<dt class="decl">size_t <a class="symbol _function" name="ThreadPool.pendingJobs" href="./htmlsrc/tango.core.ThreadPool.html#L136" kind="function" beg="136" end="140">pendingJobs</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ThreadPool.pendingJobs" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.ThreadPool.html#L136">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get the number of jobs waiting to be executed</div></dd>
+<dt class="decl">size_t <a class="symbol _function" name="ThreadPool.activeJobs" href="./htmlsrc/tango.core.ThreadPool.html#L143" kind="function" beg="143" end="146">activeJobs</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ThreadPool.activeJobs" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.ThreadPool.html#L143">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get the number of jobs being executed</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ThreadPool.shutdown" href="./htmlsrc/tango.core.ThreadPool.html#L149" kind="function" beg="149" end="160">shutdown</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ThreadPool.shutdown" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.ThreadPool.html#L149">#</a></dt>
+<dd class="ddef">
+<div class="summary">Finish currently executing jobs and drop all pending.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ThreadPool.finish" href="./htmlsrc/tango.core.ThreadPool.html#L163" kind="function" beg="163" end="170">finish</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ThreadPool.finish" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.ThreadPool.html#L163">#</a></dt>
+<dd class="ddef">
+<div class="summary">Complete all pending jobs and shutdown.</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (C) 2007-2008 Anders Halager. All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:04 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

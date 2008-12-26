@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.vfs.LinkedFolder</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.vfs.LinkedFolder";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.vfs.LinkedFolder.html" class="symbol">tango.io.vfs.LinkedFolder</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Oct 2007: Initial version
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="LinkedFolder" href="./htmlsrc/tango.io.vfs.LinkedFolder.html#L34" kind="class" beg="34" end="138">LinkedFolder</a> : VirtualFolder; <a title="Permalink to this symbol" href="#LinkedFolder" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.LinkedFolder.html#L34">#</a></dt>
+<dd class="ddef">
+<div class="summary">LinkedFolder is derived from VirtualFolder, and behaves exactly the 
+        same in all but one aspect: it treats mounted folders as an ordered 
+        list of alternatives to look for a file. This supports the notion of 
+        file 'overrides', whereby "customized" files can be inserted into a 
+        chain of alternatives.</div>
+(overridden folders are not currently supported)
+<dl>
+<dt class="decl">struct <a class="symbol _struct" name="LinkedFolder.Link" href="./htmlsrc/tango.io.vfs.LinkedFolder.html#L44" kind="struct" beg="44" end="55">Link</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#LinkedFolder.Link" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.LinkedFolder.html#L44">#</a></dt>
+<dd class="ddef">
+<div class="summary">Linked-list of folders</div>
+</dd>
+<dt class="decl"><a class="symbol _ctor" name="LinkedFolder.this" href="./htmlsrc/tango.io.vfs.LinkedFolder.html#L64" kind="ctor" beg="64" end="67">this</a><span class="params">(char[] <em>name</em>)</span>; <a title="Permalink to this symbol" href="#LinkedFolder.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.LinkedFolder.html#L64">#</a></dt>
+<dd class="ddef">
+<div class="summary">All folder must have a name. No '.' or '/' chars are 
+                permitted</div></dd>
+<dt class="decl">VfsHost <a class="symbol _function" name="LinkedFolder.mount" href="./htmlsrc/tango.io.vfs.LinkedFolder.html#L84" kind="function" beg="84" end="96">mount</a><span class="params">(VfsFolder <em>folder</em>, char[] <em>name</em> = null)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedFolder.mount" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.LinkedFolder.html#L84">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add a child folder. The child cannot 'overlap' with others
+                in the tree of the same type. Circular references across a
+                tree of virtual folders are detected and trapped.</div>
+We add the new child at the end of an ordered list, which
+                we subsequently traverse when looking up a file
+<p class="bl"/>
+                The second argument represents an optional name that the
+                mount should be known as, instead of the name exposed by 
+                the provided folder (it is not an alias).</dd>
+<dt class="decl">VfsHost <a class="symbol _function" name="LinkedFolder.dismount" href="./htmlsrc/tango.io.vfs.LinkedFolder.html#L104" kind="function" beg="104" end="107">dismount</a><span class="params">(VfsFolder <em>folder</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedFolder.dismount" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.LinkedFolder.html#L104">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">TODO:</p>unhook a child folder.</dd>
+<dt class="decl">VfsFile <a class="symbol _function" name="LinkedFolder.file" href="./htmlsrc/tango.io.vfs.LinkedFolder.html#L122" kind="function" beg="122" end="137">file</a><span class="params">(char[] <em>path</em>)</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedFolder.file" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.vfs.LinkedFolder.html#L122">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a file representation of the given path. If the
+                path-head does not refer to an immediate child folder, 
+                and does not match a symbolic link, it is considered to
+                be unknown.</div>
+We scan the set of mounted folders, in the order mounted,
+                looking for a match. Where one is found, we test to see
+                that it really exists before returning the reference</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2007 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:00 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.PathUtil</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.PathUtil";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.PathUtil.html" class="symbol">tango.util.PathUtil</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Dec 2006: Initial release
+<p class="sec_header">Author:</p>Lars Ivar Igesund, Thomas Kühne,
+                        Grzegorz Adam Hankiewicz
+<dl>
+<dt class="decl">char[] <a class="symbol _function" name="normalize" href="./htmlsrc/tango.util.PathUtil.html#L45" kind="function" beg="45" end="196">normalize</a><span class="params">(char[] <em>path</em>)</span>; <a title="Permalink to this symbol" href="#normalize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.PathUtil.html#L45">#</a></dt>
+<dd class="ddef">
+<div class="summary">Normalizes a path component as specified in section 5.2 of RFC 2396.</div>
+./ in path is removed
+    /. at the end is removed
+    <segment>/.. at the end is removed
+    <segment>/../ in path is removed
+<p class="bl"/>
+    On Windows, \ will be converted to / prior to normalization.
+<p class="bl"/>
+    Note that any number of ../ segments at the front is ignored,
+    unless it is an absolute path, in which case an exception will
+    be thrown. A relative path with ../ segments at the front is only
+    considered valid if it can be joined with a path such that it can
+    be fully normalized.
+<p class="sec_header">Throws:</p>IllegalArgumentException if the root separator is followed by ..
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">normalize</span>(<span class="sl">"/home/foo/./bar/../../john/doe"</span>); <span class="lc">// =&gt; "/home/john/doe"</span>
+</pre></dd>
+<dt class="decl">bool <a class="symbol _function" name="patternMatch" href="./htmlsrc/tango.util.PathUtil.html#L299" kind="function" beg="299" end="402">patternMatch</a><span class="params">(char[] <em>filename</em>, char[] <em>pattern</em>)</span>; <a title="Permalink to this symbol" href="#patternMatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.PathUtil.html#L299">#</a></dt>
+<dd class="ddef">
+<div class="summary">Matches a pattern against a filename.</div>
+Some characters of pattern have special a meaning (they are
+    <i>meta-characters</i>) and <b>can't</b> be escaped. These are:
+    <p><table>
+    <tr><td><b>*</b></td>
+        <td>Matches 0 or more instances of any character.</td></tr>
+    <tr><td><b>?</b></td>
+        <td>Matches exactly one instances of any character.</td></tr>
+    <tr><td><b>[</b><i>chars</i><b>]</b></td>
+        <td>Matches one instance of any character that appears
+        between the brackets.</td></tr>
+    <tr><td><b>[!</b><i>chars</i><b>]</b></td>
+        <td>Matches one instance of any character that does not appear
+        between the brackets after the exclamation mark.</td></tr>
+    </table><p>
+    Internally individual character comparisons are done calling
+    charMatch(), so its rules apply here too. Note that path
+    separators and dots don't stop a meta-character from matching
+    further portions of the filename.
+<p class="sec_header">Returns:</p>true if pattern matches filename, false otherwise.
+<p class="sec_header">See Also:</p>charMatch().
+<p class="sec_header">Throws:</p>Nothing.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">version</span>(<span class="i">Win32</span>)
+{
+    <span class="i">patternMatch</span>(<span class="sl">"foo.bar"</span>, <span class="sl">"*"</span>) <span class="lc">// =&gt; true</span>
+    <span class="i">patternMatch</span>(<span class="sl">r"foo/foo\bar"</span>, <span class="sl">"f*b*r"</span>) <span class="lc">// =&gt; true</span>
+    <span class="i">patternMatch</span>(<span class="sl">"foo.bar"</span>, <span class="sl">"f?bar"</span>) <span class="lc">// =&gt; false</span>
+    <span class="i">patternMatch</span>(<span class="sl">"Goo.bar"</span>, <span class="sl">"[fg]???bar"</span>) <span class="lc">// =&gt; true</span>
+    <span class="i">patternMatch</span>(<span class="sl">r"d:\foo\bar"</span>, <span class="sl">"d*foo?bar"</span>) <span class="lc">// =&gt; true</span>
+}
+<span class="k">version</span>(<span class="i">Posix</span>)
+{
+    <span class="i">patternMatch</span>(<span class="sl">"Go*.bar"</span>, <span class="sl">"[fg]???bar"</span>) <span class="lc">// =&gt; false</span>
+    <span class="i">patternMatch</span>(<span class="sl">"/foo*home/bar"</span>, <span class="sl">"?foo*bar"</span>) <span class="lc">// =&gt; true</span>
+    <span class="i">patternMatch</span>(<span class="sl">"foobar"</span>, <span class="sl">"foo?bar"</span>) <span class="lc">// =&gt; true</span>
+}
+</pre></dd>
+<dt class="decl">bool <a class="symbol _function" name="charMatch" href="./htmlsrc/tango.util.PathUtil.html#L462" kind="function" beg="462" end="478">charMatch</a><span class="params">(char <em>c1</em>, char <em>c2</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#charMatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.PathUtil.html#L462">#</a></dt>
+<dd class="ddef">
+<div class="summary">Matches filename characters.</div>
+Under Windows, the comparison is done ignoring case. Under Linux
+     an exact match is performed.
+<p class="sec_header">Returns:</p>true if c1 matches c2, false otherwise.
+<p class="sec_header">Throws:</p>Nothing.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">version</span>(<span class="i">Win32</span>)
+{
+    <span class="i">charMatch</span>(<span class="cl">'a'</span>, <span class="cl">'b'</span>) <span class="lc">// =&gt; false</span>
+    <span class="i">charMatch</span>(<span class="cl">'A'</span>, <span class="cl">'a'</span>) <span class="lc">// =&gt; true</span>
+}
+<span class="k">version</span>(<span class="i">Posix</span>)
+{
+    <span class="i">charMatch</span>(<span class="cl">'a'</span>, <span class="cl">'b'</span>) <span class="lc">// =&gt; false</span>
+    <span class="i">charMatch</span>(<span class="cl">'A'</span>, <span class="cl">'a'</span>) <span class="lc">// =&gt; false</span>
+}
+</pre></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2006 Lars Ivar Igesund, Thomas Kühne,
+                                            Grzegorz Adam Hankiewicz</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:06 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

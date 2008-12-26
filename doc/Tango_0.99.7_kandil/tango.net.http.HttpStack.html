@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.http.HttpStack</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.http.HttpStack";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.http.HttpStack.html" class="symbol">tango.net.http.HttpStack</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: April 2004
+<p class="sec_header">Author:</p>Kris, John Reimer
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Token" href="./htmlsrc/tango.net.http.HttpStack.html#L43" kind="class" beg="43" end="57">Token</a>; <a title="Permalink to this symbol" href="#Token" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpStack.html#L43">#</a></dt>
+<dd class="ddef">
+<div class="summary">Internal representation of a token</div>
+</dd>
+<dt class="decl">class <a class="symbol _class" name="HttpStack" href="./htmlsrc/tango.net.http.HttpStack.html#L68" kind="class" beg="68" end="278">HttpStack</a>; <a title="Permalink to this symbol" href="#HttpStack" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpStack.html#L68">#</a></dt>
+<dd class="ddef">
+<div class="summary">A stack of Tokens, used for capturing http headers. The tokens
+        themselves are typically mapped onto the content of a Buffer, 
+        or some other external content, so there's minimal allocation 
+        involved (typically zero).</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="HttpStack.this" href="./htmlsrc/tango.net.http.HttpStack.html#L82" kind="ctor" beg="82" end="86">this</a><span class="params">(int <em>size</em> = 10)</span>; <a title="Permalink to this symbol" href="#HttpStack.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpStack.html#L82">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a HttpStack with the specified initial size. 
+                The stack will later be resized as necessary.</div></dd>
+<dt class="decl">HttpStack <a class="symbol _function" name="HttpStack.clone" href="./htmlsrc/tango.net.http.HttpStack.html#L94" kind="function" beg="94" end="106">clone</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#HttpStack.clone" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpStack.html#L94">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clone this stack of tokens</div></dd>
+<dt class="decl">int <a class="symbol _function" name="HttpStack.opApply" href="./htmlsrc/tango.net.http.HttpStack.html#L114" kind="function" beg="114" end="122">opApply</a><span class="params">(int delegate(inout Token) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#HttpStack.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpStack.html#L114">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterate over all tokens in stack</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HttpStack.reset" href="./htmlsrc/tango.net.http.HttpStack.html#L130" kind="function" beg="130" end="133">reset</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HttpStack.reset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpStack.html#L130">#</a></dt>
+<dd class="ddef">
+<div class="summary">Pop the stack all the way back to zero</div></dd>
+<dt class="decl">Token <a class="symbol _function" name="HttpStack.findToken" href="./htmlsrc/tango.net.http.HttpStack.html#L143" kind="function" beg="143" end="154">findToken</a><span class="params">(char[] <em>match</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HttpStack.findToken" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpStack.html#L143">#</a></dt>
+<dd class="ddef">
+<div class="summary">Scan the tokens looking for the first one with a matching
+                name. Returns the matching Token, or null if there is no
+                such match.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HttpStack.removeToken" href="./htmlsrc/tango.net.http.HttpStack.html#L164" kind="function" beg="164" end="173">removeToken</a><span class="params">(char[] <em>match</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HttpStack.removeToken" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpStack.html#L164">#</a></dt>
+<dd class="ddef">
+<div class="summary">Scan the tokens looking for the first one with a matching
+                name, and remove it. Returns true if a match was found, or
+                false if not.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="HttpStack.size" href="./htmlsrc/tango.net.http.HttpStack.html#L181" kind="function" beg="181" end="184">size</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HttpStack.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpStack.html#L181">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the current stack depth</div></dd>
+<dt class="decl">Token <a class="symbol _function" name="HttpStack.push" href="./htmlsrc/tango.net.http.HttpStack.html#L193" kind="function" beg="193" end="196">push</a><span class="params">(char[] <em>content</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HttpStack.push" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpStack.html#L193">#</a></dt>
+<dd class="ddef">
+<div class="summary">Push a new token onto the stack, and set it content to 
+                that provided. Returns the new Token.</div></dd>
+<dt class="decl">Token <a class="symbol _function" name="HttpStack.push:2" href="./htmlsrc/tango.net.http.HttpStack.html#L205" kind="function" beg="205" end="208">push</a><span class="params">(inout Token <em>token</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HttpStack.push:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpStack.html#L205">#</a></dt>
+<dd class="ddef">
+<div class="summary">Push a new token onto the stack, and set it content to 
+                be that of the specified token. Returns the new Token.</div></dd>
+<dt class="decl">Token <a class="symbol _function" name="HttpStack.push:3" href="./htmlsrc/tango.net.http.HttpStack.html#L216" kind="function" beg="216" end="221">push</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HttpStack.push:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpStack.html#L216">#</a></dt>
+<dd class="ddef">
+<div class="summary">Push a new token onto the stack, and return it.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HttpStack.pop" href="./htmlsrc/tango.net.http.HttpStack.html#L229" kind="function" beg="229" end="235">pop</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HttpStack.pop" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpStack.html#L229">#</a></dt>
+<dd class="ddef">
+<div class="summary">Pop the stack by one.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HttpStack.isMatch" href="./htmlsrc/tango.net.http.HttpStack.html#L244" kind="function" beg="244" end="259">isMatch</a><span class="params">(inout Token <em>token</em>, char[] <em>match</em>)</span>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HttpStack.isMatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpStack.html#L244">#</a></dt>
+<dd class="ddef">
+<div class="summary">See if the given token matches the specified text. The 
+                two must match the minimal extent exactly.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HttpStack.resize" href="./htmlsrc/tango.net.http.HttpStack.html#L267" kind="function" beg="267" end="277">resize</a><span class="params">(inout Token[] <em>tokens</em>, int <em>size</em>)</span>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HttpStack.resize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.http.HttpStack.html#L267">#</a></dt>
+<dd class="ddef">
+<div class="summary">Resize this stack by extending the array.</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:56 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

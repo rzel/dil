@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.math.Elliptic</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.math.Elliptic";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.math.Elliptic.html" class="symbol">tango.math.Elliptic</a></h1>
+  
+<div class="summary">Elliptic integrals.
+ The functions are named similarly to the names used in Mathematica.</div>
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Authors:</p>Stephen L. Moshier (original C code). Conversion to D by Don Clugston
+<p class="sec_header">References:</p><a href="http://en.wikipedia.org/wiki/Elliptic_integral">http://en.wikipedia.org/wiki/Elliptic_integral</a>
+<p class="bl"/>
+ Eric W. Weisstein. "Elliptic Integral of the First Kind." From MathWorld--A Wolfram Web Resource. <a href="http://mathworld.wolfram.com/EllipticIntegraloftheFirstKind.html">http://mathworld.wolfram.com/EllipticIntegraloftheFirstKind.html</a>
+<p class="bl"/>
+ <a href="http://www.netlib.org/cephes/ldoubdoc.html">http://www.netlib.org/cephes/ldoubdoc.html</a>
+<dl>
+<dt class="decl">real <a class="symbol _function" name="ellipticF" href="./htmlsrc/tango.math.Elliptic.html#L67" kind="function" beg="67" end="128">ellipticF</a><span class="params">(real <em>phi</em>, real <em>m</em>)</span>; <a title="Permalink to this symbol" href="#ellipticF" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Elliptic.html#L67">#</a></dt>
+<dd class="ddef">
+<div class="summary">Incomplete elliptic integral of the first kind</div>
+Approximates the integral
+   F(phi | m) = <big>&#8747;<sub><small>0</small></sub><sup>phi</sup></big> dt/ (sqrt( 1- m sin<sup>2</sup> t))
+<p class="bl"/>
+ of amplitude phi and modulus m, using the arithmetic -
+ geometric mean algorithm.</dd>
+<dt class="decl">real <a class="symbol _function" name="ellipticE" href="./htmlsrc/tango.math.Elliptic.html#L142" kind="function" beg="142" end="205">ellipticE</a><span class="params">(real <em>phi</em>, real <em>m</em>)</span>; <a title="Permalink to this symbol" href="#ellipticE" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Elliptic.html#L142">#</a></dt>
+<dd class="ddef">
+<div class="summary">Incomplete elliptic integral of the second kind</div>
+Approximates the integral
+<p class="bl"/>
+ E(phi | m) = <big>&#8747;<sub><small>0</small></sub><sup>phi</sup></big> sqrt( 1- m sin<sup>2</sup> t) dt
+<p class="bl"/>
+ of amplitude phi and modulus m, using the arithmetic -
+ geometric mean algorithm.</dd>
+<dt class="decl">real <a class="symbol _function" name="ellipticKComplete" href="./htmlsrc/tango.math.Elliptic.html#L231" kind="function" beg="231" end="275">ellipticKComplete</a><span class="params">(real <em>x</em>)</span>; <a title="Permalink to this symbol" href="#ellipticKComplete" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Elliptic.html#L231">#</a></dt>
+<dd class="ddef">
+<div class="summary">Complete elliptic integral of the first kind</div>
+Approximates the integral
+<p class="bl"/>
+   K(m) = <big>&#8747;<sub><small>0</small></sub><sup>&pi/2</sup></big> dt/ (sqrt( 1- m sin<sup>2</sup> t))
+<p class="bl"/>
+ where m = 1 - x, using the approximation
+<p class="bl"/>
+     P(x)  -  log x Q(x).
+<p class="bl"/>
+ The argument x is used rather than m so that the logarithmic
+ singularity at x = 1 will be shifted to the origin; this
+ preserves maximum accuracy. 
+<p class="bl"/>
+ x must be in the range
+  0 &lt;= x &lt;= 1
+<p class="bl"/>
+ This is equivalent to ellipticF(PI_2, 1-x).
+<p class="bl"/>
+ K(0) = &pi/2.</dd>
+<dt class="decl">real <a class="symbol _function" name="ellipticEComplete" href="./htmlsrc/tango.math.Elliptic.html#L295" kind="function" beg="295" end="332">ellipticEComplete</a><span class="params">(real <em>x</em>)</span>; <a title="Permalink to this symbol" href="#ellipticEComplete" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Elliptic.html#L295">#</a></dt>
+<dd class="ddef">
+<div class="summary">Complete elliptic integral of the second kind</div>
+Approximates the integral
+<p class="bl"/>
+ E(m) = <big>&#8747;<sub><small>0</small></sub><sup>&pi/2</sup></big> sqrt( 1- m sin<sup>2</sup> t) dt
+<p class="bl"/>
+ where m = 1 - x, using the approximation
+<p class="bl"/>
+      P(x)  -  x log x Q(x).
+<p class="bl"/>
+ Though there are no singularities, the argument m1 is used
+ rather than m for compatibility with ellipticKComplete().
+<p class="bl"/>
+ E(1) = 1; E(0) = &pi/2.
+ m must be in the range 0 &lt;= m &lt;= 1.</dd>
+<dt class="decl">real <a class="symbol _function" name="ellipticPi" href="./htmlsrc/tango.math.Elliptic.html#L360" kind="function" beg="360" end="394">ellipticPi</a><span class="params">(real <em>phi</em>, real <em>m</em>, real <em>n</em>)</span>; <a title="Permalink to this symbol" href="#ellipticPi" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Elliptic.html#L360">#</a></dt>
+<dd class="ddef">
+<div class="summary">Incomplete elliptic integral of the third kind</div>
+Approximates the integral
+<p class="bl"/>
+ PI(n; phi | m) = <big>&#8747;<sub><small>t=0</small></sub><sup>phi</sup></big> dt/((1 - n sin<sup>2</sup>t) * sqrt( 1- m sin<sup>2</sup> t))
+<p class="bl"/>
+ of amplitude phi, modulus m, and characteristic n using Gauss-Legendre
+ quadrature.
+ 
+ Note that ellipticPi(PI_2, m, 1) is infinite for any m.</dd>
+<dt class="decl">real <a class="symbol _function" name="ellipticPiComplete" href="./htmlsrc/tango.math.Elliptic.html#L399" kind="function" beg="399" end="405">ellipticPiComplete</a><span class="params">(real <em>m</em>, real <em>n</em>)</span>; <a title="Permalink to this symbol" href="#ellipticPiComplete" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Elliptic.html#L399">#</a></dt>
+<dd class="ddef">
+<div class="summary">Complete elliptic integral of the third kind</div></dd></dl>
+</div>
+<div id="footer">
+  <p>Based on the CEPHES math library, which is
+            Copyright (C) 1994 Stephen L. Moshier (moshier@world.std.com).</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:14 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

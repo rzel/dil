@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.text.convert.Layout</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.text.convert.Layout";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.text.convert.Layout.html" class="symbol">tango.text.convert.Layout</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: 2005
+<p class="sec_header">Author:</p>Kris, Keinfarbton
+<p class="bl"/>
+        This module provides a general-purpose formatting system to
+        convert values to text suitable for display. There is support
+        for alignment, justification, and common format specifiers for
+        numbers.
+<p class="bl"/>
+        Layout can be customized via configuring various handlers and
+        associated meta-data. This is utilized to plug in text.locale
+        for handling custom formats, date/time and culture-specific
+        conversions.
+<p class="bl"/>
+        The format notation is influenced by that used by the .NET
+        and ICU frameworks, rather than C-style printf or D-style
+        writef notation.
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Layout" href="./htmlsrc/tango.text.convert.Layout.html#L63" kind="class" beg="63" end="716">Layout</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#Layout" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L63">#</a></dt>
+<dd class="ddef">
+<div class="summary">Contains methods for replacing format items in a string with string
+        equivalents of each argument.</div>
+<dl>
+<dt class="decl">T[] <a class="symbol _function" name="Layout.sprint" href="./htmlsrc/tango.text.convert.Layout.html#L72" kind="function" beg="72" end="75">sprint</a><span class="params">(T[] <em>result</em>, T[] <em>formatStr</em>, ...)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Layout.sprint" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L72">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="Layout.vprint" href="./htmlsrc/tango.text.convert.Layout.html#L81" kind="function" beg="81" end="100">vprint</a><span class="params">(T[] <em>result</em>, T[] <em>formatStr</em>, TypeInfo[] <em>arguments</em>, ArgList <em>args</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Layout.vprint" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L81">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="Layout.convert" href="./htmlsrc/tango.text.convert.Layout.html#L136" kind="function" beg="136" end="139">convert</a><span class="params">(T[] <em>formatStr</em>, ...)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Layout.convert" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L136">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replaces the _format item in a string with the string
+                equivalent of each argument.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>formatStr</em></td><td>A string containing _format items.</td></tr>
+<tr><td><em>args</em></td><td>A list of arguments.</td></tr></table>
+<p class="sec_header">Returns:</p>A copy of formatStr in which the items have been
+                replaced by the string equivalent of the arguments.
+<p class="sec_header">Remarks:</p>The formatStr parameter is embedded with _format
+                items of the form: <br/><br/>
+                  {index[,alignment][:_format-string]}<br/><br/>
+                  <ul><li>index <br/>
+                    An integer indicating the element in a list to _format.</li>
+                  <li>alignment <br/>
+                    An optional integer indicating the minimum width. The
+                    result is padded with spaces if the length of the value
+                    is less than alignment.</li>
+                  <li>_format-string <br/>
+                    An optional string of formatting codes.</li>
+                </ul><br/>
+<p class="bl"/>
+                The leading and trailing braces are required. To include a
+                literal brace character, use two leading or trailing brace
+                characters.<br/><br/>
+                If formatStr is "{0} bottles of beer on the wall" and the
+                argument is an int with the value of 99, the return value
+                will be:<br/> "99 bottles of beer on the wall".</dd>
+<dt class="decl">uint <a class="symbol _function" name="Layout.convert:2" href="./htmlsrc/tango.text.convert.Layout.html#L145" kind="function" beg="145" end="148">convert</a><span class="params">(Sink <em>sink</em>, T[] <em>formatStr</em>, ...)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Layout.convert:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L145">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="Layout.convert:3" href="./htmlsrc/tango.text.convert.Layout.html#L159" kind="function" beg="159" end="162">convert</a><span class="params">(OutputStream <em>output</em>, T[] <em>formatStr</em>, ...)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Layout.convert:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L159">#</a></dt>
+<dd class="ddef">
+<div class="summary">Tentative convert using an OutputStream as sink - may still be
+            removed.</div>
+<p class="sec_header">Since:</p>0.99.7</dd>
+<dt class="decl">T[] <a class="symbol _function" name="Layout.convert:4" href="./htmlsrc/tango.text.convert.Layout.html#L168" kind="function" beg="168" end="180">convert</a><span class="params">(TypeInfo[] <em>arguments</em>, ArgList <em>args</em>, T[] <em>formatStr</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Layout.convert:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L168">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="Layout.convertOne" href="./htmlsrc/tango.text.convert.Layout.html#L186" kind="function" beg="186" end="189">convertOne</a><span class="params">(T[] <em>result</em>, TypeInfo <em>ti</em>, Arg <em>arg</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Layout.convertOne" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L186">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="Layout.convert:5" href="./htmlsrc/tango.text.convert.Layout.html#L195" kind="function" beg="195" end="285">convert</a><span class="params">(Sink <em>sink</em>, TypeInfo[] <em>arguments</em>, ArgList <em>args</em>, T[] <em>formatStr</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Layout.convert:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L195">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="Layout.parse" href="./htmlsrc/tango.text.convert.Layout.html#L294" kind="function" beg="294" end="521">parse</a><span class="params">(T[] <em>layout</em>, TypeInfo[] <em>ti</em>, Arg[] <em>args</em>, Sink <em>sink</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Layout.parse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L294">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parse the format-string, emitting formatted args and text
+                fragments as we go.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Layout.error" href="./htmlsrc/tango.text.convert.Layout.html#L527" kind="function" beg="527" end="530">error</a><span class="params">(char[] <em>msg</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Layout.error" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L527">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="Layout.spaces" href="./htmlsrc/tango.text.convert.Layout.html#L536" kind="function" beg="536" end="547">spaces</a><span class="params">(Sink <em>sink</em>, int <em>count</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Layout.spaces" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L536">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="Layout.munge" href="./htmlsrc/tango.text.convert.Layout.html#L553" kind="function" beg="553" end="653">munge</a><span class="params">(T[] <em>result</em>, T[] <em>format</em>, TypeInfo <em>type</em>, Arg <em>p</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Layout.munge" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L553">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="Layout.unknown" href="./htmlsrc/tango.text.convert.Layout.html#L659" kind="function" beg="659" end="662">unknown</a><span class="params">(T[] <em>result</em>, T[] <em>format</em>, TypeInfo <em>type</em>, Arg <em>p</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#Layout.unknown" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L659">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="Layout.integer" href="./htmlsrc/tango.text.convert.Layout.html#L668" kind="function" beg="668" end="675">integer</a><span class="params">(T[] <em>output</em>, long <em>v</em>, T[] <em>format</em>, ulong <em>mask</em> = ulong.max, T[] <em>def</em> = "d")</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#Layout.integer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L668">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="Layout.floater" href="./htmlsrc/tango.text.convert.Layout.html#L681" kind="function" beg="681" end="688">floater</a><span class="params">(T[] <em>output</em>, real <em>v</em>, T[] <em>format</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#Layout.floater" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L681">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Layout.parseGeneric" href="./htmlsrc/tango.text.convert.Layout.html#L694" kind="function" beg="694" end="715">parseGeneric</a><span class="params">(T[] <em>format</em>, ref uint <em>width</em>, ref T <em>style</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Layout.parseGeneric" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L694">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd></dl></dd>
+<dt class="decl">enum <a class="symbol _enum" name="TypeCode" href="./htmlsrc/tango.text.convert.Layout.html#L723" kind="enum" beg="723" end="753">TypeCode</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#TypeCode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Layout.html#L723">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+</dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2005 Kris. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:48 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

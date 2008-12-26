@@ -1,0 +1,555 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.ftp.FtpClient</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.ftp.FtpClient";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.ftp.FtpClient.html" class="symbol">tango.net.ftp.FtpClient</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: June 2006
+<p class="sec_header">Author:</p>UWB
+<dl>
+<dt class="decl">alias void delegate(in size_t pos) <a class="symbol _alias" name="FtpProgress" href="./htmlsrc/tango.net.ftp.FtpClient.html#L46" kind="alias" beg="46" end="46">FtpProgress</a>; <a title="Permalink to this symbol" href="#FtpProgress" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L46">#</a></dt>
+<dd class="ddef">
+<div class="summary">An FTP progress delegate.</div>
+You may need to add the restart position to this, and use SIZE to determine
+ percentage completion.  This only represents the number of bytes
+ transferred.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>pos</em></td><td>the current offset into the stream</td></tr></table></dd>
+<dt class="decl">enum <a class="symbol _enum" name="FtpFormat" href="./htmlsrc/tango.net.ftp.FtpClient.html#L49" kind="enum" beg="49" end="55">FtpFormat</a>; <a title="Permalink to this symbol" href="#FtpFormat" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L49">#</a></dt>
+<dd class="ddef">
+<div class="summary">The format of data transfer.</div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="FtpFormat.ascii" href="./htmlsrc/tango.net.ftp.FtpClient.html#L52" kind="enummem" beg="52" end="52">ascii</a> <a title="Permalink to this symbol" href="#FtpFormat.ascii" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L52">#</a></dt>
+<dd class="ddef">
+<div class="summary">Indicates ASCII NON PRINT format (line ending conversion to CRLF.)</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="FtpFormat.image" href="./htmlsrc/tango.net.ftp.FtpClient.html#L54" kind="enummem" beg="54" end="54">image</a> <a title="Permalink to this symbol" href="#FtpFormat.image" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L54">#</a></dt>
+<dd class="ddef">
+<div class="summary">Indicates IMAGE format (8 bit binary octets.)</div></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="FtpResponse" href="./htmlsrc/tango.net.ftp.FtpClient.html#L58" kind="struct" beg="58" end="85">FtpResponse</a>; <a title="Permalink to this symbol" href="#FtpResponse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L58">#</a></dt>
+<dd class="ddef">
+<div class="summary">A server response, consisting of a code and a potentially multi-line message.</div>
+<dl>
+<dt class="decl">char[3] <a class="symbol _variable" name="FtpResponse.code" href="./htmlsrc/tango.net.ftp.FtpClient.html#L78" kind="variable" beg="78" end="78">code</a>; <a title="Permalink to this symbol" href="#FtpResponse.code" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L78">#</a></dt>
+<dd class="ddef">
+<div class="summary">The response code.</div>
+The digits in the response code can be used to determine status
+ programatically.
+<p class="bl"/>
+ First Digit (status):
+    1xx =             a positive, but preliminary, reply
+    2xx =             a positive reply indicating completion
+    3xx =             a positive reply indicating incomplete status
+    4xx =             a temporary negative reply
+    5xx =             a permanent negative reply
+<p class="bl"/>
+ Second Digit (subject):
+    x0x =             condition based on syntax
+    x1x =             informational
+    x2x =             connection
+    x3x =             authentication/process
+    x5x =             file system</dd>
+<dt class="decl">char[] <a class="symbol _variable" name="FtpResponse.message" href="./htmlsrc/tango.net.ftp.FtpClient.html#L84" kind="variable" beg="84" end="84">message</a>; <a title="Permalink to this symbol" href="#FtpResponse.message" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L84">#</a></dt>
+<dd class="ddef">
+<div class="summary">The message from the server.</div>
+With some responses, the message may contain parseable information.
+ For example, this is true of the 257 response.</dd></dl></dd>
+<dt class="decl">enum <a class="symbol _enum" name="FtpConnectionType" href="./htmlsrc/tango.net.ftp.FtpClient.html#L88" kind="enum" beg="88" end="94">FtpConnectionType</a>; <a title="Permalink to this symbol" href="#FtpConnectionType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L88">#</a></dt>
+<dd class="ddef">
+<div class="summary">Active or passive connection mode.</div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="FtpConnectionType.active" href="./htmlsrc/tango.net.ftp.FtpClient.html#L91" kind="enummem" beg="91" end="91">active</a> <a title="Permalink to this symbol" href="#FtpConnectionType.active" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L91">#</a></dt>
+<dd class="ddef">
+<div class="summary">Active - server connects to client on open port.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="FtpConnectionType.passive" href="./htmlsrc/tango.net.ftp.FtpClient.html#L93" kind="enummem" beg="93" end="93">passive</a> <a title="Permalink to this symbol" href="#FtpConnectionType.passive" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L93">#</a></dt>
+<dd class="ddef">
+<div class="summary">Passive - server listens for a connection from the client.</div></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="FtpConnectionDetail" href="./htmlsrc/tango.net.ftp.FtpClient.html#L99" kind="struct" beg="99" end="109">FtpConnectionDetail</a>; <a title="Permalink to this symbol" href="#FtpConnectionDetail" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L99">#</a></dt>
+<dd class="ddef">
+<div class="summary">Detail about the data connection.</div>
+This is used to properly send PORT and PASV commands.
+<dl>
+<dt class="decl">FtpConnectionType <a class="symbol _variable" name="FtpConnectionDetail.type" href="./htmlsrc/tango.net.ftp.FtpClient.html#L102" kind="variable" beg="102" end="102">type</a>; <a title="Permalink to this symbol" href="#FtpConnectionDetail.type" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L102">#</a></dt>
+<dd class="ddef">
+<div class="summary">The type to be used.</div></dd>
+<dt class="decl">Address <a class="symbol _variable" name="FtpConnectionDetail.address" href="./htmlsrc/tango.net.ftp.FtpClient.html#L105" kind="variable" beg="105" end="105">address</a>; <a title="Permalink to this symbol" href="#FtpConnectionDetail.address" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L105">#</a></dt>
+<dd class="ddef">
+<div class="summary">The address to give the server.</div></dd>
+<dt class="decl">Address <a class="symbol _variable" name="FtpConnectionDetail.listen" href="./htmlsrc/tango.net.ftp.FtpClient.html#L108" kind="variable" beg="108" end="108">listen</a>; <a title="Permalink to this symbol" href="#FtpConnectionDetail.listen" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L108">#</a></dt>
+<dd class="ddef">
+<div class="summary">The address to actually listen on.</div></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="FtpFeature" href="./htmlsrc/tango.net.ftp.FtpClient.html#L112" kind="struct" beg="112" end="118">FtpFeature</a>; <a title="Permalink to this symbol" href="#FtpFeature" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L112">#</a></dt>
+<dd class="ddef">
+<div class="summary">A supported feature of an FTP server.</div>
+<dl>
+<dt class="decl">char[] <a class="symbol _variable" name="FtpFeature.command" href="./htmlsrc/tango.net.ftp.FtpClient.html#L115" kind="variable" beg="115" end="115">command</a>; <a title="Permalink to this symbol" href="#FtpFeature.command" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L115">#</a></dt>
+<dd class="ddef">
+<div class="summary">The command which is supported, e.g. SIZE.</div></dd>
+<dt class="decl">char[] <a class="symbol _variable" name="FtpFeature.params" href="./htmlsrc/tango.net.ftp.FtpClient.html#L117" kind="variable" beg="117" end="117">params</a>; <a title="Permalink to this symbol" href="#FtpFeature.params" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L117">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parameters for this command; e.g. facts for MLST.</div></dd></dl></dd>
+<dt class="decl">enum <a class="symbol _enum" name="FtpFileType" href="./htmlsrc/tango.net.ftp.FtpClient.html#L121" kind="enum" beg="121" end="135">FtpFileType</a>; <a title="Permalink to this symbol" href="#FtpFileType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L121">#</a></dt>
+<dd class="ddef">
+<div class="summary">The type of a file in an FTP listing.</div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="FtpFileType.unknown" href="./htmlsrc/tango.net.ftp.FtpClient.html#L124" kind="enummem" beg="124" end="124">unknown</a> <a title="Permalink to this symbol" href="#FtpFileType.unknown" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L124">#</a></dt>
+<dd class="ddef">
+<div class="summary">An unknown file or type (no type fact.)</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="FtpFileType.file" href="./htmlsrc/tango.net.ftp.FtpClient.html#L126" kind="enummem" beg="126" end="126">file</a> <a title="Permalink to this symbol" href="#FtpFileType.file" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L126">#</a></dt>
+<dd class="ddef">
+<div class="summary">A regular file, or similar.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="FtpFileType.cdir" href="./htmlsrc/tango.net.ftp.FtpClient.html#L128" kind="enummem" beg="128" end="128">cdir</a> <a title="Permalink to this symbol" href="#FtpFileType.cdir" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L128">#</a></dt>
+<dd class="ddef">
+<div class="summary">The current directory (e.g. ., but not necessarily.)</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="FtpFileType.pdir" href="./htmlsrc/tango.net.ftp.FtpClient.html#L130" kind="enummem" beg="130" end="130">pdir</a> <a title="Permalink to this symbol" href="#FtpFileType.pdir" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L130">#</a></dt>
+<dd class="ddef">
+<div class="summary">A parent directory (usually "..".)</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="FtpFileType.dir" href="./htmlsrc/tango.net.ftp.FtpClient.html#L132" kind="enummem" beg="132" end="132">dir</a> <a title="Permalink to this symbol" href="#FtpFileType.dir" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L132">#</a></dt>
+<dd class="ddef">
+<div class="summary">Any other type of directory.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="FtpFileType.other" href="./htmlsrc/tango.net.ftp.FtpClient.html#L134" kind="enummem" beg="134" end="134">other</a> <a title="Permalink to this symbol" href="#FtpFileType.other" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L134">#</a></dt>
+<dd class="ddef">
+<div class="summary">Another type of file.  Consult the "type" fact.</div></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="FtpFileInfo" href="./htmlsrc/tango.net.ftp.FtpClient.html#L138" kind="struct" beg="138" end="154">FtpFileInfo</a>; <a title="Permalink to this symbol" href="#FtpFileInfo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L138">#</a></dt>
+<dd class="ddef">
+<div class="summary">Information about a file in an FTP listing.</div>
+<dl>
+<dt class="decl">char[] <a class="symbol _variable" name="FtpFileInfo.name" href="./htmlsrc/tango.net.ftp.FtpClient.html#L141" kind="variable" beg="141" end="141">name</a>; <a title="Permalink to this symbol" href="#FtpFileInfo.name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L141">#</a></dt>
+<dd class="ddef">
+<div class="summary">The filename.</div></dd>
+<dt class="decl">FtpFileType <a class="symbol _variable" name="FtpFileInfo.type" href="./htmlsrc/tango.net.ftp.FtpClient.html#L143" kind="variable" beg="143" end="143">type</a>; <a title="Permalink to this symbol" href="#FtpFileInfo.type" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L143">#</a></dt>
+<dd class="ddef">
+<div class="summary">Its type.</div></dd>
+<dt class="decl">long <a class="symbol _variable" name="FtpFileInfo.size" href="./htmlsrc/tango.net.ftp.FtpClient.html#L145" kind="variable" beg="145" end="145">size</a>; <a title="Permalink to this symbol" href="#FtpFileInfo.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L145">#</a></dt>
+<dd class="ddef">
+<div class="summary">Size in bytes (8 bit octets), or -1 if not available.</div></dd>
+<dt class="decl">Time <a class="symbol _variable" name="FtpFileInfo.modify" href="./htmlsrc/tango.net.ftp.FtpClient.html#L147" kind="variable" beg="147" end="147">modify</a>; <a title="Permalink to this symbol" href="#FtpFileInfo.modify" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L147">#</a></dt>
+<dd class="ddef">
+<div class="summary">Modification time, if available.</div></dd>
+<dt class="decl">Time <a class="symbol _variable" name="FtpFileInfo.create" href="./htmlsrc/tango.net.ftp.FtpClient.html#L149" kind="variable" beg="149" end="149">create</a>; <a title="Permalink to this symbol" href="#FtpFileInfo.create" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L149">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creation time, if available (not often.)</div></dd>
+<dt class="decl">char[] <a class="symbol _variable" name="FtpFileInfo.mime" href="./htmlsrc/tango.net.ftp.FtpClient.html#L151" kind="variable" beg="151" end="151">mime</a>; <a title="Permalink to this symbol" href="#FtpFileInfo.mime" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L151">#</a></dt>
+<dd class="ddef">
+<div class="summary">The file's mime type, if known.</div></dd>
+<dt class="decl">char[][char[]] <a class="symbol _variable" name="FtpFileInfo.facts" href="./htmlsrc/tango.net.ftp.FtpClient.html#L153" kind="variable" beg="153" end="153">facts</a>; <a title="Permalink to this symbol" href="#FtpFileInfo.facts" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L153">#</a></dt>
+<dd class="ddef">
+<div class="summary">An associative array of all facts returned by the server, lowercased.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="FTPConnection" href="./htmlsrc/tango.net.ftp.FtpClient.html#L172" kind="class" beg="172" end="1819">FTPConnection</a> : Telnet; <a title="Permalink to this symbol" href="#FTPConnection" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L172">#</a></dt>
+<dd class="ddef">
+<div class="summary">A connection to an FTP server.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">ftp</span> = <span class="k">new</span> <span class="i">FTPConnection</span>(<span class="sl">"hostname"</span>, <span class="sl">"user"</span>, <span class="sl">"pass"</span>,<span class="n">21</span>);
+
+<span class="i">ftp</span>.<span class="i">mkdir</span>(<span class="sl">"test"</span>);
+<span class="i">ftp</span>.<span class="i">close</span>();
+</pre>
+<p class="sec_header">Standards:</p>RFC 959, RFC 2228, RFC 2389, RFC 2428
+<p class="sec_header"><span class="red">Bugs:</span></p>Does not support several uncommon FTP commands and responses.
+<dl>
+<dt class="decl">FtpFeature[] <a class="symbol _variable" name="FTPConnection.supported_features" href="./htmlsrc/tango.net.ftp.FtpClient.html#L177" kind="variable" beg="177" end="177">supported_features</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.supported_features" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L177">#</a></dt>
+<dd class="ddef">
+<div class="summary">Supported features (if known.)</div>
+This will be empty if not known, or else contain at least FEAT.</dd>
+<dt class="decl">FtpConnectionDetail <a class="symbol _variable" name="FTPConnection.data_info" href="./htmlsrc/tango.net.ftp.FtpClient.html#L180" kind="variable" beg="180" end="180">data_info</a>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.data_info" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L180">#</a></dt>
+<dd class="ddef">
+<div class="summary">Data connection information.</div></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="FTPConnection.restart_pos" href="./htmlsrc/tango.net.ftp.FtpClient.html#L185" kind="variable" beg="185" end="185">restart_pos</a>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.restart_pos" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L185">#</a></dt>
+<dd class="ddef">
+<div class="summary">The last-set restart position.</div>
+This is only used when a local file is used for a RETR or STOR.</dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.exception" href="./htmlsrc/tango.net.ftp.FtpClient.html#L188" kind="function" beg="188" end="191">exception</a><span class="params">(char[] <em>msg</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.exception" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L188">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.exception:2" href="./htmlsrc/tango.net.ftp.FtpClient.html#L194" kind="function" beg="194" end="197">exception</a><span class="params">(FtpResponse <em>r</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.exception:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L194">#</a></dt>
+<dd class="ddef">
+<div class="summary">error handler</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="FTPConnection.this" href="./htmlsrc/tango.net.ftp.FtpClient.html#L200" kind="ctor" beg="200" end="202">this</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L200">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct an FTPConnection without connecting immediately.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="FTPConnection.this:2" href="./htmlsrc/tango.net.ftp.FtpClient.html#L211" kind="ctor" beg="211" end="214">this</a><span class="params">(char[] <em>hostname</em>, char[] <em>username</em>, char[] <em>password</em>, int <em>port</em> = 21)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L211">#</a></dt>
+<dd class="ddef">
+<div class="summary">Connect to an FTP server with a username and password.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>hostname</em></td><td>the hostname or IP address to connect to</td></tr>
+<tr><td><em>port</em></td><td>the port number to connect to</td></tr>
+<tr><td><em>username</em></td><td>username to be sent</td></tr>
+<tr><td><em>password</em></td><td>password to be sent, if requested</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.connect" href="./htmlsrc/tango.net.ftp.FtpClient.html#L223" kind="function" beg="223" end="272">connect</a><span class="params">(char[] <em>hostname</em>, char[] <em>username</em>, char[] <em>password</em>, int <em>port</em> = 21)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.connect" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L223">#</a></dt>
+<dd class="ddef">
+<div class="summary">Connect to an FTP server with a username and password.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>hostname</em></td><td>the hostname or IP address to connect to</td></tr>
+<tr><td><em>port</em></td><td>the port number to connect to</td></tr>
+<tr><td><em>username</em></td><td>username to be sent</td></tr>
+<tr><td><em>password</em></td><td>password to be sent, if requested</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.close" href="./htmlsrc/tango.net.ftp.FtpClient.html#L275" kind="function" beg="275" end="300">close</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.close" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L275">#</a></dt>
+<dd class="ddef">
+<div class="summary">Close the connection to the server.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.setPassive" href="./htmlsrc/tango.net.ftp.FtpClient.html#L305" kind="function" beg="305" end="311">setPassive</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.setPassive" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L305">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the connection to use passive mode for data tranfers.</div>
+This is the default.</dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.setActive" href="./htmlsrc/tango.net.ftp.FtpClient.html#L322" kind="function" beg="322" end="342">setActive</a><span class="params">(char[] <em>ip</em>, ushort <em>port</em>, char[] <em>listen_ip</em> = null, ushort <em>listen_port</em> = 0)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.setActive" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L322">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the connection to use active mode for data transfers.</div>
+This may not work behind firewalls.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>ip</em></td><td>the ip address to use</td></tr>
+<tr><td><em>port</em></td><td>the port to use</td></tr>
+<tr><td><em>listen_ip</em></td><td>the ip to listen on, or null for any</td></tr>
+<tr><td><em>listen_port</em></td><td>the port to listen on, or 0 for the same port</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.cd" href="./htmlsrc/tango.net.ftp.FtpClient.html#L346" kind="function" beg="346" end="355">cd</a><span class="params">(char[] <em>dir</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.cd" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L346">#</a></dt>
+<dd class="ddef">
+<div class="summary">Change to the specified directory.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.cdup" href="./htmlsrc/tango.net.ftp.FtpClient.html#L358" kind="function" beg="358" end="362">cdup</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.cdup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L358">#</a></dt>
+<dd class="ddef">
+<div class="summary">Change to the parent of this directory.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="FTPConnection.cwd" href="./htmlsrc/tango.net.ftp.FtpClient.html#L367" kind="function" beg="367" end="373">cwd</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.cwd" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L367">#</a></dt>
+<dd class="ddef">
+<div class="summary">Determine the current directory.</div>
+<p class="sec_header">Returns:</p>the current working directory</dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.chmod" href="./htmlsrc/tango.net.ftp.FtpClient.html#L383" kind="function" beg="383" end="396">chmod</a><span class="params">(char[] <em>path</em>, int <em>mode</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.chmod" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L383">#</a></dt>
+<dd class="ddef">
+<div class="summary">Change the permissions of a file.</div>
+This is a popular feature of most FTP servers, but not explicitly outlined
+ in the spec.  It does not work on, for example, Windows servers.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>the path to the file to chmod</td></tr>
+<tr><td><em>mode</em></td><td>the desired mode; expected in octal (0777, 0644, etc.)</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.del" href="./htmlsrc/tango.net.ftp.FtpClient.html#L402" kind="function" beg="402" end="415">del</a><span class="params">(char[] <em>path</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.del" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L402">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove a file or directory.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>the path to the file or directory to delete</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.rm" href="./htmlsrc/tango.net.ftp.FtpClient.html#L421" kind="function" beg="421" end="430">rm</a><span class="params">(char[] <em>path</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.rm" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L421">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove a directory.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>the directory to delete</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.rename" href="./htmlsrc/tango.net.ftp.FtpClient.html#L437" kind="function" beg="437" end="451">rename</a><span class="params">(char[] <em>old_path</em>, char[] <em>new_path</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.rename" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L437">#</a></dt>
+<dd class="ddef">
+<div class="summary">Rename/move a file or directory.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>old_path</em></td><td>the current path to the file</td></tr>
+<tr><td><em>new_path</em></td><td>the new desired path</td></tr></table></dd>
+<dt class="decl">size_t <a class="symbol _function" name="FTPConnection.size" href="./htmlsrc/tango.net.ftp.FtpClient.html#L460" kind="function" beg="460" end="482">size</a><span class="params">(char[] <em>path</em>, FtpFormat <em>format</em> = FtpFormat.image)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L460">#</a></dt>
+<dd class="ddef">
+<div class="summary">Determine the size in bytes of a file.</div>
+This size is dependent on the current type (ASCII or IMAGE.)
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>the file to retrieve the size of</td></tr>
+<tr><td><em>format</em></td><td>what format the size is desired in</td></tr></table></dd>
+<dt class="decl">Socket <a class="symbol _function" name="FTPConnection.processDataCommand" href="./htmlsrc/tango.net.ftp.FtpClient.html#L493" kind="function" beg="493" end="516">processDataCommand</a><span class="params">(char[] <em>command</em>, char[][] <em>parameters</em>...)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.processDataCommand" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L493">#</a></dt>
+<dd class="ddef">
+<div class="summary">Send a command and process the data socket.</div>
+This opens the data connection and checks for the appropriate response.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>command</em></td><td>the command to send (e.g. STOR)</td></tr>
+<tr><td><em>parameters</em></td><td>any arguments to send</td></tr></table>
+<p class="sec_header">Returns:</p>the data socket</dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.finishDataCommand" href="./htmlsrc/tango.net.ftp.FtpClient.html#L524" kind="function" beg="524" end="532">finishDataCommand</a><span class="params">(Socket <em>data</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.finishDataCommand" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L524">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clean up after the data socket and process the response.</div>
+This closes the socket and reads the 226 response.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>the data socket</td></tr></table></dd>
+<dt class="decl">Socket <a class="symbol _function" name="FTPConnection.getDataSocket" href="./htmlsrc/tango.net.ftp.FtpClient.html#L539" kind="function" beg="539" end="600">getDataSocket</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.getDataSocket" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L539">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get a data socket from the server.</div>
+This sends PASV/PORT as necessary.
+<p class="sec_header">Returns:</p>the data socket or a listener</dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.prepareDataSocket" href="./htmlsrc/tango.net.ftp.FtpClient.html#L608" kind="function" beg="608" end="653">prepareDataSocket</a><span class="params">(inout Socket <em>data</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.prepareDataSocket" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L608">#</a></dt>
+<dd class="ddef">
+<div class="summary">Prepare a data socket for use.</div>
+This modifies the socket in some cases.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>the data listener socket</td></tr></table></dd>
+<dt class="decl">Socket <a class="symbol _function" name="FTPConnection.connectPassive" href="./htmlsrc/tango.net.ftp.FtpClient.html#L658" kind="function" beg="658" end="721">connectPassive</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.connectPassive" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L658">#</a></dt>
+<dd class="ddef">
+<div class="summary">Send a PASV and initiate a connection.</div>
+<p class="sec_header">Returns:</p>a connected socket</dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.type" href="./htmlsrc/tango.net.ftp.FtpClient.html#L730" kind="function" beg="730" end="738">type</a><span class="params">(FtpFormat <em>format</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.type" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L730">#</a></dt>
+<dd class="ddef">
+<div class="summary">Change the type of data transfer.</div>
+ASCII mode implies that line ending conversion should be made.
+ Only NON PRINT is supported.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>type</em></td><td>FtpFormat.ascii or FtpFormat.image</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.put" href="./htmlsrc/tango.net.ftp.FtpClient.html#L750" kind="function" beg="750" end="780">put</a><span class="params">(char[] <em>path</em>, char[] <em>local_file</em>, FtpProgress <em>progress</em> = null, FtpFormat <em>format</em> = FtpFormat.image)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.put" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L750">#</a></dt>
+<dd class="ddef">
+<div class="summary">Store a local file on the server.</div>
+Calling this function will change the current data transfer format.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>the path to the remote file</td></tr>
+<tr><td><em>local_file</em></td><td>the path to the local file</td></tr>
+<tr><td><em>progress</em></td><td>a delegate to call with progress information</td></tr>
+<tr><td><em>format</em></td><td>what format to send the data in</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.put:2" href="./htmlsrc/tango.net.ftp.FtpClient.html#L791" kind="function" beg="791" end="809">put</a><span class="params">(char[] <em>path</em>, InputStream <em>stream</em> = null, FtpProgress <em>progress</em> = null, FtpFormat <em>format</em> = FtpFormat.image)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.put:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L791">#</a></dt>
+<dd class="ddef">
+<div class="summary">Store data from a stream on the server.</div>
+Calling this function will change the current data transfer format.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>the path to the remote file</td></tr>
+<tr><td><em>stream</em></td><td>data to store, or null for a blank file</td></tr>
+<tr><td><em>progress</em></td><td>a delegate to call with progress information</td></tr>
+<tr><td><em>format</em></td><td>what format to send the data in</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.append" href="./htmlsrc/tango.net.ftp.FtpClient.html#L820" kind="function" beg="820" end="838">append</a><span class="params">(char[] <em>path</em>, InputStream <em>stream</em>, FtpProgress <em>progress</em> = null, FtpFormat <em>format</em> = FtpFormat.image)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L820">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append data to a file on the server.</div>
+Calling this function will change the current data transfer format.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>the path to the remote file</td></tr>
+<tr><td><em>stream</em></td><td>data to append to the file</td></tr>
+<tr><td><em>progress</em></td><td>a delegate to call with progress information</td></tr>
+<tr><td><em>format</em></td><td>what format to send the data in</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.restartSeek" href="./htmlsrc/tango.net.ftp.FtpClient.html#L844" kind="function" beg="844" end="852">restartSeek</a><span class="params">(size_t <em>offset</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.restartSeek" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L844">#</a></dt>
+<dd class="ddef">
+<div class="summary">Seek to a byte offset for the next transfer.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>offset</em></td><td>the number of bytes to seek forward</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.allocate" href="./htmlsrc/tango.net.ftp.FtpClient.html#L860" kind="function" beg="860" end="874">allocate</a><span class="params">(long <em>bytes</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.allocate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L860">#</a></dt>
+<dd class="ddef">
+<div class="summary">Allocate space for a file.</div>
+After calling this, append() or put() should be the next command.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>bytes</em></td><td>the number of bytes to allocate</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.get" href="./htmlsrc/tango.net.ftp.FtpClient.html#L885" kind="function" beg="885" end="915">get</a><span class="params">(char[] <em>path</em>, char[] <em>local_file</em>, FtpProgress <em>progress</em> = null, FtpFormat <em>format</em> = FtpFormat.image)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L885">#</a></dt>
+<dd class="ddef">
+<div class="summary">Retrieve a remote file's contents into a local file.</div>
+Calling this function will change the current data transfer format.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>the path to the remote file</td></tr>
+<tr><td><em>local_file</em></td><td>the path to the local file</td></tr>
+<tr><td><em>progress</em></td><td>a delegate to call with progress information</td></tr>
+<tr><td><em>format</em></td><td>what format to read the data in</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.get:2" href="./htmlsrc/tango.net.ftp.FtpClient.html#L926" kind="function" beg="926" end="944">get</a><span class="params">(char[] <em>path</em>, OutputStream <em>stream</em>, FtpProgress <em>progress</em> = null, FtpFormat <em>format</em> = FtpFormat.image)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.get:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L926">#</a></dt>
+<dd class="ddef">
+<div class="summary">Retrieve a remote file's contents into a local file.</div>
+Calling this function will change the current data transfer format.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>the path to the remote file</td></tr>
+<tr><td><em>stream</em></td><td>stream to write the data to</td></tr>
+<tr><td><em>progress</em></td><td>a delegate to call with progress information</td></tr>
+<tr><td><em>format</em></td><td>what format to read the data in</td></tr></table></dd>
+<dt class="decl">FtpFileInfo <a class="symbol _function" name="FTPConnection.getFileInfo" href="./htmlsrc/tango.net.ftp.FtpClient.html#L955" kind="function" beg="955" end="1014">getFileInfo</a><span class="params">(char[] <em>path</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.getFileInfo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L955">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get information about a single file.</div>
+Return an FtpFileInfo struct about the specified path.
+ This may not work consistently on directories (but should.)
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>the file or directory to get information about</td></tr></table>
+<p class="sec_header">Returns:</p>the file information</dd>
+<dt class="decl">FtpFileInfo[] <a class="symbol _function" name="FTPConnection.ls" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1024" kind="function" beg="1024" end="1080">ls</a><span class="params">(char[] <em>path</em> = "")</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.ls" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1024">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get a listing of a directory's contents.</div>
+Don't end path in a /.  Blank means the current directory.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>the directory to list</td></tr></table>
+<p class="sec_header">Returns:</p>an array of the contents</dd>
+<dt class="decl">FtpFileInfo[] <a class="symbol _function" name="FTPConnection.sendListCommand" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1091" kind="function" beg="1091" end="1125">sendListCommand</a><span class="params">(char[] <em>path</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.sendListCommand" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1091">#</a></dt>
+<dd class="ddef">
+<div class="summary">Send a LIST command to determine a directory's content.</div>
+The format of a LIST response is not guaranteed.  If available,
+ MLSD should be used instead.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>the file or directory to list</td></tr></table>
+<p class="sec_header">Returns:</p>an array of the contents</dd>
+<dt class="decl">FtpFileInfo <a class="symbol _function" name="FTPConnection.parseListLine" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1136" kind="function" beg="1136" end="1261">parseListLine</a><span class="params">(char[] <em>line</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.parseListLine" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1136">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parse a LIST response line.</div>
+The format here isn't even specified, so we have to try to detect
+ commmon ones.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>line</em></td><td>the line to parse</td></tr></table>
+<p class="sec_header">Returns:</p>information about the file</dd>
+<dt class="decl">FtpFileInfo <a class="symbol _function" name="FTPConnection.parseMlstLine" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1271" kind="function" beg="1271" end="1341">parseMlstLine</a><span class="params">(char[] <em>line</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.parseMlstLine" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1271">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parse an MLST/MLSD response line.</div>
+The format here is very rigid, and has facts followed by a filename.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>line</em></td><td>the line to parse</td></tr></table>
+<p class="sec_header">Returns:</p>information about the file</dd>
+<dt class="decl">Time <a class="symbol _function" name="FTPConnection.parseTimeval" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1352" kind="function" beg="1352" end="1363">parseTimeval</a><span class="params">(char[] <em>timeval</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.parseTimeval" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1352">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parse a timeval from an FTP response.</div>
+This is basically an ISO 8601 date, but even more rigid.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>timeval</em></td><td>the YYYYMMDDHHMMSS date</td></tr></table>
+<p class="sec_header">Returns:</p>a d_time representing the same date</dd>
+<dt class="decl">Time <a class="symbol _function" name="FTPConnection.filemtime" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1373" kind="function" beg="1373" end="1385">filemtime</a><span class="params">(char[] <em>path</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.filemtime" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1373">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get the modification time of a file.</div>
+Not supported by a lot of servers.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>the file or directory in question</td></tr></table>
+<p class="sec_header">Returns:</p>a d_time representing the mtime</dd>
+<dt class="decl">char[] <a class="symbol _function" name="FTPConnection.mkdir" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1396" kind="function" beg="1396" end="1407">mkdir</a><span class="params">(char[] <em>path</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.mkdir" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1396">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a directory.</div>
+Depending on server model, a cwd with the same path may not work.
+ Use the return value instead to escape this problem.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>path</em></td><td>the directory to create</td></tr></table>
+<p class="sec_header">Returns:</p>the path to the directory created</dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.getFeatures" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1413" kind="function" beg="1413" end="1440">getFeatures</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.getFeatures" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1413">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get supported features from the server.</div>
+This may not be supported, in which case the list will remain empty.
+ Otherwise, it will contain at least FEAT.</dd>
+<dt class="decl">bool <a class="symbol _function" name="FTPConnection.isSupported" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1452" kind="function" beg="1452" end="1470">isSupported</a><span class="params">(char[] <em>command</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.isSupported" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1452">#</a></dt>
+<dd class="ddef">
+<div class="summary">Check if a specific feature might be supported.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">if</span> (<span class="i">ftp</span>.<span class="i">isSupported</span>(<span class="sl">"SIZE"</span>))
+    <span class="i">size</span> = <span class="i">ftp</span>.<span class="i">size</span>(<span class="sl">"example.txt"</span>);
+</pre>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>command</em></td><td>the command in question</td></tr></table></dd>
+<dt class="decl">bool <a class="symbol _function" name="FTPConnection.is_supported" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1482" kind="function" beg="1482" end="1488">is_supported</a><span class="params">(char[] <em>command</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.is_supported" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1482">#</a></dt>
+<dd class="ddef">
+<div class="summary">Check if a specific feature is known to be supported.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">if</span> (<span class="i">ftp</span>.<span class="i">is_supported</span>(<span class="sl">"SIZE"</span>))
+    <span class="i">size</span> = <span class="i">ftp</span>.<span class="i">size</span>(<span class="sl">"example.txt"</span>);
+</pre>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>command</em></td><td>the command in question</td></tr></table></dd>
+<dt class="decl">FtpResponse <a class="symbol _function" name="FTPConnection.siteCommand" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1499" kind="function" beg="1499" end="1519">siteCommand</a><span class="params">(char[] <em>command</em>, char[][] <em>parameters</em>...)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.siteCommand" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1499">#</a></dt>
+<dd class="ddef">
+<div class="summary">Send a site-specific command.</div>
+The command might be WHO, for example, returning a list of users online.
+ These are typically heavily server-specific.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>command</em></td><td>the command to send (after SITE)</td></tr>
+<tr><td><em>parameters</em></td><td>any additional parameters to send
+                      (each will be prefixed by a space)</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.noop" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1522" kind="function" beg="1522" end="1526">noop</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.noop" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1522">#</a></dt>
+<dd class="ddef">
+<div class="summary">Send a NOOP, typically used to keep the connection alive.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.sendStream" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1535" kind="function" beg="1535" end="1594">sendStream</a><span class="params">(Socket <em>data</em>, InputStream <em>stream</em>, FtpProgress <em>progress</em> = null)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.sendStream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1535">#</a></dt>
+<dd class="ddef">
+<div class="summary">Send the stream to the server.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>the socket to write to</td></tr>
+<tr><td><em>stream</em></td><td>the stream to read from</td></tr>
+<tr><td><em>progress</em></td><td>a delegate to call with progress information</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.readStream" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1602" kind="function" beg="1602" end="1657">readStream</a><span class="params">(Socket <em>data</em>, OutputStream <em>stream</em>, FtpProgress <em>progress</em> = null)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.readStream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1602">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reads from the server to a stream until EOF.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>the socket to read from</td></tr>
+<tr><td><em>stream</em></td><td>the stream to write to</td></tr>
+<tr><td><em>progress</em></td><td>a delegate to call with progress information</td></tr></table></dd>
+<dt class="decl">char[] <a class="symbol _function" name="FTPConnection.parse257" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1666" kind="function" beg="1666" end="1697">parse257</a><span class="params">(FtpResponse <em>response</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.parse257" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1666">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parse a 257 response (which begins with a quoted path.)</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>response</em></td><td>the response to parse</td></tr></table>
+<p class="sec_header">Returns:</p>the path in the response</dd>
+<dt class="decl">void <a class="symbol _function" name="FTPConnection.sendCommand" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1706" kind="function" beg="1706" end="1728">sendCommand</a><span class="params">(char[] <em>command</em>, char[][] <em>parameters</em>...)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.sendCommand" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1706">#</a></dt>
+<dd class="ddef">
+<div class="summary">Send a command to the FTP server.</div>
+Does not get/wait for the response.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>command</em></td><td>the command to send
+    ... =             additional parameters to send (a space will be prepended to each)</td></tr></table></dd>
+<dt class="decl">FtpResponse <a class="symbol _function" name="FTPConnection.readResponse" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1738" kind="function" beg="1738" end="1750">readResponse</a><span class="params">(char[] <em>expected_code</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.readResponse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1738">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read in response lines from the server, expecting a certain code.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>expected_code</em></td><td>the code expected from the server</td></tr></table>
+<p class="sec_header">Returns:</p>the response from the server
+<p class="sec_header">Throws:</p>FTPException if code does not match</dd>
+<dt class="decl">FtpResponse <a class="symbol _function" name="FTPConnection.readResponse:2" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1755" kind="function" beg="1755" end="1806">readResponse</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.readResponse:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1755">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read in the response line(s) from the server.</div>
+<p class="sec_header">Returns:</p>the response from the server</dd>
+<dt class="decl">int <a class="symbol _function" name="FTPConnection.toInt" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1809" kind="function" beg="1809" end="1812">toInt</a><span class="params">(char[] <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.toInt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1809">#</a></dt>
+<dd class="ddef">
+<div class="summary">convert text to integer</div></dd>
+<dt class="decl">long <a class="symbol _function" name="FTPConnection.toLong" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1815" kind="function" beg="1815" end="1818">toLong</a><span class="params">(char[] <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#FTPConnection.toLong" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1815">#</a></dt>
+<dd class="ddef">
+<div class="summary">convert text to integer</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="FTPException" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1829" kind="class" beg="1829" end="1866">FTPException</a> : Exception; <a title="Permalink to this symbol" href="#FTPException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1829">#</a></dt>
+<dd class="ddef">
+<div class="summary">An exception caused by an unexpected FTP response.</div>
+Even after such an exception, the connection may be in a usable state.
+ Use the response code to determine more information about the error.
+<p class="sec_header">Standards:</p>RFC 959, RFC 2228, RFC 2389, RFC 2428
+<dl>
+<dt class="decl">char[3] <a class="symbol _variable" name="FTPException.response_code" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1832" kind="variable" beg="1832" end="1832">response_code</a>; <a title="Permalink to this symbol" href="#FTPException.response_code" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1832">#</a></dt>
+<dd class="ddef">
+<div class="summary">The three byte response code.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="FTPException.this" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1839" kind="ctor" beg="1839" end="1843">this</a><span class="params">(char[] <em>message</em>, char[3] <em>code</em> = "420")</span>; <a title="Permalink to this symbol" href="#FTPException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1839">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct an FTPException based on a message and code.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>message</em></td><td>the exception message</td></tr>
+<tr><td><em>code</em></td><td>the code (5xx for fatal errors)</td></tr></table></dd>
+<dt class="decl"><a class="symbol _ctor" name="FTPException.this:2" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1849" kind="ctor" beg="1849" end="1853">this</a><span class="params">(FtpResponse <em>r</em>)</span>; <a title="Permalink to this symbol" href="#FTPException.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1849">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct an FTPException based on a response.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>r</em></td><td>the server response</td></tr></table></dd>
+<dt class="decl">char[] <a class="symbol _function" name="FTPException.toString" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1856" kind="function" beg="1856" end="1865">toString</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#FTPException.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.ftp.FtpClient.html#L1856">#</a></dt>
+<dd class="ddef">
+<div class="summary">A string representation of the error.</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2006 UWB. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:55 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

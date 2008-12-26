@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.TempFile</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.TempFile";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.TempFile.html" class="symbol">tango.io.TempFile</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: December 2007
+<p class="sec_header">Authors:</p>Daniel Keep
+<p class="sec_header">credits:</p>Thanks to John Reimer for helping test this module under
+              Linux.
+<dl>
+<dt class="decl">class <a class="symbol _class" name="TempFile" href="./htmlsrc/tango.io.TempFile.html#L190" kind="class" beg="190" end="609">TempFile</a> : DeviceConduit, DeviceConduit.Seek; <a title="Permalink to this symbol" href="#TempFile" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L190">#</a></dt>
+<dd class="ddef">
+<div class="summary">The TempFile class aims to provide a safe way of creating and destroying
+ temporary files.  The TempFile class will automatically close temporary
+ files when the object is destroyed, so it is recommended that you make
+ appropriate use of scoped destruction.</div>
+Temporary files can be created with one of several styles, much like normal
+ FileConduits.  TempFile styles have the following properties:
+<p class="bl"/>
+ <ul>
+ <li><b>Transience</b>: this determines whether the file should be destroyed
+ as soon as it is closed (transient,) or continue to persist even after the
+ application has terminated (permanent.)</li>
+ </ul>
+<p class="bl"/>
+ Eventually, this will be expanded to give you greater control over the
+ temporary file's properties.
+<p class="bl"/>
+ For the typical use-case (creating a file to temporarily store data too
+ large to fit into memory,) the following is sufficient:
+<p class="bl"/>
+ <pre class="d_code">
+{
+    <span class="k">scope</span> <span class="i">temp</span> = <span class="k">new</span> <span class="i">TempFile</span>;
+
+    <span class="lc">// Use temp as a normal conduit; it will be automatically closed when</span>
+    <span class="lc">// it goes out of scope.</span>
+}
+</pre>
+<p class="bl"/>
+ <b>Important</b>:
+ It is recommended that you <i>do not</i> use files created by this class to
+ store sensitive information.  There are several known issues with the
+ current implementation that could allow an attacker to access the contents
+ of these temporary files.
+<p class="bl"/>
+ <b>Todo</b>: Detail security properties and guarantees.
+<dl>
+<dt class="decl">enum <a class="symbol _enum" name="TempFile.Transience" href="./htmlsrc/tango.io.TempFile.html#L216" kind="enum" beg="216" end="227">Transience</a>; <a title="Permalink to this symbol" href="#TempFile.Transience" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L216">#</a></dt>
+<dd class="ddef">
+<div class="summary">This enumeration is used to control whether the temporary file should
+ persist after the TempFile object has been destroyed.</div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="TempFile.Transience.Transient" href="./htmlsrc/tango.io.TempFile.html#L221" kind="enummem" beg="221" end="221">Transient</a> <a title="Permalink to this symbol" href="#TempFile.Transience.Transient" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L221">#</a></dt>
+<dd class="ddef">
+<div class="summary">The temporary file should be destroyed along with the owner object.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="TempFile.Transience.Permanent" href="./htmlsrc/tango.io.TempFile.html#L226" kind="enummem" beg="226" end="226">Permanent</a> <a title="Permalink to this symbol" href="#TempFile.Transience.Permanent" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L226">#</a></dt>
+<dd class="ddef">
+<div class="summary">The temporary file should persist after the object has been
+ destroyed.</div></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="TempFile.Style" href="./htmlsrc/tango.io.TempFile.html#L264" kind="struct" beg="264" end="273">Style</a>; <a title="Permalink to this symbol" href="#TempFile.Style" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L264">#</a></dt>
+<dd class="ddef">
+<div class="summary">This structure is used to determine how the temporary files should be
+ opened and used.</div>
+<dl>
+<dt class="decl">Transience <a class="symbol _variable" name="TempFile.Style.transience" href="./htmlsrc/tango.io.TempFile.html#L268" kind="variable" beg="268" end="268">transience</a>; <a title="Permalink to this symbol" href="#TempFile.Style.transience" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L268">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _variable" name="TempFile.Style.attempts" href="./htmlsrc/tango.io.TempFile.html#L272" kind="variable" beg="272" end="272">attempts</a>; <a title="Permalink to this symbol" href="#TempFile.Style.attempts" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L272">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">Style <a class="symbol _variable" name="TempFile.Transient" href="./htmlsrc/tango.io.TempFile.html#L279" kind="variable" beg="279" end="279">Transient</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#TempFile.Transient" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L279">#</a></dt>
+<dd class="ddef">
+<div class="summary">Style for creating a transient temporary file that only the current
+ user can access.</div></dd>
+<dt class="decl">Style <a class="symbol _variable" name="TempFile.Permanent" href="./htmlsrc/tango.io.TempFile.html#L284" kind="variable" beg="284" end="284">Permanent</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#TempFile.Permanent" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L284">#</a></dt>
+<dd class="ddef">
+<div class="summary">Style for creating a permanent temporary file that only the current
+ user can access.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="TempFile.this" href="./htmlsrc/tango.io.TempFile.html#L296" kind="ctor" beg="296" end="299">this</a><span class="params">(Style <em>style</em> = Style.init)</span>; <a title="Permalink to this symbol" href="#TempFile.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L296">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="TempFile.this:2" href="./htmlsrc/tango.io.TempFile.html#L302" kind="ctor" beg="302" end="305">this</a><span class="params">(char[] <em>prefix</em>, Style <em>style</em> = Style.init)</span>; <a title="Permalink to this symbol" href="#TempFile.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L302">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="TempFile.this:3" href="./htmlsrc/tango.io.TempFile.html#L308" kind="ctor" beg="308" end="311">this</a><span class="params">(FilePath <em>prefix</em>, Style <em>style</em> = Style.init)</span>; <a title="Permalink to this symbol" href="#TempFile.this:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L308">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="TempFile.path" href="./htmlsrc/tango.io.TempFile.html#L325" kind="function" beg="325" end="328">path</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#TempFile.path" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L325">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a PathView to the temporary file.  Please note that depending
+ on your platform, the returned path may or may not actually exist if
+ you specified a transient file.</div></dd>
+<dt class="decl">Style <a class="symbol _function" name="TempFile.style" href="./htmlsrc/tango.io.TempFile.html#L335" kind="function" beg="335" end="338">style</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#TempFile.style" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L335">#</a></dt>
+<dd class="ddef">
+<div class="summary">Indicates the style that this TempFile was created with.</div></dd>
+<dt class="decl">long <a class="symbol _function" name="TempFile.position" href="./htmlsrc/tango.io.TempFile.html#L353" kind="function" beg="353" end="356">position</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#TempFile.position" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L353">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the current cursor position within the file.</div></dd>
+<dt class="decl">long <a class="symbol _function" name="TempFile.length" href="./htmlsrc/tango.io.TempFile.html#L363" kind="function" beg="363" end="370">length</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#TempFile.length" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L363">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the total length, in bytes, of the temporary file.</div></dd>
+<dt class="decl">long <a class="symbol _function" name="TempFile.seek" href="./htmlsrc/tango.io.TempFile.html#L572" kind="function" beg="572" end="572">seek</a><span class="params">(long <em>offset</em>, Seek.Anchor <em>anchor</em> = Seek.Anchor.Begin)</span>; <a title="Permalink to this symbol" href="#TempFile.seek" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L572">#</a></dt>
+<dd class="ddef">
+<div class="summary">Seeks the temporary file's cursor to the given location.</div></dd>
+<dt class="decl">FilePath <a class="symbol _function" name="TempFile.tempPath" href="./htmlsrc/tango.io.TempFile.html#L580" kind="function" beg="580" end="580">tempPath</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#TempFile.tempPath" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.TempFile.html#L580">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the path to the directory where temporary files will be
+ created.  The returned path is safe to mutate.</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright &copy; 2007 Daniel Keep.  All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:58 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.math.Random</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.math.Random";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.math.Random.html" class="symbol">tango.math.Random</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: April 2004
+<p class="sec_header">Author:</p>Various
+<p class="sec_header"><span class="red">Deprecated:</span></p>Please use Kiss instead. We'll add a fully featured
+                        Random in a future release
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Random" href="./htmlsrc/tango.math.Random.html#L49" kind="class" beg="49" end="180">Random</a>; <a title="Permalink to this symbol" href="#Random" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Random.html#L49">#</a></dt>
+<dd class="ddef">
+<div class="summary">KISS (via George Marsaglia)</div>
+the idea is to use simple, fast, individually promising
+        generators to get a composite that will be fast, easy to code
+        have a very long period and pass all the tests put to it.
+        The three components of KISS are
+<p class="bl"/>
+                x(n)=a*x(n-1)+1 mod 2^32
+                y(n)=y(n-1)(I+L^13)(I+R^17)(I+L^5),
+                z(n)=2*z(n-1)+z(n-2) +carry mod 2^32
+                
+        The y's are a shift register sequence on 32bit binary vectors
+        period 2^32-1; The z's are a simple multiply-with-carry sequence
+        with period 2^63+2^32-1.
+<p class="bl"/>
+        The period of KISS is thus 2^32*(2^32-1)*(2^63+2^32-1) &gt; 2^127
+<dl>
+<dt class="decl">Random <a class="symbol _variable" name="Random.shared" href="./htmlsrc/tango.math.Random.html#L59" kind="variable" beg="59" end="59">shared</a>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Random.shared" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Random.html#L59">#</a></dt>
+<dd class="ddef">
+<div class="summary">Shared instance:
+                <pre class="d_code">
+<span class="k">auto</span> <span class="i">random</span> = <span class="i">Random</span>.<span class="i">shared</span>.<span class="i">next</span>;
+</pre></div></dd>
+<dt class="decl">static <a class="symbol _sctor" name="Random.this" href="./htmlsrc/tango.math.Random.html#L78" kind="sctor" beg="78" end="81">this</a>(); <a title="Permalink to this symbol" href="#Random.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Random.html#L78">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a static and shared instance:
+                <pre class="d_code">
+<span class="k">auto</span> <span class="i">random</span> = <span class="i">Random</span>.<span class="i">shared</span>.<span class="i">next</span>;
+</pre></div></dd>
+<dt class="decl"><a class="symbol _ctor" name="Random.this:2" href="./htmlsrc/tango.math.Random.html#L89" kind="ctor" beg="89" end="92">this</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Random.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Random.html#L89">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creates and seeds a new generator with the current time</div></dd>
+<dt class="decl">Random <a class="symbol _function" name="Random.seed" href="./htmlsrc/tango.math.Random.html#L100" kind="function" beg="100" end="115">seed</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Random.seed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Random.html#L100">#</a></dt>
+<dd class="ddef">
+<div class="summary">Seed the generator with current time</div></dd>
+<dt class="decl">Random <a class="symbol _function" name="Random.seed:2" href="./htmlsrc/tango.math.Random.html#L123" kind="function" beg="123" end="131">seed</a><span class="params">(uint <em>seed</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Random.seed:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Random.html#L123">#</a></dt>
+<dd class="ddef">
+<div class="summary">Seed the generator with a provided value</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="Random.next" href="./htmlsrc/tango.math.Random.html#L139" kind="function" beg="139" end="151">next</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>, <span class="stc">deprecated</span>]</span> <a title="Permalink to this symbol" href="#Random.next" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Random.html#L139">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns X such that 0 &lt;= X &lt;= uint.max</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="Random.next:2" href="./htmlsrc/tango.math.Random.html#L162" kind="function" beg="162" end="165">next</a><span class="params">(uint <em>max</em>)</span>; <span class="attrs">[<span class="stc">final</span>, <span class="stc">deprecated</span>]</span> <a title="Permalink to this symbol" href="#Random.next:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Random.html#L162">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns X such that 0 &lt;= X &lt; max</div>
+Note that max is exclusive, making it compatible with
+                array indexing</dd>
+<dt class="decl">uint <a class="symbol _function" name="Random.next:3" href="./htmlsrc/tango.math.Random.html#L176" kind="function" beg="176" end="179">next</a><span class="params">(uint <em>min</em>, uint <em>max</em>)</span>; <span class="attrs">[<span class="stc">final</span>, <span class="stc">deprecated</span>]</span> <a title="Permalink to this symbol" href="#Random.next:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Random.html#L176">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns X such that min &lt;= X &lt; max</div>
+Note that max is exclusive, making it compatible with
+                array indexing</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:14 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.cluster.NetworkRegistry</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.cluster.NetworkRegistry";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.cluster.NetworkRegistry.html" class="symbol">tango.net.cluster.NetworkRegistry</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Apr 2004: Initial release
+                        Dec 2006: Outback version
+                        Apr 2007: Delegate revision
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="NetworkRegistry" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L36" kind="class" beg="36" end="167">NetworkRegistry</a>; <a title="Permalink to this symbol" href="#NetworkRegistry" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L36">#</a></dt>
+<dd class="ddef">
+<div class="summary">Bare framework for registering and creating serializable objects.
+        Such objects are intended to be transported across a local network
+        and re-instantiated at some destination node.</div>
+Each IMessage exposes the means to write, or freeze, its content. An
+        IPickleFactory provides the means to create a new instance of itself
+        populated with thawed data. Frozen objects are uniquely identified
+        by a guid exposed via the interface. Responsibility of maintaining
+        uniqueness across said identifiers lies in the hands of the developer.
+<dl>
+<dt class="decl">static <a class="symbol _sctor" name="NetworkRegistry.this" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L47" kind="sctor" beg="47" end="50">this</a>(); <a title="Permalink to this symbol" href="#NetworkRegistry.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L47">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl"><a class="symbol _ctor" name="NetworkRegistry.this:2" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L57" kind="ctor" beg="57" end="60">this</a><span class="params">(typeof(registry) <em>registry</em> = null)</span>; <a title="Permalink to this symbol" href="#NetworkRegistry.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L57">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">IMessage <a class="symbol _function" name="NetworkRegistry.lookup" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L68" kind="function" beg="68" end="75">lookup</a><span class="params">(char[] <em>guid</em>)</span>; <span class="attrs">[<span class="stc">synchronized</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#NetworkRegistry.lookup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L68">#</a></dt>
+<dd class="ddef">
+<div class="summary">Synchronized Factory lookup of the guid</div></dd>
+<dt class="decl">void <a class="symbol _function" name="NetworkRegistry.enroll" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L91" kind="function" beg="91" end="99">enroll</a><span class="params">(IMessage <em>target</em>)</span>; <span class="attrs">[<span class="stc">synchronized</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#NetworkRegistry.enroll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L91">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add the provided Factory to the registry. Note that one
+                cannot change a registration once it is placed. Neither
+                can one remove registered item. This is done to avoid
+                issues when trying to synchronize servers across
+                a farm, which may still have live instances of "old"
+                objects waiting to be passed around the cluster. New
+                versions of an object should be given a distinct guid
+                from the prior version; appending an incremental number
+                may well be sufficient for your needs.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="NetworkRegistry.freeze" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L110" kind="function" beg="110" end="114">freeze</a><span class="params">(IWriter <em>output</em>, IMessage <em>target</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#NetworkRegistry.freeze" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L110">#</a></dt>
+<dd class="ddef">
+<div class="summary">Serialize an Object. Objects are written in Network-order,
+                and are prefixed by the guid exposed via the IMessage
+                interface. This guid is used to identify the appropriate
+                factory when reconstructing the instance.</div></dd>
+<dt class="decl">IMessage <a class="symbol _function" name="NetworkRegistry.thaw" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L128" kind="function" beg="128" end="142">thaw</a><span class="params">(IReader <em>input</em>, IMessage <em>host</em> = null)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#NetworkRegistry.thaw" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L128">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a new instance of a registered class from the content
+                made available via the given reader. The factory is located
+                using the provided guid, which must match an enrolled factory.</div>
+Note that only the factory lookup is synchronized, and not
+                the instance construction itself. This is intentional, and
+                limits how long the calling thread is stalled</dd>
+<dt class="decl">NetworkRegistry <a class="symbol _function" name="NetworkRegistry.dup" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L150" kind="function" beg="150" end="157">dup</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#NetworkRegistry.dup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L150">#</a></dt>
+<dd class="ddef">
+<div class="summary">Duplicate the registry</div></dd>
+<dt class="decl">void <a class="symbol _function" name="NetworkRegistry.error" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L163" kind="function" beg="163" end="166">error</a><span class="params">(char[] <em>msg</em>, char[] <em>guid</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#NetworkRegistry.error" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkRegistry.html#L163">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:55 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

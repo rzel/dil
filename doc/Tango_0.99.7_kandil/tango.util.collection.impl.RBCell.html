@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.collection.impl.RBCell</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.collection.impl.RBCell";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.collection.impl.RBCell.html" class="symbol">tango.util.collection.impl.RBCell</a></h1>
+  
+<dl>
+<dt class="decl">class <a class="symbol _class" name="RBCell" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L41" kind="class" beg="41" end="810">RBCell</a><span class="tparams">(T)</span> : Cell!(T); <a title="Permalink to this symbol" href="#RBCell" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L41">#</a></dt>
+<dd class="ddef">
+<div class="summary">RBCell implements basic capabilities of Red-Black trees,
+ an efficient kind of balanced binary tree. The particular
+ algorithms used are adaptations of those in Corman,
+ Lieserson, and Rivest's <EM>Introduction to Algorithms</EM>.
+ This class was inspired by (and code cross-checked with) a 
+ similar class by Chuck McManis. The implementations of
+ rebalancings during insertion and deletion are
+ a little trickier than those versions since they
+ don't swap Cell contents or use special dummy nilnodes. 
+ <P>
+ It is a pure implementation class. For harnesses, see:</div>
+<p class="sec_header">See Also:</p>RBTree
+<p class="sec_header">Authors:</p>Doug Lea
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="RBCell.color_" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L50" kind="variable" beg="50" end="50">color_</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#RBCell.color_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L50">#</a></dt>
+<dd class="ddef">
+<div class="summary">The node color (RED, BLACK)</div></dd>
+<dt class="decl">RBCell <a class="symbol _variable" name="RBCell.left_" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L56" kind="variable" beg="56" end="56">left_</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#RBCell.left_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L56">#</a></dt>
+<dd class="ddef">
+<div class="summary">Pointer to left child</div></dd>
+<dt class="decl">RBCell <a class="symbol _variable" name="RBCell.right_" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L62" kind="variable" beg="62" end="62">right_</a>; <span class="attrs">[<span class="prot">package</span>]</span> <a title="Permalink to this symbol" href="#RBCell.right_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L62">#</a></dt>
+<dd class="ddef">
+<div class="summary">Pointer to right child</div></dd>
+<dt class="decl">RBCell <a class="symbol _variable" name="RBCell.parent_" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L68" kind="variable" beg="68" end="68">parent_</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RBCell.parent_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L68">#</a></dt>
+<dd class="ddef">
+<div class="summary">Pointer to parent (null if root)</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="RBCell.this" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L75" kind="ctor" beg="75" end="82">this</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RBCell.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L75">#</a></dt>
+<dd class="ddef">
+<div class="summary">Make a new Cell with given element, null links, and BLACK color.
+ Normally only called to establish a new root.</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.duplicate" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L90" kind="function" beg="90" end="95">duplicate</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#RBCell.duplicate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L90">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a new RBCell with same element and color as self,
+ but with null links. (Since it is never OK to have
+ multiple identical links in a RB tree.)</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.left" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L102" kind="function" beg="102" end="105">left</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.left" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L102">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return left child (or null)</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.right" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L111" kind="function" beg="111" end="114">right</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.right" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L111">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return right child (or null)</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.parent" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L119" kind="function" beg="119" end="122">parent</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.parent" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L119">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return parent (or null)</div></dd>
+<dt class="decl">void <a class="symbol _function" name="RBCell.checkImplementation" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L128" kind="function" beg="128" end="152">checkImplementation</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RBCell.checkImplementation" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L128">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">See Also:</p>tango.util.collection.model.View.View.checkImplementation.</dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.leftmost" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L165" kind="function" beg="165" end="171">leftmost</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.leftmost" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L165">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the minimum element of the current (sub)tree</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.rightmost" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L176" kind="function" beg="176" end="182">rightmost</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.rightmost" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L176">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the maximum element of the current (sub)tree</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.root" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L187" kind="function" beg="187" end="193">root</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.root" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L187">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the root (parentless node) of the tree</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="RBCell.isRoot" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L199" kind="function" beg="199" end="202">isRoot</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.isRoot" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L199">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return true if node is a root (i.e., has a null parent)</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.successor" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L209" kind="function" beg="209" end="224">successor</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.successor" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L209">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the inorder successor, or null if no such</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.predecessor" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L230" kind="function" beg="230" end="245">predecessor</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.predecessor" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L230">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the inorder predecessor, or null if no such</div></dd>
+<dt class="decl">int <a class="symbol _function" name="RBCell.size" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L250" kind="function" beg="250" end="258">size</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L250">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the number of nodes in the subtree</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.find" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L267" kind="function" beg="267" end="284">find</a><span class="params">(T <em>element</em>, Comparator!(T) <em>cmp</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RBCell.find" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L267">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return node of current subtree containing element as element(), 
+ if it exists, else null. 
+ Uses Comparator cmp to find and to check equality.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="RBCell.count" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L291" kind="function" beg="291" end="319">count</a><span class="params">(T <em>element</em>, Comparator!(T) <em>cmp</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RBCell.count" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L291">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return number of nodes of current subtree containing element.
+ Uses Comparator cmp to find and to check equality.</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.copyTree" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L328" kind="function" beg="328" end="343">copyTree</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.copyTree" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L328">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a new subtree containing each element of current subtree</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.insertLeft" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L360" kind="function" beg="360" end="365">insertLeft</a><span class="params">(RBCell <em>Cell</em>, RBCell <em>root</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.insertLeft" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L360">#</a></dt>
+<dd class="ddef">
+<div class="summary">There's no generic element insertion. Instead find the
+ place you want to add a node and then invoke insertLeft
+ or insertRight.
+ <P>
+ Insert Cell as the left child of current node, and then
+ rebalance the tree it is in.
+ @param Cell the Cell to add
+ @param root, the root of the current tree</div>
+<p class="sec_header">Returns:</p>the new root of the current tree. (Rebalancing
+ can change the root!)</dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.insertRight" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L376" kind="function" beg="376" end="381">insertRight</a><span class="params">(RBCell <em>Cell</em>, RBCell <em>root</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.insertRight" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L376">#</a></dt>
+<dd class="ddef">
+<div class="summary">Insert Cell as the right child of current node, and then
+ rebalance the tree it is in.
+ @param Cell the Cell to add
+ @param root, the root of the current tree</div>
+<p class="sec_header">Returns:</p>the new root of the current tree. (Rebalancing
+ can change the root!)</dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.remove" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L392" kind="function" beg="392" end="459">remove</a><span class="params">(RBCell <em>root</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L392">#</a></dt>
+<dd class="ddef">
+<div class="summary">Delete the current node, and then rebalance the tree it is in
+ @param root the root of the current tree</div>
+<p class="sec_header">Returns:</p>the new root of the current tree. (Rebalancing
+ can change the root!)</dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.swapPosition" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L466" kind="function" beg="466" end="581">swapPosition</a><span class="params">(RBCell <em>x</em>, RBCell <em>y</em>, RBCell <em>root</em>)</span>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.swapPosition" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L466">#</a></dt>
+<dd class="ddef">
+<div class="summary">Swap the linkages of two nodes in a tree.
+ Return new root, in case it changed.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="RBCell.colorOf" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L594" kind="function" beg="594" end="597">colorOf</a><span class="params">(RBCell <em>p</em>)</span>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.colorOf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L594">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return color of node p, or BLACK if p is null
+ (In the CLR version, they use
+ a special dummy `nil' node for such purposes, but that doesn't
+ work well here, since it could lead to creating one such special
+ node per real node.)</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.parentOf" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L602" kind="function" beg="602" end="605">parentOf</a><span class="params">(RBCell <em>p</em>)</span>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.parentOf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L602">#</a></dt>
+<dd class="ddef">
+<div class="summary">return parent of node p, or null if p is null</div></dd>
+<dt class="decl">void <a class="symbol _function" name="RBCell.setColor" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L611" kind="function" beg="611" end="615">setColor</a><span class="params">(RBCell <em>p</em>, bool <em>c</em>)</span>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.setColor" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L611">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the color of node p, or do nothing if p is null</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.leftOf" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L621" kind="function" beg="621" end="624">leftOf</a><span class="params">(RBCell <em>p</em>)</span>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.leftOf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L621">#</a></dt>
+<dd class="ddef">
+<div class="summary">return left child of node p, or null if p is null</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.rightOf" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L630" kind="function" beg="630" end="633">rightOf</a><span class="params">(RBCell <em>p</em>)</span>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.rightOf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L630">#</a></dt>
+<dd class="ddef">
+<div class="summary">return right child of node p, or null if p is null</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.rotateLeft" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L637" kind="function" beg="637" end="654">rotateLeft</a><span class="params">(RBCell <em>root</em>)</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.rotateLeft" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L637">#</a></dt>
+<dd class="ddef">
+<div class="summary">From CLR</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.rotateRight" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L657" kind="function" beg="657" end="674">rotateRight</a><span class="params">(RBCell <em>root</em>)</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.rotateRight" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L657">#</a></dt>
+<dd class="ddef">
+<div class="summary">From CLR</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.fixAfterInsertion" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L678" kind="function" beg="678" end="734">fixAfterInsertion</a><span class="params">(RBCell <em>root</em>)</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.fixAfterInsertion" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L678">#</a></dt>
+<dd class="ddef">
+<div class="summary">From CLR</div></dd>
+<dt class="decl">RBCell <a class="symbol _function" name="RBCell.fixAfterDeletion" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L739" kind="function" beg="739" end="809">fixAfterDeletion</a><span class="params">(RBCell <em>root</em>)</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#RBCell.fixAfterDeletion" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.RBCell.html#L739">#</a></dt>
+<dd class="ddef">
+<div class="summary">From CLR</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p></p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:10 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

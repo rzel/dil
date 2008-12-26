@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.DatagramConduit</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.DatagramConduit";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.DatagramConduit.html" class="symbol">tango.net.DatagramConduit</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Mar 2004 : Initial release
+<p class="sec_header">Version:</p>Dec 2006 : South Pacific release
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="DatagramConduit" href="./htmlsrc/tango.net.DatagramConduit.html#L43" kind="class" beg="43" end="132">DatagramConduit</a> : SocketConduit; <a title="Permalink to this symbol" href="#DatagramConduit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.DatagramConduit.html#L43">#</a></dt>
+<dd class="ddef">
+<div class="summary">Datagrams provide a low-overhead, non-reliable data transmission
+        mechanism.</div>
+Datagrams are not 'connected' in the same manner as a TCP socket; you
+        don't need to listen() or accept() to receive a datagram, and data
+        may arrive from multiple sources. A datagram socket may, however,
+        still use the connect() method like a TCP socket. When connected,
+        the read() and write() methods will be restricted to a single address
+        rather than being open instead. That is, applying connect() will make
+        the address argument to both read() and write() irrelevant. Without
+        connect(), method write() must be supplied with an address and method
+        read() should be supplied with one to identify where data originated.
+        
+        Note that when used as a listener, you must first bind the socket
+        to a local adapter. This can be achieved by binding the socket to
+        an InternetAddress constructed with a port only (ADDR_ANY), thus
+        requesting the OS to assign the address of a local network adapter
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="DatagramConduit.this" href="./htmlsrc/tango.net.DatagramConduit.html#L51" kind="ctor" beg="51" end="54">this</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#DatagramConduit.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.DatagramConduit.html#L51">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a read/write datagram socket</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="DatagramConduit.read" href="./htmlsrc/tango.net.DatagramConduit.html#L67" kind="function" beg="67" end="70">read</a><span class="params">(void[] <em>src</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#DatagramConduit.read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.DatagramConduit.html#L67">#</a></dt>
+<dd class="ddef">
+<div class="summary">Populate the provided array from the socket. This will stall
+                until some data is available, or a timeout occurs. We assume 
+                the datagram has been connected.</div>
+Returns the number of bytes read to the output, or Eof if
+                the socket cannot read</dd>
+<dt class="decl">uint <a class="symbol _function" name="DatagramConduit.read:2" href="./htmlsrc/tango.net.DatagramConduit.html#L84" kind="function" beg="84" end="92">read</a><span class="params">(void[] <em>dst</em>, Address <em>from</em>)</span>; <a title="Permalink to this symbol" href="#DatagramConduit.read:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.DatagramConduit.html#L84">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read bytes from an available datagram into the given array.
+                When provided, the 'from' address will be populated with the
+                origin of the incoming data. Note that we employ the timeout
+                mechanics exposed via our SocketConduit superclass.</div>
+Returns the number of bytes read from the input, or Eof if
+                the socket cannot read</dd>
+<dt class="decl">uint <a class="symbol _function" name="DatagramConduit.write" href="./htmlsrc/tango.net.DatagramConduit.html#L105" kind="function" beg="105" end="108">write</a><span class="params">(void[] <em>src</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#DatagramConduit.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.DatagramConduit.html#L105">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write the provided content to the socket. This will stall
+                until the socket responds in some manner. We assume the 
+                datagram has been connected.</div>
+Returns the number of bytes sent to the output, or Eof if
+                the socket cannot write</dd>
+<dt class="decl">uint <a class="symbol _function" name="DatagramConduit.write:2" href="./htmlsrc/tango.net.DatagramConduit.html#L120" kind="function" beg="120" end="131">write</a><span class="params">(void[] <em>src</em>, Address <em>to</em>)</span>; <a title="Permalink to this symbol" href="#DatagramConduit.write:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.DatagramConduit.html#L120">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write an array to the specified address. If address 'to' is
+                null, it is assumed the socket has been connected instead.</div>
+Returns the number of bytes sent to the output, or Eof if
+                the socket cannot write</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:53 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

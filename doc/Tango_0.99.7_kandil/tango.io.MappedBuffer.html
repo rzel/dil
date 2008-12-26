@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.MappedBuffer</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.MappedBuffer";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.MappedBuffer.html" class="symbol">tango.io.MappedBuffer</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: March 2004
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="MappedBuffer" href="./htmlsrc/tango.io.MappedBuffer.html#L53" kind="class" beg="53" end="322">MappedBuffer</a> : Buffer, IConduit.Seek; <a title="Permalink to this symbol" href="#MappedBuffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.MappedBuffer.html#L53">#</a></dt>
+<dd class="ddef">
+<div class="summary">Subclass to treat the buffer as a seekable entity, where all 
+        capacity is available for reading and/or writing. To achieve 
+        this we must effectively disable the 'limit' watermark, and 
+        locate write operations around 'position' instead.</div>
+<dl>
+<dt class="decl">long <a class="symbol _function" name="MappedBuffer.seek" href="./htmlsrc/tango.io.MappedBuffer.html#L219" kind="function" beg="219" end="232">seek</a><span class="params">(long <em>offset</em>, Anchor <em>anchor</em> = Anchor.Begin)</span>; <a title="Permalink to this symbol" href="#MappedBuffer.seek" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.MappedBuffer.html#L219">#</a></dt>
+<dd class="ddef">
+<div class="summary">Seek to the specified position within the buffer, and return
+                the byte offset of the new location (relative to zero).</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="MappedBuffer.writable" href="./htmlsrc/tango.io.MappedBuffer.html#L241" kind="function" beg="241" end="244">writable</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#MappedBuffer.writable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.MappedBuffer.html#L241">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return count of writable bytes available in buffer. This is 
+                calculated simply as capacity() - limit()</div></dd>
+<dt class="decl">void <a class="symbol _function" name="MappedBuffer.copy" href="./htmlsrc/tango.io.MappedBuffer.html#L253" kind="function" beg="253" end="262">copy</a><span class="params">(void * <em>src</em>, uint <em>size</em>)</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#MappedBuffer.copy" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.MappedBuffer.html#L253">#</a></dt>
+<dd class="ddef">
+<div class="summary">Bulk copy of data from 'src'. Position is adjusted by 'size'
+                bytes.</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="MappedBuffer.write" href="./htmlsrc/tango.io.MappedBuffer.html#L277" kind="function" beg="277" end="287">write</a><span class="params">(uint delegate (void[]) <em>dg</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#MappedBuffer.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.MappedBuffer.html#L277">#</a></dt>
+<dd class="ddef">
+<div class="summary">Exposes the raw data buffer at the current write position, 
+                The delegate is provided with a void[] representing space
+                available within the buffer at the current write position.</div>
+The delegate should return the appropriate number of bytes 
+                if it writes valid content, or IConduit.Eof on error.
+<p class="bl"/>
+                Returns whatever the delegate returns.</dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="MappedBuffer.compress" href="./htmlsrc/tango.io.MappedBuffer.html#L295" kind="function" beg="295" end="298">compress</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#MappedBuffer.compress" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.MappedBuffer.html#L295">#</a></dt>
+<dd class="ddef">
+<div class="summary">Prohibit compress() from doing anything at all.</div></dd>
+<dt class="decl">InputStream <a class="symbol _function" name="MappedBuffer.clear" href="./htmlsrc/tango.io.MappedBuffer.html#L306" kind="function" beg="306" end="309">clear</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#MappedBuffer.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.MappedBuffer.html#L306">#</a></dt>
+<dd class="ddef">
+<div class="summary">Prohibit clear() from doing anything at all.</div></dd>
+<dt class="decl">IBuffer <a class="symbol _function" name="MappedBuffer.setConduit" href="./htmlsrc/tango.io.MappedBuffer.html#L317" kind="function" beg="317" end="321">setConduit</a><span class="params">(IConduit <em>conduit</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#MappedBuffer.setConduit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.MappedBuffer.html#L317">#</a></dt>
+<dd class="ddef">
+<div class="summary">Prohibit the setting of another IConduit</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:58 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

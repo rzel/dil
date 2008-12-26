@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.SocketListener</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.SocketListener";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.SocketListener.html" class="symbol">tango.net.SocketListener</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: June 2004
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="SocketListener" href="./htmlsrc/tango.net.SocketListener.html#L34" kind="class" beg="34" end="178">SocketListener</a> : IListener; <a title="Permalink to this symbol" href="#SocketListener" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SocketListener.html#L34">#</a></dt>
+<dd class="ddef">
+<div class="summary">Abstract class to asynchronously listen for incoming data on a 
+        socket. This can be used with DatagramSocket &amp; MulticastSocket, 
+        and might possibly be useful with a basic SocketConduit also.
+        Note that DatagramSocket must first be bound to a local network
+        address via bind(), and MulticastSocket should first be made a 
+        member of a multicast group via its join() method. Note also
+        that the underlying thread is not started by the constructor;
+        you should do that manually via the start() method.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="SocketListener.this" href="./htmlsrc/tango.net.SocketListener.html#L51" kind="ctor" beg="51" end="55">this</a><span class="params">(IBuffer <em>buffer</em>)</span>; <a title="Permalink to this symbol" href="#SocketListener.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SocketListener.html#L51">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a listener with the requisite arguments. The
+                specified buffer is populated via the provided instance
+                of ISocketReader before being passed to the notify()
+                method. All arguments are required.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="SocketListener.this:2" href="./htmlsrc/tango.net.SocketListener.html#L66" kind="ctor" beg="66" end="73">this</a><span class="params">(InputStream <em>stream</em>, IBuffer <em>buffer</em>)</span>; <a title="Permalink to this symbol" href="#SocketListener.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SocketListener.html#L66">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a listener with the requisite arguments. The
+                specified buffer is populated via the provided instance
+                of ISocketReader before being passed to the notify()
+                method. All arguments are required.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SocketListener.notify" href="./htmlsrc/tango.net.SocketListener.html#L83" kind="function" beg="83" end="83">notify</a><span class="params">(IBuffer <em>buffer</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#SocketListener.notify" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SocketListener.html#L83">#</a></dt>
+<dd class="ddef">
+<div class="summary">Notification callback invoked whenever the listener has
+                anything to report. The buffer will have whatever content
+                was available from the read() operation</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SocketListener.exception" href="./htmlsrc/tango.net.SocketListener.html#L91" kind="function" beg="91" end="91">exception</a><span class="params">(char[] <em>msg</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#SocketListener.exception" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SocketListener.html#L91">#</a></dt>
+<dd class="ddef">
+<div class="summary">Handle error conditions from the listener thread.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SocketListener.execute" href="./htmlsrc/tango.net.SocketListener.html#L99" kind="function" beg="99" end="102">execute</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#SocketListener.execute" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SocketListener.html#L99">#</a></dt>
+<dd class="ddef">
+<div class="summary">Start this listener</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SocketListener.cancel" href="./htmlsrc/tango.net.SocketListener.html#L111" kind="function" beg="111" end="114">cancel</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#SocketListener.cancel" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SocketListener.html#L111">#</a></dt>
+<dd class="ddef">
+<div class="summary">Cancel this listener. The thread will quit only after the 
+                current read() request responds, or is interrrupted.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SocketListener.setErrorLimit" href="./htmlsrc/tango.net.SocketListener.html#L126" kind="function" beg="126" end="129">setErrorLimit</a><span class="params">(ushort <em>limit</em>)</span>; <a title="Permalink to this symbol" href="#SocketListener.setErrorLimit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SocketListener.html#L126">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the maximum contiguous number of exceptions this 
+                listener will survive. Setting a limit of zero will 
+                not survive any errors at all, whereas a limit of two
+                will survive as long as two consecutive errors don't 
+                arrive back to back.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SocketListener.run" href="./htmlsrc/tango.net.SocketListener.html#L144" kind="function" beg="144" end="177">run</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SocketListener.run" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.SocketListener.html#L144">#</a></dt>
+<dd class="ddef">
+<div class="summary">Execution of this thread is typically stalled on the
+                read() method belonging to the conduit specified
+                during construction. You can invoke cancel() to indicate
+                execution should not proceed further, but that will not
+                actually interrupt a blocked read() operation.</div>
+Note that exceptions are all directed towards the handler
+                implemented by the class instance.</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:53 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

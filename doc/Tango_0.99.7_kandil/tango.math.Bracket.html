@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.math.Bracket</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.math.Bracket";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.math.Bracket.html" class="symbol">tango.math.Bracket</a></h1>
+  
+<div class="summary">Algorithms for finding roots and extrema of one-argument real functions
+ using bracketing.</div>
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>, Digital Mars.
+<p class="sec_header">Authors:</p>Don Clugston.
+<dl>
+<dt class="decl">T <a class="symbol _function" name="findRoot" href="./htmlsrc/tango.math.Bracket.html#L54" kind="function" beg="54" end="59">findRoot</a><span class="tparams">(T, R)</span><span class="params">(R delegate(T) <em>f</em>, T <em>ax</em>, T <em>bx</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#findRoot" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Bracket.html#L54">#</a></dt>
+<dd class="ddef">
+<div class="summary">Find a real root of the real function f(x) via bracketing.</div>
+Given a range [a..b] such that f(a) and f(b) have opposite sign,
+ returns the value of x in the range which is closest to a root of f(x).
+ If f(x) has more than one root in the range, one will be chosen arbitrarily.
+ If f(x) returns NaN, NaN will be returned; otherwise, this algorithm
+ is guaranteed to succeed. 
+  
+ Uses an algorithm based on TOMS748, which uses inverse cubic interpolation 
+ whenever possible, otherwise reverting to parabolic or secant
+ interpolation. Compared to TOMS748, this implementation improves worst-case
+ performance by a factor of more than 100, and typical performance by a factor
+ of 2. For 80-bit reals, most problems require 8 - 15 calls to f(x) to achieve
+ full machine precision. The worst-case performance (pathological cases) is 
+ approximately twice the number of bits.
+<p class="sec_header">References:</p>"On Enclosing Simple Roots of Nonlinear Equations", G. Alefeld, F.A. Potra, 
+   Yixun Shi, Mathematics of Computation 61, pp733-744 (1993).
+   Fortran code available from www.netlib.org as algorithm TOMS478.</dd>
+<dt class="decl">BracketResult!(T, R) <a class="symbol _function" name="findRoot:2" href="./htmlsrc/tango.math.Bracket.html#L69" kind="function" beg="69" end="290">findRoot</a><span class="tparams">(T,R)</span><span class="params">(R delegate(T) <em>f</em>, T <em>ax</em>, T <em>bx</em>, R <em>fax</em>, R <em>fbx</em>, bool delegate(BracketResult!(T,R) r) <em>tolerance</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#findRoot:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Bracket.html#L69">#</a></dt>
+<dd class="ddef">
+<div class="summary">Find root by bracketing, allowing termination condition to be specified</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>bounds</em></td><td>tolerance   Defines the termination condition. Return true when acceptable
+             bounds have been obtained.</td></tr></table></dd>
+<dt class="decl">T <a class="symbol _function" name="findMinimum" href="./htmlsrc/tango.math.Bracket.html#L310" kind="function" beg="310" end="406">findMinimum</a><span class="tparams">(T,R)</span><span class="params">(R delegate(T) <em>func</em>, T <em>xlo</em>, T <em>xhi</em>, T <em>xinitial</em>, out R <em>funcMin</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#findMinimum" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.math.Bracket.html#L310">#</a></dt>
+<dd class="ddef">
+<div class="summary">Find the minimum value of the function func().</div>
+Returns the value of x such that func(x) is minimised. Uses Brent's method, 
+ which uses a parabolic fit to rapidly approach the minimum but reverts to a
+ Golden Section search where necessary.
+<p class="bl"/>
+ The minimum is located to an accuracy of feqrel(min, truemin) &lt; 
+ real.mant_dig/2.
+<p class="sec_header">Parameters:</p>func         The function to be minimized
+     xinitial     Initial guess to be used.
+     xlo, xhi     Upper and lower bounds on x.
+                  func(xinitial) &lt;= func(x1) and func(xinitial) &lt;= func(x2)
+     funcMin      The minimum value of func(x).</dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (C) 2008 Don Clugston.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:12 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

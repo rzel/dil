@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.cluster.NetworkQueue</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.cluster.NetworkQueue";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.cluster.NetworkQueue.html" class="symbol">tango.net.cluster.NetworkQueue</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>July 2004: Initial release
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="NetworkQueue" href="./htmlsrc/tango.net.cluster.NetworkQueue.html#L26" kind="class" beg="26" end="112">NetworkQueue</a> : NetworkClient, IConsumer; <a title="Permalink to this symbol" href="#NetworkQueue" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkQueue.html#L26">#</a></dt>
+<dd class="ddef">
+<div class="summary">Exposes a gateway to the cluster queues, which collect ICached
+        objects until they are removed. Because there is a finite limit
+        to the quantity of entries stored, the put() method may throw a
+        ClusterFullException if it cannot add a new entry.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="NetworkQueue.this" href="./htmlsrc/tango.net.cluster.NetworkQueue.html#L43" kind="ctor" beg="43" end="52">this</a><span class="params">(ICluster <em>cluster</em>, char[] <em>channel</em>, ChannelListener <em>listener</em> = null)</span>; <a title="Permalink to this symbol" href="#NetworkQueue.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkQueue.html#L43">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a NetworkMessage gateway on the provided QOS cluster
+                for the specified channel. Each subsequent queue operation
+                will take place over the given channel.</div>
+You can listen for cluster replies by providing an optional 
+                ChannelListener. Outgoing messages will be tagged appropriately
+                such that a consumer can respond using IEvent.reply</dd>
+<dt class="decl">void <a class="symbol _function" name="NetworkQueue.put" href="./htmlsrc/tango.net.cluster.NetworkQueue.html#L62" kind="function" beg="62" end="70">put</a><span class="params">(IMessage <em>message</em>)</span>; <a title="Permalink to this symbol" href="#NetworkQueue.put" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkQueue.html#L62">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add an IMessage entry to the corresponding queue. This
+                will throw a ClusterFullException if there is no space
+                left in the clustered queue.</div></dd>
+<dt class="decl">IMessage <a class="symbol _function" name="NetworkQueue.get" href="./htmlsrc/tango.net.cluster.NetworkQueue.html#L82" kind="function" beg="82" end="85">get</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#NetworkQueue.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkQueue.html#L82">#</a></dt>
+<dd class="ddef">
+<div class="summary">Query the cluster for queued entries on our corresponding 
+                channel. Returns, and removes, a matching entry from the 
+                cluster. This is the synchronous (polling) approach; you
+                should use createConsumer() instead for asynchronous style
+                notification instead.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="NetworkQueue.cancel" href="./htmlsrc/tango.net.cluster.NetworkQueue.html#L94" kind="function" beg="94" end="99">cancel</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#NetworkQueue.cancel" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkQueue.html#L94">#</a></dt>
+<dd class="ddef">
+<div class="summary">Cancel the listener. No more events will be dispatched to
+                the reply ChannelListener.</div></dd>
+<dt class="decl">IConsumer <a class="symbol _function" name="NetworkQueue.createConsumer" href="./htmlsrc/tango.net.cluster.NetworkQueue.html#L108" kind="function" beg="108" end="111">createConsumer</a><span class="params">(ChannelListener <em>listener</em>)</span>; <a title="Permalink to this symbol" href="#NetworkQueue.createConsumer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkQueue.html#L108">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a listener for this channel. Listeners are invoked
+                when new content is placed into a corresponding queue.</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:55 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.container.HashMap</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.container.HashMap";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.container.HashMap.html" class="symbol">tango.util.container.HashMap</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Apr 2008: Initial release
+<p class="sec_header">Authors:</p>Kris
+<p class="sec_header">Since:</p>0.99.7
+<p class="bl"/>
+        Based upon Doug Lea's Java collection package
+<dl>
+<dt class="decl">class <a class="symbol _class" name="HashMap" href="./htmlsrc/tango.util.container.HashMap.html#L70" kind="class" beg="70" end="1076">HashMap</a><span class="tparams">(K, V, alias Hash = Container.hash, 
+                     alias Reap = Container.reap, 
+                     alias Heap = Container.Collect)</span> : IContainer!(V); <a title="Permalink to this symbol" href="#HashMap" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L70">#</a></dt>
+<dd class="ddef">
+<div class="summary">Hash table implementation of a Map</div>
+<pre class="d_code">
+<span class="i">Iterator</span> <span class="i">iterator</span> ()
+<span class="i">IteratorMatch</span> <span class="i">iterator</span> (<span class="i">V</span> <span class="i">value</span>)
+<span class="k">int</span> <span class="i">opApply</span> (<span class="k">int</span> <span class="k">delegate</span>(<span class="k">ref</span> <span class="i">V</span> <span class="i">value</span>) <span class="i">dg</span>)
+<span class="k">int</span> <span class="i">opApply</span> (<span class="k">int</span> <span class="k">delegate</span>(<span class="k">ref</span> <span class="i">K</span> <span class="i">key</span>, <span class="k">ref</span> <span class="i">V</span> <span class="i">value</span>) <span class="i">dg</span>)
+
+<span class="k">bool</span> <span class="i">get</span> (<span class="i">K</span> <span class="i">key</span>, <span class="k">ref</span> <span class="i">V</span> <span class="i">element</span>)
+<span class="k">bool</span> <span class="i">keyOf</span> (<span class="i">V</span> <span class="i">value</span>, <span class="k">ref</span> <span class="i">K</span> <span class="i">key</span>)
+<span class="k">bool</span> <span class="i">contains</span> (<span class="i">V</span> <span class="i">element</span>)
+<span class="k">bool</span> <span class="i">containsPair</span> (<span class="i">K</span> <span class="i">key</span>, <span class="i">V</span> <span class="i">element</span>)
+
+<span class="k">bool</span> <span class="i">removeKey</span> (<span class="i">K</span> <span class="i">key</span>)
+<span class="k">bool</span> <span class="i">take</span> (<span class="k">ref</span> <span class="i">V</span> <span class="i">element</span>)
+<span class="k">bool</span> <span class="i">take</span> (<span class="i">K</span> <span class="i">key</span>, <span class="k">ref</span> <span class="i">V</span> <span class="i">element</span>)
+<span class="k">uint</span> <span class="i">remove</span> (<span class="i">V</span> <span class="i">element</span>, <span class="k">bool</span> <span class="i">all</span>)
+<span class="k">uint</span> <span class="i">remove</span> (<span class="i">IContainer</span>!(<span class="i">V</span>) <span class="i">e</span>, <span class="k">bool</span> <span class="i">all</span>)
+<span class="k">uint</span> <span class="i">replace</span> (<span class="i">V</span> <span class="i">oldElement</span>, <span class="i">V</span> <span class="i">newElement</span>, <span class="k">bool</span> <span class="i">all</span>)
+<span class="k">bool</span> <span class="i">replacePair</span> (<span class="i">K</span> <span class="i">key</span>, <span class="i">V</span> <span class="i">oldElement</span>, <span class="i">V</span> <span class="i">newElement</span>)
+
+<span class="k">bool</span> <span class="i">add</span> (<span class="i">K</span> <span class="i">key</span>, <span class="i">V</span> <span class="i">element</span>)
+<span class="k">bool</span> <span class="i">opIndexAssign</span> (<span class="i">V</span> <span class="i">element</span>, <span class="i">K</span> <span class="i">key</span>)
+<span class="i">V</span>    <span class="i">opIndex</span> (<span class="i">K</span> <span class="i">key</span>)
+<span class="i">V</span>*   <span class="i">opIn</span> (<span class="i">K</span> <span class="i">key</span>)
+
+<span class="k">uint</span> <span class="i">size</span> ()
+<span class="k">bool</span> <span class="i">isEmpty</span> ()
+<span class="i">V</span>[] <span class="i">toArray</span> (<span class="i">V</span>[] <span class="i">dst</span>)
+<span class="i">HashMap</span> <span class="i">dup</span> ()
+<span class="i">HashMap</span> <span class="i">clear</span> ()
+<span class="i">HashMap</span> <span class="i">reset</span> ()
+<span class="k">uint</span> <span class="i">buckets</span> ()
+<span class="k">float</span> <span class="i">threshold</span> ()
+<span class="k">void</span> <span class="i">buckets</span> (<span class="k">uint</span> <span class="i">cap</span>)
+<span class="k">void</span> <span class="i">threshold</span> (<span class="k">float</span> <span class="i">desired</span>)
+<span class="i">Allocator</span> <span class="i">allocator</span>()
+</pre>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="HashMap.this" href="./htmlsrc/tango.util.container.HashMap.html#L103" kind="ctor" beg="103" end="106">this</a><span class="params">(float <em>f</em> = Container.defaultLoadFactor)</span>; <a title="Permalink to this symbol" href="#HashMap.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L103">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a HashMap instance</div></dd>
+<dt class="decl"><a class="symbol _dtor" name="HashMap.~this" href="./htmlsrc/tango.util.container.HashMap.html#L114" kind="dtor" beg="114" end="117">~this</a>(); <a title="Permalink to this symbol" href="#HashMap.~this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L114">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clean up when deleted</div></dd>
+<dt class="decl">Alloc <a class="symbol _function" name="HashMap.allocator" href="./htmlsrc/tango.util.container.HashMap.html#L125" kind="function" beg="125" end="128">allocator</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.allocator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L125">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the configured allocator</div></dd>
+<dt class="decl">Iterator <a class="symbol _function" name="HashMap.iterator" href="./htmlsrc/tango.util.container.HashMap.html#L136" kind="function" beg="136" end="145">iterator</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.iterator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L136">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a generic iterator for contained elements</div></dd>
+<dt class="decl">IteratorMatch <a class="symbol _function" name="HashMap.iterator:2" href="./htmlsrc/tango.util.container.HashMap.html#L153" kind="function" beg="153" end="159">iterator</a><span class="params">(V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.iterator:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L153">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return an iterator which filters on the provided key</div></dd>
+<dt class="decl">int <a class="symbol _function" name="HashMap.opApply" href="./htmlsrc/tango.util.container.HashMap.html#L166" kind="function" beg="166" end="170">opApply</a><span class="params">(int delegate(ref K key, ref V value) <em>dg</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L166">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">int <a class="symbol _function" name="HashMap.opApply:2" href="./htmlsrc/tango.util.container.HashMap.html#L177" kind="function" beg="177" end="181">opApply</a><span class="params">(int delegate(ref V value) <em>dg</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.opApply:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L177">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="HashMap.size" href="./htmlsrc/tango.util.container.HashMap.html#L189" kind="function" beg="189" end="192">size</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L189">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the number of elements contained</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashMap.add" href="./htmlsrc/tango.util.container.HashMap.html#L205" kind="function" beg="205" end="240">add</a><span class="params">(K <em>key</em>, V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.add" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L205">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add a new element to the set. Does not add if there is an
+                equivalent already present. Returns true where an element
+                is added, false where it already exists (and was possibly
+                updated).
+                
+                Time complexity: O(1) average; O(n) worst.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashMap.get" href="./htmlsrc/tango.util.container.HashMap.html#L252" kind="function" beg="252" end="264">get</a><span class="params">(K <em>key</em>, ref V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L252">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the element associated with key</div>
+<p class="sec_header">param:</p>a key
+<p class="sec_header">param:</p>a value reference (where returned value will reside)
+<p class="sec_header">Returns:</p>whether the key is contained or not</dd>
+<dt class="decl">V* <a class="symbol _function" name="HashMap.opIn_r" href="./htmlsrc/tango.util.container.HashMap.html#L275" kind="function" beg="275" end="284">opIn_r</a><span class="params">(K <em>key</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.opIn_r" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L275">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the element associated with key</div>
+<p class="sec_header">param:</p>a key
+<p class="sec_header">Returns:</p>a pointer to the located value, or null if not found</dd>
+<dt class="decl">bool <a class="symbol _function" name="HashMap.contains" href="./htmlsrc/tango.util.container.HashMap.html#L294" kind="function" beg="294" end="297">contains</a><span class="params">(V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.contains" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L294">#</a></dt>
+<dd class="ddef">
+<div class="summary">Does this set contain the given element?
+        
+                Time complexity: O(1) average; O(n) worst</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashMap.keyOf" href="./htmlsrc/tango.util.container.HashMap.html#L305" kind="function" beg="305" end="319">keyOf</a><span class="params">(V <em>value</em>, ref K <em>key</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.keyOf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L305">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n).</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashMap.containsKey" href="./htmlsrc/tango.util.container.HashMap.html#L327" kind="function" beg="327" end="336">containsKey</a><span class="params">(K <em>key</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.containsKey" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L327">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1) average; O(n) worst.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashMap.containsPair" href="./htmlsrc/tango.util.container.HashMap.html#L344" kind="function" beg="344" end="353">containsPair</a><span class="params">(K <em>key</em>, V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.containsPair" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L344">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1) average; O(n) worst.</div></dd>
+<dt class="decl">HashMap <a class="symbol _function" name="HashMap.dup" href="./htmlsrc/tango.util.container.HashMap.html#L364" kind="function" beg="364" end="376">dup</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.dup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L364">#</a></dt>
+<dd class="ddef">
+<div class="summary">Make an independent copy of the container. Does not clone
+                elements
+                
+                Time complexity: O(n)</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashMap.removeKey" href="./htmlsrc/tango.util.container.HashMap.html#L384" kind="function" beg="384" end="389">removeKey</a><span class="params">(K <em>key</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.removeKey" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L384">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1) average; O(n) worst.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashMap.replaceKey" href="./htmlsrc/tango.util.container.HashMap.html#L397" kind="function" beg="397" end="429">replaceKey</a><span class="params">(K <em>key</em>, K <em>replace</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.replaceKey" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L397">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1) average; O(n) worst.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashMap.replacePair" href="./htmlsrc/tango.util.container.HashMap.html#L437" kind="function" beg="437" end="454">replacePair</a><span class="params">(K <em>key</em>, V <em>oldElement</em>, V <em>newElement</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.replacePair" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L437">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1) average; O(n) worst.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashMap.take" href="./htmlsrc/tango.util.container.HashMap.html#L465" kind="function" beg="465" end="478">take</a><span class="params">(ref V <em>element</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.take" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L465">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove and expose the first element. Returns false when no
+                more elements are contained
+        
+                Time complexity: O(n)</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashMap.take:2" href="./htmlsrc/tango.util.container.HashMap.html#L492" kind="function" beg="492" end="511">take</a><span class="params">(K <em>key</em>, ref V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.take:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L492">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove and expose the element associated with key</div>
+<p class="sec_header">param:</p>a key
+<p class="sec_header">param:</p>a value reference (where returned value will reside)
+<p class="sec_header">Returns:</p>whether the key is contained or not
+        
+                Time complexity: O(1) average, O(n) worst</dd>
+<dt class="decl">bool <a class="symbol _function" name="HashMap.opIndexAssign" href="./htmlsrc/tango.util.container.HashMap.html#L519" kind="function" beg="519" end="522">opIndexAssign</a><span class="params">(V <em>element</em>, K <em>key</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.opIndexAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L519">#</a></dt>
+<dd class="ddef">
+<div class="summary">Operator shortcut for assignment</div></dd>
+<dt class="decl">V <a class="symbol _function" name="HashMap.opIndex" href="./htmlsrc/tango.util.container.HashMap.html#L532" kind="function" beg="532" end="538">opIndex</a><span class="params">(K <em>key</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.opIndex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L532">#</a></dt>
+<dd class="ddef">
+<div class="summary">Operator retreival function</div>
+Throws NoSuchElementException where key is missing</dd>
+<dt class="decl">uint <a class="symbol _function" name="HashMap.remove" href="./htmlsrc/tango.util.container.HashMap.html#L546" kind="function" beg="546" end="552">remove</a><span class="params">(IContainer!(V) <em>e</em>, bool <em>all</em> = false)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L546">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove a set of values</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="HashMap.remove:2" href="./htmlsrc/tango.util.container.HashMap.html#L563" kind="function" beg="563" end="601">remove</a><span class="params">(V <em>element</em>, bool <em>all</em> = false)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.remove:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L563">#</a></dt>
+<dd class="ddef">
+<div class="summary">Removes element instances, and returns the number of elements
+                removed
+                
+                Time complexity: O(1) average; O(n) worst</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="HashMap.replace" href="./htmlsrc/tango.util.container.HashMap.html#L612" kind="function" beg="612" end="627">replace</a><span class="params">(V <em>oldElement</em>, V <em>newElement</em>, bool <em>all</em> = false)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.replace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L612">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace instances of oldElement with newElement, and returns
+                the number of replacements</div>
+Time complexity: O(n).</dd>
+<dt class="decl">HashMap <a class="symbol _function" name="HashMap.clear" href="./htmlsrc/tango.util.container.HashMap.html#L639" kind="function" beg="639" end="642">clear</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L639">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clears the HashMap contents. Various attributes are
+                retained, such as the internal table itself. Invoke
+                reset() to drop everything.</div>
+Time complexity: O(n)</dd>
+<dt class="decl">HashMap <a class="symbol _function" name="HashMap.reset" href="./htmlsrc/tango.util.container.HashMap.html#L653" kind="function" beg="653" end="659">reset</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.reset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L653">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reset the HashMap contents. This releases more memory 
+                than clear() does</div>
+Time complexity: O(n)</dd>
+<dt class="decl">uint <a class="symbol _function" name="HashMap.buckets" href="./htmlsrc/tango.util.container.HashMap.html#L669" kind="function" beg="669" end="672">buckets</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.buckets" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L669">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the number of buckets</div>
+Time complexity: O(1)</dd>
+<dt class="decl">void <a class="symbol _function" name="HashMap.buckets:2" href="./htmlsrc/tango.util.container.HashMap.html#L685" kind="function" beg="685" end="692">buckets</a><span class="params">(uint <em>cap</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.buckets:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L685">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the desired number of buckets in the hash table. Any 
+                value greater than or equal to one is OK.</div>
+If different than current buckets, causes a version change
+                
+                Time complexity: O(n)</dd>
+<dt class="decl">void <a class="symbol _function" name="HashMap.buckets:3" href="./htmlsrc/tango.util.container.HashMap.html#L703" kind="function" beg="703" end="707">buckets</a><span class="params">(uint <em>cap</em>, float <em>threshold</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.buckets:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L703">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the number of buckets for the given threshold
+                and resize as required
+                
+                Time complexity: O(n)</div></dd>
+<dt class="decl">float <a class="symbol _function" name="HashMap.threshold" href="./htmlsrc/tango.util.container.HashMap.html#L720" kind="function" beg="720" end="723">threshold</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.threshold" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L720">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the current load factor threshold</div>
+The Hash table occasionally checka against the load factor
+                resizes itself if it has gone past it.
+<p class="bl"/>
+                Time complexity: O(1)</dd>
+<dt class="decl">void <a class="symbol _function" name="HashMap.threshold:2" href="./htmlsrc/tango.util.container.HashMap.html#L736" kind="function" beg="736" end="742">threshold</a><span class="params">(float <em>desired</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.threshold:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L736">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the resize threshold, and resize as required
+                Set the current desired load factor. Any value greater 
+                than 0 is OK. The current load is checked against it, 
+                possibly causing a resize.
+                
+                Time complexity: O(n)</div></dd>
+<dt class="decl">V[] <a class="symbol _function" name="HashMap.toArray" href="./htmlsrc/tango.util.container.HashMap.html#L756" kind="function" beg="756" end="765">toArray</a><span class="params">(V[] <em>dst</em> = null)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.toArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L756">#</a></dt>
+<dd class="ddef">
+<div class="summary">Copy and return the contained set of values in an array, 
+                using the optional dst as a recipient (which is resized 
+                as necessary).</div>
+Returns a slice of dst representing the container values.
+                
+                Time complexity: O(n)</dd>
+<dt class="decl">bool <a class="symbol _function" name="HashMap.isEmpty" href="./htmlsrc/tango.util.container.HashMap.html#L775" kind="function" beg="775" end="778">isEmpty</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.isEmpty" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L775">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is this container empty?
+                
+                Time complexity: O(1)</div></dd>
+<dt class="decl">HashMap <a class="symbol _function" name="HashMap.check" href="./htmlsrc/tango.util.container.HashMap.html#L786" kind="function" beg="786" end="808">check</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.check" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L786">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sanity check</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="HashMap.instances" href="./htmlsrc/tango.util.container.HashMap.html#L819" kind="function" beg="819" end="826">instances</a><span class="params">(V <em>element</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashMap.instances" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L819">#</a></dt>
+<dd class="ddef">
+<div class="summary">Count the element instances in the set (there can only be
+                0 or 1 instances in a Set).
+                
+                Time complexity: O(n)</div></dd>
+<dt class="decl">HashMap <a class="symbol _function" name="HashMap.checkLoad" href="./htmlsrc/tango.util.container.HashMap.html#L835" kind="function" beg="835" end="842">checkLoad</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashMap.checkLoad" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L835">#</a></dt>
+<dd class="ddef">
+<div class="summary">Check to see if we are past load factor threshold. If so,
+                 resize so that we are at half of the desired threshold.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HashMap.resize" href="./htmlsrc/tango.util.container.HashMap.html#L850" kind="function" beg="850" end="869">resize</a><span class="params">(uint <em>newCap</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashMap.resize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L850">#</a></dt>
+<dd class="ddef">
+<div class="summary">resize table to new capacity, rehashing all elements</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="HashMap.removeNode" href="./htmlsrc/tango.util.container.HashMap.html#L881" kind="function" beg="881" end="896">removeNode</a><span class="params">(Ref <em>node</em>, Ref* <em>list</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashMap.removeNode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L881">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove the indicated node. We need to traverse buckets
+                for this, since we're singly-linked only. Better to save
+                the per-node memory than to gain a little on each remove</div>
+Used by iterators only</dd>
+<dt class="decl">HashMap <a class="symbol _function" name="HashMap.clear:2" href="./htmlsrc/tango.util.container.HashMap.html#L908" kind="function" beg="908" end="928">clear</a><span class="params">(bool <em>all</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#HashMap.clear:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L908">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clears the HashMap contents. Various attributes are
+                retained, such as the internal table itself. Invoke
+                reset() to drop everything.</div>
+Time complexity: O(n)</dd>
+<dt class="decl">void <a class="symbol _function" name="HashMap.increment" href="./htmlsrc/tango.util.container.HashMap.html#L936" kind="function" beg="936" end="940">increment</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashMap.increment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L936">#</a></dt>
+<dd class="ddef">
+<div class="summary">new element was added</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HashMap.decrement" href="./htmlsrc/tango.util.container.HashMap.html#L948" kind="function" beg="948" end="954">decrement</a><span class="params">(Ref <em>p</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashMap.decrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L948">#</a></dt>
+<dd class="ddef">
+<div class="summary">element was removed</div></dd>
+<dt class="decl">void <a class="symbol _function" name="HashMap.mutate" href="./htmlsrc/tango.util.container.HashMap.html#L962" kind="function" beg="962" end="965">mutate</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashMap.mutate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L962">#</a></dt>
+<dd class="ddef">
+<div class="summary">set was changed</div></dd>
+<dt class="decl">struct <a class="symbol _struct" name="HashMap.Freach" href="./htmlsrc/tango.util.container.HashMap.html#L973" kind="struct" beg="973" end="988">Freach</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashMap.Freach" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L973">#</a></dt>
+<dd class="ddef">
+<div class="summary">foreach support for iterators</div>
+</dd>
+<dt class="decl">struct <a class="symbol _struct" name="HashMap.Iterator" href="./htmlsrc/tango.util.container.HashMap.html#L996" kind="struct" beg="996" end="1039">Iterator</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashMap.Iterator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L996">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterator with no filtering</div>
+</dd>
+<dt class="decl">struct <a class="symbol _struct" name="HashMap.IteratorMatch" href="./htmlsrc/tango.util.container.HashMap.html#L1047" kind="struct" beg="1047" end="1075">IteratorMatch</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HashMap.IteratorMatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.HashMap.html#L1047">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterator with value filtering</div>
+</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2008 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:06 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

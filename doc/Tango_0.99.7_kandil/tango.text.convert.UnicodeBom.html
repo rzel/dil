@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.text.convert.UnicodeBom</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.text.convert.UnicodeBom";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.text.convert.UnicodeBom.html" class="symbol">tango.text.convert.UnicodeBom</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: December 2005
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">enum <a class="symbol _enum" name="Encoding" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L28" kind="enum" beg="28" end="38">Encoding</a>; <a title="Permalink to this symbol" href="#Encoding" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L28">#</a></dt>
+<dd class="ddef">
+<div class="summary">see http://icu.sourceforge.net/docs/papers/forms_of_unicode/#t2</div>
+</dd>
+<dt class="decl">class <a class="symbol _class" name="UnicodeBom" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L105" kind="class" beg="105" end="298">UnicodeBom</a><span class="tparams">(T)</span> : BomSniffer; <a title="Permalink to this symbol" href="#UnicodeBom" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L105">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert unicode content</div>
+Unicode is an encoding of textual material. The purpose of this module 
+        is to interface external-encoding with a programmer-defined internal-
+        encoding. This internal encoding is declared via the template argument 
+        T, whilst the external encoding is either specified or derived.
+<p class="bl"/>
+        Three internal encodings are supported: char, wchar, and dchar. The
+        methods herein operate upon arrays of this type. That is, decode()
+        returns an array of the type, while encode() expect an array of said 
+        type.
+<p class="bl"/>
+        Supported external encodings are as follow:
+<p class="bl"/>
+                Encoding.Unknown 
+                Encoding.UTF_8
+                Encoding.UTF_8N
+                Encoding.UTF_16
+                Encoding.UTF_16BE
+                Encoding.UTF_16LE 
+                Encoding.UTF_32 
+                Encoding.UTF_32BE
+                Encoding.UTF_32LE 
+<p class="bl"/>
+        These can be divided into non-explicit and explicit encodings:
+<p class="bl"/>
+                Encoding.Unknown 
+                Encoding.UTF_8
+                Encoding.UTF_16
+                Encoding.UTF_32 
+<p class="bl"/>
+
+                Encoding.UTF_8N
+                Encoding.UTF_16BE
+                Encoding.UTF_16LE 
+                Encoding.UTF_32BE
+                Encoding.UTF_32LE 
+        
+        The former group of non-explicit encodings may be used to 'discover'
+        an unknown encoding, by examining the first few bytes of the content
+        for a signature. This signature is optional, but is often written such 
+        that the content is self-describing. When an encoding is unknown, using 
+        one of the non-explicit encodings will cause the decode() method to look 
+        for a signature and adjust itself accordingly. It is possible that a 
+        ZWNBSP character might be confused with the signature; today's unicode 
+        content is supposed to use the WORD-JOINER character instead.
+       
+        The group of explicit encodings are for use when the content encoding 
+        is known. These *must* be used when converting back to external encoding, 
+        since written content must be in a known format. It should be noted that, 
+        during a decode() operation, the existence of a signature is in conflict 
+        with these explicit varieties.
+<p class="bl"/>
+
+        See 
+        <a href="http://www.utf-8.com/">http://www.utf-8.com/</a>
+        <a href="http://www.hackcraft.net/xmlUnicode/">http://www.hackcraft.net/xmlUnicode/</a>
+        <a href="http://www.unicode.org/faq/utf_bom.html/">http://www.unicode.org/faq/utf_bom.html/</a>
+        <a href="http://www.azillionmonkeys.com/qed/unicode.html/">http://www.azillionmonkeys.com/qed/unicode.html/</a>
+        <a href="http://icu.sourceforge.net/docs/papers/forms_of_unicode/">http://icu.sourceforge.net/docs/papers/forms_of_unicode/</a>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="UnicodeBom.this" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L117" kind="ctor" beg="117" end="120">this</a><span class="params">(Encoding <em>encoding</em>)</span>; <a title="Permalink to this symbol" href="#UnicodeBom.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L117">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a instance using the given external encoding ~ one 
+                of the Encoding.xx types</div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="UnicodeBom.decode" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L133" kind="function" beg="133" end="161">decode</a><span class="params">(void[] <em>content</em>, T[] <em>dst</em> = null, uint* <em>ate</em> = null)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#UnicodeBom.decode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L133">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert the provided content. The content is inspected 
+                for a BOM signature, which is stripped. An exception is
+                thrown if a signature is present when, according to the
+                encoding type, it should not be. Conversely, An exception
+                is thrown if there is no known signature where the current
+                encoding expects one to be present</div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="UnicodeBom.encode" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L170" kind="function" beg="170" end="177">encode</a><span class="params">(T[] <em>content</em>, void[] <em>dst</em> = null, uint* <em>ate</em> = null)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#UnicodeBom.encode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L170">#</a></dt>
+<dd class="ddef">
+<div class="summary">Perform encoding of content. Note that the encoding must be 
+                of the explicit variety by the time we get here</div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="UnicodeBom.swapBytes" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L185" kind="function" beg="185" end="201">swapBytes</a><span class="params">(void[] <em>content</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#UnicodeBom.swapBytes" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L185">#</a></dt>
+<dd class="ddef">
+<div class="summary">Swap bytes around, as required by the encoding</div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="UnicodeBom.into" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L208" kind="function" beg="208" end="249">into</a><span class="params">(void[] <em>x</em>, uint <em>type</em>, T[] <em>dst</em> = null, uint* <em>ate</em> = null)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#UnicodeBom.into" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L208">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="UnicodeBom.from" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L256" kind="function" beg="256" end="297">from</a><span class="params">(T[] <em>x</em>, uint <em>type</em>, void[] <em>dst</em> = null, uint* <em>ate</em> = null)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#UnicodeBom.from" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L256">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="BomSniffer" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L306" kind="class" beg="306" end="393">BomSniffer</a>; <a title="Permalink to this symbol" href="#BomSniffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L306">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl">Encoding <a class="symbol _function" name="BomSniffer.encoding" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L346" kind="function" beg="346" end="349">encoding</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#BomSniffer.encoding" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L346">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the current encoding. This is either the originally
+                specified encoding, or a derived one obtained by inspecting
+                the content for a BOM. The latter is performed as part of 
+                the decode() method</div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="BomSniffer.signature" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L357" kind="function" beg="357" end="360">signature</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#BomSniffer.signature" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L357">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the signature (BOM) of the current encoding</div></dd>
+<dt class="decl">void <a class="symbol _function" name="BomSniffer.setup" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L368" kind="function" beg="368" end="372">setup</a><span class="params">(Encoding <em>encoding</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#BomSniffer.setup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L368">#</a></dt>
+<dd class="ddef">
+<div class="summary">Configure this instance with unicode converters</div></dd>
+<dt class="decl">Info* <a class="symbol _function" name="BomSniffer.test" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L381" kind="function" beg="381" end="392">test</a><span class="params">(void[] <em>content</em>)</span>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#BomSniffer.test" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.UnicodeBom.html#L381">#</a></dt>
+<dd class="ddef">
+<div class="summary">Scan the BOM signatures looking for a match. We scan in 
+                reverse order to get the longest match first</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:47 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

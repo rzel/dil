@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.text.convert.Sprint</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.text.convert.Sprint";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.text.convert.Sprint.html" class="symbol">tango.text.convert.Sprint</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Nov 2005: Initial release
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Sprint" href="./htmlsrc/tango.text.convert.Sprint.html#L52" kind="class" beg="52" end="110">Sprint</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#Sprint" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Sprint.html#L52">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs sprintf-style output. This is a replacement for the 
+        vsprintf() family of functions, and writes its output into a 
+        lookaside buffer:
+        <pre class="d_code">
+<span class="lc">// create a Sprint instance</span>
+<span class="k">auto</span> <span class="i">sprint</span> = <span class="k">new</span> <span class="i">Sprint</span>!(<span class="k">char</span>);
+
+<span class="lc">// write formatted text to a logger</span>
+<span class="i">log</span>.<span class="i">info</span> (<span class="i">sprint</span> (<span class="sl">"{} green bottles, sitting on a wall\n"</span>, <span class="n">10</span>));
+</pre></div>
+Sprint can be handy when you wish to format text for a Logger
+        or similar, since it avoids heap activity during conversion by
+        hosting a fixed size conversion buffer. This is important when
+        debugging since heap activity can be responsible for behavioral 
+        changes. One would create a Sprint instance ahead of time, and
+        utilize it in conjunction with the logging package.
+               
+        Please note that the class itself is stateful, and therefore a 
+        single instance is not shareable across multiple threads. The
+        returned content is not .dup'd either, so do that yourself if
+        you require a persistent copy.
+        
+        Note also that Sprint is templated, and can be instantiated for
+        wide chars through a Sprint!(dchar) or Sprint!(wchar). The wide
+        versions differ in that both the output and the format-string
+        are of the target type. Variadic text arguments are transcoded 
+        appropriately.
+<p class="bl"/>
+        See also: tango.text.convert.Layout
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="Sprint.this" href="./htmlsrc/tango.text.convert.Sprint.html#L67" kind="ctor" beg="67" end="73">this</a><span class="params">(int <em>size</em> = 256)</span>; <a title="Permalink to this symbol" href="#Sprint.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Sprint.html#L67">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create new Sprint instances with a buffer of the specified
+                size</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="Sprint.this:2" href="./htmlsrc/tango.text.convert.Sprint.html#L83" kind="ctor" beg="83" end="87">this</a><span class="params">(int <em>size</em>, Layout!(T) <em>formatter</em>)</span>; <a title="Permalink to this symbol" href="#Sprint.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Sprint.html#L83">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create new Sprint instances with a buffer of the specified
+                size, and the provided formatter. The second argument can be
+                used to apply cultural specifics (I18N) to Sprint</div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="Sprint.format" href="./htmlsrc/tango.text.convert.Sprint.html#L95" kind="function" beg="95" end="98">format</a><span class="params">(T[] <em>fmt</em>, ...)</span>; <a title="Permalink to this symbol" href="#Sprint.format" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Sprint.html#L95">#</a></dt>
+<dd class="ddef">
+<div class="summary">Layout a set of arguments</div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="Sprint.format:2" href="./htmlsrc/tango.text.convert.Sprint.html#L106" kind="function" beg="106" end="109">format</a><span class="params">(T[] <em>fmt</em>, TypeInfo[] <em>arguments</em>, ArgList <em>argptr</em>)</span>; <a title="Permalink to this symbol" href="#Sprint.format:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.convert.Sprint.html#L106">#</a></dt>
+<dd class="ddef">
+<div class="summary">Layout a set of arguments</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2005 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:47 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

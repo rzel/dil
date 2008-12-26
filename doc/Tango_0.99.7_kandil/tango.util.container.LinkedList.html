@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.container.LinkedList</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.container.LinkedList";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.container.LinkedList.html" class="symbol">tango.util.container.LinkedList</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Apr 2008: Initial release
+<p class="sec_header">Authors:</p>Kris
+<p class="sec_header">Since:</p>0.99.7
+<p class="bl"/>
+        Based upon Doug Lea's Java collection package
+<dl>
+<dt class="decl">class <a class="symbol _class" name="LinkedList" href="./htmlsrc/tango.util.container.LinkedList.html#L76" kind="class" beg="76" end="1032">LinkedList</a><span class="tparams">(V, alias Reap = Container.reap, 
+                     alias Heap = Container.Collect)</span> : IContainer!(V); <a title="Permalink to this symbol" href="#LinkedList" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L76">#</a></dt>
+<dd class="ddef">
+<div class="summary">List of singly-linked values</div>
+<pre class="d_code">
+<span class="i">Iterator</span> <span class="i">iterator</span> ()
+       <span class="i">IteratorMatch</span> <span class="i">iterator</span> (<span class="i">V</span> <span class="i">value</span>)
+       <span class="k">int</span> <span class="i">opApply</span> (<span class="k">int</span> <span class="k">delegate</span>(<span class="k">ref</span> <span class="i">V</span> <span class="i">value</span>) <span class="i">dg</span>)
+
+       <span class="i">V</span> <span class="i">head</span> ()
+       <span class="i">V</span> <span class="i">tail</span> ()
+       <span class="i">V</span> <span class="i">head</span> (<span class="i">V</span> <span class="i">value</span>)
+       <span class="i">V</span> <span class="i">tail</span> (<span class="i">V</span> <span class="i">value</span>)
+       <span class="i">V</span> <span class="i">removeHead</span> ()
+       <span class="i">V</span> <span class="i">removeTail</span> ()
+
+       <span class="k">bool</span> <span class="i">contains</span> (<span class="i">V</span> <span class="i">value</span>)
+       <span class="k">uint</span> <span class="i">first</span> (<span class="i">V</span> <span class="i">value</span>, <span class="k">uint</span> <span class="i">startingIndex</span> = <span class="n">0</span>)
+       <span class="k">uint</span> <span class="i">last</span> (<span class="i">V</span> <span class="i">value</span>, <span class="k">uint</span> <span class="i">startingIndex</span> = <span class="n">0</span>)
+
+       <span class="i">LinkedList</span> <span class="i">add</span> (<span class="i">V</span> <span class="i">value</span>)
+       <span class="i">LinkedList</span> <span class="i">prepend</span> (<span class="i">V</span> <span class="i">value</span>)
+       <span class="k">uint</span> <span class="i">prepend</span> (<span class="i">IContainer</span>!(<span class="i">V</span>) <span class="i">e</span>)
+       <span class="i">LinkedList</span> <span class="i">append</span> (<span class="i">V</span> <span class="i">value</span>)
+       <span class="k">uint</span> <span class="i">append</span> (<span class="i">IContainer</span>!(<span class="i">V</span>) <span class="i">e</span>)
+       <span class="i">LinkedList</span> <span class="i">addAt</span> (<span class="k">uint</span> <span class="i">index</span>, <span class="i">V</span> <span class="i">value</span>)
+       <span class="k">uint</span> <span class="i">addAt</span> (<span class="k">uint</span> <span class="i">index</span>, <span class="i">IContainer</span>!(<span class="i">V</span>) <span class="i">e</span>)
+
+       <span class="i">V</span> <span class="i">get</span> (<span class="k">uint</span> <span class="i">index</span>)
+       <span class="k">bool</span> <span class="i">take</span> (<span class="k">ref</span> <span class="i">V</span> <span class="i">v</span>)
+       <span class="k">uint</span> <span class="i">remove</span> (<span class="i">V</span> <span class="i">value</span>, <span class="k">bool</span> <span class="i">all</span>)
+       <span class="k">bool</span> <span class="i">removeAt</span> (<span class="k">uint</span> <span class="i">index</span>)
+       <span class="k">uint</span> <span class="i">removeRange</span> (<span class="k">uint</span> <span class="i">fromIndex</span>, <span class="k">uint</span> <span class="i">toIndex</span>)
+       <span class="k">uint</span> <span class="i">replace</span> (<span class="i">V</span> <span class="i">oldElement</span>, <span class="i">V</span> <span class="i">newElement</span>, <span class="k">bool</span> <span class="i">all</span>)
+       <span class="k">bool</span> <span class="i">replaceAt</span> (<span class="k">uint</span> <span class="i">index</span>, <span class="i">V</span> <span class="i">value</span>)
+
+       <span class="i">LinkedList</span> <span class="i">clear</span> ()
+       <span class="i">LinkedList</span> <span class="i">reset</span> ()
+
+       <span class="i">LinkedList</span> <span class="i">subset</span> (<span class="k">uint</span> <span class="i">from</span>, <span class="k">uint</span> <span class="i">length</span> = <span class="k">int</span>.<span class="i">max</span>)
+       <span class="i">LinkedList</span> <span class="i">dup</span> ()
+
+       <span class="k">uint</span> <span class="i">size</span> ()
+       <span class="k">bool</span> <span class="i">isEmpty</span> ()
+       <span class="i">V</span>[] <span class="i">toArray</span> (<span class="i">V</span>[] <span class="i">dst</span>)
+       <span class="i">LinkedList</span> <span class="i">sort</span> (<span class="i">Compare</span>!(<span class="i">V</span>) <span class="i">cmp</span>)
+       <span class="i">LinkedList</span> <span class="i">check</span> ()
+</pre>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="LinkedList.this" href="./htmlsrc/tango.util.container.LinkedList.html#L105" kind="ctor" beg="105" end="108">this</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#LinkedList.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L105">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a new empty list</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="LinkedList.this:2" href="./htmlsrc/tango.util.container.LinkedList.html#L116" kind="ctor" beg="116" end="120">this</a><span class="params">(Ref <em>l</em>, int <em>c</em>)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L116">#</a></dt>
+<dd class="ddef">
+<div class="summary">Special version of constructor needed by dup</div></dd>
+<dt class="decl"><a class="symbol _dtor" name="LinkedList.~this" href="./htmlsrc/tango.util.container.LinkedList.html#L128" kind="dtor" beg="128" end="131">~this</a>(); <a title="Permalink to this symbol" href="#LinkedList.~this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L128">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clean up when deleted</div></dd>
+<dt class="decl">Alloc <a class="symbol _function" name="LinkedList.allocator" href="./htmlsrc/tango.util.container.LinkedList.html#L139" kind="function" beg="139" end="142">allocator</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.allocator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L139">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the configured allocator</div></dd>
+<dt class="decl">Iterator <a class="symbol _function" name="LinkedList.iterator" href="./htmlsrc/tango.util.container.LinkedList.html#L150" kind="function" beg="150" end="160">iterator</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.iterator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L150">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a generic iterator for contained elements</div></dd>
+<dt class="decl">IteratorMatch <a class="symbol _function" name="LinkedList.iterator:2" href="./htmlsrc/tango.util.container.LinkedList.html#L168" kind="function" beg="168" end="174">iterator</a><span class="params">(V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.iterator:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L168">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return an iterator which filters on the provided value</div></dd>
+<dt class="decl">int <a class="symbol _function" name="LinkedList.opApply" href="./htmlsrc/tango.util.container.LinkedList.html#L181" kind="function" beg="181" end="185">opApply</a><span class="params">(int delegate(ref V value) <em>dg</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L181">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="LinkedList.size" href="./htmlsrc/tango.util.container.LinkedList.html#L193" kind="function" beg="193" end="196">size</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L193">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the number of elements contained</div></dd>
+<dt class="decl">LinkedList <a class="symbol _function" name="LinkedList.dup" href="./htmlsrc/tango.util.container.LinkedList.html#L205" kind="function" beg="205" end="208">dup</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.dup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L205">#</a></dt>
+<dd class="ddef">
+<div class="summary">Build an independent copy of the list.
+                The elements themselves are not cloned</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="LinkedList.contains" href="./htmlsrc/tango.util.container.LinkedList.html#L216" kind="function" beg="216" end="222">contains</a><span class="params">(V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.contains" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L216">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">V <a class="symbol _function" name="LinkedList.head" href="./htmlsrc/tango.util.container.LinkedList.html#L230" kind="function" beg="230" end="233">head</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.head" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L230">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">V <a class="symbol _function" name="LinkedList.tail" href="./htmlsrc/tango.util.container.LinkedList.html#L241" kind="function" beg="241" end="244">tail</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.tail" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L241">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">V <a class="symbol _function" name="LinkedList.get" href="./htmlsrc/tango.util.container.LinkedList.html#L252" kind="function" beg="252" end="255">get</a><span class="params">(uint <em>index</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L252">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="LinkedList.first" href="./htmlsrc/tango.util.container.LinkedList.html#L263" kind="function" beg="263" end="279">first</a><span class="params">(V <em>value</em>, uint <em>startingIndex</em> = 0)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.first" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L263">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="LinkedList.last" href="./htmlsrc/tango.util.container.LinkedList.html#L287" kind="function" beg="287" end="306">last</a><span class="params">(V <em>value</em>, uint <em>startingIndex</em> = 0)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.last" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L287">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">LinkedList <a class="symbol _function" name="LinkedList.subset" href="./htmlsrc/tango.util.container.LinkedList.html#L314" kind="function" beg="314" end="334">subset</a><span class="params">(uint <em>from</em>, uint <em>length</em> = int.max)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.subset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L314">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(length)</div></dd>
+<dt class="decl">LinkedList <a class="symbol _function" name="LinkedList.clear" href="./htmlsrc/tango.util.container.LinkedList.html#L342" kind="function" beg="342" end="345">clear</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L342">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">LinkedList <a class="symbol _function" name="LinkedList.reset" href="./htmlsrc/tango.util.container.LinkedList.html#L358" kind="function" beg="358" end="361">reset</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.reset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L358">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reset the HashMap contents and optionally configure a new
+                heap manager. We cannot guarantee to clean up reconfigured 
+                allocators, so be sure to invoke reset() before discarding
+                this class</div>
+Time complexity: O(n)</dd>
+<dt class="decl">bool <a class="symbol _function" name="LinkedList.take" href="./htmlsrc/tango.util.container.LinkedList.html#L371" kind="function" beg="371" end="380">take</a><span class="params">(ref V <em>v</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.take" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L371">#</a></dt>
+<dd class="ddef">
+<div class="summary">Takes the first value on the list</div>
+Time complexity: O(1)</dd>
+<dt class="decl">LinkedList <a class="symbol _function" name="LinkedList.sort" href="./htmlsrc/tango.util.container.LinkedList.html#L390" kind="function" beg="390" end="398">sort</a><span class="params">(Compare!(V) <em>cmp</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.sort" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L390">#</a></dt>
+<dd class="ddef">
+<div class="summary">Uses a merge-sort-based algorithm.</div>
+Time complexity: O(n log n)</dd>
+<dt class="decl">LinkedList <a class="symbol _function" name="LinkedList.add" href="./htmlsrc/tango.util.container.LinkedList.html#L406" kind="function" beg="406" end="409">add</a><span class="params">(V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.add" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L406">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">LinkedList <a class="symbol _function" name="LinkedList.prepend" href="./htmlsrc/tango.util.container.LinkedList.html#L417" kind="function" beg="417" end="422">prepend</a><span class="params">(V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.prepend" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L417">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="LinkedList.remove" href="./htmlsrc/tango.util.container.LinkedList.html#L430" kind="function" beg="430" end="465">remove</a><span class="params">(V <em>value</em>, bool <em>all</em> = false)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L430">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="LinkedList.replace" href="./htmlsrc/tango.util.container.LinkedList.html#L473" kind="function" beg="473" end="490">replace</a><span class="params">(V <em>oldElement</em>, V <em>newElement</em>, bool <em>all</em> = false)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.replace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L473">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">V <a class="symbol _function" name="LinkedList.head:2" href="./htmlsrc/tango.util.container.LinkedList.html#L498" kind="function" beg="498" end="505">head</a><span class="params">(V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.head:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L498">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">V <a class="symbol _function" name="LinkedList.removeHead" href="./htmlsrc/tango.util.container.LinkedList.html#L513" kind="function" beg="513" end="520">removeHead</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.removeHead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L513">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1)</div></dd>
+<dt class="decl">LinkedList <a class="symbol _function" name="LinkedList.append" href="./htmlsrc/tango.util.container.LinkedList.html#L528" kind="function" beg="528" end="538">append</a><span class="params">(V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L528">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">V <a class="symbol _function" name="LinkedList.tail:2" href="./htmlsrc/tango.util.container.LinkedList.html#L546" kind="function" beg="546" end="553">tail</a><span class="params">(V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.tail:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L546">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">V <a class="symbol _function" name="LinkedList.removeTail" href="./htmlsrc/tango.util.container.LinkedList.html#L561" kind="function" beg="561" end="578">removeTail</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.removeTail" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L561">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">LinkedList <a class="symbol _function" name="LinkedList.addAt" href="./htmlsrc/tango.util.container.LinkedList.html#L586" kind="function" beg="586" end="596">addAt</a><span class="params">(uint <em>index</em>, V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.addAt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L586">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">LinkedList <a class="symbol _function" name="LinkedList.removeAt" href="./htmlsrc/tango.util.container.LinkedList.html#L604" kind="function" beg="604" end="615">removeAt</a><span class="params">(uint <em>index</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.removeAt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L604">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">LinkedList <a class="symbol _function" name="LinkedList.replaceAt" href="./htmlsrc/tango.util.container.LinkedList.html#L623" kind="function" beg="623" end="628">replaceAt</a><span class="params">(uint <em>index</em>, V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.replaceAt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L623">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="LinkedList.prepend:2" href="./htmlsrc/tango.util.container.LinkedList.html#L636" kind="function" beg="636" end="641">prepend</a><span class="params">(IContainer!(V) <em>e</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.prepend:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L636">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(number of elements in e)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="LinkedList.append:2" href="./htmlsrc/tango.util.container.LinkedList.html#L649" kind="function" beg="649" end="657">append</a><span class="params">(IContainer!(V) <em>e</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.append:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L649">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n + number of elements in e)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="LinkedList.addAt:2" href="./htmlsrc/tango.util.container.LinkedList.html#L665" kind="function" beg="665" end="676">addAt</a><span class="params">(uint <em>index</em>, IContainer!(V) <em>e</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.addAt:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L665">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n + number of elements in e)</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="LinkedList.removeRange" href="./htmlsrc/tango.util.container.LinkedList.html#L684" kind="function" beg="684" end="709">removeRange</a><span class="params">(uint <em>fromIndex</em>, uint <em>toIndex</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.removeRange" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L684">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">V[] <a class="symbol _function" name="LinkedList.toArray" href="./htmlsrc/tango.util.container.LinkedList.html#L723" kind="function" beg="723" end="732">toArray</a><span class="params">(V[] <em>dst</em> = null)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.toArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L723">#</a></dt>
+<dd class="ddef">
+<div class="summary">Copy and return the contained set of values in an array, 
+                using the optional dst as a recipient (which is resized 
+                as necessary).</div>
+Returns a slice of dst representing the container values.
+                
+                Time complexity: O(n)</dd>
+<dt class="decl">bool <a class="symbol _function" name="LinkedList.isEmpty" href="./htmlsrc/tango.util.container.LinkedList.html#L742" kind="function" beg="742" end="745">isEmpty</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.isEmpty" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L742">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is this container empty?
+                
+                Time complexity: O(1)</div></dd>
+<dt class="decl">LinkedList <a class="symbol _function" name="LinkedList.check" href="./htmlsrc/tango.util.container.LinkedList.html#L751" kind="function" beg="751" end="765">check</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.check" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L751">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="LinkedList.instances" href="./htmlsrc/tango.util.container.LinkedList.html#L773" kind="function" beg="773" end="779">instances</a><span class="params">(V <em>value</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.instances" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L773">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">Ref <a class="symbol _function" name="LinkedList.firstCell" href="./htmlsrc/tango.util.container.LinkedList.html#L785" kind="function" beg="785" end="789">firstCell</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.firstCell" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L785">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">Ref <a class="symbol _function" name="LinkedList.lastCell" href="./htmlsrc/tango.util.container.LinkedList.html#L795" kind="function" beg="795" end="799">lastCell</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.lastCell" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L795">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">Ref <a class="symbol _function" name="LinkedList.cellAt" href="./htmlsrc/tango.util.container.LinkedList.html#L805" kind="function" beg="805" end="809">cellAt</a><span class="params">(uint <em>index</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.cellAt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L805">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="LinkedList.checkIndex" href="./htmlsrc/tango.util.container.LinkedList.html#L815" kind="function" beg="815" end="819">checkIndex</a><span class="params">(uint <em>index</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.checkIndex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L815">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="LinkedList.splice_" href="./htmlsrc/tango.util.container.LinkedList.html#L830" kind="function" beg="830" end="856">splice_</a><span class="params">(IContainer!(V) <em>e</em>, Ref <em>hd</em>, Ref <em>tl</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.splice_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L830">#</a></dt>
+<dd class="ddef">
+<div class="summary">Splice elements of e between hd and tl. If hd 
+                is null return new hd</div>
+Returns the count of new elements added</dd>
+<dt class="decl">LinkedList <a class="symbol _function" name="LinkedList.clear:2" href="./htmlsrc/tango.util.container.LinkedList.html#L864" kind="function" beg="864" end="883">clear</a><span class="params">(bool <em>all</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.clear:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L864">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">void <a class="symbol _function" name="LinkedList.increment" href="./htmlsrc/tango.util.container.LinkedList.html#L891" kind="function" beg="891" end="895">increment</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.increment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L891">#</a></dt>
+<dd class="ddef">
+<div class="summary">new element was added</div></dd>
+<dt class="decl">void <a class="symbol _function" name="LinkedList.decrement" href="./htmlsrc/tango.util.container.LinkedList.html#L903" kind="function" beg="903" end="909">decrement</a><span class="params">(Ref <em>p</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.decrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L903">#</a></dt>
+<dd class="ddef">
+<div class="summary">element was removed</div></dd>
+<dt class="decl">void <a class="symbol _function" name="LinkedList.mutate" href="./htmlsrc/tango.util.container.LinkedList.html#L917" kind="function" beg="917" end="920">mutate</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.mutate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L917">#</a></dt>
+<dd class="ddef">
+<div class="summary">set was changed</div></dd>
+<dt class="decl">struct <a class="symbol _struct" name="LinkedList.Freach" href="./htmlsrc/tango.util.container.LinkedList.html#L928" kind="struct" beg="928" end="942">Freach</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.Freach" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L928">#</a></dt>
+<dd class="ddef">
+<div class="summary">foreach support for iterators</div>
+</dd>
+<dt class="decl">struct <a class="symbol _struct" name="LinkedList.Iterator" href="./htmlsrc/tango.util.container.LinkedList.html#L950" kind="struct" beg="950" end="995">Iterator</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.Iterator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L950">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterator with no filtering</div>
+</dd>
+<dt class="decl">struct <a class="symbol _struct" name="LinkedList.IteratorMatch" href="./htmlsrc/tango.util.container.LinkedList.html#L1003" kind="struct" beg="1003" end="1031">IteratorMatch</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#LinkedList.IteratorMatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.LinkedList.html#L1003">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterator with value filtering</div>
+</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2008 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:07 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

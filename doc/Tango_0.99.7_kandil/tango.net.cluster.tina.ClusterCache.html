@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.cluster.tina.ClusterCache</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.cluster.tina.ClusterCache";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html" class="symbol">tango.net.cluster.tina.ClusterCache</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>July 2004: Initial release
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="ClusterCache" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L29" kind="class" beg="29" end="133">ClusterCache</a>; <a title="Permalink to this symbol" href="#ClusterCache" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L29">#</a></dt>
+<dd class="ddef">
+<div class="summary">The cache containers. These are initiated by ClusterServer and 
+        maintained via ClusterThread.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="ClusterCache.this" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L49" kind="ctor" beg="49" end="54">this</a><span class="params">(Cluster <em>cluster</em>, uint <em>size</em>)</span>; <a title="Permalink to this symbol" href="#ClusterCache.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L49">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a host for multi-channel cache instances.</div>
+<p class="sec_header">TODO:</p>all cache instances are currently the same size, 
+                and it would be more practical to support some scheme
+                of specifying distinct sizes. Also, this could likely
+                benefit from a dedicated slab allocator instead of a
+                QueuedCache.</dd>
+<dt class="decl">bool <a class="symbol _function" name="ClusterCache.put" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L66" kind="function" beg="66" end="70">put</a><span class="params">(char[] <em>channel</em>, char[] <em>element</em>, ClusterContent <em>content</em>, Time <em>time</em>)</span>; <a title="Permalink to this symbol" href="#ClusterCache.put" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L66">#</a></dt>
+<dd class="ddef">
+<div class="summary">Stuff an entry into cache for the channel:element pair. If
+                the time value is provided, it will be used to guard against
+                updating an existing "newer" cache entry.</div>
+Note that the args are aliased, so we copy them as necessary</dd>
+<dt class="decl">ClusterContent <a class="symbol _function" name="ClusterCache.extract" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L78" kind="function" beg="78" end="81">extract</a><span class="params">(char[] <em>channel</em>, char[] <em>element</em>)</span>; <a title="Permalink to this symbol" href="#ClusterCache.extract" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L78">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove an entry from the cache</div></dd>
+<dt class="decl">ClusterContent <a class="symbol _function" name="ClusterCache.get" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L89" kind="function" beg="89" end="92">get</a><span class="params">(char[] <em>channel</em>, char[] <em>element</em>)</span>; <a title="Permalink to this symbol" href="#ClusterCache.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L89">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return an entry from the cache</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="ClusterCache.lock" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L104" kind="function" beg="104" end="107">lock</a><span class="params">(char[] <em>channel</em>, char[] <em>element</em>, Time <em>time</em>)</span>; <a title="Permalink to this symbol" href="#ClusterCache.lock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L104">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add a cache lock where the entry is invalid or unlocked.
+                Returns true if locked by this call, false otherwise. Note
+                that this will return false if the entry is already locked.</div>
+<p class="sec_header">TODO:</p>implement</dd>
+<dt class="decl">void <a class="symbol _function" name="ClusterCache.unlock" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L115" kind="function" beg="115" end="117">unlock</a><span class="params">(char[] <em>channel</em>, char[] <em>element</em>)</span>; <a title="Permalink to this symbol" href="#ClusterCache.unlock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L115">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">TODO:</p>implement</dd>
+<dt class="decl">Cache <a class="symbol _function" name="ClusterCache.lookup" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L126" kind="function" beg="126" end="132">lookup</a><span class="params">(char[] <em>channel</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">synchronized</span>]</span> <a title="Permalink to this symbol" href="#ClusterCache.lookup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.ClusterCache.html#L126">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a channel-specific cache. Could benefit from a
+                lock-free hashmap, instread of synching on AA access</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:55 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

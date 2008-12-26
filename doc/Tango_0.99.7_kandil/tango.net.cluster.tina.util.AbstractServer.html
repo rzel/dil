@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.cluster.tina.util.AbstractServer</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.cluster.tina.util.AbstractServer";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html" class="symbol">tango.net.cluster.tina.util.AbstractServer</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: April 2004
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="AbstractServer" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L36" kind="class" beg="36" end="210">AbstractServer</a> : IServer; <a title="Permalink to this symbol" href="#AbstractServer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L36">#</a></dt>
+<dd class="ddef">
+<div class="summary">Exposes the foundation of a multi-threaded Socket server. This is
+        subclassed by  mango.net.http.server.HttpServer, which itself would
+        likely be subclassed by a SecureHttpServer.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="AbstractServer.this" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L58" kind="ctor" beg="58" end="72">this</a><span class="params">(InternetAddress <em>bind</em>, int <em>threads</em>, int <em>backlog</em>, Logger <em>logger</em>)</span>; <a title="Permalink to this symbol" href="#AbstractServer.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L58">#</a></dt>
+<dd class="ddef">
+<div class="summary">Setup this server with the requisite attributes. The number
+                of threads specified dictate exactly that. You might have
+                anything between 1 thread and several hundred, dependent
+                upon the underlying O/S and hardware.</div>
+Parameter 'backlog' specifies the max number of"simultaneous"
+                connection requests to be handled by an underlying socket
+                implementation.</dd>
+<dt class="decl">char[] <a class="symbol _function" name="AbstractServer.toString" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L80" kind="function" beg="80" end="80">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#AbstractServer.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L80">#</a></dt>
+<dd class="ddef">
+<div class="summary">Concrete server must expose a name</div></dd>
+<dt class="decl">ServerSocket <a class="symbol _function" name="AbstractServer.createSocket" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L88" kind="function" beg="88" end="88">createSocket</a><span class="params">(InternetAddress <em>bind</em>, int <em>backlog</em>, bool <em>reuse</em> = false)</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#AbstractServer.createSocket" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L88">#</a></dt>
+<dd class="ddef">
+<div class="summary">Concrete server must expose a ServerSocket factory</div></dd>
+<dt class="decl">void <a class="symbol _function" name="AbstractServer.createThread" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L96" kind="function" beg="96" end="96">createThread</a><span class="params">(ServerSocket <em>socket</em>)</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#AbstractServer.createThread" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L96">#</a></dt>
+<dd class="ddef">
+<div class="summary">Concrete server must expose a thread factory</div></dd>
+<dt class="decl">void <a class="symbol _function" name="AbstractServer.service" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L104" kind="function" beg="104" end="104">service</a><span class="params">(SocketConduit <em>conduit</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#AbstractServer.service" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L104">#</a></dt>
+<dd class="ddef">
+<div class="summary">Concrete server must expose a service handler</div></dd>
+<dt class="decl">IPv4Address <a class="symbol _function" name="AbstractServer.remoteAddress" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L112" kind="function" beg="112" end="118">remoteAddress</a><span class="params">(IConduit <em>conduit</em>)</span>; <a title="Permalink to this symbol" href="#AbstractServer.remoteAddress" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L112">#</a></dt>
+<dd class="ddef">
+<div class="summary">Provide support for figuring out the remote address</div></dd>
+<dt class="decl">IPv4Address <a class="symbol _function" name="AbstractServer.localAddress" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L126" kind="function" beg="126" end="129">localAddress</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#AbstractServer.localAddress" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L126">#</a></dt>
+<dd class="ddef">
+<div class="summary">Provide support for figuring out the remote address</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="AbstractServer.getRemoteAddress" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L137" kind="function" beg="137" end="144">getRemoteAddress</a><span class="params">(IConduit <em>conduit</em>)</span>; <a title="Permalink to this symbol" href="#AbstractServer.getRemoteAddress" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L137">#</a></dt>
+<dd class="ddef">
+<div class="summary">Provide support for figuring out the remote address</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="AbstractServer.getRemoteHost" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L153" kind="function" beg="153" end="156">getRemoteHost</a><span class="params">(IConduit <em>conduit</em>)</span>; <a title="Permalink to this symbol" href="#AbstractServer.getRemoteHost" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L153">#</a></dt>
+<dd class="ddef">
+<div class="summary">Provide support for figuring out the remote host. Not
+                currently implemented.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="AbstractServer.getPort" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L164" kind="function" beg="164" end="167">getPort</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#AbstractServer.getPort" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L164">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the local port we're attached to</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="AbstractServer.getHost" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L175" kind="function" beg="175" end="178">getHost</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#AbstractServer.getHost" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L175">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the local address we're attached to</div></dd>
+<dt class="decl">Logger <a class="symbol _function" name="AbstractServer.getLogger" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L186" kind="function" beg="186" end="189">getLogger</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#AbstractServer.getLogger" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L186">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the logger associated with this server</div></dd>
+<dt class="decl">void <a class="symbol _function" name="AbstractServer.start" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L197" kind="function" beg="197" end="209">start</a><span class="params">(bool <em>reuse</em> = false)</span>; <a title="Permalink to this symbol" href="#AbstractServer.start" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.tina.util.AbstractServer.html#L197">#</a></dt>
+<dd class="ddef">
+<div class="summary">Start this server</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:56 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

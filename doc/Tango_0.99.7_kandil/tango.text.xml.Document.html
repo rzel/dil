@@ -1,0 +1,635 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.text.xml.Document</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.text.xml.Document";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.text.xml.Document.html" class="symbol">tango.text.xml.Document</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Initial release: February 2008
+<p class="sec_header">Authors:</p>Aaron, Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Document" href="./htmlsrc/tango.text.xml.Document.html#L129" kind="class" beg="129" end="1077">Document</a><span class="tparams">(T)</span> : package PullParser!(T); <a title="Permalink to this symbol" href="#Document" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L129">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements a DOM atop the XML parser, supporting document 
+        parsing, tree traversal and ad-hoc tree manipulation.</div>
+The DOM API is non-conformant, yet simple and functional in 
+        style - locate a tree node of interest and operate upon or 
+        around it. In all cases you will need a document instance to 
+        begin, whereupon it may be populated either by parsing an 
+        existing document or via API manipulation.
+<p class="bl"/>
+        This particular DOM employs a simple free-list to allocate
+        each of the tree nodes, making it quite efficient at parsing
+        XML documents. The tradeoff with such a scheme is that copying
+        nodes from one document to another requires a little more care
+        than otherwise. We felt this was a reasonable tradeoff, given
+        the throughput gains vs the relative infrequency of grafting
+        operations. For grafting within or across documents, please
+        use the move() and copy() methods.
+<p class="bl"/>
+        Another simplification is related to entity transcoding. This
+        is not performed internally, and becomes the responsibility
+        of the client. That is, the client should perform appropriate
+        entity transcoding as necessary. Paying the (high) transcoding 
+        cost for all documents doesn't seem appropriate.
+<p class="bl"/>
+        Note that the parser is templated for char, wchar or dchar.
+<p class="bl"/>
+        Parse example:
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">doc</span> = <span class="k">new</span> <span class="i">Document</span>!(<span class="k">char</span>);
+<span class="i">doc</span>.<span class="i">parse</span> (<span class="i">content</span>);
+
+<span class="k">auto</span> <span class="i">print</span> = <span class="k">new</span> <span class="i">DocPrinter</span>!(<span class="k">char</span>);
+<span class="i">Stdout</span>(<span class="i">print</span>(<span class="i">doc</span>)).<span class="i">newline</span>;
+</pre>
+<p class="bl"/>
+        API example:
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">doc</span> = <span class="k">new</span> <span class="i">Document</span>!(<span class="k">char</span>);
+
+<span class="lc">// attach an xml header</span>
+<span class="i">doc</span>.<span class="i">header</span>;
+
+<span class="lc">// attach an element with some attributes, plus </span>
+<span class="lc">// a child element with an attached data value</span>
+<span class="i">doc</span>.<span class="i">root</span>.<span class="i">element</span>   (<span class="k">null</span>, <span class="sl">"element"</span>)
+        .<span class="i">attribute</span> (<span class="k">null</span>, <span class="sl">"attrib1"</span>, <span class="sl">"value"</span>)
+        .<span class="i">attribute</span> (<span class="k">null</span>, <span class="sl">"attrib2"</span>)
+        .<span class="i">element</span>   (<span class="k">null</span>, <span class="sl">"child"</span>, <span class="sl">"value"</span>);
+
+<span class="k">auto</span> <span class="i">print</span> = <span class="k">new</span> <span class="i">DocPrinter</span>!(<span class="k">char</span>);
+<span class="i">Stdout</span>(<span class="i">print</span>(<span class="i">doc</span>)).<span class="i">newline</span>;
+</pre>
+<p class="bl"/>
+        XPath examples:
+        <pre class="d_code">
+<p class="error L">tango.text.xml.Document(17,57)L: unterminated string literal.</p>
+<span class="k">auto</span> <span class="i">doc</span> = <span class="k">new</span> <span class="i">Document</span>!(<span class="k">char</span>);
+
+<span class="lc">// attach an element with some attributes, plus </span>
+<span class="lc">// a child element with an attached data value</span>
+<span class="i">doc</span>.<span class="i">root</span>.<span class="i">element</span>   (<span class="k">null</span>, <span class="sl">"element"</span>)
+        .<span class="i">attribute</span> (<span class="k">null</span>, <span class="sl">"attrib1"</span>, <span class="sl">"value"</span>)
+        .<span class="i">attribute</span> (<span class="k">null</span>, <span class="sl">"attrib2"</span>)
+        .<span class="i">element</span>   (<span class="k">null</span>, <span class="sl">"child"</span>, <span class="sl">"value"</span>);
+
+<span class="lc">// select named-elements</span>
+<span class="k">auto</span> <span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>[<span class="sl">"element"</span>][<span class="sl">"child"</span>];
+
+<span class="lc">// select all attributes named "attrib1"</span>
+<span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>.<span class="i">descendant</span>.<span class="i">attribute</span>(<span class="sl">"attrib1"</span>);
+
+<span class="lc">// select elements with one parent and a matching text value</span>
+<span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>[].<span class="i">filter</span>((<span class="i">doc</span>.<span class="i">Node</span> <span class="i">n</span>) {<span class="k">return</span> <span class="i">n</span>.<span class="i">hasData</span>(<span class="sl">"value);});</span>
+</pre>
+<p class="bl"/>
+        Note that path queries are temporal - they do not retain content
+        across mulitple queries. That is, the lifetime of a query result
+        is limited unless you explicitly copy it. For example, this will
+<p class="sec_header">fail:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">elements</span> = <span class="i">doc</span>.<span class="i">query</span>[<span class="sl">"element"</span>];
+<span class="k">auto</span> <span class="i">children</span> = <span class="i">elements</span>[<span class="sl">"child"</span>];
+</pre>
+<p class="bl"/>
+        The above will lose elements because the associated document reuses 
+        node space for subsequent queries. In order to retain results, do this:
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">elements</span> = <span class="i">doc</span>.<span class="i">query</span>[<span class="sl">"element"</span>].<span class="i">dup</span>;
+<span class="k">auto</span> <span class="i">children</span> = <span class="i">elements</span>[<span class="sl">"child"</span>];
+</pre>
+<p class="bl"/>
+        The above .dup is generally very small (a set of pointers only). On
+        the other hand, recursive queries are fully supported:
+        <pre class="d_code">
+<span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>[].<span class="i">filter</span>((<span class="i">doc</span>.<span class="i">Node</span> <span class="i">n</span>) {<span class="k">return</span> <span class="i">n</span>.<span class="i">query</span>[].<span class="i">count</span> &gt; <span class="n">1</span>;});
+</pre>
+<p class="bl"/>
+        Typical usage tends to follow the following pattern, Where each query 
+        result is processed before another is initiated:
+        <pre class="d_code">
+<span class="k">foreach</span> (<span class="i">node</span>; <span class="i">doc</span>.<span class="i">query</span>.<span class="i">child</span>(<span class="sl">"element"</span>))
+        {
+        <span class="lc">// do something with each node</span>
+        }
+</pre>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="Document.this" href="./htmlsrc/tango.text.xml.Document.html#L148" kind="ctor" beg="148" end="158">this</a><span class="params">(uint <em>nodes</em> = 1000)</span>; <a title="Permalink to this symbol" href="#Document.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L148">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a DOM instance. The optional parameter indicates
+                the initial number of nodes assigned to the freelist</div></dd>
+<dt class="decl">XmlPath!(T).NodeSet <a class="symbol _function" name="Document.query" href="./htmlsrc/tango.text.xml.Document.html#L169" kind="function" beg="169" end="172">query</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Document.query" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L169">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return an xpath handle to query this document. This starts
+                at the document root.</div>
+See also Node.query</dd>
+<dt class="decl">Document <a class="symbol _function" name="Document.collect" href="./htmlsrc/tango.text.xml.Document.html#L181" kind="function" beg="181" end="193">collect</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Document.collect" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L181">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reset the freelist. Subsequent allocation of document nodes 
+                will overwrite prior instances.</div></dd>
+<dt class="decl">Document <a class="symbol _function" name="Document.header" href="./htmlsrc/tango.text.xml.Document.html#L201" kind="function" beg="201" end="206">header</a><span class="params">(T[] <em>encoding</em> = "UTF-8")</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Document.header" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L201">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add an XML header to the document root</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Document.parse" href="./htmlsrc/tango.text.xml.Document.html#L216" kind="function" beg="216" end="308">parse</a><span class="params">(T[] <em>xml</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Document.parse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L216">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parse the given xml content, which will reuse any existing 
+                node within this document. The resultant tree is retrieved
+                via the document 'root' attribute</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.allocate" href="./htmlsrc/tango.text.xml.Document.html#L316" kind="function" beg="316" end="333">allocate</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Document.allocate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L316">#</a></dt>
+<dd class="ddef">
+<div class="summary">allocate a node from the freelist</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Document.newlist" href="./htmlsrc/tango.text.xml.Document.html#L341" kind="function" beg="341" end="350">newlist</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Document.newlist" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L341">#</a></dt>
+<dd class="ddef">
+<div class="summary">allocate a node from the freelist</div></dd>
+<dt class="decl">struct <a class="symbol _struct" name="Document.Visitor" href="./htmlsrc/tango.text.xml.Document.html#L359" kind="struct" beg="359" end="381">Visitor</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Document.Visitor" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L359">#</a></dt>
+<dd class="ddef">
+<div class="summary">Fruct support for nodes. A fruct is a low-overhead 
+                mechanism for capturing context relating to an opApply</div>
+<dl>
+<dt class="decl">int <a class="symbol _function" name="Document.Visitor.opApply" href="./htmlsrc/tango.text.xml.Document.html#L369" kind="function" beg="369" end="380">opApply</a><span class="params">(int delegate(inout Node) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#Document.Visitor.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L369">#</a></dt>
+<dd class="ddef">
+<div class="summary">traverse sibling nodes</div></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="Document.NodeImpl" href="./htmlsrc/tango.text.xml.Document.html#L390" kind="struct" beg="390" end="1076">NodeImpl</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Document.NodeImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L390">#</a></dt>
+<dd class="ddef">
+<div class="summary">The node implementation</div>
+<dl>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.parent" href="./htmlsrc/tango.text.xml.Document.html#L416" kind="function" beg="416" end="416">parent</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.parent" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L416">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the parent, which may be null</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.firstChild" href="./htmlsrc/tango.text.xml.Document.html#L424" kind="function" beg="424" end="424">firstChild</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.firstChild" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L424">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the first child, which may be nul</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.lastChild" href="./htmlsrc/tango.text.xml.Document.html#L432" kind="function" beg="432" end="432">lastChild</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.lastChild" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L432">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the last child, which may be null</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.prevSibling" href="./htmlsrc/tango.text.xml.Document.html#L440" kind="function" beg="440" end="440">prevSibling</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.prevSibling" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L440">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the prior sibling, which may be null</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.nextSibling" href="./htmlsrc/tango.text.xml.Document.html#L448" kind="function" beg="448" end="448">nextSibling</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.nextSibling" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L448">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the next sibling, which may be null</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Document.NodeImpl.hasAttributes" href="./htmlsrc/tango.text.xml.Document.html#L456" kind="function" beg="456" end="456">hasAttributes</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.hasAttributes" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L456">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns whether there are attributes present or not</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Document.NodeImpl.hasChildren" href="./htmlsrc/tango.text.xml.Document.html#L464" kind="function" beg="464" end="464">hasChildren</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.hasChildren" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L464">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns whether there are children present or nor</div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="Document.NodeImpl.name" href="./htmlsrc/tango.text.xml.Document.html#L473" kind="function" beg="473" end="494">name</a><span class="params">(T[] <em>output</em> = null)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L473">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the node name, which is a combination of
+                        the prefix:local names</div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="Document.NodeImpl.value" href="./htmlsrc/tango.text.xml.Document.html#L502" kind="function" beg="502" end="512">value</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.value" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L502">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the data content, which may be null</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Document.NodeImpl.value:2" href="./htmlsrc/tango.text.xml.Document.html#L520" kind="function" beg="520" end="524">value</a><span class="params">(T[] <em>val</em>)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.value:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L520">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the raw data content, which may be null</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="Document.NodeImpl.position" href="./htmlsrc/tango.text.xml.Document.html#L533" kind="function" beg="533" end="536">position</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.position" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L533">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the index of this node, or how many 
+                        prior siblings it has</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.root" href="./htmlsrc/tango.text.xml.Document.html#L544" kind="function" beg="544" end="547">root</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.root" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L544">#</a></dt>
+<dd class="ddef">
+<div class="summary">Locate the root of this node</div></dd>
+<dt class="decl">Visitor <a class="symbol _function" name="Document.NodeImpl.children" href="./htmlsrc/tango.text.xml.Document.html#L555" kind="function" beg="555" end="559">children</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.children" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L555">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a foreach iterator for node children</div></dd>
+<dt class="decl">Visitor <a class="symbol _function" name="Document.NodeImpl.attributes" href="./htmlsrc/tango.text.xml.Document.html#L567" kind="function" beg="567" end="571">attributes</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.attributes" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L567">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a foreach iterator for node attributes</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.element" href="./htmlsrc/tango.text.xml.Document.html#L581" kind="function" beg="581" end="595">element</a><span class="params">(T[] <em>prefix</em>, T[] <em>local</em>, T[] <em>value</em> = null)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.element" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L581">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creates a child Element</div>
+Returns a reference to the child</dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.attribute" href="./htmlsrc/tango.text.xml.Document.html#L603" kind="function" beg="603" end="608">attribute</a><span class="params">(T[] <em>prefix</em>, T[] <em>local</em>, T[] <em>value</em> = null)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.attribute" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L603">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attaches an Attribute, and returns the host</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.data" href="./htmlsrc/tango.text.xml.Document.html#L616" kind="function" beg="616" end="620">data</a><span class="params">(T[] <em>data</em>)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.data" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L616">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attaches a Data node, and returns the host</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.cdata" href="./htmlsrc/tango.text.xml.Document.html#L628" kind="function" beg="628" end="632">cdata</a><span class="params">(T[] <em>cdata</em>)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.cdata" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L628">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attaches a CData node, and returns the host</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.comment" href="./htmlsrc/tango.text.xml.Document.html#L640" kind="function" beg="640" end="644">comment</a><span class="params">(T[] <em>comment</em>)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.comment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L640">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attaches a Comment node, and returns the host</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.pi" href="./htmlsrc/tango.text.xml.Document.html#L652" kind="function" beg="652" end="656">pi</a><span class="params">(T[] <em>pi</em>, T[] <em>patch</em>)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.pi" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L652">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attaches a PI node, and returns the host</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.pi:2" href="./htmlsrc/tango.text.xml.Document.html#L664" kind="function" beg="664" end="667">pi</a><span class="params">(T[] <em>text</em>)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.pi:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L664">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attaches a PI node, and returns the host</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.doctype" href="./htmlsrc/tango.text.xml.Document.html#L675" kind="function" beg="675" end="679">doctype</a><span class="params">(T[] <em>doctype</em>)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.doctype" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L675">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attaches a Doctype node, and returns the host</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.detach" href="./htmlsrc/tango.text.xml.Document.html#L687" kind="function" beg="687" end="690">detach</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.detach" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L687">#</a></dt>
+<dd class="ddef">
+<div class="summary">Detach this node from its parent and siblings</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.copy" href="./htmlsrc/tango.text.xml.Document.html#L701" kind="function" beg="701" end="708">copy</a><span class="params">(Node <em>tree</em>)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.copy" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L701">#</a></dt>
+<dd class="ddef">
+<div class="summary">Duplicate the given sub-tree into place as a child 
+                        of this node. 
+                        
+                        Returns a reference to the subtree</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.move" href="./htmlsrc/tango.text.xml.Document.html#L719" kind="function" beg="719" end="727">move</a><span class="params">(Node <em>tree</em>)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.move" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L719">#</a></dt>
+<dd class="ddef">
+<div class="summary">Relocate the given sub-tree into place as a child 
+                        of this node. 
+                        
+                        Returns a reference to the subtree</div></dd>
+<dt class="decl">XmlPath!(T).NodeSet <a class="symbol _function" name="Document.NodeImpl.query" href="./htmlsrc/tango.text.xml.Document.html#L737" kind="function" beg="737" end="740">query</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Document.NodeImpl.query" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L737">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return an xpath handle to query this node</div>
+See also Node.document.query</dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.getAttribute" href="./htmlsrc/tango.text.xml.Document.html#L751" kind="function" beg="751" end="764">getAttribute</a><span class="params">(T[] <em>name</em>, T[] <em>value</em> = null)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.getAttribute" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L751">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sweep the attributes looking for a name or value
+                        match. Either may be null</div>
+Returns a matching node, or null.</dd>
+<dt class="decl">bool <a class="symbol _function" name="Document.NodeImpl.hasAttribute" href="./htmlsrc/tango.text.xml.Document.html#L775" kind="function" beg="775" end="778">hasAttribute</a><span class="params">(T[] <em>name</em>, T[] <em>value</em> = null)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.hasAttribute" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L775">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sweep the attributes looking for a name or value
+                        match. Either may be null</div>
+Returns true if found.</dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.data:2" href="./htmlsrc/tango.text.xml.Document.html#L788" kind="function" beg="788" end="796">data</a><span class="params">(bool delegate(Node) <em>test</em>)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.data:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L788">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sweep the data nodes looking for match</div>
+Returns a matching node, or null.</dd>
+<dt class="decl">bool <a class="symbol _function" name="Document.NodeImpl.hasData" href="./htmlsrc/tango.text.xml.Document.html#L806" kind="function" beg="806" end="809">hasData</a><span class="params">(bool delegate(Node) <em>test</em>)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.hasData" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L806">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sweep the data nodes looking for match</div>
+Returns true if found.</dd>
+<dt class="decl">bool <a class="symbol _function" name="Document.NodeImpl.hasData:2" href="./htmlsrc/tango.text.xml.Document.html#L819" kind="function" beg="819" end="822">hasData</a><span class="params">(T[] <em>text</em>)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.hasData:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L819">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sweep the data nodes looking for match</div>
+Returns true if found.</dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.patch" href="./htmlsrc/tango.text.xml.Document.html#L835" kind="function" beg="835" end="840">patch</a><span class="params">(T[] <em>text</em>)</span>; <a title="Permalink to this symbol" href="#Document.NodeImpl.patch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L835">#</a></dt>
+<dd class="ddef">
+<div class="summary">Patch the serialization text, causing DocPrinter
+                        to ignore the subtree of this node, and instead
+                        emit the provided text as raw XML output.</div>
+<p class="sec_header">Warning:</p>this function does *not* copy the provided 
+                        text, and may be removed from future revisions</dd>
+<dt class="decl">void <a class="symbol _function" name="Document.NodeImpl.attrib" href="./htmlsrc/tango.text.xml.Document.html#L849" kind="function" beg="849" end="867">attrib</a><span class="params">(Node <em>node</em>, uint <em>uriID</em> = 0)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Document.NodeImpl.attrib" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L849">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append an attribute to this node, The given attribute
+                        cannot have an existing parent.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Document.NodeImpl.append" href="./htmlsrc/tango.text.xml.Document.html#L876" kind="function" beg="876" end="892">append</a><span class="params">(Node <em>node</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Document.NodeImpl.append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L876">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append a node to this one. The given node cannot
+                        have an existing parent.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Document.NodeImpl.prepend" href="./htmlsrc/tango.text.xml.Document.html#L901" kind="function" beg="901" end="916">prepend</a><span class="params">(Node <em>node</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Document.NodeImpl.prepend" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L901">#</a></dt>
+<dd class="ddef">
+<div class="summary">Prepend a node to this one. The given node cannot
+                        have an existing parent.</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.set" href="./htmlsrc/tango.text.xml.Document.html#L924" kind="function" beg="924" end="929">set</a><span class="params">(T[] <em>prefix</em>, T[] <em>local</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Document.NodeImpl.set" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L924">#</a></dt>
+<dd class="ddef">
+<div class="summary">Configure node values</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.create" href="./htmlsrc/tango.text.xml.Document.html#L937" kind="function" beg="937" end="943">create</a><span class="params">(XmlNodeType <em>type</em>, T[] <em>value</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Document.NodeImpl.create" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L937">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creates and returns a child Element node</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.remove" href="./htmlsrc/tango.text.xml.Document.html#L951" kind="function" beg="951" end="1015">remove</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Document.NodeImpl.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L951">#</a></dt>
+<dd class="ddef">
+<div class="summary">Detach this node from its parent and siblings</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.mutate" href="./htmlsrc/tango.text.xml.Document.html#L1024" kind="function" beg="1024" end="1032">mutate</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Document.NodeImpl.mutate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1024">#</a></dt>
+<dd class="ddef">
+<div class="summary">purge serialization cache for this node and its
+                        ancestors</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.dup" href="./htmlsrc/tango.text.xml.Document.html#L1040" kind="function" beg="1040" end="1043">dup</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Document.NodeImpl.dup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1040">#</a></dt>
+<dd class="ddef">
+<div class="summary">Duplicate a single node</div></dd>
+<dt class="decl">Node <a class="symbol _function" name="Document.NodeImpl.clone" href="./htmlsrc/tango.text.xml.Document.html#L1051" kind="function" beg="1051" end="1060">clone</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Document.NodeImpl.clone" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1051">#</a></dt>
+<dd class="ddef">
+<div class="summary">Duplicate a subtree</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Document.NodeImpl.migrate" href="./htmlsrc/tango.text.xml.Document.html#L1068" kind="function" beg="1068" end="1075">migrate</a><span class="params">(Document <em>host</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Document.NodeImpl.migrate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1068">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reset the document host for this subtree</div></dd></dl></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="XmlPath" href="./htmlsrc/tango.text.xml.Document.html#L1211" kind="class" beg="1211" end="1824">XmlPath</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#XmlPath" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1211">#</a></dt>
+<dd class="ddef">
+<div class="summary">XPath support</div>
+Provides support for common XPath axis and filtering functions,
+        via a native-D interface instead of typical interpreted notation.
+<p class="bl"/>
+        The general idea here is to generate a NodeSet consisting of those
+        tree-nodes which satisfy a filtering function. The direction, or
+        axis, of tree traversal is governed by one of several predefined
+        operations. All methods facilitiate call-chaining, where each step 
+        returns a new NodeSet instance to be operated upon.
+<p class="bl"/>
+        The set of nodes themselves are collected in a freelist, avoiding
+        heap-activity and making good use of D array-slicing facilities.
+<p class="bl"/>
+        (this needs to be a class in order to avoid forward-ref issues)
+<p class="bl"/>
+        XPath examples:
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">doc</span> = <span class="k">new</span> <span class="i">Document</span>!(<span class="k">char</span>);
+
+<span class="lc">// attach an element with some attributes, plus </span>
+<span class="lc">// a child element with an attached data value</span>
+<span class="i">doc</span>.<span class="i">root</span>.<span class="i">element</span>   (<span class="k">null</span>, <span class="sl">"element"</span>)
+        .<span class="i">attribute</span> (<span class="k">null</span>, <span class="sl">"attrib1"</span>, <span class="sl">"value"</span>)
+        .<span class="i">attribute</span> (<span class="k">null</span>, <span class="sl">"attrib2"</span>)
+        .<span class="i">element</span>   (<span class="k">null</span>, <span class="sl">"child"</span>, <span class="sl">"value"</span>);
+
+<span class="lc">// select named-elements</span>
+<span class="k">auto</span> <span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>[<span class="sl">"element"</span>][<span class="sl">"child"</span>];
+
+<span class="lc">// select all attributes named "attrib1"</span>
+<span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>.<span class="i">descendant</span>.<span class="i">attribute</span>(<span class="sl">"attrib1"</span>);
+
+<span class="lc">// select elements with one parent and a matching text value</span>
+<span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>[].<span class="i">filter</span>((<span class="i">doc</span>.<span class="i">Node</span> <span class="i">n</span>) {<span class="k">return</span> <span class="i">n</span>.<span class="i">hasData</span>(<span class="sl">"value"</span>);});
+</pre>
+<p class="bl"/>
+        Note that path queries are temporal - they do not retain content
+        across mulitple queries. That is, the lifetime of a query result
+        is limited unless you explicitly copy it. For example, this will
+<p class="sec_header">fail:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">elements</span> = <span class="i">doc</span>.<span class="i">query</span>[<span class="sl">"element"</span>];
+<span class="k">auto</span> <span class="i">children</span> = <span class="i">elements</span>[<span class="sl">"child"</span>];
+</pre>
+<p class="bl"/>
+        The above will lose elements, because the associated document reuses 
+        node space for subsequent queries. In order to retain results, do this:
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">elements</span> = <span class="i">doc</span>.<span class="i">query</span>[<span class="sl">"element"</span>].<span class="i">dup</span>;
+<span class="k">auto</span> <span class="i">children</span> = <span class="i">elements</span>[<span class="sl">"child"</span>];
+</pre>
+<p class="bl"/>
+        The above .dup is generally very small (a set of pointers only). On
+        the other hand, recursive queries are fully supported:
+        <pre class="d_code">
+<span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>[].<span class="i">filter</span>((<span class="i">doc</span>.<span class="i">Node</span> <span class="i">n</span>) {<span class="k">return</span> <span class="i">n</span>.<span class="i">query</span>[].<span class="i">count</span> &gt; <span class="n">1</span>;});
+</pre>
+  
+        Typical usage tends to exhibit the following pattern, Where each query 
+        result is processed before another is initiated:
+        <pre class="d_code">
+<span class="k">foreach</span> (<span class="i">node</span>; <span class="i">doc</span>.<span class="i">query</span>.<span class="i">child</span>(<span class="sl">"element"</span>))
+        {
+        <span class="lc">// do something with each node</span>
+        }
+</pre>
+<p class="bl"/>
+        Supported axis include:
+        <pre class="d_code">
+.<span class="i">child</span>                  <span class="i">immediate</span> <span class="i">children</span>
+.<span class="i">parent</span>                 <span class="i">immediate</span> <span class="i">parent</span> 
+.<span class="i">next</span>                   <span class="i">following</span> <span class="i">siblings</span>
+.<span class="i">prev</span>                   <span class="i">prior</span> <span class="i">siblings</span>
+.<span class="i">ancestor</span>               <span class="i">all</span> <span class="i">parents</span>
+.<span class="i">descendant</span>             <span class="i">all</span> <span class="i">descendants</span>
+.<span class="i">text</span>                   <span class="i">text</span> <span class="i">children</span>
+.<span class="i">attribute</span>              <span class="i">attribute</span> <span class="i">children</span>
+</pre>
+<p class="bl"/>
+        Each of the above accept an optional string, which is used in an
+        axis-specific way to filter nodes. For instance, a .child("food") 
+        will filter <food> child elements. These variants are shortcuts
+        to using a filter to post-process a result. Each of the above also
+        have variants which accept a delegate instead.
+<p class="bl"/>
+        In general, you traverse an axis and operate upon the results. The
+        operation applied may be another axis traversal, or a filtering 
+        step. All steps can be, and generally should be chained together. 
+        Filters are implemented via a delegate mechanism:
+        <pre class="d_code">
+.<span class="i">filter</span> (<span class="k">bool</span> <span class="k">delegate</span>(<span class="i">Node</span>))
+</pre>
+<p class="bl"/>
+        Where the delegate returns true if the node passes the filter. An
+        example might be selecting all nodes with a specific attribute:
+        <pre class="d_code">
+<span class="k">auto</span> <span class="i">set</span> = <span class="i">doc</span>.<span class="i">query</span>.<span class="i">descendant</span>.<span class="i">filter</span>((<span class="i">doc</span>.<span class="i">Node</span> <span class="i">n</span>){<span class="k">return</span> <span class="i">n</span>.<span class="i">hasAttribute</span>(<span class="sl">"test"</span>);});
+</pre>
+<p class="bl"/>
+        Obviously this is not as clean and tidy as true XPath notation, but 
+        that can be wrapped atop this API instead. The benefit here is one 
+        of raw throughput - important for some applications. 
+<p class="bl"/>
+        Note that every operation returns a discrete result. Methods first()
+        and last() also return a set of one or zero elements. Some language
+        specific extensions are provided for too:
+        <pre class="d_code">
+.<span class="i">child</span>() <span class="i">can</span> <span class="i">be</span> <span class="i">substituted</span> <span class="k">with</span> [] <span class="i">notation</span> <span class="i">instead</span>
+
+[] <span class="i">notation</span> <span class="i">can</span> <span class="i">be</span> <span class="i">used</span> <span class="i">to</span> <span class="i">index</span> <span class="i">a</span> <span class="i">specific</span> <span class="i">element</span>, <span class="i">like</span> .<span class="i">nth</span>()
+
+<span class="i">the</span> .<span class="i">nodes</span> <span class="i">attribute</span> <span class="i">exposes</span> <span class="i">an</span> <span class="i">underlying</span> <span class="i">Node</span>[], <span class="i">which</span> <span class="i">may</span> <span class="i">be</span>
+         <span class="i">sliced</span> <span class="i">or</span> <span class="i">traversed</span> <span class="k">in</span> <span class="i">the</span> <span class="i">usual</span> <span class="i">D</span> <span class="i">manner</span>
+</pre>
+<p class="bl"/>
+       Other (query result) utility methods include:
+       <pre class="d_code">
+.<span class="i">dup</span>
+.<span class="i">first</span>
+.<span class="i">last</span>
+.<span class="i">opIndex</span>
+.<span class="i">nth</span>
+.<span class="i">count</span>
+.<span class="i">opApply</span>
+</pre>
+<dl>
+<dt class="decl">alias Document!(T) <a class="symbol _alias" name="XmlPath.Doc" href="./htmlsrc/tango.text.xml.Document.html#L1213" kind="alias" beg="1213" end="1213">Doc</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#XmlPath.Doc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1213">#</a></dt>
+<dd class="ddef">
+<div class="summary">the typed document</div></dd>
+<dt class="decl">alias Doc.Node <a class="symbol _alias" name="XmlPath.Node" href="./htmlsrc/tango.text.xml.Document.html#L1214" kind="alias" beg="1214" end="1214">Node</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#XmlPath.Node" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1214">#</a></dt>
+<dd class="ddef">
+<div class="summary">generic document node</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.start" href="./htmlsrc/tango.text.xml.Document.html#L1231" kind="function" beg="1231" end="1246">start</a><span class="params">(Node <em>root</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#XmlPath.start" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1231">#</a></dt>
+<dd class="ddef">
+<div class="summary">Prime a query</div>
+Returns a NodeSet containing just the given node, which
+                can then be used to cascade results into subsequent NodeSet
+                instances.</dd>
+<dt class="decl">struct <a class="symbol _struct" name="XmlPath.NodeSet" href="./htmlsrc/tango.text.xml.Document.html#L1259" kind="struct" beg="1259" end="1761">NodeSet</a>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1259">#</a></dt>
+<dd class="ddef">
+<div class="summary">This is the meat of XPath support. All of the NodeSet
+                operators exist here, in order to enable call-chaining.</div>
+Note that some of the axis do double-duty as a filter 
+                also. This is just a convenience factor, and doesn't 
+                change the underlying mechanisms.
+<dl>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.dup" href="./htmlsrc/tango.text.xml.Document.html#L1270" kind="function" beg="1270" end="1275">dup</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.dup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1270">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a duplicate NodeSet</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="XmlPath.NodeSet.count" href="./htmlsrc/tango.text.xml.Document.html#L1283" kind="function" beg="1283" end="1286">count</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.count" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1283">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the number of selected nodes in the set</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.first" href="./htmlsrc/tango.text.xml.Document.html#L1295" kind="function" beg="1295" end="1298">first</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.first" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1295">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing just the first node of
+                        the current set</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.last" href="./htmlsrc/tango.text.xml.Document.html#L1307" kind="function" beg="1307" end="1313">last</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.last" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1307">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing just the last node of
+                        the current set</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.opIndex" href="./htmlsrc/tango.text.xml.Document.html#L1322" kind="function" beg="1322" end="1325">opIndex</a><span class="params">(uint <em>i</em>)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.opIndex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1322">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing just the nth node of
+                        the current set</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.nth" href="./htmlsrc/tango.text.xml.Document.html#L1334" kind="function" beg="1334" end="1341">nth</a><span class="params">(uint <em>index</em>)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.nth" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1334">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing just the nth node of
+                        the current set</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.opSlice" href="./htmlsrc/tango.text.xml.Document.html#L1350" kind="function" beg="1350" end="1353">opSlice</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.opSlice" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1350">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all child elements of the 
+                        nodes within this set</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.opIndex:2" href="./htmlsrc/tango.text.xml.Document.html#L1362" kind="function" beg="1362" end="1365">opIndex</a><span class="params">(T[] <em>name</em>)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.opIndex:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1362">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all child elements of the 
+                        nodes within this set, which match the given name</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.parent" href="./htmlsrc/tango.text.xml.Document.html#L1374" kind="function" beg="1374" end="1379">parent</a><span class="params">(T[] <em>name</em> = null)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.parent" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1374">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all parent elements of the 
+                        nodes within this set, which match the optional name</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.data" href="./htmlsrc/tango.text.xml.Document.html#L1389" kind="function" beg="1389" end="1395">data</a><span class="params">(T[] <em>value</em> = null)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.data" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1389">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all data nodes of the 
+                        nodes within this set, which match the optional
+                        value</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.attribute" href="./htmlsrc/tango.text.xml.Document.html#L1405" kind="function" beg="1405" end="1410">attribute</a><span class="params">(T[] <em>name</em> = null)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.attribute" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1405">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all attributes of the 
+                        nodes within this set, which match the optional
+                        name</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.descendant" href="./htmlsrc/tango.text.xml.Document.html#L1419" kind="function" beg="1419" end="1424">descendant</a><span class="params">(T[] <em>name</em> = null)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.descendant" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1419">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all descendant elements of 
+                        the nodes within this set, which match the given name</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.child" href="./htmlsrc/tango.text.xml.Document.html#L1433" kind="function" beg="1433" end="1438">child</a><span class="params">(T[] <em>name</em> = null)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.child" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1433">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all child elements of the 
+                        nodes within this set, which match the optional name</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.ancestor" href="./htmlsrc/tango.text.xml.Document.html#L1448" kind="function" beg="1448" end="1453">ancestor</a><span class="params">(T[] <em>name</em> = null)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.ancestor" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1448">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all ancestor elements of 
+                        the nodes within this set, which match the optional
+                        name</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.prev" href="./htmlsrc/tango.text.xml.Document.html#L1463" kind="function" beg="1463" end="1468">prev</a><span class="params">(T[] <em>name</em> = null)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.prev" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1463">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all prior sibling elements of 
+                        the nodes within this set, which match the optional
+                        name</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.next" href="./htmlsrc/tango.text.xml.Document.html#L1478" kind="function" beg="1478" end="1483">next</a><span class="params">(T[] <em>name</em> = null)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.next" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1478">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all subsequent sibling 
+                        elements of the nodes within this set, which 
+                        match the optional name</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.filter" href="./htmlsrc/tango.text.xml.Document.html#L1492" kind="function" beg="1492" end="1500">filter</a><span class="params">(bool delegate(Node) <em>filter</em>)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.filter" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1492">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all nodes within this set
+                        which pass the filtering test</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.child:2" href="./htmlsrc/tango.text.xml.Document.html#L1510" kind="function" beg="1510" end="1521">child</a><span class="params">(bool delegate(Node) <em>filter</em>, XmlNodeType <em>type</em> = XmlNodeType.Element)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.child:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1510">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all child nodes of 
+                        the nodes within this set which pass the 
+                        filtering test</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.attribute:2" href="./htmlsrc/tango.text.xml.Document.html#L1531" kind="function" beg="1531" end="1540">attribute</a><span class="params">(bool delegate(Node) <em>filter</em>)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.attribute:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1531">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all attribute nodes of 
+                        the nodes within this set which pass the given
+                        filtering test</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.descendant:2" href="./htmlsrc/tango.text.xml.Document.html#L1550" kind="function" beg="1550" end="1570">descendant</a><span class="params">(bool delegate(Node) <em>filter</em>, XmlNodeType <em>type</em> = XmlNodeType.Element)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.descendant:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1550">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all descendant nodes of 
+                        the nodes within this set, which pass the given
+                        filtering test</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.parent:2" href="./htmlsrc/tango.text.xml.Document.html#L1580" kind="function" beg="1580" end="1600">parent</a><span class="params">(bool delegate(Node) <em>filter</em>)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.parent:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1580">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all parent nodes of 
+                        the nodes within this set which pass the given
+                        filtering test</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.ancestor:2" href="./htmlsrc/tango.text.xml.Document.html#L1610" kind="function" beg="1610" end="1634">ancestor</a><span class="params">(bool delegate(Node) <em>filter</em>)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.ancestor:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1610">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all ancestor nodes of 
+                        the nodes within this set, which pass the given
+                        filtering test</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.next:2" href="./htmlsrc/tango.text.xml.Document.html#L1644" kind="function" beg="1644" end="1661">next</a><span class="params">(bool delegate(Node) <em>filter</em>, XmlNodeType <em>type</em> = XmlNodeType.Element)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.next:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1644">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all following siblings 
+                        of the ones within this set, which pass the given
+                        filtering test</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.prev:2" href="./htmlsrc/tango.text.xml.Document.html#L1671" kind="function" beg="1671" end="1688">prev</a><span class="params">(bool delegate(Node) <em>filter</em>, XmlNodeType <em>type</em> = XmlNodeType.Element)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.prev:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1671">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a set containing all prior sibling nodes 
+                        of the ones within this set, which pass the given
+                        filtering test</div></dd>
+<dt class="decl">int <a class="symbol _function" name="XmlPath.NodeSet.opApply" href="./htmlsrc/tango.text.xml.Document.html#L1696" kind="function" beg="1696" end="1704">opApply</a><span class="params">(int delegate(inout Node) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#XmlPath.NodeSet.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1696">#</a></dt>
+<dd class="ddef">
+<div class="summary">Traverse the nodes of this set</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="XmlPath.NodeSet.always" href="./htmlsrc/tango.text.xml.Document.html#L1712" kind="function" beg="1712" end="1715">always</a><span class="params">(Node <em>node</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#XmlPath.NodeSet.always" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1712">#</a></dt>
+<dd class="ddef">
+<div class="summary">Common predicate</div></dd>
+<dt class="decl">NodeSet <a class="symbol _function" name="XmlPath.NodeSet.assign" href="./htmlsrc/tango.text.xml.Document.html#L1723" kind="function" beg="1723" end="1727">assign</a><span class="params">(uint <em>mark</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#XmlPath.NodeSet.assign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1723">#</a></dt>
+<dd class="ddef">
+<div class="summary">Assign a slice of the freelist to this NodeSet</div></dd>
+<dt class="decl">void <a class="symbol _function" name="XmlPath.NodeSet.test" href="./htmlsrc/tango.text.xml.Document.html#L1737" kind="function" beg="1737" end="1744">test</a><span class="params">(bool delegate(Node) <em>filter</em>, Node <em>node</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#XmlPath.NodeSet.test" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1737">#</a></dt>
+<dd class="ddef">
+<div class="summary">Execute a filter on the given node. We have to
+                        deal with potential query recusion, so we set
+                        all kinda crap to recover from that</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="XmlPath.NodeSet.has" href="./htmlsrc/tango.text.xml.Document.html#L1754" kind="function" beg="1754" end="1760">has</a><span class="params">(Node <em>p</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#XmlPath.NodeSet.has" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1754">#</a></dt>
+<dd class="ddef">
+<div class="summary">We typically need to filter ancestors in order
+                        to avoid duplicates, so this is used for those
+                        purposes</div></dd></dl></dd>
+<dt class="decl">uint <a class="symbol _function" name="XmlPath.mark" href="./htmlsrc/tango.text.xml.Document.html#L1769" kind="function" beg="1769" end="1772">mark</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#XmlPath.mark" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1769">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the current freelist index</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="XmlPath.push" href="./htmlsrc/tango.text.xml.Document.html#L1780" kind="function" beg="1780" end="1784">push</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#XmlPath.push" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1780">#</a></dt>
+<dd class="ddef">
+<div class="summary">Recurse and save the current state</div></dd>
+<dt class="decl">void <a class="symbol _function" name="XmlPath.pop" href="./htmlsrc/tango.text.xml.Document.html#L1792" kind="function" beg="1792" end="1796">pop</a><span class="params">(uint <em>prior</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#XmlPath.pop" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1792">#</a></dt>
+<dd class="ddef">
+<div class="summary">Restore prior state</div></dd>
+<dt class="decl">Node[] <a class="symbol _function" name="XmlPath.slice" href="./htmlsrc/tango.text.xml.Document.html#L1804" kind="function" beg="1804" end="1808">slice</a><span class="params">(uint <em>mark</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#XmlPath.slice" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1804">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a slice of the freelist</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="XmlPath.allocate" href="./htmlsrc/tango.text.xml.Document.html#L1816" kind="function" beg="1816" end="1823">allocate</a><span class="params">(Node <em>node</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#XmlPath.allocate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1816">#</a></dt>
+<dd class="ddef">
+<div class="summary">Allocate an entry in the freelist, expanding as necessary</div></dd></dl></dd>
+<dt class="decl">interface <a class="symbol _interface" name="IXmlPrinter" href="./htmlsrc/tango.text.xml.Document.html#L1834" kind="interface" beg="1834" end="1855">IXmlPrinter</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#IXmlPrinter" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1834">#</a></dt>
+<dd class="ddef">
+<div class="summary">Specification for an XML serializer</div>
+<dl>
+<dt class="decl">alias Document!(T) <a class="symbol _alias" name="IXmlPrinter.Doc" href="./htmlsrc/tango.text.xml.Document.html#L1836" kind="alias" beg="1836" end="1836">Doc</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#IXmlPrinter.Doc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1836">#</a></dt>
+<dd class="ddef">
+<div class="summary">the typed document</div></dd>
+<dt class="decl">alias Doc.Node <a class="symbol _alias" name="IXmlPrinter.Node" href="./htmlsrc/tango.text.xml.Document.html#L1837" kind="alias" beg="1837" end="1837">Node</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#IXmlPrinter.Node" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1837">#</a></dt>
+<dd class="ddef">
+<div class="summary">generic document node</div></dd>
+<dt class="decl">alias print <a class="symbol _alias" name="IXmlPrinter.opCall" href="./htmlsrc/tango.text.xml.Document.html#L1838" kind="alias" beg="1838" end="1838">opCall</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#IXmlPrinter.opCall" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1838">#</a></dt>
+<dd class="ddef">
+<div class="summary">alias for print method</div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="IXmlPrinter.print" href="./htmlsrc/tango.text.xml.Document.html#L1846" kind="function" beg="1846" end="1846">print</a><span class="params">(Doc <em>doc</em>)</span>; <a title="Permalink to this symbol" href="#IXmlPrinter.print" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1846">#</a></dt>
+<dd class="ddef">
+<div class="summary">Generate a text representation of the document tree</div></dd>
+<dt class="decl">void <a class="symbol _function" name="IXmlPrinter.print:2" href="./htmlsrc/tango.text.xml.Document.html#L1854" kind="function" beg="1854" end="1854">print</a><span class="params">(Node <em>root</em>, void delegate(T[][]...) <em>emit</em>)</span>; <a title="Permalink to this symbol" href="#IXmlPrinter.print:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.text.xml.Document.html#L1854">#</a></dt>
+<dd class="ddef">
+<div class="summary">Generate a representation of the given node-subtree</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (C) 2007 Aaron Craelius and Kris Bell  
+                   All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:42 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.io.encode.Base64</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.io.encode.Base64";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.io.encode.Base64.html" class="symbol">tango.io.encode.Base64</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Author:</p>Jeff Davey
+<p class="sec_header">Standards:</p>rfc3548, rfc2045
+<p class="sec_header">Since:</p>0.99.7
+<p class="bl"/>
+
+<p class="bl"/>
+
+    This module is used to decode and encode base64 char[] arrays.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">char</span>[] <span class="i">blah</span> = <span class="sl">"Hello there, my name is Jeff."</span>;
+<span class="k">scope</span> <span class="i">encodebuf</span> = <span class="k">new</span> <span class="k">char</span>[<span class="i">allocateEncodeSize</span>(<span class="k">cast</span>(<span class="k">ubyte</span>[])<span class="i">blah</span>)];
+<span class="k">char</span>[] <span class="i">encoded</span> = <span class="i">encode</span>(<span class="k">cast</span>(<span class="k">ubyte</span>[])<span class="i">blah</span>, <span class="i">encodebuf</span>);
+
+<span class="k">scope</span> <span class="i">decodebuf</span> = <span class="k">new</span> <span class="k">ubyte</span>[<span class="i">encoded</span>.<span class="i">length</span>];
+<span class="k">if</span> (<span class="k">cast</span>(<span class="k">char</span>[])<span class="i">decode</span>(<span class="i">encoded</span>, <span class="i">decodebuf</span>) == <span class="sl">"Hello there, my name is Jeff."</span>)
+    <span class="i">Stdout</span>(<span class="sl">"yay"</span>).<span class="i">newline</span>;
+</pre>
+<dl>
+<dt class="decl">uint <a class="symbol _function" name="allocateEncodeSize" href="./htmlsrc/tango.io.encode.Base64.html#L45" kind="function" beg="45" end="48">allocateEncodeSize</a><span class="params">(ubyte[] <em>data</em>)</span>; <a title="Permalink to this symbol" href="#allocateEncodeSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.encode.Base64.html#L45">#</a></dt>
+<dd class="ddef">
+<div class="summary">calculates and returns the size needed to encode the length of the 
+    array passed.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>An array that will be encoded</td></tr></table></dd>
+<dt class="decl">uint <a class="symbol _function" name="allocateEncodeSize:2" href="./htmlsrc/tango.io.encode.Base64.html#L59" kind="function" beg="59" end="64">allocateEncodeSize</a><span class="params">(uint <em>length</em>)</span>; <a title="Permalink to this symbol" href="#allocateEncodeSize:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.encode.Base64.html#L59">#</a></dt>
+<dd class="ddef">
+<div class="summary">calculates and returns the size needed to encode the length passed.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>length</em></td><td>Number of bytes to be encoded</td></tr></table></dd>
+<dt class="decl">int <a class="symbol _function" name="encodeChunk" href="./htmlsrc/tango.io.encode.Base64.html#L82" kind="function" beg="82" end="104">encodeChunk</a><span class="params">(ubyte[] <em>data</em>, char[] <em>buff</em>, inout int <em>bytesEncoded</em>)</span>; <a title="Permalink to this symbol" href="#encodeChunk" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.encode.Base64.html#L82">#</a></dt>
+<dd class="ddef">
+<div class="summary">encodes data into buff and returns the number of bytes encoded.
+    this will not terminate and pad any "leftover" bytes, and will instead
+    only encode up to the highest number of bytes divisible by three.</div>
+returns the number of bytes left to encode
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>what is to be encoded</td></tr>
+<tr><td><em>buff</em></td><td>buffer large enough to hold encoded data</td></tr>
+<tr><td><em>bytesEncoded</em></td><td>inout that returns how much of the buffer was filled</td></tr></table></dd>
+<dt class="decl">char[] <a class="symbol _function" name="encode" href="./htmlsrc/tango.io.encode.Base64.html#L124" kind="function" beg="124" end="163">encode</a><span class="params">(ubyte[] <em>data</em>, char[] <em>buff</em>)</span>; <a title="Permalink to this symbol" href="#encode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.encode.Base64.html#L124">#</a></dt>
+<dd class="ddef">
+<div class="summary">encodes data and returns as an ASCII base64 string.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>what is to be encoded</td></tr>
+<tr><td><em>buff</em></td><td>buffer large enough to hold encoded data</td></tr></table>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">char</span>[<span class="n">512</span>] <span class="i">encodebuf</span>;
+<span class="k">char</span>[] <span class="i">myEncodedString</span> = <span class="i">encode</span>(<span class="k">cast</span>(<span class="k">ubyte</span>[])<span class="sl">"Hello, how are you today?"</span>, <span class="i">encodebuf</span>);
+<span class="i">Stdout</span>(<span class="i">myEncodedString</span>).<span class="i">newline</span>; <span class="lc">// SGVsbG8sIGhvdyBhcmUgeW91IHRvZGF5Pw==</span>
+</pre></dd>
+<dt class="decl">char[] <a class="symbol _function" name="encode:2" href="./htmlsrc/tango.io.encode.Base64.html#L182" kind="function" beg="182" end="191">encode</a><span class="params">(ubyte[] <em>data</em>)</span>; <a title="Permalink to this symbol" href="#encode:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.encode.Base64.html#L182">#</a></dt>
+<dd class="ddef">
+<div class="summary">encodes data and returns as an ASCII base64 string.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>what is to be encoded</td></tr></table>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">char</span>[] <span class="i">myEncodedString</span> = <span class="i">encode</span>(<span class="k">cast</span>(<span class="k">ubyte</span>[])<span class="sl">"Hello, how are you today?"</span>);
+<span class="i">Stdout</span>(<span class="i">myEncodedString</span>).<span class="i">newline</span>; <span class="lc">// SGVsbG8sIGhvdyBhcmUgeW91IHRvZGF5Pw==</span>
+</pre></dd>
+<dt class="decl">ubyte[] <a class="symbol _function" name="decode" href="./htmlsrc/tango.io.encode.Base64.html#L217" kind="function" beg="217" end="304">decode</a><span class="params">(char[] <em>data</em>, ubyte[] <em>buff</em>)</span>; <a title="Permalink to this symbol" href="#decode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.io.encode.Base64.html#L217">#</a></dt>
+<dd class="ddef">
+<div class="summary">decodes an ASCCI base64 string and returns it as ubyte[] data.</div>
+This decoder will ignore non-base64 characters. So:
+    SGVsbG8sIGhvd
+    yBhcmUgeW91IH
+    RvZGF5Pw==
+<p class="bl"/>
+    Is valid.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>data</em></td><td>what is to be decoded</td></tr>
+<tr><td><em>buff</em></td><td>a big enough array to hold the decoded data</td></tr></table>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">ubyte</span>[<span class="n">512</span>] <span class="i">decodebuf</span>;
+<span class="k">char</span>[] <span class="i">myDecodedString</span> = <span class="k">cast</span>(<span class="k">char</span>[])<span class="i">decode</span>(<span class="sl">"SGVsbG8sIGhvdyBhcmUgeW91IHRvZGF5Pw=="</span>, <span class="i">decodebuf</span>);
+<span class="i">Stdout</span>(<span class="i">myDecodeString</span>).<span class="i">newline</span>; <span class="lc">// Hello, how are you today?</span>
+</pre></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2008 Jeff Davey. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:02 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

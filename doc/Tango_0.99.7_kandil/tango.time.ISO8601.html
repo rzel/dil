@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.time.ISO8601</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.time.ISO8601";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.time.ISO8601.html" class="symbol">tango.time.ISO8601</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Aug 2007: Initial release
+                        Feb 2008: Retooled
+<p class="sec_header">Author:</p>Matti Niemenmaa
+<p class="bl"/>
+        This module is based on the ISO 8601:2004 standard, and has functions
+        for parsing (almost) every date/time format specified therein. (The
+        ones not supported are intervals, durations, and recurring intervals.)
+<p class="bl"/>
+        Refer to the standard for a full description of the formats supported.
+<p class="bl"/>
+        The functions (parseTime, parseDate, and parseDateAndTime) are
+        overloaded into two different versions of each: one updates a given
+        Time, and the other updates a given ExtendedDate struct. The purpose of
+        this struct is to support more detailed information which the Time data
+        type does not (and, given its simple integer nature, cannot) support.
+<p class="bl"/>
+        Times with specified time zones are simply converted into UTC: this may
+        lead to the date changing when only a time was parsed: e.g. "01:00+03"
+        is the same as "22:00", except that when the former is parsed, one is
+        subtracted from the day.
+<dl>
+<dt class="decl">struct <a class="symbol _struct" name="ExtendedDate" href="./htmlsrc/tango.time.ISO8601.html#L41" kind="struct" beg="41" end="105">ExtendedDate</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#ExtendedDate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.time.ISO8601.html#L41">#</a></dt>
+<dd class="ddef">
+<div class="summary">An extended date type, wrapping a Time together with some additional
+ information.</div>
+<dl>
+<dt class="decl">DT <a class="symbol _variable" name="ExtendedDate.val" href="./htmlsrc/tango.time.ISO8601.html#L43" kind="variable" beg="43" end="43">val</a>; <a title="Permalink to this symbol" href="#ExtendedDate.val" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.time.ISO8601.html#L43">#</a></dt>
+<dd class="ddef">
+<div class="summary">The Time value, containing the information it can.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="ExtendedDate.year" href="./htmlsrc/tango.time.ISO8601.html#L53" kind="function" beg="53" end="66">year</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ExtendedDate.year" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.time.ISO8601.html#L53">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the year part of the date: a value in the range
+ [-1_000_000_000,-1] ∪ [1,999_999_999], where -1 is the year 1 BCE.</div>
+Do not use val.year directly unless you are absolutely sure that it is in
+ the range a Time can hold (-10000 to 9999).</dd>
+<dt class="decl">uint <a class="symbol _function" name="ExtendedDate.seconds" href="./htmlsrc/tango.time.ISO8601.html#L84" kind="function" beg="84" end="84">seconds</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ExtendedDate.seconds" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.time.ISO8601.html#L84">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the seconds part of the date: may be 60 if a leap second
+ occurred. In such a case, val's seconds part is 59.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="ExtendedDate.endOfDay" href="./htmlsrc/tango.time.ISO8601.html#L93" kind="function" beg="93" end="93">endOfDay</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ExtendedDate.endOfDay" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.time.ISO8601.html#L93">#</a></dt>
+<dd class="ddef">
+<div class="summary">Whether the ISO 8601 representation of this hour is 24 or 00: whether
+ this instant of midnight is to be considered the end of the previous day
+ or the start of the next.</div>
+If the time of val is not exactly 00:00:00.000, this value is undefined.</dd></dl></dd>
+<dt class="decl">size_t <a class="symbol _function" name="parseDate" href="./htmlsrc/tango.time.ISO8601.html#L147" kind="function" beg="147" end="153">parseDate</a><span class="tparams">(T)</span><span class="params">(T[] <em>src</em>, inout DT <em>dt</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#parseDate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.time.ISO8601.html#L147">#</a></dt>
+<dt class="decl">size_t <a class="symbol _function" name="parseDate:2" href="./htmlsrc/tango.time.ISO8601.html#L155" kind="function" beg="155" end="159">parseDate</a><span class="tparams">(T)</span><span class="params">(T[] <em>src</em>, inout FullDate <em>fd</em>, ubyte <em>expanded</em> = 0)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#parseDate:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.time.ISO8601.html#L155">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses a date in a format specified in ISO 8601:2004.</div>
+Returns the number of characters used to compose a valid date: 0 if no date
+ can be composed.
+<p class="bl"/>
+ Fields in dt will either be correct (e.g. months will be &gt;= 1 and &lt;= 12) or
+ the default, which is 1 for year, month, and day, and 0 for all other
+ fields. Unless one is absolutely sure that 0001-01-01 can never be
+ encountered, one should check the return value to be sure that the parsing
+ succeeded as expected.
+<p class="bl"/>
+ A third parameter is available for the ExtendedDate version: this allows for
+ parsing expanded year representations. The parameter is the number of extra
+ year digits beyond four, and defaults to zero. It must be within the range
+ [0,5]: this allows for a maximum year of 999 999 999, which should be enough
+ for now.
+<p class="bl"/>
+ When using expanded year representations, be careful to use
+ ExtendedDate.year instead of the Time's year value.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Time</span> <span class="i">t</span>;
+<span class="i">ExtendedDate</span> <span class="i">ed</span>;
+
+<span class="i">parseDate</span>(<span class="sl">"19"</span>,             <span class="i">t</span>);    <span class="lc">// January 1st, 1900</span>
+<span class="i">parseDate</span>(<span class="sl">"1970"</span>,           <span class="i">t</span>);    <span class="lc">// January 1st, 1970</span>
+<span class="i">parseDate</span>(<span class="sl">"1970-02"</span>,        <span class="i">t</span>);    <span class="lc">// February 1st, 1970</span>
+<span class="i">parseDate</span>(<span class="sl">"19700203"</span>,       <span class="i">t</span>);    <span class="lc">// February 3rd, 1970</span>
+<span class="i">parseDate</span>(<span class="sl">"+19700203"</span>,     <span class="i">ed</span>, <span class="n">2</span>); <span class="lc">// March 1st, 197002</span>
+<span class="i">parseDate</span>(<span class="sl">"-197002-04-01"</span>, <span class="i">ed</span>, <span class="n">2</span>); <span class="lc">// April 1st, -197003 (197003 BCE)</span>
+<span class="i">parseDate</span>(<span class="sl">"00000101"</span>,       <span class="i">t</span>);    <span class="lc">// January 1st, -1 (1 BCE)</span>
+<span class="i">parseDate</span>(<span class="sl">"1700-W14-2"</span>,     <span class="i">t</span>);    <span class="lc">// April 6th, 1700</span>
+<span class="i">parseDate</span>(<span class="sl">"2008W01"</span>,        <span class="i">t</span>);    <span class="lc">// December 31st, 2007</span>
+<span class="i">parseDate</span>(<span class="sl">"1987-221"</span>,       <span class="i">t</span>);    <span class="lc">// August 9th, 1987</span>
+<span class="i">parseDate</span>(<span class="sl">"1234abcd"</span>,       <span class="i">t</span>);    <span class="lc">// January 1st, 1234; return value is 4</span>
+<span class="i">parseDate</span>(<span class="sl">"12abcdef"</span>,       <span class="i">t</span>);    <span class="lc">// January 1st, 1200; return value is 2</span>
+<span class="i">parseDate</span>(<span class="sl">"abcdefgh"</span>,       <span class="i">t</span>);    <span class="lc">// January 1st, 0001; return value is 0</span>
+</pre></dd>
+<dt class="decl">size_t <a class="symbol _function" name="parseTime" href="./htmlsrc/tango.time.ISO8601.html#L320" kind="function" beg="320" end="326">parseTime</a><span class="tparams">(T)</span><span class="params">(T[] <em>src</em>, inout DT <em>dt</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#parseTime" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.time.ISO8601.html#L320">#</a></dt>
+<dt class="decl">size_t <a class="symbol _function" name="parseTime:2" href="./htmlsrc/tango.time.ISO8601.html#L328" kind="function" beg="328" end="332">parseTime</a><span class="tparams">(T)</span><span class="params">(T[] <em>src</em>, inout FullDate <em>fd</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#parseTime:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.time.ISO8601.html#L328">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses a time of day in a format specified in ISO 8601:2004.</div>
+Returns the number of characters used to compose a valid time: 0 if no time
+ can be composed.
+<p class="bl"/>
+ Fields in dt will either be correct or the default, which is 0 for all
+ time-related fields. fields. Unless one is absolutely sure that midnight
+ can never be encountered, one should check the return value to be sure that
+ the parsing succeeded as expected.
+<p class="bl"/>
+ Extra fields in ExtendedDate:
+<p class="bl"/>
+ Seconds may be 60 if the hours and minutes are 23 and 59, as leap seconds
+ are occasionally added to UTC time. A Time's seconds will be 59 in this
+ case.
+<p class="bl"/>
+ Hours may be 0 or 24: the latter marks the end of a day and the former the
+ beginning, although they both refer to the same instant in time. A Time
+ will be precisely 00:00 in either case.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Time</span> <span class="i">t</span>;
+<span class="i">ExtendedDate</span> <span class="i">ed</span>;
+
+<span class="lc">// ",000" omitted for clarity</span>
+<span class="i">parseTime</span>(<span class="sl">"20"</span>,             <span class="i">t</span>); <span class="lc">// 20:00:00</span>
+<span class="i">parseTime</span>(<span class="sl">"2004"</span>,           <span class="i">t</span>); <span class="lc">// 20:04:00</span>
+<span class="i">parseTime</span>(<span class="sl">"20:04:06"</span>,       <span class="i">t</span>); <span class="lc">// 20:04:06</span>
+<span class="i">parseTime</span>(<span class="sl">"16:49:30,001"</span>,   <span class="i">t</span>); <span class="lc">// 16:49:30,001</span>
+<span class="i">parseTime</span>(<span class="sl">"16:49:30,1"</span>,     <span class="i">t</span>); <span class="lc">// 16:49:30,100</span>
+<span class="i">parseTime</span>(<span class="sl">"16:49,4"</span>,        <span class="i">t</span>); <span class="lc">// 16:49:24</span>
+<span class="i">parseTime</span>(<span class="sl">"23:59:60"</span>,      <span class="i">ed</span>); <span class="lc">// 23:59:60</span>
+<span class="i">parseTime</span>(<span class="sl">"24:00:01"</span>,       <span class="i">t</span>); <span class="lc">// 00:00:00; return value is 5</span>
+<span class="i">parseTime</span>(<span class="sl">"24:00:01"</span>,      <span class="i">ed</span>); <span class="lc">// 00:00:00; return value is 5; endOfDay</span>
+<span class="i">parseTime</span>(<span class="sl">"30"</span>,             <span class="i">t</span>); <span class="lc">// 00:00:00; return value is 0</span>
+<span class="i">parseTime</span>(<span class="sl">"21:32:43-12:34"</span>, <span class="i">t</span>); <span class="lc">// 10:06:43; day increased by one</span>
+</pre></dd>
+<dt class="decl">size_t <a class="symbol _function" name="parseDateAndTime" href="./htmlsrc/tango.time.ISO8601.html#L530" kind="function" beg="530" end="535">parseDateAndTime</a><span class="tparams">(T)</span><span class="params">(T[] <em>src</em>, inout DT <em>dt</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#parseDateAndTime" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.time.ISO8601.html#L530">#</a></dt>
+<dt class="decl">size_t <a class="symbol _function" name="parseDateAndTime:2" href="./htmlsrc/tango.time.ISO8601.html#L537" kind="function" beg="537" end="555">parseDateAndTime</a><span class="tparams">(T)</span><span class="params">(T[] <em>src</em>, inout FullDate <em>fd</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#parseDateAndTime:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.time.ISO8601.html#L537">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses a combined date and time in a format specified in ISO 8601:2004.</div>
+Returns the number of characters used to compose a valid date and time.
+ Zero is returned if a complete date and time cannot be extracted. In that
+ case, the value of the resulting Time or ExtendedDate is undefined.
+<p class="bl"/>
+ This function is stricter than just calling parseDate followed by
+<p class="sec_header">parseTime:</p>there are no allowances for expanded years or reduced dates
+ (two-digit years), and separator usage must be consistent.
+<p class="bl"/>
+ Although the standard allows for omitting the T between the date and the
+ time, this function requires it.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Time</span> <span class="i">t</span>;
+
+<span class="lc">// January 1st, 2008 00:01:00</span>
+<span class="i">parseDateAndTime</span>(<span class="sl">"2007-12-31T23:01-01"</span>, <span class="i">t</span>); 
+
+<span class="lc">// April 12th, 1985 23:50:30,042</span>
+<span class="i">parseDateAndTime</span>(<span class="sl">"1985W155T235030,042"</span>, <span class="i">t</span>); 
+
+<span class="lc">// Invalid time: returns zero</span>
+<span class="i">parseDateAndTime</span>(<span class="sl">"1902-03-04T10:1a"</span>, <span class="i">t</span>);
+
+<span class="lc">// Separating T omitted: returns zero</span>
+<span class="i">parseDateAndTime</span>(<span class="sl">"1985-04-1210:15:30+04:00"</span>, <span class="i">t</span>);
+
+<span class="lc">// Inconsistent separators: all return zero</span>
+<span class="i">parseDateAndTime</span>(<span class="sl">"200512-01T10:02"</span>,          <span class="i">t</span>);
+<span class="i">parseDateAndTime</span>(<span class="sl">"1985-04-12T10:15:30+0400"</span>, <span class="i">t</span>);
+<span class="i">parseDateAndTime</span>(<span class="sl">"1902-03-04T050607"</span>,        <span class="i">t</span>);
+</pre></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2007-2008 Matti Niemenmaa.
+                        All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:12 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

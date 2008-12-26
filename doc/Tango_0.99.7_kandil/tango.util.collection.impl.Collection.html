@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.collection.impl.Collection</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.collection.impl.Collection";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.collection.impl.Collection.html" class="symbol">tango.util.collection.impl.Collection</a></h1>
+  
+<p class="sec_header">File:</p>Collection.d
+<p class="bl"/>
+        Originally written by Doug Lea and released into the public domain. 
+        Thanks for the assistance and support of Sun Microsystems Labs, Agorics 
+        Inc, Loral, and everyone contributing, testing, and using this code.
+<p class="sec_header">History:</p>Date     Who                What
+        24Sep95  dl@cs.oswego.edu   Create from tango.util.collection.d  working file
+        13Oct95  dl                 Add assert
+        22Oct95  dl                 Add excludeElements, removeElements
+        28jan97  dl                 make class public; isolate version changes
+        14Dec06  kb                 Adapted for Tango usage
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Collection" href="./htmlsrc/tango.util.collection.impl.Collection.html#L37" kind="class" beg="37" end="629">Collection</a><span class="tparams">(T)</span> : Dispenser!(T); <a title="Permalink to this symbol" href="#Collection" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L37">#</a></dt>
+<dd class="ddef">
+<div class="summary">Collection serves as a convenient base class for most implementations
+        of mutable containers. It maintains a version number and element count.
+        It also provides default implementations of many collection operations.</div>
+<p class="sec_header">Authors:</p>Doug Lea
+<dl>
+<dt class="decl">uint <a class="symbol _variable" name="Collection.vershion" href="./htmlsrc/tango.util.collection.impl.Collection.html#L52" kind="variable" beg="52" end="52">vershion</a>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#Collection.vershion" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L52">#</a></dt>
+<dd class="ddef">
+<div class="summary">version represents the current version number</div></dd>
+<dt class="decl">Predicate <a class="symbol _variable" name="Collection.screener" href="./htmlsrc/tango.util.collection.impl.Collection.html#L60" kind="variable" beg="60" end="60">screener</a>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#Collection.screener" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L60">#</a></dt>
+<dd class="ddef">
+<div class="summary">screener hold the supplied element screener</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="Collection.count" href="./htmlsrc/tango.util.collection.impl.Collection.html#L68" kind="variable" beg="68" end="68">count</a>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#Collection.count" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L68">#</a></dt>
+<dd class="ddef">
+<div class="summary">count holds the number of elements.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="Collection.this" href="./htmlsrc/tango.util.collection.impl.Collection.html#L78" kind="ctor" beg="78" end="81">this</a><span class="params">(Predicate <em>screener</em> = null)</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#Collection.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L78">#</a></dt>
+<dd class="ddef">
+<div class="summary">Initialize at version 0, an empty count, and supplied screener</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Collection.isValidArg" href="./htmlsrc/tango.util.collection.impl.Collection.html#L88" kind="function" beg="88" end="96">isValidArg</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">static</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.isValidArg" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L88">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="Collection.toArray" href="./htmlsrc/tango.util.collection.impl.Collection.html#L106" kind="function" beg="106" end="115">toArray</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Collection.toArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L106">#</a></dt>
+<dd class="ddef">
+<div class="summary">expose collection content as an array</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Collection.drained" href="./htmlsrc/tango.util.collection.impl.Collection.html#L124" kind="function" beg="124" end="127">drained</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.drained" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L124">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1).</div>
+<p class="sec_header">See Also:</p>tango.util.collection.impl.Collection.Collection.drained</dd>
+<dt class="decl">uint <a class="symbol _function" name="Collection.size" href="./htmlsrc/tango.util.collection.impl.Collection.html#L137" kind="function" beg="137" end="140">size</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L137">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1).</div>
+<p class="sec_header">Returns:</p>the count of elements currently in the collection
+<p class="sec_header">See Also:</p>tango.util.collection.impl.Collection.Collection.size</dd>
+<dt class="decl">bool <a class="symbol _function" name="Collection.allows" href="./htmlsrc/tango.util.collection.impl.Collection.html#L154" kind="function" beg="154" end="158">allows</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.allows" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L154">#</a></dt>
+<dd class="ddef">
+<div class="summary">Checks if element is an allowed element for this collection.
+                This will not throw an exception, but any other attemp to add an
+                invalid element will do.</div>
+Time complexity: O(1) + time of screener, if present
+<p class="sec_header">See Also:</p>tango.util.collection.impl.Collection.Collection.allows</dd>
+<dt class="decl">bool <a class="symbol _function" name="Collection.matches" href="./htmlsrc/tango.util.collection.impl.Collection.html#L176" kind="function" beg="176" end="213">matches</a><span class="params">(ViewT <em>other</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Collection.matches" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L176">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n).
+                Default implementation. Fairly sleazy approach.
+                (Defensible only when you remember that it is just a default impl.)
+                It tries to cast to one of the known collection interface types
+                and then applies the corresponding comparison rules.
+                This suffices for all currently supported collection types,
+                but must be overridden if you define new Collection subinterfaces
+                and/or implementations.</div>
+<p class="sec_header">See Also:</p>tango.util.collection.impl.Collection.Collection.matches</dd>
+<dt class="decl">uint <a class="symbol _function" name="Collection.mutation" href="./htmlsrc/tango.util.collection.impl.Collection.html#L224" kind="function" beg="224" end="227">mutation</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.mutation" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L224">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(1).</div>
+<p class="sec_header">See Also:</p>tango.util.collection.impl.Collection.Collection.version</dd>
+<dt class="decl">char[] <a class="symbol _function" name="Collection.toString" href="./htmlsrc/tango.util.collection.impl.Collection.html#L243" kind="function" beg="243" end="248">toString</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Collection.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L243">#</a></dt>
+<dd class="ddef">
+<div class="summary">Default implementation of toString for Collections. Not
+                very pretty, but parenthesizing each element means that
+                for most kinds of elements, it's conceivable that the
+                strings could be parsed and used to build other tango.util.collection.</div>
+Not a very pretty implementation either. Casts are used
+                to get at elements/keys</dd>
+<dt class="decl">char[] <a class="symbol _function" name="Collection.itoa" href="./htmlsrc/tango.util.collection.impl.Collection.html#L255" kind="function" beg="255" end="263">itoa</a><span class="params">(char[] <em>buf</em>, uint <em>i</em>)</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.itoa" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L255">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">void <a class="symbol _function" name="Collection.incVersion" href="./htmlsrc/tango.util.collection.impl.Collection.html#L273" kind="function" beg="273" end="276">incVersion</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.incVersion" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L273">#</a></dt>
+<dd class="ddef">
+<div class="summary">change the version number</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Collection.incCount" href="./htmlsrc/tango.util.collection.impl.Collection.html#L285" kind="function" beg="285" end="289">incCount</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.incCount" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L285">#</a></dt>
+<dd class="ddef">
+<div class="summary">Increment the element count and update version</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Collection.decCount" href="./htmlsrc/tango.util.collection.impl.Collection.html#L297" kind="function" beg="297" end="301">decCount</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.decCount" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L297">#</a></dt>
+<dd class="ddef">
+<div class="summary">Decrement the element count and update version</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Collection.addToCount" href="./htmlsrc/tango.util.collection.impl.Collection.html#L310" kind="function" beg="310" end="317">addToCount</a><span class="params">(uint <em>c</em>)</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.addToCount" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L310">#</a></dt>
+<dd class="ddef">
+<div class="summary">add to the element count and update version if changed</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Collection.setCount" href="./htmlsrc/tango.util.collection.impl.Collection.html#L326" kind="function" beg="326" end="333">setCount</a><span class="params">(uint <em>c</em>)</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.setCount" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L326">#</a></dt>
+<dd class="ddef">
+<div class="summary">set the element count and update version if changed</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Collection.sameInclusions" href="./htmlsrc/tango.util.collection.impl.Collection.html#L342" kind="function" beg="342" end="359">sameInclusions</a><span class="params">(ViewT <em>s</em>, ViewT <em>t</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">static</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.sameInclusions" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L342">#</a></dt>
+<dd class="ddef">
+<div class="summary">Helper method left public since it might be useful</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Collection.sameOccurrences" href="./htmlsrc/tango.util.collection.impl.Collection.html#L367" kind="function" beg="367" end="391">sameOccurrences</a><span class="params">(ViewT <em>s</em>, ViewT <em>t</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">static</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.sameOccurrences" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L367">#</a></dt>
+<dd class="ddef">
+<div class="summary">Helper method left public since it might be useful</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Collection.sameOrderedElements" href="./htmlsrc/tango.util.collection.impl.Collection.html#L400" kind="function" beg="400" end="421">sameOrderedElements</a><span class="params">(ViewT <em>s</em>, ViewT <em>t</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">static</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.sameOrderedElements" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L400">#</a></dt>
+<dd class="ddef">
+<div class="summary">Helper method left public since it might be useful</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Collection.checkIndex" href="./htmlsrc/tango.util.collection.impl.Collection.html#L433" kind="function" beg="433" end="448">checkIndex</a><span class="params">(int <em>index</em>)</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.checkIndex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L433">#</a></dt>
+<dd class="ddef">
+<div class="summary">Principal method to throw a NoSuchElementException.
+                Besides index checks in Seqs, you can use it to check for
+                operations on empty collections via checkIndex(0)</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Collection.checkElement" href="./htmlsrc/tango.util.collection.impl.Collection.html#L457" kind="function" beg="457" end="463">checkElement</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Collection.checkElement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L457">#</a></dt>
+<dd class="ddef">
+<div class="summary">Principal method to throw a IllegalElementException</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Collection.checkImplementation" href="./htmlsrc/tango.util.collection.impl.Collection.html#L471" kind="function" beg="471" end="474">checkImplementation</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Collection.checkImplementation" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L471">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">See Also:</p>tango.util.collection.model.View.View.checkImplementation</dd>
+<dt class="decl">void <a class="symbol _function" name="Collection.clear" href="./htmlsrc/tango.util.collection.impl.Collection.html#L483" kind="function" beg="483" end="483">clear</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Collection.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L483">#</a></dt>
+<dd class="ddef">
+<div class="summary">Cause the collection to become empty.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Collection.removeAll" href="./htmlsrc/tango.util.collection.impl.Collection.html#L500" kind="function" beg="500" end="500">removeAll</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Collection.removeAll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L500">#</a></dt>
+<dd class="ddef">
+<div class="summary">Exclude all occurrences of the indicated element from the collection. 
+                No effect if element not present.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>element</em></td><td>the element to exclude.
+                ---
+                !has(element) &&
+                size() == PREV(this).size() - PREV(this).instances(element) &&
+                no other element changes &&
+                Version change iff PREV(this).has(element)
+                ---</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="Collection.remove" href="./htmlsrc/tango.util.collection.impl.Collection.html#L518" kind="function" beg="518" end="518">remove</a><span class="params">(T <em>element</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Collection.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L518">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove an instance of the indicated element from the collection. 
+                No effect if !has(element)</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>element</em></td><td>the element to remove
+                ---
+                let occ = max(1, instances(element)) in
+                 size() == PREV(this).size() - occ &&
+                 instances(element) == PREV(this).instances(element) - occ &&
+                 no other element changes &&
+                 version change iff occ == 1
+                ---</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="Collection.replace" href="./htmlsrc/tango.util.collection.impl.Collection.html#L542" kind="function" beg="542" end="542">replace</a><span class="params">(T <em>oldElement</em>, T <em>newElement</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Collection.replace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L542">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace an occurrence of oldElement with newElement.
+                No effect if does not hold oldElement or if oldElement.equals(newElement).
+                The operation has a consistent, but slightly special interpretation
+                when applied to Sets. For Sets, because elements occur at
+                most once, if newElement is already included, replacing oldElement with
+                with newElement has the same effect as just removing oldElement.
+                <pre class="d_code">
+<span class="i">let</span> <span class="k">int</span> <span class="i">delta</span> = <span class="i">oldElement</span>.<span class="i">equals</span>(<span class="i">newElement</span>)? <span class="n">0</span> : 
+              <span class="i">max</span>(<span class="n">1</span>, <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) <span class="k">in</span>
+ <span class="i">instances</span>(<span class="i">oldElement</span>) == <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) - <span class="i">delta</span> &amp;&amp;
+ <span class="i">instances</span>(<span class="i">newElement</span>) ==  (<span class="k">this</span> <span class="i">instanceof</span> <span class="i">Set</span>) ? 
+        <span class="i">max</span>(<span class="n">1</span>, <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) + <span class="i">delta</span>):
+               <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) + <span class="i">delta</span>) &amp;&amp;
+ <span class="i">no</span> <span class="i">other</span> <span class="i">element</span> <span class="i">changes</span> &amp;&amp;
+ <span class="i">Version</span> <span class="i">change</span> <span class="i">iff</span> <span class="i">delta</span> != <span class="n">0</span>
+</pre></div>
+<p class="sec_header">Throws:</p>IllegalElementException if has(oldElement) and !allows(newElement)</dd>
+<dt class="decl">void <a class="symbol _function" name="Collection.replaceAll" href="./htmlsrc/tango.util.collection.impl.Collection.html#L566" kind="function" beg="566" end="566">replaceAll</a><span class="params">(T <em>oldElement</em>, T <em>newElement</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Collection.replaceAll" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L566">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace all occurrences of oldElement with newElement.
+                No effect if does not hold oldElement or if oldElement.equals(newElement).
+                The operation has a consistent, but slightly special interpretation
+                when applied to Sets. For Sets, because elements occur at
+                most once, if newElement is already included, replacing oldElement with
+                with newElement has the same effect as just removing oldElement.
+                <pre class="d_code">
+<span class="i">let</span> <span class="k">int</span> <span class="i">delta</span> = <span class="i">oldElement</span>.<span class="i">equals</span>(<span class="i">newElement</span>)? <span class="n">0</span> : 
+           <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) <span class="k">in</span>
+ <span class="i">instances</span>(<span class="i">oldElement</span>) == <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) - <span class="i">delta</span> &amp;&amp;
+ <span class="i">instances</span>(<span class="i">newElement</span>) ==  (<span class="k">this</span> <span class="i">instanceof</span> <span class="i">Set</span>) ? 
+        <span class="i">max</span>(<span class="n">1</span>, <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) + <span class="i">delta</span>):
+               <span class="i">PREV</span>(<span class="k">this</span>).<span class="i">instances</span>(<span class="i">oldElement</span>) + <span class="i">delta</span></pre> &amp;&amp;
+ <span class="i">no</span> <span class="i">other</span> <span class="i">element</span> <span class="i">changes</span> &amp;&amp;
+ <span class="i">Version</span> <span class="i">change</span> <span class="i">iff</span> <span class="i">delta</span> != <span class="n">0</span>
+</div>
+<p class="sec_header">Throws:</p>IllegalElementException if has(oldElement) and !allows(newElement)</dd></dl>
+<dt class="decl">void <a class="symbol _function" name="Collection.removeAll:2" href="./htmlsrc/tango.util.collection.impl.Collection.html#L585" kind="function" beg="585" end="585">removeAll</a><span class="params">(Iterator!(T) <em>e</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Collection.removeAll:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L585">#</a></dt>
+<dd class="ddef">
+<div class="summary">Exclude all occurrences of each element of the Iterator.
+                Behaviorally equivalent to
+                <pre class="d_code">
+<span class="k">while</span> (<span class="i">e</span>.<span class="i">more</span>())
+  <span class="i">removeAll</span>(<span class="i">e</span>.<span class="i">get</span>());
+</pre>
+                Param :
+                    e = the enumeration of elements to exclude.</div>
+<p class="sec_header">Throws:</p>CorruptedIteratorException is propagated if thrown
+<p class="sec_header">See Also:</p>tango.util.collection.impl.Collection.Collection.removeAll</dd>
+<dt class="decl">void <a class="symbol _function" name="Collection.remove:2" href="./htmlsrc/tango.util.collection.impl.Collection.html#L604" kind="function" beg="604" end="604">remove</a><span class="params">(Iterator!(T) <em>e</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Collection.remove:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L604">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove an occurrence of each element of the Iterator.
+                 Behaviorally equivalent to</div>
+<pre class="d_code">
+<span class="k">while</span> (<span class="i">e</span>.<span class="i">more</span>())
+   <span class="i">remove</span> (<span class="i">e</span>.<span class="i">get</span>());
+</pre>
+<p class="sec_header">Param:</p>e = the enumeration of elements to remove.
+<p class="sec_header">Throws:</p>CorruptedIteratorException is propagated if thrown</dd>
+<dt class="decl">T <a class="symbol _function" name="Collection.take" href="./htmlsrc/tango.util.collection.impl.Collection.html#L628" kind="function" beg="628" end="628">take</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Collection.take" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.impl.Collection.html#L628">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove and return an element.  Implementations
+                may strengthen the guarantee about the nature of this element.
+                but in general it is the most convenient or efficient element to remove.</div>
+<p class="sec_header">Examples:</p>One way to transfer all elements from 
+                MutableCollection a to MutableBag b is:
+                <pre class="d_code">
+<span class="k">while</span> (!<span class="i">a</span>.<span class="i">empty</span>())
+    <span class="i">b</span>.<span class="i">add</span>(<span class="i">a</span>.<span class="i">take</span>());
+</pre>
+<p class="sec_header">Returns:</p>an element v such that PREV(this).has(v) 
+                    and the postconditions of removeOneOf(v) hold.
+<p class="sec_header">Throws:</p>NoSuchElementException iff drained.</dd></dd></dl>)
+</div>
+<div id="footer">
+  <p></p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:10 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.cluster.QueuedCache</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.cluster.QueuedCache";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.cluster.QueuedCache.html" class="symbol">tango.net.cluster.QueuedCache</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>April 2004: Initial release
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="QueuedCache" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L37" kind="class" beg="37" end="372">QueuedCache</a><span class="tparams">(K, V)</span> : ICache!(K, V); <a title="Permalink to this symbol" href="#QueuedCache" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L37">#</a></dt>
+<dd class="ddef">
+<div class="summary">QueuedCache extends the basic cache type by adding a limit to
+        the number of items contained at any given time. In addition,
+        QueuedCache sorts the cache entries such that those entries
+        frequently accessed are at the head of the queue, and those
+        least frequently accessed are at the tail. When the queue
+        becomes full, old entries are dropped from the tail and are
+        reused to house new cache entries.</div>
+This is great for keeping commonly accessed items around, while
+        limiting the amount of memory used. Typically, the queue size
+        would be set in the hundreds (perhaps thousands).
+<p class="bl"/>
+        Note that key.init cannot be used as a valid key
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="QueuedCache.this" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L55" kind="ctor" beg="55" end="67">this</a><span class="params">(uint <em>capacity</em>)</span>; <a title="Permalink to this symbol" href="#QueuedCache.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L55">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a cache with the specified maximum number of
+                entries. Additions to the cache beyond this number will
+                reuse the slot of the least-recently-referenced cache
+                entry. The concurrency level indicates approximately how
+                many threads will content for write access at one time.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="QueuedCache.get" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L75" kind="function" beg="75" end="85">get</a><span class="params">(K <em>key</em>, inout V <em>value</em>)</span>; <span class="attrs">[<span class="stc">synchronized</span>]</span> <a title="Permalink to this symbol" href="#QueuedCache.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L75">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get the cache entry identified by the given key</div></dd>
+<dt class="decl">V <a class="symbol _function" name="QueuedCache.get:2" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L93" kind="function" beg="93" end="100">get</a><span class="params">(K <em>key</em>)</span>; <span class="attrs">[<span class="stc">synchronized</span>]</span> <a title="Permalink to this symbol" href="#QueuedCache.get:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L93">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get the cache entry identified by the given key</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="QueuedCache.put" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L118" kind="function" beg="118" end="131">put</a><span class="params">(K <em>key</em>, V <em>value</em>, Time <em>time</em> = Time.init)</span>; <span class="attrs">[<span class="stc">synchronized</span>]</span> <a title="Permalink to this symbol" href="#QueuedCache.put" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L118">#</a></dt>
+<dd class="ddef">
+<div class="summary">Place an entry into the cache and associate it with the
+                provided key. Note that there can be only one entry for
+                any particular key. If two entries are added with the
+                same key, the second effectively overwrites the first.</div>
+An optional time value allows for testing whether an
+                existing entry is newer than our provided one. Where
+                the provided time value is lesser, the put() operation
+                will be abandoned and false is returned.
+<p class="bl"/>
+                Returns true if the cache was updated.</dd>
+<dt class="decl">bool <a class="symbol _function" name="QueuedCache.put:2" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L140" kind="function" beg="140" end="155">put</a><span class="params">(K <em>peek</em>, K delegate() <em>key</em>, V delegate() <em>value</em>, Time <em>time</em> = Time.init)</span>; <span class="attrs">[<span class="stc">synchronized</span>]</span> <a title="Permalink to this symbol" href="#QueuedCache.put:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L140">#</a></dt>
+<dd class="ddef">
+<div class="summary">Same as above, but being careful to avoid heap activity
+                where the provided key and value are potentially aliased</div></dd>
+<dt class="decl">V <a class="symbol _function" name="QueuedCache.remove" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L164" kind="function" beg="164" end="180">remove</a><span class="params">(K <em>key</em>, Time <em>time</em> = Time.max)</span>; <span class="attrs">[<span class="stc">synchronized</span>]</span> <a title="Permalink to this symbol" href="#QueuedCache.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L164">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove (and return) the cache entry associated with the
+                provided key. Returns null if there is no such entry.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="QueuedCache.opApply" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L192" kind="function" beg="192" end="199">opApply</a><span class="params">(int delegate(inout K key, inout V value) <em>dg</em>)</span>; <span class="attrs">[<span class="stc">synchronized</span>]</span> <a title="Permalink to this symbol" href="#QueuedCache.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L192">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterate over elements</div>
+Note that this needs to be synchronized, and can therefore
+                be very costly in terms of blocking other threads. Use with
+                caution</dd>
+<dt class="decl">QueuedEntry* <a class="symbol _function" name="QueuedCache.lookup" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L206" kind="function" beg="206" end="210">lookup</a><span class="params">(K <em>key</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#QueuedCache.lookup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L206">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">QueuedEntry* <a class="symbol _function" name="QueuedCache.deReference" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L219" kind="function" beg="219" end="232">deReference</a><span class="params">(QueuedEntry* <em>entry</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#QueuedCache.deReference" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L219">#</a></dt>
+<dd class="ddef">
+<div class="summary">Place a cache entry at the tail of the queue. This makes
+                it the least-recently referenced.</div></dd>
+<dt class="decl">QueuedEntry* <a class="symbol _function" name="QueuedCache.reReference" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L241" kind="function" beg="241" end="254">reReference</a><span class="params">(QueuedEntry* <em>entry</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#QueuedCache.reReference" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L241">#</a></dt>
+<dd class="ddef">
+<div class="summary">Move a cache entry to the head of the queue. This makes
+                it the most-recently referenced.</div></dd>
+<dt class="decl">QueuedEntry* <a class="symbol _function" name="QueuedCache.addEntry" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L264" kind="function" beg="264" end="276">addEntry</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#QueuedCache.addEntry" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L264">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add an entry into the queue. If the queue is full, the
+                least-recently-referenced entry is reused for the new
+                addition.</div></dd>
+<dt class="decl">struct <a class="symbol _struct" name="QueuedCache.QueuedEntry" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L285" kind="struct" beg="285" end="371">QueuedEntry</a>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#QueuedCache.QueuedEntry" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L285">#</a></dt>
+<dd class="ddef">
+<div class="summary">A doubly-linked list entry, used as a wrapper for queued
+                cache entries.</div>
+<dl>
+<dt class="decl">QueuedEntry* <a class="symbol _function" name="QueuedCache.QueuedEntry.set" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L299" kind="function" beg="299" end="305">set</a><span class="params">(K <em>key</em>, V <em>value</em>, Time <em>time</em>)</span>; <a title="Permalink to this symbol" href="#QueuedCache.QueuedEntry.set" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L299">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set this entry with the given arguments.</div></dd>
+<dt class="decl">QueuedEntry* <a class="symbol _function" name="QueuedCache.QueuedEntry.prepend" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L314" kind="function" beg="314" end="327">prepend</a><span class="params">(QueuedEntry* <em>before</em>)</span>; <a title="Permalink to this symbol" href="#QueuedCache.QueuedEntry.prepend" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L314">#</a></dt>
+<dd class="ddef">
+<div class="summary">Insert this entry into the linked-list just in front
+                        of the given entry.</div></dd>
+<dt class="decl">QueuedEntry* <a class="symbol _function" name="QueuedCache.QueuedEntry.append" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L336" kind="function" beg="336" end="349">append</a><span class="params">(QueuedEntry* <em>after</em>)</span>; <a title="Permalink to this symbol" href="#QueuedCache.QueuedEntry.append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L336">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add this entry into the linked-list just after the
+                        given entry.</div></dd>
+<dt class="decl">QueuedEntry* <a class="symbol _function" name="QueuedCache.QueuedEntry.extract" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L358" kind="function" beg="358" end="370">extract</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#QueuedCache.QueuedEntry.extract" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.QueuedCache.html#L358">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove this entry from the linked-list. The previous
+                        and next entries are patched together appropriately.</div></dd></dl></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:55 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

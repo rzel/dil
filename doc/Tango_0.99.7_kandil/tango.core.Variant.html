@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.core.Variant</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.core.Variant";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.core.Variant.html" class="symbol">tango.core.Variant</a></h1>
+  
+<div class="summary">The variant module contains a variant, or polymorphic type.</div>
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Authors:</p>Daniel Keep, Sean Kelly
+<dl>
+<dt class="decl">class <a class="symbol _class" name="VariantTypeMismatchException" href="./htmlsrc/tango.core.Variant.html#L199" kind="class" beg="199" end="206">VariantTypeMismatchException</a><span class="tparams">(T)</span> : Exception; <a title="Permalink to this symbol" href="#VariantTypeMismatchException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L199">#</a></dt>
+<dd class="ddef">
+<div class="summary">This exception is thrown whenever you attempt to get the value of a Variant
+ without using a compatible type.</div>
+</dd>
+<dt class="decl">struct <a class="symbol _struct" name="Variant" href="./htmlsrc/tango.core.Variant.html#L220" kind="struct" beg="220" end="562">Variant</a>; <a title="Permalink to this symbol" href="#Variant" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L220">#</a></dt>
+<dd class="ddef">
+<div class="summary">The Variant type is used to dynamically store values of different types at
+ runtime.</div>
+You can create a Variant using either the pseudo-constructor or direct
+ assignment.
+<p class="bl"/>
+ <pre class="d_code">
+<span class="i">Variant</span> <span class="i">v</span> = <span class="i">Variant</span>(<span class="n">42</span>);
+<span class="i">v</span> = <span class="sl">"abc"</span>;
+</pre>
+<dl>
+<dt class="decl">Variant <a class="symbol _function" name="Variant.opCall" href="./htmlsrc/tango.core.Variant.html#L231" kind="function" beg="231" end="242">opCall</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Variant.opCall" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L231">#</a></dt>
+<dd class="ddef">
+<div class="summary">This pseudo-constructor is used to place a value into a new Variant.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>value</em></td><td>The value you wish to put in the Variant.</td></tr></table>
+<p class="sec_header">Returns:</p>The new Variant.</dd>
+<dt class="decl">Variant <a class="symbol _function" name="Variant.opAssign" href="./htmlsrc/tango.core.Variant.html#L254" kind="function" beg="254" end="296">opAssign</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L254">#</a></dt>
+<dd class="ddef">
+<div class="summary">This operator allows you to assign arbitrary values directly into an
+ existing Variant.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>value</em></td><td>The value you wish to put in the Variant.</td></tr></table>
+<p class="sec_header">Returns:</p>The new value of the assigned-to variant.</dd>
+<dt class="decl">bool <a class="symbol _function" name="Variant.isA" href="./htmlsrc/tango.core.Variant.html#L306" kind="function" beg="306" end="309">isA</a><span class="tparams">(T)</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#Variant.isA" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L306">#</a></dt>
+<dd class="ddef">
+<div class="summary">This member can be used to determine if the value stored in the Variant
+ is of the specified type.  Note that this comparison is exact: it does
+ not take implicit casting rules into account.</div>
+<p class="sec_header">Returns:</p>true if the Variant contains a value of type T, false otherwise.</dd>
+<dt class="decl">bool <a class="symbol _function" name="Variant.isImplicitly" href="./htmlsrc/tango.core.Variant.html#L321" kind="function" beg="321" end="325">isImplicitly</a><span class="tparams">(T)</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#Variant.isImplicitly" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L321">#</a></dt>
+<dd class="ddef">
+<div class="summary">This member can be used to determine if the value stored in the Variant
+ is of the specified type.  This comparison attempts to take implicit
+ conversion rules into account.</div>
+<p class="sec_header">Returns:</p>true if the Variant contains a value of type T, or if the Variant
+  contains a value that can be implicitly cast to type T; false
+  otherwise.</dd>
+<dt class="decl">bool <a class="symbol _function" name="Variant.isEmpty" href="./htmlsrc/tango.core.Variant.html#L334" kind="function" beg="334" end="337">isEmpty</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Variant.isEmpty" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L334">#</a></dt>
+<dd class="ddef">
+<div class="summary">This determines whether the Variant has an assigned value or not.  It
+ is simply short-hand for calling the isA member with a type of void.</div>
+<p class="sec_header">Returns:</p>true if the Variant does not contain a value, false otherwise.</dd>
+<dt class="decl">void <a class="symbol _function" name="Variant.clear" href="./htmlsrc/tango.core.Variant.html#L342" kind="function" beg="342" end="346">clear</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Variant.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L342">#</a></dt>
+<dd class="ddef">
+<div class="summary">This member will clear the Variant, returning it to an empty state.</div></dd>
+<dt class="decl">storageT!(S) <a class="symbol _function" name="Variant.get" href="./htmlsrc/tango.core.Variant.html#L361" kind="function" beg="361" end="433">get</a><span class="tparams">(S)</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#Variant.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L361">#</a></dt>
+<dd class="ddef">
+<div class="summary">This is the primary mechanism for extracting a value from a Variant.
+ Given a destination type S, it will attempt to extract the value of the
+ Variant into that type.  If the value contained within the Variant
+ cannot be implicitly cast to the given type S, it will throw an
+ exception.</div>
+You can check to see if this operation will fail by calling the
+ isImplicitly member with the type S.
+<p class="sec_header">Returns:</p>The value stored within the Variant.</dd>
+<dt class="decl">typeof(T+T) <a class="symbol _function" name="Variant.opAdd" href="./htmlsrc/tango.core.Variant.html#L442" kind="function" beg="442" end="442">opAdd</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opAdd" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L442">#</a></dt>
+<dt class="decl">typeof(T+T) <a class="symbol _function" name="Variant.opAdd_r" href="./htmlsrc/tango.core.Variant.html#L443" kind="function" beg="443" end="443">opAdd_r</a><span class="tparams">(T)</span><span class="params">(T <em>lhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opAdd_r" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L443">#</a></dt>
+<dt class="decl">typeof(T-T) <a class="symbol _function" name="Variant.opSub" href="./htmlsrc/tango.core.Variant.html#L444" kind="function" beg="444" end="444">opSub</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opSub" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L444">#</a></dt>
+<dt class="decl">typeof(T-T) <a class="symbol _function" name="Variant.opSub_r" href="./htmlsrc/tango.core.Variant.html#L445" kind="function" beg="445" end="445">opSub_r</a><span class="tparams">(T)</span><span class="params">(T <em>lhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opSub_r" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L445">#</a></dt>
+<dt class="decl">typeof(T*T) <a class="symbol _function" name="Variant.opMul" href="./htmlsrc/tango.core.Variant.html#L446" kind="function" beg="446" end="446">opMul</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opMul" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L446">#</a></dt>
+<dt class="decl">typeof(T*T) <a class="symbol _function" name="Variant.opMul_r" href="./htmlsrc/tango.core.Variant.html#L447" kind="function" beg="447" end="447">opMul_r</a><span class="tparams">(T)</span><span class="params">(T <em>lhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opMul_r" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L447">#</a></dt>
+<dt class="decl">typeof(T/T) <a class="symbol _function" name="Variant.opDiv" href="./htmlsrc/tango.core.Variant.html#L448" kind="function" beg="448" end="448">opDiv</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opDiv" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L448">#</a></dt>
+<dt class="decl">typeof(T/T) <a class="symbol _function" name="Variant.opDiv_r" href="./htmlsrc/tango.core.Variant.html#L449" kind="function" beg="449" end="449">opDiv_r</a><span class="tparams">(T)</span><span class="params">(T <em>lhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opDiv_r" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L449">#</a></dt>
+<dt class="decl">typeof(T%T) <a class="symbol _function" name="Variant.opMod" href="./htmlsrc/tango.core.Variant.html#L450" kind="function" beg="450" end="450">opMod</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opMod" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L450">#</a></dt>
+<dt class="decl">typeof(T%T) <a class="symbol _function" name="Variant.opMod_r" href="./htmlsrc/tango.core.Variant.html#L451" kind="function" beg="451" end="451">opMod_r</a><span class="tparams">(T)</span><span class="params">(T <em>lhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opMod_r" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L451">#</a></dt>
+<dt class="decl">typeof(T&amp;T) <a class="symbol _function" name="Variant.opAnd" href="./htmlsrc/tango.core.Variant.html#L452" kind="function" beg="452" end="452">opAnd</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opAnd" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L452">#</a></dt>
+<dt class="decl">typeof(T&amp;T) <a class="symbol _function" name="Variant.opAnd_r" href="./htmlsrc/tango.core.Variant.html#L453" kind="function" beg="453" end="453">opAnd_r</a><span class="tparams">(T)</span><span class="params">(T <em>lhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opAnd_r" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L453">#</a></dt>
+<dt class="decl">typeof(T|T) <a class="symbol _function" name="Variant.opOr" href="./htmlsrc/tango.core.Variant.html#L454" kind="function" beg="454" end="454">opOr</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opOr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L454">#</a></dt>
+<dt class="decl">typeof(T|T) <a class="symbol _function" name="Variant.opOr_r" href="./htmlsrc/tango.core.Variant.html#L455" kind="function" beg="455" end="455">opOr_r</a><span class="tparams">(T)</span><span class="params">(T <em>lhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opOr_r" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L455">#</a></dt>
+<dt class="decl">typeof(T^T) <a class="symbol _function" name="Variant.opXor" href="./htmlsrc/tango.core.Variant.html#L456" kind="function" beg="456" end="456">opXor</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opXor" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L456">#</a></dt>
+<dt class="decl">typeof(T^T) <a class="symbol _function" name="Variant.opXor_r" href="./htmlsrc/tango.core.Variant.html#L457" kind="function" beg="457" end="457">opXor_r</a><span class="tparams">(T)</span><span class="params">(T <em>lhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opXor_r" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L457">#</a></dt>
+<dt class="decl">typeof(T&lt;&lt;T) <a class="symbol _function" name="Variant.opShl" href="./htmlsrc/tango.core.Variant.html#L458" kind="function" beg="458" end="458">opShl</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opShl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L458">#</a></dt>
+<dt class="decl">typeof(T&lt;&lt;T) <a class="symbol _function" name="Variant.opShl_r" href="./htmlsrc/tango.core.Variant.html#L459" kind="function" beg="459" end="459">opShl_r</a><span class="tparams">(T)</span><span class="params">(T <em>lhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opShl_r" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L459">#</a></dt>
+<dt class="decl">typeof(T&gt;&gt;T) <a class="symbol _function" name="Variant.opShr" href="./htmlsrc/tango.core.Variant.html#L460" kind="function" beg="460" end="460">opShr</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opShr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L460">#</a></dt>
+<dt class="decl">typeof(T&gt;&gt;T) <a class="symbol _function" name="Variant.opShr_r" href="./htmlsrc/tango.core.Variant.html#L461" kind="function" beg="461" end="461">opShr_r</a><span class="tparams">(T)</span><span class="params">(T <em>lhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opShr_r" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L461">#</a></dt>
+<dt class="decl">typeof(T&gt;&gt;&gt;T) <a class="symbol _function" name="Variant.opUShr" href="./htmlsrc/tango.core.Variant.html#L462" kind="function" beg="462" end="462">opUShr</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opUShr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L462">#</a></dt>
+<dt class="decl">typeof(T&gt;&gt;&gt;T) <a class="symbol _function" name="Variant.opUShr_r" href="./htmlsrc/tango.core.Variant.html#L463" kind="function" beg="463" end="463">opUShr_r</a><span class="tparams">(T)</span><span class="params">(T <em>lhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opUShr_r" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L463">#</a></dt>
+<dt class="decl">typeof(T~T) <a class="symbol _function" name="Variant.opCat" href="./htmlsrc/tango.core.Variant.html#L464" kind="function" beg="464" end="464">opCat</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opCat" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L464">#</a></dt>
+<dt class="decl">typeof(T~T) <a class="symbol _function" name="Variant.opCat_r" href="./htmlsrc/tango.core.Variant.html#L465" kind="function" beg="465" end="465">opCat_r</a><span class="tparams">(T)</span><span class="params">(T <em>lhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opCat_r" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L465">#</a></dt>
+<dt class="decl">Variant <a class="symbol _function" name="Variant.opAddAssign" href="./htmlsrc/tango.core.Variant.html#L467" kind="function" beg="467" end="467">opAddAssign</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opAddAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L467">#</a></dt>
+<dt class="decl">Variant <a class="symbol _function" name="Variant.opSubAssign" href="./htmlsrc/tango.core.Variant.html#L468" kind="function" beg="468" end="468">opSubAssign</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opSubAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L468">#</a></dt>
+<dt class="decl">Variant <a class="symbol _function" name="Variant.opMulAssign" href="./htmlsrc/tango.core.Variant.html#L469" kind="function" beg="469" end="469">opMulAssign</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opMulAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L469">#</a></dt>
+<dt class="decl">Variant <a class="symbol _function" name="Variant.opDivAssign" href="./htmlsrc/tango.core.Variant.html#L470" kind="function" beg="470" end="470">opDivAssign</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opDivAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L470">#</a></dt>
+<dt class="decl">Variant <a class="symbol _function" name="Variant.opModAssign" href="./htmlsrc/tango.core.Variant.html#L471" kind="function" beg="471" end="471">opModAssign</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opModAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L471">#</a></dt>
+<dt class="decl">Variant <a class="symbol _function" name="Variant.opAndAssign" href="./htmlsrc/tango.core.Variant.html#L472" kind="function" beg="472" end="472">opAndAssign</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opAndAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L472">#</a></dt>
+<dt class="decl">Variant <a class="symbol _function" name="Variant.opOrAssign" href="./htmlsrc/tango.core.Variant.html#L473" kind="function" beg="473" end="473">opOrAssign</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opOrAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L473">#</a></dt>
+<dt class="decl">Variant <a class="symbol _function" name="Variant.opXorAssign" href="./htmlsrc/tango.core.Variant.html#L474" kind="function" beg="474" end="474">opXorAssign</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opXorAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L474">#</a></dt>
+<dt class="decl">Variant <a class="symbol _function" name="Variant.opShlAssign" href="./htmlsrc/tango.core.Variant.html#L475" kind="function" beg="475" end="475">opShlAssign</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opShlAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L475">#</a></dt>
+<dt class="decl">Variant <a class="symbol _function" name="Variant.opShrAssign" href="./htmlsrc/tango.core.Variant.html#L476" kind="function" beg="476" end="476">opShrAssign</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opShrAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L476">#</a></dt>
+<dt class="decl">Variant <a class="symbol _function" name="Variant.opUShrAssign" href="./htmlsrc/tango.core.Variant.html#L477" kind="function" beg="477" end="477">opUShrAssign</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opUShrAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L477">#</a></dt>
+<dt class="decl">Variant <a class="symbol _function" name="Variant.opCatAssign" href="./htmlsrc/tango.core.Variant.html#L478" kind="function" beg="478" end="478">opCatAssign</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opCatAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L478">#</a></dt>
+<dd class="ddef">
+<div class="summary">The following operator overloads are defined for the sake of
+ convenience.  It is important to understand that they do not allow you
+ to use a Variant as both the left-hand and right-hand sides of an
+ expression.  One side of the operator must be a concrete type in order
+ for the Variant to know what code to generate.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="Variant.opEquals" href="./htmlsrc/tango.core.Variant.html#L485" kind="function" beg="485" end="491">opEquals</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L485">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="Variant.opCmp" href="./htmlsrc/tango.core.Variant.html#L494" kind="function" beg="494" end="503">opCmp</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#Variant.opCmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L494">#</a></dt>
+<dt class="decl">hash_t <a class="symbol _function" name="Variant.toHash" href="./htmlsrc/tango.core.Variant.html#L506" kind="function" beg="506" end="509">toHash</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Variant.toHash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L506">#</a></dt>
+<dd class="ddef">
+<div class="summary">The following operators can be used with Variants on both sides.  Note
+ that these operators do not follow the standard rules of
+ implicit conversions.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="Variant.toString" href="./htmlsrc/tango.core.Variant.html#L519" kind="function" beg="519" end="522">toString</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Variant.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L519">#</a></dt>
+<dd class="ddef">
+<div class="summary">Performs "stringification" of the value stored within the Variant.  In
+ the case of the Variant having no assigned value, it will return the
+ string "Variant.init".</div>
+<p class="sec_header">Returns:</p>The string representation of the value contained within the Variant.</dd>
+<dt class="decl">TypeInfo <a class="symbol _function" name="Variant.type" href="./htmlsrc/tango.core.Variant.html#L528" kind="function" beg="528" end="531">type</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Variant.type" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.core.Variant.html#L528">#</a></dt>
+<dd class="ddef">
+<div class="summary">This can be used to retrieve the TypeInfo for the currently stored
+ value.</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (C) 2005-2007 The Tango Team.  All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:04 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

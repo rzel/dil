@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.collection.model.Map</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.collection.model.Map";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.collection.model.Map.html" class="symbol">tango.util.collection.model.Map</a></h1>
+  
+<dl>
+<dt class="decl">interface <a class="symbol _interface" name="Map" href="./htmlsrc/tango.util.collection.model.Map.html#L34" kind="interface" beg="34" end="107">Map</a><span class="tparams">(K, T)</span> : MapView!(K, T), Dispenser!(T); <a title="Permalink to this symbol" href="#Map" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Map.html#L34">#</a></dt>
+<dd class="ddef">
+<div class="summary">MutableMap supports standard update operations on maps.</div>
+<p class="sec_header">Author:</p>Doug Lea
+ @version 0.93
+<p class="bl"/>
+ <P> For an introduction to this package see <A HREF="index.html"> Overview </A>.
+<dl>
+<dt class="decl">void <a class="symbol _function" name="Map.add" href="./htmlsrc/tango.util.collection.model.Map.html#L54" kind="function" beg="54" end="54">add</a><span class="params">(K <em>key</em>, T <em>element</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Map.add" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Map.html#L54">#</a></dt>
+<dd class="ddef">
+<div class="summary">Include the indicated pair in the Map
+ If a different pair
+ with the same key was previously held, it is replaced by the
+ new pair.</div>
+@param key the key for element to include
+ @param element the element to include
+<p class="sec_header">Returns:</p>condition: 
+ <PRE>
+ has(key, element) &amp;&amp;
+ no spurious effects &amp;&amp;
+ Version change iff !PREV(this).contains(key, element))
+ </PRE></dd>
+<dt class="decl">void <a class="symbol _function" name="Map.opIndexAssign" href="./htmlsrc/tango.util.collection.model.Map.html#L72" kind="function" beg="72" end="72">opIndexAssign</a><span class="params">(T <em>element</em>, K <em>key</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Map.opIndexAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Map.html#L72">#</a></dt>
+<dd class="ddef">
+<div class="summary">Include the indicated pair in the Map
+ If a different pair
+ with the same key was previously held, it is replaced by the
+ new pair.</div>
+@param element the element to include
+ @param key the key for element to include
+<p class="sec_header">Returns:</p>condition: 
+ <PRE>
+ has(key, element) &amp;&amp;
+ no spurious effects &amp;&amp;
+ Version change iff !PREV(this).contains(key, element))
+ </PRE></dd>
+<dt class="decl">void <a class="symbol _function" name="Map.removeKey" href="./htmlsrc/tango.util.collection.model.Map.html#L88" kind="function" beg="88" end="88">removeKey</a><span class="params">(K <em>key</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Map.removeKey" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Map.html#L88">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove the pair with the given key
+ @param  key the key</div>
+<p class="sec_header">Returns:</p>condition: 
+ <PRE>
+ !containsKey(key)
+ foreach (k in keys()) at(k).equals(PREV(this).at(k)) &amp;&amp;
+ foreach (k in PREV(this).keys()) (!k.equals(key)) --&gt; at(k).equals(PREV(this).at(k)) 
+ (version() != PREV(this).version()) == 
+ containsKey(key) !=  PREV(this).containsKey(key))
+ </PRE></dd>
+<dt class="decl">void <a class="symbol _function" name="Map.replacePair" href="./htmlsrc/tango.util.collection.model.Map.html#L106" kind="function" beg="106" end="106">replacePair</a><span class="params">(K <em>key</em>, T <em>oldElement</em>, T <em>newElement</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#Map.replacePair" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.collection.model.Map.html#L106">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replace old pair with new pair with same key.
+ No effect if pair not held. (This has the case of
+ having no effect if the key exists but is bound to a different value.)
+ @param key the key for the pair to remove
+ @param oldElement the existing element
+ @param newElement the value to replace it with</div>
+<p class="sec_header">Returns:</p>condition: 
+ <PRE>
+ !contains(key, oldElement) || contains(key, newElement);
+ no spurious effects &amp;&amp;
+ Version change iff PREV(this).contains(key, oldElement))
+ </PRE></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p></p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:09 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

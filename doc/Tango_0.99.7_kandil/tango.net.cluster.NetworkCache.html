@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.net.cluster.NetworkCache</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.net.cluster.NetworkCache";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.net.cluster.NetworkCache.html" class="symbol">tango.net.cluster.NetworkCache</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>July 2004: Initial release
+<p class="sec_header">Author:</p>Kris
+<dl>
+<dt class="decl">class <a class="symbol _class" name="NetworkCache" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L49" kind="class" beg="49" end="116">NetworkCache</a> : CacheInvalidator; <a title="Permalink to this symbol" href="#NetworkCache" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L49">#</a></dt>
+<dd class="ddef">
+<div class="summary">A gateway to the network cache. From here you can easily place
+        IMessage objects into the network cluster, copy them and remove 
+        them. A cluster cache is spread out across many servers within 
+        the network. Each cache entry is associated with a 'channel', 
+        which is effectively the name of a cache instance within the
+        cluster. See ComboCache also. The basic procedure is so:
+        <pre class="d_code">
+<span class="k">import</span> <span class="i">tango</span>.<span class="i">net</span>.<span class="i">cluster</span>.<span class="i">NetworkCache</span>;
+<span class="k">import</span> <span class="i">tango</span>.<span class="i">net</span>.<span class="i">cluster</span>.<span class="i">tina</span>.<span class="i">Cluster</span>;
+
+<span class="k">auto</span> <span class="i">cluster</span> = <span class="k">new</span> <span class="i">Cluster</span> (...);
+<span class="k">auto</span> <span class="i">cache</span> = <span class="k">new</span> <span class="i">NetworkCache</span> (<span class="i">cluster</span>, ...);
+
+<span class="i">cache</span>.<span class="i">put</span> (...);
+<span class="i">cache</span>.<span class="i">get</span> ();
+<span class="i">cache</span>.<span class="i">invalidate</span> (...);
+</pre></div>
+Note that any content placed into the cache must implement the
+        IMessage interface, and must be enrolled with the Registry, as
+        it may be frozen and thawed as it travels around the network.
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="NetworkCache.this" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L59" kind="ctor" beg="59" end="62">this</a><span class="params">(ICluster <em>cluster</em>, char[] <em>channel</em>)</span>; <a title="Permalink to this symbol" href="#NetworkCache.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L59">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a NetworkCache using the QOS (cluster) provided, 
+                and hook it onto the specified channel. Each subsequent 
+                operation is tied to this channel.</div></dd>
+<dt class="decl">IMessage <a class="symbol _function" name="NetworkCache.get" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L71" kind="function" beg="71" end="75">get</a><span class="params">(char[] <em>key</em>)</span>; <a title="Permalink to this symbol" href="#NetworkCache.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L71">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a copy of the cluster cache entry corresponding to 
+                the provided key. Returns null if there is no such entry.</div></dd>
+<dt class="decl">IMessage <a class="symbol _function" name="NetworkCache.extract" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L84" kind="function" beg="84" end="88">extract</a><span class="params">(char[] <em>key</em>)</span>; <a title="Permalink to this symbol" href="#NetworkCache.extract" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L84">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove and return the cache entry corresponding to the 
+                provided key.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="NetworkCache.put" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L109" kind="function" beg="109" end="115">put</a><span class="params">(char[] <em>key</em>, IMessage <em>message</em>)</span>; <a title="Permalink to this symbol" href="#NetworkCache.put" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L109">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set a cluster cache entry.</div>
+Place an entry into the network cache, replacing the
+                entry with the identical key. Where message.time is
+                set, it will be used to test for newer cache entries
+                than the one being sent i.e. if someone else placed
+                a newer entry into the cache, that one will remain.
+<p class="bl"/>
+                The msg will be placed into one or more cluster hosts 
+                (depending upon QOS)
+<p class="bl"/>
+                Returns true if the cache entry was inserted, false if
+                the cache server already has an exiting key with a more
+                recent timestamp (where message.time is set).</dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="NetworkCombo" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L128" kind="class" beg="128" end="243">NetworkCombo</a> : NetworkCache; <a title="Permalink to this symbol" href="#NetworkCombo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L128">#</a></dt>
+<dd class="ddef">
+<div class="summary">A combination of a local cache, cluster cache, and CacheInvalidatee.
+        The two cache instances are combined such that they represent a
+        classic level1/level2 cache. The CacheInvalidatee ensures that the
+        level1 cache maintains coherency with the cluster.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="NetworkCombo.this" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L140" kind="ctor" beg="140" end="146">this</a><span class="params">(ICluster <em>cluster</em>, char[] <em>channel</em>, uint <em>capacity</em>)</span>; <a title="Permalink to this symbol" href="#NetworkCombo.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L140">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a ComboCache for the specified local cache, and
+                on the given cluster channel.</div></dd>
+<dt class="decl">IMessage <a class="symbol _function" name="NetworkCombo.get" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L168" kind="function" beg="168" end="181">get</a><span class="params">(char[] <em>key</em>, IMessage delegate(IMessage) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#NetworkCombo.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L168">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get an IMessage from the local cache, and revert to the
+                cluster cache if it's not found. 
+                
+                Cluster lookups will *not* place new content into the 
+                local cache without confirmation: the supplied delegate 
+                must perform the appropriate cloning of cluster entries 
+                before they will be placed into the local cache. This 
+                delegate would typically invoke the clone() method on 
+                the provided network message; behaviour is undefined
+                where a delegate simply returns a message without the
+                appropriate cloning steps.</div>
+Returns null if the entry does not exist in either the
+                local or remote cache, or if the delegate returned null.
+                Returns the cache entry otherwise.</dd>
+<dt class="decl">bool <a class="symbol _function" name="NetworkCombo.put" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L206" kind="function" beg="206" end="222">put</a><span class="params">(char[] <em>key</em>, IMessage <em>message</em>, bool <em>coherent</em> = false)</span>; <a title="Permalink to this symbol" href="#NetworkCombo.put" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L206">#</a></dt>
+<dd class="ddef">
+<div class="summary">Place a new entry into the cache. This will also place
+                the entry into the cluster, and optionally invalidate 
+                all other local cache instances across the network. If
+                a cache entry exists with the same key, it is replaced.</div>
+Where message.time is set, it will be used to test for 
+                newer cache entries than the one being sent i.e. if a
+                newer entry exists in the cache, that one will remain.
+                
+                Note that when using the coherency option you should 
+                ensure your IMessage has a valid time stamp, since that
+                is used to invalidate appropriate cache listeners in the
+                cluster. You can use the getTime() method to retrieve a 
+                current millisecond count.
+<p class="bl"/>
+                Returns true if the cache entry was inserted, false if
+                the cache server already has an exiting key with a more
+                recent timestamp (where message.time is set).</dd>
+<dt class="decl">IMessage <a class="symbol _function" name="NetworkCombo.extract" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L235" kind="function" beg="235" end="242">extract</a><span class="params">(char[] <em>key</em>)</span>; <a title="Permalink to this symbol" href="#NetworkCombo.extract" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.net.cluster.NetworkCache.html#L235">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove and return the cache entry corresponding to the 
+                provided key. 
+                
+                Synchronously extracts the entry from the cluster, and 
+                returns the entry from the local cache if there is one 
+                there; null otherwise</div></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2004 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:03:55 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

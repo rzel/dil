@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>tango.util.container.SortedMap</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "tango.util.container.SortedMap";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/tango.util.container.SortedMap.html" class="symbol">tango.util.container.SortedMap</a></h1>
+  
+<p class="sec_header">License:</p>BSD style: see <a href="http://www.dsource.org/projects/tango/wiki/LibraryLicense">license.txt</a>
+<p class="sec_header">Version:</p>Apr 2008: Initial release
+<p class="sec_header">Authors:</p>Kris
+<p class="sec_header">Since:</p>0.99.7
+<p class="bl"/>
+        Based upon Doug Lea's Java collection package
+<dl>
+<dt class="decl">class <a class="symbol _class" name="SortedMap" href="./htmlsrc/tango.util.container.SortedMap.html#L66" kind="class" beg="66" end="913">SortedMap</a><span class="tparams">(K, V, alias Reap = Container.reap, 
+                       alias Heap = Container.Collect)</span> : IContainer!(V); <a title="Permalink to this symbol" href="#SortedMap" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L66">#</a></dt>
+<dd class="ddef">
+<div class="summary">RedBlack trees of (key, value) pairs</div>
+<pre class="d_code">
+<span class="i">Iterator</span> <span class="i">iterator</span> ()
+<span class="k">int</span> <span class="i">opApply</span> (<span class="k">int</span> <span class="k">delegate</span> (<span class="k">ref</span> <span class="i">V</span> <span class="i">value</span>) <span class="i">dg</span>)
+<span class="k">int</span> <span class="i">opApply</span> (<span class="k">int</span> <span class="k">delegate</span> (<span class="k">ref</span> <span class="i">K</span> <span class="i">key</span>, <span class="k">ref</span> <span class="i">V</span> <span class="i">value</span>) <span class="i">dg</span>)
+
+<span class="k">bool</span> <span class="i">contains</span> (<span class="i">V</span> <span class="i">value</span>)
+<span class="k">bool</span> <span class="i">containsKey</span> (<span class="i">K</span> <span class="i">key</span>)
+<span class="k">bool</span> <span class="i">containsPair</span> (<span class="i">K</span> <span class="i">key</span>, <span class="i">V</span> <span class="i">value</span>)
+<span class="k">bool</span> <span class="i">keyOf</span> (<span class="i">V</span> <span class="i">value</span>, <span class="k">ref</span> <span class="i">K</span> <span class="i">key</span>)
+<span class="k">bool</span> <span class="i">get</span> (<span class="i">K</span> <span class="i">key</span>, <span class="k">ref</span> <span class="i">V</span> <span class="i">value</span>)
+
+<span class="k">bool</span> <span class="i">take</span> (<span class="k">ref</span> <span class="i">V</span> <span class="i">v</span>)
+<span class="k">bool</span> <span class="i">take</span> (<span class="i">K</span> <span class="i">key</span>, <span class="k">ref</span> <span class="i">V</span> <span class="i">v</span>)
+<span class="k">bool</span> <span class="i">removeKey</span> (<span class="i">K</span> <span class="i">key</span>)
+<span class="k">uint</span> <span class="i">remove</span> (<span class="i">V</span> <span class="i">value</span>, <span class="k">bool</span> <span class="i">all</span>)
+<span class="k">uint</span> <span class="i">remove</span> (<span class="i">IContainer</span>!(<span class="i">V</span>) <span class="i">e</span>, <span class="k">bool</span> <span class="i">all</span>)
+
+<span class="k">bool</span> <span class="i">add</span> (<span class="i">K</span> <span class="i">key</span>, <span class="i">V</span> <span class="i">value</span>)
+<span class="k">uint</span> <span class="i">replace</span> (<span class="i">V</span> <span class="i">oldElement</span>, <span class="i">V</span> <span class="i">newElement</span>, <span class="k">bool</span> <span class="i">all</span>)
+<span class="k">bool</span> <span class="i">replacePair</span> (<span class="i">K</span> <span class="i">key</span>, <span class="i">V</span> <span class="i">oldElement</span>, <span class="i">V</span> <span class="i">newElement</span>)
+<span class="k">bool</span> <span class="i">opIndexAssign</span> (<span class="i">V</span> <span class="i">element</span>, <span class="i">K</span> <span class="i">key</span>)
+<span class="i">V</span>    <span class="i">opIndex</span> (<span class="i">K</span> <span class="i">key</span>)
+<span class="i">V</span>*   <span class="i">opIn</span> (<span class="i">K</span> <span class="i">key</span>)
+
+<span class="k">uint</span> <span class="i">size</span> ()
+<span class="k">bool</span> <span class="i">isEmpty</span> ()
+<span class="i">V</span>[] <span class="i">toArray</span> (<span class="i">V</span>[] <span class="i">dst</span>)
+<span class="i">SortedMap</span> <span class="i">dup</span> ()
+<span class="i">SortedMap</span> <span class="i">clear</span> ()
+<span class="i">SortedMap</span> <span class="i">reset</span> ()
+<span class="i">SortedMap</span> <span class="i">comparator</span> (<span class="i">Comparator</span> <span class="i">c</span>)
+</pre>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="SortedMap.this" href="./htmlsrc/tango.util.container.SortedMap.html#L97" kind="ctor" beg="97" end="100">this</a><span class="params">(Comparator <em>c</em> = null)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L97">#</a></dt>
+<dd class="ddef">
+<div class="summary">Make an empty tree, using given Comparator for ordering</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="SortedMap.this:2" href="./htmlsrc/tango.util.container.SortedMap.html#L108" kind="ctor" beg="108" end="113">this</a><span class="params">(Comparator <em>c</em>, int <em>n</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L108">#</a></dt>
+<dd class="ddef">
+<div class="summary">Special version of constructor needed by dup()</div></dd>
+<dt class="decl"><a class="symbol _dtor" name="SortedMap.~this" href="./htmlsrc/tango.util.container.SortedMap.html#L121" kind="dtor" beg="121" end="124">~this</a>(); <a title="Permalink to this symbol" href="#SortedMap.~this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L121">#</a></dt>
+<dd class="ddef">
+<div class="summary">Clean up when deleted</div></dd>
+<dt class="decl">Alloc <a class="symbol _function" name="SortedMap.allocator" href="./htmlsrc/tango.util.container.SortedMap.html#L132" kind="function" beg="132" end="135">allocator</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.allocator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L132">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the configured allocator</div></dd>
+<dt class="decl">Iterator <a class="symbol _function" name="SortedMap.iterator" href="./htmlsrc/tango.util.container.SortedMap.html#L143" kind="function" beg="143" end="151">iterator</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.iterator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L143">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return a generic iterator for contained elements</div></dd>
+<dt class="decl">IteratorMatch <a class="symbol _function" name="SortedMap.iterator:2" href="./htmlsrc/tango.util.container.SortedMap.html#L159" kind="function" beg="159" end="165">iterator</a><span class="params">(V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.iterator:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L159">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return an iterator which filters on the provided key</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="SortedMap.size" href="./htmlsrc/tango.util.container.SortedMap.html#L173" kind="function" beg="173" end="176">size</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L173">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the number of elements contained</div></dd>
+<dt class="decl">SortedMap <a class="symbol _function" name="SortedMap.dup" href="./htmlsrc/tango.util.container.SortedMap.html#L184" kind="function" beg="184" end="191">dup</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.dup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L184">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create an independent copy. Does not clone elements</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="SortedMap.contains" href="./htmlsrc/tango.util.container.SortedMap.html#L199" kind="function" beg="199" end="204">contains</a><span class="params">(V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.contains" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L199">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(log n)</div></dd>
+<dt class="decl">int <a class="symbol _function" name="SortedMap.opApply" href="./htmlsrc/tango.util.container.SortedMap.html#L210" kind="function" beg="210" end="214">opApply</a><span class="params">(int delegate (ref V value) <em>dg</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L210">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">int <a class="symbol _function" name="SortedMap.opApply:2" href="./htmlsrc/tango.util.container.SortedMap.html#L221" kind="function" beg="221" end="225">opApply</a><span class="params">(int delegate (ref K key, ref V value) <em>dg</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.opApply:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L221">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">SortedMap <a class="symbol _function" name="SortedMap.comparator" href="./htmlsrc/tango.util.container.SortedMap.html#L233" kind="function" beg="233" end="255">comparator</a><span class="params">(Comparator <em>c</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.comparator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L233">#</a></dt>
+<dd class="ddef">
+<div class="summary">Use a new Comparator. Causes a reorganization</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="SortedMap.containsKey" href="./htmlsrc/tango.util.container.SortedMap.html#L263" kind="function" beg="263" end="269">containsKey</a><span class="params">(K <em>key</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.containsKey" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L263">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(log n)</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="SortedMap.containsPair" href="./htmlsrc/tango.util.container.SortedMap.html#L277" kind="function" beg="277" end="283">containsPair</a><span class="params">(K <em>key</em>, V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.containsPair" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L277">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="SortedMap.get" href="./htmlsrc/tango.util.container.SortedMap.html#L294" kind="function" beg="294" end="306">get</a><span class="params">(K <em>key</em>, ref V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L294">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the value associated with Key key.</div>
+<p class="sec_header">param:</p>key a key
+<p class="sec_header">Returns:</p>whether the key is contained or not</dd>
+<dt class="decl">V* <a class="symbol _function" name="SortedMap.opIn" href="./htmlsrc/tango.util.container.SortedMap.html#L317" kind="function" beg="317" end="326">opIn</a><span class="params">(K <em>key</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.opIn" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L317">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the value associated with Key key.</div>
+<p class="sec_header">param:</p>key a key
+<p class="sec_header">Returns:</p>a pointer to the value, or null if not present</dd>
+<dt class="decl">bool <a class="symbol _function" name="SortedMap.keyOf" href="./htmlsrc/tango.util.container.SortedMap.html#L334" kind="function" beg="334" end="345">keyOf</a><span class="params">(V <em>value</em>, ref K <em>key</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.keyOf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L334">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">SortedMap <a class="symbol _function" name="SortedMap.clear" href="./htmlsrc/tango.util.container.SortedMap.html#L353" kind="function" beg="353" end="356">clear</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.clear" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L353">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">SortedMap <a class="symbol _function" name="SortedMap.reset" href="./htmlsrc/tango.util.container.SortedMap.html#L367" kind="function" beg="367" end="370">reset</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.reset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L367">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reset the SortedMap contents. This releases more memory 
+                than clear() does</div>
+Time complexity: O(n)</dd>
+<dt class="decl">uint <a class="symbol _function" name="SortedMap.remove" href="./htmlsrc/tango.util.container.SortedMap.html#L376" kind="function" beg="376" end="382">remove</a><span class="params">(IContainer!(V) <em>e</em>, bool <em>all</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L376">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="SortedMap.remove:2" href="./htmlsrc/tango.util.container.SortedMap.html#L390" kind="function" beg="390" end="406">remove</a><span class="params">(V <em>value</em>, bool <em>all</em> = false)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.remove:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L390">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="SortedMap.replace" href="./htmlsrc/tango.util.container.SortedMap.html#L414" kind="function" beg="414" end="432">replace</a><span class="params">(V <em>oldElement</em>, V <em>newElement</em>, bool <em>all</em> = false)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.replace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L414">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="SortedMap.take" href="./htmlsrc/tango.util.container.SortedMap.html#L442" kind="function" beg="442" end="453">take</a><span class="params">(ref V <em>v</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.take" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L442">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(log n)</div>
+Takes the value associated with the least key.</dd>
+<dt class="decl">bool <a class="symbol _function" name="SortedMap.take:2" href="./htmlsrc/tango.util.container.SortedMap.html#L461" kind="function" beg="461" end="475">take</a><span class="params">(K <em>key</em>, ref V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.take:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L461">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(log n)</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="SortedMap.add" href="./htmlsrc/tango.util.container.SortedMap.html#L486" kind="function" beg="486" end="489">add</a><span class="params">(K <em>key</em>, V <em>value</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.add" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L486">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(log n)</div>
+Returns true if inserted, false where an existing key 
+                exists and was updated instead</dd>
+<dt class="decl">bool <a class="symbol _function" name="SortedMap.opIndexAssign" href="./htmlsrc/tango.util.container.SortedMap.html#L500" kind="function" beg="500" end="503">opIndexAssign</a><span class="params">(V <em>element</em>, K <em>key</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.opIndexAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L500">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(log n)</div>
+Returns true if inserted, false where an existing key 
+                exists and was updated instead</dd>
+<dt class="decl">V <a class="symbol _function" name="SortedMap.opIndex" href="./htmlsrc/tango.util.container.SortedMap.html#L513" kind="function" beg="513" end="519">opIndex</a><span class="params">(K <em>key</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.opIndex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L513">#</a></dt>
+<dd class="ddef">
+<div class="summary">Operator retreival function</div>
+Throws NoSuchElementException where key is missing</dd>
+<dt class="decl">bool <a class="symbol _function" name="SortedMap.removeKey" href="./htmlsrc/tango.util.container.SortedMap.html#L527" kind="function" beg="527" end="532">removeKey</a><span class="params">(K <em>key</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.removeKey" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L527">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(log n)</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="SortedMap.replacePair" href="./htmlsrc/tango.util.container.SortedMap.html#L540" kind="function" beg="540" end="553">replacePair</a><span class="params">(K <em>key</em>, V <em>oldElement</em>, V <em>newElement</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.replacePair" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L540">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(log n)</div></dd>
+<dt class="decl">V[] <a class="symbol _function" name="SortedMap.toArray" href="./htmlsrc/tango.util.container.SortedMap.html#L567" kind="function" beg="567" end="576">toArray</a><span class="params">(V[] <em>dst</em> = null)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.toArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L567">#</a></dt>
+<dd class="ddef">
+<div class="summary">Copy and return the contained set of values in an array, 
+                using the optional dst as a recipient (which is resized 
+                as necessary).</div>
+Returns a slice of dst representing the container values.
+                
+                Time complexity: O(n)</dd>
+<dt class="decl">bool <a class="symbol _function" name="SortedMap.isEmpty" href="./htmlsrc/tango.util.container.SortedMap.html#L586" kind="function" beg="586" end="589">isEmpty</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.isEmpty" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L586">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is this container empty?
+                
+                Time complexity: O(1)</div></dd>
+<dt class="decl">SortedMap <a class="symbol _function" name="SortedMap.check" href="./htmlsrc/tango.util.container.SortedMap.html#L596" kind="function" beg="596" end="617">check</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.check" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L596">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div></dd>
+<dt class="decl">uint <a class="symbol _function" name="SortedMap.instances" href="./htmlsrc/tango.util.container.SortedMap.html#L625" kind="function" beg="625" end="630">instances</a><span class="params">(V <em>value</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.instances" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L625">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(log n)</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="SortedMap.add_" href="./htmlsrc/tango.util.container.SortedMap.html#L639" kind="function" beg="639" end="688">add_</a><span class="params">(K <em>key</em>, V <em>value</em>, bool <em>checkOccurrence</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.add_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L639">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true where an element is added, false where an 
+                existing key is found</div></dd>
+<dt class="decl">SortedMap <a class="symbol _function" name="SortedMap.clear:2" href="./htmlsrc/tango.util.container.SortedMap.html#L696" kind="function" beg="696" end="715">clear</a><span class="params">(bool <em>all</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.clear:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L696">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(n)</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SortedMap.remove:3" href="./htmlsrc/tango.util.container.SortedMap.html#L723" kind="function" beg="723" end="727">remove</a><span class="params">(Ref <em>node</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.remove:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L723">#</a></dt>
+<dd class="ddef">
+<div class="summary">Time complexity: O(log n)</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SortedMap.increment" href="./htmlsrc/tango.util.container.SortedMap.html#L735" kind="function" beg="735" end="739">increment</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.increment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L735">#</a></dt>
+<dd class="ddef">
+<div class="summary">new element was added</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SortedMap.decrement" href="./htmlsrc/tango.util.container.SortedMap.html#L747" kind="function" beg="747" end="753">decrement</a><span class="params">(Ref <em>p</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.decrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L747">#</a></dt>
+<dd class="ddef">
+<div class="summary">element was removed</div></dd>
+<dt class="decl">void <a class="symbol _function" name="SortedMap.mutate" href="./htmlsrc/tango.util.container.SortedMap.html#L761" kind="function" beg="761" end="764">mutate</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.mutate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L761">#</a></dt>
+<dd class="ddef">
+<div class="summary">set was changed</div></dd>
+<dt class="decl">int <a class="symbol _function" name="SortedMap.compareKey" href="./htmlsrc/tango.util.container.SortedMap.html#L778" kind="function" beg="778" end="784">compareKey</a><span class="params">(ref K <em>fst</em>, ref K <em>snd</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.compareKey" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L778">#</a></dt>
+<dd class="ddef">
+<div class="summary">The default key comparator</div>
+@param fst first argument
+                @param snd second argument
+<p class="sec_header">Returns:</p>a negative number if fst is less than snd; a
+                positive number if fst is greater than snd; else 0</dd>
+<dt class="decl">int <a class="symbol _function" name="SortedMap.compareElem" href="./htmlsrc/tango.util.container.SortedMap.html#L799" kind="function" beg="799" end="805">compareElem</a><span class="params">(ref V <em>fst</em>, ref V <em>snd</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.compareElem" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L799">#</a></dt>
+<dd class="ddef">
+<div class="summary">The default value comparator</div>
+@param fst first argument
+                @param snd second argument
+<p class="sec_header">Returns:</p>a negative number if fst is less than snd; a
+                positive number if fst is greater than snd; else 0</dd>
+<dt class="decl">struct <a class="symbol _struct" name="SortedMap.Freach" href="./htmlsrc/tango.util.container.SortedMap.html#L813" kind="struct" beg="813" end="828">Freach</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.Freach" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L813">#</a></dt>
+<dd class="ddef">
+<div class="summary">foreach support for iterators</div>
+</dd>
+<dt class="decl">struct <a class="symbol _struct" name="SortedMap.Iterator" href="./htmlsrc/tango.util.container.SortedMap.html#L836" kind="struct" beg="836" end="876">Iterator</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.Iterator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L836">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterator with no filtering</div>
+</dd>
+<dt class="decl">struct <a class="symbol _struct" name="SortedMap.IteratorMatch" href="./htmlsrc/tango.util.container.SortedMap.html#L884" kind="struct" beg="884" end="912">IteratorMatch</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SortedMap.IteratorMatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/tango.util.container.SortedMap.html#L884">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterator with key filtering</div>
+</dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright (c) 2008 Kris Bell. All rights reserved</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:04:07 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>
