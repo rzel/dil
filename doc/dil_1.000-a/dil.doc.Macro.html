@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>dil.doc.Macro</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "dil.doc.Macro";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/dil.doc.Macro.html" class="symbol">dil.doc.Macro</a></h1>
+  
+<p class="sec_header">Author:</p>Aziz Köksal
+<p class="sec_header">License:</p>GPL3
+ <p><b>Maturity:</b> high.</p>
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Macro" href="./htmlsrc/dil.doc.Macro.html#L14" kind="class" beg="14" end="25">Macro</a>; <a title="Permalink to this symbol" href="#Macro" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L14">#</a></dt>
+<dd class="ddef">
+<div class="summary">The DDoc macro class.</div>
+<dl>
+<dt class="decl">string <a class="symbol _variable" name="Macro.name" href="./htmlsrc/dil.doc.Macro.html#L16" kind="variable" beg="16" end="16">name</a>; <a title="Permalink to this symbol" href="#Macro.name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L16">#</a></dt>
+<dd class="ddef">
+<div class="summary">The name of the macro.</div></dd>
+<dt class="decl">string <a class="symbol _variable" name="Macro.text" href="./htmlsrc/dil.doc.Macro.html#L17" kind="variable" beg="17" end="17">text</a>; <a title="Permalink to this symbol" href="#Macro.text" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L17">#</a></dt>
+<dd class="ddef">
+<div class="summary">The substitution text.</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="Macro.callLevel" href="./htmlsrc/dil.doc.Macro.html#L18" kind="variable" beg="18" end="18">callLevel</a>; <a title="Permalink to this symbol" href="#Macro.callLevel" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L18">#</a></dt>
+<dd class="ddef">
+<div class="summary">Recursive call level.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="Macro.this" href="./htmlsrc/dil.doc.Macro.html#L20" kind="ctor" beg="20" end="24">this</a><span class="params">(string <em>name</em>, string <em>text</em>)</span>; <a title="Permalink to this symbol" href="#Macro.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L20">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a Macro object.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="MacroTable" href="./htmlsrc/dil.doc.Macro.html#L31" kind="class" beg="31" end="89">MacroTable</a>; <a title="Permalink to this symbol" href="#MacroTable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L31">#</a></dt>
+<dd class="ddef">
+<div class="summary">Maps macro names to Macro objects.</div>
+MacroTables can be chained so that they build a linear hierarchy.
+ Macro definitions in the current table override the ones in the parent tables.
+<dl>
+<dt class="decl">MacroTable <a class="symbol _variable" name="MacroTable.parent" href="./htmlsrc/dil.doc.Macro.html#L34" kind="variable" beg="34" end="34">parent</a>; <a title="Permalink to this symbol" href="#MacroTable.parent" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L34">#</a></dt>
+<dd class="ddef">
+<div class="summary">The parent in the hierarchy. Or null if this is the root.</div></dd>
+<dt class="decl">Macro[string] <a class="symbol _variable" name="MacroTable.table" href="./htmlsrc/dil.doc.Macro.html#L35" kind="variable" beg="35" end="35">table</a>; <a title="Permalink to this symbol" href="#MacroTable.table" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L35">#</a></dt>
+<dd class="ddef">
+<div class="summary">The associative array that holds the macro definitions.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="MacroTable.this" href="./htmlsrc/dil.doc.Macro.html#L38" kind="ctor" beg="38" end="41">this</a><span class="params">(MacroTable <em>parent</em> = null)</span>; <a title="Permalink to this symbol" href="#MacroTable.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L38">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a MacroTable instance.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="MacroTable.insert" href="./htmlsrc/dil.doc.Macro.html#L45" kind="function" beg="45" end="48">insert</a><span class="params">(Macro <em>m</em>)</span>; <a title="Permalink to this symbol" href="#MacroTable.insert" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L45">#</a></dt>
+<dd class="ddef">
+<div class="summary">Inserts the macro m into the table.
+ Overwrites the current macro if one exists.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="MacroTable.insert:2" href="./htmlsrc/dil.doc.Macro.html#L51" kind="function" beg="51" end="55">insert</a><span class="params">(Macro[] <em>macros</em>)</span>; <a title="Permalink to this symbol" href="#MacroTable.insert:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L51">#</a></dt>
+<dd class="ddef">
+<div class="summary">Inserts an array of macros into the table.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="MacroTable.insert:3" href="./htmlsrc/dil.doc.Macro.html#L58" kind="function" beg="58" end="61">insert</a><span class="params">(string <em>name</em>, string <em>text</em>)</span>; <a title="Permalink to this symbol" href="#MacroTable.insert:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L58">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creates a macro using name and text and inserts that into the table.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="MacroTable.insert:4" href="./htmlsrc/dil.doc.Macro.html#L64" kind="function" beg="64" end="69">insert</a><span class="params">(string[] <em>names</em>, string[] <em>texts</em>)</span>; <a title="Permalink to this symbol" href="#MacroTable.insert:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L64">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creates a macro using name[n] and text[n] and inserts that into the table.</div></dd>
+<dt class="decl">Macro <a class="symbol _function" name="MacroTable.search" href="./htmlsrc/dil.doc.Macro.html#L76" kind="function" beg="76" end="84">search</a><span class="params">(string <em>name</em>)</span>; <a title="Permalink to this symbol" href="#MacroTable.search" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L76">#</a></dt>
+<dd class="ddef">
+<div class="summary">Searches for a macro.</div>
+If the macro isn't found in this table the search
+ continues upwards in the table hierarchy.
+<p class="sec_header">Returns:</p>the macro if found, or null if not.</dd>
+<dt class="decl">bool <a class="symbol _function" name="MacroTable.isRoot" href="./htmlsrc/dil.doc.Macro.html#L87" kind="function" beg="87" end="88">isRoot</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#MacroTable.isRoot" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L87">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">Returns:</p>true if this is the root of the hierarchy.</dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="MacroParser" href="./htmlsrc/dil.doc.Macro.html#L92" kind="struct" beg="92" end="122">MacroParser</a>; <a title="Permalink to this symbol" href="#MacroParser" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L92">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses a text with macro definitions.</div>
+<dl>
+<dt class="decl">Macro[] <a class="symbol _function" name="MacroParser.parse" href="./htmlsrc/dil.doc.Macro.html#L94" kind="function" beg="94" end="102">parse</a><span class="params">(string <em>text</em>)</span>; <a title="Permalink to this symbol" href="#MacroParser.parse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L94">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char* <a class="symbol _function" name="MacroParser.scanMacro" href="./htmlsrc/dil.doc.Macro.html#L107" kind="function" beg="107" end="121">scanMacro</a><span class="params">(char* <em>p</em>, char* <em>textEnd</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MacroParser.scanMacro" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L107">#</a></dt>
+<dd class="ddef">
+<div class="summary">Scans for a macro invocation. E.g.: &#36;(DDOC)</div>
+<p class="sec_header">Returns:</p>a pointer set to one char past the closing parenthesis,
+ or null if this isn't a macro invocation.</dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="MacroExpander" href="./htmlsrc/dil.doc.Macro.html#L125" kind="struct" beg="125" end="341">MacroExpander</a>; <a title="Permalink to this symbol" href="#MacroExpander" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L125">#</a></dt>
+<dd class="ddef">
+<div class="summary">Expands DDoc macros in a text.</div>
+<dl>
+<dt class="decl">MacroTable <a class="symbol _variable" name="MacroExpander.mtable" href="./htmlsrc/dil.doc.Macro.html#L127" kind="variable" beg="127" end="127">mtable</a>; <a title="Permalink to this symbol" href="#MacroExpander.mtable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L127">#</a></dt>
+<dd class="ddef">
+<div class="summary">Used to look up macros.</div></dd>
+<dt class="decl">Diagnostics <a class="symbol _variable" name="MacroExpander.diag" href="./htmlsrc/dil.doc.Macro.html#L128" kind="variable" beg="128" end="128">diag</a>; <a title="Permalink to this symbol" href="#MacroExpander.diag" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L128">#</a></dt>
+<dd class="ddef">
+<div class="summary">Collects warning messages.</div></dd>
+<dt class="decl">char[] <a class="symbol _variable" name="MacroExpander.filePath" href="./htmlsrc/dil.doc.Macro.html#L129" kind="variable" beg="129" end="129">filePath</a>; <a title="Permalink to this symbol" href="#MacroExpander.filePath" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L129">#</a></dt>
+<dd class="ddef">
+<div class="summary">Used in warning messages.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="MacroExpander.expand" href="./htmlsrc/dil.doc.Macro.html#L132" kind="function" beg="132" end="140">expand</a><span class="params">(MacroTable <em>mtable</em>, char[] <em>text</em>, char[] <em>filePath</em>, Diagnostics <em>diag</em> = null)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MacroExpander.expand" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L132">#</a></dt>
+<dd class="ddef">
+<div class="summary">Starts expanding the macros.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="MacroExpander.warning" href="./htmlsrc/dil.doc.Macro.html#L143" kind="function" beg="143" end="147">warning</a><span class="params">(char[] <em>msg</em>, char[] <em>macroName</em>)</span>; <a title="Permalink to this symbol" href="#MacroExpander.warning" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L143">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reports a warning message.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="MacroExpander.expandMacros" href="./htmlsrc/dil.doc.Macro.html#L150" kind="function" beg="150" end="209">expandMacros</a><span class="params">(char[] <em>text</em>)</span>; <a title="Permalink to this symbol" href="#MacroExpander.expandMacros" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L150">#</a></dt>
+<dd class="ddef">
+<div class="summary">Expands the macros from the table in the text.</div></dd>
+<dt class="decl">char[][] <a class="symbol _function" name="MacroExpander.scanArguments" href="./htmlsrc/dil.doc.Macro.html#L213" kind="function" beg="213" end="292">scanArguments</a><span class="params">(ref char* <em>p</em>, char* <em>textEnd</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MacroExpander.scanArguments" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L213">#</a></dt>
+<dd class="ddef">
+<div class="summary">Scans until the closing parenthesis is found. Sets p to one char past it.</div>
+<p class="sec_header">Returns:</p>[arg0, arg1, arg2 ...].</dd>
+<dt class="decl">char[] <a class="symbol _function" name="MacroExpander.expandArguments" href="./htmlsrc/dil.doc.Macro.html#L300" kind="function" beg="300" end="340">expandArguments</a><span class="params">(char[] <em>text</em>, char[][] <em>args</em>)</span>; <a title="Permalink to this symbol" href="#MacroExpander.expandArguments" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.doc.Macro.html#L300">#</a></dt>
+<dd class="ddef">
+<div class="summary">Expands "&#36;+", "&#36;0" - "&#36;9" with args[n] in text.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>text</em></td><td>the text to scan for argument placeholders.</td></tr>
+<tr><td><em>args</em></td><td>the first element, args[0], is the whole argument string and
+          the following elements are slices into it.<br/>
+          The array is empty if there are no arguments.</td></tr></table></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 2007-2008, Aziz Köksal. All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:12:59 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

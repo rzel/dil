@@ -1,0 +1,591 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>dil.parser.Parser</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "dil.parser.Parser";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/dil.parser.Parser.html" class="symbol">dil.parser.Parser</a></h1>
+  
+<p class="sec_header">Author:</p>Aziz Köksal
+<p class="sec_header">License:</p>GPL3
+ <p><b>Maturity:</b> very high.</p>
+<dl>
+<dt class="decl">class <a class="symbol _class" name="Parser" href="./htmlsrc/dil.parser.Parser.html#L26" kind="class" beg="26" end="4432">Parser</a>; <a title="Permalink to this symbol" href="#Parser" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L26">#</a></dt>
+<dd class="ddef">
+<div class="summary">The Parser produces a full parse tree by examining
+ the list of tokens provided by the Lexer.</div>
+<dl>
+<dt class="decl">Lexer <a class="symbol _variable" name="Parser.lexer" href="./htmlsrc/dil.parser.Parser.html#L28" kind="variable" beg="28" end="28">lexer</a>; <a title="Permalink to this symbol" href="#Parser.lexer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L28">#</a></dt>
+<dd class="ddef">
+<div class="summary">Used to lex the source code.</div></dd>
+<dt class="decl">Token* <a class="symbol _variable" name="Parser.token" href="./htmlsrc/dil.parser.Parser.html#L29" kind="variable" beg="29" end="29">token</a>; <a title="Permalink to this symbol" href="#Parser.token" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L29">#</a></dt>
+<dd class="ddef">
+<div class="summary">Current non-whitespace token.</div></dd>
+<dt class="decl">Token* <a class="symbol _variable" name="Parser.prevToken" href="./htmlsrc/dil.parser.Parser.html#L30" kind="variable" beg="30" end="30">prevToken</a>; <a title="Permalink to this symbol" href="#Parser.prevToken" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L30">#</a></dt>
+<dd class="ddef">
+<div class="summary">Previous non-whitespace token.</div></dd>
+<dt class="decl">Diagnostics <a class="symbol _variable" name="Parser.diag" href="./htmlsrc/dil.parser.Parser.html#L32" kind="variable" beg="32" end="32">diag</a>; <a title="Permalink to this symbol" href="#Parser.diag" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L32">#</a></dt>
+<dd class="ddef">
+<div class="summary">Collects error messages.</div></dd>
+<dt class="decl">ParserError[] <a class="symbol _variable" name="Parser.errors" href="./htmlsrc/dil.parser.Parser.html#L33" kind="variable" beg="33" end="33">errors</a>; <a title="Permalink to this symbol" href="#Parser.errors" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L33">#</a></dt>
+<dd class="ddef">
+<div class="summary">Array of parser error messages.</div></dd>
+<dt class="decl">ImportDeclaration[] <a class="symbol _variable" name="Parser.imports" href="./htmlsrc/dil.parser.Parser.html#L35" kind="variable" beg="35" end="35">imports</a>; <a title="Permalink to this symbol" href="#Parser.imports" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L35">#</a></dt>
+<dd class="ddef">
+<div class="summary">ImportDeclarations in the source text.</div></dd>
+<dt class="decl">LinkageType <a class="symbol _variable" name="Parser.linkageType" href="./htmlsrc/dil.parser.Parser.html#L39" kind="variable" beg="39" end="39">linkageType</a>; <a title="Permalink to this symbol" href="#Parser.linkageType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L39">#</a></dt>
+<dt class="decl">Protection <a class="symbol _variable" name="Parser.protection" href="./htmlsrc/dil.parser.Parser.html#L40" kind="variable" beg="40" end="40">protection</a>; <a title="Permalink to this symbol" href="#Parser.protection" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L40">#</a></dt>
+<dt class="decl">StorageClass <a class="symbol _variable" name="Parser.storageClass" href="./htmlsrc/dil.parser.Parser.html#L41" kind="variable" beg="41" end="41">storageClass</a>; <a title="Permalink to this symbol" href="#Parser.storageClass" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L41">#</a></dt>
+<dt class="decl">uint <a class="symbol _variable" name="Parser.alignSize" href="./htmlsrc/dil.parser.Parser.html#L42" kind="variable" beg="42" end="42">alignSize</a>; <a title="Permalink to this symbol" href="#Parser.alignSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L42">#</a></dt>
+<dd class="ddef">
+<div class="summary">Attributes are evaluated in the parsing phase.</div>
+<p class="sec_header">TODO:</p>will be removed. SemanticPass1 takes care of attributes.</dd>
+<dt class="decl">alias TOK <a class="symbol _alias" name="Parser.T" href="./htmlsrc/dil.parser.Parser.html#L44" kind="alias" beg="44" end="44">T</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Parser.T" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L44">#</a></dt>
+<dd class="ddef">
+<div class="summary">Used often in this class.</div></dd>
+<dt class="decl">alias TypeNode <a class="symbol _alias" name="Parser.Type" href="./htmlsrc/dil.parser.Parser.html#L45" kind="alias" beg="45" end="45">Type</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Parser.Type" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L45">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="Parser.this" href="./htmlsrc/dil.parser.Parser.html#L51" kind="ctor" beg="51" end="55">this</a><span class="params">(SourceText <em>srcText</em>, Diagnostics <em>diag</em> = null)</span>; <a title="Permalink to this symbol" href="#Parser.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L51">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a Parser object.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>srcText</em></td><td>the UTF-8 source code.</td></tr>
+<tr><td><em>diag</em></td><td>used for collecting error messages.</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="Parser.init" href="./htmlsrc/dil.parser.Parser.html#L58" kind="function" beg="58" end="62">init</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#Parser.init" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L58">#</a></dt>
+<dd class="ddef">
+<div class="summary">Moves to the first token.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Parser.nT" href="./htmlsrc/dil.parser.Parser.html#L65" kind="function" beg="65" end="73">nT</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.nT" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L65">#</a></dt>
+<dd class="ddef">
+<div class="summary">Moves to the next token.</div></dd>
+<dt class="decl">CompoundDeclaration <a class="symbol _function" name="Parser.start" href="./htmlsrc/dil.parser.Parser.html#L76" kind="function" beg="76" end="86">start</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.start" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L76">#</a></dt>
+<dd class="ddef">
+<div class="summary">Start the parser and return the parsed Declarations.</div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.start2" href="./htmlsrc/dil.parser.Parser.html#L89" kind="function" beg="89" end="93">start2</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.start2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L89">#</a></dt>
+<dd class="ddef">
+<div class="summary">Start the parser and return the parsed Expression.</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="Parser.trying" href="./htmlsrc/dil.parser.Parser.html#L96" kind="variable" beg="96" end="96">trying</a>; <a title="Permalink to this symbol" href="#Parser.trying" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L96">#</a></dt>
+<dd class="ddef">
+<div class="summary">Greater than 0 if Parser is in try_().</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="Parser.errorCount" href="./htmlsrc/dil.parser.Parser.html#L97" kind="variable" beg="97" end="97">errorCount</a>; <a title="Permalink to this symbol" href="#Parser.errorCount" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L97">#</a></dt>
+<dd class="ddef">
+<div class="summary">Used to track nr. of errors while being in try_().</div></dd>
+<dt class="decl">RetType <a class="symbol _function" name="Parser.try_" href="./htmlsrc/dil.parser.Parser.html#L102" kind="function" beg="102" end="124">try_</a><span class="tparams">(RetType)</span><span class="params">(RetType delegate() <em>parseMethod</em>, out bool <em>success</em>)</span>; <a title="Permalink to this symbol" href="#Parser.try_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L102">#</a></dt>
+<dd class="ddef">
+<div class="summary">This method executes the delegate parseMethod and when an error occurred
+ the state of the lexer and parser is restored.</div>
+<p class="sec_header">Returns:</p>the return value of parseMethod().</dd>
+<dt class="decl">void <a class="symbol _function" name="Parser.try_fail" href="./htmlsrc/dil.parser.Parser.html#L127" kind="function" beg="127" end="131">try_fail</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.try_fail" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L127">#</a></dt>
+<dd class="ddef">
+<div class="summary">Causes the current call to try_() to fail.</div></dd>
+<dt class="decl">Class <a class="symbol _function" name="Parser.set" href="./htmlsrc/dil.parser.Parser.html#L134" kind="function" beg="134" end="138">set</a><span class="tparams">(Class)</span><span class="params">(Class <em>node</em>, Token* <em>begin</em>)</span>; <a title="Permalink to this symbol" href="#Parser.set" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L134">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sets the begin and end tokens of a syntax tree node.</div></dd>
+<dt class="decl">Class <a class="symbol _function" name="Parser.set:2" href="./htmlsrc/dil.parser.Parser.html#L141" kind="function" beg="141" end="145">set</a><span class="tparams">(Class)</span><span class="params">(Class <em>node</em>, Token* <em>begin</em>, Token* <em>end</em>)</span>; <a title="Permalink to this symbol" href="#Parser.set:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L141">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sets the begin and end tokens of a syntax tree node.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Parser.isNodeSet" href="./htmlsrc/dil.parser.Parser.html#L148" kind="function" beg="148" end="151">isNodeSet</a><span class="params">(Node <em>node</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Parser.isNodeSet" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L148">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if set() has been called on a node.</div></dd>
+<dt class="decl">TOK <a class="symbol _function" name="Parser.peekNext" href="./htmlsrc/dil.parser.Parser.html#L154" kind="function" beg="154" end="161">peekNext</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.peekNext" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L154">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the token kind of the next token.</div></dd>
+<dt class="decl">TOK <a class="symbol _function" name="Parser.peekAfter" href="./htmlsrc/dil.parser.Parser.html#L164" kind="function" beg="164" end="171">peekAfter</a><span class="params">(ref Token* <em>t</em>)</span>; <a title="Permalink to this symbol" href="#Parser.peekAfter" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L164">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the token kind of the token that comes after t.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Parser.consumed" href="./htmlsrc/dil.parser.Parser.html#L174" kind="function" beg="174" end="177">consumed</a><span class="tparams">()</span><span class="params">(TOK <em>k</em>)</span>; <a title="Permalink to this symbol" href="#Parser.consumed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L174">#</a></dt>
+<dd class="ddef">
+<div class="summary">Consumes the current token if its kind matches k and returns true.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Parser.skip" href="./htmlsrc/dil.parser.Parser.html#L181" kind="function" beg="181" end="185">skip</a><span class="tparams">()</span><span class="params">(TOK <em>expectedKind</em>)</span>; <a title="Permalink to this symbol" href="#Parser.skip" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L181">#</a></dt>
+<dd class="ddef">
+<div class="summary">Asserts that the current token is of kind expectedKind,
+ and then moves to the next token.</div></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseModuleDeclaration" href="./htmlsrc/dil.parser.Parser.html#L191" kind="function" beg="191" end="201">parseModuleDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseModuleDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L191">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration[] <a class="symbol _function" name="Parser.parseDeclarationDefinitions" href="./htmlsrc/dil.parser.Parser.html#L205" kind="function" beg="205" end="211">parseDeclarationDefinitions</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseDeclarationDefinitions" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L205">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses DeclarationDefinitions until the end of file is hit.
+ <pre class="bnf">DeclDefs := DeclDef+ </pre></div></dd>
+<dt class="decl">CompoundDeclaration <a class="symbol _function" name="Parser.parseDeclarationDefinitionsBody" href="./htmlsrc/dil.parser.Parser.html#L215" kind="function" beg="215" end="241">parseDeclarationDefinitionsBody</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseDeclarationDefinitionsBody" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L215">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parse the body of a template, class, interface, struct or union.
+ <pre class="bnf">DeclDefsBlock := "{" DeclDefs? "}" </pre></div></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseDeclarationDefinition" href="./htmlsrc/dil.parser.Parser.html#L244" kind="function" beg="244" end="407">parseDeclarationDefinition</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseDeclarationDefinition" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L244">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses a DeclarationDefinition.</div></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseDeclarationsBlock" href="./htmlsrc/dil.parser.Parser.html#L411" kind="function" beg="411" end="440">parseDeclarationsBlock</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseDeclarationsBlock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L411">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses a DeclarationsBlock.
+ <pre class="bnf">DeclarationsBlock := ":" DeclDefs | "{" DeclDefs? "}" | DeclDef </pre></div></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseVariableOrFunction" href="./htmlsrc/dil.parser.Parser.html#L455" kind="function" beg="455" end="583">parseVariableOrFunction</a><span class="params">(StorageClass <em>stc</em> = StorageClass.None, Protection <em>protection</em> = Protection.None, LinkageType <em>linkType</em> = LinkageType.None, bool <em>testAutoDeclaration</em> = false, bool <em>optionalParameterList</em> = true)</span>; <a title="Permalink to this symbol" href="#Parser.parseVariableOrFunction" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L455">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses either a VariableDeclaration or a FunctionDeclaration.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>stc</em></td><td>previously parsed storage classes</td></tr>
+<tr><td><em>protection</em></td><td>previously parsed protection attribute</td></tr>
+<tr><td><em>linkType</em></td><td>previously parsed linkage type</td></tr>
+<tr><td><em>testAutoDeclaration</em></td><td>whether to check for an AutoDeclaration</td></tr>
+<tr><td><em>optionalParameterList</em></td><td>a hint for how to parse C-style
+                           function pointers</td></tr></table></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseInitializer" href="./htmlsrc/dil.parser.Parser.html#L586" kind="function" beg="586" end="599">parseInitializer</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseInitializer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L586">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses a variable initializer.</div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseNonVoidInitializer" href="./htmlsrc/dil.parser.Parser.html#L601" kind="function" beg="601" end="681">parseNonVoidInitializer</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseNonVoidInitializer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L601">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">FuncBodyStatement <a class="symbol _function" name="Parser.parseFunctionBody" href="./htmlsrc/dil.parser.Parser.html#L683" kind="function" beg="683" end="726">parseFunctionBody</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseFunctionBody" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L683">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">LinkageType <a class="symbol _function" name="Parser.parseLinkageType" href="./htmlsrc/dil.parser.Parser.html#L728" kind="function" beg="728" end="772">parseLinkageType</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseLinkageType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L728">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Parser.checkLinkageType" href="./htmlsrc/dil.parser.Parser.html#L774" kind="function" beg="774" end="780">checkLinkageType</a><span class="params">(ref LinkageType <em>prev_lt</em>, LinkageType <em>lt</em>, Token* <em>begin</em>)</span>; <a title="Permalink to this symbol" href="#Parser.checkLinkageType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L774">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseStorageAttribute" href="./htmlsrc/dil.parser.Parser.html#L782" kind="function" beg="782" end="904">parseStorageAttribute</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseStorageAttribute" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L782">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="Parser.parseAlignAttribute" href="./htmlsrc/dil.parser.Parser.html#L906" kind="function" beg="906" end="919">parseAlignAttribute</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAlignAttribute" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L906">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseAttributeSpecifier" href="./htmlsrc/dil.parser.Parser.html#L921" kind="function" beg="921" end="976">parseAttributeSpecifier</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAttributeSpecifier" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L921">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseImportDeclaration" href="./htmlsrc/dil.parser.Parser.html#L978" kind="function" beg="978" end="1028">parseImportDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseImportDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L978">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseEnumDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1051" kind="function" beg="1051" end="1105">parseEnumDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseEnumDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1051">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">TemplateDeclaration <a class="symbol _function" name="Parser.putInsideTemplateDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1114" kind="function" beg="1114" end="1125">putInsideTemplateDeclaration</a><span class="params">(Token* <em>begin</em>, Identifier* <em>name</em>, Declaration <em>decl</em>, TemplateParameters <em>tparams</em>, Expression <em>constraint</em>)</span>; <a title="Permalink to this symbol" href="#Parser.putInsideTemplateDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1114">#</a></dt>
+<dd class="ddef">
+<div class="summary">Wraps a declaration inside a template declaration.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>begin</em></td><td>begin token of decl.</td></tr>
+<tr><td><em>name</em></td><td>name of decl.</td></tr>
+<tr><td><em>decl</em></td><td>the declaration to be wrapped.</td></tr>
+<tr><td><em>tparams</em></td><td>the template parameters.</td></tr>
+<tr><td><em>constraint</em></td><td>the constraint expression.</td></tr></table></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseClassDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1127" kind="function" beg="1127" end="1161">parseClassDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseClassDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1127">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">BaseClassType[] <a class="symbol _function" name="Parser.parseBaseClasses" href="./htmlsrc/dil.parser.Parser.html#L1163" kind="function" beg="1163" end="1189">parseBaseClasses</a><span class="params">(bool <em>colonLeadsOff</em> = true)</span>; <a title="Permalink to this symbol" href="#Parser.parseBaseClasses" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1163">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseInterfaceDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1191" kind="function" beg="1191" end="1224">parseInterfaceDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseInterfaceDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1191">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseStructOrUnionDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1226" kind="function" beg="1226" end="1267">parseStructOrUnionDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseStructOrUnionDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1226">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseConstructorDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1269" kind="function" beg="1269" end="1275">parseConstructorDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseConstructorDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1269">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseDestructorDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1277" kind="function" beg="1277" end="1285">parseDestructorDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseDestructorDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1277">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseStaticConstructorDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1287" kind="function" beg="1287" end="1295">parseStaticConstructorDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseStaticConstructorDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1287">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseStaticDestructorDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1297" kind="function" beg="1297" end="1306">parseStaticDestructorDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseStaticDestructorDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1297">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseInvariantDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1308" kind="function" beg="1308" end="1316">parseInvariantDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseInvariantDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1308">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseUnittestDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1318" kind="function" beg="1318" end="1323">parseUnittestDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseUnittestDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1318">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Token* <a class="symbol _function" name="Parser.parseIdentOrInt" href="./htmlsrc/dil.parser.Parser.html#L1325" kind="function" beg="1325" end="1331">parseIdentOrInt</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseIdentOrInt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1325">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Token* <a class="symbol _function" name="Parser.parseVersionCondition" href="./htmlsrc/dil.parser.Parser.html#L1333" kind="function" beg="1333" end="1341">parseVersionCondition</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseVersionCondition" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1333">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseDebugDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1343" kind="function" beg="1343" end="1373">parseDebugDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseDebugDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1343">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseVersionDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1375" kind="function" beg="1375" end="1402">parseVersionDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseVersionDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1375">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseStaticIfDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1404" kind="function" beg="1404" end="1423">parseStaticIfDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseStaticIfDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1404">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseStaticAssertDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1425" kind="function" beg="1425" end="1438">parseStaticAssertDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseStaticAssertDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1425">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseTemplateDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1440" kind="function" beg="1440" end="1448">parseTemplateDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseTemplateDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1440">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseNewDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1450" kind="function" beg="1450" end="1456">parseNewDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseNewDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1450">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Declaration <a class="symbol _function" name="Parser.parseDeleteDeclaration" href="./htmlsrc/dil.parser.Parser.html#L1458" kind="function" beg="1458" end="1464">parseDeleteDeclaration</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseDeleteDeclaration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1458">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Type <a class="symbol _function" name="Parser.parseTypeofType" href="./htmlsrc/dil.parser.Parser.html#L1466" kind="function" beg="1466" end="1488">parseTypeofType</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseTypeofType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1466">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Class <a class="symbol _function" name="Parser.parseMixin" href="./htmlsrc/dil.parser.Parser.html#L1497" kind="function" beg="1497" end="1530">parseMixin</a><span class="tparams">(Class)</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseMixin" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1497">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses a MixinDeclaration or MixinStatement.
+ <pre class="bnf">
+MixinDecl := (MixinExpression | MixinTemplate) ";"
+MixinExpression := "mixin" "(" AssignExpression ")"
+MixinTemplate := "mixin" TemplateIdentifier
+                 ("!" "(" TemplateArguments ")")? MixinIdentifier?
+</pre></div></dd>
+<dt class="decl">CompoundStatement <a class="symbol _function" name="Parser.parseStatements" href="./htmlsrc/dil.parser.Parser.html#L1536" kind="function" beg="1536" end="1545">parseStatements</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseStatements" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1536">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseStatement" href="./htmlsrc/dil.parser.Parser.html#L1548" kind="function" beg="1548" end="1789">parseStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1548">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses a Statement.</div></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseScopeStatement" href="./htmlsrc/dil.parser.Parser.html#L1793" kind="function" beg="1793" end="1796">parseScopeStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseScopeStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1793">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses a ScopeStatement.
+ <pre class="bnf">ScopeStatement := NoScopeStatement </pre></div></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseNoScopeStatement" href="./htmlsrc/dil.parser.Parser.html#L1802" kind="function" beg="1802" end="1823">parseNoScopeStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseNoScopeStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1802">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">
+NoScopeStatement := NonEmptyStatement | BlockStatement
+BlockStatement   := "{" StatementList? "}"
+</pre></div></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseNoScopeOrEmptyStatement" href="./htmlsrc/dil.parser.Parser.html#L1826" kind="function" beg="1826" end="1832">parseNoScopeOrEmptyStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseNoScopeOrEmptyStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1826">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">NoScopeOrEmptyStatement := ";" | NoScopeStatement </pre></div></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseAttributeStatement" href="./htmlsrc/dil.parser.Parser.html#L1834" kind="function" beg="1834" end="1923">parseAttributeStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAttributeStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1834">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseIfStatement" href="./htmlsrc/dil.parser.Parser.html#L1925" kind="function" beg="1925" end="1977">parseIfStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseIfStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1925">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseWhileStatement" href="./htmlsrc/dil.parser.Parser.html#L1979" kind="function" beg="1979" end="1987">parseWhileStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseWhileStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1979">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseDoWhileStatement" href="./htmlsrc/dil.parser.Parser.html#L1989" kind="function" beg="1989" end="1999">parseDoWhileStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseDoWhileStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L1989">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseForStatement" href="./htmlsrc/dil.parser.Parser.html#L2001" kind="function" beg="2001" end="2020">parseForStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseForStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2001">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseForeachStatement" href="./htmlsrc/dil.parser.Parser.html#L2022" kind="function" beg="2022" end="2080">parseForeachStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseForeachStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2022">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseSwitchStatement" href="./htmlsrc/dil.parser.Parser.html#L2082" kind="function" beg="2082" end="2091">parseSwitchStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseSwitchStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2082">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseCaseOrDefaultBody" href="./htmlsrc/dil.parser.Parser.html#L2094" kind="function" beg="2094" end="2106">parseCaseOrDefaultBody</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseCaseOrDefaultBody" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2094">#</a></dt>
+<dd class="ddef">
+<div class="summary">Helper function for parsing the body of a default or case statement.</div></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseCaseStatement" href="./htmlsrc/dil.parser.Parser.html#L2108" kind="function" beg="2108" end="2115">parseCaseStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseCaseStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2108">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseDefaultStatement" href="./htmlsrc/dil.parser.Parser.html#L2117" kind="function" beg="2117" end="2123">parseDefaultStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseDefaultStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2117">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseContinueStatement" href="./htmlsrc/dil.parser.Parser.html#L2125" kind="function" beg="2125" end="2131">parseContinueStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseContinueStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2125">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseBreakStatement" href="./htmlsrc/dil.parser.Parser.html#L2133" kind="function" beg="2133" end="2139">parseBreakStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseBreakStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2133">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseReturnStatement" href="./htmlsrc/dil.parser.Parser.html#L2141" kind="function" beg="2141" end="2149">parseReturnStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseReturnStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2141">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseGotoStatement" href="./htmlsrc/dil.parser.Parser.html#L2151" kind="function" beg="2151" end="2174">parseGotoStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseGotoStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2151">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseWithStatement" href="./htmlsrc/dil.parser.Parser.html#L2176" kind="function" beg="2176" end="2184">parseWithStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseWithStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2176">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseSynchronizedStatement" href="./htmlsrc/dil.parser.Parser.html#L2186" kind="function" beg="2186" end="2197">parseSynchronizedStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseSynchronizedStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2186">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseTryStatement" href="./htmlsrc/dil.parser.Parser.html#L2199" kind="function" beg="2199" end="2234">parseTryStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseTryStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2199">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseThrowStatement" href="./htmlsrc/dil.parser.Parser.html#L2236" kind="function" beg="2236" end="2242">parseThrowStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseThrowStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2236">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseScopeGuardStatement" href="./htmlsrc/dil.parser.Parser.html#L2244" kind="function" beg="2244" end="2264">parseScopeGuardStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseScopeGuardStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2244">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseVolatileStatement" href="./htmlsrc/dil.parser.Parser.html#L2266" kind="function" beg="2266" end="2277">parseVolatileStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseVolatileStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2266">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parsePragmaStatement" href="./htmlsrc/dil.parser.Parser.html#L2279" kind="function" beg="2279" end="2298">parsePragmaStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parsePragmaStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2279">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseStaticIfStatement" href="./htmlsrc/dil.parser.Parser.html#L2300" kind="function" beg="2300" end="2315">parseStaticIfStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseStaticIfStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2300">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseStaticAssertStatement" href="./htmlsrc/dil.parser.Parser.html#L2317" kind="function" beg="2317" end="2330">parseStaticAssertStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseStaticAssertStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2317">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseDebugStatement" href="./htmlsrc/dil.parser.Parser.html#L2332" kind="function" beg="2332" end="2352">parseDebugStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseDebugStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2332">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseVersionStatement" href="./htmlsrc/dil.parser.Parser.html#L2354" kind="function" beg="2354" end="2371">parseVersionStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseVersionStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2354">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseAsmBlockStatement" href="./htmlsrc/dil.parser.Parser.html#L2379" kind="function" beg="2379" end="2389">parseAsmBlockStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAsmBlockStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2379">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses an AsmBlockStatement.
+ <pre class="bnf">AsmBlockStatement := "asm" "{" AsmStatement* "}" </pre></div></dd>
+<dt class="decl">Statement <a class="symbol _function" name="Parser.parseAsmStatement" href="./htmlsrc/dil.parser.Parser.html#L2401" kind="function" beg="2401" end="2459">parseAsmStatement</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAsmStatement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2401">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">
+AsmStatement := OpcodeStatement | LabeledStatement |
+                AsmAlignStatement | EmptyStatement
+OpcodeStatement := Opcode Operands? ";"
+Opcode := Identifier
+Operands := AsmExpression ("," AsmExpression)*
+LabeledStatement := Identifier ":" AsmStatement
+AsmAlignStatement := "align" Integer ";"
+EmptyStatement := ";"
+</pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAsmExpression" href="./htmlsrc/dil.parser.Parser.html#L2464" kind="function" beg="2464" end="2479">parseAsmExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAsmExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2464">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AsmExpression := AsmCondExpression
+AsmCondExpression :=
+  AsmOrOrExpression ("?" AsmExpression ":" AsmExpression)? </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAsmOrOrExpression" href="./htmlsrc/dil.parser.Parser.html#L2483" kind="function" beg="2483" end="2496">parseAsmOrOrExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAsmOrOrExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2483">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AsmOrOrExpression :=
+  AsmAndAndExpression ("||" AsmAndAndExpression)* </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAsmAndAndExpression" href="./htmlsrc/dil.parser.Parser.html#L2499" kind="function" beg="2499" end="2512">parseAsmAndAndExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAsmAndAndExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2499">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AsmAndAndExpression := AsmOrExpression ("&&" AsmOrExpression)* </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAsmOrExpression" href="./htmlsrc/dil.parser.Parser.html#L2515" kind="function" beg="2515" end="2528">parseAsmOrExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAsmOrExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2515">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AsmOrExpression := AsmXorExpression ("|" AsmXorExpression)* </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAsmXorExpression" href="./htmlsrc/dil.parser.Parser.html#L2531" kind="function" beg="2531" end="2544">parseAsmXorExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAsmXorExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2531">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AsmXorExpression := AsmAndExpression ("^" AsmAndExpression)* </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAsmAndExpression" href="./htmlsrc/dil.parser.Parser.html#L2547" kind="function" beg="2547" end="2560">parseAsmAndExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAsmAndExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2547">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AsmAndExpression := AsmCmpExpression ("&" AsmCmpExpression)* </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAsmCmpExpression" href="./htmlsrc/dil.parser.Parser.html#L2564" kind="function" beg="2564" end="2586">parseAsmCmpExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAsmCmpExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2564">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AsmCmpExpression := AsmShiftExpression (Op AsmShiftExpression)*
+Op := "==" | "!=" | "<" | "<=" | ">" | ">=" </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAsmShiftExpression" href="./htmlsrc/dil.parser.Parser.html#L2590" kind="function" beg="2590" end="2612">parseAsmShiftExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAsmShiftExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2590">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AsmShiftExpression := AsmAddExpression (Op AsmAddExpression)*
+Op := "<<" | ">>" | ">>>" </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAsmAddExpression" href="./htmlsrc/dil.parser.Parser.html#L2616" kind="function" beg="2616" end="2639">parseAsmAddExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAsmAddExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2616">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AsmAddExpression := AsmMulExpression (Op AsmMulExpression)*
+Op := "+" | "-" </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAsmMulExpression" href="./htmlsrc/dil.parser.Parser.html#L2643" kind="function" beg="2643" end="2662">parseAsmMulExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAsmMulExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2643">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AsmMulExpression := AsmPostExpression (Op AsmPostExpression)*
+Op := "*" | "/" | "%" </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAsmPostExpression" href="./htmlsrc/dil.parser.Parser.html#L2665" kind="function" beg="2665" end="2677">parseAsmPostExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAsmPostExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2665">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AsmPostExpression := AsmUnaryExpression ("[" AsmExpression "]")* </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAsmUnaryExpression" href="./htmlsrc/dil.parser.Parser.html#L2695" kind="function" beg="2695" end="2758">parseAsmUnaryExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAsmUnaryExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2695">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">
+AsmUnaryExpression := AsmPrimaryExpression |
+  AsmTypeExpression | AsmOffsetExpression | AsmSegExpression |
+  SignExpression | NotExpression | ComplementExpression |
+  DotExpression
+AsmTypeExpression := TypePrefix "ptr" AsmExpression
+TypePrefix := "byte" | "shor" | "int" | "float" | "double" | "real"
+              "near" | "far" | "word" | "dword" | "qword"
+AsmOffsetExpression := "offset" AsmExpression
+AsmSegExpression := "seg" AsmExpression
+SignExpression := ("+" | "-") AsmUnaryExpression
+NotExpression := "!" AsmUnaryExpression
+ComplementExpression := "~" AsmUnaryExpression
+ModuleScopeExpression := "." IdentifierExpression
+DotExpression := ModuleScopeExpression ("." IdentifierExpression)*
+</pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAsmPrimaryExpression" href="./htmlsrc/dil.parser.Parser.html#L2761" kind="function" beg="2761" end="2863">parseAsmPrimaryExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAsmPrimaryExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2761">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AsmPrimaryExpression := ... </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseExpression" href="./htmlsrc/dil.parser.Parser.html#L2871" kind="function" beg="2871" end="2884">parseExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2871">#</a></dt>
+<dd class="ddef">
+<div class="summary">The root method for parsing an Expression.
+ <pre class="bnf">Expression := AssignExpression ("," AssignExpression)* </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAssignExpression" href="./htmlsrc/dil.parser.Parser.html#L2890" kind="function" beg="2890" end="2928">parseAssignExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAssignExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2890">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AssignExpression := CondExpression (Op AssignExpression)*
+Op := "=" | "<<=" | ">>=" | ">>>=" | "|=" | "&=" |
+      "+=" | "-=" | "/=" | "*=" | "%=" | "^=" | "~="
+</pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseCondExpression" href="./htmlsrc/dil.parser.Parser.html#L2932" kind="function" beg="2932" end="2947">parseCondExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseCondExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2932">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">CondExpression :=
+  OrOrExpression ("?" Expression ":" CondExpression)? </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseOrOrExpression" href="./htmlsrc/dil.parser.Parser.html#L2950" kind="function" beg="2950" end="2963">parseOrOrExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseOrOrExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2950">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">OrOrExpression := AndAndExpression ("||" AndAndExpression)* </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAndAndExpression" href="./htmlsrc/dil.parser.Parser.html#L2966" kind="function" beg="2966" end="2979">parseAndAndExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAndAndExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2966">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AndAndExpression := OrExpression ("&&" OrExpression)* </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseOrExpression" href="./htmlsrc/dil.parser.Parser.html#L2982" kind="function" beg="2982" end="2995">parseOrExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseOrExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2982">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">OrExpression := XorExpression ("|" XorExpression)* </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseXorExpression" href="./htmlsrc/dil.parser.Parser.html#L2998" kind="function" beg="2998" end="3011">parseXorExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseXorExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L2998">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">XorExpression := AndExpression ("^" AndExpression)* </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAndExpression" href="./htmlsrc/dil.parser.Parser.html#L3014" kind="function" beg="3014" end="3027">parseAndExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAndExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3014">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AndExpression := CmpExpression ("&" CmpExpression)* </pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseCmpExpression" href="./htmlsrc/dil.parser.Parser.html#L3033" kind="function" beg="3033" end="3070">parseCmpExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseCmpExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3033">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">CmpExpression := ShiftExpression (Op ShiftExpression)?
+Op := "is" | "!" "is" | "in" | "==" | "!=" | "<" | "<=" | ">" | ">="
+      "!<>=" | "!<>" | "!<=" | "!<" | "!>=" | "!>" | "<>=" | "<>"
+</pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseShiftExpression" href="./htmlsrc/dil.parser.Parser.html#L3075" kind="function" beg="3075" end="3097">parseShiftExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseShiftExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3075">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">ShiftExpression := AddExpression (Op AddExpression)*
+Op := "<<" | ">>" | ">>>"
+</pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseAddExpression" href="./htmlsrc/dil.parser.Parser.html#L3102" kind="function" beg="3102" end="3124">parseAddExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseAddExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3102">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">AddExpression := MulExpression (Op MulExpression)*
+Op := "+" | "-" | "~"
+</pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseMulExpression" href="./htmlsrc/dil.parser.Parser.html#L3129" kind="function" beg="3129" end="3148">parseMulExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseMulExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3129">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">MulExpression := PostExpression (Op PostExpression)*
+Op := "*" | "/" | "%"
+</pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parsePostExpression" href="./htmlsrc/dil.parser.Parser.html#L3159" kind="function" beg="3159" end="3220">parsePostExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parsePostExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3159">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">PostExpression := UnaryExpression
+  (DotExpression | IncOrDecExpression | CallExpression |
+   SliceExpression | IndexExpression)*
+DotExpression := "." (NewExpression | IdentifierExpression)
+IncOrDecExpression := "++" | "--"
+CallExpression := "(" Arguments? ")"
+SliceExpression := "[" (AssignExpression ".." AssignExpression )? "]"
+IndexExpression := "[" ExpressionList "]"
+</pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseUnaryExpression" href="./htmlsrc/dil.parser.Parser.html#L3239" kind="function" beg="3239" end="3335">parseUnaryExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseUnaryExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3239">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">UnaryExpression := PrimaryExpression |
+  NewExpression | AddressExpression | PreIncrExpression |
+  PreIncrExpression | DerefExpression | SignExpression |
+  NotExpression | ComplementExpression | DeleteExpression |
+  CastExpression | TypeDotIdExpression | ModuleScopeExpression
+AddressExpression     := "&" UnaryExpression
+PreIncrExpression     := "++" UnaryExpression
+PreDecrExpression     := "--" UnaryExpression
+DerefExpression       := "*" UnaryExpression
+SignExpression        := ("-" | "+") UnaryExpression
+NotExpression         := "!" UnaryExpression
+ComplementExpresson   := "~" UnaryExpression
+DeleteExpression      := "delete" UnaryExpression
+CastExpression        := "cast" "(" ")" UnaryExpression
+TypeDotIdExpression   := "(" Type ")" "." Identifier
+ModuleScopeExpression := "." IdentifierExpression
+</pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseIdentifierExpression" href="./htmlsrc/dil.parser.Parser.html#L3341" kind="function" beg="3341" end="3356">parseIdentifierExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseIdentifierExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3341">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">
+IdentifierExpression := Identifier | TemplateInstance
+TemplateInstance :=  Identifier "!" "(" TemplateArguments ")"
+</pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parsePrimaryExpression" href="./htmlsrc/dil.parser.Parser.html#L3359" kind="function" beg="3359" end="3623">parsePrimaryExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parsePrimaryExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3359">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">PrimaryExpression := ...</pre></div></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseNewExpression" href="./htmlsrc/dil.parser.Parser.html#L3633" kind="function" beg="3633" end="3664">parseNewExpression</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseNewExpression" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3633">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">NewExpression := NewAnonClassExpression | NewObjectExpression
+NewAnonClassExpression := "new" NewArguments?
+                          "class" NewArguments?
+                          (SuperClass InterfaceClasses)? ClassBody
+NewObjectExpression := "new" NewArguments? Type (NewArguments|NewArray)?
+NewArguments := "(" ArgumentList ")"
+NewArray     := "[" AssignExpression "]"
+</pre></div></dd>
+<dt class="decl">Type <a class="symbol _function" name="Parser.parseType" href="./htmlsrc/dil.parser.Parser.html#L3669" kind="function" beg="3669" end="3672">parseType</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3669">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses a Type.</div>
+<pre class="bnf">Type := BasicType BasicType2 </pre></dd>
+<dt class="decl">Type <a class="symbol _function" name="Parser.parseIdentifierType" href="./htmlsrc/dil.parser.Parser.html#L3676" kind="function" beg="3676" end="3686">parseIdentifierType</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseIdentifierType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3676">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">IdentifierType := Identifier |
+                        Identifier "!" "(" TemplateArguments ")" </pre></div></dd>
+<dt class="decl">Type <a class="symbol _function" name="Parser.parseQualifiedType" href="./htmlsrc/dil.parser.Parser.html#L3690" kind="function" beg="3690" end="3704">parseQualifiedType</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseQualifiedType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3690">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">QualifiedType := (ModuleScopeType | TypeofType | IdentifierType)
+                       ("." IdentifierType)* </pre></div></dd>
+<dt class="decl">Type <a class="symbol _function" name="Parser.parseBasicType" href="./htmlsrc/dil.parser.Parser.html#L3708" kind="function" beg="3708" end="3747">parseBasicType</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseBasicType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3708">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">BasicType := IntegralType | QualifiedType |
+                   ConstType | InvariantType # D2.0 </pre></div></dd>
+<dt class="decl">Type <a class="symbol _function" name="Parser.parseBasicType2" href="./htmlsrc/dil.parser.Parser.html#L3749" kind="function" beg="3749" end="3778">parseBasicType2</a><span class="params">(Type <em>t</em>)</span>; <a title="Permalink to this symbol" href="#Parser.parseBasicType2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3749">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="Parser.tokenAfterParenIs" href="./htmlsrc/dil.parser.Parser.html#L3782" kind="function" beg="3782" end="3787">tokenAfterParenIs</a><span class="params">(TOK <em>kind</em>)</span>; <a title="Permalink to this symbol" href="#Parser.tokenAfterParenIs" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3782">#</a></dt>
+<dt class="decl">bool <a class="symbol _function" name="Parser.tokenAfterParenIs:2" href="./htmlsrc/dil.parser.Parser.html#L3790" kind="function" beg="3790" end="3794">tokenAfterParenIs</a><span class="params">(TOK <em>kind</em>, ref Token* <em>next</em>)</span>; <a title="Permalink to this symbol" href="#Parser.tokenAfterParenIs:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3790">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the token after the closing parenthesis
+ matches the searched kind.</div></dd>
+<dt class="decl">TOK <a class="symbol _function" name="Parser.skipParens" href="./htmlsrc/dil.parser.Parser.html#L3798" kind="function" beg="3798" end="3820">skipParens</a><span class="params">(ref Token* <em>next</em>)</span>; <a title="Permalink to this symbol" href="#Parser.skipParens" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3798">#</a></dt>
+<dd class="ddef">
+<div class="summary">Skips to the token behind the closing parenthesis.
+ Takes nested parentheses into account.</div></dd>
+<dt class="decl">Type <a class="symbol _function" name="Parser.parseDeclaratorSuffix" href="./htmlsrc/dil.parser.Parser.html#L3823" kind="function" beg="3823" end="3865">parseDeclaratorSuffix</a><span class="params">(Type <em>lhsType</em>)</span>; <a title="Permalink to this symbol" href="#Parser.parseDeclaratorSuffix" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3823">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parse the array types after the declarator (C-style.) E.g.: int a[]</div></dd>
+<dt class="decl">Type <a class="symbol _function" name="Parser.parseArrayType" href="./htmlsrc/dil.parser.Parser.html#L3867" kind="function" beg="3867" end="3896">parseArrayType</a><span class="params">(Type <em>t</em>)</span>; <a title="Permalink to this symbol" href="#Parser.parseArrayType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3867">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Type <a class="symbol _function" name="Parser.parseCFunctionPointerType" href="./htmlsrc/dil.parser.Parser.html#L3898" kind="function" beg="3898" end="3926">parseCFunctionPointerType</a><span class="params">(Type <em>type</em>, ref Identifier* <em>ident</em>, bool <em>optionalParamList</em>)</span>; <a title="Permalink to this symbol" href="#Parser.parseCFunctionPointerType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3898">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Type <a class="symbol _function" name="Parser.parseDeclarator" href="./htmlsrc/dil.parser.Parser.html#L3928" kind="function" beg="3928" end="3945">parseDeclarator</a><span class="params">(ref Identifier* <em>ident</em>, bool <em>identOptional</em> = false)</span>; <a title="Permalink to this symbol" href="#Parser.parseDeclarator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3928">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Expression[] <a class="symbol _function" name="Parser.parseExpressionList" href="./htmlsrc/dil.parser.Parser.html#L3949" kind="function" beg="3949" end="3956">parseExpressionList</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseExpressionList" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3949">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses a list of AssignExpressions.
+ <pre class="bnf">ExpressionList := AssignExpression ("," AssignExpression)* </pre></div></dd>
+<dt class="decl">Expression[] <a class="symbol _function" name="Parser.parseArguments" href="./htmlsrc/dil.parser.Parser.html#L3960" kind="function" beg="3960" end="3969">parseArguments</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseArguments" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3960">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses a list of Arguments.
+ <pre class="bnf">Arguments := "(" ExpressionList? ")" </pre></div></dd>
+<dt class="decl">Parameters <a class="symbol _function" name="Parser.parseParameterList" href="./htmlsrc/dil.parser.Parser.html#L3972" kind="function" beg="3972" end="4082">parseParameterList</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseParameterList" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L3972">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses a ParameterList.</div></dd>
+<dt class="decl">TemplateArguments <a class="symbol _function" name="Parser.parseTemplateArguments" href="./htmlsrc/dil.parser.Parser.html#L4084" kind="function" beg="4084" end="4093">parseTemplateArguments</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseTemplateArguments" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4084">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">TemplateArguments <a class="symbol _function" name="Parser.parseTemplateArguments_" href="./htmlsrc/dil.parser.Parser.html#L4110" kind="function" beg="4110" end="4138">parseTemplateArguments_</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseTemplateArguments_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4110">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Expression <a class="symbol _function" name="Parser.parseOptionalConstraint" href="./htmlsrc/dil.parser.Parser.html#L4141" kind="function" beg="4141" end="4149">parseOptionalConstraint</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseOptionalConstraint" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4141">#</a></dt>
+<dd class="ddef">
+<div class="summary"><pre class="bnf">"if" "(" ConstraintExpression ")" </pre></div></dd>
+<dt class="decl">TemplateParameters <a class="symbol _function" name="Parser.parseTemplateParameterList" href="./htmlsrc/dil.parser.Parser.html#L4151" kind="function" beg="4151" end="4160">parseTemplateParameterList</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.parseTemplateParameterList" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4151">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Parser.parseTemplateParameterList_" href="./htmlsrc/dil.parser.Parser.html#L4178" kind="function" beg="4178" end="4263">parseTemplateParameterList_</a><span class="params">(TemplateParameters <em>tparams</em>)</span>; <a title="Permalink to this symbol" href="#Parser.parseTemplateParameterList_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4178">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parses template parameters.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="Parser.getPrintable" href="./htmlsrc/dil.parser.Parser.html#L4266" kind="function" beg="4266" end="4269">getPrintable</a><span class="params">(Token* <em>token</em>)</span>; <a title="Permalink to this symbol" href="#Parser.getPrintable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4266">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the string of a token printable to the client.</div></dd>
+<dt class="decl">alias require <a class="symbol _alias" name="Parser.expected" href="./htmlsrc/dil.parser.Parser.html#L4271" kind="alias" beg="4271" end="4271">expected</a>; <a title="Permalink to this symbol" href="#Parser.expected" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4271">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Parser.require" href="./htmlsrc/dil.parser.Parser.html#L4274" kind="function" beg="4274" end="4280">require</a><span class="params">(TOK <em>tok</em>)</span>; <a title="Permalink to this symbol" href="#Parser.require" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4274">#</a></dt>
+<dd class="ddef">
+<div class="summary">Requires a token of kind tok.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Parser.requireNext" href="./htmlsrc/dil.parser.Parser.html#L4283" kind="function" beg="4283" end="4287">requireNext</a><span class="params">(TOK <em>tok</em>)</span>; <a title="Permalink to this symbol" href="#Parser.requireNext" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4283">#</a></dt>
+<dd class="ddef">
+<div class="summary">Requires the next token to be of kind tok.</div></dd>
+<dt class="decl">Identifier* <a class="symbol _function" name="Parser.optionalIdentifier" href="./htmlsrc/dil.parser.Parser.html#L4291" kind="function" beg="4291" end="4297">optionalIdentifier</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.optionalIdentifier" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4291">#</a></dt>
+<dd class="ddef">
+<div class="summary">Optionally parses an identifier.</div>
+<p class="sec_header">Returns:</p>null or the identifier.</dd>
+<dt class="decl">Identifier* <a class="symbol _function" name="Parser.requireIdentifier" href="./htmlsrc/dil.parser.Parser.html#L4299" kind="function" beg="4299" end="4307">requireIdentifier</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.requireIdentifier" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4299">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Identifier* <a class="symbol _function" name="Parser.requireIdentifier:2" href="./htmlsrc/dil.parser.Parser.html#L4313" kind="function" beg="4313" end="4321">requireIdentifier</a><span class="params">(char[] <em>errorMsg</em>)</span>; <a title="Permalink to this symbol" href="#Parser.requireIdentifier:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4313">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reports an error if the current token is not an identifier.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>errorMsg</em></td><td>the error message to be used.</td></tr></table>
+<p class="sec_header">Returns:</p>null or the identifier.</dd>
+<dt class="decl">Identifier* <a class="symbol _function" name="Parser.requireIdentifier:3" href="./htmlsrc/dil.parser.Parser.html#L4327" kind="function" beg="4327" end="4335">requireIdentifier</a><span class="params">(MID <em>mid</em>)</span>; <a title="Permalink to this symbol" href="#Parser.requireIdentifier:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4327">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reports an error if the current token is not an identifier.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>mid</em></td><td>the error message ID to be used.</td></tr></table>
+<p class="sec_header">Returns:</p>null or the identifier.</dd>
+<dt class="decl">Token* <a class="symbol _function" name="Parser.requireId" href="./htmlsrc/dil.parser.Parser.html#L4339" kind="function" beg="4339" end="4347">requireId</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Parser.requireId" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4339">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reports an error if the current token is not an identifier.</div>
+<p class="sec_header">Returns:</p>null or the token.</dd>
+<dt class="decl">Token* <a class="symbol _function" name="Parser.requireIdToken" href="./htmlsrc/dil.parser.Parser.html#L4349" kind="function" beg="4349" end="4361">requireIdToken</a><span class="params">(char[] <em>errorMsg</em>)</span>; <a title="Permalink to this symbol" href="#Parser.requireIdToken" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4349">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Parser.requireClosing" href="./htmlsrc/dil.parser.Parser.html#L4364" kind="function" beg="4364" end="4375">requireClosing</a><span class="params">(TOK <em>closing</em>, Token* <em>opening</em>)</span>; <a title="Permalink to this symbol" href="#Parser.requireClosing" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4364">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reports an error if the closing counterpart of a token is not found.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Parser.hasInvalidUTF8" href="./htmlsrc/dil.parser.Parser.html#L4378" kind="function" beg="4378" end="4384">hasInvalidUTF8</a><span class="params">(string <em>str</em>, Token* <em>begin</em>)</span>; <a title="Permalink to this symbol" href="#Parser.hasInvalidUTF8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4378">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the string str has an invalid UTF-8 sequence.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Parser.error" href="./htmlsrc/dil.parser.Parser.html#L4387" kind="function" beg="4387" end="4390">error</a><span class="params">(Token* <em>token</em>, char[] <em>formatMsg</em>, ...)</span>; <a title="Permalink to this symbol" href="#Parser.error" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4387">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="Parser.error:2" href="./htmlsrc/dil.parser.Parser.html#L4392" kind="function" beg="4392" end="4395">error</a><span class="params">(MID <em>mid</em>, ...)</span>; <a title="Permalink to this symbol" href="#Parser.error:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4392">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="Parser.error2" href="./htmlsrc/dil.parser.Parser.html#L4398" kind="function" beg="4398" end="4401">error2</a><span class="params">(char[] <em>formatMsg</em>, Token* <em>token</em>)</span>; <a title="Permalink to this symbol" href="#Parser.error2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4398">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="Parser.error2:2" href="./htmlsrc/dil.parser.Parser.html#L4403" kind="function" beg="4403" end="4406">error2</a><span class="params">(MID <em>mid</em>, Token* <em>token</em>)</span>; <a title="Permalink to this symbol" href="#Parser.error2:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4403">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="Parser.error2:3" href="./htmlsrc/dil.parser.Parser.html#L4408" kind="function" beg="4408" end="4411">error2</a><span class="params">(MID <em>mid</em>, char[] <em>arg</em>, Token* <em>token</em>)</span>; <a title="Permalink to this symbol" href="#Parser.error2:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4408">#</a></dt>
+<dd class="ddef">
+<div class="summary">Forwards error parameters.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Parser.error_" href="./htmlsrc/dil.parser.Parser.html#L4417" kind="function" beg="4417" end="4431">error_</a><span class="params">(Token* <em>token</em>, char[] <em>formatMsg</em>, TypeInfo[] <em>_arguments</em>, va_list <em>_argptr</em>)</span>; <a title="Permalink to this symbol" href="#Parser.error_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.parser.Parser.html#L4417">#</a></dt>
+<dd class="ddef">
+<div class="summary">Creates an error report and appends it to a list.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>token</em></td><td>used to get the location of where the error is.</td></tr>
+<tr><td><em>formatMsg</em></td><td>the compiler error message.</td></tr></table></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 2007-2008, Aziz Köksal. All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:12:59 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>dil.SourceText</title>
+  <link href="html.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<table><tr>
+<td class="linescolumn"><a id="L1" href="#L1">1</a><a id="L2" href="#L2">2</a><a id="L3" href="#L3">3</a><a id="L4" href="#L4">4</a><a id="L5" href="#L5">5</a><a id="L6" href="#L6">6</a><a id="L7" href="#L7">7</a><a id="L8" href="#L8">8</a><a id="L9" href="#L9">9</a><a id="L10" href="#L10">10</a><a id="L11" href="#L11">11</a><a id="L12" href="#L12">12</a><a id="L13" href="#L13">13</a><a id="L14" href="#L14">14</a><a id="L15" href="#L15">15</a><a id="L16" href="#L16">16</a><a id="L17" href="#L17">17</a><a id="L18" href="#L18">18</a><a id="L19" href="#L19">19</a><a id="L20" href="#L20">20</a><a id="L21" href="#L21">21</a><a id="L22" href="#L22">22</a><a id="L23" href="#L23">23</a><a id="L24" href="#L24">24</a><a id="L25" href="#L25">25</a><a id="L26" href="#L26">26</a><a id="L27" href="#L27">27</a><a id="L28" href="#L28">28</a><a id="L29" href="#L29">29</a><a id="L30" href="#L30">30</a><a id="L31" href="#L31">31</a><a id="L32" href="#L32">32</a><a id="L33" href="#L33">33</a><a id="L34" href="#L34">34</a><a id="L35" href="#L35">35</a><a id="L36" href="#L36">36</a><a id="L37" href="#L37">37</a><a id="L38" href="#L38">38</a><a id="L39" href="#L39">39</a><a id="L40" href="#L40">40</a><a id="L41" href="#L41">41</a><a id="L42" href="#L42">42</a><a id="L43" href="#L43">43</a><a id="L44" href="#L44">44</a><a id="L45" href="#L45">45</a><a id="L46" href="#L46">46</a><a id="L47" href="#L47">47</a><a id="L48" href="#L48">48</a><a id="L49" href="#L49">49</a><a id="L50" href="#L50">50</a><a id="L51" href="#L51">51</a><a id="L52" href="#L52">52</a><a id="L53" href="#L53">53</a><a id="L54" href="#L54">54</a><a id="L55" href="#L55">55</a><a id="L56" href="#L56">56</a><a id="L57" href="#L57">57</a><a id="L58" href="#L58">58</a><a id="L59" href="#L59">59</a><a id="L60" href="#L60">60</a><a id="L61" href="#L61">61</a><a id="L62" href="#L62">62</a><a id="L63" href="#L63">63</a><a id="L64" href="#L64">64</a><a id="L65" href="#L65">65</a><a id="L66" href="#L66">66</a><a id="L67" href="#L67">67</a><a id="L68" href="#L68">68</a><a id="L69" href="#L69">69</a><a id="L70" href="#L70">70</a><a id="L71" href="#L71">71</a><a id="L72" href="#L72">72</a><a id="L73" href="#L73">73</a><a id="L74" href="#L74">74</a><a id="L75" href="#L75">75</a><a id="L76" href="#L76">76</a><a id="L77" href="#L77">77</a><a id="L78" href="#L78">78</a></td>
+<td><td><pre class="sourcecode">
+<span class="lc">/// Author: Aziz Köksal</span>
+<span class="lc">/// License: GPL3</span>
+<span class="lc">/// $(Maturity high)</span>
+<span class="d Compound"><span class="d Module"><span class="k">module</span> <span class="i">dil</span>.<span class="i">SourceText</span>;</span>
+
+<span class="d Import"><span class="k">import</span> <span class="i">dil</span>.<span class="i">Converter</span>;</span>
+<span class="d Import"><span class="k">import</span> <span class="i">dil</span>.<span class="i">Diagnostics</span>;</span>
+<span class="d Import"><span class="k">import</span> <span class="i">dil</span>.<span class="i">Messages</span>;</span>
+<span class="d Import"><span class="k">import</span> <span class="i">common</span>;</span>
+
+<span class="d Import"><span class="k">import</span> <span class="i">tango</span>.<span class="i">io</span>.<span class="i">File</span>,
+       <span class="i">tango</span>.<span class="i">io</span>.<span class="i">FilePath</span>;</span>
+
+<span class="lc">/// Represents D source code.</span>
+<span class="lc">///</span>
+<span class="lc">/// The source text may come from a file or from a memory buffer.</span>
+<span class="d StorageClass"><span class="k">final</span> <span class="d Class"><span class="k">class</span> <span class="i">SourceText</span>
+<span class="d Compound">{
+  <span class="lc">/// The file path to the source text. Mainly used for error messages.</span>
+  <span class="d Variables"><span class="t Identifier"><span class="i">string</span></span> <span class="i">filePath</span>;</span>
+  <span class="d Variables"><span class="t Integral"><span class="k">char</span></span><span class="t Array">[]</span> <span class="i">data</span>;</span> <span class="lc">/// The UTF-8, zero-terminated source text.</span>
+
+  <span class="lc">/// Constructs a SourceText object.</span>
+  <span class="lc">/// Params:</span>
+  <span class="lc">///   filePath = file path to the source file.</span>
+  <span class="lc">///   loadFile = whether to load the file in the constructor.</span>
+  <span class="d Constructor"><span class="k">this</span><span class="o Parameters">(<span class="o Parameter"><span class="t Identifier"><span class="i">string</span></span> <span class="i">filePath</span></span>, <span class="o Parameter"><span class="t Integral"><span class="k">bool</span></span> <span class="i">loadFile</span> = <span class="e Bool"><span class="k">false</span></span></span>)</span>
+  <span class="s FuncBody"><span class="s Compound">{
+    <span class="s Expression"><span class="e Assign"><span class="e Dot"><span class="e This"><span class="k">this</span></span>.<span class="e Identifier"><span class="i">filePath</span></span></span> = <span class="e Identifier"><span class="i">filePath</span></span></span>;</span>
+    <span class="s Expression"><span class="e AndAnd"><span class="e Identifier"><span class="i">loadFile</span></span> &amp;&amp; <span class="e Call"><span class="e Identifier"><span class="i">load</span></span>()</span></span>;</span>
+  }</span></span></span>
+
+  <span class="lc">/// Constructs a SourceText object.</span>
+  <span class="lc">/// Params:</span>
+  <span class="lc">///   filePath = file path for error messages.</span>
+  <span class="lc">///   data = memory buffer.</span>
+  <span class="d Constructor"><span class="k">this</span><span class="o Parameters">(<span class="o Parameter"><span class="t Identifier"><span class="i">string</span></span> <span class="i">filePath</span></span>, <span class="o Parameter"><span class="t Integral"><span class="k">char</span></span><span class="t Array">[]</span> <span class="i">data</span></span>)</span>
+  <span class="s FuncBody"><span class="s Compound">{
+    <span class="s Expression"><span class="e Call"><span class="e This"><span class="k">this</span></span>(<span class="i">filePath</span>)</span>;</span>
+    <span class="s Expression"><span class="e Assign"><span class="e Dot"><span class="e This"><span class="k">this</span></span>.<span class="e Identifier"><span class="i">data</span></span></span> = <span class="e Identifier"><span class="i">data</span></span></span>;</span>
+    <span class="s Expression"><span class="e Call"><span class="e Identifier"><span class="i">addSentinelCharacter</span></span>()</span>;</span>
+  }</span></span></span>
+
+  <span class="lc">/// Loads the source text from a file.</span>
+  <span class="d Function"><span class="t Integral"><span class="k">void</span></span> <span class="i">load</span><span class="o Parameters">(<span class="o Parameter"><span class="t Identifier"><span class="i">Diagnostics</span></span> <span class="i">diag</span> = <span class="e Null"><span class="k">null</span></span></span>)</span>
+  <span class="s FuncBody"><span class="s Compound">{
+    <span class="s If"><span class="k">if</span> (<span class="e Not">!<span class="e Identifier"><span class="i">diag</span></span></span>)
+      <span class="s Expression"><span class="e Assign"><span class="e Identifier"><span class="i">diag</span></span> = <span class="e New"><span class="k">new</span> <span class="t Identifier"><span class="i">Diagnostics</span></span></span></span>;</span></span>
+    <span class="s Expression"><span class="e Assert"><span class="k">assert</span>(<span class="e Dot"><span class="e Identifier"><span class="i">filePath</span></span>.<span class="e Identifier"><span class="i">length</span></span></span>)</span>;</span>
+
+    <span class="s ScopeGuard"><span class="k">scope</span>(<span class="i">failure</span>)
+    <span class="s Compound">{
+      <span class="s If"><span class="k">if</span> (<span class="e Call"><span class="e Dot"><span class="e Not">!<span class="e Paren">(<span class="e New"><span class="k">new</span> <span class="t Identifier"><span class="i">FilePath</span></span>(<span class="e Dot"><span class="e This"><span class="k">this</span></span>.<span class="e Identifier"><span class="i">filePath</span></span></span>)</span>)</span></span>.<span class="e Identifier"><span class="i">exists</span></span></span>()</span>)
+        <span class="s Expression"><span class="e CatAssign"><span class="e Identifier"><span class="i">diag</span></span> ~= <span class="e New"><span class="k">new</span> <span class="t Identifier"><span class="i">LexerError</span></span>(<span class="e New"><span class="k">new</span> <span class="t Identifier"><span class="i">Location</span></span>(<span class="e Identifier"><span class="i">filePath</span></span>, <span class="e Int"><span class="n">0</span></span>)</span>,
+                                  <span class="e Dot"><span class="e Identifier"><span class="i">MSG</span></span>.<span class="e Identifier"><span class="i">InexistantFile</span></span></span>)</span></span>;</span>
+      <span class="k">else</span>
+        <span class="s Expression"><span class="e CatAssign"><span class="e Identifier"><span class="i">diag</span></span> ~= <span class="e New"><span class="k">new</span> <span class="t Identifier"><span class="i">LexerError</span></span>(<span class="e New"><span class="k">new</span> <span class="t Identifier"><span class="i">Location</span></span>(<span class="e Identifier"><span class="i">filePath</span></span>, <span class="e Int"><span class="n">0</span></span>)</span>,
+                                  <span class="e Dot"><span class="e Identifier"><span class="i">MSG</span></span>.<span class="e Identifier"><span class="i">CantReadFile</span></span></span>)</span></span>;</span></span>
+      <span class="s Expression"><span class="e Assign"><span class="e Identifier"><span class="i">data</span></span> = <span class="e String"><span class="sl">"\0"</span></span></span>;</span>
+      <span class="s Return"><span class="k">return</span>;</span>
+    }</span></span>
+
+    <span class="lc">// Read the file.</span>
+    <span class="d StorageClass"><span class="k">auto</span> <span class="d Variables"><span class="i">rawdata</span> = <span class="e Call"><span class="e Dot"><span class="e Cast"><span class="k">cast</span>(<span class="t Integral"><span class="k">ubyte</span></span><span class="t Array">[]</span>) <span class="e Paren">(<span class="e New"><span class="k">new</span> <span class="t Identifier"><span class="i">File</span></span>(<span class="e Identifier"><span class="i">filePath</span></span>)</span>)</span></span>.<span class="e Identifier"><span class="i">read</span></span></span>()</span>;</span></span>
+    <span class="lc">// Convert the data.</span>
+    <span class="d StorageClass"><span class="k">auto</span> <span class="d Variables"><span class="i">converter</span> = <span class="e Call"><span class="e Identifier"><span class="i">Converter</span></span>(<span class="i">filePath</span>, <span class="i">diag</span>)</span>;</span></span>
+    <span class="s Expression"><span class="e Assign"><span class="e Identifier"><span class="i">data</span></span> = <span class="e Call"><span class="e Dot"><span class="e Identifier"><span class="i">converter</span></span>.<span class="e Identifier"><span class="i">data2UTF8</span></span></span>(<span class="i">rawdata</span>)</span></span>;</span>
+    <span class="s Expression"><span class="e Call"><span class="e Identifier"><span class="i">addSentinelCharacter</span></span>()</span>;</span>
+  }</span></span></span>
+
+  <span class="lc">/// Adds '\0' to the text (if not already there.)</span>
+  <span class="d Protection"><span class="k">private</span> <span class="d Function"><span class="t Integral"><span class="k">void</span></span> <span class="i">addSentinelCharacter</span><span class="o Parameters">()</span>
+  <span class="s FuncBody"><span class="s Compound">{
+    <span class="s If"><span class="k">if</span> (<span class="e OrOr"><span class="e Equal"><span class="e Dot"><span class="e Identifier"><span class="i">data</span></span>.<span class="e Identifier"><span class="i">length</span></span></span> == <span class="e Int"><span class="n">0</span></span></span> || <span class="e Equal"><span class="e Index"><span class="e Identifier"><span class="i">data</span></span>[<span class="e Minus"><span class="e Dollar">$</span>-<span class="e Int"><span class="n">1</span></span></span>]</span> != <span class="e Int"><span class="n">0</span></span></span></span>)
+      <span class="s Expression"><span class="e CatAssign"><span class="e Identifier"><span class="i">data</span></span> ~= <span class="e Int"><span class="n">0</span></span></span>;</span></span>
+  }</span></span></span></span>
+}</span></span></span></span>
+
+</pre></td>
+</tr></table>
+</body>
+</html>

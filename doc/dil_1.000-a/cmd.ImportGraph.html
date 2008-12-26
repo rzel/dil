@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>cmd.ImportGraph</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "cmd.ImportGraph";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/cmd.ImportGraph.html" class="symbol">cmd.ImportGraph</a></h1>
+  
+<p class="sec_header">Author:</p>Aziz Köksal
+<p class="sec_header">License:</p>GPL3
+ <p><b>Maturity:</b> average.</p>
+<dl>
+<dt class="decl">alias FileConst.PathSeparatorChar <a class="symbol _alias" name="dirSep" href="./htmlsrc/cmd.ImportGraph.html#L21" kind="alias" beg="21" end="21">dirSep</a>; <a title="Permalink to this symbol" href="#dirSep" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L21">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">struct <a class="symbol _struct" name="IGraphCommand" href="./htmlsrc/cmd.ImportGraph.html#L24" kind="struct" beg="24" end="95">IGraphCommand</a>; <a title="Permalink to this symbol" href="#IGraphCommand" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L24">#</a></dt>
+<dd class="ddef">
+<div class="summary">The importgraph command.</div>
+<dl>
+<dt class="decl">enum <a class="symbol _enum" name="IGraphCommand.Option" href="./htmlsrc/cmd.ImportGraph.html#L27" kind="enum" beg="27" end="39">Option</a>; <a title="Permalink to this symbol" href="#IGraphCommand.Option" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L27">#</a></dt>
+<dd class="ddef">
+<div class="summary">Options for the command.</div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="IGraphCommand.Option.None" href="./htmlsrc/cmd.ImportGraph.html#L29" kind="enummem" beg="29" end="29">None</a> <a title="Permalink to this symbol" href="#IGraphCommand.Option.None" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L29">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="IGraphCommand.Option.IncludeUnlocatableModules" href="./htmlsrc/cmd.ImportGraph.html#L30" kind="enummem" beg="30" end="30">IncludeUnlocatableModules</a> <a title="Permalink to this symbol" href="#IGraphCommand.Option.IncludeUnlocatableModules" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L30">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="IGraphCommand.Option.PrintDot" href="./htmlsrc/cmd.ImportGraph.html#L31" kind="enummem" beg="31" end="31">PrintDot</a> <a title="Permalink to this symbol" href="#IGraphCommand.Option.PrintDot" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L31">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="IGraphCommand.Option.HighlightCyclicEdges" href="./htmlsrc/cmd.ImportGraph.html#L32" kind="enummem" beg="32" end="32">HighlightCyclicEdges</a> <a title="Permalink to this symbol" href="#IGraphCommand.Option.HighlightCyclicEdges" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L32">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="IGraphCommand.Option.HighlightCyclicVertices" href="./htmlsrc/cmd.ImportGraph.html#L33" kind="enummem" beg="33" end="33">HighlightCyclicVertices</a> <a title="Permalink to this symbol" href="#IGraphCommand.Option.HighlightCyclicVertices" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L33">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="IGraphCommand.Option.GroupByPackageNames" href="./htmlsrc/cmd.ImportGraph.html#L34" kind="enummem" beg="34" end="34">GroupByPackageNames</a> <a title="Permalink to this symbol" href="#IGraphCommand.Option.GroupByPackageNames" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L34">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="IGraphCommand.Option.GroupByFullPackageName" href="./htmlsrc/cmd.ImportGraph.html#L35" kind="enummem" beg="35" end="35">GroupByFullPackageName</a> <a title="Permalink to this symbol" href="#IGraphCommand.Option.GroupByFullPackageName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L35">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="IGraphCommand.Option.PrintPaths" href="./htmlsrc/cmd.ImportGraph.html#L36" kind="enummem" beg="36" end="36">PrintPaths</a> <a title="Permalink to this symbol" href="#IGraphCommand.Option.PrintPaths" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L36">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="IGraphCommand.Option.PrintList" href="./htmlsrc/cmd.ImportGraph.html#L37" kind="enummem" beg="37" end="37">PrintList</a> <a title="Permalink to this symbol" href="#IGraphCommand.Option.PrintList" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L37">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="IGraphCommand.Option.MarkCyclicModules" href="./htmlsrc/cmd.ImportGraph.html#L38" kind="enummem" beg="38" end="38">MarkCyclicModules</a> <a title="Permalink to this symbol" href="#IGraphCommand.Option.MarkCyclicModules" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L38">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">alias Option <a class="symbol _alias" name="IGraphCommand.Options" href="./htmlsrc/cmd.ImportGraph.html#L40" kind="alias" beg="40" end="40">Options</a>; <a title="Permalink to this symbol" href="#IGraphCommand.Options" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L40">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Options <a class="symbol _variable" name="IGraphCommand.options" href="./htmlsrc/cmd.ImportGraph.html#L42" kind="variable" beg="42" end="42">options</a>; <a title="Permalink to this symbol" href="#IGraphCommand.options" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L42">#</a></dt>
+<dd class="ddef">
+<div class="summary">Command options.</div></dd>
+<dt class="decl">string <a class="symbol _variable" name="IGraphCommand.filePath" href="./htmlsrc/cmd.ImportGraph.html#L43" kind="variable" beg="43" end="43">filePath</a>; <a title="Permalink to this symbol" href="#IGraphCommand.filePath" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L43">#</a></dt>
+<dd class="ddef">
+<div class="summary">File path to the root module.</div></dd>
+<dt class="decl">string[] <a class="symbol _variable" name="IGraphCommand.regexps" href="./htmlsrc/cmd.ImportGraph.html#L44" kind="variable" beg="44" end="44">regexps</a>; <a title="Permalink to this symbol" href="#IGraphCommand.regexps" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L44">#</a></dt>
+<dd class="ddef">
+<div class="summary">Regular expressions.</div></dd>
+<dt class="decl">string <a class="symbol _variable" name="IGraphCommand.siStyle" href="./htmlsrc/cmd.ImportGraph.html#L45" kind="variable" beg="45" end="45">siStyle</a>; <a title="Permalink to this symbol" href="#IGraphCommand.siStyle" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L45">#</a></dt>
+<dd class="ddef">
+<div class="summary">Static import style.</div></dd>
+<dt class="decl">string <a class="symbol _variable" name="IGraphCommand.piStyle" href="./htmlsrc/cmd.ImportGraph.html#L46" kind="variable" beg="46" end="46">piStyle</a>; <a title="Permalink to this symbol" href="#IGraphCommand.piStyle" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L46">#</a></dt>
+<dd class="ddef">
+<div class="summary">Public import style.</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="IGraphCommand.levels" href="./htmlsrc/cmd.ImportGraph.html#L47" kind="variable" beg="47" end="47">levels</a>; <a title="Permalink to this symbol" href="#IGraphCommand.levels" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L47">#</a></dt>
+<dd class="ddef">
+<div class="summary">How many levels to print.</div></dd>
+<dt class="decl">CompilationContext <a class="symbol _variable" name="IGraphCommand.context" href="./htmlsrc/cmd.ImportGraph.html#L49" kind="variable" beg="49" end="49">context</a>; <a title="Permalink to this symbol" href="#IGraphCommand.context" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L49">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="IGraphCommand.add" href="./htmlsrc/cmd.ImportGraph.html#L52" kind="function" beg="52" end="55">add</a><span class="params">(Option <em>o</em>)</span>; <a title="Permalink to this symbol" href="#IGraphCommand.add" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L52">#</a></dt>
+<dd class="ddef">
+<div class="summary">Adds o to the options.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="IGraphCommand.run" href="./htmlsrc/cmd.ImportGraph.html#L57" kind="function" beg="57" end="94">run</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#IGraphCommand.run" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L57">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="Graph" href="./htmlsrc/cmd.ImportGraph.html#L98" kind="class" beg="98" end="155">Graph</a>; <a title="Permalink to this symbol" href="#Graph" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L98">#</a></dt>
+<dd class="ddef">
+<div class="summary">Represents a module dependency graph.</div>
+<dl>
+<dt class="decl">Vertex[] <a class="symbol _variable" name="Graph.vertices" href="./htmlsrc/cmd.ImportGraph.html#L100" kind="variable" beg="100" end="100">vertices</a>; <a title="Permalink to this symbol" href="#Graph.vertices" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L100">#</a></dt>
+<dd class="ddef">
+<div class="summary">The vertices or modules.</div></dd>
+<dt class="decl">Edge[] <a class="symbol _variable" name="Graph.edges" href="./htmlsrc/cmd.ImportGraph.html#L101" kind="variable" beg="101" end="101">edges</a>; <a title="Permalink to this symbol" href="#Graph.edges" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L101">#</a></dt>
+<dd class="ddef">
+<div class="summary">The edges or import statements.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Graph.addVertex" href="./htmlsrc/cmd.ImportGraph.html#L103" kind="function" beg="103" end="107">addVertex</a><span class="params">(Vertex <em>vertex</em>)</span>; <a title="Permalink to this symbol" href="#Graph.addVertex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L103">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Edge <a class="symbol _function" name="Graph.addEdge" href="./htmlsrc/cmd.ImportGraph.html#L109" kind="function" beg="109" end="116">addEdge</a><span class="params">(Vertex <em>from</em>, Vertex <em>to</em>)</span>; <a title="Permalink to this symbol" href="#Graph.addEdge" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L109">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Graph.detectCycles" href="./htmlsrc/cmd.ImportGraph.html#L119" kind="function" beg="119" end="154">detectCycles</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Graph.detectCycles" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L119">#</a></dt>
+<dd class="ddef">
+<div class="summary">Walks the graph and marks cyclic vertices and edges.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="Edge" href="./htmlsrc/cmd.ImportGraph.html#L158" kind="class" beg="158" end="171">Edge</a>; <a title="Permalink to this symbol" href="#Edge" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L158">#</a></dt>
+<dd class="ddef">
+<div class="summary">Represents a directed connection between two vertices.</div>
+<dl>
+<dt class="decl">Vertex <a class="symbol _variable" name="Edge.from" href="./htmlsrc/cmd.ImportGraph.html#L160" kind="variable" beg="160" end="160">from</a>; <a title="Permalink to this symbol" href="#Edge.from" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L160">#</a></dt>
+<dd class="ddef">
+<div class="summary">Coming from vertex.</div></dd>
+<dt class="decl">Vertex <a class="symbol _variable" name="Edge.to" href="./htmlsrc/cmd.ImportGraph.html#L161" kind="variable" beg="161" end="161">to</a>; <a title="Permalink to this symbol" href="#Edge.to" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L161">#</a></dt>
+<dd class="ddef">
+<div class="summary">Going to vertex.</div></dd>
+<dt class="decl">bool <a class="symbol _variable" name="Edge.isCyclic" href="./htmlsrc/cmd.ImportGraph.html#L162" kind="variable" beg="162" end="162">isCyclic</a>; <a title="Permalink to this symbol" href="#Edge.isCyclic" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L162">#</a></dt>
+<dd class="ddef">
+<div class="summary">Edge connects cyclic vertices.</div></dd>
+<dt class="decl">bool <a class="symbol _variable" name="Edge.isPublic" href="./htmlsrc/cmd.ImportGraph.html#L163" kind="variable" beg="163" end="163">isPublic</a>; <a title="Permalink to this symbol" href="#Edge.isPublic" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L163">#</a></dt>
+<dd class="ddef">
+<div class="summary">Public import.</div></dd>
+<dt class="decl">bool <a class="symbol _variable" name="Edge.isStatic" href="./htmlsrc/cmd.ImportGraph.html#L164" kind="variable" beg="164" end="164">isStatic</a>; <a title="Permalink to this symbol" href="#Edge.isStatic" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L164">#</a></dt>
+<dd class="ddef">
+<div class="summary">Static import.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="Edge.this" href="./htmlsrc/cmd.ImportGraph.html#L166" kind="ctor" beg="166" end="170">this</a><span class="params">(Vertex <em>from</em>, Vertex <em>to</em>)</span>; <a title="Permalink to this symbol" href="#Edge.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L166">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="Vertex" href="./htmlsrc/cmd.ImportGraph.html#L174" kind="class" beg="174" end="185">Vertex</a>; <a title="Permalink to this symbol" href="#Vertex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L174">#</a></dt>
+<dd class="ddef">
+<div class="summary">Represents a module in the graph.</div>
+<dl>
+<dt class="decl">Module <a class="symbol _variable" name="Vertex.modul" href="./htmlsrc/cmd.ImportGraph.html#L176" kind="variable" beg="176" end="176">modul</a>; <a title="Permalink to this symbol" href="#Vertex.modul" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L176">#</a></dt>
+<dd class="ddef">
+<div class="summary">The module represented by this vertex.</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="Vertex.id" href="./htmlsrc/cmd.ImportGraph.html#L177" kind="variable" beg="177" end="177">id</a>; <a title="Permalink to this symbol" href="#Vertex.id" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L177">#</a></dt>
+<dd class="ddef">
+<div class="summary">The nth vertex in the graph.</div></dd>
+<dt class="decl">Vertex[] <a class="symbol _variable" name="Vertex.incoming" href="./htmlsrc/cmd.ImportGraph.html#L178" kind="variable" beg="178" end="178">incoming</a>; <a title="Permalink to this symbol" href="#Vertex.incoming" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L178">#</a></dt>
+<dd class="ddef">
+<div class="summary">Also called predecessors.</div></dd>
+<dt class="decl">Vertex[] <a class="symbol _variable" name="Vertex.outgoing" href="./htmlsrc/cmd.ImportGraph.html#L179" kind="variable" beg="179" end="179">outgoing</a>; <a title="Permalink to this symbol" href="#Vertex.outgoing" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L179">#</a></dt>
+<dd class="ddef">
+<div class="summary">Also called successors.</div></dd>
+<dt class="decl">bool <a class="symbol _variable" name="Vertex.isCyclic" href="./htmlsrc/cmd.ImportGraph.html#L180" kind="variable" beg="180" end="180">isCyclic</a>; <a title="Permalink to this symbol" href="#Vertex.isCyclic" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L180">#</a></dt>
+<dd class="ddef">
+<div class="summary">Whether this vertex is in a cyclic relationship with other vertices.</div></dd>
+<dt class="decl">enum <a class="symbol _enum" name="Vertex.Status" href="./htmlsrc/cmd.ImportGraph.html#L182" kind="enum" beg="182" end="183">Status</a>; <a title="Permalink to this symbol" href="#Vertex.Status" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L182">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="Vertex.Status.None" href="./htmlsrc/cmd.ImportGraph.html#L183" kind="enummem" beg="183" end="183">None</a> <a title="Permalink to this symbol" href="#Vertex.Status.None" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L183">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="Vertex.Status.Visiting" href="./htmlsrc/cmd.ImportGraph.html#L183" kind="enummem" beg="183" end="183">Visiting</a> <a title="Permalink to this symbol" href="#Vertex.Status.Visiting" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L183">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="Vertex.Status.Visited" href="./htmlsrc/cmd.ImportGraph.html#L183" kind="enummem" beg="183" end="183">Visited</a> <a title="Permalink to this symbol" href="#Vertex.Status.Visited" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L183">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">Status <a class="symbol _variable" name="Vertex.status" href="./htmlsrc/cmd.ImportGraph.html#L184" kind="variable" beg="184" end="184">status</a>; <a title="Permalink to this symbol" href="#Vertex.status" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L184">#</a></dt>
+<dd class="ddef">
+<div class="summary">Used by the cycle detection algorithm.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="GraphBuilder" href="./htmlsrc/cmd.ImportGraph.html#L188" kind="class" beg="188" end="278">GraphBuilder</a>; <a title="Permalink to this symbol" href="#GraphBuilder" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L188">#</a></dt>
+<dd class="ddef">
+<div class="summary">Builds a module dependency graph.</div>
+<dl>
+<dt class="decl">Graph <a class="symbol _variable" name="GraphBuilder.graph" href="./htmlsrc/cmd.ImportGraph.html#L190" kind="variable" beg="190" end="190">graph</a>; <a title="Permalink to this symbol" href="#GraphBuilder.graph" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L190">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">IGraphCommand.Options <a class="symbol _variable" name="GraphBuilder.options" href="./htmlsrc/cmd.ImportGraph.html#L191" kind="variable" beg="191" end="191">options</a>; <a title="Permalink to this symbol" href="#GraphBuilder.options" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L191">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string[] <a class="symbol _variable" name="GraphBuilder.importPaths" href="./htmlsrc/cmd.ImportGraph.html#L192" kind="variable" beg="192" end="192">importPaths</a>; <a title="Permalink to this symbol" href="#GraphBuilder.importPaths" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L192">#</a></dt>
+<dd class="ddef">
+<div class="summary">Where to look for modules.</div></dd>
+<dt class="decl">Vertex[string] <a class="symbol _variable" name="GraphBuilder.loadedModulesTable" href="./htmlsrc/cmd.ImportGraph.html#L193" kind="variable" beg="193" end="193">loadedModulesTable</a>; <a title="Permalink to this symbol" href="#GraphBuilder.loadedModulesTable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L193">#</a></dt>
+<dd class="ddef">
+<div class="summary">Maps FQN paths to modules.</div></dd>
+<dt class="decl">bool delegate(string) <a class="symbol _variable" name="GraphBuilder.filterPredicate" href="./htmlsrc/cmd.ImportGraph.html#L194" kind="variable" beg="194" end="194">filterPredicate</a>; <a title="Permalink to this symbol" href="#GraphBuilder.filterPredicate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L194">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="GraphBuilder.this" href="./htmlsrc/cmd.ImportGraph.html#L196" kind="ctor" beg="196" end="199">this</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#GraphBuilder.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L196">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Graph <a class="symbol _function" name="GraphBuilder.start" href="./htmlsrc/cmd.ImportGraph.html#L204" kind="function" beg="204" end="208">start</a><span class="params">(string <em>fileName</em>)</span>; <a title="Permalink to this symbol" href="#GraphBuilder.start" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L204">#</a></dt>
+<dd class="ddef">
+<div class="summary">Start building the graph and return that.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>fileName</em></td><td>the file name of the root module.</td></tr></table></dd>
+<dt class="decl">Vertex <a class="symbol _function" name="GraphBuilder.loadModule" href="./htmlsrc/cmd.ImportGraph.html#L214" kind="function" beg="214" end="277">loadModule</a><span class="params">(string <em>moduleFQNPath</em>)</span>; <a title="Permalink to this symbol" href="#GraphBuilder.loadModule" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L214">#</a></dt>
+<dd class="ddef">
+<div class="summary">Loads all modules recursively and builds the graph at the same time.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>moduleFQNPath</em></td><td>the path version of the module FQN.<br/>
+                   E.g.: FQN = dil.ast.Node -> FQNPath = dil/ast/Node</td></tr></table></dd></dl></dd>
+<dt class="decl">void <a class="symbol _function" name="printModulePaths" href="./htmlsrc/cmd.ImportGraph.html#L281" kind="function" beg="281" end="291">printModulePaths</a><span class="params">(Vertex[] <em>vertices</em>, uint <em>level</em>, char[] <em>indent</em>)</span>; <a title="Permalink to this symbol" href="#printModulePaths" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L281">#</a></dt>
+<dd class="ddef">
+<div class="summary">Prints the file paths to the modules.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="printModuleList" href="./htmlsrc/cmd.ImportGraph.html#L294" kind="function" beg="294" end="304">printModuleList</a><span class="params">(Vertex[] <em>vertices</em>, uint <em>level</em>, char[] <em>indent</em>)</span>; <a title="Permalink to this symbol" href="#printModuleList" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L294">#</a></dt>
+<dd class="ddef">
+<div class="summary">Prints a list of module FQNs.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="printDotDocument" href="./htmlsrc/cmd.ImportGraph.html#L307" kind="function" beg="307" end="352">printDotDocument</a><span class="params">(Graph <em>graph</em>, string <em>siStyle</em>, string <em>piStyle</em>, IGraphCommand.Options <em>options</em>)</span>; <a title="Permalink to this symbol" href="#printDotDocument" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L307">#</a></dt>
+<dd class="ddef">
+<div class="summary">Prints the graph as a graphviz dot document.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="analyzeGraph" href="./htmlsrc/cmd.ImportGraph.html#L355" kind="function" beg="355" end="425">analyzeGraph</a><span class="params">(Vertex[] <em>vertices_init</em>, Edge[] <em>edges</em>)</span>; <a title="Permalink to this symbol" href="#analyzeGraph" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/cmd.ImportGraph.html#L355">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 2007-2008, Aziz Köksal. All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:12:53 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

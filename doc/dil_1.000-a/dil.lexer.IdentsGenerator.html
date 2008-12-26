@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>dil.lexer.IdentsGenerator</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "dil.lexer.IdentsGenerator";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/dil.lexer.IdentsGenerator.html" class="symbol">dil.lexer.IdentsGenerator</a></h1>
+  
+<p class="sec_header">Author:</p>Aziz Köksal
+<p class="sec_header">License:</p>GPL3
+ <p><b>Maturity:</b> high.</p>
+<dl>
+<dt class="decl">char[][] <a class="symbol _variable" name="predefIdents" href="./htmlsrc/dil.lexer.IdentsGenerator.html#L17" kind="variable" beg="17" end="89">predefIdents</a>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#predefIdents" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.lexer.IdentsGenerator.html#L17">#</a></dt>
+<dd class="ddef">
+<div class="summary">Table of predefined identifiers.</div>
+The format ('#' start comments):
+ <pre class="bnf">
+PredefinedIdentifier := SourceCodeName (":" IdText)?
+SourceCodeName := Identifier # The name to be used in the source code.
+IdText := Empty | Identifier # The actual text of the identifier.
+Empty := ""                  # IdText may be empty.
+Identifier := see module <a href="dil.lexer.Identifier.html">dil.lexer.Identifier</a>.
+</pre>
+ If IdText is not defined it defaults to SourceCodeName.</dd>
+<dt class="decl">char[][] <a class="symbol _function" name="getPair" href="./htmlsrc/dil.lexer.IdentsGenerator.html#L91" kind="function" beg="91" end="97">getPair</a><span class="params">(char[] <em>idText</em>)</span>; <a title="Permalink to this symbol" href="#getPair" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.lexer.IdentsGenerator.html#L91">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/dil.lexer.IdentsGenerator.html#L99" kind="unittest" beg="99" end="106">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.lexer.IdentsGenerator.html#L99">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="generateIdentMembers" href="./htmlsrc/dil.lexer.IdentsGenerator.html#L128" kind="function" beg="128" end="148">generateIdentMembers</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#generateIdentMembers" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.lexer.IdentsGenerator.html#L128">#</a></dt>
+<dd class="ddef">
+<div class="summary">CTF for generating the members of the struct Ident.</div>
+The resulting string looks similar to this:
+  <pre class="d_code">
+<span class="k">private</span> <span class="k">struct</span> <span class="i">Ids</span> {<span class="k">static</span> <span class="k">const</span>:
+  <span class="i">Identifier</span> <span class="i">_Empty</span> = {<span class="sl">""</span>, <span class="i">TOK</span>.<span class="i">Identifier</span>, <span class="i">IDK</span>.<span class="i">Empty</span>};
+  <span class="i">Identifier</span> <span class="i">_main</span> = {<span class="sl">"main"</span>, <span class="i">TOK</span>.<span class="i">Identifier</span>, <span class="i">IDK</span>.<span class="i">main</span>};
+  <span class="lc">// etc.</span>
+}
+<span class="i">Identifier</span>* <span class="i">Empty</span> = &amp;<span class="i">Ids</span>.<span class="i">_Empty</span>;
+<span class="i">Identifier</span>* <span class="i">main</span> = &amp;<span class="i">Ids</span>.<span class="i">_main</span>;
+<span class="lc">// etc.</span>
+<span class="k">private</span> <span class="i">Identifier</span>*[] <span class="i">__allIds</span> = [
+  <span class="i">Empty</span>,
+  <span class="i">main</span>,
+  <span class="lc">// etc.</span>
+];
+</pre></dd>
+<dt class="decl">char[] <a class="symbol _function" name="generateIDMembers" href="./htmlsrc/dil.lexer.IdentsGenerator.html#L151" kind="function" beg="151" end="157">generateIDMembers</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#generateIDMembers" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/dil.lexer.IdentsGenerator.html#L151">#</a></dt>
+<dd class="ddef">
+<div class="summary">CTF for generating the members of the enum IDK.</div></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 2007-2008, Aziz Köksal. All rights reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Fri Dec 26 04:12:55 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>
