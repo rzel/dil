@@ -1,0 +1,1032 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.encoding</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.encoding";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.encoding.html" class="symbol">std.encoding</a></h1>
+  
+<div class="summary">Classes and functions for handling and transcoding between various encodings.</div>
+For cases where the _encoding is known at compile-time, functions are provided
+for arbitrary _encoding and decoding of characters, arbitrary transcoding
+between strings of different type, as well as validation and sanitization.
+<p class="bl"/>
+Encodings currently supported are UTF-8, UTF-16, UTF-32, ASCII, ISO-8859-1
+(also known as LATIN-1), and WINDOWS-1252.
+The type AsciiChar represents an ASCII character.
+The type AsciiString represents an ASCII character.
+The type Latin1Char represents an ISO-8859-1 character.
+The type Latin1String represents an ISO-8859-1 character.
+The type Windows1252Char represents a Windows-1252 character.
+The type Windows1252String represents a Windows-1252 character.
+<p class="bl"/>
+For cases where the _encoding is not known at compile-time, but is known at
+run-time, we provide the abstract class EncodingScheme and its subclasses.
+To construct a run-time encoder/decoder, one does e.g.
+<p class="bl"/>
+<pre class="d_code">
+<span class="k">auto</span> <span class="i">e</span> = <span class="i">EncodingScheme</span>.<span class="i">create</span>(<span class="sl">"utf-8"</span>);
+</pre>
+<p class="bl"/>
+This library supplies EncodingScheme subclasses for ASCII, ISO-8859-1
+(also known as LATIN-1), WINDOWS-1252, UTF-8, and (on little-endian
+architectures) UTF-16LE and UTF-32LE; or (on big-endian architectures)
+UTF-16BE and UTF-32BE.
+<p class="bl"/>
+This library provides a mechanism whereby other modules may add EncodingScheme
+subclasses for any other encoding.
+<p class="sec_header">Authors:</p>Janice Caron
+<p class="sec_header">Date:</p>2008.02.27 - 2008.05.07
+<p class="sec_header">License:</p>Public Domain
+<dl>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.encoding.html#L50" kind="unittest" beg="50" end="343">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L50">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">struct <a class="symbol _struct" name="Buffer" href="./htmlsrc/std.encoding.html#L348" kind="struct" beg="348" end="397">Buffer</a><span class="tparams">(E)</span>; <a title="Permalink to this symbol" href="#Buffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L348">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias Mutable!(E) <a class="symbol _alias" name="Buffer.T" href="./htmlsrc/std.encoding.html#L350" kind="alias" beg="350" end="350">T</a>; <a title="Permalink to this symbol" href="#Buffer.T" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L350">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T[] <a class="symbol _variable" name="Buffer.buffer" href="./htmlsrc/std.encoding.html#L354" kind="variable" beg="354" end="354">buffer</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Buffer.buffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L354">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="Buffer.index" href="./htmlsrc/std.encoding.html#L355" kind="variable" beg="355" end="355">index</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Buffer.index" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L355">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Buffer.reserve" href="./htmlsrc/std.encoding.html#L357" kind="function" beg="357" end="366">reserve</a><span class="params">(uint <em>spaceNeeded</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Buffer.reserve" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L357">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Buffer.opCatAssign" href="./htmlsrc/std.encoding.html#L369" kind="function" beg="369" end="373">opCatAssign</a><span class="params">(E <em>c</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.opCatAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L369">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Buffer.opCatAssign:2" href="./htmlsrc/std.encoding.html#L375" kind="function" beg="375" end="380">opCatAssign</a><span class="params">(const( E)[] <em>a</em>)</span>; <a title="Permalink to this symbol" href="#Buffer.opCatAssign:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L375">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T[] <a class="symbol _function" name="Buffer.toArray" href="./htmlsrc/std.encoding.html#L382" kind="function" beg="382" end="388">toArray</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Buffer.toArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L382">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T</dt>[] <a class="symbol _function" name="Buffer.toIArray" href="./htmlsrc/std.encoding.html#L390" kind="function" beg="390" end="396">toIArray</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Buffer.toIArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L390">#</a></dl>
+<dd class="ddef"></dd></dd></dl>
+<dt class="decl">dchar <a class="symbol _variable" name="INVALID_SEQUENCE" href="./htmlsrc/std.encoding.html#L402" kind="variable" beg="402" end="402">INVALID_SEQUENCE</a>; <span class="attrs">[<span class="stc">manifest</span>]</span> <a title="Permalink to this symbol" href="#INVALID_SEQUENCE" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L402">#</a></dt>
+<dd class="ddef">
+<div class="summary">Special value returned by safeDecode</div></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions" href="./htmlsrc/std.encoding.html#L404" kind="template" beg="404" end="581">EncoderFunctions</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L404">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.ReadFromString" href="./htmlsrc/std.encoding.html#L408" kind="template" beg="408" end="413">ReadFromString</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.ReadFromString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L408">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">bool <a class="symbol _function" name="EncoderFunctions.ReadFromString.canRead" href="./htmlsrc/std.encoding.html#L410" kind="function" beg="410" end="410">canRead</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.ReadFromString.canRead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L410">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">E <a class="symbol _function" name="EncoderFunctions.ReadFromString.peek" href="./htmlsrc/std.encoding.html#L411" kind="function" beg="411" end="411">peek</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.ReadFromString.peek" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L411">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">E <a class="symbol _function" name="EncoderFunctions.ReadFromString.read" href="./htmlsrc/std.encoding.html#L412" kind="function" beg="412" end="412">read</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.ReadFromString.read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L412">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.ReverseReadFromString" href="./htmlsrc/std.encoding.html#L415" kind="template" beg="415" end="420">ReverseReadFromString</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.ReverseReadFromString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L415">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">bool <a class="symbol _function" name="EncoderFunctions.ReverseReadFromString.canRead" href="./htmlsrc/std.encoding.html#L417" kind="function" beg="417" end="417">canRead</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.ReverseReadFromString.canRead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L417">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">E <a class="symbol _function" name="EncoderFunctions.ReverseReadFromString.peek" href="./htmlsrc/std.encoding.html#L418" kind="function" beg="418" end="418">peek</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.ReverseReadFromString.peek" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L418">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">E <a class="symbol _function" name="EncoderFunctions.ReverseReadFromString.read" href="./htmlsrc/std.encoding.html#L419" kind="function" beg="419" end="419">read</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.ReverseReadFromString.read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L419">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.WriteToString" href="./htmlsrc/std.encoding.html#L424" kind="template" beg="424" end="428">WriteToString</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.WriteToString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L424">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">E[] <a class="symbol _variable" name="EncoderFunctions.WriteToString.s" href="./htmlsrc/std.encoding.html#L426" kind="variable" beg="426" end="426">s</a>; <a title="Permalink to this symbol" href="#EncoderFunctions.WriteToString.s" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L426">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderFunctions.WriteToString.write" href="./htmlsrc/std.encoding.html#L427" kind="function" beg="427" end="427">write</a><span class="params">(E <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.WriteToString.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L427">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.WriteToArray" href="./htmlsrc/std.encoding.html#L430" kind="template" beg="430" end="433">WriteToArray</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.WriteToArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L430">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">void <a class="symbol _function" name="EncoderFunctions.WriteToArray.write" href="./htmlsrc/std.encoding.html#L432" kind="function" beg="432" end="432">write</a><span class="params">(E <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.WriteToArray.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L432">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.WriteToBuffer" href="./htmlsrc/std.encoding.html#L435" kind="template" beg="435" end="438">WriteToBuffer</a><span class="tparams">()</span>; <span class="attrs">[<span class="stc">deprecated</span>]</span> <a title="Permalink to this symbol" href="#EncoderFunctions.WriteToBuffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L435">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">void <a class="symbol _function" name="EncoderFunctions.WriteToBuffer.write" href="./htmlsrc/std.encoding.html#L437" kind="function" beg="437" end="437">write</a><span class="params">(E <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.WriteToBuffer.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L437">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.WriteToDelegate" href="./htmlsrc/std.encoding.html#L440" kind="template" beg="440" end="443">WriteToDelegate</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.WriteToDelegate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L440">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">void <a class="symbol _function" name="EncoderFunctions.WriteToDelegate.write" href="./htmlsrc/std.encoding.html#L442" kind="function" beg="442" end="442">write</a><span class="params">(E <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.WriteToDelegate.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L442">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.EncodeViaWrite" href="./htmlsrc/std.encoding.html#L447" kind="template" beg="447" end="451">EncodeViaWrite</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.EncodeViaWrite" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L447">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">void <a class="symbol _function" name="EncoderFunctions.EncodeViaWrite.encode" href="./htmlsrc/std.encoding.html#L450" kind="function" beg="450" end="450">encode</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.EncodeViaWrite.encode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L450">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.SkipViaRead" href="./htmlsrc/std.encoding.html#L453" kind="template" beg="453" end="457">SkipViaRead</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.SkipViaRead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L453">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">void <a class="symbol _function" name="EncoderFunctions.SkipViaRead.skip" href="./htmlsrc/std.encoding.html#L456" kind="function" beg="456" end="456">skip</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.SkipViaRead.skip" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L456">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.DecodeViaRead" href="./htmlsrc/std.encoding.html#L459" kind="template" beg="459" end="463">DecodeViaRead</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.DecodeViaRead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L459">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderFunctions.DecodeViaRead.decode" href="./htmlsrc/std.encoding.html#L462" kind="function" beg="462" end="462">decode</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.DecodeViaRead.decode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L462">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.SafeDecodeViaRead" href="./htmlsrc/std.encoding.html#L465" kind="template" beg="465" end="469">SafeDecodeViaRead</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.SafeDecodeViaRead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L465">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderFunctions.SafeDecodeViaRead.safeDecode" href="./htmlsrc/std.encoding.html#L468" kind="function" beg="468" end="468">safeDecode</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.SafeDecodeViaRead.safeDecode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L468">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.DecodeReverseViaRead" href="./htmlsrc/std.encoding.html#L471" kind="template" beg="471" end="475">DecodeReverseViaRead</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.DecodeReverseViaRead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L471">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderFunctions.DecodeReverseViaRead.decodeReverse" href="./htmlsrc/std.encoding.html#L474" kind="function" beg="474" end="474">decodeReverse</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.DecodeReverseViaRead.decodeReverse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L474">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.EncodeToString" href="./htmlsrc/std.encoding.html#L479" kind="template" beg="479" end="483">EncodeToString</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.EncodeToString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L479">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.EncodeToArray" href="./htmlsrc/std.encoding.html#L485" kind="template" beg="485" end="489">EncodeToArray</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.EncodeToArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L485">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.EncodeToBuffer" href="./htmlsrc/std.encoding.html#L491" kind="template" beg="491" end="495">EncodeToBuffer</a><span class="tparams">()</span>; <span class="attrs">[<span class="stc">deprecated</span>]</span> <a title="Permalink to this symbol" href="#EncoderFunctions.EncodeToBuffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L491">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.EncodeToDelegate" href="./htmlsrc/std.encoding.html#L497" kind="template" beg="497" end="501">EncodeToDelegate</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.EncodeToDelegate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L497">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.SkipFromString" href="./htmlsrc/std.encoding.html#L505" kind="template" beg="505" end="509">SkipFromString</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.SkipFromString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L505">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.DecodeFromString" href="./htmlsrc/std.encoding.html#L511" kind="template" beg="511" end="515">DecodeFromString</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.DecodeFromString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L511">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.SafeDecodeFromString" href="./htmlsrc/std.encoding.html#L517" kind="template" beg="517" end="521">SafeDecodeFromString</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.SafeDecodeFromString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L517">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderFunctions.DecodeReverseFromString" href="./htmlsrc/std.encoding.html#L523" kind="template" beg="523" end="527">DecodeReverseFromString</a><span class="tparams">()</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.DecodeReverseFromString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L523">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">E[] <a class="symbol _function" name="EncoderFunctions.encode" href="./htmlsrc/std.encoding.html#L533" kind="function" beg="533" end="538">encode</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.encode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L533">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderFunctions.encode:2" href="./htmlsrc/std.encoding.html#L540" kind="function" beg="540" end="544">encode</a><span class="params">(dchar <em>c</em>, ref E[] <em>array</em>)</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.encode:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L540">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderFunctions.encode:3" href="./htmlsrc/std.encoding.html#L546" kind="function" beg="546" end="550">encode</a><span class="params">(dchar <em>c</em>, ref Buffer!(E) <em>buffer</em>)</span>; <span class="attrs">[<span class="stc">deprecated</span>]</span> <a title="Permalink to this symbol" href="#EncoderFunctions.encode:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L546">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderFunctions.encode:4" href="./htmlsrc/std.encoding.html#L552" kind="function" beg="552" end="556">encode</a><span class="params">(dchar <em>c</em>, void delegate(E) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.encode:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L552">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderFunctions.skip" href="./htmlsrc/std.encoding.html#L558" kind="function" beg="558" end="562">skip</a><span class="params">(ref const( E)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.skip" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L558">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderFunctions.decode" href="./htmlsrc/std.encoding.html#L564" kind="function" beg="564" end="568">decode</a><span class="params">(ref const( E)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.decode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L564">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderFunctions.safeDecode" href="./htmlsrc/std.encoding.html#L570" kind="function" beg="570" end="574">safeDecode</a><span class="params">(ref const( E)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.safeDecode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L570">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderFunctions.decodeReverse" href="./htmlsrc/std.encoding.html#L576" kind="function" beg="576" end="580">decodeReverse</a><span class="params">(ref const( E)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#EncoderFunctions.decodeReverse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L576">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="CodePoints" href="./htmlsrc/std.encoding.html#L585" kind="struct" beg="585" end="653">CodePoints</a><span class="tparams">(E)</span>; <a title="Permalink to this symbol" href="#CodePoints" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L585">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">E</dt>[] <a class="symbol _variable" name="CodePoints.s" href="./htmlsrc/std.encoding.html#L587" kind="variable" beg="587" end="587">s</a>; <a title="Permalink to this symbol" href="#CodePoints.s" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L587">#</a></dl>
+<dd class="ddef"></dd>
+<dt class="decl">CodePoints <a class="symbol _function" name="CodePoints.opCall" href="./htmlsrc/std.encoding.html#L589" kind="function" beg="589" end="599">opCall</a><span class="params">(const( E)[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#CodePoints.opCall" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L589">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="CodePoints.opApply" href="./htmlsrc/std.encoding.html#L601" kind="function" beg="601" end="611">opApply</a><span class="params">(int delegate(ref dchar) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#CodePoints.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L601">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="CodePoints.opApply:2" href="./htmlsrc/std.encoding.html#L613" kind="function" beg="613" end="627">opApply</a><span class="params">(int delegate(ref uint, ref dchar) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#CodePoints.opApply:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L613">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="CodePoints.opApplyReverse" href="./htmlsrc/std.encoding.html#L629" kind="function" beg="629" end="639">opApplyReverse</a><span class="params">(int delegate(ref dchar) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#CodePoints.opApplyReverse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L629">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="CodePoints.opApplyReverse:2" href="./htmlsrc/std.encoding.html#L641" kind="function" beg="641" end="652">opApplyReverse</a><span class="params">(int delegate(ref uint, ref dchar) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#CodePoints.opApplyReverse:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L641">#</a></dt>
+<dd class="ddef"></dd></dd>)
+<dt class="decl">struct <a class="symbol _struct" name="CodeUnits" href="./htmlsrc/std.encoding.html#L655" kind="struct" beg="655" end="692">CodeUnits</a><span class="tparams">(E)</span>; <a title="Permalink to this symbol" href="#CodeUnits" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L655">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">E[] <a class="symbol _variable" name="CodeUnits.s" href="./htmlsrc/std.encoding.html#L657" kind="variable" beg="657" end="657">s</a>; <a title="Permalink to this symbol" href="#CodeUnits.s" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L657">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">CodeUnits <a class="symbol _function" name="CodeUnits.opCall" href="./htmlsrc/std.encoding.html#L659" kind="function" beg="659" end="669">opCall</a><span class="params">(dchar <em>d</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#CodeUnits.opCall" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L659">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="CodeUnits.opApply" href="./htmlsrc/std.encoding.html#L671" kind="function" beg="671" end="680">opApply</a><span class="params">(int delegate(ref E) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#CodeUnits.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L671">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="CodeUnits.opApplyReverse" href="./htmlsrc/std.encoding.html#L682" kind="function" beg="682" end="691">opApplyReverse</a><span class="params">(int delegate(ref E) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#CodeUnits.opApplyReverse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L682">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderInstance" href="./htmlsrc/std.encoding.html#L696" kind="template" beg="696" end="700">EncoderInstance</a><span class="tparams">(E)</span>; <a title="Permalink to this symbol" href="#EncoderInstance" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L696">#</a></dt>
+<dd class="ddef">
+<dl></dl></dd>
+<dt class="decl">typedef char <a class="symbol _typedef" name="AsciiChar" href="./htmlsrc/std.encoding.html#L706" kind="typedef" beg="706" end="706">AsciiChar</a>; <a title="Permalink to this symbol" href="#AsciiChar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L706">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias AsciiChar</dt>[] <a class="symbol _alias" name="AsciiString" href="./htmlsrc/std.encoding.html#L707" kind="alias" beg="707" end="707">AsciiString</a>; <a title="Permalink to this symbol" href="#AsciiString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L707">#</a>)
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderInstance:2" href="./htmlsrc/std.encoding.html#L709" kind="template" beg="709" end="771">EncoderInstance</a><span class="tparams">(E:AsciiChar)</span>; <a title="Permalink to this symbol" href="#EncoderInstance:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L709">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias AsciiString <a class="symbol _alias" name="EncoderInstance.EString" href="./htmlsrc/std.encoding.html#L711" kind="alias" beg="711" end="711">EString</a>; <a title="Permalink to this symbol" href="#EncoderInstance.EString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L711">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="EncoderInstance.encodingName" href="./htmlsrc/std.encoding.html#L713" kind="function" beg="713" end="716">encodingName</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodingName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L713">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncoderInstance.canEncode" href="./htmlsrc/std.encoding.html#L718" kind="function" beg="718" end="721">canEncode</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.canEncode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L718">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncoderInstance.isValidCodeUnit" href="./htmlsrc/std.encoding.html#L723" kind="function" beg="723" end="726">isValidCodeUnit</a><span class="params">(AsciiChar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.isValidCodeUnit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L723">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncoderInstance.encodedLength" href="./htmlsrc/std.encoding.html#L728" kind="function" beg="728" end="736">encodedLength</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodedLength" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L728">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderInstance.encodeViaWrite" href="./htmlsrc/std.encoding.html#L738" kind="function" beg="738" end="742">encodeViaWrite</a><span class="tparams">()</span><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodeViaWrite" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L738">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderInstance.skipViaRead" href="./htmlsrc/std.encoding.html#L744" kind="function" beg="744" end="747">skipViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.skipViaRead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L744">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.decodeViaRead" href="./htmlsrc/std.encoding.html#L749" kind="function" beg="749" end="752">decodeViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.decodeViaRead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L749">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.safeDecodeViaRead" href="./htmlsrc/std.encoding.html#L754" kind="function" beg="754" end="758">safeDecodeViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.safeDecodeViaRead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L754">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.decodeReverseViaRead" href="./htmlsrc/std.encoding.html#L760" kind="function" beg="760" end="763">decodeReverseViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.decodeReverseViaRead" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L760">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">EString <a class="symbol _function" name="EncoderInstance.replacementSequence" href="./htmlsrc/std.encoding.html#L765" kind="function" beg="765" end="768">replacementSequence</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.replacementSequence" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L765">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">typedef ubyte <a class="symbol _typedef" name="Latin1Char" href="./htmlsrc/std.encoding.html#L777" kind="typedef" beg="777" end="777">Latin1Char</a>; <a title="Permalink to this symbol" href="#Latin1Char" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L777">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias Latin1Char</dt>[] <a class="symbol _alias" name="Latin1String" href="./htmlsrc/std.encoding.html#L778" kind="alias" beg="778" end="778">Latin1String</a>; <a title="Permalink to this symbol" href="#Latin1String" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L778">#</a>)
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderInstance:3" href="./htmlsrc/std.encoding.html#L780" kind="template" beg="780" end="841">EncoderInstance</a><span class="tparams">(E:Latin1Char)</span>; <a title="Permalink to this symbol" href="#EncoderInstance:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L780">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias Latin1String <a class="symbol _alias" name="EncoderInstance.EString:2" href="./htmlsrc/std.encoding.html#L782" kind="alias" beg="782" end="782">EString</a>; <a title="Permalink to this symbol" href="#EncoderInstance.EString:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L782">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="EncoderInstance.encodingName:2" href="./htmlsrc/std.encoding.html#L784" kind="function" beg="784" end="787">encodingName</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodingName:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L784">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncoderInstance.canEncode:2" href="./htmlsrc/std.encoding.html#L789" kind="function" beg="789" end="792">canEncode</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.canEncode:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L789">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncoderInstance.isValidCodeUnit:2" href="./htmlsrc/std.encoding.html#L794" kind="function" beg="794" end="797">isValidCodeUnit</a><span class="params">(Latin1Char <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.isValidCodeUnit:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L794">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncoderInstance.encodedLength:2" href="./htmlsrc/std.encoding.html#L799" kind="function" beg="799" end="807">encodedLength</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodedLength:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L799">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderInstance.encodeViaWrite:2" href="./htmlsrc/std.encoding.html#L809" kind="function" beg="809" end="813">encodeViaWrite</a><span class="tparams">()</span><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodeViaWrite:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L809">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderInstance.skipViaRead:2" href="./htmlsrc/std.encoding.html#L815" kind="function" beg="815" end="818">skipViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.skipViaRead:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L815">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.decodeViaRead:2" href="./htmlsrc/std.encoding.html#L820" kind="function" beg="820" end="823">decodeViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.decodeViaRead:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L820">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.safeDecodeViaRead:2" href="./htmlsrc/std.encoding.html#L825" kind="function" beg="825" end="828">safeDecodeViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.safeDecodeViaRead:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L825">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.decodeReverseViaRead:2" href="./htmlsrc/std.encoding.html#L830" kind="function" beg="830" end="833">decodeReverseViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.decodeReverseViaRead:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L830">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">EString <a class="symbol _function" name="EncoderInstance.replacementSequence:2" href="./htmlsrc/std.encoding.html#L835" kind="function" beg="835" end="838">replacementSequence</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.replacementSequence:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L835">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">typedef ubyte <a class="symbol _typedef" name="Windows1252Char" href="./htmlsrc/std.encoding.html#L847" kind="typedef" beg="847" end="847">Windows1252Char</a>; <a title="Permalink to this symbol" href="#Windows1252Char" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L847">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias Windows1252Char</dt>[] <a class="symbol _alias" name="Windows1252String" href="./htmlsrc/std.encoding.html#L848" kind="alias" beg="848" end="848">Windows1252String</a>; <a title="Permalink to this symbol" href="#Windows1252String" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L848">#</a>)
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderInstance:4" href="./htmlsrc/std.encoding.html#L850" kind="template" beg="850" end="940">EncoderInstance</a><span class="tparams">(E:Windows1252Char)</span>; <a title="Permalink to this symbol" href="#EncoderInstance:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L850">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias Windows1252String <a class="symbol _alias" name="EncoderInstance.EString:3" href="./htmlsrc/std.encoding.html#L852" kind="alias" beg="852" end="852">EString</a>; <a title="Permalink to this symbol" href="#EncoderInstance.EString:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L852">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="EncoderInstance.encodingName:3" href="./htmlsrc/std.encoding.html#L854" kind="function" beg="854" end="857">encodingName</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodingName:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L854">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">wstring <a class="symbol _variable" name="EncoderInstance.charMap" href="./htmlsrc/std.encoding.html#L859" kind="variable" beg="859" end="864">charMap</a>; <a title="Permalink to this symbol" href="#EncoderInstance.charMap" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L859">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncoderInstance.canEncode:3" href="./htmlsrc/std.encoding.html#L866" kind="function" beg="866" end="872">canEncode</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.canEncode:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L866">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncoderInstance.isValidCodeUnit:3" href="./htmlsrc/std.encoding.html#L874" kind="function" beg="874" end="878">isValidCodeUnit</a><span class="params">(Windows1252Char <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.isValidCodeUnit:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L874">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncoderInstance.encodedLength:3" href="./htmlsrc/std.encoding.html#L880" kind="function" beg="880" end="888">encodedLength</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodedLength:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L880">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderInstance.encodeViaWrite:3" href="./htmlsrc/std.encoding.html#L890" kind="function" beg="890" end="908">encodeViaWrite</a><span class="tparams">()</span><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodeViaWrite:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L890">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderInstance.skipViaRead:3" href="./htmlsrc/std.encoding.html#L910" kind="function" beg="910" end="913">skipViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.skipViaRead:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L910">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.decodeViaRead:3" href="./htmlsrc/std.encoding.html#L915" kind="function" beg="915" end="919">decodeViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.decodeViaRead:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L915">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.safeDecodeViaRead:3" href="./htmlsrc/std.encoding.html#L921" kind="function" beg="921" end="926">safeDecodeViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.safeDecodeViaRead:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L921">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.decodeReverseViaRead:3" href="./htmlsrc/std.encoding.html#L928" kind="function" beg="928" end="932">decodeReverseViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.decodeReverseViaRead:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L928">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">EString <a class="symbol _function" name="EncoderInstance.replacementSequence:3" href="./htmlsrc/std.encoding.html#L934" kind="function" beg="934" end="937">replacementSequence</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.replacementSequence:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L934">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="EncoderInstance:5" href="./htmlsrc/std.encoding.html#L946" kind="template" beg="946" end="1105">EncoderInstance</a><span class="tparams">(E:char)</span>; <a title="Permalink to this symbol" href="#EncoderInstance:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L946">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias char</dt>[] <a class="symbol _alias" name="EncoderInstance.EString:4" href="./htmlsrc/std.encoding.html#L948" kind="alias" beg="948" end="948">EString</a>; <a title="Permalink to this symbol" href="#EncoderInstance.EString:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L948">#</a></dl>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="EncoderInstance.encodingName:4" href="./htmlsrc/std.encoding.html#L950" kind="function" beg="950" end="953">encodingName</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodingName:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L950">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncoderInstance.canEncode:4" href="./htmlsrc/std.encoding.html#L955" kind="function" beg="955" end="958">canEncode</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.canEncode:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L955">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncoderInstance.isValidCodeUnit:4" href="./htmlsrc/std.encoding.html#L960" kind="function" beg="960" end="963">isValidCodeUnit</a><span class="params">(char <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.isValidCodeUnit:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L960">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">byte[128] <a class="symbol _variable" name="EncoderInstance.tailTable" href="./htmlsrc/std.encoding.html#L965" kind="variable" beg="965" end="975">tailTable</a>; <a title="Permalink to this symbol" href="#EncoderInstance.tailTable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L965">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="EncoderInstance.tails" href="./htmlsrc/std.encoding.html#L977" kind="function" beg="977" end="985">tails</a><span class="params">(char <em>c</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#EncoderInstance.tails" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L977">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncoderInstance.encodedLength:4" href="./htmlsrc/std.encoding.html#L987" kind="function" beg="987" end="998">encodedLength</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodedLength:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L987">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderInstance.encodeViaWrite:4" href="./htmlsrc/std.encoding.html#L1000" kind="function" beg="1000" end="1024">encodeViaWrite</a><span class="tparams">()</span><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodeViaWrite:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1000">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderInstance.skipViaRead:4" href="./htmlsrc/std.encoding.html#L1026" kind="function" beg="1026" end="1035">skipViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.skipViaRead:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1026">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.decodeViaRead:4" href="./htmlsrc/std.encoding.html#L1037" kind="function" beg="1037" end="1048">decodeViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.decodeViaRead:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1037">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.safeDecodeViaRead:4" href="./htmlsrc/std.encoding.html#L1050" kind="function" beg="1050" end="1079">safeDecodeViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.safeDecodeViaRead:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1050">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.decodeReverseViaRead:4" href="./htmlsrc/std.encoding.html#L1081" kind="function" beg="1081" end="1097">decodeReverseViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.decodeReverseViaRead:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1081">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">EString <a class="symbol _function" name="EncoderInstance.replacementSequence:4" href="./htmlsrc/std.encoding.html#L1099" kind="function" beg="1099" end="1102">replacementSequence</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.replacementSequence:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1099">#</a></dt>
+<dd class="ddef"></dd></dd>)
+<dt class="decl">template <a class="symbol _template" name="EncoderInstance:6" href="./htmlsrc/std.encoding.html#L1111" kind="template" beg="1111" end="1201">EncoderInstance</a><span class="tparams">(E:wchar)</span>; <a title="Permalink to this symbol" href="#EncoderInstance:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1111">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias wchar</dt>[] <a class="symbol _alias" name="EncoderInstance.EString:5" href="./htmlsrc/std.encoding.html#L1113" kind="alias" beg="1113" end="1113">EString</a>; <a title="Permalink to this symbol" href="#EncoderInstance.EString:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1113">#</a></dl>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="EncoderInstance.encodingName:5" href="./htmlsrc/std.encoding.html#L1115" kind="function" beg="1115" end="1118">encodingName</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodingName:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1115">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncoderInstance.canEncode:5" href="./htmlsrc/std.encoding.html#L1120" kind="function" beg="1120" end="1123">canEncode</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.canEncode:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1120">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncoderInstance.isValidCodeUnit:5" href="./htmlsrc/std.encoding.html#L1125" kind="function" beg="1125" end="1128">isValidCodeUnit</a><span class="params">(wchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.isValidCodeUnit:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1125">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncoderInstance.encodedLength:5" href="./htmlsrc/std.encoding.html#L1130" kind="function" beg="1130" end="1138">encodedLength</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodedLength:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1130">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderInstance.encodeViaWrite:5" href="./htmlsrc/std.encoding.html#L1140" kind="function" beg="1140" end="1152">encodeViaWrite</a><span class="tparams">()</span><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodeViaWrite:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1140">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderInstance.skipViaRead:5" href="./htmlsrc/std.encoding.html#L1154" kind="function" beg="1154" end="1159">skipViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.skipViaRead:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1154">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.decodeViaRead:5" href="./htmlsrc/std.encoding.html#L1161" kind="function" beg="1161" end="1169">decodeViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.decodeViaRead:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1161">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.safeDecodeViaRead:5" href="./htmlsrc/std.encoding.html#L1171" kind="function" beg="1171" end="1183">safeDecodeViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.safeDecodeViaRead:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1171">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.decodeReverseViaRead:5" href="./htmlsrc/std.encoding.html#L1185" kind="function" beg="1185" end="1193">decodeReverseViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.decodeReverseViaRead:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1185">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">EString <a class="symbol _function" name="EncoderInstance.replacementSequence:5" href="./htmlsrc/std.encoding.html#L1195" kind="function" beg="1195" end="1198">replacementSequence</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.replacementSequence:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1195">#</a></dt>
+<dd class="ddef"></dd></dd>)
+<dt class="decl">template <a class="symbol _template" name="EncoderInstance:7" href="./htmlsrc/std.encoding.html#L1207" kind="template" beg="1207" end="1268">EncoderInstance</a><span class="tparams">(E:dchar)</span>; <a title="Permalink to this symbol" href="#EncoderInstance:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1207">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias dchar</dt>[] <a class="symbol _alias" name="EncoderInstance.EString:6" href="./htmlsrc/std.encoding.html#L1209" kind="alias" beg="1209" end="1209">EString</a>; <a title="Permalink to this symbol" href="#EncoderInstance.EString:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1209">#</a></dl>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="EncoderInstance.encodingName:6" href="./htmlsrc/std.encoding.html#L1211" kind="function" beg="1211" end="1214">encodingName</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodingName:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1211">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncoderInstance.canEncode:6" href="./htmlsrc/std.encoding.html#L1216" kind="function" beg="1216" end="1219">canEncode</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.canEncode:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1216">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncoderInstance.isValidCodeUnit:6" href="./htmlsrc/std.encoding.html#L1221" kind="function" beg="1221" end="1224">isValidCodeUnit</a><span class="params">(wchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.isValidCodeUnit:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1221">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncoderInstance.encodedLength:6" href="./htmlsrc/std.encoding.html#L1226" kind="function" beg="1226" end="1234">encodedLength</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodedLength:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1226">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderInstance.encodeViaWrite:6" href="./htmlsrc/std.encoding.html#L1236" kind="function" beg="1236" end="1239">encodeViaWrite</a><span class="tparams">()</span><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#EncoderInstance.encodeViaWrite:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1236">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EncoderInstance.skipViaRead:6" href="./htmlsrc/std.encoding.html#L1241" kind="function" beg="1241" end="1244">skipViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.skipViaRead:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1241">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.decodeViaRead:6" href="./htmlsrc/std.encoding.html#L1246" kind="function" beg="1246" end="1249">decodeViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.decodeViaRead:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1246">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.safeDecodeViaRead:6" href="./htmlsrc/std.encoding.html#L1251" kind="function" beg="1251" end="1255">safeDecodeViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.safeDecodeViaRead:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1251">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncoderInstance.decodeReverseViaRead:6" href="./htmlsrc/std.encoding.html#L1257" kind="function" beg="1257" end="1260">decodeReverseViaRead</a><span class="tparams">()</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.decodeReverseViaRead:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1257">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">EString <a class="symbol _function" name="EncoderInstance.replacementSequence:6" href="./htmlsrc/std.encoding.html#L1262" kind="function" beg="1262" end="1265">replacementSequence</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#EncoderInstance.replacementSequence:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1262">#</a></dt>
+<dd class="ddef"></dd></dd>)
+<dt class="decl">bool <a class="symbol _function" name="isValidCodePoint" href="./htmlsrc/std.encoding.html#L1288" kind="function" beg="1288" end="1291">isValidCodePoint</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#isValidCodePoint" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1288">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if c is a valid code point</div>
+Note that this includes the non-character code points U+FFFE and U+FFFF,
+ since these are valid code points (even though they are not valid
+ characters).
+<p class="sec_header">Supercedes:</p>This function supercedes std.utf.startsValidDchar().
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the code point to be tested</td></tr></table></dd>
+<dt class="decl">string <a class="symbol _function" name="encodingName" href="./htmlsrc/std.encoding.html#L1307" kind="function" beg="1307" end="1310">encodingName</a><span class="tparams">(T)</span><span class="params">()</span>; <a title="Permalink to this symbol" href="#encodingName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1307">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the name of an encoding.</div>
+The type of encoding cannot be deduced. Therefore, it is necessary to
+ explicitly specify the encoding type.
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">writefln</span>(<span class="i">encodingName</span>!(<span class="i">Latin1Char</span>));
+    <span class="lc">// writes ISO-8859-1</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.encoding.html#L1312" kind="unittest" beg="1312" end="1320">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1312">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="canEncode" href="./htmlsrc/std.encoding.html#L1337" kind="function" beg="1337" end="1340">canEncode</a><span class="tparams">(E)</span><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#canEncode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1337">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true iff it is possible to represent the specifed codepoint
+ in the encoding.</div>
+The type of encoding cannot be deduced. Therefore, it is necessary to
+ explicitly specify the encoding type.
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">writefln</span>(<span class="i">canEncode</span>!(<span class="i">Latin1Char</span>)(<span class="cl">'A'</span>));
+    <span class="lc">// writes true</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:3" href="./htmlsrc/std.encoding.html#L1342" kind="unittest" beg="1342" end="1350">unittest</a>; <a title="Permalink to this symbol" href="#unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1342">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="isValidCodeUnit" href="./htmlsrc/std.encoding.html#L1362" kind="function" beg="1362" end="1365">isValidCodeUnit</a><span class="tparams">(E)</span><span class="params">(E <em>c</em>)</span>; <a title="Permalink to this symbol" href="#isValidCodeUnit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1362">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the code unit is legal. For example, the byte 0x80 would
+ not be legal in ASCII, because ASCII code units must always be in the range
+ 0x00 to 0x7F.</div>
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the code unit to be tested</td></tr></table></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:4" href="./htmlsrc/std.encoding.html#L1367" kind="unittest" beg="1367" end="1376">unittest</a>; <a title="Permalink to this symbol" href="#unittest:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1367">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="isValid" href="./htmlsrc/std.encoding.html#L1391" kind="function" beg="1391" end="1400">isValid</a><span class="tparams">(E)</span><span class="params">(const( E)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#isValid" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1391">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the string is encoded correctly</div>
+<p class="sec_header">Supercedes:</p>This function supercedes std.utf.validate(), however note that this
+ function returns a bool indicating whether the input was valid or not,
+ wheras the older funtion would throw an exception.
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the string to be tested</td></tr></table></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:5" href="./htmlsrc/std.encoding.html#L1402" kind="unittest" beg="1402" end="1405">unittest</a>; <a title="Permalink to this symbol" href="#unittest:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1402">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="validLength" href="./htmlsrc/std.encoding.html#L1416" kind="function" beg="1416" end="1427">validLength</a><span class="tparams">(E)</span><span class="params">(const( E)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#validLength" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1416">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the length of the longest possible substring, starting from
+ the first code unit, which is validly encoded.</div>
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the string to be tested</td></tr></table></dd>
+<dt class="decl">E</dt>[] <a class="symbol _function" name="sanitize" href="./htmlsrc/std.encoding.html#L1445" kind="function" beg="1445" end="1482">sanitize</a><span class="tparams">(E)</span><span class="params">(invariant( E)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#sanitize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1445">#</a>)
+<dd class="ddef">
+<div class="summary">Sanitizes a string by replacing malformed code unit sequences with valid
+ code unit sequences. The result is guaranteed to be valid for this encoding.</div>
+If the input string is already valid, this function returns the original,
+ otherwise it constructs a new string by replacing all illegal code unit
+ sequences with the encoding's replacement character, Invalid sequences will
+ be replaced with the Unicode replacement character (U+FFFD) if the
+ character repertoire contains it, otherwise invalid sequences will be
+ replaced with '?'.
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the string to be sanitized</td></tr></table></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:6" href="./htmlsrc/std.encoding.html#L1484" kind="unittest" beg="1484" end="1487">unittest</a>; <a title="Permalink to this symbol" href="#unittest:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1484">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="firstSequence" href="./htmlsrc/std.encoding.html#L1500" kind="function" beg="1500" end="1512">firstSequence</a><span class="tparams">(E)</span><span class="params">(const( E)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#firstSequence" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1500">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the length of the first encoded sequence.</div>
+The input to this function MUST be validly encoded.
+ This is enforced by the function's in-contract.
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the string to be sliced</td></tr></table></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:7" href="./htmlsrc/std.encoding.html#L1514" kind="unittest" beg="1514" end="1517">unittest</a>; <a title="Permalink to this symbol" href="#unittest:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1514">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="lastSequence" href="./htmlsrc/std.encoding.html#L1530" kind="function" beg="1530" end="1541">lastSequence</a><span class="tparams">(E)</span><span class="params">(const( E)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#lastSequence" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1530">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the length the last encoded sequence.</div>
+The input to this function MUST be validly encoded.
+ This is enforced by the function's in-contract.
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the string to be sliced</td></tr></table></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:8" href="./htmlsrc/std.encoding.html#L1543" kind="unittest" beg="1543" end="1546">unittest</a>; <a title="Permalink to this symbol" href="#unittest:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1543">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="count" href="./htmlsrc/std.encoding.html#L1562" kind="function" beg="1562" end="1576">count</a><span class="tparams">(E)</span><span class="params">(const( E)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#count" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1562">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the total number of code points encoded in a string.</div>
+The input to this function MUST be validly encoded.
+ This is enforced by the function's in-contract.
+<p class="sec_header">Supercedes:</p>This function supercedes std.utf.toUCSindex().
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the string to be counted</td></tr></table></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:9" href="./htmlsrc/std.encoding.html#L1578" kind="unittest" beg="1578" end="1581">unittest</a>; <a title="Permalink to this symbol" href="#unittest:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1578">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="index" href="./htmlsrc/std.encoding.html#L1597" kind="function" beg="1597" end="1608">index</a><span class="tparams">(E)</span><span class="params">(const( E)[] <em>s</em>, int <em>n</em>)</span>; <a title="Permalink to this symbol" href="#index" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1597">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the array index at which the (n+1)th code point begins.</div>
+The input to this function MUST be validly encoded.
+ This is enforced by the function's in-contract.
+<p class="sec_header">Supercedes:</p>This function supercedes std.utf.toUTFindex().
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the string to be counted</td></tr></table></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:10" href="./htmlsrc/std.encoding.html#L1610" kind="unittest" beg="1610" end="1613">unittest</a>; <a title="Permalink to this symbol" href="#unittest:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1610">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="decode" href="./htmlsrc/std.encoding.html#L1633" kind="function" beg="1633" end="1643">decode</a><span class="tparams">(E)</span><span class="params">(ref const( E)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#decode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1633">#</a></dt>
+<dd class="ddef">
+<div class="summary">Decodes a single code point.</div>
+This function removes one or more code units from the start of a string,
+ and returns the decoded code point which those code units represent.
+<p class="bl"/>
+ The input to this function MUST be validly encoded.
+ This is enforced by the function's in-contract.
+<p class="sec_header">Supercedes:</p>This function supercedes std.utf.decode(), however, note that the
+ function codePoints() supercedes it more conveniently.
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the string whose first code point is to be decoded</td></tr></table></dd>
+<dt class="decl">dchar <a class="symbol _function" name="decodeReverse" href="./htmlsrc/std.encoding.html#L1659" kind="function" beg="1659" end="1668">decodeReverse</a><span class="tparams">(E)</span><span class="params">(ref const( E)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#decodeReverse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1659">#</a></dt>
+<dd class="ddef">
+<div class="summary">Decodes a single code point from the end of a string.</div>
+This function removes one or more code units from the end of a string,
+ and returns the decoded code point which those code units represent.
+<p class="bl"/>
+ The input to this function MUST be validly encoded.
+ This is enforced by the function's in-contract.
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the string whose first code point is to be decoded</td></tr></table></dd>
+<dt class="decl">dchar <a class="symbol _function" name="safeDecode" href="./htmlsrc/std.encoding.html#L1685" kind="function" beg="1685" end="1693">safeDecode</a><span class="tparams">(E)</span><span class="params">(ref const( E)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#safeDecode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1685">#</a></dt>
+<dd class="ddef">
+<div class="summary">Decodes a single code point. The input does not have to be valid.</div>
+This function removes one or more code units from the start of a string,
+ and returns the decoded code point which those code units represent.
+<p class="bl"/>
+ This function will accept an invalidly encoded string as input.
+ If an invalid sequence is found at the start of the string, this
+ function will remove it, and return the value INVALID_SEQUENCE.
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the string whose first code point is to be decoded</td></tr></table></dd>
+<dt class="decl">uint <a class="symbol _function" name="encodedLength" href="./htmlsrc/std.encoding.html#L1709" kind="function" beg="1709" end="1717">encodedLength</a><span class="tparams">(E)</span><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#encodedLength" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1709">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the number of code units required to encode a single code point.</div>
+The input to this function MUST be a valid code point.
+ This is enforced by the function's in-contract.
+<p class="bl"/>
+ The type of the output cannot be deduced. Therefore, it is necessary to
+ explicitly specify the encoding as a template parameter.
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the code point to be encoded</td></tr></table></dd>
+<dt class="decl">E[] <a class="symbol _function" name="encode" href="./htmlsrc/std.encoding.html#L1740" kind="function" beg="1740" end="1748">encode</a><span class="tparams">(E)</span><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#encode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1740">#</a></dt>
+<dd class="ddef">
+<div class="summary">Encodes a single code point.</div>
+This function encodes a single code point into one or more code units.
+ It returns a string containing those code units.
+<p class="bl"/>
+ The input to this function MUST be a valid code point.
+ This is enforced by the function's in-contract.
+<p class="bl"/>
+ The type of the output cannot be deduced. Therefore, it is necessary to
+ explicitly specify the encoding as a template parameter.
+<p class="sec_header">Supercedes:</p>This function supercedes std.utf.encode(), however, note that the
+ function codeUnits() supercedes it more conveniently.
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the code point to be encoded</td></tr></table></dd>
+<dt class="decl">uint <a class="symbol _function" name="encode:2" href="./htmlsrc/std.encoding.html#L1775" kind="function" beg="1775" end="1785">encode</a><span class="tparams">(E)</span><span class="params">(dchar <em>c</em>, E[] <em>array</em>)</span>; <a title="Permalink to this symbol" href="#encode:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1775">#</a></dt>
+<dd class="ddef">
+<div class="summary">Encodes a single code point into an array.</div>
+This function encodes a single code point into one or more code units
+ The code units are stored in a user-supplied fixed-size array,
+ which must be passed by reference.
+<p class="bl"/>
+ The input to this function MUST be a valid code point.
+ This is enforced by the function's in-contract.
+<p class="bl"/>
+ The type of the output cannot be deduced. Therefore, it is necessary to
+ explicitly specify the encoding as a template parameter.
+<p class="sec_header">Supercedes:</p>This function supercedes std.utf.encode(), however, note that the
+ function codeUnits() supercedes it more conveniently.
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the code point to be encoded</td></tr></table>
+<p class="sec_header">Returns:</p>the number of code units written to the array</dd>
+<dt class="decl">void <a class="symbol _function" name="encode:3" href="./htmlsrc/std.encoding.html#L1808" kind="function" beg="1808" end="1816">encode</a><span class="tparams">(E)</span><span class="params">(dchar <em>c</em>, ref Buffer!(E) <em>buffer</em>)</span>; <span class="attrs">[<span class="stc">deprecated</span>]</span> <a title="Permalink to this symbol" href="#encode:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1808">#</a></dt>
+<dd class="ddef">
+<div class="summary">Encodes a single code point into a Buffer.</div>
+This function encodes a single code point into one or more code units
+ The code units are stored in a growable buffer.
+<p class="bl"/>
+ The input to this function MUST be a valid code point.
+ This is enforced by the function's in-contract.
+<p class="bl"/>
+ The type of the output cannot be deduced. Therefore, it is necessary to
+ explicitly specify the encoding as a template parameter.
+<p class="sec_header">Supercedes:</p>This function supercedes std.utf.encode(), however, note that the
+ function codeUnits() supercedes it more conveniently.
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the code point to be encoded</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="encode:4" href="./htmlsrc/std.encoding.html#L1839" kind="function" beg="1839" end="1847">encode</a><span class="tparams">(E)</span><span class="params">(dchar <em>c</em>, void delegate(E) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#encode:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1839">#</a></dt>
+<dd class="ddef">
+<div class="summary">Encodes a single code point to a delegate.</div>
+This function encodes a single code point into one or more code units.
+ The code units are passed one at a time to the supplied delegate.
+<p class="bl"/>
+ The input to this function MUST be a valid code point.
+ This is enforced by the function's in-contract.
+<p class="bl"/>
+ The type of the output cannot be deduced. Therefore, it is necessary to
+ explicitly specify the encoding as a template parameter.
+<p class="sec_header">Supercedes:</p>This function supercedes std.utf.encode(), however, note that the
+ function codeUnits() supercedes it more conveniently.
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the code point to be encoded</td></tr></table></dd>
+<dt class="decl">CodePoints!(E) <a class="symbol _function" name="codePoints" href="./htmlsrc/std.encoding.html#L1881" kind="function" beg="1881" end="1889">codePoints</a><span class="tparams">(E)</span><span class="params">(invariant( E)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#codePoints" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1881">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a foreachable struct which can bidirectionally iterate over all
+ code points in a string.</div>
+The input to this function MUST be validly encoded.
+ This is enforced by the function's in-contract.
+<p class="bl"/>
+ You can foreach either
+ with or without an index. If an index is specified, it will be initialized
+ at each iteration with the offset into the string at which the code point
+ begins.
+<p class="sec_header">Supercedes:</p>This function supercedes std.utf.decode().
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the string to be decoded</td></tr></table>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">string</span> <span class="i">s</span> = <span class="sl">"hello world"</span>;
+<span class="k">foreach</span>(<span class="i">c</span>;<span class="i">codePoints</span>(<span class="i">s</span>))
+{
+    <span class="lc">// do something with c (which will always be a dchar)</span>
+}
+</pre>
+<p class="bl"/>
+ Note that, currently, foreach(c:codePoints(s)) is superior to foreach(c;s)
+ in that the latter will fall over on encountering U+FFFF.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:11" href="./htmlsrc/std.encoding.html#L1891" kind="unittest" beg="1891" end="1900">unittest</a>; <a title="Permalink to this symbol" href="#unittest:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1891">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">CodeUnits!(E) <a class="symbol _function" name="codeUnits" href="./htmlsrc/std.encoding.html#L1933" kind="function" beg="1933" end="1941">codeUnits</a><span class="tparams">(E)</span><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#codeUnits" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1933">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a foreachable struct which can bidirectionally iterate over all
+ code units in a code point.</div>
+The input to this function MUST be a valid code point.
+ This is enforced by the function's in-contract.
+<p class="bl"/>
+ The type of the output cannot be deduced. Therefore, it is necessary to
+ explicitly specify the encoding type in the template parameter.
+<p class="sec_header">Supercedes:</p>This function supercedes std.utf.encode().
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>d</em></td><td>the code point to be encoded</td></tr></table>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">dchar</span> <span class="i">d</span> = <span class="cl">'\u20AC'</span>;
+<span class="k">foreach</span>(<span class="i">c</span>;<span class="i">codeUnits</span>!(<span class="k">char</span>)(<span class="i">d</span>))
+{
+    <span class="i">writefln</span>(<span class="sl">"%X"</span>,<span class="i">c</span>)
+}
+<span class="lc">// will print</span>
+<span class="lc">// E2</span>
+<span class="lc">// 82</span>
+<span class="lc">// AC</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:12" href="./htmlsrc/std.encoding.html#L1943" kind="unittest" beg="1943" end="1954">unittest</a>; <a title="Permalink to this symbol" href="#unittest:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1943">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="transcode" href="./htmlsrc/std.encoding.html#L1984" kind="function" beg="1984" end="2007">transcode</a><span class="tparams">(Src,Dst)</span><span class="params">(invariant( Src)[] <em>s</em>, out invariant( Dst)[] <em>r</em>)</span>; <a title="Permalink to this symbol" href="#transcode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L1984">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert a string from one encoding to another. (See also to!() below).</div>
+The input to this function MUST be validly encoded.
+ This is enforced by the function's in-contract.
+<p class="sec_header">Supercedes:</p>This function supercedes std.utf.toUTF8(), std.utf.toUTF16() and
+ std.utf.toUTF32()
+ (but note that to!() supercedes it more conveniently).
+<p class="sec_header">Standards:</p>Unicode 5.0, ASCII, ISO-8859-1, WINDOWS-1252
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the source string</td></tr>
+<tr><td><em>r</em></td><td>the destination string</td></tr></table>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">wstring</span> <span class="i">ws</span>;
+<span class="i">transcode</span>(<span class="sl">"hello world"</span>,<span class="i">ws</span>);
+    <span class="lc">// transcode from UTF-8 to UTF-16</span>
+
+<span class="i">Latin1String</span> <span class="i">ls</span>;
+<span class="i">transcode</span>(<span class="i">ws</span>, <span class="i">ls</span>);
+    <span class="lc">// transcode from UTF-16 to ISO-8859-1</span>
+</pre></dd>
+<dt class="decl">class <a class="symbol _class" name="EncodingException" href="./htmlsrc/std.encoding.html#L2047" kind="class" beg="2047" end="2047">EncodingException</a> : Exception; <a title="Permalink to this symbol" href="#EncodingException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2047">#</a></dt>
+<dd class="ddef">
+<div class="summary">The base class for exceptions thrown by this module</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="EncodingException.this" href="./htmlsrc/std.encoding.html#L2047" kind="ctor" beg="2047" end="2047">this</a><span class="params">(string <em>msg</em>)</span>; <a title="Permalink to this symbol" href="#EncodingException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2047">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="UnrecognizedEncodingException" href="./htmlsrc/std.encoding.html#L2049" kind="class" beg="2049" end="2052">UnrecognizedEncodingException</a> : EncodingException; <a title="Permalink to this symbol" href="#UnrecognizedEncodingException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2049">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="UnrecognizedEncodingException.this" href="./htmlsrc/std.encoding.html#L2051" kind="ctor" beg="2051" end="2051">this</a><span class="params">(string <em>msg</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#UnrecognizedEncodingException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2051">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="EncodingScheme" href="./htmlsrc/std.encoding.html#L2055" kind="class" beg="2055" end="2353">EncodingScheme</a>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#EncodingScheme" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2055">#</a></dt>
+<dd class="ddef">
+<div class="summary">Abstract base class of all encoding schemes</div>
+<dl>
+<dt class="decl">void <a class="symbol _function" name="EncodingScheme.register" href="./htmlsrc/std.encoding.html#L2074" kind="function" beg="2074" end="2083">register</a><span class="params">(string <em>className</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#EncodingScheme.register" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2074">#</a></dt>
+<dd class="ddef">
+<div class="summary">Registers a subclass of EncodingScheme.</div>
+This function allows user-defined subclasses of EncodingScheme to
+ be declared in other modules.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">class</span> <span class="i">Amiga1251</span> : <span class="i">EncodingScheme</span>
+{
+    <span class="k">static</span> <span class="k">this</span>()
+    {
+        <span class="i">EncodingScheme</span>.<span class="i">register</span>(<span class="sl">"path.to.Amiga1251"</span>);
+    }
+}
+</pre></dd>
+<dt class="decl">EncodingScheme <a class="symbol _function" name="EncodingScheme.create" href="./htmlsrc/std.encoding.html#L2097" kind="function" beg="2097" end="2106">create</a><span class="params">(string <em>encodingName</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#EncodingScheme.create" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2097">#</a></dt>
+<dd class="ddef">
+<div class="summary">Obtains a subclass of EncodingScheme which is capable of encoding
+ and decoding the named encoding scheme.</div>
+This function is only aware of EncodingSchemes which have been
+ registered with the register() function.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">scheme</span> = <span class="i">EncodingScheme</span>.<span class="i">create</span>(<span class="sl">"Amiga-1251"</span>);
+</pre></dd>
+<dt class="decl">string <a class="symbol _function" name="EncodingScheme.toString" href="./htmlsrc/std.encoding.html#L2113" kind="function" beg="2113" end="2113">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#EncodingScheme.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2113">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the standard name of the encoding scheme</div></dd>
+<dt class="decl">string[] <a class="symbol _function" name="EncodingScheme.names" href="./htmlsrc/std.encoding.html#L2118" kind="function" beg="2118" end="2118">names</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#EncodingScheme.names" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2118">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns an array of all known names for this encoding scheme</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncodingScheme.canEncode" href="./htmlsrc/std.encoding.html#L2124" kind="function" beg="2124" end="2124">canEncode</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#EncodingScheme.canEncode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2124">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the character c can be represented
+ in this encoding scheme.</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingScheme.encodedLength" href="./htmlsrc/std.encoding.html#L2137" kind="function" beg="2137" end="2137">encodedLength</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#EncodingScheme.encodedLength" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2137">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the number of ubytes required to encode this code point.</div>
+The input to this function MUST be a valid code point.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the code point to be encoded</td></tr></table>
+<p class="sec_header">Returns:</p>the number of ubytes required.</dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingScheme.encode" href="./htmlsrc/std.encoding.html#L2155" kind="function" beg="2155" end="2155">encode</a><span class="params">(dchar <em>c</em>, ubyte[] <em>buffer</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#EncodingScheme.encode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2155">#</a></dt>
+<dd class="ddef">
+<div class="summary">Encodes a single code point into a user-supplied, fixed-size buffer.</div>
+This function encodes a single code point into one or more ubytes.
+ The supplied buffer must be code unit aligned.
+ (For example, UTF-16LE or UTF-16BE must be wchar-aligned,
+ UTF-32LE or UTF-32BE must be dchar-aligned, etc.)
+<p class="bl"/>
+ The input to this function MUST be a valid code point.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the code point to be encoded</td></tr></table>
+<p class="sec_header">Returns:</p>the number of ubytes written.</dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncodingScheme.decode" href="./htmlsrc/std.encoding.html#L2168" kind="function" beg="2168" end="2168">decode</a><span class="params">(ref const( ubyte)[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#EncodingScheme.decode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2168">#</a></dt>
+<dd class="ddef">
+<div class="summary">Decodes a single code point.</div>
+This function removes one or more ubytes from the start of an array,
+ and returns the decoded code point which those ubytes represent.
+<p class="bl"/>
+ The input to this function MUST be validly encoded.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the array whose first code point is to be decoded</td></tr></table></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncodingScheme.safeDecode" href="./htmlsrc/std.encoding.html#L2183" kind="function" beg="2183" end="2183">safeDecode</a><span class="params">(ref const( ubyte)[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#EncodingScheme.safeDecode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2183">#</a></dt>
+<dd class="ddef">
+<div class="summary">Decodes a single code point. The input does not have to be valid.</div>
+This function removes one or more ubytes from the start of an array,
+ and returns the decoded code point which those ubytes represent.
+<p class="bl"/>
+ This function will accept an invalidly encoded array as input.
+ If an invalid sequence is found at the start of the string, this
+ function will remove it, and return the value INVALID_SEQUENCE.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the array whose first code point is to be decoded</td></tr></table></dd>
+<dt class="decl">ubyte</dt>[] <a class="symbol _function" name="EncodingScheme.replacementSequence" href="./htmlsrc/std.encoding.html#L2192" kind="function" beg="2192" end="2192">replacementSequence</a><span class="params">()</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#EncodingScheme.replacementSequence" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2192">#</a></dl>
+<dd class="ddef">
+<div class="summary">Returns the sequence of ubytes to be used to represent
+ any character which cannot be represented in the encoding scheme.</div>
+Normally this will be a representation of some substitution
+ character, such as U+FFFD or '?'.</dd>
+<dt class="decl">bool <a class="symbol _function" name="EncodingScheme.isValid" href="./htmlsrc/std.encoding.html#L2201" kind="function" beg="2201" end="2210">isValid</a><span class="params">(const( ubyte)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#EncodingScheme.isValid" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2201">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the array is encoded correctly</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the array to be tested</td></tr></table></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingScheme.validLength" href="./htmlsrc/std.encoding.html#L2219" kind="function" beg="2219" end="2229">validLength</a><span class="params">(const( ubyte)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#EncodingScheme.validLength" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2219">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the length of the longest possible substring, starting from
+ the first element, which is validly encoded.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the array to be tested</td></tr></table></dd>
+<dt class="decl">ubyte</dt>[] <a class="symbol _function" name="EncodingScheme.sanitize" href="./htmlsrc/std.encoding.html#L2243" kind="function" beg="2243" end="2280">sanitize</a><span class="params">(invariant( ubyte)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#EncodingScheme.sanitize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2243">#</a></dd>
+<dd class="ddef">
+<div class="summary">Sanitizes an array by replacing malformed ubyte sequences with valid
+ ubyte sequences. The result is guaranteed to be valid for this
+ encoding scheme.</div>
+If the input array is already valid, this function returns the
+ original, otherwise it constructs a new array by replacing all illegal
+ sequences with the encoding scheme's replacement sequence.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the string to be sanitized</td></tr></table></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingScheme.firstSequence" href="./htmlsrc/std.encoding.html#L2291" kind="function" beg="2291" end="2303">firstSequence</a><span class="params">(const( ubyte)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#EncodingScheme.firstSequence" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2291">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the length of the first encoded sequence.</div>
+The input to this function MUST be validly encoded.
+ This is enforced by the function's in-contract.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the array to be sliced</td></tr></table></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingScheme.count" href="./htmlsrc/std.encoding.html#L2314" kind="function" beg="2314" end="2328">count</a><span class="params">(const( ubyte)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#EncodingScheme.count" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2314">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the total number of code points encoded in a ubyte array.</div>
+The input to this function MUST be validly encoded.
+ This is enforced by the function's in-contract.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the string to be counted</td></tr></table></dd>
+<dt class="decl">int <a class="symbol _function" name="EncodingScheme.index" href="./htmlsrc/std.encoding.html#L2339" kind="function" beg="2339" end="2350">index</a><span class="params">(const( ubyte)[] <em>s</em>, int <em>n</em>)</span>; <a title="Permalink to this symbol" href="#EncodingScheme.index" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2339">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the array index at which the (n+1)th code point begins.</div>
+The input to this function MUST be validly encoded.
+ This is enforced by the function's in-contract.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the string to be counted</td></tr></table></dd>
+<dt class="decl">string[string] <a class="symbol _variable" name="EncodingScheme.supported" href="./htmlsrc/std.encoding.html#L2352" kind="variable" beg="2352" end="2352">supported</a>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#EncodingScheme.supported" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2352">#</a></dt>
+<dd class="ddef"></dd>))
+<dt class="decl">class <a class="symbol _class" name="EncodingSchemeASCII" href="./htmlsrc/std.encoding.html#L2371" kind="class" beg="2371" end="2441">EncodingSchemeASCII</a> : EncodingScheme; <a title="Permalink to this symbol" href="#EncodingSchemeASCII" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2371">#</a></dt>
+<dd class="ddef">
+<div class="summary">EncodingScheme to handle ASCII</div>
+This scheme recognises the following names:
+                 "ANSI_X3.4-1968",
+                 "ANSI_X3.4-1986",
+                 "ASCII",
+                 "IBM367",
+                 "ISO646-US",
+                 "ISO_646.irv:1991",
+                 "US-ASCII",
+                 "cp367",
+                 "csASCII"
+                 "iso-ir-6",
+                 "us"
+<dl>
+<dt class="decl">static <a class="symbol _sctor" name="EncodingSchemeASCII.this" href="./htmlsrc/std.encoding.html#L2373" kind="sctor" beg="2373" end="2376">this</a>(); <a title="Permalink to this symbol" href="#EncodingSchemeASCII.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2373">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string[] <a class="symbol _function" name="EncodingSchemeASCII.names" href="./htmlsrc/std.encoding.html#L2380" kind="function" beg="2380" end="2397">names</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeASCII.names" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2380">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="EncodingSchemeASCII.toString" href="./htmlsrc/std.encoding.html#L2399" kind="function" beg="2399" end="2402">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeASCII.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2399">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncodingSchemeASCII.canEncode" href="./htmlsrc/std.encoding.html#L2404" kind="function" beg="2404" end="2407">canEncode</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeASCII.canEncode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2404">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingSchemeASCII.encodedLength" href="./htmlsrc/std.encoding.html#L2409" kind="function" beg="2409" end="2412">encodedLength</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeASCII.encodedLength" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2409">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingSchemeASCII.encode" href="./htmlsrc/std.encoding.html#L2414" kind="function" beg="2414" end="2418">encode</a><span class="params">(dchar <em>c</em>, ubyte[] <em>buffer</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeASCII.encode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2414">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncodingSchemeASCII.decode" href="./htmlsrc/std.encoding.html#L2420" kind="function" beg="2420" end="2426">decode</a><span class="params">(ref const( ubyte)[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeASCII.decode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2420">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncodingSchemeASCII.safeDecode" href="./htmlsrc/std.encoding.html#L2428" kind="function" beg="2428" end="2434">safeDecode</a><span class="params">(ref const( ubyte)[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeASCII.safeDecode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2428">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte</dt>[] <a class="symbol _function" name="EncodingSchemeASCII.replacementSequence" href="./htmlsrc/std.encoding.html#L2436" kind="function" beg="2436" end="2439">replacementSequence</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeASCII.replacementSequence" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2436">#</a></dl>
+<dd class="ddef"></dd></dd>)
+<dt class="decl">class <a class="symbol _class" name="EncodingSchemeLatin1" href="./htmlsrc/std.encoding.html#L2457" kind="class" beg="2457" end="2525">EncodingSchemeLatin1</a> : EncodingScheme; <a title="Permalink to this symbol" href="#EncodingSchemeLatin1" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2457">#</a></dt>
+<dd class="ddef">
+<div class="summary">EncodingScheme to handle Latin-1</div>
+This scheme recognises the following names:
+                 "CP819",
+                 "IBM819",
+                 "ISO-8859-1",
+                 "ISO_8859-1",
+                 "ISO_8859-1:1987",
+                 "csISOLatin1",
+                 "iso-ir-100",
+                 "l1",
+                 "latin1"
+<dl>
+<dt class="decl">static <a class="symbol _sctor" name="EncodingSchemeLatin1.this" href="./htmlsrc/std.encoding.html#L2459" kind="sctor" beg="2459" end="2462">this</a>(); <a title="Permalink to this symbol" href="#EncodingSchemeLatin1.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2459">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string[] <a class="symbol _function" name="EncodingSchemeLatin1.names" href="./htmlsrc/std.encoding.html#L2466" kind="function" beg="2466" end="2481">names</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeLatin1.names" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2466">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="EncodingSchemeLatin1.toString" href="./htmlsrc/std.encoding.html#L2483" kind="function" beg="2483" end="2486">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeLatin1.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2483">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncodingSchemeLatin1.canEncode" href="./htmlsrc/std.encoding.html#L2488" kind="function" beg="2488" end="2491">canEncode</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeLatin1.canEncode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2488">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingSchemeLatin1.encodedLength" href="./htmlsrc/std.encoding.html#L2493" kind="function" beg="2493" end="2496">encodedLength</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeLatin1.encodedLength" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2493">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingSchemeLatin1.encode" href="./htmlsrc/std.encoding.html#L2498" kind="function" beg="2498" end="2502">encode</a><span class="params">(dchar <em>c</em>, ubyte[] <em>buffer</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeLatin1.encode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2498">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncodingSchemeLatin1.decode" href="./htmlsrc/std.encoding.html#L2504" kind="function" beg="2504" end="2510">decode</a><span class="params">(ref const( ubyte)[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeLatin1.decode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2504">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncodingSchemeLatin1.safeDecode" href="./htmlsrc/std.encoding.html#L2512" kind="function" beg="2512" end="2518">safeDecode</a><span class="params">(ref const( ubyte)[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeLatin1.safeDecode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2512">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte</dt>[] <a class="symbol _function" name="EncodingSchemeLatin1.replacementSequence" href="./htmlsrc/std.encoding.html#L2520" kind="function" beg="2520" end="2523">replacementSequence</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeLatin1.replacementSequence" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2520">#</a></dl>
+<dd class="ddef"></dd></dd>)
+<dt class="decl">class <a class="symbol _class" name="EncodingSchemeWindows1252" href="./htmlsrc/std.encoding.html#L2533" kind="class" beg="2533" end="2593">EncodingSchemeWindows1252</a> : EncodingScheme; <a title="Permalink to this symbol" href="#EncodingSchemeWindows1252" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2533">#</a></dt>
+<dd class="ddef">
+<div class="summary">EncodingScheme to handle Windows-1252</div>
+This scheme recognises the following names:
+                 "windows-1252"
+<dl>
+<dt class="decl">static <a class="symbol _sctor" name="EncodingSchemeWindows1252.this" href="./htmlsrc/std.encoding.html#L2535" kind="sctor" beg="2535" end="2538">this</a>(); <a title="Permalink to this symbol" href="#EncodingSchemeWindows1252.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2535">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string[] <a class="symbol _function" name="EncodingSchemeWindows1252.names" href="./htmlsrc/std.encoding.html#L2542" kind="function" beg="2542" end="2549">names</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeWindows1252.names" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2542">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="EncodingSchemeWindows1252.toString" href="./htmlsrc/std.encoding.html#L2551" kind="function" beg="2551" end="2554">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeWindows1252.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2551">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncodingSchemeWindows1252.canEncode" href="./htmlsrc/std.encoding.html#L2556" kind="function" beg="2556" end="2559">canEncode</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeWindows1252.canEncode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2556">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingSchemeWindows1252.encodedLength" href="./htmlsrc/std.encoding.html#L2561" kind="function" beg="2561" end="2564">encodedLength</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeWindows1252.encodedLength" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2561">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingSchemeWindows1252.encode" href="./htmlsrc/std.encoding.html#L2566" kind="function" beg="2566" end="2570">encode</a><span class="params">(dchar <em>c</em>, ubyte[] <em>buffer</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeWindows1252.encode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2566">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncodingSchemeWindows1252.decode" href="./htmlsrc/std.encoding.html#L2572" kind="function" beg="2572" end="2578">decode</a><span class="params">(ref const( ubyte)[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeWindows1252.decode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2572">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncodingSchemeWindows1252.safeDecode" href="./htmlsrc/std.encoding.html#L2580" kind="function" beg="2580" end="2586">safeDecode</a><span class="params">(ref const( ubyte)[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeWindows1252.safeDecode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2580">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte</dt>[] <a class="symbol _function" name="EncodingSchemeWindows1252.replacementSequence" href="./htmlsrc/std.encoding.html#L2588" kind="function" beg="2588" end="2591">replacementSequence</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeWindows1252.replacementSequence" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2588">#</a></dl>
+<dd class="ddef"></dd></dd>)
+<dt class="decl">class <a class="symbol _class" name="EncodingSchemeUtf8" href="./htmlsrc/std.encoding.html#L2601" kind="class" beg="2601" end="2661">EncodingSchemeUtf8</a> : EncodingScheme; <a title="Permalink to this symbol" href="#EncodingSchemeUtf8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2601">#</a></dt>
+<dd class="ddef">
+<div class="summary">EncodingScheme to handle UTF-8</div>
+This scheme recognises the following names:
+                 "UTF-8"
+<dl>
+<dt class="decl">static <a class="symbol _sctor" name="EncodingSchemeUtf8.this" href="./htmlsrc/std.encoding.html#L2603" kind="sctor" beg="2603" end="2606">this</a>(); <a title="Permalink to this symbol" href="#EncodingSchemeUtf8.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2603">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string[] <a class="symbol _function" name="EncodingSchemeUtf8.names" href="./htmlsrc/std.encoding.html#L2610" kind="function" beg="2610" end="2617">names</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf8.names" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2610">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="EncodingSchemeUtf8.toString" href="./htmlsrc/std.encoding.html#L2619" kind="function" beg="2619" end="2622">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf8.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2619">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncodingSchemeUtf8.canEncode" href="./htmlsrc/std.encoding.html#L2624" kind="function" beg="2624" end="2627">canEncode</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf8.canEncode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2624">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingSchemeUtf8.encodedLength" href="./htmlsrc/std.encoding.html#L2629" kind="function" beg="2629" end="2632">encodedLength</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf8.encodedLength" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2629">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingSchemeUtf8.encode" href="./htmlsrc/std.encoding.html#L2634" kind="function" beg="2634" end="2638">encode</a><span class="params">(dchar <em>c</em>, ubyte[] <em>buffer</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf8.encode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2634">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncodingSchemeUtf8.decode" href="./htmlsrc/std.encoding.html#L2640" kind="function" beg="2640" end="2646">decode</a><span class="params">(ref const( ubyte)[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf8.decode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2640">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncodingSchemeUtf8.safeDecode" href="./htmlsrc/std.encoding.html#L2648" kind="function" beg="2648" end="2654">safeDecode</a><span class="params">(ref const( ubyte)[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf8.safeDecode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2648">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte</dt>[] <a class="symbol _function" name="EncodingSchemeUtf8.replacementSequence" href="./htmlsrc/std.encoding.html#L2656" kind="function" beg="2656" end="2659">replacementSequence</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf8.replacementSequence" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2656">#</a></dl>
+<dd class="ddef"></dd></dd>)
+<dt class="decl">class <a class="symbol _class" name="EncodingSchemeUtf16Native" href="./htmlsrc/std.encoding.html#L2670" kind="class" beg="2670" end="2739">EncodingSchemeUtf16Native</a> : EncodingScheme; <a title="Permalink to this symbol" href="#EncodingSchemeUtf16Native" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2670">#</a></dt>
+<dd class="ddef">
+<div class="summary">EncodingScheme to handle UTF-16 in native byte order</div>
+This scheme recognises the following names:
+                 "UTF-16LE" (little-endian architecture only)
+                 "UTF-16BE" (big-endian architecture only)
+<dl>
+<dt class="decl">static <a class="symbol _sctor" name="EncodingSchemeUtf16Native.this" href="./htmlsrc/std.encoding.html#L2672" kind="sctor" beg="2672" end="2675">this</a>(); <a title="Permalink to this symbol" href="#EncodingSchemeUtf16Native.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2672">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _variable" name="EncodingSchemeUtf16Native.NAME" href="./htmlsrc/std.encoding.html#L2679" kind="variable" beg="2679" end="2679">NAME</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf16Native.NAME" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2679">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string[] <a class="symbol _function" name="EncodingSchemeUtf16Native.names" href="./htmlsrc/std.encoding.html#L2682" kind="function" beg="2682" end="2685">names</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf16Native.names" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2682">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="EncodingSchemeUtf16Native.toString" href="./htmlsrc/std.encoding.html#L2687" kind="function" beg="2687" end="2690">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf16Native.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2687">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncodingSchemeUtf16Native.canEncode" href="./htmlsrc/std.encoding.html#L2692" kind="function" beg="2692" end="2695">canEncode</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf16Native.canEncode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2692">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingSchemeUtf16Native.encodedLength" href="./htmlsrc/std.encoding.html#L2697" kind="function" beg="2697" end="2700">encodedLength</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf16Native.encodedLength" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2697">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingSchemeUtf16Native.encode" href="./htmlsrc/std.encoding.html#L2702" kind="function" beg="2702" end="2706">encode</a><span class="params">(dchar <em>c</em>, ubyte[] <em>buffer</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf16Native.encode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2702">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncodingSchemeUtf16Native.decode" href="./htmlsrc/std.encoding.html#L2708" kind="function" beg="2708" end="2719">decode</a><span class="params">(ref const( ubyte)[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf16Native.decode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2708">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncodingSchemeUtf16Native.safeDecode" href="./htmlsrc/std.encoding.html#L2721" kind="function" beg="2721" end="2732">safeDecode</a><span class="params">(ref const( ubyte)[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf16Native.safeDecode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2721">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte</dt>[] <a class="symbol _function" name="EncodingSchemeUtf16Native.replacementSequence" href="./htmlsrc/std.encoding.html#L2734" kind="function" beg="2734" end="2737">replacementSequence</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf16Native.replacementSequence" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2734">#</a></dl>
+<dd class="ddef"></dd></dd>)
+<dt class="decl">class <a class="symbol _class" name="EncodingSchemeUtf32Native" href="./htmlsrc/std.encoding.html#L2748" kind="class" beg="2748" end="2817">EncodingSchemeUtf32Native</a> : EncodingScheme; <a title="Permalink to this symbol" href="#EncodingSchemeUtf32Native" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2748">#</a></dt>
+<dd class="ddef">
+<div class="summary">EncodingScheme to handle UTF-32 in native byte order</div>
+This scheme recognises the following names:
+                 "UTF-32LE" (little-endian architecture only)
+                 "UTF-32BE" (big-endian architecture only)
+<dl>
+<dt class="decl">static <a class="symbol _sctor" name="EncodingSchemeUtf32Native.this" href="./htmlsrc/std.encoding.html#L2750" kind="sctor" beg="2750" end="2753">this</a>(); <a title="Permalink to this symbol" href="#EncodingSchemeUtf32Native.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2750">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _variable" name="EncodingSchemeUtf32Native.NAME" href="./htmlsrc/std.encoding.html#L2757" kind="variable" beg="2757" end="2757">NAME</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf32Native.NAME" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2757">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string[] <a class="symbol _function" name="EncodingSchemeUtf32Native.names" href="./htmlsrc/std.encoding.html#L2760" kind="function" beg="2760" end="2763">names</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf32Native.names" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2760">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="EncodingSchemeUtf32Native.toString" href="./htmlsrc/std.encoding.html#L2765" kind="function" beg="2765" end="2768">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf32Native.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2765">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EncodingSchemeUtf32Native.canEncode" href="./htmlsrc/std.encoding.html#L2770" kind="function" beg="2770" end="2773">canEncode</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf32Native.canEncode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2770">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingSchemeUtf32Native.encodedLength" href="./htmlsrc/std.encoding.html#L2775" kind="function" beg="2775" end="2778">encodedLength</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf32Native.encodedLength" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2775">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="EncodingSchemeUtf32Native.encode" href="./htmlsrc/std.encoding.html#L2780" kind="function" beg="2780" end="2784">encode</a><span class="params">(dchar <em>c</em>, ubyte[] <em>buffer</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf32Native.encode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2780">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncodingSchemeUtf32Native.decode" href="./htmlsrc/std.encoding.html#L2786" kind="function" beg="2786" end="2797">decode</a><span class="params">(ref const( ubyte)[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf32Native.decode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2786">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _function" name="EncodingSchemeUtf32Native.safeDecode" href="./htmlsrc/std.encoding.html#L2799" kind="function" beg="2799" end="2810">safeDecode</a><span class="params">(ref const( ubyte)[] <em>s</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf32Native.safeDecode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2799">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte</dt>[] <a class="symbol _function" name="EncodingSchemeUtf32Native.replacementSequence" href="./htmlsrc/std.encoding.html#L2812" kind="function" beg="2812" end="2815">replacementSequence</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EncodingSchemeUtf32Native.replacementSequence" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.encoding.html#L2812">#</a></dl>
+<dd class="ddef"></dd></dd>))
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:39 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

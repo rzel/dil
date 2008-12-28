@@ -1,0 +1,1174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.algorithm</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.algorithm";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.algorithm.html" class="symbol">std.algorithm</a></h1>
+  
+<div class="summary">Implements algorithms oriented mainly towards processing of
+sequences. Some functions are semantic equivalents or supersets of
+those found in the <span class="d_psymbol"><i>algorithm</i></span> header in <a href="http://sgi.com/tech/stl/">
+Alexander Stepanov's Standard Template Library</a> for C++.</div>
+<p class="sec_header">Author:</p><a href="http://erdani.org">Andrei Alexandrescu</a>
+<p class="sec_header">Note:</p>Many functions in this module are parameterized with a function or a
+<a href="http://www.digitalmars.com/d/2.0/2.0/glossary.html#predicate">predicate</a>
+. The predicate may be passed either as a
+function name, a delegate name, a <a href="http://www.digitalmars.com/d/2.0/2.0/glossary.html#functor">functor</a>
+ name, or a
+compile-time string. The string may consist of <b>any</b> legal D
+expression that uses the symbol <span class="d_psymbol"><i>a</i></span> (for unary functions) or the
+symbols <span class="d_psymbol"><i>a</i></span> and <span class="d_psymbol"><i>b</i></span> (for binary functions). These names will NOT
+interfere with other homonym symbols in user code because they are
+evaluated in a different context. The default for all binary
+comparison predicates is <span class="d_psymbol"><i>"a == b"</i></span> for unordered operations and
+<span class="d_psymbol"><i>"a < b"</i></span> for ordered operations.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = ...;
+<span class="k">static</span> <span class="k">bool</span> <span class="i">greater</span>(<span class="k">int</span> <span class="i">a</span>, <span class="k">int</span> <span class="i">b</span>)
+{
+    <span class="k">return</span> <span class="i">a</span> &gt; <span class="i">b</span>;
+}
+<span class="i">sort</span>!(<span class="i">greater</span>)(<span class="i">a</span>);  <span class="lc">// predicate as alias</span>
+<span class="i">sort</span>!(<span class="sl">"a &gt; b"</span>)(<span class="i">a</span>);  <span class="lc">// predicate as string</span>
+                    <span class="lc">// (no ambiguity with array name)</span>
+<span class="i">sort</span>(<span class="i">a</span>);            <span class="lc">// no predicate, "a &lt; b" is implicit</span>
+</pre>
+<p class="bl"/>
+Some functions are additionally parameterized with primitives such as
+<span class="d_psymbol"><i>move</i></span> (defaulting to <a href=std__algorithm.html#move>std._algorithm.move</a>) or <span class="d_psymbol"><i>iterSwap</i></span>
+primitive (defaulting to <a href=std__algorithm.html#iterSwap>std._algorithm.iterSwap</a>). These
+parameters distill the way in which data is manipulated, and the
+algorithms guarantee they only use them to touch values. There is
+sometimes a need to override that default behavior. Possible uses
+include notifying observers, counting the number of operations, or
+manipulating multiple collections in lockstep.
+<dl>
+<dt class="decl">template <a class="symbol _template" name="map" href="./htmlsrc/std.algorithm.html#L121" kind="template" beg="121" end="124">map</a><span class="tparams">(fun...)</span>; <a title="Permalink to this symbol" href="#map" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L121">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements the homonym function (also known as <span class="d_psymbol"><i>transform</i></span>) present
+in many languages of functional flavor. The call <span class="d_psymbol"><i>map!(fun)(range1,
+range2, ..., rangeN)</i></span> returns a new range of which elements are
+obtained by applying <span class="d_psymbol"><i>fun(x)</i></span> left to right for all <span class="d_psymbol"><i>x</i></span> in <span class="d_psymbol"><i>
+range1</i></span>, then all <span class="d_psymbol"><i>x</i></span> in <span class="d_psymbol"><i>range2</i></span>, ..., all <span class="d_psymbol"><i>x</i></span> in <span class="d_psymbol"><i>
+rangeN</i></span>. The original ranges are not changed.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">arr1</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span> ];
+<span class="k">int</span>[] <span class="i">arr2</span> = [ <span class="n">5</span>, <span class="n">6</span> ];
+<span class="k">auto</span> <span class="i">squares</span> = <span class="i">map</span>!(<span class="sl">"a * a"</span>)(<span class="i">arr1</span>, <span class="i">arr2</span>);
+<span class="k">assert</span>(<span class="i">squares</span> == [ <span class="n">1</span>, <span class="n">4</span>, <span class="n">9</span>, <span class="n">16</span>, <span class="n">25</span>, <span class="n">36</span> ]);
+</pre>
+<p class="bl"/>
+In all cases, the type of the result is the same as of the type of the
+first range passed in. If a different type of range is needed, just
+supply an empty range of the needed type as the first argument.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">short</span>[] <span class="i">arr</span> = [ <span class="n">1</span>, <span class="n">2</span> ];
+<span class="k">auto</span> <span class="i">squares</span> = <span class="i">map</span>!(<span class="sl">"a * a"</span>)(<span class="k">cast</span>(<span class="k">int</span>[]) <span class="k">null</span>, <span class="i">arr</span>);
+<span class="k">assert</span>(<span class="k">is</span>(<span class="k">typeof</span>(<span class="i">squares</span>) == <span class="k">int</span>[]));
+</pre>
+<dl>
+<dt class="decl">alias mapImpl!(fun).map <a class="symbol _alias" name="map.map" href="./htmlsrc/std.algorithm.html#L123" kind="alias" beg="123" end="123">map</a>; <a title="Permalink to this symbol" href="#map.map" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L123">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="mapImpl" href="./htmlsrc/std.algorithm.html#L126" kind="template" beg="126" end="142">mapImpl</a><span class="tparams">(fun...)</span>; <a title="Permalink to this symbol" href="#mapImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L126">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias unaryFun!(fun[0]) <a class="symbol _alias" name="mapImpl.headFun" href="./htmlsrc/std.algorithm.html#L128" kind="alias" beg="128" end="128">headFun</a>; <a title="Permalink to this symbol" href="#mapImpl.headFun" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L128">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">typeof(headFun(*begin(Ranges[0])))[] <a class="symbol _function" name="mapImpl.map" href="./htmlsrc/std.algorithm.html#L129" kind="function" beg="129" end="141">map</a><span class="tparams">(Ranges...)</span><span class="params">(Ranges <em>rs</em>)</span>; <a title="Permalink to this symbol" href="#mapImpl.map" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L129">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.algorithm.html#L144" kind="unittest" beg="144" end="154">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L144">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="NxNHelper" href="./htmlsrc/std.algorithm.html#L157" kind="template" beg="157" end="194">NxNHelper</a><span class="tparams">(F...)</span>; <a title="Permalink to this symbol" href="#NxNHelper" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L157">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">template <a class="symbol _template" name="NxNHelper.For" href="./htmlsrc/std.algorithm.html#L159" kind="template" beg="159" end="193">For</a><span class="tparams">(Args...)</span>; <a title="Permalink to this symbol" href="#NxNHelper.For" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L159">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">uint <a class="symbol _variable" name="NxNHelper.For.fs" href="./htmlsrc/std.algorithm.html#L161" kind="variable" beg="161" end="161">fs</a>; <span class="attrs">[<span class="stc">manifest</span>]</span> <a title="Permalink to this symbol" href="#NxNHelper.For.fs" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L161">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias Tuple!(Args[0 .. F.length]) <a class="symbol _alias" name="NxNHelper.For.Result" href="./htmlsrc/std.algorithm.html#L172" kind="alias" beg="172" end="172">Result</a>; <a title="Permalink to this symbol" href="#NxNHelper.For.Result" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L172">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">auto <a class="symbol _variable" name="NxNHelper.For.functions" href="./htmlsrc/std.algorithm.html#L177" kind="variable" beg="177" end="177">functions</a>; <span class="attrs">[<span class="stc">manifest</span>]</span> <a title="Permalink to this symbol" href="#NxNHelper.For.functions" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L177">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">R <a class="symbol _function" name="NxNHelper.For.apply" href="./htmlsrc/std.algorithm.html#L181" kind="function" beg="181" end="192">apply</a><span class="tparams">(uint n, R, E)</span><span class="params">(R <em>a</em>, E <em>b</em>)</span>; <a title="Permalink to this symbol" href="#NxNHelper.For.apply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L181">#</a></dt>
+<dd class="ddef"></dd></dl></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="reduce" href="./htmlsrc/std.algorithm.html#L288" kind="template" beg="288" end="332">reduce</a><span class="tparams">(F...)</span>; <a title="Permalink to this symbol" href="#reduce" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L288">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements the homonym function (also known as <span class="d_psymbol"><i>accumulate</i></span>, <span class="d_psymbol"><i>
+compress</i></span>, <span class="d_psymbol"><i>inject</i></span>, or <span class="d_psymbol"><i>foldl</i></span>) present in various programming
+languages of functional flavor. The call <span class="d_psymbol"><i>reduce!(fun)(seed,
+range)</i></span> first assigns <span class="d_psymbol"><i>seed</i></span> to an internal variable <span class="d_psymbol"><i>result</i></span>,
+also called the accumulator. Then, for each element <span class="d_psymbol"><i>x</i></span> in <span class="d_psymbol"><i>
+range</i></span>, <span class="d_psymbol"><i>result = fun(result, x)</i></span> gets evaluated. Finally, <span class="d_psymbol"><i>
+result</i></span> is returned. Many aggregate range operations turn out to be
+solved with <span class="d_psymbol"><i>reduce</i></span> quickly and easily. The example below
+illustrates <span class="d_psymbol"><i>reduce</i></span>'s remarkable power and flexibility.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">arr</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span> ];
+<span class="lc">// Sum all elements</span>
+<span class="k">auto</span> <span class="i">sum</span> = <span class="i">reduce</span>!(<span class="sl">"a + b"</span>)(<span class="n">0</span>, <span class="i">arr</span>);
+<span class="k">assert</span>(<span class="i">sum</span> == <span class="n">15</span>);
+
+<span class="lc">// Compute the maximum of all elements</span>
+<span class="k">auto</span> <span class="i">largest</span> = <span class="i">reduce</span>!(<span class="i">max</span>)(<span class="i">arr</span>[<span class="n">0</span>], <span class="i">arr</span>[<span class="n">1</span> .. $]);
+<span class="k">assert</span>(<span class="i">largest</span> == <span class="n">5</span>);
+
+<span class="lc">// Compute the number of odd elements</span>
+<span class="k">auto</span> <span class="i">odds</span> = <span class="i">reduce</span>!(<span class="sl">"a + (b &amp; 1)"</span>)(<span class="n">0</span>, <span class="i">arr</span>);
+<span class="k">assert</span>(<span class="i">odds</span> == <span class="n">3</span>);
+
+<span class="lc">// Compute the sum of squares</span>
+<span class="k">auto</span> <span class="i">ssquares</span> = <span class="i">reduce</span>!(<span class="sl">"a + b * b"</span>)(<span class="n">0</span>, <span class="i">arr</span>);
+<span class="k">assert</span>(<span class="i">ssquares</span> == <span class="n">55</span>);
+</pre>
+<p class="bl"/>
+<p class="sec_header">Multiple ranges:</p> It is possible to pass any number
+of ranges to <span class="d_psymbol"><i>reduce</i></span>, as in <span class="d_psymbol"><i>reduce!(fun)(seed, range1, range2,
+range3)</i></span>. Then <span class="d_psymbol"><i>reduce</i></span> will simply apply its algorithm in
+succession to each range, from left to right.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ <span class="n">3</span>, <span class="n">4</span> ];
+<span class="k">int</span>[] <span class="i">b</span> = [ <span class="n">100</span> ];
+<span class="k">auto</span> <span class="i">r</span> = <span class="i">reduce</span>!(<span class="sl">"a + b"</span>)(<span class="n">0</span>, <span class="i">a</span>, <span class="i">b</span>);
+<span class="k">assert</span>(<span class="i">r</span> == <span class="n">107</span>);
+
+<span class="lc">// Mixing convertible types is fair game, too</span>
+<span class="k">double</span>[] <span class="i">c</span> = [ <span class="n">2.5</span>, <span class="n">3.0</span> ];
+<span class="k">auto</span> <span class="i">r1</span> = <span class="i">reduce</span>!(<span class="sl">"a + b"</span>)(<span class="n">0.0</span>, <span class="i">a</span>, <span class="i">b</span>, <span class="i">c</span>);
+<span class="k">assert</span>(<span class="i">r1</span> == <span class="n">112.5</span>);
+</pre>
+<p class="bl"/>
+<p class="sec_header">Multiple functions:</p> Sometimes it is very useful to
+compute multiple aggregates in one pass. One advantage is that the
+computation is faster because the looping overhead is shared. That's
+why <span class="d_psymbol"><i>reduce</i></span> accepts multiple functions. If two or more functions
+are passed, <span class="d_psymbol"><i>reduce</i></span> returns a <a href=std_typecons.html#Tuple>std.typecons.Tuple</a> object with
+one member per passed-in function. The number of seeds must be
+correspondingly increased.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">double</span>[] <span class="i">a</span> = [ <span class="n">3.0</span>, <span class="n">4</span>, <span class="n">7</span>, <span class="n">11</span>, <span class="n">3</span>, <span class="n">2</span>, <span class="n">5</span> ];
+<span class="lc">// Compute minimum and maximum in one pass</span>
+<span class="k">auto</span> <span class="i">r</span> = <span class="i">reduce</span>!(<span class="i">min</span>, <span class="i">max</span>)(<span class="k">double</span>.<span class="i">max</span>, -<span class="k">double</span>.<span class="i">max</span>, <span class="i">a</span>);
+<span class="lc">// The type of r is Tuple!(double, double)</span>
+<span class="k">assert</span>(<span class="i">r</span>.<span class="i">_0</span> == <span class="n">2</span>);  <span class="lc">// minimum</span>
+<span class="k">assert</span>(<span class="i">r</span>.<span class="i">_1</span> == <span class="n">11</span>); <span class="lc">// maximum</span>
+
+<span class="lc">// Compute sum and sum of squares in one pass</span>
+<span class="i">r</span> = <span class="i">reduce</span>!(<span class="sl">"a + b"</span>, <span class="sl">"a + b * b"</span>)(<span class="n">0.0</span>, <span class="n">0.0</span>, <span class="i">a</span>);
+<span class="k">assert</span>(<span class="i">r</span>.<span class="i">_0</span> == <span class="n">35</span>);  <span class="lc">// sum</span>
+<span class="k">assert</span>(<span class="i">r</span>.<span class="i">_1</span> == <span class="n">233</span>); <span class="lc">// sum of squares</span>
+<span class="lc">// Compute average and standard deviation from the above</span>
+<span class="k">auto</span> <span class="i">avg</span> = <span class="i">r</span>.<span class="i">_0</span> / <span class="i">a</span>.<span class="i">length</span>;
+<span class="k">auto</span> <span class="i">stdev</span> = <span class="i">sqrt</span>(<span class="i">r</span>.<span class="i">_1</span> / <span class="i">a</span>.<span class="i">length</span> - <span class="i">avg</span> * <span class="i">avg</span>);
+</pre>
+<p class="bl"/>
+<p class="sec_header">Multiple ranges and functions:</p> The most general form
+of <span class="d_psymbol"><i>reduce</i></span> accepts multiple functions and multiple ranges
+simultaneously. The call <span class="d_psymbol"><i>reduce!(fun1, ..., funN)(seed1, ...,
+seedN, range1, ..., rangeM)</i></span> applies the reduction algorithm for all
+functions and all ranges.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ <span class="n">3</span>, <span class="n">4</span>, <span class="n">7</span>, <span class="n">11</span>, <span class="n">3</span>, <span class="n">2</span>, <span class="n">5</span> ];
+<span class="k">double</span>[] <span class="i">b</span> = [ <span class="n">2.5</span>, <span class="n">4</span>, -<span class="n">4.5</span>, <span class="n">2</span>, <span class="n">10.9</span> ];
+<span class="lc">// Compute minimum and maximum in one pass over a and b</span>
+<span class="k">auto</span> <span class="i">r</span> = <span class="i">reduce</span>!(<span class="i">min</span>, <span class="i">max</span>)(<span class="k">double</span>.<span class="i">max</span>, -<span class="k">double</span>.<span class="i">max</span>, <span class="i">a</span>, <span class="i">b</span>);
+<span class="k">assert</span>(<span class="i">r</span>.<span class="i">_0</span> == -<span class="n">4.5</span>);  <span class="lc">// minimum</span>
+<span class="k">assert</span>(<span class="i">r</span>.<span class="i">_1</span> == <span class="n">11</span>);    <span class="lc">// maximum</span>
+</pre>
+<dl>
+<dt class="decl">NxNHelper!(F).For!(Args).Result <a class="symbol _function" name="reduce.reduce" href="./htmlsrc/std.algorithm.html#L290" kind="function" beg="290" end="331">reduce</a><span class="tparams">(Args...)</span><span class="params">(Args <em>args</em>)</span>; <a title="Permalink to this symbol" href="#reduce.reduce" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L290">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.algorithm.html#L334" kind="unittest" beg="334" end="349">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L334">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Range <a class="symbol _function" name="overlap" href="./htmlsrc/std.algorithm.html#L371" kind="function" beg="371" end="376">overlap</a><span class="tparams">(Range)</span><span class="params">(Range <em>r1</em>, Range <em>r2</em>)</span>; <a title="Permalink to this symbol" href="#overlap" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L371">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the overlapping range, if any, of two ranges. Unlike <span class="d_psymbol"><i>
+equal</i></span>, <span class="d_psymbol"><i>overlap</i></span> only compares the iterators in the ranges, not
+the values referred by them. If <span class="d_psymbol"><i>r1</i></span> and <span class="d_psymbol"><i>r2</i></span> have an
+overlapping range, returns that range. Otherwise, returns an empty
+range. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>min(r1.length, r2.length)</i></span><b></i>)</i></b> iterator increment
+operations and comparisons if the ranges are forward, and <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>1</i></span><b></i>)</i></b>
+operations if the ranges have random access.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ <span class="n">10</span>, <span class="n">11</span>, <span class="n">12</span>, <span class="n">13</span>, <span class="n">14</span> ];
+<span class="k">int</span>[] <span class="i">b</span> = <span class="i">a</span>[<span class="n">1</span> .. <span class="n">3</span>];
+<span class="k">assert</span>(<span class="i">overlap</span>(<span class="i">a</span>, <span class="i">b</span>) == [ <span class="n">11</span>, <span class="n">12</span> ]);
+<span class="i">b</span> = <span class="i">b</span>.<span class="i">dup</span>;
+<span class="lc">// overlap disappears even though the content is the same</span>
+<span class="k">assert</span>(<span class="i">isEmpty</span>(<span class="i">overlap</span>(<span class="i">a</span>, <span class="i">b</span>)));
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:3" href="./htmlsrc/std.algorithm.html#L378" kind="unittest" beg="378" end="384">unittest</a>; <a title="Permalink to this symbol" href="#unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L378">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Ranges[0] <a class="symbol _function" name="filter" href="./htmlsrc/std.algorithm.html#L421" kind="function" beg="421" end="434">filter</a><span class="tparams">(alias pred, Ranges...)</span><span class="params">(Ranges <em>rs</em>)</span>; <a title="Permalink to this symbol" href="#filter" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L421">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements the homonym function present in various programming
+languages of functional flavor. The call <span class="d_psymbol"><i>filter!(fun)(range)</i></span>
+returns a new range only containing elements <span class="d_psymbol"><i>x</i></span> in <span class="d_psymbol"><i>r</i></span> for
+which <span class="d_psymbol"><i>pred(x)</i></span> is <span class="d_psymbol"><i>true</i></span>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">arr</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span> ];
+<span class="lc">// Sum all elements</span>
+<span class="k">auto</span> <span class="i">small</span> = <span class="i">filter</span>!(<span class="sl">"a &lt; 3"</span>)(<span class="i">arr</span>);
+<span class="k">assert</span>(<span class="i">small</span> == [ <span class="n">1</span>, <span class="n">2</span> ]);
+</pre>
+<p class="bl"/>
+<p class="sec_header">Multiple ranges:</p> It is possible to pass any number
+of ranges to <span class="d_psymbol"><i>filter</i></span>, as in <span class="d_psymbol"><i>filter!(fun)(range1, range2,
+range3)</i></span>. Then <span class="d_psymbol"><i>filter</i></span> will simply apply its algorithm in
+succession to each range, from left to right. The type returned is
+that of the first range.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ <span class="n">3</span>, -<span class="n">2</span>, <span class="n">400</span> ];
+<span class="k">int</span>[] <span class="i">b</span> = [ <span class="n">100</span>, -<span class="n">101</span>, <span class="n">102</span> ];
+<span class="k">auto</span> <span class="i">r</span> = <span class="i">filter</span>!(<span class="sl">"a &gt; 0"</span>)(<span class="i">a</span>, <span class="i">b</span>);
+<span class="k">assert</span>(<span class="i">r</span> == [ <span class="n">3</span>, <span class="n">400</span>, <span class="n">100</span>, <span class="n">102</span> ]);
+
+<span class="lc">// Mixing convertible types is fair game, too</span>
+<span class="k">double</span>[] <span class="i">c</span> = [ <span class="n">2.5</span>, <span class="n">3.0</span> ];
+<span class="k">auto</span> <span class="i">r1</span> = <span class="i">filter</span>!(<span class="sl">"cast(int) a != a"</span>)(<span class="i">c</span>, <span class="i">a</span>, <span class="i">b</span>);
+<span class="k">assert</span>(<span class="i">r1</span> == [ <span class="n">2.5</span> ]);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:4" href="./htmlsrc/std.algorithm.html#L436" kind="unittest" beg="436" end="445">unittest</a>; <a title="Permalink to this symbol" href="#unittest:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L436">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="inPlace" href="./htmlsrc/std.algorithm.html#L465" kind="function" beg="465" end="475">inPlace</a><span class="tparams">(alias fun, Range, Ranges...)</span><span class="params">(Range <em>r</em>, Ranges <em>rs</em>)</span>; <a title="Permalink to this symbol" href="#inPlace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L465">#</a></dt>
+<dd class="ddef">
+<div class="summary">Similar to <span class="d_psymbol"><i>map</i></span>, but it manipulates the passed-in ranges in place
+and returns <span class="d_psymbol"><i>void</i></span>. The call <span class="d_psymbol"><i>inPlace!(fun)(range1, range2, ...,
+rangeN)</i></span> applies <span class="d_psymbol"><i>fun(x)</i></span> left to right for all <span class="d_psymbol"><i>ref x</i></span> in <span class="d_psymbol"><i>
+range1</i></span>, then all <span class="d_psymbol"><i>ref x</i></span> in <span class="d_psymbol"><i>range2</i></span>, ..., all <span class="d_psymbol"><i>ref x</i></span> in
+<span class="d_psymbol"><i>rangeN</i></span>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">arr1</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span> ];
+<span class="i">inPlace</span>!(<span class="i">writeln</span>)(<span class="i">arr1</span>); <span class="lc">// print the array</span>
+<span class="k">double</span>[] <span class="i">arr2</span> = [ <span class="n">4.0</span>, <span class="n">8.5</span>, <span class="n">13</span> ];
+<span class="i">inPlace</span>!(<span class="sl">"++a"</span>)(<span class="i">arr1</span>, <span class="i">arr2</span>);
+<span class="k">assert</span>(<span class="i">arr1</span> == [ <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span> ]);
+<span class="k">assert</span>(<span class="i">arr2</span> == [ <span class="n">5.0</span>, <span class="n">9.5</span>, <span class="n">14</span> ]);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:5" href="./htmlsrc/std.algorithm.html#L477" kind="unittest" beg="477" end="491">unittest</a>; <a title="Permalink to this symbol" href="#unittest:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L477">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="move" href="./htmlsrc/std.algorithm.html#L505" kind="function" beg="505" end="524">move</a><span class="tparams">(T)</span><span class="params">(ref T <em>source</em>, ref T <em>target</em>)</span>; <a title="Permalink to this symbol" href="#move" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L505">#</a></dt>
+<dd class="ddef">
+<div class="summary">Moves <span class="d_psymbol"><i>source</i></span> into <span class="d_psymbol"><i>target</i></span> via a destructive
+copy. Specifically: <ul><li>If <span class="d_psymbol"><i>hasAliasing!(T)</i></span> is true (see
+<a href=std_traits.html#hasAliasing>std.traits.hasAliasing</a>), then the representation of <span class="d_psymbol"><i>source</i></span>
+is bitwise copied into <span class="d_psymbol"><i>target</i></span> and then <span class="d_psymbol"><i>source = T.init</i></span> is
+evaluated.</li>  <li>Otherwise, <span class="d_psymbol"><i>target = source</i></span> is evaluated.</li></ul> See
+also <a href=std_contracts.html#pointsTo>std.contracts.pointsTo</a>.</div>
+<p class="sec_header">Preconditions:</p><span class="d_psymbol"><i>!pointsTo(source, source)</i></span></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:6" href="./htmlsrc/std.algorithm.html#L526" kind="unittest" beg="526" end="545">unittest</a>; <a title="Permalink to this symbol" href="#unittest:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L526">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="swap" href="./htmlsrc/std.algorithm.html#L556" kind="function" beg="556" end="563">swap</a><span class="tparams">(T)</span><span class="params">(ref T <em>lhs</em>, ref T <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#swap" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L556">#</a></dt>
+<dd class="ddef">
+<div class="summary">Swaps <span class="d_psymbol"><i>lhs</i></span> and <span class="d_psymbol"><i>rhs</i></span>. See also <a href=std_contracts.html#pointsTo>std.contracts.pointsTo</a>.</div>
+<p class="sec_header">Preconditions:</p><span class="d_psymbol"><i>!pointsTo(lhs, lhs) && !pointsTo(lhs, rhs) && !pointsTo(rhs, lhs)
+&& !pointsTo(rhs, rhs)</i></span></dd>
+<dt class="decl">Range <a class="symbol _function" name="overwriteAdjacent" href="./htmlsrc/std.algorithm.html#L587" kind="function" beg="587" end="609">overwriteAdjacent</a><span class="tparams">(alias pred, alias move, Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#overwriteAdjacent" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L587">#</a></dt>
+<dt class="decl">Range <a class="symbol _function" name="overwriteAdjacent:2" href="./htmlsrc/std.algorithm.html#L612" kind="function" beg="612" end="618">overwriteAdjacent</a><span class="tparams">(
+    string fun = "a == b",
+    alias move = .move,
+    Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#overwriteAdjacent:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L612">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reduces <span class="d_psymbol"><i>r</i></span> by shifting it to the left until no adjacent elements
+<span class="d_psymbol"><i>a</i></span>, <span class="d_psymbol"><i>b</i></span> remain in <span class="d_psymbol"><i>r</i></span> such that <span class="d_psymbol"><i>pred(a, b)</i></span>. Shifting is
+performed by evaluating <span class="d_psymbol"><i>move(source, target)</i></span> as a primitive. The
+algorithm is stable and runs in <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>r.length</i></span><b></i>)</i></b> time. Returns the
+reduced range.</div>
+The default <a href=std__algorithm.html#move>std._algorithm.move</a> performs a potentially
+destructive assignment of <span class="d_psymbol"><i>source</i></span> to <span class="d_psymbol"><i>target</i></span>, so the objects
+beyond the returned range should be considered "empty". By default <span class="d_psymbol"><i>
+pred</i></span> compares for equality, in which case <span class="d_psymbol"><i>overwriteAdjacent</i></span>
+collapses adjacent duplicate elements to one (functionality akin to
+the <a href="http://wikipedia.org/wiki/Uniq">uniq</a> system utility).
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">arr</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">2</span>, <span class="n">2</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">4</span>, <span class="n">4</span>, <span class="n">5</span> ];
+<span class="k">auto</span> <span class="i">r</span> = <span class="i">overwriteAdjacent</span>(<span class="i">arr</span>);
+<span class="k">assert</span>(<span class="i">r</span> == [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span> ]);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:7" href="./htmlsrc/std.algorithm.html#L620" kind="unittest" beg="620" end="627">unittest</a>; <a title="Permalink to this symbol" href="#unittest:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L620">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Iterator!(Range) <a class="symbol _function" name="find" href="./htmlsrc/std.algorithm.html#L654" kind="function" beg="654" end="664">find</a><span class="tparams">(alias pred = "a == b", Range, E)</span><span class="params">(Range <em>haystack</em>, E <em>needle</em>)</span>; <a title="Permalink to this symbol" href="#find" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L654">#</a></dt>
+<dd class="ddef">
+<div class="summary">Finds the first occurrence of <span class="d_psymbol"><i>needle</i></span> in <span class="d_psymbol"><i>haystack</i></span> by linear
+search and returns an iterator to it.  An optional binary predicate
+<span class="d_psymbol"><i>pred</i></span> instructs <span class="d_psymbol"><i>find</i></span> on how to perform the comparison (with
+the current collection element in the first position and <span class="d_psymbol"><i>needle</i></span>
+in the second position). By default, comparison is for
+equality. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>haystack.length</i></span><b></i>)</i></b> evaluations of <span class="d_psymbol"><i>
+pred</i></span>. See also <a href="http://sgi.com/tech/stl/_find.html">STL's _find</a>.</div>
+To find the last occurence of <span class="d_psymbol"><i>needle</i></span> in <span class="d_psymbol"><i>haystack</i></span>, call <span class="d_psymbol"><i>
+find(retro(haystack), needle)</i></span> and compare the result against <span class="d_psymbol"><i>
+rEnd(haystack)</i></span>. See also <a href=std_iterator.html#retro>std.iterator.retro</a>.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">a</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span> ];
+<span class="k">assert</span>(<span class="i">find</span>(<span class="i">a</span>, <span class="n">5</span>) == <span class="i">end</span>(<span class="i">a</span>));       <span class="lc">// not found</span>
+<span class="k">assert</span>(<span class="i">find</span>(<span class="i">a</span>, <span class="n">2</span>) == <span class="i">begin</span>(<span class="i">a</span>) + <span class="n">1</span>); <span class="lc">// found</span>
+
+<span class="lc">// Case-insensitive find of a string</span>
+<span class="i">string</span>[] <span class="i">s</span> = [ <span class="sl">"Hello"</span>, <span class="sl">"world"</span>, <span class="sl">"!"</span> ];
+<span class="k">assert</span>(<span class="i">find</span>!(<span class="sl">"toupper(a) == toupper(b)"</span>)(<span class="i">s</span>, <span class="sl">"hello"</span>) == <span class="i">begin</span>(<span class="i">s</span>));
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:8" href="./htmlsrc/std.algorithm.html#L666" kind="unittest" beg="666" end="687">unittest</a>; <a title="Permalink to this symbol" href="#unittest:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L666">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:9" href="./htmlsrc/std.algorithm.html#L689" kind="unittest" beg="689" end="703">unittest</a>; <a title="Permalink to this symbol" href="#unittest:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L689">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Iterator!(Range) <a class="symbol _function" name="find:2" href="./htmlsrc/std.algorithm.html#L724" kind="function" beg="724" end="732">find</a><span class="tparams">(alias pred, Range)</span><span class="params">(Range <em>haystack</em>)</span>; <a title="Permalink to this symbol" href="#find:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L724">#</a></dt>
+<dd class="ddef">
+<div class="summary">Finds the first element in a range satisfying the unary predicate <span class="d_psymbol"><i>
+pred</i></span>. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>haystack.length</i></span><b></i>)</i></b> evaluations of <span class="d_psymbol"><i>pred</i></span>. See
+also <a href="http://sgi.com/tech/stl/find_if.html">STL's find_if</a>.</div>
+To find the last element of <span class="d_psymbol"><i>haystack</i></span> satisfying <span class="d_psymbol"><i>pred</i></span>, call
+<span class="d_psymbol"><i>find!(pred)(retro(haystack))</i></span> and compare the result against <span class="d_psymbol"><i>
+rEnd(haystack)</i></span>. See also <a href=std_iterator.html#retro>std.iterator.retro</a>.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">arr</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span> ];
+<span class="k">assert</span>(<span class="i">find</span>!(<span class="sl">"a &gt; 2"</span>)(<span class="i">arr</span>) == <span class="i">end</span>(<span class="i">arr</span>) - <span class="n">1</span>);
+
+<span class="lc">// with predicate alias</span>
+<span class="k">bool</span> <span class="i">pred</span>(<span class="k">int</span> <span class="i">x</span>) { <span class="k">return</span> <span class="i">x</span> + <span class="n">1</span> &gt; <span class="n">1.5</span>; }
+<span class="k">assert</span>(<span class="i">find</span>!(<span class="i">pred</span>)(<span class="i">arr</span>) == <span class="i">begin</span>(<span class="i">arr</span>));
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:10" href="./htmlsrc/std.algorithm.html#L734" kind="unittest" beg="734" end="740">unittest</a>; <a title="Permalink to this symbol" href="#unittest:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L734">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Iterator!(Range1) <a class="symbol _function" name="findRange" href="./htmlsrc/std.algorithm.html#L759" kind="function" beg="759" end="772">findRange</a><span class="tparams">(alias pred = "a == b", Range1, Range2)</span><span class="params">(Range1 <em>seq</em>, Range2 <em>subseq</em>)</span>; <a title="Permalink to this symbol" href="#findRange" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L759">#</a></dt>
+<dd class="ddef">
+<div class="summary">Finds the first occurrence of <span class="d_psymbol"><i>subseq</i></span> in <span class="d_psymbol"><i>seq</i></span> by repeated
+linear searches.  Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>seq.length * subseq.length</i></span><b></i>)</i></b>
+evaluations of <span class="d_psymbol"><i>pred</i></span>, which makes it unrecommended for very large
+ranges, for which <a href=std_algorithm.html#findBoyerMoore>std.algorithm.findBoyerMoore</a> may be more
+appropriate. See also <a href="http://sgi.com/tech/stl/search.html">STL's
+search</a>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ -<span class="n">1</span>, <span class="n">0</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span> ];
+<span class="k">int</span>[] <span class="i">b</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span> ];
+<span class="k">assert</span>(<span class="i">findRange</span>(<span class="i">a</span>, <span class="i">b</span>) == <span class="i">begin</span>(<span class="i">a</span>) + <span class="n">2</span>);
+<span class="k">assert</span>(<span class="i">findRange</span>(<span class="i">b</span>, <span class="i">a</span>) == <span class="i">end</span>(<span class="i">b</span>));
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:11" href="./htmlsrc/std.algorithm.html#L774" kind="unittest" beg="774" end="780">unittest</a>; <a title="Permalink to this symbol" href="#unittest:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L774">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">struct <a class="symbol _struct" name="BoyerMooreFinder" href="./htmlsrc/std.algorithm.html#L783" kind="struct" beg="783" end="874">BoyerMooreFinder</a><span class="tparams">(alias pred, Range)</span>; <a title="Permalink to this symbol" href="#BoyerMooreFinder" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L783">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">size_t skip[] <a class="symbol _variable" name="BoyerMooreFinder.skip" href="./htmlsrc/std.algorithm.html#L786" kind="variable" beg="786" end="786">skip</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#BoyerMooreFinder.skip" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L786">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int[typeof(Range[0])] <a class="symbol _variable" name="BoyerMooreFinder.occ" href="./htmlsrc/std.algorithm.html#L787" kind="variable" beg="787" end="787">occ</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#BoyerMooreFinder.occ" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L787">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Range <a class="symbol _variable" name="BoyerMooreFinder.needle" href="./htmlsrc/std.algorithm.html#L788" kind="variable" beg="788" end="788">needle</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#BoyerMooreFinder.needle" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L788">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="BoyerMooreFinder.occurrence" href="./htmlsrc/std.algorithm.html#L790" kind="function" beg="790" end="794">occurrence</a><span class="params">(char <em>c</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#BoyerMooreFinder.occurrence" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L790">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="BoyerMooreFinder.needlematch" href="./htmlsrc/std.algorithm.html#L803" kind="function" beg="803" end="820">needlematch</a><span class="tparams">(R)</span><span class="params">(R <em>needle</em>, size_t <em>portion</em>, size_t <em>offset</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#BoyerMooreFinder.needlematch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L803">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">BoyerMooreFinder <a class="symbol _function" name="BoyerMooreFinder.opCall" href="./htmlsrc/std.algorithm.html#L823" kind="function" beg="823" end="849">opCall</a><span class="params">(Range <em>needle</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#BoyerMooreFinder.opCall" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L823">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Iterator!(Range) <a class="symbol _function" name="BoyerMooreFinder.inspect" href="./htmlsrc/std.algorithm.html#L851" kind="function" beg="851" end="868">inspect</a><span class="params">(Range <em>haystack</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#BoyerMooreFinder.inspect" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L851">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="BoyerMooreFinder.length" href="./htmlsrc/std.algorithm.html#L870" kind="function" beg="870" end="873">length</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#BoyerMooreFinder.length" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L870">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">Iterator!(Range) <a class="symbol _function" name="findBoyerMoore" href="./htmlsrc/std.algorithm.html#L897" kind="function" beg="897" end="901">findBoyerMoore</a><span class="tparams">(alias pred = "a == b", Range)</span><span class="params">(Range <em>seq</em>, Range <em>subseq</em>)</span>; <a title="Permalink to this symbol" href="#findBoyerMoore" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L897">#</a></dt>
+<dd class="ddef">
+<div class="summary">Finds the first occurrence of <span class="d_psymbol"><i>subseq</i></span> in <span class="d_psymbol"><i>seq</i></span> by using the
+<a href="http://www-igm.univ-mlv.fr/~lecroq/string/node14.html">Boyer-Moore
+algorithm</a>.  The algorithm has an upfront cost but scales sublinearly,
+so it is most suitable for large sequences. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>
+seq.length</i></span><b></i>)</i></b> evaluations of <span class="d_psymbol"><i>pred</i></span> in the worst case and <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>
+seq.length / subseq.length</i></span><b></i>)</i></b> evaluations in the best case.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ -<span class="n">1</span>, <span class="n">0</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span> ];
+<span class="k">int</span>[] <span class="i">b</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span> ];
+<span class="k">assert</span>(<span class="i">findBoyerMoore</span>(<span class="i">a</span>, <span class="i">b</span>) == <span class="i">begin</span>(<span class="i">a</span>) + <span class="n">2</span>);
+<span class="k">assert</span>(<span class="i">findBoyerMoore</span>(<span class="i">b</span>, <span class="i">a</span>) == <span class="i">end</span>(<span class="i">b</span>));
+</pre>
+<p class="sec_header"><span class="red">Bugs:</span></p>Should cache the scaffolding built for the last <span class="d_psymbol"><i>subseq</i></span> in
+thread-safe storage so it is not rebuilt repeatedly.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:12" href="./htmlsrc/std.algorithm.html#L903" kind="unittest" beg="903" end="918">unittest</a>; <a title="Permalink to this symbol" href="#unittest:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L903">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Iterator!(Range) <a class="symbol _function" name="findAdjacent" href="./htmlsrc/std.algorithm.html#L936" kind="function" beg="936" end="946">findAdjacent</a><span class="tparams">(alias pred = "a == b", Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#findAdjacent" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L936">#</a></dt>
+<dd class="ddef">
+<div class="summary">Finds the first two adjacent elements <span class="d_psymbol"><i>a</i></span>, <span class="d_psymbol"><i>b</i></span> in the range <span class="d_psymbol"><i>
+r</i></span> that satisfy <span class="d_psymbol"><i>pred(a, b)</i></span>. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>r.length</i></span><b></i>)</i></b>
+evaluations of <span class="d_psymbol"><i>pred</i></span>. See also <a href="http://
+sgi.com/tech/stl/adjacent_find.html">STL's adjacent_find</a>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ <span class="n">11</span>, <span class="n">10</span>, <span class="n">10</span>, <span class="n">9</span>, <span class="n">8</span>, <span class="n">8</span>, <span class="n">7</span>, <span class="n">8</span>, <span class="n">9</span> ];
+<span class="k">auto</span> <span class="i">p</span> = <span class="i">findAdjacent</span>(<span class="i">a</span>);
+<span class="k">assert</span>(<span class="i">p</span> == <span class="i">begin</span>(<span class="i">a</span>) + <span class="n">1</span>);
+<span class="i">p</span> = <span class="i">findAdjacent</span>!(<span class="sl">"a &lt; b"</span>)(<span class="i">a</span>);
+<span class="k">assert</span>(<span class="i">p</span> == <span class="i">begin</span>(<span class="i">a</span>) + <span class="n">6</span>);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:13" href="./htmlsrc/std.algorithm.html#L948" kind="unittest" beg="948" end="955">unittest</a>; <a title="Permalink to this symbol" href="#unittest:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L948">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Iterator!(Range1) <a class="symbol _function" name="findAmong" href="./htmlsrc/std.algorithm.html#L973" kind="function" beg="973" end="981">findAmong</a><span class="tparams">(alias pred = "a == b", Range1, Range2)</span><span class="params">(Range1 <em>seq</em>, Range2 <em>choices</em>)</span>; <a title="Permalink to this symbol" href="#findAmong" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L973">#</a></dt>
+<dd class="ddef">
+<div class="summary">Finds the first element in <span class="d_psymbol"><i>seq</i></span> that compares equal (according to
+<span class="d_psymbol"><i>pred</i></span>) with some element in <span class="d_psymbol"><i>choices</i></span>. Choices are sought by
+linear search. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>seq.length * choices.length</i></span><b></i>)</i></b>
+evaluations of <span class="d_psymbol"><i>pred</i></span>. See also <a href="http://
+sgi.com/tech/stl/find_first_of.html">STL's find_first_of</a>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ -<span class="n">1</span>, <span class="n">0</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span> ];
+<span class="k">int</span>[] <span class="i">b</span> = [ <span class="n">3</span>, <span class="n">1</span>, <span class="n">2</span> ];
+<span class="k">assert</span>(<span class="i">findAmong</span>(<span class="i">a</span>, <span class="i">b</span>) == <span class="i">begin</span>(<span class="i">a</span>) + <span class="n">2</span>);
+<span class="k">assert</span>(<span class="i">findAmong</span>(<span class="i">b</span>, <span class="i">a</span>) == <span class="i">begin</span>(<span class="i">b</span>));
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:14" href="./htmlsrc/std.algorithm.html#L983" kind="unittest" beg="983" end="991">unittest</a>; <a title="Permalink to this symbol" href="#unittest:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L983">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Iterator!(Range1) <a class="symbol _function" name="findAmongSorted" href="./htmlsrc/std.algorithm.html#L1014" kind="function" beg="1014" end="1024">findAmongSorted</a><span class="tparams">(alias less = "a &lt; b", Range1, Range2)</span><span class="params">(Range1 <em>seq</em>, in Range2 <em>choices</em>)</span>; <a title="Permalink to this symbol" href="#findAmongSorted" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1014">#</a></dt>
+<dd class="ddef">
+<div class="summary">Finds the first element <span class="d_psymbol"><i>x</i></span> in <span class="d_psymbol"><i>seq</i></span> that compares equal with
+some element <span class="d_psymbol"><i>y</i></span> in <span class="d_psymbol"><i>choices</i></span> (meaning <span class="d_psymbol"><i>!less(x, y) &&
+!less(y, x)</i></span>). The <span class="d_psymbol"><i>choices</i></span> range is sought by binary
+search. Consequently <span class="d_psymbol"><i>choices</i></span> is assumed to be sorted according to
+<span class="d_psymbol"><i>pred</i></span>, which by default is <span class="d_psymbol"><i>"a < b"</i></span>. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>
+seq.length * log(choices.length)</i></span><b></i>)</i></b> evaluations of <span class="d_psymbol"><i>less</i></span>.</div>
+To find the last element of <span class="d_psymbol"><i>seq</i></span> instead of the first, call <span class="d_psymbol"><i>
+findAmongSorted(retro(seq), choices)</i></span> and compare the result against
+<span class="d_psymbol"><i>rEnd(seq)</i></span>. See also <a href=std_iterator.html#retro>std.iterator.retro</a>.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ -<span class="n">1</span>, <span class="n">0</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span> ];
+<span class="k">int</span>[] <span class="i">b</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span> ];
+<span class="k">assert</span>(<span class="i">findAmongSorted</span>(<span class="i">a</span>, <span class="i">b</span>) == <span class="i">begin</span>(<span class="i">a</span>) + <span class="n">2</span>);
+<span class="k">assert</span>(<span class="i">findAmongSorted</span>(<span class="i">b</span>, <span class="i">a</span>) == <span class="i">end</span>(<span class="i">b</span>));
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:15" href="./htmlsrc/std.algorithm.html#L1026" kind="unittest" beg="1026" end="1032">unittest</a>; <a title="Permalink to this symbol" href="#unittest:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1026">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="canFind" href="./htmlsrc/std.algorithm.html#L1051" kind="function" beg="1051" end="1054">canFind</a><span class="tparams">(alias pred = "a == b", Range, E)</span><span class="params">(Range <em>haystack</em>, E <em>needle</em>)</span>; <a title="Permalink to this symbol" href="#canFind" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1051">#</a></dt>
+<dt class="decl">bool <a class="symbol _function" name="canFind:2" href="./htmlsrc/std.algorithm.html#L1057" kind="function" beg="1057" end="1060">canFind</a><span class="tparams">(alias pred, Range)</span><span class="params">(Range <em>haystack</em>)</span>; <a title="Permalink to this symbol" href="#canFind:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1057">#</a></dt>
+<dt class="decl">bool <a class="symbol _function" name="canFindAmong" href="./htmlsrc/std.algorithm.html#L1063" kind="function" beg="1063" end="1066">canFindAmong</a><span class="tparams">(alias pred, Range1, Range2)</span><span class="params">(Range1 <em>seq</em>, Range2 <em>choices</em>)</span>; <a title="Permalink to this symbol" href="#canFindAmong" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1063">#</a></dt>
+<dt class="decl">bool <a class="symbol _function" name="canFindAmongSorted" href="./htmlsrc/std.algorithm.html#L1069" kind="function" beg="1069" end="1072">canFindAmongSorted</a><span class="tparams">(alias pred, Range1, Range2)</span><span class="params">(Range1 <em>seq</em>, Range2 <em>choices</em>)</span>; <a title="Permalink to this symbol" href="#canFindAmongSorted" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1069">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convenience functions returning <span class="d_psymbol"><i>true</i></span> if and only if the
+corresponding <span class="d_psymbol"><i>find*</i></span> functions return an iterator different from
+<span class="d_psymbol"><i>end(r)</i></span>. They are handy in the numerous situations when the
+success of the <span class="d_psymbol"><i>find*</i></span> functions is queried but the actual position
+found is unimportant.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ -<span class="n">1</span>, <span class="n">0</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span> ];
+<span class="k">assert</span>(<span class="i">canFind</span>(<span class="i">a</span>, <span class="n">4</span>));
+<span class="k">assert</span>(!<span class="i">canFind</span>(<span class="i">a</span>, <span class="n">10</span>));
+<span class="k">assert</span>(<span class="i">canFind</span>!(<span class="sl">"a - 1 &lt; b"</span>)(<span class="i">a</span>, <span class="n">4</span>));
+<span class="k">assert</span>(!<span class="i">canFind</span>!(<span class="sl">"a &gt; 5"</span>)(<span class="i">a</span>));
+</pre></dd>
+<dt class="decl">size_t <a class="symbol _function" name="count" href="./htmlsrc/std.algorithm.html#L1088" kind="function" beg="1088" end="1092">count</a><span class="tparams">(alias pred = "a == b", Range, E)</span><span class="params">(Range <em>r</em>, E <em>value</em>)</span>; <a title="Permalink to this symbol" href="#count" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1088">#</a></dt>
+<dd class="ddef">
+<div class="summary">Counts the number of elements <span class="d_psymbol"><i>x</i></span> in <span class="d_psymbol"><i>r</i></span> for which <span class="d_psymbol"><i>pred(x,
+value)</i></span> is <span class="d_psymbol"><i>true</i></span>. <span class="d_psymbol"><i>pred</i></span> defaults to equality. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>
+r.length</i></span><b></i>)</i></b> evaluations of <span class="d_psymbol"><i>pred</i></span>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">4</span>, <span class="n">3</span>, <span class="n">2</span>, <span class="n">5</span>, <span class="n">3</span>, <span class="n">2</span>, <span class="n">4</span> ];
+<span class="k">assert</span>(<span class="i">count</span>(<span class="i">a</span>, <span class="n">2</span>) == <span class="n">3</span>);
+<span class="k">assert</span>(<span class="i">count</span>!(<span class="sl">"a &gt; b"</span>)(<span class="i">a</span>, <span class="n">2</span>) == <span class="n">5</span>);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:16" href="./htmlsrc/std.algorithm.html#L1094" kind="unittest" beg="1094" end="1099">unittest</a>; <a title="Permalink to this symbol" href="#unittest:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1094">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="count:2" href="./htmlsrc/std.algorithm.html#L1111" kind="function" beg="1111" end="1119">count</a><span class="tparams">(alias pred, Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#count:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1111">#</a></dt>
+<dd class="ddef">
+<div class="summary">Counts the number of elements <span class="d_psymbol"><i>x</i></span> in <span class="d_psymbol"><i>r</i></span> for which <span class="d_psymbol"><i>pred(x)</i></span>
+is <span class="d_psymbol"><i>true</i></span>. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>r.length</i></span><b></i>)</i></b> evaluations of <span class="d_psymbol"><i>pred</i></span>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">4</span>, <span class="n">3</span>, <span class="n">2</span>, <span class="n">5</span>, <span class="n">3</span>, <span class="n">2</span>, <span class="n">4</span> ];
+<span class="k">assert</span>(<span class="i">count</span>!(<span class="sl">"a &gt; 1"</span>)(<span class="i">a</span>) == <span class="n">8</span>);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:17" href="./htmlsrc/std.algorithm.html#L1121" kind="unittest" beg="1121" end="1125">unittest</a>; <a title="Permalink to this symbol" href="#unittest:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1121">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="equal" href="./htmlsrc/std.algorithm.html#L1152" kind="function" beg="1152" end="1157">equal</a><span class="tparams">(alias pred = "a == b", Range1, Range2)</span><span class="params">(Range1 <em>r1</em>, Range2 <em>r2</em>)</span>; <a title="Permalink to this symbol" href="#equal" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1152">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns <span class="d_psymbol"><i>true</i></span> if and only if the two ranges compare equal element
+for element, according to binary predicate <span class="d_psymbol"><i>pred</i></span>. The ranges may
+have different element types, as long as <span class="d_psymbol"><i>pred(a, b)</i></span> evaluates to
+<span class="d_psymbol"><i>bool</i></span> for <span class="d_psymbol"><i>a</i></span> in <span class="d_psymbol"><i>r1</i></span> and <span class="d_psymbol"><i>b</i></span> in <span class="d_psymbol"><i>r2</i></span>. Performs
+<i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>min(r1.length, r2.length)</i></span><b></i>)</i></b> evaluations of <span class="d_psymbol"><i>pred</i></span>. See also
+<a href="http://sgi.com/tech/stl/_equal.html">STL's equal</a>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">4</span>, <span class="n">3</span> ];
+<span class="k">assert</span>(!<span class="i">equal</span>(<span class="i">a</span>, <span class="i">a</span>[<span class="n">1</span>..$]));
+<span class="k">assert</span>(<span class="i">equal</span>(<span class="i">a</span>, <span class="i">a</span>));
+
+<span class="lc">// different types</span>
+<span class="k">double</span>[] <span class="i">b</span> = [ <span class="n">1.</span>, <span class="n">2</span>, <span class="n">4</span>, <span class="n">3</span>];
+<span class="k">assert</span>(!<span class="i">equal</span>(<span class="i">a</span>, <span class="i">b</span>[<span class="n">1</span>..$]));
+<span class="k">assert</span>(<span class="i">equal</span>(<span class="i">a</span>, <span class="i">b</span>));
+
+<span class="lc">// predicated: ensure that two vectors are approximately equal</span>
+<span class="k">double</span>[] <span class="i">c</span> = [ <span class="n">1.005</span>, <span class="n">2</span>, <span class="n">4</span>, <span class="n">3</span>];
+<span class="k">assert</span>(<span class="i">equal</span>!(<span class="i">approxEqual</span>)(<span class="i">b</span>, <span class="i">c</span>));
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:18" href="./htmlsrc/std.algorithm.html#L1159" kind="unittest" beg="1159" end="1172">unittest</a>; <a title="Permalink to this symbol" href="#unittest:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1159">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="MinType" href="./htmlsrc/std.algorithm.html#L1175" kind="template" beg="1175" end="1195">MinType</a><span class="tparams">(T...)</span>; <a title="Permalink to this symbol" href="#MinType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1175">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias CommonType!(T[0 .. 2]) <a class="symbol _alias" name="MinType.MinType" href="./htmlsrc/std.algorithm.html#L1181" kind="alias" beg="1181" end="1181">MinType</a>; <a title="Permalink to this symbol" href="#MinType.MinType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1181">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">MinType!(T1, T2, T) <a class="symbol _function" name="min" href="./htmlsrc/std.algorithm.html#L1202" kind="function" beg="1202" end="1220">min</a><span class="tparams">(T1, T2, T...)</span><span class="params">(T1 <em>a</em>, T2 <em>b</em>, T <em>xs</em>)</span>; <a title="Permalink to this symbol" href="#min" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1202">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the minimum of the passed-in values. The type of the result is
+computed by using <a href=std_traits.html#CommonType>std.traits.CommonType</a>.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:19" href="./htmlsrc/std.algorithm.html#L1222" kind="unittest" beg="1222" end="1238">unittest</a>; <a title="Permalink to this symbol" href="#unittest:19" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1222">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="MaxType" href="./htmlsrc/std.algorithm.html#L1241" kind="template" beg="1241" end="1257">MaxType</a><span class="tparams">(T...)</span>; <a title="Permalink to this symbol" href="#MaxType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1241">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias CommonType!(T[0 .. 2]) <a class="symbol _alias" name="MaxType.MaxType" href="./htmlsrc/std.algorithm.html#L1247" kind="alias" beg="1247" end="1247">MaxType</a>; <a title="Permalink to this symbol" href="#MaxType.MaxType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1247">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">MaxType!(T1, T2, T) <a class="symbol _function" name="max" href="./htmlsrc/std.algorithm.html#L1277" kind="function" beg="1277" end="1295">max</a><span class="tparams">(T1, T2, T...)</span><span class="params">(T1 <em>a</em>, T2 <em>b</em>, T <em>xs</em>)</span>; <a title="Permalink to this symbol" href="#max" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1277">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the maximum of the passed-in values. The type of the result is
+computed by using <a href=std_traits.html#CommonType>std.traits.CommonType</a>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span> <span class="i">a</span> = <span class="n">5</span>;
+<span class="k">short</span> <span class="i">b</span> = <span class="n">6</span>;
+<span class="k">double</span> <span class="i">c</span> = <span class="n">2</span>;
+<span class="k">auto</span> <span class="i">d</span> = <span class="i">max</span>(<span class="i">a</span>, <span class="i">b</span>);
+<span class="k">assert</span>(<span class="k">is</span>(<span class="k">typeof</span>(<span class="i">d</span>) == <span class="k">int</span>));
+<span class="k">assert</span>(<span class="i">d</span> == <span class="n">6</span>);
+<span class="k">auto</span> <span class="i">e</span> = <span class="i">min</span>(<span class="i">a</span>, <span class="i">b</span>, <span class="i">c</span>);
+<span class="k">assert</span>(<span class="k">is</span>(<span class="k">typeof</span>(<span class="i">e</span>) == <span class="k">double</span>));
+<span class="k">assert</span>(<span class="i">e</span> == <span class="n">2</span>);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:20" href="./htmlsrc/std.algorithm.html#L1297" kind="unittest" beg="1297" end="1313">unittest</a>; <a title="Permalink to this symbol" href="#unittest:20" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1297">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Tuple!(Iterator!(Range1), Iterator!(Range2)) <a class="symbol _function" name="mismatch" href="./htmlsrc/std.algorithm.html#L1334" kind="function" beg="1334" end="1343">mismatch</a><span class="tparams">(alias pred = "a == b", Range1, Range2)</span><span class="params">(Range1 <em>r1</em>, Range2 <em>r2</em>)</span>; <a title="Permalink to this symbol" href="#mismatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1334">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sequentially compares elements in <span class="d_psymbol"><i>r1</i></span> and <span class="d_psymbol"><i>r2</i></span> in lockstep, and
+stops at the first mismatch (according to <span class="d_psymbol"><i>pred</i></span>, by default
+equality). Returns a tuple with the iterators that refer to the two
+mismatched values. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>min(r1.length, r2.length)</i></span><b></i>)</i></b>
+evaluations of <span class="d_psymbol"><i>pred</i></span>. See also <a href="http://
+sgi.com/tech/stl/_mismatch.html">STL's mismatch</a>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[]    <span class="i">x</span> = [ <span class="n">1</span>,  <span class="n">5</span>, <span class="n">2</span>, <span class="n">7</span>,   <span class="n">4</span>, <span class="n">3</span> ];
+<span class="k">double</span>[] <span class="i">y</span> = [ <span class="n">1.</span>, <span class="n">5</span>, <span class="n">2</span>, <span class="n">7.3</span>, <span class="n">4</span>, <span class="n">8</span> ];
+<span class="k">auto</span> <span class="i">m</span> = <span class="i">mismatch</span>(<span class="i">x</span>, <span class="i">y</span>);
+<span class="k">assert</span>(<span class="i">m</span>.<span class="i">_0</span> == <span class="i">begin</span>(<span class="i">x</span>) + <span class="n">3</span>);
+<span class="k">assert</span>(<span class="i">m</span>.<span class="i">_1</span> == <span class="i">begin</span>(<span class="i">y</span>) + <span class="n">3</span>);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:21" href="./htmlsrc/std.algorithm.html#L1345" kind="unittest" beg="1345" end="1359">unittest</a>; <a title="Permalink to this symbol" href="#unittest:21" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1345">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">enum <a class="symbol _enum" name="EditOp" href="./htmlsrc/std.algorithm.html#L1377" kind="enum" beg="1377" end="1387">EditOp</a>; <a title="Permalink to this symbol" href="#EditOp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1377">#</a></dt>
+<dd class="ddef">
+<div class="summary">Encodes <a href="http://realityinteractive.com/rgrzywinski/archives/000249.html">
+edit operations</a> necessary to transform one sequence into
+another. Given sequences <span class="d_psymbol"><i>s</i></span> (source) and <span class="d_psymbol"><i>t</i></span> (target), a
+sequence of <span class="d_psymbol"><i>EditOp</i></span> encodes the steps that need to be taken to
+convert <span class="d_psymbol"><i>s</i></span> into <span class="d_psymbol"><i>t</i></span>. For example, if <span class="d_psymbol"><i>s = "cat"</i></span> and <span class="d_psymbol"><i>
+"cars"</i></span>, the minimal sequence that transforms <span class="d_psymbol"><i>s</i></span> into <span class="d_psymbol"><i>t</i></span> is:
+skip two characters, replace 't' with 'r', and insert an 's'. Working
+with edit operations is useful in applications such as spell-checkers
+(to find the closest word to a given misspelled word), approximate
+searches, diff-style programs that compute the difference between
+files, efficient encoding of patches, DNA sequence analysis, and
+plagiarism detection.</div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="EditOp.none" href="./htmlsrc/std.algorithm.html#L1380" kind="enummem" beg="1380" end="1380">none</a> <a title="Permalink to this symbol" href="#EditOp.none" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1380">#</a></dt>
+<dd class="ddef">
+<div class="summary">Current items are equal; no editing is necessary.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="EditOp.substitute" href="./htmlsrc/std.algorithm.html#L1382" kind="enummem" beg="1382" end="1382">substitute</a> <a title="Permalink to this symbol" href="#EditOp.substitute" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1382">#</a></dt>
+<dd class="ddef">
+<div class="summary">Substitute current item in target with current item in source.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="EditOp.insert" href="./htmlsrc/std.algorithm.html#L1384" kind="enummem" beg="1384" end="1384">insert</a> <a title="Permalink to this symbol" href="#EditOp.insert" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1384">#</a></dt>
+<dd class="ddef">
+<div class="summary">Insert current item from the source into the target.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="EditOp.remove" href="./htmlsrc/std.algorithm.html#L1386" kind="enummem" beg="1386" end="1386">remove</a> <a title="Permalink to this symbol" href="#EditOp.remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1386">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove current item from the target.</div></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="Levenshtein" href="./htmlsrc/std.algorithm.html#L1389" kind="struct" beg="1389" end="1507">Levenshtein</a><span class="tparams">(Range, alias equals, CostType = size_t)</span>; <a title="Permalink to this symbol" href="#Levenshtein" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1389">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">void <a class="symbol _function" name="Levenshtein.deletionIncrement" href="./htmlsrc/std.algorithm.html#L1391" kind="function" beg="1391" end="1395">deletionIncrement</a><span class="params">(CostType <em>n</em>)</span>; <a title="Permalink to this symbol" href="#Levenshtein.deletionIncrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1391">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Levenshtein.insertionIncrement" href="./htmlsrc/std.algorithm.html#L1397" kind="function" beg="1397" end="1401">insertionIncrement</a><span class="params">(CostType <em>n</em>)</span>; <a title="Permalink to this symbol" href="#Levenshtein.insertionIncrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1397">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">CostType <a class="symbol _function" name="Levenshtein.distance" href="./htmlsrc/std.algorithm.html#L1403" kind="function" beg="1403" end="1428">distance</a><span class="params">(Range <em>s</em>, Range <em>t</em>)</span>; <a title="Permalink to this symbol" href="#Levenshtein.distance" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1403">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">EditOp[] <a class="symbol _function" name="Levenshtein.path" href="./htmlsrc/std.algorithm.html#L1430" kind="function" beg="1430" end="1434">path</a><span class="params">(Range <em>s</em>, Range <em>t</em>)</span>; <a title="Permalink to this symbol" href="#Levenshtein.path" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1430">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">EditOp[] <a class="symbol _function" name="Levenshtein.path:2" href="./htmlsrc/std.algorithm.html#L1436" kind="function" beg="1436" end="1467">path</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Levenshtein.path:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1436">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">CostType <a class="symbol _variable" name="Levenshtein._deletionIncrement" href="./htmlsrc/std.algorithm.html#L1470" kind="variable" beg="1470" end="1472">_deletionIncrement</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Levenshtein._deletionIncrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1470">#</a></dt>
+<dt class="decl">CostType <a class="symbol _variable" name="Levenshtein._insertionIncrement" href="./htmlsrc/std.algorithm.html#L1470" kind="variable" beg="1470" end="1472">_insertionIncrement</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Levenshtein._insertionIncrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1470">#</a></dt>
+<dt class="decl">CostType <a class="symbol _variable" name="Levenshtein._substitutionIncrement" href="./htmlsrc/std.algorithm.html#L1470" kind="variable" beg="1470" end="1472">_substitutionIncrement</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Levenshtein._substitutionIncrement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1470">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">CostType[][] <a class="symbol _variable" name="Levenshtein._matrix" href="./htmlsrc/std.algorithm.html#L1473" kind="variable" beg="1473" end="1473">_matrix</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Levenshtein._matrix" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1473">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="Levenshtein.rows" href="./htmlsrc/std.algorithm.html#L1474" kind="variable" beg="1474" end="1474">rows</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Levenshtein.rows" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1474">#</a></dt>
+<dt class="decl">uint <a class="symbol _variable" name="Levenshtein.cols" href="./htmlsrc/std.algorithm.html#L1474" kind="variable" beg="1474" end="1474">cols</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Levenshtein.cols" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1474">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Levenshtein.AllocMatrix" href="./htmlsrc/std.algorithm.html#L1476" kind="function" beg="1476" end="1484">AllocMatrix</a><span class="params">(uint <em>r</em>, uint <em>c</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Levenshtein.AllocMatrix" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1476">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Levenshtein.InitMatrix" href="./htmlsrc/std.algorithm.html#L1486" kind="function" beg="1486" end="1494">InitMatrix</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Levenshtein.InitMatrix" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1486">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="Levenshtein.min_index" href="./htmlsrc/std.algorithm.html#L1496" kind="function" beg="1496" end="1506">min_index</a><span class="params">(CostType <em>i0</em>, CostType <em>i1</em>, CostType <em>i2</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#Levenshtein.min_index" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1496">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">size_t <a class="symbol _function" name="levenshteinDistance" href="./htmlsrc/std.algorithm.html#L1526" kind="function" beg="1526" end="1530">levenshteinDistance</a><span class="tparams">(alias equals, Range1, Range2)</span><span class="params">(Range1 <em>s</em>, Range2 <em>t</em>)</span>; <a title="Permalink to this symbol" href="#levenshteinDistance" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1526">#</a></dt>
+<dt class="decl">size_t <a class="symbol _function" name="levenshteinDistance:2" href="./htmlsrc/std.algorithm.html#L1533" kind="function" beg="1533" end="1537">levenshteinDistance</a><span class="tparams">(string equals = "a == b", Range1, Range2)</span><span class="params">(Range1 <em>s</em>, Range2 <em>t</em>)</span>; <a title="Permalink to this symbol" href="#levenshteinDistance:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1533">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the <a href="http://wikipedia.org/wiki/Levenshtein_distance">Levenshtein
+distance</a> between <span class="d_psymbol"><i>s</i></span> and <span class="d_psymbol"><i>t</i></span>. The Levenshtein distance computes
+the minimal amount of edit operations necessary to transform <span class="d_psymbol"><i>s</i></span>
+into <span class="d_psymbol"><i>t</i></span>.  Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>s.length * t.length</i></span><b></i>)</i></b> evaluations of <span class="d_psymbol"><i>
+equals</i></span> and occupies <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>s.length * t.length</i></span><b></i>)</i></b> storage.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">assert</span>(<span class="i">levenshteinDistance</span>(<span class="sl">"cat"</span>, <span class="sl">"rat"</span>) == <span class="n">1</span>);
+<span class="k">assert</span>(<span class="i">levenshteinDistance</span>(<span class="sl">"parks"</span>, <span class="sl">"spark"</span>) == <span class="n">2</span>);
+<span class="k">assert</span>(<span class="i">levenshteinDistance</span>(<span class="sl">"kitten"</span>, <span class="sl">"sitting"</span>) == <span class="n">3</span>);
+<span class="lc">// ignore case</span>
+<span class="k">assert</span>(<span class="i">levenshteinDistance</span>!(<span class="sl">"toupper(a) == toupper(b)"</span>)
+    (<span class="sl">"parks"</span>, <span class="sl">"SPARK"</span>) == <span class="n">2</span>);
+</pre></dd>
+<dt class="decl">Tuple!(size_t, EditOp[]) <a class="symbol _function" name="levenshteinDistanceAndPath" href="./htmlsrc/std.algorithm.html#L1551" kind="function" beg="1551" end="1557">levenshteinDistanceAndPath</a><span class="tparams">(alias equals, Range1, Range2)</span><span class="params">(Range1 <em>s</em>, Range2 <em>t</em>)</span>; <a title="Permalink to this symbol" href="#levenshteinDistanceAndPath" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1551">#</a></dt>
+<dt class="decl">Tuple!(size_t, EditOp[]) <a class="symbol _function" name="levenshteinDistanceAndPath:2" href="./htmlsrc/std.algorithm.html#L1560" kind="function" beg="1560" end="1566">levenshteinDistanceAndPath</a><span class="tparams">(string equals = "a == b",
+                           Range1, Range2)</span><span class="params">(Range1 <em>s</em>, Range2 <em>t</em>)</span>; <a title="Permalink to this symbol" href="#levenshteinDistanceAndPath:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1560">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the Levenshtein distance and the edit path between <span class="d_psymbol"><i>s</i></span> and
+<span class="d_psymbol"><i>t</i></span>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="i">string</span> <span class="i">a</span> = <span class="sl">"Saturday"</span>, <span class="i">b</span> = <span class="sl">"Sunday"</span>;
+<span class="k">auto</span> <span class="i">p</span> = <span class="i">levenshteinDistanceAndPath</span>(<span class="i">a</span>, <span class="i">b</span>);
+<span class="k">assert</span>(<span class="i">p</span>.<span class="i">_0</span>, <span class="n">3</span>);
+<span class="k">assert</span>(<span class="i">equals</span>(<span class="i">p</span>.<span class="i">_1</span>, <span class="sl">"nrrnsnnn"</span>));
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:22" href="./htmlsrc/std.algorithm.html#L1568" kind="unittest" beg="1568" end="1583">unittest</a>; <a title="Permalink to this symbol" href="#unittest:22" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1568">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Range2 <a class="symbol _function" name="copy" href="./htmlsrc/std.algorithm.html#L1615" kind="function" beg="1615" end="1626">copy</a><span class="tparams">(Range1, Range2)</span><span class="params">(Range1 <em>source</em>, Range2 <em>target</em>)</span>; <a title="Permalink to this symbol" href="#copy" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1615">#</a></dt>
+<dd class="ddef">
+<div class="summary">Copies the content of <span class="d_psymbol"><i>source</i></span> into <span class="d_psymbol"><i>target</i></span> and returns the
+remaining (unfilled) part of <span class="d_psymbol"><i>target</i></span>. See also <a href="http://
+sgi.com/tech/stl/_copy.html">STL's copy</a>. If a behavior similar to
+<a href="http://sgi.com/tech/stl/copy_backward.html">STL's copy_backward</a> is
+needed, use <span class="d_psymbol"><i>copy(retro(source), retro(target))</i></span>. See also <a href=std_
+iterator.html#retro>std.
+iterator.retro</a>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ <span class="n">1</span>, <span class="n">5</span> ];
+<span class="k">int</span>[] <span class="i">b</span> = [ <span class="n">9</span>, <span class="n">8</span> ];
+<span class="k">int</span>[] <span class="i">c</span> = <span class="k">new</span> <span class="k">int</span>[<span class="i">a</span>.<span class="i">length</span> + <span class="i">b</span>.<span class="i">length</span> + <span class="n">10</span>];
+<span class="k">auto</span> <span class="i">d</span> = <span class="i">copy</span>(<span class="i">b</span>, <span class="i">copy</span>(<span class="i">a</span>, <span class="i">c</span>));
+<span class="k">assert</span>(<span class="i">c</span>[<span class="n">0</span> .. <span class="i">a</span>.<span class="i">length</span> + <span class="i">b</span>.<span class="i">length</span>] == <span class="i">a</span> ~ <span class="i">b</span>);
+<span class="k">assert</span>(<span class="i">d</span>.<span class="i">length</span> == <span class="n">10</span>);
+</pre>
+<p class="bl"/>
+As long as the target range elements support assignment from source
+range elements, different types of ranges are accepted.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">float</span>[] <span class="i">a</span> = [ <span class="n">1.0f</span>, <span class="n">5</span> ];
+<span class="k">double</span>[] <span class="i">b</span> = <span class="k">new</span> <span class="k">double</span>[<span class="i">a</span>.<span class="i">length</span>];
+<span class="k">auto</span> <span class="i">d</span> = <span class="i">copy</span>(<span class="i">a</span>, <span class="i">b</span>);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:23" href="./htmlsrc/std.algorithm.html#L1628" kind="unittest" beg="1628" end="1636">unittest</a>; <a title="Permalink to this symbol" href="#unittest:23" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1628">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Range2 <a class="symbol _function" name="copyIf" href="./htmlsrc/std.algorithm.html#L1665" kind="function" beg="1665" end="1678">copyIf</a><span class="tparams">(alias pred, Range1, Range2)</span><span class="params">(Range1 <em>source</em>, Range2 <em>target</em>)</span>; <a title="Permalink to this symbol" href="#copyIf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1665">#</a></dt>
+<dd class="ddef">
+<div class="summary">Copies in increasing order the elements <span class="d_psymbol"><i>x</i></span> of <span class="d_psymbol"><i>source</i></span>
+satisfying <span class="d_psymbol"><i>pred(x)</i></span> into <span class="d_psymbol"><i>target</i></span> and returns the remaining
+(unfilled) part of <span class="d_psymbol"><i>target</i></span>. See also <a href="http://
+sgi.com/tech/stl/copy_if.html">STL's copy_if</a>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ <span class="n">1</span>, <span class="n">5</span>, <span class="n">8</span>, <span class="n">9</span>, <span class="n">10</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">0</span> ];
+<span class="k">auto</span> <span class="i">b</span> = <span class="k">new</span> <span class="k">int</span>[<span class="i">a</span>.<span class="i">length</span>];
+<span class="k">auto</span> <span class="i">c</span> = <span class="i">copyIf</span>!(<span class="sl">"(a &amp; 1) == 1"</span>)(<span class="i">a</span>, <span class="i">b</span>);
+<span class="k">assert</span>(<span class="i">b</span>[<span class="n">0</span> .. $ - <span class="i">c</span>.<span class="i">length</span>] == [ <span class="n">1</span>, <span class="n">5</span>, <span class="n">9</span>, <span class="n">1</span> ]);
+</pre>
+<p class="bl"/>
+As long as the target range elements support assignment from source
+range elements, different types of ranges are accepted.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">float</span>[] <span class="i">a</span> = [ <span class="n">1.0f</span>, <span class="n">5</span>, -<span class="n">3</span>, -<span class="n">5</span>, <span class="n">0</span>, <span class="n">4</span>, -<span class="n">3</span> ];
+<span class="k">double</span>[] <span class="i">b</span> = <span class="k">new</span> <span class="k">double</span>[<span class="i">a</span>.<span class="i">length</span>];
+<span class="k">auto</span> <span class="i">d</span> = <span class="i">copyIf</span>!(<span class="sl">"a &gt; 0"</span>)(<span class="i">a</span>, <span class="i">b</span>);
+<span class="k">assert</span>(<span class="i">a</span> == [ <span class="n">1.0f</span>, <span class="n">5</span>, <span class="n">0</span>, <span class="n">4</span> ]);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:24" href="./htmlsrc/std.algorithm.html#L1680" kind="unittest" beg="1680" end="1686">unittest</a>; <a title="Permalink to this symbol" href="#unittest:24" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1680">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="iterSwap" href="./htmlsrc/std.algorithm.html#L1695" kind="function" beg="1695" end="1699">iterSwap</a><span class="tparams">(It)</span><span class="params">(It <em>lhs</em>, It <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#iterSwap" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1695">#</a></dt>
+<dd class="ddef">
+<div class="summary">Swaps <span class="d_psymbol"><i>*lhs</i></span> and <span class="d_psymbol"><i>*rhs</i></span>.</div>
+<p class="sec_header">Preconditions:</p>Same as for <span class="d_psymbol"><i>swap(*lhs, *rhs)</i></span>.</dd>
+<dt class="decl">Range2 <a class="symbol _function" name="swapRanges" href="./htmlsrc/std.algorithm.html#L1718" kind="function" beg="1718" end="1729">swapRanges</a><span class="tparams">(alias iterSwap = .iterSwap, Range1, Range2)</span><span class="params">(T <em>r1</em>, T <em>r2</em>)</span>; <a title="Permalink to this symbol" href="#swapRanges" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1718">#</a></dt>
+<dd class="ddef">
+<div class="summary">Swaps all elements of <span class="d_psymbol"><i>r1</i></span> with successive elements in <span class="d_psymbol"><i>r2</i></span>
+using <span class="d_psymbol"><i>iterSwap</i></span> as a primitive. <span class="d_psymbol"><i>r1</i></span> must contain less or the
+same number of elements as <span class="d_psymbol"><i>r2</i></span>; an exception will be thrown
+otherwise. Returns the tail portion of <span class="d_psymbol"><i>r2</i></span> that was not swapped.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ <span class="n">100</span>, <span class="n">101</span>, <span class="n">102</span>, <span class="n">103</span> ];
+<span class="k">int</span>[] <span class="i">b</span> = [ <span class="n">0</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span> ];
+<span class="k">auto</span> <span class="i">c</span> = <span class="i">swapRanges</span>(<span class="i">a</span>[<span class="n">1</span> .. <span class="n">2</span>], <span class="i">b</span>[<span class="n">2</span> .. <span class="n">3</span>]);
+<span class="k">assert</span>(!<span class="i">c</span>.<span class="i">length</span>);
+<span class="k">assert</span>(<span class="i">a</span> == [ <span class="n">100</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">103</span> ]);
+<span class="k">assert</span>(<span class="i">b</span> == [ <span class="n">0</span>, <span class="n">1</span>, <span class="n">101</span>, <span class="n">102</span> ]);
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="reverse" href="./htmlsrc/std.algorithm.html#L1744" kind="function" beg="1744" end="1754">reverse</a><span class="tparams">(alias iterSwap = .iterSwap, Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#reverse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1744">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reverses <span class="d_psymbol"><i>r</i></span> in-place.  Performs <span class="d_psymbol"><i>r.length</i></span> evaluations of <span class="d_psymbol"><i>
+iterSwap</i></span>. See also <a href="http://sgi.com/tech/stl/_reverse.html">STL's
+reverse</a>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">arr</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span> ];
+<span class="i">reverse</span>(<span class="i">arr</span>);
+<span class="k">assert</span>(<span class="i">arr</span> == [ <span class="n">3</span>, <span class="n">2</span>, <span class="n">1</span> ]);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:25" href="./htmlsrc/std.algorithm.html#L1756" kind="unittest" beg="1756" end="1769">unittest</a>; <a title="Permalink to this symbol" href="#unittest:25" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1756">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">It <a class="symbol _function" name="rotate" href="./htmlsrc/std.algorithm.html#L1796" kind="function" beg="1796" end="1827">rotate</a><span class="tparams">(alias iterSwap = .iterSwap, Range, It)</span><span class="params">(Range <em>r</em>, It <em>middle</em>)</span>; <a title="Permalink to this symbol" href="#rotate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1796">#</a></dt>
+<dd class="ddef">
+<div class="summary">Rotates the range <span class="d_psymbol"><i>r = [first, last)</i></span> such that the slice
+<span class="d_psymbol"><i>[middle, last)</i></span> gets moved in front of the slice <span class="d_psymbol"><i>
+[first, middle)</i></span>. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>r.length</i></span><b></i>)</i></b> evaluations of
+<span class="d_psymbol"><i>iterSwap</i></span>. See also <a href="http://sgi.com/tech/stl/_rotate.html">STL's
+rotate</a>.</div>
+<p class="sec_header">Preconditions:</p><span class="d_psymbol"><i>first <= middle && middle <= last</i></span>;
+<p class="sec_header">Returns:</p>The position in which <span class="d_psymbol"><i>first</i></span> has been rotated.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">arr</span> = [<span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>, <span class="n">7</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>];
+<span class="k">auto</span> <span class="i">p</span> = <span class="i">rotate</span>(<span class="i">arr</span>, <span class="i">begin</span>(<span class="i">arr</span>) + <span class="n">4</span>);
+<span class="k">assert</span>(<span class="i">p</span> - <span class="i">begin</span>(<span class="i">arr</span>) == <span class="n">3</span>);
+<span class="k">assert</span>(<span class="i">arr</span> == [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>, <span class="n">7</span> ]);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:26" href="./htmlsrc/std.algorithm.html#L1829" kind="unittest" beg="1829" end="1859">unittest</a>; <a title="Permalink to this symbol" href="#unittest:26" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1829">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">enum <a class="symbol _enum" name="SwapStrategy" href="./htmlsrc/std.algorithm.html#L1893" kind="enum" beg="1893" end="1910">SwapStrategy</a>; <a title="Permalink to this symbol" href="#SwapStrategy" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1893">#</a></dt>
+<dd class="ddef">
+<div class="summary">Defines the swapping strategy for algorithms that need to swap
+elements in a range (such as partition and sort). The strategy
+concerns the swapping of elements that are not the core concern of the
+algorithm. For example, consider an algorithm that sorts <span class="d_psymbol"><i>[ "abc",
+"b", "aBc" ]</i></span> according to <span class="d_psymbol"><i>toupper(a) < toupper(b)</i></span>. That
+algorithm might choose to swap the two equivalent strings <span class="d_psymbol"><i>"abc"</i></span>
+and <span class="d_psymbol"><i>"aBc"</i></span>. That does not affect the sorting since both <span class="d_psymbol"><i>[
+"abc", "aBc", "b" ]</i></span> and <span class="d_psymbol"><i>[ "aBc", "abc", "b" ]</i></span> are valid
+outcomes.</div>
+Some situations require that the algorithm must NOT ever change the
+relative ordering of equivalent elements (in the example above, only
+<span class="d_psymbol"><i>[ "abc", "aBc", "b" ]</i></span> would be the correct result). Such
+algorithms are called <b>stable</b>. If the ordering algorithm may swap
+equivalent elements discretionarily, the ordering is called <b>
+unstable</b>.
+<p class="bl"/>
+Yet another class of algorithms may choose an intermediate tradeoff by
+being stable only on a well-defined subrange of the range. There is no
+established terminology for such behavior; this library calls it <b>
+semistable</b>.
+<p class="bl"/>
+Generally, the <span class="d_psymbol"><i>stable</i></span> ordering strategy may be more costly in
+time and/or space than the other two because it imposes additional
+constraints. Similarly, <span class="d_psymbol"><i>semistable</i></span> may be costlier than <span class="d_psymbol"><i>
+unstable</i></span>. As (semi-)stability is not needed very often, the ordering
+algorithms in this module parameterized by <span class="d_psymbol"><i>SwapStrategy</i></span> all
+choose <span class="d_psymbol"><i>SwapStrategy.unstable</i></span> as the default.
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="SwapStrategy.unstable" href="./htmlsrc/std.algorithm.html#L1899" kind="enummem" beg="1899" end="1899">unstable</a> <a title="Permalink to this symbol" href="#SwapStrategy.unstable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1899">#</a></dt>
+<dd class="ddef">
+<div class="summary">Allows freely swapping of elements as long as the output
+       satisfies the algorithm's requirements.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="SwapStrategy.semistable" href="./htmlsrc/std.algorithm.html#L1904" kind="enummem" beg="1904" end="1904">semistable</a> <a title="Permalink to this symbol" href="#SwapStrategy.semistable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1904">#</a></dt>
+<dd class="ddef">
+<div class="summary">In algorithms partitioning ranges in two, preserve relative
+       ordering of elements only to the left of the partition point.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="SwapStrategy.stable" href="./htmlsrc/std.algorithm.html#L1909" kind="enummem" beg="1909" end="1909">stable</a> <a title="Permalink to this symbol" href="#SwapStrategy.stable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1909">#</a></dt>
+<dd class="ddef">
+<div class="summary">Preserve the relative ordering of elements to the largest
+       extent allowed by the algorithm's requirements.</div></dd></dl></dd>
+<dt class="decl">Range <a class="symbol _function" name="eliminate" href="./htmlsrc/std.algorithm.html#L1926" kind="function" beg="1926" end="1934">eliminate</a><span class="tparams">(alias pred,
+                SwapStrategy ss = SwapStrategy.unstable,
+                alias move = .move,
+                Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#eliminate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1926">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reduces <span class="d_psymbol"><i>r</i></span> by overwriting all elements <span class="d_psymbol"><i>x</i></span> that satisfy <span class="d_psymbol"><i>
+pred(x)</i></span>. Returns the reduced range.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">arr</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span> ];
+<span class="lc">// eliminate even elements</span>
+<span class="k">auto</span> <span class="i">r</span> = <span class="i">eliminate</span>!(<span class="sl">"(a &amp; 1) == 0"</span>)(<span class="i">arr</span>);
+<span class="k">assert</span>(<span class="i">r</span> == [ <span class="n">1</span>, <span class="n">3</span>, <span class="n">5</span> ]);
+<span class="k">assert</span>(<span class="i">arr</span> == [ <span class="n">1</span>, <span class="n">3</span>, <span class="n">5</span>, <span class="n">4</span>, <span class="n">5</span> ]);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:27" href="./htmlsrc/std.algorithm.html#L1936" kind="unittest" beg="1936" end="1942">unittest</a>; <a title="Permalink to this symbol" href="#unittest:27" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1936">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Range <a class="symbol _function" name="eliminate:2" href="./htmlsrc/std.algorithm.html#L1957" kind="function" beg="1957" end="1967">eliminate</a><span class="tparams">(alias pred = "a == b",
+                SwapStrategy ss = SwapStrategy.semistable,
+                Range, Value)</span><span class="params">(Range <em>r</em>, Value <em>v</em>)</span>; <a title="Permalink to this symbol" href="#eliminate:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1957">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reduces <span class="d_psymbol"><i>r</i></span> by overwriting all elements <span class="d_psymbol"><i>x</i></span> that satisfy <span class="d_psymbol"><i>
+pred(x, v)</i></span>. Returns the reduced range.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">arr</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">2</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">2</span> ];
+<span class="lc">// keep elements different from 2</span>
+<span class="k">auto</span> <span class="i">r</span> = <span class="i">eliminate</span>(<span class="i">arr</span>, <span class="n">2</span>);
+<span class="k">assert</span>(<span class="i">r</span> == [ <span class="n">1</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span> ]);
+<span class="k">assert</span>(<span class="i">arr</span> == [ <span class="n">1</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">2</span>  ]);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:28" href="./htmlsrc/std.algorithm.html#L1969" kind="unittest" beg="1969" end="1976">unittest</a>; <a title="Permalink to this symbol" href="#unittest:28" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L1969">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Iterator!(Range) <a class="symbol _function" name="partition" href="./htmlsrc/std.algorithm.html#L2054" kind="function" beg="2054" end="2122">partition</a><span class="tparams">(alias predOrStr,
+                           SwapStrategy ss = SwapStrategy.unstable,
+                           alias iterSwap = .iterSwap, Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#partition" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2054">#</a></dt>
+<dd class="ddef">
+<div class="summary">Partitions a range in two using <span class="d_psymbol"><i>pred</i></span> as a predicate and <span class="d_psymbol"><i>
+iterSwap</i></span> as a primitive to swap two elements. Specifically, reorders
+the range <span class="d_psymbol"><i>r = [left, right)</i></span> using <span class="d_psymbol"><i>iterSwap</i></span> such that
+all elements <span class="d_psymbol"><i>i</i></span> for which <span class="d_psymbol"><i>pred(i)</i></span> is <span class="d_psymbol"><i>true</i></span> come before
+all elements <span class="d_psymbol"><i>j</i></span> for which <span class="d_psymbol"><i>pred(j)</i></span> returns <span class="d_psymbol"><i>false</i></span>.</div>
+Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>r.length</i></span><b></i>)</i></b> (if unstable or semistable) or <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>
+r.length * log(r.length)</i></span><b></i>)</i></b> (if stable) evaluations of <span class="d_psymbol"><i>less</i></span> and <span class="d_psymbol"><i>
+iterSwap</i></span>. The unstable version computes the minimum possible
+evaluations of <span class="d_psymbol"><i>iterSwap</i></span> (roughly half of those performed by the
+semistable version).
+<p class="bl"/>
+<span class="d_psymbol"><i>partition</i></span> always calls <span class="d_psymbol"><i>iterSwap(i, j)</i></span> for iterators
+satisfying <span class="d_psymbol"><i>i < j && !pred(*i) && pred(*j)</i></span>. After the call to <span class="d_psymbol"><i>
+iterSwap(i, j)</i></span>, <span class="d_psymbol"><i>partition</i></span> makes no assumption on the values of
+<span class="d_psymbol"><i>*i</i></span> and <span class="d_psymbol"><i>*j</i></span>. Therefore, <span class="d_psymbol"><i>partition</i></span> can be used to actually
+copy partitioned data to a different container or overwrite part of
+the array (in fact <span class="d_psymbol"><i>eliminate</i></span> uses <span class="d_psymbol"><i>partition</i></span> with a custom
+<span class="d_psymbol"><i>iterSwap</i></span>).
+<p class="bl"/>
+See also STL's <a href="http://sgi.com/tech/stl/_partition.html">partition</a> and
+<a href="http://sgi.com/tech/stl/stable_partition.html">stable_partition</a>.
+<p class="sec_header">Returns:</p>An iterator <span class="d_psymbol"><i>p</i></span> such that the following conditions are
+simultaneously true:
+<ol>
+<li><span class="d_psymbol"><i>pred(*p1)</i></span> for all <span class="d_psymbol"><i>p1</i></span> in [<span class="d_psymbol"><i>left</i></span>,
+<span class="d_psymbol"><i>p</i></span>), if any</li>
+<li><span class="d_psymbol"><i>!pred(*p2)</i></span> for all <span class="d_psymbol"><i>p2</i></span> in [<span class="d_psymbol"><i>p</i></span>,
+<span class="d_psymbol"><i>right</i></span>), if any</li></ol>
+If <span class="d_psymbol"><i>ss == SwapStrategy.stable</i></span>, <span class="d_psymbol"><i>partition</i></span> preserves the
+relative ordering of all elements <span class="d_psymbol"><i>a</i></span>, <span class="d_psymbol"><i>b</i></span> in <span class="d_psymbol"><i>r</i></span> for which
+<span class="d_psymbol"><i>pred(a) == pred(b)</i></span>. If <span class="d_psymbol"><i>ss == SwapStrategy.semistable</i></span>, <span class="d_psymbol"><i>
+partition</i></span> preserves the relative ordering of all elements <span class="d_psymbol"><i>a</i></span>, <span class="d_psymbol"><i>
+b</i></span> in <span class="d_psymbol"><i>begin(r) .. p</i></span> for which <span class="d_psymbol"><i>pred(a) == pred(b)</i></span>.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">Arr</span> = [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>, <span class="n">7</span>, <span class="n">8</span>, <span class="n">9</span>, <span class="n">10</span>];
+<span class="k">auto</span> <span class="i">arr</span> = <span class="i">Arr</span>.<span class="i">dup</span>;
+<span class="k">static</span> <span class="k">bool</span> <span class="i">even</span>(<span class="k">int</span> <span class="i">a</span>) { <span class="k">return</span> (<span class="i">a</span> &amp; <span class="n">1</span>) == <span class="n">0</span>; }
+<span class="lc">// Partition a such that even numbers come first</span>
+<span class="k">auto</span> <span class="i">p</span> = <span class="i">partition</span>!(<span class="i">even</span>)(<span class="i">arr</span>);
+<span class="lc">// Now arr is separated in evens and odds.</span>
+<span class="lc">// Numbers may have become shuffled due to instability</span>
+<span class="k">assert</span>(<span class="i">p</span> == <span class="i">arr</span>.<span class="i">ptr</span> + <span class="n">5</span>);
+<span class="k">assert</span>(<span class="i">count</span>!(<span class="i">even</span>)(<span class="i">range</span>(<span class="i">begin</span>(<span class="i">arr</span>), <span class="i">p</span>)) == <span class="i">p</span> - <span class="i">begin</span>(<span class="i">arr</span>));
+<span class="k">assert</span>(<span class="i">find</span>!(<span class="i">even</span>)(<span class="i">range</span>(<span class="i">p</span>, <span class="i">end</span>(<span class="i">arr</span>))) == <span class="i">end</span>(<span class="i">arr</span>));
+
+<span class="lc">// Can also specify the predicate as a string.</span>
+<span class="lc">// Use 'a' as the predicate argument name</span>
+<span class="i">arr</span>[] = <span class="i">Arr</span>[];
+<span class="i">p</span> = <span class="i">partition</span>!(<span class="sl">q{(a &amp; 1) == 0}</span>)(<span class="i">arr</span>);
+<span class="k">assert</span>(<span class="i">p</span> == <span class="i">arr</span>.<span class="i">ptr</span> + <span class="n">5</span>);
+
+<span class="lc">// Now for a stable partition:</span>
+<span class="i">arr</span>[] = <span class="i">Arr</span>[];
+<span class="i">p</span> = <span class="i">partition</span>!(<span class="sl">q{(a &amp; 1) == 0}</span>, <span class="i">SwapStrategy</span>.<span class="i">stable</span>)(<span class="i">arr</span>);
+<span class="lc">// Now arr is [2 4 6 8 10 1 3 5 7 9], and p points to 1</span>
+<span class="k">assert</span>(<span class="i">arr</span> == [<span class="n">2</span>, <span class="n">4</span>, <span class="n">6</span>, <span class="n">8</span>, <span class="n">10</span>, <span class="n">1</span>, <span class="n">3</span>, <span class="n">5</span>, <span class="n">7</span>, <span class="n">9</span>] &amp;&amp; <span class="i">p</span> == <span class="i">arr</span>.<span class="i">ptr</span> + <span class="n">5</span>);
+
+<span class="lc">// In case the predicate needs to hold its own state, use a delegate:</span>
+<span class="i">arr</span>[] = <span class="i">Arr</span>[];
+<span class="k">int</span> <span class="i">x</span> = <span class="n">3</span>;
+<span class="lc">// Put stuff greater than 3 on the left</span>
+<span class="k">bool</span> <span class="i">fun</span>(<span class="k">int</span> <span class="i">a</span>) { <span class="k">return</span> <span class="i">a</span> &gt; <span class="i">x</span>; }
+<span class="i">p</span> = <span class="i">partition</span>!(<span class="i">fun</span>, <span class="i">SwapStrategy</span>.<span class="i">semistable</span>)(<span class="i">arr</span>);
+<span class="lc">// Now arr is [4 5 6 7 8 9 10 2 3 1] and p points to 2</span>
+<span class="k">assert</span>(<span class="i">arr</span> == [<span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>, <span class="n">7</span>, <span class="n">8</span>, <span class="n">9</span>, <span class="n">10</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">1</span>] &amp;&amp; <span class="i">p</span> == <span class="i">arr</span>.<span class="i">ptr</span> + <span class="n">7</span>);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:29" href="./htmlsrc/std.algorithm.html#L2124" kind="unittest" beg="2124" end="2162">unittest</a>; <a title="Permalink to this symbol" href="#unittest:29" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2124">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="isPartitioned" href="./htmlsrc/std.algorithm.html#L2252" kind="template" beg="2252" end="2268">isPartitioned</a><span class="tparams">(alias pred)</span>; <a title="Permalink to this symbol" href="#isPartitioned" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2252">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">bool <a class="symbol _function" name="isPartitioned.isPartitioned" href="./htmlsrc/std.algorithm.html#L2254" kind="function" beg="2254" end="2267">isPartitioned</a><span class="tparams">(T)</span><span class="params">(T <em>range</em>)</span>; <a title="Permalink to this symbol" href="#isPartitioned.isPartitioned" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2254">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="isPartitioned:2" href="./htmlsrc/std.algorithm.html#L2270" kind="template" beg="2270" end="2273">isPartitioned</a><span class="tparams">(string pred)</span>; <a title="Permalink to this symbol" href="#isPartitioned:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2270">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias .isPartitioned!(unaryFun!(pred)) <a class="symbol _alias" name="isPartitioned.isPartitioned:2" href="./htmlsrc/std.algorithm.html#L2272" kind="alias" beg="2272" end="2272">isPartitioned</a>; <a title="Permalink to this symbol" href="#isPartitioned.isPartitioned:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2272">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">void <a class="symbol _function" name="topN" href="./htmlsrc/std.algorithm.html#L2305" kind="function" beg="2305" end="2329">topN</a><span class="tparams">(alias less = "a &lt; b",
+                SwapStrategy ss = SwapStrategy.unstable,
+                alias iterSwap = .iterSwap, Range, It)</span><span class="params">(Range <em>r</em>, It <em>nth</em>)</span>; <a title="Permalink to this symbol" href="#topN" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2305">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reorders the range <span class="d_psymbol"><i>r = [first, last)</i></span> using <span class="d_psymbol"><i>iterSwap</i></span>
+as a swapping primitive such that <span class="d_psymbol"><i>nth</i></span> points to the element that
+would fall there if the range were fully sorted. Effectively, it finds
+the nth smallest (according to <span class="d_psymbol"><i>less</i></span>) element in <span class="d_psymbol"><i>r</i></span>. In
+addition, it also partitions <span class="d_psymbol"><i>r</i></span> such that all elements <span class="d_psymbol"><i>p1</i></span> in
+<span class="d_psymbol"><i>[first, nth)</i></span> satisfy <span class="d_psymbol"><i>less(*p1, *nth)</i></span>, and all
+elements <span class="d_psymbol"><i>p2</i></span> in <span class="d_psymbol"><i>[nth, last)</i></span> satisfy <span class="d_psymbol"><i>!less(*p2,
+nth)</i></span>. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>r.length</i></span><b></i>)</i></b> (if unstable) or <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>r.length *
+log(r.length)</i></span><b></i>)</i></b> (if stable) evaluations of <span class="d_psymbol"><i>less</i></span> and <span class="d_psymbol"><i>
+iterSwap</i></span>. See also <a href="http://sgi.com/tech/stl/nth_element.html">STL's
+nth_element</a>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">v</span> = [ <span class="n">25</span>, <span class="n">7</span>, <span class="n">9</span>, <span class="n">2</span>, <span class="n">0</span>, <span class="n">5</span>, <span class="n">21</span> ];
+<span class="k">auto</span> <span class="i">n</span> = <span class="n">4</span>;
+<span class="i">topN</span>!(<span class="i">less</span>)(<span class="i">v</span>, <span class="i">begin</span>(<span class="i">v</span>) + <span class="i">n</span>);
+<span class="k">assert</span>(<span class="i">v</span>[<span class="i">n</span>] == <span class="n">9</span>);
+<span class="lc">// Equivalent form:</span>
+<span class="i">topN</span>!(<span class="sl">"a &lt; b"</span>)(<span class="i">v</span>, <span class="i">begin</span>(<span class="i">v</span>) + <span class="i">n</span>);
+<span class="k">assert</span>(<span class="i">v</span>[<span class="i">n</span>] == <span class="n">9</span>);
+</pre>
+<p class="sec_header"><span class="red">Bugs:</span></p>Stable topN has not been implemented yet.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:30" href="./htmlsrc/std.algorithm.html#L2331" kind="unittest" beg="2331" end="2359">unittest</a>; <a title="Permalink to this symbol" href="#unittest:30" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2331">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="sort" href="./htmlsrc/std.algorithm.html#L2390" kind="function" beg="2390" end="2403">sort</a><span class="tparams">(alias less = "a &lt; b", SwapStrategy ss = SwapStrategy.unstable,
+          alias iterSwap = .iterSwap, Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#sort" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2390">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sorts a random-access range according to predicate <span class="d_psymbol"><i>less</i></span>. Performs
+<i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>r.length * log(r.length)</i></span><b></i>)</i></b> (if unstable) or <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>r.length *
+log(r.length) * log(r.length)</i></span><b></i>)</i></b> (if stable) evaluations of <span class="d_psymbol"><i>less</i></span>
+and <span class="d_psymbol"><i>iterSwap</i></span>. See also STL's <a href="http://sgi.com/tech/stl/_sort.html">
+sort</a> and <a href="http://sgi.com/tech/stl/stable_sort.html">stable_sort</a>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">array</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span> ];
+<span class="lc">// sort in descending order</span>
+<span class="i">sort</span>!(<span class="sl">"a &gt; b"</span>)(<span class="i">array</span>);
+<span class="k">assert</span>(<span class="i">array</span> == [ <span class="n">4</span>, <span class="n">3</span>, <span class="n">2</span>, <span class="n">1</span> ]);
+<span class="lc">// sort in ascending order</span>
+<span class="i">sort</span>(<span class="i">array</span>);
+<span class="k">assert</span>(<span class="i">array</span> == [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span> ]);
+<span class="lc">// sort with a delegate </span>
+<span class="k">bool</span> <span class="i">myComp</span>(<span class="k">int</span> <span class="i">x</span>, <span class="k">int</span> <span class="i">y</span>) { <span class="k">return</span> <span class="i">x</span> &gt; <span class="i">y</span>; }
+<span class="i">sort</span>!(<span class="i">myComp</span>)(<span class="i">array</span>);
+<span class="k">assert</span>(<span class="i">array</span> == [ <span class="n">4</span>, <span class="n">3</span>, <span class="n">2</span>, <span class="n">1</span> ]);
+<span class="lc">// Showcase stable sorting</span>
+<span class="i">string</span>[] <span class="i">words</span> = [ <span class="sl">"aBc"</span>, <span class="sl">"a"</span>, <span class="sl">"abc"</span>, <span class="sl">"b"</span>, <span class="sl">"ABC"</span>, <span class="sl">"c"</span> ];
+<span class="i">sort</span>!(<span class="sl">"toupper(a) &lt; toupper(b)"</span>, <span class="i">SwapStrategy</span>.<span class="i">stable</span>)(<span class="i">words</span>);
+<span class="k">assert</span>(<span class="i">words</span> == [ <span class="sl">"a"</span>, <span class="sl">"aBc"</span>, <span class="sl">"abc"</span>, <span class="sl">"ABC"</span>, <span class="sl">"b"</span>, <span class="sl">"c"</span> ]);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:31" href="./htmlsrc/std.algorithm.html#L2405" kind="unittest" beg="2405" end="2447">unittest</a>; <a title="Permalink to this symbol" href="#unittest:31" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2405">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Iter <a class="symbol _function" name="getPivot" href="./htmlsrc/std.algorithm.html#L2451" kind="function" beg="2451" end="2455">getPivot</a><span class="tparams">(alias less, Iter)</span><span class="params">(Iter <em>b</em>, Iter <em>e</em>)</span>; <a title="Permalink to this symbol" href="#getPivot" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2451">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="optimisticInsertionSort" href="./htmlsrc/std.algorithm.html#L2459" kind="function" beg="2459" end="2484">optimisticInsertionSort</a><span class="tparams">(alias less, alias iterSwap, Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#optimisticInsertionSort" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2459">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="sortImpl" href="./htmlsrc/std.algorithm.html#L2488" kind="function" beg="2488" end="2552">sortImpl</a><span class="tparams">(alias less, SwapStrategy ss, alias iterSwap, Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#sortImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2488">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="schwartzSort" href="./htmlsrc/std.algorithm.html#L2583" kind="function" beg="2583" end="2602">schwartzSort</a><span class="tparams">(alias transform, alias less = "a &lt; b",
+                  SwapStrategy ss = SwapStrategy.unstable, Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#schwartzSort" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2583">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sorts a range using an algorithm akin to the <a href="http://
+wikipedia.org/wiki/Schwartzian_transform">Schwartzian transform</a>, also
+known as the decorate-sort-undecorate pattern in Python and Lisp. (Not
+to be confused with <a href="http://youtube.com/watch?v=S25Zf8svHZQ">the other
+Schwartz</a>.) This function is helpful when the sort comparison includes
+an expensive computation. The complexity is the same as that of the
+corresponding <span class="d_psymbol"><i>sort</i></span>, but <span class="d_psymbol"><i>schwartzSort</i></span> evaluates <span class="d_psymbol"><i>
+transform</i></span> only <span class="d_psymbol"><i>r.length</i></span> times (less than half when compared to
+regular sorting). The usage can be best illustrated with an example.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">uint</span> <span class="i">hashFun</span>(<span class="i">string</span>) { ... <span class="i">expensive</span> <span class="i">computation</span> ... }
+<span class="i">string</span>[] <span class="i">array</span> = ...;
+<span class="lc">// Sort strings by hash, slow</span>
+<span class="i">sort</span>!(<span class="sl">"hashFun(a) &lt; hashFun(b)"</span>)(<span class="i">array</span>);
+<span class="lc">// Sort strings by hash, fast (only computes arr.length hashes):</span>
+<span class="i">schwartzSort</span>!(<span class="i">hashFun</span>, <span class="sl">"a &lt; b"</span>)(<span class="i">array</span>);
+</pre>
+<p class="bl"/>
+The <span class="d_psymbol"><i>schwartzSort</i></span> function might require less temporary data and
+be faster than the Perl idiom or the decorate-sort-undecorate idiom
+present in Python and Lisp. This is because sorting is done in-place
+and only minimal extra data (one array of transformed elements) is
+created.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:32" href="./htmlsrc/std.algorithm.html#L2604" kind="unittest" beg="2604" end="2637">unittest</a>; <a title="Permalink to this symbol" href="#unittest:32" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2604">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="partialSort" href="./htmlsrc/std.algorithm.html#L2653" kind="function" beg="2653" end="2658">partialSort</a><span class="tparams">(alias less = "a &lt; b", SwapStrategy ss = SwapStrategy.unstable,
+    alias iterSwap = .iterSwap, Range, It)</span><span class="params">(Range <em>r</em>, It <em>mid</em>)</span>; <a title="Permalink to this symbol" href="#partialSort" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2653">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reorders <span class="d_psymbol"><i>r</i></span> such that the range <span class="d_psymbol"><i>begin(r) .. mid</i></span> is the same
+as if <span class="d_psymbol"><i>r</i></span> were sorted, and leaves the range <span class="d_psymbol"><i>mid .. end(r)</i></span> in
+no particular order. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>r.length * log(mid - begin(r))</i></span><b></i>)</i></b>
+evaluations of <span class="d_psymbol"><i>pred</i></span>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ <span class="n">9</span>, <span class="n">8</span>, <span class="n">7</span>, <span class="n">6</span>, <span class="n">5</span>, <span class="n">4</span>, <span class="n">3</span>, <span class="n">2</span>, <span class="n">1</span>, <span class="n">0</span> ];
+<span class="i">partialSort</span>(<span class="i">a</span>, <span class="i">begin</span>(<span class="i">a</span>) + <span class="n">5</span>);
+<span class="k">assert</span>(<span class="i">a</span>[<span class="n">0</span> .. <span class="n">5</span>] == [ <span class="n">0</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span> ]);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:33" href="./htmlsrc/std.algorithm.html#L2660" kind="unittest" beg="2660" end="2665">unittest</a>; <a title="Permalink to this symbol" href="#unittest:33" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2660">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="isSorted" href="./htmlsrc/std.algorithm.html#L2685" kind="function" beg="2685" end="2689">isSorted</a><span class="tparams">(alias less, Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#isSorted" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2685">#</a></dt>
+<dt class="decl">bool <a class="symbol _function" name="isSorted:2" href="./htmlsrc/std.algorithm.html#L2692" kind="function" beg="2692" end="2695">isSorted</a><span class="tparams">(string less = "a &lt; b", Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#isSorted:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2692">#</a></dt>
+<dd class="ddef">
+<div class="summary">Checks whether a random-access range is sorted according to the
+comparison operation <span class="d_psymbol"><i>less</i></span>. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>r.length</i></span><b></i>)</i></b> evaluations
+of <span class="d_psymbol"><i>less</i></span>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">arr</span> = [<span class="n">4</span>, <span class="n">3</span>, <span class="n">2</span>, <span class="n">1</span>];
+<span class="k">assert</span>(!<span class="i">isSorted</span>(<span class="i">arr</span>));
+<span class="i">sort</span>(<span class="i">arr</span>);
+<span class="k">assert</span>(<span class="i">isSorted</span>(<span class="i">arr</span>));
+<span class="i">sort</span>!(<span class="sl">"a &gt; b"</span>)(<span class="i">arr</span>);
+<span class="k">assert</span>(<span class="i">isSorted</span>!(<span class="sl">"a &gt; b"</span>)(<span class="i">arr</span>));
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="topNIndexImpl" href="./htmlsrc/std.algorithm.html#L2756" kind="function" beg="2756" end="2829">topNIndexImpl</a><span class="tparams">(
+    alias less,
+    bool sortAfter,
+    SwapStrategy ss,
+    alias iterSwap,
+    SRange, TRange)</span><span class="params">(SRange <em>source</em>, TRange <em>target</em>)</span>; <a title="Permalink to this symbol" href="#topNIndexImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2756">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="topNIndex" href="./htmlsrc/std.algorithm.html#L2834" kind="function" beg="2834" end="2841">topNIndex</a><span class="tparams">(
+    alias less,
+    SwapStrategy ss = SwapStrategy.unstable,
+    alias iterSwap = .iterSwap,
+    SRange, TRange)</span><span class="params">(SRange <em>source</em>, TRange <em>target</em>)</span>; <a title="Permalink to this symbol" href="#topNIndex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2834">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="topNIndex:2" href="./htmlsrc/std.algorithm.html#L2844" kind="function" beg="2844" end="2851">topNIndex</a><span class="tparams">(
+    string less,
+    SwapStrategy ss = SwapStrategy.unstable,
+    alias iterSwap = .iterSwap,
+    SRange, TRange)</span><span class="params">(SRange <em>source</em>, TRange <em>target</em>)</span>; <a title="Permalink to this symbol" href="#topNIndex:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2844">#</a></dt>
+<dd class="ddef">
+<div class="summary">topNIndex</div></dd>
+<dt class="decl">void <a class="symbol _function" name="partialIndex" href="./htmlsrc/std.algorithm.html#L2888" kind="function" beg="2888" end="2895">partialIndex</a><span class="tparams">(
+    alias less,
+    SwapStrategy ss = SwapStrategy.unstable,
+    alias iterSwap = .iterSwap,
+    SRange, TRange)</span><span class="params">(SRange <em>source</em>, TRange <em>target</em>)</span>; <a title="Permalink to this symbol" href="#partialIndex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2888">#</a></dt>
+<dd class="ddef">
+<div class="summary">Computes an index for <span class="d_psymbol"><i>source</i></span> based on the comparison <span class="d_psymbol"><i>less</i></span>
+and deposits the result in <span class="d_psymbol"><i>target</i></span>. It is acceptable that <span class="d_psymbol"><i>
+target.length < source.length</i></span>, in which case only the smallest <span class="d_psymbol"><i>
+target.length</i></span> elements in <span class="d_psymbol"><i>source</i></span> get indexed. The target
+provides a sorted "view" into <span class="d_psymbol"><i>source</i></span>. This technique is similar
+to sorting and partial sorting, but it is more flexible because (1) it
+allows "sorting" of invariant collections, (2) allows binary search
+even if the original collection does not offer random access, (3)
+allows multiple indexes, each on a different comparison criterion, (4)
+may be faster when dealing with large objects. However, using an index
+may also be slower under certain circumstances due to the extra
+indirection, and is always larger than a sorting-based solution
+because it needs space for the index in addition to the original
+collection. The complexity is <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>source.length *
+log(target.length)</i></span><b></i>)</i></b>.</div>
+Two types of indexes are accepted. They are selected by simply passing
+the appropriate <span class="d_psymbol"><i>target</i></span> argument: <ol><li>Indexes of type <span class="d_psymbol"><i>
+Iterator!(Source)</i></span>, in which case the index will be sorted with the
+predicate <span class="d_psymbol"><i>less(*a, *b)</i></span>;</li> <li>Indexes of an integral type
+(e.g. <span class="d_psymbol"><i>size_t</i></span>), in which case the index will be sorted with the
+predicate <span class="d_psymbol"><i>less(source[a], source[b])</i></span>.</li></ol>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">invariant</span> <span class="i">arr</span> = [ <span class="n">2</span>, <span class="n">3</span>, <span class="n">1</span> ];
+<span class="k">int</span>* <span class="i">index</span>[<span class="n">3</span>];
+<span class="i">partialIndex</span>(<span class="i">arr</span>, <span class="i">index</span>);
+<span class="k">assert</span>(*<span class="i">index</span>[<span class="n">0</span>] == <span class="n">1</span> &amp;&amp; *<span class="i">index</span>[<span class="n">1</span>] == <span class="n">2</span> &amp;&amp; *<span class="i">index</span>[<span class="n">2</span>] == <span class="n">3</span>);
+<span class="k">assert</span>(<span class="i">isSorted</span>!(<span class="sl">"*a &lt; *b"</span>)(<span class="i">index</span>));
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:34" href="./htmlsrc/std.algorithm.html#L2897" kind="unittest" beg="2897" end="2904">unittest</a>; <a title="Permalink to this symbol" href="#unittest:34" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2897">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:35" href="./htmlsrc/std.algorithm.html#L2906" kind="unittest" beg="2906" end="2949">unittest</a>; <a title="Permalink to this symbol" href="#unittest:35" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L2906">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="schwartzIsSorted" href="./htmlsrc/std.algorithm.html#L3040" kind="function" beg="3040" end="3052">schwartzIsSorted</a><span class="tparams">(alias transform, alias less, Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#schwartzIsSorted" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3040">#</a></dt>
+<dt class="decl">bool <a class="symbol _function" name="schwartzIsSorted:2" href="./htmlsrc/std.algorithm.html#L3055" kind="function" beg="3055" end="3058">schwartzIsSorted</a><span class="tparams">(alias transform, string less = "a &lt; b", Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#schwartzIsSorted:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3055">#</a></dt>
+<dd class="ddef">
+<div class="summary">Checks whether a random-access range is sorted according to the
+comparison operation <span class="d_psymbol"><i>less(transform(a), transform(b))</i></span>. Performs
+<i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>r.length</i></span><b></i>)</i></b> evaluations of <span class="d_psymbol"><i>less</i></span> and <span class="d_psymbol"><i>transform</i></span>. The
+advantage over <span class="d_psymbol"><i>isSorted</i></span> is that it evaluates <span class="d_psymbol"><i>transform</i></span> only
+half as many times.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">arr</span> = [ <span class="sl">"ab"</span>, <span class="sl">"Ab"</span>, <span class="sl">"aB"</span>, <span class="sl">"bc"</span>, <span class="sl">"Bc"</span> ];
+<span class="k">assert</span>(!<span class="i">schwartzIsSorted</span>!(<span class="i">toupper</span>, <span class="sl">"a &lt; b"</span>)(<span class="i">arr</span>));
+</pre></dd>
+<dt class="decl">Iterator!(Range) <a class="symbol _function" name="lowerBound" href="./htmlsrc/std.algorithm.html#L3084" kind="function" beg="3084" end="3103">lowerBound</a><span class="tparams">(alias less = "a &lt; b", Range, V)</span><span class="params">(Range <em>r</em>, V <em>value</em>)</span>; <a title="Permalink to this symbol" href="#lowerBound" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3084">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the leftmost position in <span class="d_psymbol"><i>range</i></span> such that all other values
+<span class="d_psymbol"><i>x</i></span> to the left of that position satisfy <span class="d_psymbol"><i>less(x,
+value)</i></span>. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>log(r.length)</i></span><b></i>)</i></b> evaluations of <span class="d_psymbol"><i>less</i></span>. See
+also STL's <a href="http://sgi.com/tech/stl/lower_bound.html">lower_bound</a>.</div>
+<p class="sec_header">Precondition:</p><span class="d_psymbol"><i>isSorted!(less)(r)</i></span>
+<p class="sec_header">Returns:</p><span class="d_psymbol"><i>i</i></span> such that <span class="d_psymbol"><i>less(*p, i)</i></span> for all p in <span class="d_psymbol"><i>[begin(r), i)</i></span>.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = [ <span class="n">0</span>, <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>, <span class="n">7</span>, <span class="n">8</span>, <span class="n">9</span> ];
+<span class="k">auto</span> <span class="i">p</span> = <span class="i">lowerBound</span>!(<span class="i">less</span>)(<span class="i">a</span>, <span class="n">4</span>);
+<span class="k">assert</span>(*<span class="i">p</span> == <span class="n">4</span>);
+<span class="i">p</span> = <span class="i">lowerBound</span>(<span class="i">a</span>, <span class="n">4</span>); <span class="lc">// uses less by default</span>
+<span class="k">assert</span>(*<span class="i">p</span> == <span class="n">4</span>);
+<span class="i">p</span> = <span class="i">lowerBound</span>!(<span class="sl">"a &lt; b"</span>)(<span class="i">a</span>, <span class="n">4</span>); <span class="lc">// predicate as string</span>
+<span class="k">assert</span>(*<span class="i">p</span> == <span class="n">4</span>);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:36" href="./htmlsrc/std.algorithm.html#L3105" kind="unittest" beg="3105" end="3114">unittest</a>; <a title="Permalink to this symbol" href="#unittest:36" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3105">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Iterator!(Range) <a class="symbol _function" name="upperBound" href="./htmlsrc/std.algorithm.html#L3136" kind="function" beg="3136" end="3152">upperBound</a><span class="tparams">(alias less = "a &lt; b", Range, V)</span><span class="params">(Range <em>r</em>, V <em>value</em>)</span>; <a title="Permalink to this symbol" href="#upperBound" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3136">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the rightmost position in <span class="d_psymbol"><i>r</i></span> such that all other elements
+<span class="d_psymbol"><i>x</i></span> to the left of that position satisfy <span class="d_psymbol"><i>!less(value, x)</i></span>.
+Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>log(r.length)</i></span><b></i>)</i></b> evaluations of <span class="d_psymbol"><i>less</i></span>. See also
+STL's <a href="http://sgi.com/tech/stl/upper_bound.html">upper_bound</a>.</div>
+<p class="sec_header">Precondition:</p><span class="d_psymbol"><i>isSorted!(less)(r)</i></span>
+<p class="sec_header">Returns:</p><span class="d_psymbol"><i>i</i></span> such that <span class="d_psymbol"><i>less(*p, value)</i></span> for all p in <span class="d_psymbol"><i>
+[begin(r), i)</i></span>.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">a</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">3</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span> ];
+<span class="k">auto</span> <span class="i">p</span> = <span class="i">upperBound</span>(<span class="i">a</span>, <span class="n">3</span>);
+<span class="k">assert</span>(<span class="i">p</span> == <span class="i">begin</span>(<span class="i">a</span>) + <span class="n">5</span>);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:37" href="./htmlsrc/std.algorithm.html#L3154" kind="unittest" beg="3154" end="3159">unittest</a>; <a title="Permalink to this symbol" href="#unittest:37" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3154">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Range <a class="symbol _function" name="equalRange" href="./htmlsrc/std.algorithm.html#L3184" kind="function" beg="3184" end="3211">equalRange</a><span class="tparams">(alias less = "a &lt; b", Range, V)</span><span class="params">(Range <em>r</em>, V <em>value</em>)</span>; <a title="Permalink to this symbol" href="#equalRange" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3184">#</a></dt>
+<dd class="ddef">
+<div class="summary">The call <span class="d_psymbol"><i>equalRange!(less)(r, v)</i></span> returns <span class="d_psymbol"><i>range(<span class="d_psymbol"><i>
+lowerBound!(less)(r, v), <span class="d_psymbol"><i>upperBound!(less)(r, v)</i></span></i></span>)</i></span> but a bit
+more efficiently than calling both functions.  Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>
+log(r.length)</i></span><b></i>)</i></b> evaluations of <span class="d_psymbol"><i>less</i></span>. See also STL's <a href="http://
+sgi.com/tech/stl/equal_range.html">equal_range</a>.</div>
+<p class="sec_header">Precondition:</p><span class="d_psymbol"><i>isSorted!(less)(range)</i></span>
+<p class="sec_header">Returns:</p>The largest subrange of <span class="d_psymbol"><i>r</i></span> such that for all <span class="d_psymbol"><i>p</i></span> in that range,
+<span class="d_psymbol"><i>!less(*p, value) && !less(value, *p)</i></span>.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">a</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">3</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span> ];
+<span class="k">auto</span> <span class="i">r</span> = <span class="i">equalRange</span>(<span class="i">a</span>, <span class="n">3</span>);
+<span class="k">assert</span>(<span class="i">r</span> == [ <span class="n">3</span>, <span class="n">3</span>, <span class="n">3</span> ]);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:38" href="./htmlsrc/std.algorithm.html#L3213" kind="unittest" beg="3213" end="3222">unittest</a>; <a title="Permalink to this symbol" href="#unittest:38" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3213">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="canFindSorted" href="./htmlsrc/std.algorithm.html#L3232" kind="function" beg="3232" end="3236">canFindSorted</a><span class="tparams">(alias less = "a &lt; b", T, V)</span><span class="params">(T <em>range</em>, V <em>value</em>)</span>; <a title="Permalink to this symbol" href="#canFindSorted" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3232">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns <span class="d_psymbol"><i>true</i></span> if and only if <span class="d_psymbol"><i>value</i></span> can be found in <span class="d_psymbol"><i>
+range</i></span>, which is assumed to be sorted. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>log(r.length)</i></span><b></i>)</i></b>
+evaluations of <span class="d_psymbol"><i>less</i></span>. See also STL's <a href="http://
+sgi.com/tech/stl/binary_search.html">binary_search</a>.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:39" href="./htmlsrc/std.algorithm.html#L3238" kind="unittest" beg="3238" end="3247">unittest</a>; <a title="Permalink to this symbol" href="#unittest:39" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3238">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="makeHeap" href="./htmlsrc/std.algorithm.html#L3254" kind="function" beg="3254" end="3263">makeHeap</a><span class="tparams">(alias less = "a &lt; b", alias iterSwap = .iterSwap, Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#makeHeap" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3254">#</a></dt>
+<dd class="ddef">
+<div class="summary">Converts the range <span class="d_psymbol"><i>r</i></span> into a heap. Performs <i><b>&Omicron;</i>(</i></b><span class="d_psymbol"><i>r.length</i></span><b></i>)</i></b>
+evaluations of <span class="d_psymbol"><i>less</i></span>.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:40" href="./htmlsrc/std.algorithm.html#L3265" kind="unittest" beg="3265" end="3271">unittest</a>; <a title="Permalink to this symbol" href="#unittest:40" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3265">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="heapify" href="./htmlsrc/std.algorithm.html#L3274" kind="function" beg="3274" end="3294">heapify</a><span class="tparams">(alias less, alias iterSwap, Range, It)</span><span class="params">(Range <em>r</em>, It <em>i</em>)</span>; <a title="Permalink to this symbol" href="#heapify" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3274">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:41" href="./htmlsrc/std.algorithm.html#L3296" kind="unittest" beg="3296" end="3302">unittest</a>; <a title="Permalink to this symbol" href="#unittest:41" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3296">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="popHeap" href="./htmlsrc/std.algorithm.html#L3307" kind="function" beg="3307" end="3313">popHeap</a><span class="tparams">(alias less, alias iterSwap = .iterSwap, Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#popHeap" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3307">#</a></dt>
+<dd class="ddef">
+<div class="summary">popHeap</div></dd>
+<dt class="decl">void <a class="symbol _function" name="sortHeap" href="./htmlsrc/std.algorithm.html#L3318" kind="function" beg="3318" end="3325">sortHeap</a><span class="tparams">(alias less, alias iterSwap = .iterSwap, Range)</span><span class="params">(Range <em>r</em>)</span>; <a title="Permalink to this symbol" href="#sortHeap" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3318">#</a></dt>
+<dd class="ddef">
+<div class="summary">sortHeap</div></dd>
+<dt class="decl">void <a class="symbol _function" name="topNCopy" href="./htmlsrc/std.algorithm.html#L3330" kind="function" beg="3330" end="3352">topNCopy</a><span class="tparams">(alias less, alias iterSwap = .iterSwap, SRange, TRange)</span><span class="params">(SRange <em>source</em>, TRange <em>target</em>)</span>; <a title="Permalink to this symbol" href="#topNCopy" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3330">#</a></dt>
+<dd class="ddef">
+<div class="summary">topNCopy</div></dd>
+<dt class="decl">void <a class="symbol _function" name="partialSortCopy" href="./htmlsrc/std.algorithm.html#L3357" kind="function" beg="3357" end="3362">partialSortCopy</a><span class="tparams">(alias less, alias iterSwap = .iterSwap, SRange, TRange)</span><span class="params">(SRange <em>source</em>, TRange <em>target</em>)</span>; <a title="Permalink to this symbol" href="#partialSortCopy" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3357">#</a></dt>
+<dd class="ddef">
+<div class="summary">partialSortCopy</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:42" href="./htmlsrc/std.algorithm.html#L3364" kind="unittest" beg="3364" end="3373">unittest</a>; <a title="Permalink to this symbol" href="#unittest:42" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.algorithm.html#L3364">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:33 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,615 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.regexp</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.regexp";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.regexp.html" class="symbol">std.regexp</a></h1>
+  
+<div class="summary"><a href="http://www.digitalmars.com/ctg/regular.html">Regular
+ expressions</a> are a powerful method of string pattern matching.  The
+ regular expression language used in this library is the same as
+ that commonly used, however, some of the very advanced forms may
+ behave slightly differently. The standard observed is the <a href="http://
+ www.ecma-international.org/publications/standards/Ecma-262.htm">
+ ECMA standard</a> for regular expressions.</div>
+std.regexp is designed to work only with valid UTF strings as input.
+ To validate untrusted input, use std.utf.validate().
+<p class="bl"/>
+ In the following guide, <i>pattern</i>[] refers to a
+ <a href="http://www.digitalmars.com/ctg/regular.html">regular expression</a>.
+ The <i>attributes</i>[] refers to
+        a string controlling the interpretation
+        of the regular expression.
+        It consists of a sequence of one or more
+        of the following characters:
+<p class="bl"/>
+        <table border=1 cellspacing=0 cellpadding=5>
+        <caption>Attribute Characters</caption>
+        <tr><th>Attribute</th> <th>Action</th></tr>
+        <tr>
+        <td><b>g</b></td>
+        <td>global; repeat over the whole input string</td>
+        </tr>
+        <tr>
+        <td><b>i</b></td>
+        <td>case insensitive</td>
+        </tr>
+        <tr>
+        <td><b>m</b></td>
+        <td>treat as multiple lines separated by newlines</td>
+        </tr>
+        </table>
+<p class="bl"/>
+ The <i>format</i>[] string has the formatting characters:
+<p class="bl"/>
+        <table border=1 cellspacing=0 cellpadding=5>
+        <caption>Formatting Characters</caption>
+        <tr><th>Format</th> <th>Replaced With</th></tr>
+        <tr>
+        <td><b>$$</b></td>        <td>$</td>
+        </tr>
+        <tr>
+        <td><b>$&</b></td>        <td>The matched substring.</td>
+        </tr>
+        <tr>
+        <td><b>$`</b></td>        <td>The portion of string that precedes the matched substring.</td>
+        </tr>
+        <tr>
+        <td><b>$'</b></td>        <td>The portion of string that follows the matched substring.</td>
+        </tr>
+        <tr>
+        <td><b>$</b><i>n</i></td> <td>The <i>n</i>th capture, where <i>n</i>
+                        is a single digit 1-9
+                        and $<i>n</i> is not followed by a decimal digit.</td>
+        </tr>
+        <tr>
+        <td><b>$</b><i>nn</i></td> <td>The <i>nn</i>th capture, where <i>nn</i>
+                        is a two-digit decimal
+                        number 01-99.
+                        If <i>nn</i>th capture is undefined or more than the number
+                        of parenthesized subexpressions, use the empty
+                        string instead.</td>
+        </tr>
+        </table>
+<p class="bl"/>
+        Any other $ are left as is.
+<p class="sec_header">References:</p><a href="http://en.wikipedia.org/wiki/Regular_expressions">Wikipedia</a>
+<dl>
+<dt class="decl">string <a class="symbol _variable" name="email" href="./htmlsrc/std.regexp.html#L157" kind="variable" beg="157" end="158">email</a>; <a title="Permalink to this symbol" href="#email" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L157">#</a></dt>
+<dd class="ddef">
+<div class="summary">Regular expression to extract an _email address.</div>
+<p class="sec_header">References:</p><a href="http://www.regular-expressions.info/email.html">How to Find or Validate an Email Address</a><br/>
+        <a href="http://tools.ietf.org/html/rfc2822#section-3.4.1">RFC 2822 Internet Message Format</a></dd>
+<dt class="decl">string <a class="symbol _variable" name="url" href="./htmlsrc/std.regexp.html#L161" kind="variable" beg="161" end="161">url</a>; <a title="Permalink to this symbol" href="#url" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L161">#</a></dt>
+<dd class="ddef">
+<div class="summary">Regular expression to extract a _url</div></dd>
+<dt class="decl">class <a class="symbol _class" name="RegExpException" href="./htmlsrc/std.regexp.html#L167" kind="class" beg="167" end="173">RegExpException</a> : Exception; <a title="Permalink to this symbol" href="#RegExpException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L167">#</a></dt>
+<dd class="ddef">
+<div class="summary">One of these gets thrown on compilation errors</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="RegExpException.this" href="./htmlsrc/std.regexp.html#L169" kind="ctor" beg="169" end="172">this</a><span class="params">(string <em>msg</em>)</span>; <a title="Permalink to this symbol" href="#RegExpException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L169">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="regmatch_t" href="./htmlsrc/std.regexp.html#L175" kind="struct" beg="175" end="179">regmatch_t</a>; <a title="Permalink to this symbol" href="#regmatch_t" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L175">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">int <a class="symbol _variable" name="regmatch_t.rm_so" href="./htmlsrc/std.regexp.html#L177" kind="variable" beg="177" end="177">rm_so</a>; <a title="Permalink to this symbol" href="#regmatch_t.rm_so" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L177">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _variable" name="regmatch_t.rm_eo" href="./htmlsrc/std.regexp.html#L178" kind="variable" beg="178" end="178">rm_eo</a>; <a title="Permalink to this symbol" href="#regmatch_t.rm_eo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L178">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">alias char <a class="symbol _alias" name="rchar" href="./htmlsrc/std.regexp.html#L181" kind="alias" beg="181" end="181">rchar</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#rchar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L181">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="sub" href="./htmlsrc/std.regexp.html#L208" kind="function" beg="208" end="214">sub</a><span class="params">(string <em>s</em>, string <em>pattern</em>, string <em>format</em>, string <em>attributes</em> = null)</span>; <a title="Permalink to this symbol" href="#sub" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L208">#</a></dt>
+<dd class="ddef">
+<div class="summary">Search string for matches with regular expression
+ pattern with attributes.
+ Replace each match with string generated from format.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>String to search.</td></tr>
+<tr><td><em>pattern</em></td><td>Regular expression pattern.</td></tr>
+<tr><td><em>format</em></td><td>Replacement string format.</td></tr>
+<tr><td><em>attributes</em></td><td>Regular expression attributes.</td></tr></table>
+<p class="sec_header">Returns:</p>the resulting string
+<p class="sec_header">Example:</p>Replace the letters 'a' with the letters 'ZZ'.
+ <pre class="d_code">
+<span class="i">s</span> = <span class="sl">"Strap a rocket engine on a chicken."</span>
+<span class="i">sub</span>(<span class="i">s</span>, <span class="sl">"a"</span>, <span class="sl">"ZZ"</span>)        <span class="lc">// result: StrZZp a rocket engine on a chicken.</span>
+<span class="i">sub</span>(<span class="i">s</span>, <span class="sl">"a"</span>, <span class="sl">"ZZ"</span>, <span class="sl">"g"</span>)   <span class="lc">// result: StrZZp ZZ rocket engine on ZZ chicken.</span>
+</pre>
+        The replacement format can reference the matches using
+        the $&amp;, $$, $', $`,  .. 9 notation:
+ <pre class="d_code">
+<span class="i">sub</span>(<span class="i">s</span>, <span class="sl">"[ar]"</span>, <span class="sl">"[$&amp;]"</span>, <span class="sl">"g"</span>) <span class="lc">// result: St[r][a]p [a] [r]ocket engine on [a] chi</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.regexp.html#L216" kind="unittest" beg="216" end="222">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L216">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="sub:2" href="./htmlsrc/std.regexp.html#L248" kind="function" beg="248" end="295">sub</a><span class="params">(string <em>s</em>, string <em>pattern</em>, string delegate(RegExp) <em>dg</em>, string <em>attributes</em> = null)</span>; <a title="Permalink to this symbol" href="#sub:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L248">#</a></dt>
+<dd class="ddef">
+<div class="summary">Search string for matches with regular expression
+ pattern with attributes.
+ Pass each match to delegate dg.
+ Replace each match with the return value from dg.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>String to search.</td></tr>
+<tr><td><em>pattern</em></td><td>Regular expression pattern.</td></tr>
+<tr><td><em>dg</em></td><td>Delegate</td></tr>
+<tr><td><em>attributes</em></td><td>Regular expression attributes.</td></tr></table>
+<p class="sec_header">Returns:</p>the resulting string.
+<p class="sec_header">Example:</p>Capitalize the letters 'a' and 'r':
+ <pre class="d_code">
+<span class="i">s</span> = <span class="sl">"Strap a rocket engine on a chicken."</span>;
+<span class="i">sub</span>(<span class="i">s</span>, <span class="sl">"[ar]"</span>,
+   <span class="k">delegate</span> <span class="k">char</span>[] (<span class="i">RegExp</span> <span class="i">m</span>)
+   {
+        <span class="k">return</span> <span class="i">toupper</span>(<span class="i">m</span>[<span class="n">0</span>]);
+   },
+   <span class="sl">"g"</span>);    <span class="lc">// result: StRAp A Rocket engine on A chicken.</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.regexp.html#L297" kind="unittest" beg="297" end="317">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L297">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="find" href="./htmlsrc/std.regexp.html#L335" kind="function" beg="335" end="340">find</a><span class="params">(string <em>s</em>, RegExp <em>pattern</em>)</span>; <a title="Permalink to this symbol" href="#find" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L335">#</a></dt>
+<dd class="ddef">
+<div class="summary">Search <span class="d_param">s[]</span> for first match with <span class="d_param">pattern</span>.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>String to search.</td></tr>
+<tr><td><em>pattern</em></td><td>Regular expression pattern.</td></tr></table>
+<p class="sec_header">Returns:</p>index into s[] of match if found, -1 if no match.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">s</span> = <span class="sl">"abcabcabab"</span>;
+<span class="i">find</span>(<span class="i">s</span>, <span class="i">RegExp</span>(<span class="sl">"b"</span>));    <span class="lc">// match, returns 1</span>
+<span class="i">find</span>(<span class="i">s</span>, <span class="i">RegExp</span>(<span class="sl">"f"</span>));    <span class="lc">// no match, returns -1</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:3" href="./htmlsrc/std.regexp.html#L342" kind="unittest" beg="342" end="350">unittest</a>; <a title="Permalink to this symbol" href="#unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L342">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="find:2" href="./htmlsrc/std.regexp.html#L365" kind="function" beg="365" end="376">find</a><span class="params">(string <em>s</em>, string <em>pattern</em>, string <em>attributes</em> = null)</span>; <a title="Permalink to this symbol" href="#find:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L365">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">Returns:</p>Same as <span class="d_param">find(s, RegExp(pattern, attributes))</span>.
+<p class="sec_header">WARNING:</p>This function is scheduled for deprecation due to unnecessary
+ambiguity with the homonym function in std.string. Instead of
+<span class="d_param">std.regexp.find(s, p, a)</span>, you may want to use <span class="d_param">
+find(s, RegExp(p, a))</span>.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:4" href="./htmlsrc/std.regexp.html#L378" kind="unittest" beg="378" end="386">unittest</a>; <a title="Permalink to this symbol" href="#unittest:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L378">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="rfind" href="./htmlsrc/std.regexp.html#L403" kind="function" beg="403" end="417">rfind</a><span class="params">(string <em>s</em>, RegExp <em>pattern</em>)</span>; <a title="Permalink to this symbol" href="#rfind" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L403">#</a></dt>
+<dd class="ddef">
+<div class="summary">Search <span class="d_param">s[]</span> for last match with <span class="d_param">pattern</span>.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>String to search.</td></tr>
+<tr><td><em>pattern</em></td><td>Regular expression pattern.</td></tr></table>
+<p class="sec_header">Returns:</p>index into s[] of match if found, -1 if no match.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">s</span> = <span class="sl">"abcabcabab"</span>;
+<span class="i">rfind</span>(<span class="i">s</span>, <span class="i">RegExp</span>(<span class="sl">"b"</span>));    <span class="lc">// match, returns 9</span>
+<span class="i">rfind</span>(<span class="i">s</span>, <span class="i">RegExp</span>(<span class="sl">"f"</span>));    <span class="lc">// no match, returns -1</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:5" href="./htmlsrc/std.regexp.html#L419" kind="unittest" beg="419" end="434">unittest</a>; <a title="Permalink to this symbol" href="#unittest:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L419">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="rfind:2" href="./htmlsrc/std.regexp.html#L449" kind="function" beg="449" end="465">rfind</a><span class="params">(string <em>s</em>, string <em>pattern</em>, string <em>attributes</em> = null)</span>; <a title="Permalink to this symbol" href="#rfind:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L449">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">Returns:</p>Same as <span class="d_param">rfind(s, RegExp(pattern, attributes))</span>.
+<p class="sec_header">WARNING:</p>This function is scheduled for deprecation due to unnecessary
+ambiguity with the homonym function in std.string. Instead of
+<span class="d_param">std.regexp.rfind(s, p, a)</span>, you may want to use <span class="d_param">
+rfind(s, RegExp(p, a))</span>.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:6" href="./htmlsrc/std.regexp.html#L467" kind="unittest" beg="467" end="482">unittest</a>; <a title="Permalink to this symbol" href="#unittest:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L467">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string[] <a class="symbol _function" name="split" href="./htmlsrc/std.regexp.html#L506" kind="function" beg="506" end="509">split</a><span class="params">(string <em>s</em>, RegExp <em>pattern</em>)</span>; <a title="Permalink to this symbol" href="#split" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L506">#</a></dt>
+<dd class="ddef">
+<div class="summary">Split s[] into an array of strings, using the regular
+ expression <span class="d_param">pattern</span> as the separator.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>String to search.</td></tr>
+<tr><td><em>pattern</em></td><td>Regular expression pattern.</td></tr></table>
+<p class="sec_header">Returns:</p>array of slices into s[]
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">foreach</span> (<span class="i">s</span>; <span class="i">split</span>(<span class="sl">"abcabcabab"</span>, <span class="i">RegExp</span>(<span class="sl">"C."</span>, <span class="sl">"i"</span>)))
+{
+    <span class="i">writefln</span>(<span class="sl">"s = '%s'"</span>, <span class="i">s</span>);
+}
+<span class="lc">// Prints:</span>
+<span class="lc">// s = 'ab'</span>
+<span class="lc">// s = 'b'</span>
+<span class="lc">// s = 'bab'</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:7" href="./htmlsrc/std.regexp.html#L511" kind="unittest" beg="511" end="529">unittest</a>; <a title="Permalink to this symbol" href="#unittest:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L511">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string[] <a class="symbol _function" name="split:2" href="./htmlsrc/std.regexp.html#L543" kind="function" beg="543" end="549">split</a><span class="params">(string <em>s</em>, string <em>pattern</em>, string <em>attributes</em> = null)</span>; <a title="Permalink to this symbol" href="#split:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L543">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">Returns:</p>Same as <span class="d_param">split(s, RegExp(pattern, attributes))</span>.
+<p class="sec_header">WARNING:</p>This function is scheduled for deprecation due to unnecessary
+ambiguity with the homonym function in std.string. Instead of
+<span class="d_param">std.regexp.split(s, p, a)</span>, you may want to use <span class="d_param">
+split(s, RegExp(p, a))</span>.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:8" href="./htmlsrc/std.regexp.html#L551" kind="unittest" beg="551" end="569">unittest</a>; <a title="Permalink to this symbol" href="#unittest:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L551">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">RegExp <a class="symbol _function" name="search" href="./htmlsrc/std.regexp.html#L596" kind="function" beg="596" end="604">search</a><span class="params">(string <em>s</em>, string <em>pattern</em>, string <em>attributes</em> = null)</span>; <a title="Permalink to this symbol" href="#search" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L596">#</a></dt>
+<dd class="ddef">
+<div class="summary">Search s[] for first match with pattern[] with attributes[].</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>String to search.</td></tr>
+<tr><td><em>pattern</em></td><td>Regular expression pattern.</td></tr>
+<tr><td><em>attributes</em></td><td>Regular expression attributes.</td></tr></table>
+<p class="sec_header">Returns:</p>corresponding RegExp if found, null if not.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">regexp</span>;
+
+<span class="k">void</span> <span class="i">main</span>()
+{
+    <span class="k">if</span> (<span class="k">auto</span> <span class="i">m</span> = <span class="i">std</span>.<span class="i">regexp</span>.<span class="i">search</span>(<span class="sl">"abcdef"</span>, <span class="sl">"c"</span>))
+    {
+        <span class="i">writefln</span>(<span class="sl">"%s[%s]%s"</span>, <span class="i">m</span>.<span class="i">pre</span>, <span class="i">m</span>[<span class="n">0</span>], <span class="i">m</span>.<span class="i">post</span>);
+    }
+}
+<span class="lc">// Prints:</span>
+<span class="lc">// ab[c]def</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:9" href="./htmlsrc/std.regexp.html#L606" kind="unittest" beg="606" end="624">unittest</a>; <a title="Permalink to this symbol" href="#unittest:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L606">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">class <a class="symbol _class" name="RegExp" href="./htmlsrc/std.regexp.html#L635" kind="class" beg="635" end="3285">RegExp</a>; <a title="Permalink to this symbol" href="#RegExp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L635">#</a></dt>
+<dd class="ddef">
+<div class="summary">RegExp is a class to handle regular expressions.</div>
+It is the core foundation for adding powerful string pattern matching
+ capabilities to programs like grep, text editors, awk, sed, etc.
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="RegExp.this" href="./htmlsrc/std.regexp.html#L652" kind="ctor" beg="652" end="656">this</a><span class="params">(string <em>pattern</em>, string <em>attributes</em> = null)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L652">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a RegExp object. Compile pattern
+ with <i>attributes</i> into
+ an internal form for fast execution.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>pattern</em></td><td>regular expression</td></tr>
+<tr><td><em>attributes</em></td><td>_attributes</td></tr></table>
+<p class="sec_header">Throws:</p>RegExpException if there are any compilation errors.
+<p class="sec_header">Example:</p>Declare two variables and assign to them a RegExp object:
+ <pre class="d_code">
+<span class="k">auto</span> <span class="i">r</span> = <span class="k">new</span> <span class="i">RegExp</span>(<span class="sl">"pattern"</span>);
+<span class="k">auto</span> <span class="i">s</span> = <span class="k">new</span> <span class="i">RegExp</span>(<span class="sl">r"p[1-5]\s*"</span>);
+</pre></dd>
+<dt class="decl">RegExp <a class="symbol _function" name="RegExp.opCall" href="./htmlsrc/std.regexp.html#L671" kind="function" beg="671" end="674">opCall</a><span class="params">(string <em>pattern</em>, string <em>attributes</em> = null)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#RegExp.opCall" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L671">#</a></dt>
+<dd class="ddef">
+<div class="summary">Generate instance of RegExp.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>pattern</em></td><td>regular expression</td></tr>
+<tr><td><em>attributes</em></td><td>_attributes</td></tr></table>
+<p class="sec_header">Throws:</p>RegExpException if there are any compilation errors.
+<p class="sec_header">Example:</p>Declare two variables and assign to them a RegExp object:
+ <pre class="d_code">
+<span class="k">auto</span> <span class="i">r</span> = <span class="i">RegExp</span>(<span class="sl">"pattern"</span>);
+<span class="k">auto</span> <span class="i">s</span> = <span class="i">RegExp</span>(<span class="sl">r"p[1-5]\s*"</span>);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="RegExp.unittest" href="./htmlsrc/std.regexp.html#L676" kind="unittest" beg="676" end="692">unittest</a>; <a title="Permalink to this symbol" href="#RegExp.unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L676">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">RegExp <a class="symbol _function" name="RegExp.search" href="./htmlsrc/std.regexp.html#L718" kind="function" beg="718" end="723">search</a><span class="params">(string <em>string</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.search" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L718">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="RegExp.opApply" href="./htmlsrc/std.regexp.html#L726" kind="function" beg="726" end="739">opApply</a><span class="params">(int delegate(inout RegExp) <em>dg</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L726">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set up for start of foreach loop.</div>
+<p class="sec_header">Returns:</p>search() returns instance of RegExp set up to _search string[].
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">regexp</span>;
+
+<span class="k">void</span> <span class="i">main</span>()
+{
+    <span class="k">foreach</span>(<span class="i">m</span>; <span class="i">RegExp</span>(<span class="sl">"ab"</span>).<span class="i">search</span>(<span class="sl">"abcabcabab"</span>))
+    {
+        <span class="i">writefln</span>(<span class="sl">"%s[%s]%s"</span>, <span class="i">m</span>.<span class="i">pre</span>, <span class="i">m</span>[<span class="n">0</span>], <span class="i">m</span>.<span class="i">post</span>);
+    }
+}
+<span class="lc">// Prints:</span>
+<span class="lc">// [ab]cabcabab</span>
+<span class="lc">// abc[ab]cabab</span>
+<span class="lc">// abcabc[ab]ab</span>
+<span class="lc">// abcabcab[ab]</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="RegExp.unittest:2" href="./htmlsrc/std.regexp.html#L741" kind="unittest" beg="741" end="756">unittest</a>; <a title="Permalink to this symbol" href="#RegExp.unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L741">#</a></dt>
+
+<dt class="decl">string <a class="symbol _function" name="RegExp.opIndex" href="./htmlsrc/std.regexp.html#L766" kind="function" beg="766" end="778">opIndex</a><span class="params">(size_t <em>n</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.opIndex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L766">#</a></dt>
+<dd class="ddef">
+<div class="summary">Retrieve match n.</div>
+n==0 means the matched substring, n&gt;0 means the
+ n'th parenthesized subexpression.
+ if n is larger than the number of parenthesized subexpressions,
+ null is returned.</dd>
+<dt class="decl">string <a class="symbol _function" name="RegExp.match" href="./htmlsrc/std.regexp.html#L789" kind="function" beg="789" end="792">match</a><span class="params">(size_t <em>n</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.match" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L789">#</a></dt>
+<dd class="ddef">
+<div class="summary">Same as <span class="d_param">opIndex(n)</span>.</div>
+<p class="sec_header">WARNING:</p>Scheduled for deprecation due to confusion with overloaded
+       <span class="d_param">match(string)</span>. Instead of <span class="d_param">regex.match(n)</span>
+       you may want to use <span class="d_param">regex[n]</span>.</dd>
+<dt class="decl">string <a class="symbol _function" name="RegExp.pre" href="./htmlsrc/std.regexp.html#L797" kind="function" beg="797" end="800">pre</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.pre" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L797">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the slice of the input that precedes the matched substring.</div></dd>
+<dt class="decl">string <a class="symbol _function" name="RegExp.post" href="./htmlsrc/std.regexp.html#L805" kind="function" beg="805" end="808">post</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.post" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L805">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return the slice of the input that follows the matched substring.</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="RegExp.re_nsub" href="./htmlsrc/std.regexp.html#L810" kind="variable" beg="810" end="810">re_nsub</a>; <a title="Permalink to this symbol" href="#RegExp.re_nsub" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L810">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">regmatch_t[] <a class="symbol _variable" name="RegExp.pmatch" href="./htmlsrc/std.regexp.html#L811" kind="variable" beg="811" end="811">pmatch</a>; <a title="Permalink to this symbol" href="#RegExp.pmatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L811">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _variable" name="RegExp.input" href="./htmlsrc/std.regexp.html#L813" kind="variable" beg="813" end="813">input</a>; <a title="Permalink to this symbol" href="#RegExp.input" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L813">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _variable" name="RegExp.pattern" href="./htmlsrc/std.regexp.html#L817" kind="variable" beg="817" end="817">pattern</a>; <a title="Permalink to this symbol" href="#RegExp.pattern" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L817">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _variable" name="RegExp.flags" href="./htmlsrc/std.regexp.html#L819" kind="variable" beg="819" end="819">flags</a>; <a title="Permalink to this symbol" href="#RegExp.flags" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L819">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _variable" name="RegExp.errors" href="./htmlsrc/std.regexp.html#L821" kind="variable" beg="821" end="821">errors</a>; <a title="Permalink to this symbol" href="#RegExp.errors" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L821">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="RegExp.attributes" href="./htmlsrc/std.regexp.html#L823" kind="variable" beg="823" end="823">attributes</a>; <a title="Permalink to this symbol" href="#RegExp.attributes" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L823">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">enum <a class="symbol _enum" name="RegExp.REA" href="./htmlsrc/std.regexp.html#L825" kind="enum" beg="825" end="832">REA</a>; <a title="Permalink to this symbol" href="#RegExp.REA" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L825">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.REA.global" href="./htmlsrc/std.regexp.html#L827" kind="enummem" beg="827" end="827">global</a> <a title="Permalink to this symbol" href="#RegExp.REA.global" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L827">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.REA.ignoreCase" href="./htmlsrc/std.regexp.html#L828" kind="enummem" beg="828" end="828">ignoreCase</a> <a title="Permalink to this symbol" href="#RegExp.REA.ignoreCase" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L828">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.REA.multiline" href="./htmlsrc/std.regexp.html#L829" kind="enummem" beg="829" end="829">multiline</a> <a title="Permalink to this symbol" href="#RegExp.REA.multiline" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L829">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.REA.dotmatchlf" href="./htmlsrc/std.regexp.html#L831" kind="enummem" beg="831" end="831">dotmatchlf</a> <a title="Permalink to this symbol" href="#RegExp.REA.dotmatchlf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L831">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="RegExp.src" href="./htmlsrc/std.regexp.html#L836" kind="variable" beg="836" end="836">src</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.src" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L836">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="RegExp.src_start" href="./htmlsrc/std.regexp.html#L837" kind="variable" beg="837" end="837">src_start</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.src_start" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L837">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="RegExp.p" href="./htmlsrc/std.regexp.html#L838" kind="variable" beg="838" end="838">p</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.p" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L838">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">regmatch_t <a class="symbol _variable" name="RegExp.gmatch" href="./htmlsrc/std.regexp.html#L839" kind="variable" beg="839" end="839">gmatch</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.gmatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L839">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte</dt>[] <a class="symbol _variable" name="RegExp.program" href="./htmlsrc/std.regexp.html#L842" kind="variable" beg="842" end="842">program</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.program" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L842">#</a></dl>
+<dd class="ddef"></dd>
+<dt class="decl">OutBuffer <a class="symbol _variable" name="RegExp.buf" href="./htmlsrc/std.regexp.html#L843" kind="variable" beg="843" end="843">buf</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.buf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L843">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enum" name="RegExp.enum" href="./htmlsrc/std.regexp.html#L852" kind="enum" beg="852" end="888">enum</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.enum" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L852">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REend" href="./htmlsrc/std.regexp.html#L854" kind="enummem" beg="854" end="854">REend</a> <a title="Permalink to this symbol" href="#RegExp.enum.REend" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L854">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REchar" href="./htmlsrc/std.regexp.html#L855" kind="enummem" beg="855" end="855">REchar</a> <a title="Permalink to this symbol" href="#RegExp.enum.REchar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L855">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REichar" href="./htmlsrc/std.regexp.html#L856" kind="enummem" beg="856" end="856">REichar</a> <a title="Permalink to this symbol" href="#RegExp.enum.REichar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L856">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REdchar" href="./htmlsrc/std.regexp.html#L857" kind="enummem" beg="857" end="857">REdchar</a> <a title="Permalink to this symbol" href="#RegExp.enum.REdchar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L857">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REidchar" href="./htmlsrc/std.regexp.html#L858" kind="enummem" beg="858" end="858">REidchar</a> <a title="Permalink to this symbol" href="#RegExp.enum.REidchar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L858">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REanychar" href="./htmlsrc/std.regexp.html#L859" kind="enummem" beg="859" end="859">REanychar</a> <a title="Permalink to this symbol" href="#RegExp.enum.REanychar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L859">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REanystar" href="./htmlsrc/std.regexp.html#L860" kind="enummem" beg="860" end="860">REanystar</a> <a title="Permalink to this symbol" href="#RegExp.enum.REanystar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L860">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REstring" href="./htmlsrc/std.regexp.html#L861" kind="enummem" beg="861" end="861">REstring</a> <a title="Permalink to this symbol" href="#RegExp.enum.REstring" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L861">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REistring" href="./htmlsrc/std.regexp.html#L862" kind="enummem" beg="862" end="862">REistring</a> <a title="Permalink to this symbol" href="#RegExp.enum.REistring" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L862">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REtestbit" href="./htmlsrc/std.regexp.html#L863" kind="enummem" beg="863" end="863">REtestbit</a> <a title="Permalink to this symbol" href="#RegExp.enum.REtestbit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L863">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REbit" href="./htmlsrc/std.regexp.html#L864" kind="enummem" beg="864" end="864">REbit</a> <a title="Permalink to this symbol" href="#RegExp.enum.REbit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L864">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REnotbit" href="./htmlsrc/std.regexp.html#L865" kind="enummem" beg="865" end="865">REnotbit</a> <a title="Permalink to this symbol" href="#RegExp.enum.REnotbit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L865">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.RErange" href="./htmlsrc/std.regexp.html#L866" kind="enummem" beg="866" end="866">RErange</a> <a title="Permalink to this symbol" href="#RegExp.enum.RErange" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L866">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REnotrange" href="./htmlsrc/std.regexp.html#L867" kind="enummem" beg="867" end="867">REnotrange</a> <a title="Permalink to this symbol" href="#RegExp.enum.REnotrange" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L867">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REor" href="./htmlsrc/std.regexp.html#L868" kind="enummem" beg="868" end="868">REor</a> <a title="Permalink to this symbol" href="#RegExp.enum.REor" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L868">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REplus" href="./htmlsrc/std.regexp.html#L869" kind="enummem" beg="869" end="869">REplus</a> <a title="Permalink to this symbol" href="#RegExp.enum.REplus" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L869">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REstar" href="./htmlsrc/std.regexp.html#L870" kind="enummem" beg="870" end="870">REstar</a> <a title="Permalink to this symbol" href="#RegExp.enum.REstar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L870">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REquest" href="./htmlsrc/std.regexp.html#L871" kind="enummem" beg="871" end="871">REquest</a> <a title="Permalink to this symbol" href="#RegExp.enum.REquest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L871">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REnm" href="./htmlsrc/std.regexp.html#L872" kind="enummem" beg="872" end="872">REnm</a> <a title="Permalink to this symbol" href="#RegExp.enum.REnm" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L872">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REnmq" href="./htmlsrc/std.regexp.html#L873" kind="enummem" beg="873" end="873">REnmq</a> <a title="Permalink to this symbol" href="#RegExp.enum.REnmq" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L873">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REbol" href="./htmlsrc/std.regexp.html#L874" kind="enummem" beg="874" end="874">REbol</a> <a title="Permalink to this symbol" href="#RegExp.enum.REbol" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L874">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REeol" href="./htmlsrc/std.regexp.html#L875" kind="enummem" beg="875" end="875">REeol</a> <a title="Permalink to this symbol" href="#RegExp.enum.REeol" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L875">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REparen" href="./htmlsrc/std.regexp.html#L876" kind="enummem" beg="876" end="876">REparen</a> <a title="Permalink to this symbol" href="#RegExp.enum.REparen" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L876">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REgoto" href="./htmlsrc/std.regexp.html#L877" kind="enummem" beg="877" end="877">REgoto</a> <a title="Permalink to this symbol" href="#RegExp.enum.REgoto" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L877">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REwordboundary" href="./htmlsrc/std.regexp.html#L879" kind="enummem" beg="879" end="879">REwordboundary</a> <a title="Permalink to this symbol" href="#RegExp.enum.REwordboundary" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L879">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REnotwordboundary" href="./htmlsrc/std.regexp.html#L880" kind="enummem" beg="880" end="880">REnotwordboundary</a> <a title="Permalink to this symbol" href="#RegExp.enum.REnotwordboundary" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L880">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REdigit" href="./htmlsrc/std.regexp.html#L881" kind="enummem" beg="881" end="881">REdigit</a> <a title="Permalink to this symbol" href="#RegExp.enum.REdigit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L881">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REnotdigit" href="./htmlsrc/std.regexp.html#L882" kind="enummem" beg="882" end="882">REnotdigit</a> <a title="Permalink to this symbol" href="#RegExp.enum.REnotdigit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L882">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REspace" href="./htmlsrc/std.regexp.html#L883" kind="enummem" beg="883" end="883">REspace</a> <a title="Permalink to this symbol" href="#RegExp.enum.REspace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L883">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REnotspace" href="./htmlsrc/std.regexp.html#L884" kind="enummem" beg="884" end="884">REnotspace</a> <a title="Permalink to this symbol" href="#RegExp.enum.REnotspace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L884">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REword" href="./htmlsrc/std.regexp.html#L885" kind="enummem" beg="885" end="885">REword</a> <a title="Permalink to this symbol" href="#RegExp.enum.REword" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L885">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REnotword" href="./htmlsrc/std.regexp.html#L886" kind="enummem" beg="886" end="886">REnotword</a> <a title="Permalink to this symbol" href="#RegExp.enum.REnotword" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L886">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="RegExp.enum.REbackref" href="./htmlsrc/std.regexp.html#L887" kind="enummem" beg="887" end="887">REbackref</a> <a title="Permalink to this symbol" href="#RegExp.enum.REbackref" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L887">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">int <a class="symbol _function" name="RegExp.isword" href="./htmlsrc/std.regexp.html#L891" kind="function" beg="891" end="891">isword</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.isword" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L891">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="RegExp.inf" href="./htmlsrc/std.regexp.html#L893" kind="variable" beg="893" end="893">inf</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.inf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L893">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="RegExp.compile" href="./htmlsrc/std.regexp.html#L899" kind="function" beg="899" end="952">compile</a><span class="params">(string <em>pattern</em>, string <em>attributes</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.compile" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L899">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string[] <a class="symbol _function" name="RegExp.split" href="./htmlsrc/std.regexp.html#L961" kind="function" beg="961" end="1002">split</a><span class="params">(string <em>s</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.split" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L961">#</a></dt>
+<dd class="ddef">
+<div class="summary">Split s[] into an array of strings, using the regular
+ expression as the separator.</div>
+<p class="sec_header">Returns:</p>array of slices into s[]</dd>
+<dt class="decl"><a class="symbol _unittest" name="RegExp.unittest:3" href="./htmlsrc/std.regexp.html#L1004" kind="unittest" beg="1004" end="1052">unittest</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1004">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="RegExp.find" href="./htmlsrc/std.regexp.html#L1060" kind="function" beg="1060" end="1070">find</a><span class="params">(string <em>string</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.find" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1060">#</a></dt>
+<dd class="ddef">
+<div class="summary">Search string[] for match with regular expression.</div>
+<p class="sec_header">Returns:</p>index of match if successful, -1 if not found</dd>
+<dt class="decl"><a class="symbol _unittest" name="RegExp.unittest:4" href="./htmlsrc/std.regexp.html#L1074" kind="unittest" beg="1074" end="1084">unittest</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.unittest:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1074">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string[] <a class="symbol _function" name="RegExp.match:2" href="./htmlsrc/std.regexp.html#L1094" kind="function" beg="1094" end="1117">match</a><span class="params">(string <em>s</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.match:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1094">#</a></dt>
+<dd class="ddef">
+<div class="summary">Search s[] for match.</div>
+<p class="sec_header">Returns:</p>If global attribute, return same value as exec(s).
+        If not global attribute, return array of all matches.</dd>
+<dt class="decl"><a class="symbol _unittest" name="RegExp.unittest:5" href="./htmlsrc/std.regexp.html#L1119" kind="unittest" beg="1119" end="1139">unittest</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.unittest:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1119">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="RegExp.replace" href="./htmlsrc/std.regexp.html#L1150" kind="function" beg="1150" end="1199">replace</a><span class="params">(string <em>s</em>, string <em>format</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.replace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1150">#</a></dt>
+<dd class="ddef">
+<div class="summary">Find regular expression matches in s[]. Replace those matches
+ with a new string composed of format[] merged with the result of the
+ matches.
+ If global, replace all matches. Otherwise, replace first match.</div>
+<p class="sec_header">Returns:</p>the new string</dd>
+<dt class="decl"><a class="symbol _unittest" name="RegExp.unittest:6" href="./htmlsrc/std.regexp.html#L1201" kind="unittest" beg="1201" end="1218">unittest</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.unittest:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1201">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string[] <a class="symbol _function" name="RegExp.exec" href="./htmlsrc/std.regexp.html#L1227" kind="function" beg="1227" end="1234">exec</a><span class="params">(string <em>string</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.exec" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1227">#</a></dt>
+<dd class="ddef">
+<div class="summary">Search string[] for match.</div>
+<p class="sec_header">Returns:</p>array of slices into string[] representing matches</dd>
+<dt class="decl">string[] <a class="symbol _function" name="RegExp.exec:2" href="./htmlsrc/std.regexp.html#L1243" kind="function" beg="1243" end="1258">exec</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.exec:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1243">#</a></dt>
+<dd class="ddef">
+<div class="summary">Pick up where last exec(string) or exec() left off,
+ searching string[] for next match.</div>
+<p class="sec_header">Returns:</p>array of slices into string[] representing matches</dd>
+<dt class="decl">int <a class="symbol _function" name="RegExp.test" href="./htmlsrc/std.regexp.html#L1289" kind="function" beg="1289" end="1292">test</a><span class="params">(string <em>s</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.test" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1289">#</a></dt>
+<dd class="ddef">
+<div class="summary">Search s[] for match.</div>
+<p class="sec_header">Returns:</p>0 for no match, !=0 for match
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">regexp</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">string</span>;
+
+<span class="k">int</span> <span class="i">grep</span>(<span class="k">int</span> <span class="k">delegate</span>(<span class="k">char</span>[]) <span class="i">pred</span>, <span class="k">char</span>[][] <span class="i">list</span>)
+{
+  <span class="k">int</span> <span class="i">count</span>;
+  <span class="k">foreach</span> (<span class="i">s</span>; <span class="i">list</span>)
+  {  <span class="k">if</span> (<span class="i">pred</span>(<span class="i">s</span>))
+       ++<span class="i">count</span>;
+  }
+  <span class="k">return</span> <span class="i">count</span>;
+}
+
+<span class="k">void</span> <span class="i">main</span>()
+{
+  <span class="k">auto</span> <span class="i">x</span> = <span class="i">grep</span>(&amp;<span class="i">RegExp</span>(<span class="sl">"[Ff]oo"</span>).<span class="i">test</span>,
+                <span class="i">std</span>.<span class="i">string</span>.<span class="i">split</span>(<span class="sl">"mary had a foo lamb"</span>));
+  <span class="i">writefln</span>(<span class="i">x</span>);
+}
+</pre>
+ which prints: 1</dd>
+<dt class="decl">int <a class="symbol _function" name="RegExp.test:2" href="./htmlsrc/std.regexp.html#L1299" kind="function" beg="1299" end="1302">test</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.test:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1299">#</a></dt>
+<dd class="ddef">
+<div class="summary">Pick up where last test(string) or test() left off, and search again.</div>
+<p class="sec_header">Returns:</p>0 for no match, !=0 for match</dd>
+<dt class="decl">int <a class="symbol _function" name="RegExp.test:3" href="./htmlsrc/std.regexp.html#L1309" kind="function" beg="1309" end="1376">test</a><span class="params">(string <em>s</em>, int <em>startindex</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.test:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1309">#</a></dt>
+<dd class="ddef">
+<div class="summary">Test s[] starting at startindex against regular expression.</div>
+<p class="sec_header">Returns:</p>0 for no match, !=0 for match</dd>
+<dt class="decl">alias test <a class="symbol _alias" name="RegExp.opEquals" href="./htmlsrc/std.regexp.html#L1381" kind="alias" beg="1381" end="1381">opEquals</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1381">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns whether string <span class="d_param">s</span> matches <span class="d_param">this</span>.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="RegExp.unittest:7" href="./htmlsrc/std.regexp.html#L1387" kind="unittest" beg="1387" end="1391">unittest</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.unittest:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1387">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="RegExp.chr" href="./htmlsrc/std.regexp.html#L1393" kind="function" beg="1393" end="1401">chr</a><span class="params">(inout uint <em>si</em>, rchar <em>c</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.chr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1393">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="RegExp.printProgram" href="./htmlsrc/std.regexp.html#L1404" kind="function" beg="1404" end="1603">printProgram</a><span class="params">(const( ubyte)[] <em>prog</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.printProgram" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1404">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="RegExp.trymatch" href="./htmlsrc/std.regexp.html#L1613" kind="function" beg="1613" end="2144">trymatch</a><span class="params">(int <em>pc</em>, int <em>pcend</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.trymatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L1613">#</a></dt>
+<dd class="ddef">
+<div class="summary">Match input against a section of the program[].</div>
+<p class="sec_header">Returns:</p>1 if successful match
+        0 no match</dd>
+<dt class="decl">int <a class="symbol _function" name="RegExp.parseRegexp" href="./htmlsrc/std.regexp.html#L2148" kind="function" beg="2148" end="2189">parseRegexp</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.parseRegexp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2148">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="RegExp.parsePiece" href="./htmlsrc/std.regexp.html#L2191" kind="function" beg="2191" end="2297">parsePiece</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.parsePiece" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2191">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="RegExp.parseAtom" href="./htmlsrc/std.regexp.html#L2299" kind="function" beg="2299" end="2488">parseAtom</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.parseAtom" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2299">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">class <a class="symbol _class" name="RegExp.Range" href="./htmlsrc/std.regexp.html#L2491" kind="class" beg="2491" end="2535">Range</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.Range" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2491">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">uint <a class="symbol _variable" name="RegExp.Range.maxc" href="./htmlsrc/std.regexp.html#L2493" kind="variable" beg="2493" end="2493">maxc</a>; <a title="Permalink to this symbol" href="#RegExp.Range.maxc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2493">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="RegExp.Range.maxb" href="./htmlsrc/std.regexp.html#L2494" kind="variable" beg="2494" end="2494">maxb</a>; <a title="Permalink to this symbol" href="#RegExp.Range.maxb" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2494">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">OutBuffer <a class="symbol _variable" name="RegExp.Range.buf" href="./htmlsrc/std.regexp.html#L2495" kind="variable" beg="2495" end="2495">buf</a>; <a title="Permalink to this symbol" href="#RegExp.Range.buf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2495">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte* <a class="symbol _variable" name="RegExp.Range.base" href="./htmlsrc/std.regexp.html#L2496" kind="variable" beg="2496" end="2496">base</a>; <a title="Permalink to this symbol" href="#RegExp.Range.base" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2496">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">BitArray <a class="symbol _variable" name="RegExp.Range.bits" href="./htmlsrc/std.regexp.html#L2497" kind="variable" beg="2497" end="2497">bits</a>; <a title="Permalink to this symbol" href="#RegExp.Range.bits" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2497">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="RegExp.Range.this" href="./htmlsrc/std.regexp.html#L2499" kind="ctor" beg="2499" end="2504">this</a><span class="params">(OutBuffer <em>buf</em>)</span>; <a title="Permalink to this symbol" href="#RegExp.Range.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2499">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="RegExp.Range.setbitmax" href="./htmlsrc/std.regexp.html#L2506" kind="function" beg="2506" end="2526">setbitmax</a><span class="params">(uint <em>u</em>)</span>; <a title="Permalink to this symbol" href="#RegExp.Range.setbitmax" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2506">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="RegExp.Range.setbit2" href="./htmlsrc/std.regexp.html#L2528" kind="function" beg="2528" end="2533">setbit2</a><span class="params">(uint <em>u</em>)</span>; <a title="Permalink to this symbol" href="#RegExp.Range.setbit2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2528">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">int <a class="symbol _function" name="RegExp.parseRange" href="./htmlsrc/std.regexp.html#L2537" kind="function" beg="2537" end="2728">parseRange</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.parseRange" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2537">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="RegExp.error" href="./htmlsrc/std.regexp.html#L2730" kind="function" beg="2730" end="2737">error</a><span class="params">(string <em>msg</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.error" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2730">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="RegExp.escape" href="./htmlsrc/std.regexp.html#L2740" kind="function" beg="2740" end="2859">escape</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.escape" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2740">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="RegExp.optimize" href="./htmlsrc/std.regexp.html#L2863" kind="function" beg="2863" end="2930">optimize</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.optimize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2863">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="RegExp.starrchars" href="./htmlsrc/std.regexp.html#L2939" kind="function" beg="2939" end="3113">starrchars</a><span class="params">(Range <em>r</em>, const( ubyte)[] <em>prog</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#RegExp.starrchars" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L2939">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="RegExp.replace:2" href="./htmlsrc/std.regexp.html#L3123" kind="function" beg="3123" end="3126">replace</a><span class="params">(string <em>format</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.replace:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L3123">#</a></dt>
+<dd class="ddef">
+<div class="summary">After a match is found with test(), this function
+ will take the match results and, using the format
+ string, generate and return a new string.</div></dd>
+<dt class="decl">string <a class="symbol _function" name="RegExp.replace3" href="./htmlsrc/std.regexp.html#L3130" kind="function" beg="3130" end="3221">replace3</a><span class="params">(string <em>format</em>, string <em>input</em>, regmatch_t[] <em>pmatch</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#RegExp.replace3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L3130">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="RegExp.replaceOld" href="./htmlsrc/std.regexp.html#L3243" kind="function" beg="3243" end="3283">replaceOld</a><span class="params">(string <em>format</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#RegExp.replaceOld" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L3243">#</a></dt>
+<dd class="ddef">
+<div class="summary">Like replace(char[] format), but uses old style formatting:
+                <table border=1 cellspacing=0 cellpadding=5>
+                <th>Format
+                <th>Description
+                <tr>
+                <td><b>&amp;</b>
+                <td>replace with the match
+                </tr>
+                <tr>
+                <td><b>\</b><i>n</i>
+                <td>replace with the <i>n</i>th parenthesized match, <i>n</i> is 1..9
+                </tr>
+                <tr>
+                <td><b>\</b><i>c</i>
+                <td>replace with char <i>c</i>.
+                </tr>
+                </table></div></dd></dd></dl>
+<dt class="decl"><a class="symbol _unittest" name="unittest:10" href="./htmlsrc/std.regexp.html#L3287" kind="unittest" beg="3287" end="3309">unittest</a>; <a title="Permalink to this symbol" href="#unittest:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.regexp.html#L3287">#</a></dt>
+<dd class="ddef"></dd>)
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:43 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.traits</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.traits";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.traits.html" class="symbol">std.traits</a></h1>
+  
+<div class="summary">Templates with which to extract information about
+ types at compile time.</div>
+<p class="sec_header">Authors:</p><a href="http://digitalmars.com">Walter Bright</a>, Tomasz Stachowiak (<span class="d_psymbol"><i>
+        isExpressionTuple</i></span>), <a href="http://erdani.org">Andrei Alexandrescu</a>
+<dl>
+<dt class="decl">template <a class="symbol _template" name="ReturnType" href="./htmlsrc/std.traits.html#L33" kind="template" beg="33" end="39">ReturnType</a><span class="tparams">(alias dg)</span>; <a title="Permalink to this symbol" href="#ReturnType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L33">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get the type of the return value from a function,
+ a pointer to function, a delegate, a struct
+ with an opCall, a pointer to a struct with an opCall,
+ or a class with an opCall.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">traits</span>;
+<span class="k">int</span> <span class="i">foo</span>();
+<span class="i">ReturnType</span>!(<span class="i">foo</span>) <span class="i">x</span>;   <span class="lc">// x is declared as int</span>
+</pre>
+<dl>
+<dt class="decl">alias ReturnType!(typeof(dg), void) <a class="symbol _alias" name="ReturnType.ReturnType" href="./htmlsrc/std.traits.html#L36" kind="alias" beg="36" end="36">ReturnType</a>; <a title="Permalink to this symbol" href="#ReturnType.ReturnType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L36">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="ReturnType:2" href="./htmlsrc/std.traits.html#L41" kind="template" beg="41" end="53">ReturnType</a><span class="tparams">(dg, dummy = void)</span>; <a title="Permalink to this symbol" href="#ReturnType:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L41">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias R <a class="symbol _alias" name="ReturnType.ReturnType:2" href="./htmlsrc/std.traits.html#L44" kind="alias" beg="44" end="44">ReturnType</a>; <a title="Permalink to this symbol" href="#ReturnType.ReturnType:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L44">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.traits.html#L55" kind="unittest" beg="55" end="81">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L55">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="ParameterTypeTuple" href="./htmlsrc/std.traits.html#L94" kind="template" beg="94" end="97">ParameterTypeTuple</a><span class="tparams">(alias dg)</span>; <a title="Permalink to this symbol" href="#ParameterTypeTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L94">#</a></dt>
+<dt class="decl">template <a class="symbol _template" name="ParameterTypeTuple:2" href="./htmlsrc/std.traits.html#L100" kind="template" beg="100" end="110">ParameterTypeTuple</a><span class="tparams">(dg)</span>; <a title="Permalink to this symbol" href="#ParameterTypeTuple:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L100">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get the types of the paramters to a function,
+ a pointer to function, or a delegate as a tuple.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">traits</span>;
+<span class="k">int</span> <span class="i">foo</span>(<span class="k">int</span>, <span class="k">long</span>);
+<span class="k">void</span> <span class="i">bar</span>(<span class="i">ParameterTypeTuple</span>!(<span class="i">foo</span>));      <span class="lc">// declares void bar(int, long);</span>
+<span class="k">void</span> <span class="i">abc</span>(<span class="i">ParameterTypeTuple</span>!(<span class="i">foo</span>)[<span class="n">1</span>]);   <span class="lc">// declares void abc(long);</span>
+</pre>
+<dl>
+<dt class="decl">alias ParameterTypeTuple!(typeof(dg)) <a class="symbol _alias" name="ParameterTypeTuple.ParameterTypeTuple" href="./htmlsrc/std.traits.html#L96" kind="alias" beg="96" end="96">ParameterTypeTuple</a>; <a title="Permalink to this symbol" href="#ParameterTypeTuple.ParameterTypeTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L96">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="FieldTypeTuple" href="./htmlsrc/std.traits.html#L120" kind="template" beg="120" end="127">FieldTypeTuple</a><span class="tparams">(S)</span>; <a title="Permalink to this symbol" href="#FieldTypeTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L120">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get the types of the fields of a struct or class.
+ This consists of the fields that take up memory space,
+ excluding the hidden fields like the virtual function
+ table pointer.</div>
+<dl>
+<dt class="decl">alias typeof(S.tupleof) <a class="symbol _alias" name="FieldTypeTuple.FieldTypeTuple" href="./htmlsrc/std.traits.html#L123" kind="alias" beg="123" end="123">FieldTypeTuple</a>; <a title="Permalink to this symbol" href="#FieldTypeTuple.FieldTypeTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L123">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="RepresentationTypeTuple" href="./htmlsrc/std.traits.html#L225" kind="template" beg="225" end="252">RepresentationTypeTuple</a><span class="tparams">(T...)</span>; <a title="Permalink to this symbol" href="#RepresentationTypeTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L225">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get the primitive types of the fields of a struct or class, in
+topological order.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">struct</span> <span class="i">S1</span> { <span class="k">int</span> <span class="i">a</span>; <span class="k">float</span> <span class="i">b</span>; }
+<span class="k">struct</span> <span class="i">S2</span> { <span class="k">char</span>[] <span class="i">a</span>; <span class="k">union</span> { <span class="i">S1</span> <span class="i">b</span>; <span class="i">S1</span> * <span class="i">c</span>; } }
+<span class="k">alias</span> <span class="i">RepresentationTypeTuple</span>!(<span class="i">S2</span>) <span class="i">R</span>;
+<span class="k">assert</span>(<span class="i">R</span>.<span class="i">length</span> == <span class="n">4</span>
+    &amp;&amp; <span class="k">is</span>(<span class="i">R</span>[<span class="n">0</span>] == <span class="k">char</span>[]) &amp;&amp; <span class="k">is</span>(<span class="i">R</span>[<span class="n">1</span>] == <span class="k">int</span>)
+    &amp;&amp; <span class="k">is</span>(<span class="i">R</span>[<span class="n">2</span>] == <span class="k">float</span>) &amp;&amp; <span class="k">is</span>(<span class="i">R</span>[<span class="n">3</span>] == <span class="i">S1</span>*));
+</pre>
+<dl>
+<dt class="decl">alias TypeTuple!() <a class="symbol _alias" name="RepresentationTypeTuple.RepresentationTypeTuple" href="./htmlsrc/std.traits.html#L229" kind="alias" beg="229" end="229">RepresentationTypeTuple</a>; <a title="Permalink to this symbol" href="#RepresentationTypeTuple.RepresentationTypeTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L229">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.traits.html#L254" kind="unittest" beg="254" end="272">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L254">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="HasRawPointerImpl" href="./htmlsrc/std.traits.html#L332" kind="template" beg="332" end="348">HasRawPointerImpl</a><span class="tparams">(T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#HasRawPointerImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L332">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="HasRawPointerImpl.result" href="./htmlsrc/std.traits.html#L336" kind="variable" beg="336" end="336">result</a>; <span class="attrs">[<span class="stc">manifest</span>]</span> <a title="Permalink to this symbol" href="#HasRawPointerImpl.result" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L336">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="hasRawAliasing" href="./htmlsrc/std.traits.html#L379" kind="template" beg="379" end="383">hasRawAliasing</a><span class="tparams">(T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#hasRawAliasing" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L379">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="hasRawAliasing.hasRawAliasing" href="./htmlsrc/std.traits.html#L381" kind="variable" beg="381" end="382">hasRawAliasing</a>; <span class="attrs">[<span class="stc">manifest</span>]</span> <a title="Permalink to this symbol" href="#hasRawAliasing.hasRawAliasing" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L381">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:3" href="./htmlsrc/std.traits.html#L385" kind="unittest" beg="385" end="416">unittest</a>; <a title="Permalink to this symbol" href="#unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L385">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="hasObjects" href="./htmlsrc/std.traits.html#L423" kind="template" beg="423" end="442">hasObjects</a><span class="tparams">(T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#hasObjects" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L423">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="hasObjects.hasObjects" href="./htmlsrc/std.traits.html#L427" kind="variable" beg="427" end="427">hasObjects</a>; <span class="attrs">[<span class="stc">manifest</span>]</span> <a title="Permalink to this symbol" href="#hasObjects.hasObjects" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L427">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="hasAliasing" href="./htmlsrc/std.traits.html#L452" kind="template" beg="452" end="455">hasAliasing</a><span class="tparams">(T...)</span>; <a title="Permalink to this symbol" href="#hasAliasing" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L452">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns <span class="d_psymbol"><i>true</i></span> if and only if <span class="d_psymbol"><i>T</i></span>'s representation includes at
+least one of the following: <ol><li>a raw pointer <span class="d_psymbol"><i>U*</i></span> and <span class="d_psymbol"><i>U</i></span>
+is not invariant;</li> <li>an array <span class="d_psymbol"><i>U[]</i></span> and <span class="d_psymbol"><i>U</i></span> is not
+invariant;</li> <li>a reference to a class type <span class="d_psymbol"><i>C</i></span> and <span class="d_psymbol"><i>C</i></span> is not
+invariant.</li></ol></div>
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="hasAliasing.hasAliasing" href="./htmlsrc/std.traits.html#L454" kind="variable" beg="454" end="454">hasAliasing</a>; <span class="attrs">[<span class="stc">manifest</span>]</span> <a title="Permalink to this symbol" href="#hasAliasing.hasAliasing" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L454">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:4" href="./htmlsrc/std.traits.html#L457" kind="unittest" beg="457" end="463">unittest</a>; <a title="Permalink to this symbol" href="#unittest:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L457">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="BaseTypeTuple" href="./htmlsrc/std.traits.html#L485" kind="template" beg="485" end="491">BaseTypeTuple</a><span class="tparams">(A)</span>; <a title="Permalink to this symbol" href="#BaseTypeTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L485">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get a <span class="d_param">TypeTuple</span> of the base class and base interfaces of
+ this class or interface. <span class="d_param">BaseTypeTuple!(Object)</span> returns
+ the empty type tuple.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">traits</span>, <span class="i">std</span>.<span class="i">typetuple</span>, <span class="i">std</span>.<span class="i">stdio</span>;
+<span class="k">interface</span> <span class="i">I</span> { }
+<span class="k">class</span> <span class="i">A</span> { }
+<span class="k">class</span> <span class="i">B</span> : <span class="i">A</span>, <span class="i">I</span> { }
+
+<span class="k">void</span> <span class="i">main</span>()
+{
+    <span class="k">alias</span> <span class="i">BaseTypeTuple</span>!(<span class="i">B</span>) <span class="i">TL</span>;
+    <span class="i">writeln</span>(<span class="k">typeid</span>(<span class="i">TL</span>));        <span class="lc">// prints: (A,I)</span>
+}
+</pre>
+<dl>
+<dt class="decl">alias P <a class="symbol _alias" name="BaseTypeTuple.BaseTypeTuple" href="./htmlsrc/std.traits.html#L488" kind="alias" beg="488" end="488">BaseTypeTuple</a>; <a title="Permalink to this symbol" href="#BaseTypeTuple.BaseTypeTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L488">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:5" href="./htmlsrc/std.traits.html#L493" kind="unittest" beg="493" end="507">unittest</a>; <a title="Permalink to this symbol" href="#unittest:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L493">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="BaseClassesTuple" href="./htmlsrc/std.traits.html#L530" kind="template" beg="530" end="546">BaseClassesTuple</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#BaseClassesTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L530">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get a <span class="d_param">TypeTuple</span> of <i>all</i> base classes of this class,
+ in decreasing order. Interfaces are not included. <span class="d_param">
+ BaseClassesTuple!(Object)</span> yields the empty type tuple.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">traits</span>, <span class="i">std</span>.<span class="i">typetuple</span>, <span class="i">std</span>.<span class="i">stdio</span>;
+<span class="k">interface</span> <span class="i">I</span> { }
+<span class="k">class</span> <span class="i">A</span> { }
+<span class="k">class</span> <span class="i">B</span> : <span class="i">A</span>, <span class="i">I</span> { }
+<span class="k">class</span> <span class="i">C</span> : <span class="i">B</span> { }
+
+<span class="k">void</span> <span class="i">main</span>()
+{
+    <span class="k">alias</span> <span class="i">BaseClassesTuple</span>!(<span class="i">C</span>) <span class="i">TL</span>;
+    <span class="i">writeln</span>(<span class="k">typeid</span>(<span class="i">TL</span>));        <span class="lc">// prints: (B,A,Object)</span>
+}
+</pre>
+<dl>
+<dt class="decl">alias TypeTuple!() <a class="symbol _alias" name="BaseClassesTuple.BaseClassesTuple" href="./htmlsrc/std.traits.html#L534" kind="alias" beg="534" end="534">BaseClassesTuple</a>; <a title="Permalink to this symbol" href="#BaseClassesTuple.BaseClassesTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L534">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias TypeTuple!(Object) <a class="symbol _alias" name="BaseClassesTuple.BaseClassesTuple:2" href="./htmlsrc/std.traits.html#L538" kind="alias" beg="538" end="538">BaseClassesTuple</a>; <a title="Permalink to this symbol" href="#BaseClassesTuple.BaseClassesTuple:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L538">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="InterfacesTuple" href="./htmlsrc/std.traits.html#L571" kind="template" beg="571" end="588">InterfacesTuple</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#InterfacesTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L571">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get a <span class="d_param">TypeTuple</span> of <i>all</i> interfaces directly or
+ indirectly inherited by this class or interface. Interfaces do not
+ repeat if multiply implemented. <span class="d_param">InterfacesTuple!(Object)</span>
+ yields the empty type tuple.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">traits</span>, <span class="i">std</span>.<span class="i">typetuple</span>, <span class="i">std</span>.<span class="i">stdio</span>;
+<span class="k">interface</span> <span class="i">I1</span> { }
+<span class="k">interface</span> <span class="i">I2</span> { }
+<span class="k">class</span> <span class="i">A</span> : <span class="i">I1</span>, <span class="i">I2</span> { }
+<span class="k">class</span> <span class="i">B</span> : <span class="i">A</span>, <span class="i">I1</span> { }
+<span class="k">class</span> <span class="i">C</span> : <span class="i">B</span> { }
+
+<span class="k">void</span> <span class="i">main</span>()
+{
+    <span class="k">alias</span> <span class="i">InterfacesTuple</span>!(<span class="i">C</span>) <span class="i">TL</span>;
+    <span class="i">writeln</span>(<span class="k">typeid</span>(<span class="i">TL</span>));        <span class="lc">// prints: (I1, I2)</span>
+}
+</pre>
+<dl>
+<dt class="decl">alias TypeTuple!() <a class="symbol _alias" name="InterfacesTuple.InterfacesTuple" href="./htmlsrc/std.traits.html#L575" kind="alias" beg="575" end="575">InterfacesTuple</a>; <a title="Permalink to this symbol" href="#InterfacesTuple.InterfacesTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L575">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias TypeTuple!(BaseTypeTuple!(T)[1 .. $]) <a class="symbol _alias" name="InterfacesTuple.InterfacesTuple:2" href="./htmlsrc/std.traits.html#L579" kind="alias" beg="579" end="579">InterfacesTuple</a>; <a title="Permalink to this symbol" href="#InterfacesTuple.InterfacesTuple:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L579">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:6" href="./htmlsrc/std.traits.html#L590" kind="unittest" beg="590" end="610">unittest</a>; <a title="Permalink to this symbol" href="#unittest:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L590">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="TransitiveBaseTypeTuple" href="./htmlsrc/std.traits.html#L634" kind="template" beg="634" end="642">TransitiveBaseTypeTuple</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#TransitiveBaseTypeTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L634">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get a <span class="d_param">TypeTuple</span> of <i>all</i> base classes of <span class="d_param">
+ T</span>, in decreasing order, followed by <span class="d_param">T</span>'s
+ interfaces. <span class="d_param">TransitiveBaseTypeTuple!(Object)</span> yields the
+ empty type tuple.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">traits</span>, <span class="i">std</span>.<span class="i">typetuple</span>, <span class="i">std</span>.<span class="i">stdio</span>;
+<span class="k">interface</span> <span class="i">I</span> { }
+<span class="k">class</span> <span class="i">A</span> { }
+<span class="k">class</span> <span class="i">B</span> : <span class="i">A</span>, <span class="i">I</span> { }
+<span class="k">class</span> <span class="i">C</span> : <span class="i">B</span> { }
+
+<span class="k">void</span> <span class="i">main</span>()
+{
+    <span class="k">alias</span> <span class="i">TransitiveBaseTypeTuple</span>!(<span class="i">C</span>) <span class="i">TL</span>;
+    <span class="i">writeln</span>(<span class="k">typeid</span>(<span class="i">TL</span>));        <span class="lc">// prints: (B,A,Object,I)</span>
+}
+</pre>
+<dl>
+<dt class="decl">alias TypeTuple!() <a class="symbol _alias" name="TransitiveBaseTypeTuple.TransitiveBaseTypeTuple" href="./htmlsrc/std.traits.html#L637" kind="alias" beg="637" end="637">TransitiveBaseTypeTuple</a>; <a title="Permalink to this symbol" href="#TransitiveBaseTypeTuple.TransitiveBaseTypeTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L637">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:7" href="./htmlsrc/std.traits.html#L644" kind="unittest" beg="644" end="660">unittest</a>; <a title="Permalink to this symbol" href="#unittest:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L644">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="CommonType" href="./htmlsrc/std.traits.html#L677" kind="template" beg="677" end="687">CommonType</a><span class="tparams">(T...)</span>; <a title="Permalink to this symbol" href="#CommonType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L677">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get the type that all types can be implicitly converted to. Useful
+e.g. in figuring out an array type from a bunch of initializing
+values. Returns <span class="d_param">void</span> if passed an empty list, or if the
+types have no common type.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">alias</span> <span class="i">CommonType</span>!(<span class="k">int</span>, <span class="k">long</span>, <span class="k">short</span>) <span class="i">X</span>;
+<span class="k">assert</span>(<span class="k">is</span>(<span class="i">X</span> == <span class="k">long</span>));
+<span class="k">alias</span> <span class="i">CommonType</span>!(<span class="k">int</span>, <span class="k">char</span>[], <span class="k">short</span>) <span class="i">Y</span>;
+<span class="k">assert</span>(<span class="k">is</span>(<span class="i">Y</span> == <span class="k">void</span>));
+</pre>
+<dl>
+<dt class="decl">alias void <a class="symbol _alias" name="CommonType.CommonType" href="./htmlsrc/std.traits.html#L680" kind="alias" beg="680" end="680">CommonType</a>; <a title="Permalink to this symbol" href="#CommonType.CommonType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L680">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:8" href="./htmlsrc/std.traits.html#L689" kind="unittest" beg="689" end="695">unittest</a>; <a title="Permalink to this symbol" href="#unittest:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L689">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="ImplicitConversionTargets" href="./htmlsrc/std.traits.html#L709" kind="template" beg="709" end="766">ImplicitConversionTargets</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#ImplicitConversionTargets" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L709">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a tuple with all possible target types of an implicit
+ conversion of a value of type <span class="d_param">T</span>.</div>
+Important note:
+<p class="bl"/>
+ The possible targets are computed more conservatively than the D
+ 2.005 compiler does, eliminating all dangerous conversions. For
+ example, <span class="d_param">ImplicitConversionTargets!(double)</span> does not
+ include <span class="d_param">float</span>.
+<dl>
+<dt class="decl">alias TypeTuple!(byte, ubyte, short, ushort, int, uint, long, ulong,
+            float, double, real, char, wchar, dchar) <a class="symbol _alias" name="ImplicitConversionTargets.ImplicitConversionTargets" href="./htmlsrc/std.traits.html#L712" kind="alias" beg="712" end="714">ImplicitConversionTargets</a>; <a title="Permalink to this symbol" href="#ImplicitConversionTargets.ImplicitConversionTargets" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L712">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:9" href="./htmlsrc/std.traits.html#L768" kind="unittest" beg="768" end="771">unittest</a>; <a title="Permalink to this symbol" href="#unittest:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L768">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="isIntegral" href="./htmlsrc/std.traits.html#L777" kind="template" beg="777" end="782">isIntegral</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#isIntegral" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L777">#</a></dt>
+<dd class="ddef">
+<div class="summary">Detect whether T is a built-in integral type</div>
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="isIntegral.isIntegral" href="./htmlsrc/std.traits.html#L779" kind="variable" beg="779" end="781">isIntegral</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#isIntegral.isIntegral" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L779">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="isFloatingPoint" href="./htmlsrc/std.traits.html#L788" kind="template" beg="788" end="792">isFloatingPoint</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#isFloatingPoint" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L788">#</a></dt>
+<dd class="ddef">
+<div class="summary">Detect whether T is a built-in floating point type</div>
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="isFloatingPoint.isFloatingPoint" href="./htmlsrc/std.traits.html#L790" kind="variable" beg="790" end="791">isFloatingPoint</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#isFloatingPoint.isFloatingPoint" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L790">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="isNumeric" href="./htmlsrc/std.traits.html#L798" kind="template" beg="798" end="801">isNumeric</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#isNumeric" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L798">#</a></dt>
+<dd class="ddef">
+<div class="summary">Detect whether T is a built-in numeric type</div>
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="isNumeric.isNumeric" href="./htmlsrc/std.traits.html#L800" kind="variable" beg="800" end="800">isNumeric</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#isNumeric.isNumeric" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L800">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="isSomeString" href="./htmlsrc/std.traits.html#L807" kind="template" beg="807" end="811">isSomeString</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#isSomeString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L807">#</a></dt>
+<dd class="ddef">
+<div class="summary">Detect whether T is one of the built-in string types</div>
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="isSomeString.isSomeString" href="./htmlsrc/std.traits.html#L809" kind="variable" beg="809" end="810">isSomeString</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#isSomeString.isSomeString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L809">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="isAssociativeArray" href="./htmlsrc/std.traits.html#L827" kind="template" beg="827" end="831">isAssociativeArray</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#isAssociativeArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L827">#</a></dt>
+<dd class="ddef">
+<div class="summary">Detect whether T is an associative array type</div>
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="isAssociativeArray.isAssociativeArray" href="./htmlsrc/std.traits.html#L829" kind="variable" beg="829" end="830">isAssociativeArray</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#isAssociativeArray.isAssociativeArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L829">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="isStaticArray" href="./htmlsrc/std.traits.html#L842" kind="template" beg="842" end="845">isStaticArray</a><span class="tparams">(T : U[N], U, size_t N)</span>; <a title="Permalink to this symbol" href="#isStaticArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L842">#</a></dt>
+<dd class="ddef">
+<div class="summary">Detect whether type T is a static array.</div>
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="isStaticArray.isStaticArray" href="./htmlsrc/std.traits.html#L844" kind="variable" beg="844" end="844">isStaticArray</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#isStaticArray.isStaticArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L844">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="isStaticArray:2" href="./htmlsrc/std.traits.html#L847" kind="template" beg="847" end="850">isStaticArray</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#isStaticArray:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L847">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="isStaticArray.isStaticArray:2" href="./htmlsrc/std.traits.html#L849" kind="variable" beg="849" end="849">isStaticArray</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#isStaticArray.isStaticArray:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L849">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="isDynamicArray" href="./htmlsrc/std.traits.html#L872" kind="template" beg="872" end="875">isDynamicArray</a><span class="tparams">(T, U = void)</span>; <a title="Permalink to this symbol" href="#isDynamicArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L872">#</a></dt>
+<dd class="ddef">
+<div class="summary">Detect whether type T is a dynamic array.</div>
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="isDynamicArray.isDynamicArray" href="./htmlsrc/std.traits.html#L874" kind="variable" beg="874" end="874">isDynamicArray</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#isDynamicArray.isDynamicArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L874">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="isDynamicArray:2" href="./htmlsrc/std.traits.html#L877" kind="template" beg="877" end="880">isDynamicArray</a><span class="tparams">(T : U[], U)</span>; <a title="Permalink to this symbol" href="#isDynamicArray:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L877">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="isDynamicArray.isDynamicArray:2" href="./htmlsrc/std.traits.html#L879" kind="variable" beg="879" end="879">isDynamicArray</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#isDynamicArray.isDynamicArray:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L879">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="isArray" href="./htmlsrc/std.traits.html#L888" kind="template" beg="888" end="891">isArray</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#isArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L888">#</a></dt>
+<dd class="ddef">
+<div class="summary">Detect whether type T is an array.</div>
+<dl>
+<dt class="decl">auto <a class="symbol _variable" name="isArray.isArray" href="./htmlsrc/std.traits.html#L890" kind="variable" beg="890" end="890">isArray</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#isArray.isArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L890">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="isExpressionTuple" href="./htmlsrc/std.traits.html#L903" kind="template" beg="903" end="909">isExpressionTuple</a><span class="tparams">(T ...)</span>; <a title="Permalink to this symbol" href="#isExpressionTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L903">#</a></dt>
+<dd class="ddef">
+<div class="summary">Tells whether the tuple T is an expression tuple.</div>
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="isExpressionTuple.isExpressionTuple" href="./htmlsrc/std.traits.html#L906" kind="variable" beg="906" end="906">isExpressionTuple</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#isExpressionTuple.isExpressionTuple" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L906">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unsigned" href="./htmlsrc/std.traits.html#L916" kind="template" beg="916" end="938">unsigned</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#unsigned" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L916">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the corresponding unsigned type for T. T must be a numeric
+ integral type, otherwise a compile-time error occurs.</div>
+<dl>
+<dt class="decl">alias ubyte <a class="symbol _alias" name="unsigned.unsigned" href="./htmlsrc/std.traits.html#L917" kind="alias" beg="917" end="917">unsigned</a>; <a title="Permalink to this symbol" href="#unsigned.unsigned" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L917">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:10" href="./htmlsrc/std.traits.html#L940" kind="unittest" beg="940" end="944">unittest</a>; <a title="Permalink to this symbol" href="#unittest:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L940">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="Mutable" href="./htmlsrc/std.traits.html#L950" kind="template" beg="950" end="958">Mutable</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#Mutable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L950">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the mutable version of the type T.</div>
+<dl>
+<dt class="decl">alias U <a class="symbol _alias" name="Mutable.Mutable" href="./htmlsrc/std.traits.html#L953" kind="alias" beg="953" end="953">Mutable</a>; <a title="Permalink to this symbol" href="#Mutable.Mutable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L953">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="mostNegative" href="./htmlsrc/std.traits.html#L964" kind="template" beg="964" end="969">mostNegative</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#mostNegative" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L964">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the most negative value of the numeric type T.</div>
+<dl>
+<dt class="decl">byte <a class="symbol _variable" name="mostNegative.mostNegative" href="./htmlsrc/std.traits.html#L966" kind="variable" beg="966" end="966">mostNegative</a>; <span class="attrs">[<span class="stc">manifest</span>]</span> <a title="Permalink to this symbol" href="#mostNegative.mostNegative" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L966">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:11" href="./htmlsrc/std.traits.html#L971" kind="unittest" beg="971" end="976">unittest</a>; <a title="Permalink to this symbol" href="#unittest:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.traits.html#L971">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Public Domain</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:46 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,265 @@
+/* Author: Aziz Köksal */
+body { margin: 0; }
+
+#content {
+  margin: 0.5em;
+  margin-left: 260px;
+}
+
+#footer {
+  margin: 0.5em;
+  margin-left: 260px;
+  font-size: 0.9em;
+}
+
+#navbar {
+  width: 250px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #CDC;
+  border-right: 2px outset DarkGreen;
+}
+
+#panels {
+  border-top: 2px outset DarkGreen;
+  font-size: 0.95em;
+}
+
+#panels ul {
+  margin-left: 0.5em;
+  padding-left: 0.5em;
+  list-style: none;
+}
+
+#navbar ul a {
+  text-decoration: none;
+  color: black;
+}
+
+#navtabs {
+  margin: 0.5em 0em 0em 0.5em;
+  text-align: center;
+}
+
+#navtabs span {
+  margin: 0.1em;
+  padding: 0.2em;
+  padding-bottom: 0;
+  border: 1px outset Green;
+  border-bottom: none;
+  color: Gray;
+  background-color: #EFE;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+#navtabs span.current, #navtabs span:hover {
+  padding-bottom: 2px;
+  color: GhostWhite;
+  background-color: #474;
+}
+
+/* Use absolute positioning so that > ul can show scrollbars on overflow. */
+#apipanel, #modpanel { position: absolute; height: 100%; width: 100%; }
+#apipanel > ul, #modpanel > ul {
+  max-height: 91%;
+  min-height: 91%;
+  overflow: auto;
+  margin: 0.1em;
+  padding: 0.1em;
+  border: 1px inset DarkGreen;
+  background-color: white;
+}
+
+#apipanel li sub {
+  font-size: small;
+  margin: 0.2em;
+  vertical-align: bottom;
+  color: #555;
+}
+
+#apipanel li, #modpanel li {
+  white-space: nowrap;
+}
+
+#apipanel li img, #modpanel li img {
+  vertical-align: top;
+  margin-right: 0.1em;
+}
+
+/* Quick search */
+.filtered li {
+  display: none;  /* Hide all by default */
+}
+.filtered li.match {
+  display: block; /* Make matches visible */
+  color: black;
+}
+.filtered li.parent_of_match {
+  display: block; /* Parent nodes of matches must be visible */
+  color: Gray; /* Make the text gray to indicate no match */
+}
+.filtered li.parent_of_match > a {
+  color: Gray !important; /* Make the text gray to indicate no match */
+}
+.filtered li.no_match_msg {
+  display: block;
+}
+
+input.filterbox {
+  margin: 0.2em 0.2em 0em 0.2em;
+  border: 1px inset DarkGreen;
+  width: 97%;
+}
+
+/* Content */
+.sec_header {
+  font-weight: bold;
+  margin: 0.5em 0;
+}
+
+.decl {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.decl:target { /* Highlight targetted decls */
+  background-color: yellowgreen;
+  border-bottom: 1px solid darkgreen;
+}
+
+.ddef {
+  margin: 0.5em 2.5em;
+  margin-right: 0;
+}
+
+.symlink, .srclink{
+  padding: 0em 0.2em;
+  text-decoration: none;
+  color: DarkRed;
+}
+
+.decl .symlink, .decl .srclink {
+  display: none;
+}
+
+.decl:hover .symlink, .symlink:focus,
+.decl:hover .srclink, .srclink:focus {
+  display: inline;
+}
+
+.symlink:hover, .srclink:hover {
+  border: 1px outset #300;
+  color: white;
+  background-color: DarkRed;
+}
+
+.symbol {
+  color: ForestGreen;
+  text-decoration: none;
+}
+
+.summary {
+  margin: 0.5em 0;
+}
+
+.params em {
+  font-weight: normal;
+  color: OliveDrab;
+}
+
+.attrs {
+  font-size: 0.8em;
+}
+
+table.params td {
+  vertical-align: top;
+}
+
+table.params td:first-child {
+  padding-right: 0.2em;
+  text-align: right;
+}
+
+.ajaxerror {
+  color: DarkRed;
+}
+
+/* Code formatting */
+pre.d_code {
+  padding: 0.2em;
+  border: 1px solid gray;
+}
+
+.loaded_code {
+  margin: 0.5em 2.5em;
+  border: 1px solid gray;
+  max-height: 300px;
+  overflow: auto;
+}
+
+.loaded_code pre.d_code {
+  margin: 0;
+  border: none;
+}
+
+.loaded_code td {
+ vertical-align: top;
+ margin: 0;
+ padding: 0;
+}
+
+.loaded_code table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.loaded_code td.lines {
+  text-align: right;
+  background-color: #F5F5F5;
+}
+
+.loaded_code .lines_column {
+  margin: 0;
+  padding: 0.2em 0.2em;
+  border-right: 1px dotted gray;
+}
+
+.loaded_code .lines_column a {
+  color: DimGray;
+  text-decoration: none;
+}
+
+.loaded_code .lines_column a:hover {
+  text-decoration: underline;
+}
+
+/* Number */
+.d_code .n { color: teal; }
+/* Keyword */
+.d_code .k { color: darkblue; font-weight: bold; }
+/* Line, block and nested comments */
+.d_code .lc, .bc, .nc { color: gray; }
+/* Identifier */
+.d_code .i { color: black; }
+/* String literal */
+.d_code .sl { color: red; }
+/* Character literal */
+.d_code .cl { color: purple; }
+/* Special tokens */
+.d_code .st { color: green; font-weight: bold; }
+/* #line, hash line */
+.d_code .hl { color: green; }
+/* filespec (e.g. #line number [filespec]) */
+.d_code .fs { color: purple;}
+/* When the first line starts with "#!" it's a "shebang" */
+.d_code .shebang { color: gray; }
+
+.d_code .d.Module .i, .d_code .d.Import .i { color: blue; }
+.d_code .t.Identifier .i, .d_code .TemplateTypeParameter .i { color: DarkRed; }
+.d_code .t .k { color: DarkRed; font-weight: normal; }
+
+.d_code .d > .i { color: ForestGreen; }
+.d_code .o.Parameter > .i { color: OliveDrab; font-style: italic; }

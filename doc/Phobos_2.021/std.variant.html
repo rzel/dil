@@ -1,0 +1,404 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.variant</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.variant";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.variant.html" class="symbol">std.variant</a></h1>
+  
+<div class="summary">This module implements a
+ <a href="http://erdani.org/publications/cuj-04-2002.html">discriminated union</a>
+ type (a.k.a.
+ <a href="http://en.wikipedia.org/wiki/Tagged_union">tagged union</a>,
+ <a href="http://en.wikipedia.org/wiki/Algebraic_data_type">algebraic type</a>).
+ Such types are useful
+ for type-uniform binary interfaces, interfacing with scripting
+ languages, and comfortable exploratory programming.</div>
+<p class="sec_header">Synopsis:</p><pre class="d_code">
+<span class="i">Variant</span> <span class="i">a</span>; <span class="lc">// Must assign before use, otherwise exception ensues</span>
+<span class="lc">// Initialize with an integer; make the type int</span>
+<span class="i">Variant</span> <span class="i">b</span> = <span class="n">42</span>; 
+<span class="k">assert</span>(<span class="i">b</span>.<span class="i">type</span> == <span class="k">typeid</span>(<span class="k">int</span>));
+<span class="lc">// Peek at the value</span>
+<span class="k">assert</span>(<span class="i">b</span>.<span class="i">peek</span>!(<span class="k">int</span>) !<span class="k">is</span> <span class="k">null</span> &amp;&amp; *<span class="i">b</span>.<span class="i">peek</span>!(<span class="k">int</span>) == <span class="n">42</span>);
+<span class="lc">// Automatically convert per language rules</span>
+<span class="k">auto</span> <span class="i">x</span> = <span class="i">b</span>.<span class="i">get</span>!(<span class="k">real</span>);
+<span class="lc">// Assign any other type, including other variants</span>
+<span class="i">a</span> = <span class="i">b</span>; 
+<span class="i">a</span> = <span class="n">3.14</span>; 
+<span class="k">assert</span>(<span class="i">a</span>.<span class="i">type</span> == <span class="k">typeid</span>(<span class="k">double</span>));
+<span class="lc">// Implicit conversions work just as with built-in types</span>
+<span class="k">assert</span>(<span class="i">a</span> &gt; <span class="i">b</span>);
+<span class="lc">// Check for convertibility</span>
+<span class="k">assert</span>(!<span class="i">a</span>.<span class="i">convertsTo</span>!(<span class="k">int</span>)); <span class="lc">// double not convertible to int</span>
+<span class="lc">// Strings and all other arrays are supported</span>
+<span class="i">a</span> = <span class="sl">"now I'm a string"</span>;
+<span class="k">assert</span>(<span class="i">a</span> == <span class="sl">"now I'm a string"</span>);
+<span class="i">a</span> = <span class="k">new</span> <span class="k">int</span>[<span class="n">42</span>]; <span class="lc">// can also assign arrays</span>
+<span class="k">assert</span>(<span class="i">a</span>.<span class="i">length</span> == <span class="n">42</span>);
+<span class="i">a</span>[<span class="n">5</span>] = <span class="n">7</span>;
+<span class="k">assert</span>(<span class="i">a</span>[<span class="n">5</span>] == <span class="n">7</span>);
+<span class="lc">// Can also assign class values</span>
+<span class="k">class</span> <span class="i">Foo</span> {}
+<span class="k">auto</span> <span class="i">foo</span> = <span class="k">new</span> <span class="i">Foo</span>;
+<span class="i">a</span> = <span class="i">foo</span>; 
+<span class="k">assert</span>(*<span class="i">a</span>.<span class="i">peek</span>!(<span class="i">Foo</span>) == <span class="i">foo</span>); <span class="lc">// and full type information is preserved</span>
+</pre>
+<p class="sec_header">Author:</p><a href="http://erdani.org">Andrei Alexandrescu</a>
+<p class="sec_header">Credits:</p>Reviewed by Brad Roberts. Daniel Keep provided a detailed code
+ review prompting the following improvements: (1) better support for
+ arrays; (2) support for associative arrays; (3) friendlier behavior
+ towards the garbage collector.
+<dl>
+<dt class="decl">template <a class="symbol _template" name="maxSize" href="./htmlsrc/std.variant.html#L90" kind="template" beg="90" end="101">maxSize</a><span class="tparams">(T...)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#maxSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L90">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">size_t <a class="symbol _variable" name="maxSize.maxSize" href="./htmlsrc/std.variant.html#L94" kind="variable" beg="94" end="94">maxSize</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#maxSize.maxSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L94">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="VariantN" href="./htmlsrc/std.variant.html#L129" kind="struct" beg="129" end="883">VariantN</a><span class="tparams">(size_t maxDataSize, AllowedTypes...)</span>; <a title="Permalink to this symbol" href="#VariantN" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L129">#</a></dt>
+<dd class="ddef">
+<div class="summary"><span class="d_param">VariantN</span> is a back-end type seldom used directly by user
+ code. Two commonly-used types using <span class="d_param">VariantN</span> as
+ back-end are:</div>
+<ol><li><b>Algebraic</b>: A closed discriminated union with a
+ limited type universe (e.g., <span class="d_param">Algebraic!(int, double,
+ string)</span> only accepts these three types and rejects anything
+ else).</li> <li><b>Variant</b>: An open discriminated union allowing an
+ unbounded set of types. The restriction is that the size of the
+ stored type cannot be larger than the largest built-in type. This
+ means that <span class="d_param">Variant</span> can accommodate all primitive types
+ and all user-defined types except for large <span class="d_param">struct</span>s.</li> </ol>
+<p class="bl"/>
+ Both <span class="d_param">Algebraic</span> and <span class="d_param">Variant</span> share <span class="d_param">
+ VariantN</span>'s interface. (See their respective documentations below.)
+ 
+ <span class="d_param">VariantN</span> is a discriminated union type parameterized
+ with the largest size of the types stored (<span class="d_param">maxDataSize</span>)
+ and with the list of allowed types (<span class="d_param">AllowedTypes</span>). If
+ the list is empty, then any type up of size up to <span class="d_param">
+ maxDataSize</span> (rounded up for alignment) can be stored in a
+ <span class="d_param">VariantN</span> object.
+<dl>
+<dt class="decl">struct <a class="symbol _struct" name="VariantN.SizeChecker" href="./htmlsrc/std.variant.html#L133" kind="struct" beg="133" end="137">SizeChecker</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#VariantN.SizeChecker" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L133">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">int function() <a class="symbol _variable" name="VariantN.SizeChecker.fptr" href="./htmlsrc/std.variant.html#L135" kind="variable" beg="135" end="135">fptr</a>; <a title="Permalink to this symbol" href="#VariantN.SizeChecker.fptr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L135">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte[maxDataSize] <a class="symbol _variable" name="VariantN.SizeChecker.data" href="./htmlsrc/std.variant.html#L136" kind="variable" beg="136" end="136">data</a>; <a title="Permalink to this symbol" href="#VariantN.SizeChecker.data" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L136">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="VariantN.size" href="./htmlsrc/std.variant.html#L138" kind="variable" beg="138" end="138">size</a>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#VariantN.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L138">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="VariantN.allowed" href="./htmlsrc/std.variant.html#L146" kind="template" beg="146" end="151">allowed</a><span class="tparams">(T)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.allowed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L146">#</a></dt>
+<dd class="ddef">
+<div class="summary">Tells whether a type <span class="d_param">T</span> is statically allowed for
+ storage inside a <span class="d_param">VariantN</span> object by looking
+ <span class="d_param">T</span> up in <span class="d_param">AllowedTypes</span>. If <span class="d_param">
+ AllowedTypes</span> is empty, all types of size up to <span class="d_param">
+ maxSize</span> are allowed.</div>
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="VariantN.allowed.allowed" href="./htmlsrc/std.variant.html#L148" kind="variable" beg="148" end="150">allowed</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#VariantN.allowed.allowed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L148">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">enum <a class="symbol _enum" name="VariantN.OpID" href="./htmlsrc/std.variant.html#L155" kind="enum" beg="155" end="156">OpID</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#VariantN.OpID" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L155">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="VariantN.OpID.getTypeInfo" href="./htmlsrc/std.variant.html#L155" kind="enummem" beg="155" end="155">getTypeInfo</a> <a title="Permalink to this symbol" href="#VariantN.OpID.getTypeInfo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L155">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="VariantN.OpID.get" href="./htmlsrc/std.variant.html#L155" kind="enummem" beg="155" end="155">get</a> <a title="Permalink to this symbol" href="#VariantN.OpID.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L155">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="VariantN.OpID.compare" href="./htmlsrc/std.variant.html#L155" kind="enummem" beg="155" end="155">compare</a> <a title="Permalink to this symbol" href="#VariantN.OpID.compare" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L155">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="VariantN.OpID.testConversion" href="./htmlsrc/std.variant.html#L155" kind="enummem" beg="155" end="155">testConversion</a> <a title="Permalink to this symbol" href="#VariantN.OpID.testConversion" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L155">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="VariantN.OpID.toString" href="./htmlsrc/std.variant.html#L155" kind="enummem" beg="155" end="155">toString</a> <a title="Permalink to this symbol" href="#VariantN.OpID.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L155">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="VariantN.OpID.index" href="./htmlsrc/std.variant.html#L156" kind="enummem" beg="156" end="156">index</a> <a title="Permalink to this symbol" href="#VariantN.OpID.index" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L156">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="VariantN.OpID.indexAssign" href="./htmlsrc/std.variant.html#L156" kind="enummem" beg="156" end="156">indexAssign</a> <a title="Permalink to this symbol" href="#VariantN.OpID.indexAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L156">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="VariantN.OpID.catAssign" href="./htmlsrc/std.variant.html#L156" kind="enummem" beg="156" end="156">catAssign</a> <a title="Permalink to this symbol" href="#VariantN.OpID.catAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L156">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="VariantN.OpID.copyOut" href="./htmlsrc/std.variant.html#L156" kind="enummem" beg="156" end="156">copyOut</a> <a title="Permalink to this symbol" href="#VariantN.OpID.copyOut" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L156">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="VariantN.OpID.length" href="./htmlsrc/std.variant.html#L156" kind="enummem" beg="156" end="156">length</a> <a title="Permalink to this symbol" href="#VariantN.OpID.length" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L156">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">int function(OpID selector, ubyte[size]* store, void* data) <a class="symbol _variable" name="VariantN.fptr" href="./htmlsrc/std.variant.html#L159" kind="variable" beg="159" end="160">fptr</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#VariantN.fptr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L159">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _union" name="VariantN.union" href="./htmlsrc/std.variant.html#L161" kind="union" beg="161" end="167">union</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#VariantN.union" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L161">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">ubyte[size] <a class="symbol _variable" name="VariantN.union.store" href="./htmlsrc/std.variant.html#L163" kind="variable" beg="163" end="163">store</a>; <a title="Permalink to this symbol" href="#VariantN.union.store" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L163">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void* p[size / (void*).sizeof] <a class="symbol _variable" name="VariantN.union.p" href="./htmlsrc/std.variant.html#L166" kind="variable" beg="166" end="166">p</a>; <a title="Permalink to this symbol" href="#VariantN.union.p" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L166">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">int <a class="symbol _function" name="VariantN.handler" href="./htmlsrc/std.variant.html#L171" kind="function" beg="171" end="203">handler</a><span class="tparams">(A : void)</span><span class="params">(OpID <em>selector</em>, ubyte[size]*, void* <em>parm</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#VariantN.handler" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L171">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="VariantN.handler:2" href="./htmlsrc/std.variant.html#L206" kind="function" beg="206" end="397">handler</a><span class="tparams">(A)</span><span class="params">(OpID <em>selector</em>, ubyte[size]* <em>pStore</em>, void* <em>parm</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#VariantN.handler:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L206">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opCall" href="./htmlsrc/std.variant.html#L404" kind="function" beg="404" end="411">opCall</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>)</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opCall" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L404">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a <span class="d_param">VariantN</span> value given an argument of a
+ generic type. Statically rejects disallowed types.</div></dd>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opAssign" href="./htmlsrc/std.variant.html#L416" kind="function" beg="416" end="444">opAssign</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L416">#</a></dt>
+<dd class="ddef">
+<div class="summary">Assigns a <span class="d_param">VariantN</span> from a generic
+ argument. Statically rejects disallowed types.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="VariantN.hasValue" href="./htmlsrc/std.variant.html#L461" kind="function" beg="461" end="464">hasValue</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.hasValue" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L461">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if and only if the <span class="d_param">VariantN</span> object
+ holds a valid value (has been initialized with, or assigned
+ from, a valid value).</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="i">Variant</span> <span class="i">a</span>;
+<span class="k">assert</span>(!<span class="i">a</span>.<span class="i">hasValue</span>);
+<span class="i">Variant</span> <span class="i">b</span>;
+<span class="i">a</span> = <span class="i">b</span>;
+<span class="k">assert</span>(!<span class="i">a</span>.<span class="i">hasValue</span>); <span class="lc">// still no value</span>
+<span class="i">a</span> = <span class="n">5</span>;
+<span class="k">assert</span>(<span class="i">a</span>.<span class="i">hasValue</span>);
+</pre></dd>
+<dt class="decl">T * <a class="symbol _function" name="VariantN.peek" href="./htmlsrc/std.variant.html#L482" kind="function" beg="482" end="487">peek</a><span class="tparams">(T)</span><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.peek" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L482">#</a></dt>
+<dd class="ddef">
+<div class="summary">If the <span class="d_param">VariantN</span> object holds a value of the
+ <i>exact</i> type <span class="d_param">T</span>, returns a pointer to that
+ value. Otherwise, returns <span class="d_param">null</span>. In cases
+ where <span class="d_param">T</span> is statically disallowed, <span class="d_param">
+ peek</span> will not compile.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="i">Variant</span> <span class="i">a</span> = <span class="n">5</span>;
+<span class="k">auto</span> <span class="i">b</span> = <span class="i">a</span>.<span class="i">peek</span>!(<span class="k">int</span>);
+<span class="k">assert</span>(<span class="i">b</span> !<span class="k">is</span> <span class="k">null</span>);
+*<span class="i">b</span> = <span class="n">6</span>;
+<span class="k">assert</span>(<span class="i">a</span> == <span class="n">6</span>);
+</pre></dd>
+<dt class="decl">TypeInfo <a class="symbol _function" name="VariantN.type" href="./htmlsrc/std.variant.html#L493" kind="function" beg="493" end="498">type</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.type" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L493">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the <span class="d_param">typeid</span> of the currently held value.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="VariantN.convertsTo" href="./htmlsrc/std.variant.html#L507" kind="function" beg="507" end="511">convertsTo</a><span class="tparams">(T)</span><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.convertsTo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L507">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns <span class="d_param">true</span> if and only if the <span class="d_param">VariantN</span>
+ object holds an object implicitly convertible to type <span class="d_param">
+ U</span>. Implicit convertibility is defined as per
+ <a href="std_traits.html#ImplicitConversionTargets">ImplicitConversionTargets</a>.</div></dd>
+<dt class="decl">T[] <a class="symbol _function" name="VariantN.testing123" href="./htmlsrc/std.variant.html#L513" kind="function" beg="513" end="513">testing123</a><span class="tparams">(T)</span><span class="params">(T*)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#VariantN.testing123" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L513">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="VariantN.DecayStaticToDynamicArray" href="./htmlsrc/std.variant.html#L523" kind="template" beg="523" end="533">DecayStaticToDynamicArray</a><span class="tparams">(T)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.DecayStaticToDynamicArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L523">#</a></dt>
+<dd class="ddef">
+<div class="summary">A workaround for the fact that functions cannot return
+ statically-sized arrays by value. Essentially <span class="d_param">
+ DecayStaticToDynamicArray!(T[N])</span> is an alias for <span class="d_param">
+ T[]</span> and <span class="d_param">DecayStaticToDynamicArray!(T)</span> is an alias
+ for <span class="d_param">T</span>.</div>
+<dl>
+<dt class="decl">alias typeof(testing123(&amp;T[0])) <a class="symbol _alias" name="VariantN.DecayStaticToDynamicArray.DecayStaticToDynamicArray" href="./htmlsrc/std.variant.html#L527" kind="alias" beg="527" end="527">DecayStaticToDynamicArray</a>; <a title="Permalink to this symbol" href="#VariantN.DecayStaticToDynamicArray.DecayStaticToDynamicArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L527">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">DecayStaticToDynamicArray!(T) <a class="symbol _function" name="VariantN.get" href="./htmlsrc/std.variant.html#L547" kind="function" beg="547" end="560">get</a><span class="tparams">(T)</span><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.get" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L547">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the value stored in the <span class="d_param">VariantN</span> object,
+ implicitly converted to the requested type <span class="d_param">T</span>, in
+ fact <span class="d_param">DecayStaticToDynamicArray!(T)</span>. If an implicit
+ conversion is not possible, throws a <span class="d_param">
+ VariantException</span>.</div></dd>
+<dt class="decl">T <a class="symbol _function" name="VariantN.coerce" href="./htmlsrc/std.variant.html#L572" kind="function" beg="572" end="592">coerce</a><span class="tparams">(T)</span><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.coerce" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L572">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the value stored in the <span class="d_param">VariantN</span> object,
+ explicitly converted (coerced) to the requested type <span class="d_param">
+ T</span>. If <span class="d_param">T</span> is a string type, the value is formatted as
+ a string. If the <span class="d_param">VariantN</span> object is a string, a
+ parse of the string to type <span class="d_param">T</span> is attempted. If a
+ conversion is not possible, throws a <span class="d_param">
+ VariantException</span>.</div></dd>
+<dt class="decl">string <a class="symbol _function" name="VariantN.toString" href="./htmlsrc/std.variant.html#L598" kind="function" beg="598" end="603">toString</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L598">#</a></dt>
+<dd class="ddef">
+<div class="summary">Formats the stored value as a string.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="VariantN.opEquals" href="./htmlsrc/std.variant.html#L610" kind="function" beg="610" end="617">opEquals</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L610">#</a></dt>
+<dd class="ddef">
+<div class="summary">Comparison for equality used by the "==" and "!="  operators.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="VariantN.opCmp" href="./htmlsrc/std.variant.html#L625" kind="function" beg="625" end="637">opCmp</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opCmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L625">#</a></dt>
+<dd class="ddef">
+<div class="summary">Ordering comparison used by the "&lt;", "&lt;=", "&gt;", and "&gt;="
+ operators. In case comparison is not sensible between the held
+ value and <span class="d_param">rhs</span>, an exception is thrown.</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="VariantN.toHash" href="./htmlsrc/std.variant.html#L643" kind="function" beg="643" end="646">toHash</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.toHash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L643">#</a></dt>
+<dd class="ddef">
+<div class="summary">Computes the hash of the held value.</div></dd>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opArithmetic" href="./htmlsrc/std.variant.html#L648" kind="function" beg="648" end="683">opArithmetic</a><span class="tparams">(T, string op)</span><span class="params">(T <em>other</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opArithmetic" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L648">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opLogic" href="./htmlsrc/std.variant.html#L685" kind="function" beg="685" end="712">opLogic</a><span class="tparams">(T, string op)</span><span class="params">(T <em>other</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opLogic" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L685">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opAdd" href="./htmlsrc/std.variant.html#L724" kind="function" beg="724" end="724">opAdd</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opAdd" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L724">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opSub" href="./htmlsrc/std.variant.html#L726" kind="function" beg="726" end="726">opSub</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opSub" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L726">#</a></dt>
+<dd class="ddef">
+<div class="summary">Arithmetic between <span class="d_param">VariantN</span> objects and numeric
+ values. All arithmetic operations return a <span class="d_param">VariantN</span>
+ object typed depending on the types of both values
+ involved. The conversion rules mimic D's built-in rules for
+ arithmetic conversions.</div></dd>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opMul" href="./htmlsrc/std.variant.html#L737" kind="function" beg="737" end="737">opMul</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opMul" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L737">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opDiv" href="./htmlsrc/std.variant.html#L739" kind="function" beg="739" end="739">opDiv</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opDiv" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L739">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opMod" href="./htmlsrc/std.variant.html#L746" kind="function" beg="746" end="746">opMod</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opMod" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L746">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opAnd" href="./htmlsrc/std.variant.html#L753" kind="function" beg="753" end="753">opAnd</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opAnd" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L753">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opOr" href="./htmlsrc/std.variant.html#L755" kind="function" beg="755" end="755">opOr</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opOr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L755">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opXor" href="./htmlsrc/std.variant.html#L757" kind="function" beg="757" end="757">opXor</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opXor" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L757">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opShl" href="./htmlsrc/std.variant.html#L759" kind="function" beg="759" end="759">opShl</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opShl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L759">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opShr" href="./htmlsrc/std.variant.html#L766" kind="function" beg="766" end="766">opShr</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opShr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L766">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opUShr" href="./htmlsrc/std.variant.html#L773" kind="function" beg="773" end="773">opUShr</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opUShr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L773">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opCat" href="./htmlsrc/std.variant.html#L780" kind="function" beg="780" end="785">opCat</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opCat" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L780">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opAddAssign" href="./htmlsrc/std.variant.html#L795" kind="function" beg="795" end="795">opAddAssign</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opAddAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L795">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opSubAssign" href="./htmlsrc/std.variant.html#L797" kind="function" beg="797" end="797">opSubAssign</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opSubAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L797">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opMulAssign" href="./htmlsrc/std.variant.html#L799" kind="function" beg="799" end="799">opMulAssign</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opMulAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L799">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opDivAssign" href="./htmlsrc/std.variant.html#L801" kind="function" beg="801" end="801">opDivAssign</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opDivAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L801">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opModAssign" href="./htmlsrc/std.variant.html#L803" kind="function" beg="803" end="803">opModAssign</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opModAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L803">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opAndAssign" href="./htmlsrc/std.variant.html#L805" kind="function" beg="805" end="805">opAndAssign</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opAndAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L805">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opOrAssign" href="./htmlsrc/std.variant.html#L807" kind="function" beg="807" end="807">opOrAssign</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opOrAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L807">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opXorAssign" href="./htmlsrc/std.variant.html#L809" kind="function" beg="809" end="809">opXorAssign</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opXorAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L809">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opShlAssign" href="./htmlsrc/std.variant.html#L811" kind="function" beg="811" end="811">opShlAssign</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opShlAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L811">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opShrAssign" href="./htmlsrc/std.variant.html#L813" kind="function" beg="813" end="813">opShrAssign</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opShrAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L813">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opUShrAssign" href="./htmlsrc/std.variant.html#L815" kind="function" beg="815" end="815">opUShrAssign</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opUShrAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L815">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opCatAssign" href="./htmlsrc/std.variant.html#L817" kind="function" beg="817" end="822">opCatAssign</a><span class="tparams">(T)</span><span class="params">(T <em>rhs</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opCatAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L817">#</a></dt>
+<dd class="ddef">
+<div class="summary">ditto
+ditto</div></dd>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opIndex" href="./htmlsrc/std.variant.html#L851" kind="function" beg="851" end="856">opIndex</a><span class="tparams">(K)</span><span class="params">(K <em>i</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opIndex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L851">#</a></dt>
+<dt class="decl">VariantN <a class="symbol _function" name="VariantN.opIndexAssign" href="./htmlsrc/std.variant.html#L868" kind="function" beg="868" end="873">opIndexAssign</a><span class="tparams">(T, N)</span><span class="params">(T <em>value</em>, N <em>i</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.opIndexAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L868">#</a></dt>
+<dd class="ddef">
+<div class="summary">Array and associative array operations. If a <span class="d_param">
+ VariantN</span> contains an (associative) array, it can be indexed
+ into. Otherwise, an exception is thrown.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">a</span> = <span class="i">Variant</span>(<span class="k">new</span> <span class="k">int</span>[<span class="n">10</span>]);
+<span class="i">a</span>[<span class="n">5</span>] = <span class="n">42</span>;
+<span class="k">assert</span>(<span class="i">a</span>[<span class="n">5</span>] == <span class="n">42</span>);
+<span class="k">int</span>[<span class="k">int</span>] <span class="i">hash</span> = [ <span class="n">42</span>:<span class="n">24</span> ];
+<span class="i">a</span> = <span class="i">hash</span>;
+<span class="k">assert</span>(<span class="i">a</span>[<span class="n">42</span>] == <span class="n">24</span>);
+</pre>
+<p class="sec_header">Caveat:</p>Due to limitations in current language, read-modify-write
+ operations <span class="d_param">op=</span> will not work properly:
+<p class="bl"/>
+ <pre class="d_code">
+<span class="i">Variant</span> <span class="i">a</span> = <span class="k">new</span> <span class="k">int</span>[<span class="n">10</span>];
+<span class="i">a</span>[<span class="n">5</span>] = <span class="n">42</span>;
+<span class="i">a</span>[<span class="n">5</span>] += <span class="n">8</span>;
+<span class="k">assert</span>(<span class="i">a</span>[<span class="n">5</span>] == <span class="n">50</span>); <span class="lc">// fails, a[5] is still 42</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="VariantN.unittest" href="./htmlsrc/std.variant.html#L858" kind="unittest" beg="858" end="865">unittest</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L858">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="VariantN.length" href="./htmlsrc/std.variant.html#L879" kind="function" beg="879" end="882">length</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#VariantN.length" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L879">#</a></dt>
+<dd class="ddef">
+<div class="summary">If the <span class="d_param">VariantN</span> contains an (associative) array,
+ returns the length of that array. Otherwise, throws an
+ exception.</div></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="Algebraic" href="./htmlsrc/std.variant.html#L914" kind="template" beg="914" end="917">Algebraic</a><span class="tparams">(T...)</span>; <a title="Permalink to this symbol" href="#Algebraic" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L914">#</a></dt>
+<dd class="ddef">
+<div class="summary">Algebraic data type restricted to a closed set of possible
+ types. It's an alias for a <span class="d_param">VariantN</span> with an
+ appropriately-constructed maximum size. <span class="d_param">Algebraic</span> is
+ useful when it is desirable to restrict what a discriminated type
+ could hold to the end of defining simpler and more efficient
+ manipulation.</div>
+Future additions to <span class="d_param">Algebraic</span> will allow compile-time
+ checking that all possible types are handled by user code,
+ eliminating a large class of errors.
+<p class="sec_header"><span class="red">Bugs:</span></p>Currently, <span class="d_param">Algebraic</span> does not allow recursive data
+ types. They will be allowed in a future iteration of the
+ implementation.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">v</span> = <span class="i">Algebraic</span>!(<span class="k">int</span>, <span class="k">double</span>, <span class="i">string</span>)(<span class="n">5</span>);
+<span class="k">assert</span>(<span class="i">v</span>.<span class="i">peek</span>!(<span class="k">int</span>));
+<span class="i">v</span> = <span class="n">3.14</span>;
+<span class="k">assert</span>(<span class="i">v</span>.<span class="i">peek</span>!(<span class="k">double</span>));
+<span class="lc">// auto x = v.peek!(long); // won't compile, type long not allowed</span>
+<span class="lc">// v = '1'; // won't compile, type char not allowed</span>
+</pre>
+<dl>
+<dt class="decl">alias VariantN!(maxSize!(T), T) <a class="symbol _alias" name="Algebraic.Algebraic" href="./htmlsrc/std.variant.html#L916" kind="alias" beg="916" end="916">Algebraic</a>; <a title="Permalink to this symbol" href="#Algebraic.Algebraic" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L916">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">alias VariantN!(maxSize!(creal, char[], void delegate())) <a class="symbol _alias" name="Variant" href="./htmlsrc/std.variant.html#L929" kind="alias" beg="929" end="929">Variant</a>; <a title="Permalink to this symbol" href="#Variant" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L929">#</a></dt>
+<dd class="ddef">
+<div class="summary"><span class="d_param">Variant</span> is an alias for <span class="d_param">VariantN</span> instantiated
+ with the largest of <span class="d_param">creal</span>, <span class="d_param">char[]</span>, and
+ <span class="d_param">void delegate()</span>. This ensures that <span class="d_param">Variant</span> is
+ large enough to hold all of D's predefined types, including all
+ numeric types, pointers, delegates, and class references.  You may
+ want to use <span class="d_param">VariantN</span> directly with a different maximum
+ size either for storing larger types, or for saving memory.</div></dd>
+<dt class="decl">Variant[] <a class="symbol _function" name="variantArray" href="./htmlsrc/std.variant.html#L964" kind="function" beg="964" end="972">variantArray</a><span class="tparams">(T...)</span><span class="params">(T <em>args</em>)</span>; <a title="Permalink to this symbol" href="#variantArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L964">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns an array of variants constructed from <span class="d_param">args</span>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">a</span> = <span class="i">variantArray</span>(<span class="n">1</span>, <span class="n">3.14</span>, <span class="sl">"Hi!"</span>);
+<span class="k">assert</span>(<span class="i">a</span>[<span class="n">1</span>] == <span class="n">3.14</span>);
+<span class="k">auto</span> <span class="i">b</span> = <span class="i">Variant</span>(<span class="i">a</span>); <span class="lc">// variant array as variant</span>
+<span class="k">assert</span>(<span class="i">b</span>[<span class="n">1</span>] == <span class="n">3.14</span>);
+</pre>
+<p class="bl"/>
+ Code that needs functionality similar to the <span class="d_param">boxArray</span>
+ function in the <span class="d_param">std.boxer</span> module can achieve it like this:
+<p class="bl"/>
+ <pre class="d_code">
+<span class="lc">// old</span>
+<span class="i">Box</span>[] <span class="i">fun</span>(...)
+{
+    ...
+    <span class="k">return</span> <span class="i">boxArray</span>(<span class="i">_arguments</span>, <span class="i">_argptr</span>);
+}
+<span class="lc">// new</span>
+<span class="i">Variant</span>[] <span class="i">fun</span>(<span class="i">T</span>...)(<span class="i">T</span> <span class="i">args</span>)
+{
+    ...
+    <span class="k">return</span> <span class="i">variantArray</span>(<span class="i">args</span>);
+}
+</pre>
+<p class="bl"/>
+ This is by design. During construction the <span class="d_param">Variant</span> needs
+ static type information about the type being held, so as to store a
+ pointer to function for fast retrieval.</dd>
+<dt class="decl">class <a class="symbol _class" name="VariantException" href="./htmlsrc/std.variant.html#L986" kind="class" beg="986" end="1004">VariantException</a> : Exception; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#VariantException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L986">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown in three cases:</div>
+<ol><li>An uninitialized Variant is used in any way except
+ assignment and <span class="d_param">hasValue</span>;</li> <li>A <span class="d_param">get</span> or
+ <span class="d_param">coerce</span> is attempted with an incompatible target type;</li>
+ <li>A comparison between <span class="d_param">Variant</span> objects of
+ incompatible types is attempted.</li></ol>
+<dl>
+<dt class="decl">TypeInfo <a class="symbol _variable" name="VariantException.source" href="./htmlsrc/std.variant.html#L989" kind="variable" beg="989" end="989">source</a>; <a title="Permalink to this symbol" href="#VariantException.source" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L989">#</a></dt>
+<dd class="ddef">
+<div class="summary">The source type in the conversion or comparison</div></dd>
+<dt class="decl">TypeInfo <a class="symbol _variable" name="VariantException.target" href="./htmlsrc/std.variant.html#L991" kind="variable" beg="991" end="991">target</a>; <a title="Permalink to this symbol" href="#VariantException.target" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L991">#</a></dt>
+<dd class="ddef">
+<div class="summary">The target type in the conversion or comparison</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="VariantException.this" href="./htmlsrc/std.variant.html#L992" kind="ctor" beg="992" end="995">this</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#VariantException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L992">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="VariantException.this:2" href="./htmlsrc/std.variant.html#L996" kind="ctor" beg="996" end="1003">this</a><span class="params">(TypeInfo <em>source</em>, TypeInfo <em>target</em>)</span>; <a title="Permalink to this symbol" href="#VariantException.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L996">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.variant.html#L1006" kind="unittest" beg="1006" end="1078">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L1006">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.variant.html#L1082" kind="unittest" beg="1082" end="1193">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L1082">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:3" href="./htmlsrc/std.variant.html#L1195" kind="unittest" beg="1195" end="1202">unittest</a>; <a title="Permalink to this symbol" href="#unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L1195">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:4" href="./htmlsrc/std.variant.html#L1204" kind="unittest" beg="1204" end="1213">unittest</a>; <a title="Permalink to this symbol" href="#unittest:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L1204">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:5" href="./htmlsrc/std.variant.html#L1215" kind="unittest" beg="1215" end="1219">unittest</a>; <a title="Permalink to this symbol" href="#unittest:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.variant.html#L1215">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:47 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

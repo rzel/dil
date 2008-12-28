@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.path</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.path";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.path.html" class="symbol">std.path</a></h1>
+  
+<div class="summary">This module is used to parse file names. All the operations work
+ only on strings; they don't perform any input/output
+ operations. This means that if a path contains a directory name
+ with a dot, functions like <span class="d_psymbol"><i>getExt()</i></span> will work with it just as
+ if it was a file. To differentiate these cases, use the std.file
+ module first (i.e. <span class="d_psymbol"><i>std.file.isDir()</i></span>).</div>
+<p class="sec_header">Authors:</p><a href="http://digitalmars.com">Walter Bright</a>, Grzegorz Adam Hankiewicz,
+Thomas K&uuml;hne, <a href="http://erdani.org">Andrei Alexandrescu</a>
+<dl>
+<dt class="decl">char[1] <a class="symbol _variable" name="sep" href="./htmlsrc/std.path.html#L62" kind="variable" beg="62" end="62">sep</a>; <span class="attrs">[<span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#sep" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L62">#</a></dt>
+<dd class="ddef">
+<div class="summary">String used to separate directory names in a path. Under
+  Windows this is a backslash, under Linux a slash.</div></dd>
+<dt class="decl">char[0] <a class="symbol _variable" name="altsep" href="./htmlsrc/std.path.html#L65" kind="variable" beg="65" end="65">altsep</a>; <span class="attrs">[<span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#altsep" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L65">#</a></dt>
+<dd class="ddef">
+<div class="summary">Alternate version of sep[] used in Windows (a slash). Under
+  Linux this is empty.</div></dd>
+<dt class="decl">char[1] <a class="symbol _variable" name="pathsep" href="./htmlsrc/std.path.html#L68" kind="variable" beg="68" end="68">pathsep</a>; <span class="attrs">[<span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#pathsep" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L68">#</a></dt>
+<dd class="ddef">
+<div class="summary">Path separator string. A semi colon under Windows, a colon
+  under Linux.</div></dd>
+<dt class="decl">char[1] <a class="symbol _variable" name="linesep" href="./htmlsrc/std.path.html#L71" kind="variable" beg="71" end="71">linesep</a>; <span class="attrs">[<span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#linesep" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L71">#</a></dt>
+<dd class="ddef">
+<div class="summary">String used to separate lines, \r\n under Windows and \n
+ under Linux.</div></dd>
+<dt class="decl">char[1] <a class="symbol _variable" name="curdir" href="./htmlsrc/std.path.html#L72" kind="variable" beg="72" end="72">curdir</a>; <span class="attrs">[<span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#curdir" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L72">#</a></dt>
+<dd class="ddef">
+<div class="summary">String representing the current directory.</div></dd>
+<dt class="decl">char[2] <a class="symbol _variable" name="pardir" href="./htmlsrc/std.path.html#L73" kind="variable" beg="73" end="73">pardir</a>; <span class="attrs">[<span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#pardir" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L73">#</a></dt>
+<dd class="ddef">
+<div class="summary">String representing the parent directory.</div></dd>
+<dt class="decl">alias std.string.cmp <a class="symbol _alias" name="fcmp" href="./htmlsrc/std.path.html#L88" kind="alias" beg="88" end="88">fcmp</a>; <a title="Permalink to this symbol" href="#fcmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L88">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="getExt" href="./htmlsrc/std.path.html#L120" kind="function" beg="120" end="140">getExt</a><span class="params">(string <em>fullname</em>)</span>; <a title="Permalink to this symbol" href="#getExt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L120">#</a></dt>
+<dd class="ddef">
+<div class="summary">Extracts the extension from a filename or path.</div>
+This function will search fullname from the end until the
+ first dot, path separator or first character of fullname is
+ reached. Under Windows, the drive letter separator (<i>colon</i>)
+ also terminates the search.
+<p class="sec_header">Returns:</p>If a dot was found, characters to its right are
+ returned. If a path separator was found, or fullname didn't
+ contain any dots or path separators, returns null.
+<p class="sec_header">Throws:</p>Nothing.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">version</span>(<span class="i">Win32</span>)
+{
+    <span class="i">getExt</span>(<span class="sl">r"d:\path\foo.bat"</span>) <span class="lc">// "bat"</span>
+    <span class="i">getExt</span>(<span class="sl">r"d:\path.two\bar"</span>) <span class="lc">// null</span>
+}
+<span class="k">version</span>(<span class="i">linux</span>)
+{
+    <span class="i">getExt</span>(<span class="sl">r"/home/user.name/bar."</span>)  <span class="lc">// ""</span>
+    <span class="i">getExt</span>(<span class="sl">r"d:\\path.two\\bar"</span>)     <span class="lc">// "two\\bar"</span>
+    <span class="i">getExt</span>(<span class="sl">r"/home/user/.resource"</span>)  <span class="lc">// "resource"</span>
+}
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.path.html#L142" kind="unittest" beg="142" end="179">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L142">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="getName" href="./htmlsrc/std.path.html#L211" kind="function" beg="211" end="231">getName</a><span class="params">(string <em>fullname</em>)</span>; <a title="Permalink to this symbol" href="#getName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L211">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the extensionless version of a filename or path.</div>
+This function will search fullname from the end until the
+ first dot, path separator or first character of fullname is
+ reached. Under Windows, the drive letter separator (<i>colon</i>)
+ also terminates the search.
+<p class="sec_header">Returns:</p>If a dot was found, characters to its left are
+ returned. If a path separator was found, or fullname didn't
+ contain any dots or path separators, returns null.
+<p class="sec_header">Throws:</p>Nothing.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">version</span>(<span class="i">Win32</span>)
+{
+    <span class="i">getName</span>(<span class="sl">r"d:\path\foo.bat"</span>) =&gt; <span class="sl">"d:\path\foo"</span>
+    <span class="i">getName</span>(<span class="sl">r"d:\path.two\bar"</span>) =&gt; <span class="k">null</span>
+}
+<span class="k">version</span>(<span class="i">linux</span>)
+{
+    <span class="i">getName</span>(<span class="sl">"/home/user.name/bar."</span>)  =&gt; <span class="sl">"/home/user.name/bar"</span>
+    <span class="i">getName</span>(<span class="sl">r"d:\path.two\bar"</span>) =&gt; <span class="sl">"d:\path"</span>
+    <span class="i">getName</span>(<span class="sl">"/home/user/.resource"</span>) =&gt; <span class="sl">"/home/user/"</span>
+}
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.path.html#L233" kind="unittest" beg="233" end="248">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L233">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="basename" href="./htmlsrc/std.path.html#L282" kind="function" beg="282" end="305">basename</a><span class="params">(string <em>fullname</em>, string <em>extension</em> = null)</span>; <a title="Permalink to this symbol" href="#basename" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L282">#</a></dt>
+<dd class="ddef">
+<div class="summary">Extracts the base name of a path and optionally chops off a
+ specific suffix.</div>
+This function will search <span class="d_param">fullname</span> from the end until
+ the first path separator or first character of <span class="d_param">fullname</span>
+ is reached. Under Windows, the drive letter separator (<i>colon</i>)
+ also terminates the search. After the search has ended, keep the
+ portion to the right of the separator if found, or the entire
+ <span class="d_param">fullname</span> otherwise. If the kept portion has suffix
+ <span class="d_param">extension</span>, remove that suffix. Return the remaining string.
+<p class="sec_header">Returns:</p>The portion of <span class="d_param">fullname</span> left after the path
+ part and the extension part, if any, have been removed.
+<p class="sec_header">Throws:</p>Nothing.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">version</span>(<span class="i">Win32</span>)
+{
+    <span class="i">basename</span>(<span class="sl">r"d:\path\foo.bat"</span>) =&gt; <span class="sl">"foo.bat"</span>
+    <span class="i">basename</span>(<span class="sl">r"d:\path\foo"</span>, <span class="sl">".bat"</span>) =&gt; <span class="sl">"foo"</span>
+}
+<span class="k">version</span>(<span class="i">linux</span>)
+{
+    <span class="i">basename</span>(<span class="sl">"/home/user.name/bar."</span>)  =&gt; <span class="sl">"bar."</span>
+    <span class="i">basename</span>(<span class="sl">"/home/user.name/bar."</span>, <span class="sl">"."</span>)  =&gt; <span class="sl">"bar"</span>
+}
+</pre></dd>
+<dt class="decl">alias basename <a class="symbol _alias" name="getBaseName" href="./htmlsrc/std.path.html#L309" kind="alias" beg="309" end="309">getBaseName</a>; <a title="Permalink to this symbol" href="#getBaseName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L309">#</a></dt>
+<dd class="ddef">
+<div class="summary">Alias for <span class="d_param">basename</span>, kept for backward
+ compatibility. New code should use <span class="d_param">basename</span>.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:3" href="./htmlsrc/std.path.html#L311" kind="unittest" beg="311" end="335">unittest</a>; <a title="Permalink to this symbol" href="#unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L311">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Char[] <a class="symbol _function" name="dirname" href="./htmlsrc/std.path.html#L368" kind="function" beg="368" end="396">dirname</a><span class="tparams">(Char)</span><span class="params">(Char[] <em>fullname</em>)</span>; <a title="Permalink to this symbol" href="#dirname" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L368">#</a></dt>
+<dd class="ddef">
+<div class="summary">Extracts the directory part of a path.</div>
+This function will search <span class="d_psymbol"><i>fullname</i></span> from the end until the
+ first path separator or first character of <span class="d_psymbol"><i>fullname</i></span> is
+ reached. Under Windows, the drive letter separator (<i>colon</i>)
+ also terminates the search.
+<p class="sec_header">Returns:</p>If a path separator was found, all the characters to its
+ left are returned. Otherwise, <span class="d_psymbol"><i>"."</i></span> is returned.
+<p class="bl"/>
+ Under Windows, the found path separator will be included in the
+ returned string if it is preceeded by a colon.
+<p class="sec_header">Throws:</p>Nothing.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">version</span>(<span class="i">Win32</span>)
+{
+    <span class="k">assert</span>(<span class="i">dirname</span>(<span class="sl">r"d:\path\foo.bat"</span>) == <span class="sl">r"d:\path"</span>);
+    <span class="k">assert</span>(<span class="i">dirname</span>(<span class="i">dirname</span>(<span class="sl">r"d:\path\foo.bat"</span>)) == <span class="sl">r"d:\"</span>);
+}
+<span class="k">version</span>(<span class="i">linux</span>)
+{
+    <span class="k">assert</span>(<span class="i">dirname</span>(<span class="sl">"/home/user"</span>) == <span class="sl">"/home"</span>);
+    <span class="k">assert</span>(<span class="i">dirname</span>(<span class="i">dirname</span>(<span class="sl">"/home/user"</span>)) == <span class="sl">""</span>);
+}
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:4" href="./htmlsrc/std.path.html#L398" kind="unittest" beg="398" end="415">unittest</a>; <a title="Permalink to this symbol" href="#unittest:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L398">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias dirname <a class="symbol _alias" name="getDirName" href="./htmlsrc/std.path.html#L419" kind="alias" beg="419" end="419">getDirName</a>; <a title="Permalink to this symbol" href="#getDirName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L419">#</a></dt>
+<dd class="ddef">
+<div class="summary">Alias for <span class="d_param">dirname</span>, kept for backward
+ compatibility. New code should use <span class="d_param">dirname</span>.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:5" href="./htmlsrc/std.path.html#L421" kind="unittest" beg="421" end="426">unittest</a>; <a title="Permalink to this symbol" href="#unittest:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L421">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="getDrive" href="./htmlsrc/std.path.html#L446" kind="function" beg="446" end="466">getDrive</a><span class="params">(string <em>fullname</em>)</span>; <a title="Permalink to this symbol" href="#getDrive" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L446">#</a></dt>
+<dd class="ddef">
+<div class="summary">Extracts the drive letter of a path.</div>
+This function will search fullname for a colon from the beginning.
+<p class="sec_header">Returns:</p>If a colon is found, all the characters to its left
+ plus the colon are returned.  Otherwise, null is returned.
+<p class="bl"/>
+ Under Linux, this function always returns null immediately.
+<p class="sec_header">Throws:</p>Nothing.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">getDrive</span>(<span class="sl">r"d:\path\foo.bat"</span>) =&gt; <span class="sl">"d:"</span>
+</pre></dd>
+<dt class="decl">string <a class="symbol _function" name="defaultExt" href="./htmlsrc/std.path.html#L489" kind="function" beg="489" end="503">defaultExt</a><span class="params">(string <em>filename</em>, string <em>ext</em>)</span>; <a title="Permalink to this symbol" href="#defaultExt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L489">#</a></dt>
+<dd class="ddef">
+<div class="summary">Appends a default extension to a filename.</div>
+This function first searches filename for an extension and
+ appends ext if there is none. ext should not have any leading
+ dots, one will be inserted between filename and ext if filename
+ doesn't already end with one.
+<p class="sec_header">Returns:</p>filename if it contains an extension, otherwise filename
+ + ext.
+<p class="sec_header">Throws:</p>Nothing.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">defaultExt</span>(<span class="sl">"foo.txt"</span>, <span class="sl">"raw"</span>) =&gt; <span class="sl">"foo.txt"</span>
+<span class="i">defaultExt</span>(<span class="sl">"foo."</span>, <span class="sl">"raw"</span>) =&gt; <span class="sl">"foo.raw"</span>
+<span class="i">defaultExt</span>(<span class="sl">"bar"</span>, <span class="sl">"raw"</span>) =&gt; <span class="sl">"bar.raw"</span>
+</pre></dd>
+<dt class="decl">string <a class="symbol _function" name="addExt" href="./htmlsrc/std.path.html#L529" kind="function" beg="529" end="547">addExt</a><span class="params">(string <em>filename</em>, string <em>ext</em>)</span>; <a title="Permalink to this symbol" href="#addExt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L529">#</a></dt>
+<dd class="ddef">
+<div class="summary">Adds or replaces an extension to a filename.</div>
+This function first searches filename for an extension and
+ replaces it with ext if found.  If there is no extension, ext
+ will be appended. ext should not have any leading dots, one will
+ be inserted between filename and ext if filename doesn't already
+ end with one.
+<p class="sec_header">Returns:</p>filename + ext if filename is extensionless. Otherwise
+ strips filename's extension off, appends ext and returns the
+ result.
+<p class="sec_header">Throws:</p>Nothing.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">addExt</span>(<span class="sl">"foo.txt"</span>, <span class="sl">"raw"</span>) =&gt; <span class="sl">"foo.raw"</span>
+<span class="i">addExt</span>(<span class="sl">"foo."</span>, <span class="sl">"raw"</span>) =&gt; <span class="sl">"foo.raw"</span>
+<span class="i">addExt</span>(<span class="sl">"bar"</span>, <span class="sl">"raw"</span>) =&gt; <span class="sl">"bar.raw"</span>
+</pre></dd>
+<dt class="decl">bool <a class="symbol _function" name="isabs" href="./htmlsrc/std.path.html#L575" kind="function" beg="575" end="585">isabs</a><span class="params">(string <em>path</em>)</span>; <a title="Permalink to this symbol" href="#isabs" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L575">#</a></dt>
+<dd class="ddef">
+<div class="summary">Checks if path is absolute.</div>
+<p class="sec_header">Returns:</p>non-zero if the path starts from the root directory (Linux) or
+ drive letter and root directory (Windows),
+ zero otherwise.
+<p class="sec_header">Throws:</p>Nothing.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">version</span>(<span class="i">Win32</span>)
+{
+    <span class="i">isabs</span>(<span class="sl">r"relative\path"</span>) =&gt; <span class="n">0</span>
+    <span class="i">isabs</span>(<span class="sl">r"\relative\path"</span>) =&gt; <span class="n">0</span>
+    <span class="i">isabs</span>(<span class="sl">r"d:\absolute"</span>) =&gt; <span class="n">1</span>
+}
+<span class="k">version</span>(<span class="i">linux</span>)
+{
+    <span class="i">isabs</span>(<span class="sl">"/home/user"</span>) =&gt; <span class="n">1</span>
+    <span class="i">isabs</span>(<span class="sl">"foo"</span>) =&gt; <span class="n">0</span>
+}
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:6" href="./htmlsrc/std.path.html#L587" kind="unittest" beg="587" end="602">unittest</a>; <a title="Permalink to this symbol" href="#unittest:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L587">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="rel2abs" href="./htmlsrc/std.path.html#L607" kind="function" beg="607" end="627">rel2abs</a><span class="params">(string <em>path</em>)</span>; <a title="Permalink to this symbol" href="#rel2abs" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L607">#</a></dt>
+<dd class="ddef">
+<div class="summary">Converts a relative path into an absolute path.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:7" href="./htmlsrc/std.path.html#L629" kind="unittest" beg="629" end="642">unittest</a>; <a title="Permalink to this symbol" href="#unittest:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L629">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="join" href="./htmlsrc/std.path.html#L670" kind="function" beg="670" end="727">join</a><span class="params">(string <em>p1</em>, string <em>p2</em>, string[] <em>more</em>...)</span>; <a title="Permalink to this symbol" href="#join" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L670">#</a></dt>
+<dd class="ddef">
+<div class="summary">Joins two or more path components.</div>
+If p1 doesn't have a trailing path separator, one will be appended
+ to it before concatenating p2.
+<p class="sec_header">Returns:</p>p1 ~ p2. However, if p2 is an absolute path, only p2
+ will be returned.
+<p class="sec_header">Throws:</p>Nothing.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">version</span>(<span class="i">Win32</span>)
+{
+    <span class="i">join</span>(<span class="sl">r"c:\foo"</span>, <span class="sl">"bar"</span>) =&gt; <span class="sl">r"c:\foo\bar"</span>
+    <span class="i">join</span>(<span class="sl">"foo"</span>, <span class="sl">r"d:\bar"</span>) =&gt; <span class="sl">r"d:\bar"</span>
+}
+<span class="k">version</span>(<span class="i">linux</span>)
+{
+    <span class="i">join</span>(<span class="sl">"/foo/"</span>, <span class="sl">"bar"</span>) =&gt; <span class="sl">"/foo/bar"</span>
+    <span class="i">join</span>(<span class="sl">"/foo"</span>, <span class="sl">"/bar"</span>) =&gt; <span class="sl">"/bar"</span>
+}
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:8" href="./htmlsrc/std.path.html#L729" kind="unittest" beg="729" end="807">unittest</a>; <a title="Permalink to this symbol" href="#unittest:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L729">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="fncharmatch" href="./htmlsrc/std.path.html#L835" kind="function" beg="835" end="853">fncharmatch</a><span class="params">(dchar <em>c1</em>, dchar <em>c2</em>)</span>; <a title="Permalink to this symbol" href="#fncharmatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L835">#</a></dt>
+<dd class="ddef">
+<div class="summary">Matches filename characters.</div>
+Under Windows, the comparison is done ignoring case. Under Linux
+ an exact match is performed.
+<p class="sec_header">Returns:</p>non zero if c1 matches c2, zero otherwise.
+<p class="sec_header">Throws:</p>Nothing.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">version</span>(<span class="i">Win32</span>)
+{
+    <span class="i">fncharmatch</span>(<span class="cl">'a'</span>, <span class="cl">'b'</span>) =&gt; <span class="n">0</span>
+    <span class="i">fncharmatch</span>(<span class="cl">'A'</span>, <span class="cl">'a'</span>) =&gt; <span class="n">1</span>
+}
+<span class="k">version</span>(<span class="i">linux</span>)
+{
+    <span class="i">fncharmatch</span>(<span class="cl">'a'</span>, <span class="cl">'b'</span>) =&gt; <span class="n">0</span>
+    <span class="i">fncharmatch</span>(<span class="cl">'A'</span>, <span class="cl">'a'</span>) =&gt; <span class="n">0</span>
+}
+</pre></dd>
+<dt class="decl">bool <a class="symbol _function" name="fnmatch" href="./htmlsrc/std.path.html#L902" kind="function" beg="902" end="990">fnmatch</a><span class="params">(string <em>filename</em>, string <em>pattern</em>)</span>; <a title="Permalink to this symbol" href="#fnmatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L902">#</a></dt>
+<dd class="ddef">
+<div class="summary">Matches a pattern against a filename.</div>
+Some characters of pattern have special a meaning (they are
+ <i>meta-characters</i>) and <b>can't</b> be escaped. These are:
+ <p><table>
+ <tr><td><b>*</b></td>
+     <td>Matches 0 or more instances of any character.</td></tr>
+ <tr><td><b>?</b></td>
+     <td>Matches exactly one instances of any character.</td></tr>
+ <tr><td><b>[</b><i>chars</i><b>]</b></td>
+     <td>Matches one instance of any character that appears
+     between the brackets.</td></tr>
+ <tr><td><b>[!</b><i>chars</i><b>]</b></td>
+     <td>Matches one instance of any character that does not appear
+     between the brackets after the exclamation mark.</td></tr>
+ </table><p>
+ Internally individual character comparisons are done calling
+ fncharmatch(), so its rules apply here too. Note that path
+ separators and dots don't stop a meta-character from matching
+ further portions of the filename.
+<p class="sec_header">Returns:</p>non zero if pattern matches filename, zero otherwise.
+<p class="sec_header">See Also:</p>fncharmatch().
+<p class="sec_header">Throws:</p>Nothing.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">version</span>(<span class="i">Win32</span>)
+{
+    <span class="i">fnmatch</span>(<span class="sl">"foo.bar"</span>, <span class="sl">"*"</span>) =&gt; <span class="n">1</span>
+    <span class="i">fnmatch</span>(<span class="sl">r"foo/foo\bar"</span>, <span class="sl">"f*b*r"</span>) =&gt; <span class="n">1</span>
+    <span class="i">fnmatch</span>(<span class="sl">"foo.bar"</span>, <span class="sl">"f?bar"</span>) =&gt; <span class="n">0</span>
+    <span class="i">fnmatch</span>(<span class="sl">"Goo.bar"</span>, <span class="sl">"[fg]???bar"</span>) =&gt; <span class="n">1</span>
+    <span class="i">fnmatch</span>(<span class="sl">r"d:\foo\bar"</span>, <span class="sl">"d*foo?bar"</span>) =&gt; <span class="n">1</span>
+}
+<span class="k">version</span>(<span class="i">linux</span>)
+{
+    <span class="i">fnmatch</span>(<span class="sl">"Go*.bar"</span>, <span class="sl">"[fg]???bar"</span>) =&gt; <span class="n">0</span>
+    <span class="i">fnmatch</span>(<span class="sl">"/foo*home/bar"</span>, <span class="sl">"?foo*bar"</span>) =&gt; <span class="n">1</span>
+    <span class="i">fnmatch</span>(<span class="sl">"foobar"</span>, <span class="sl">"foo?bar"</span>) =&gt; <span class="n">1</span>
+}
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:9" href="./htmlsrc/std.path.html#L992" kind="unittest" beg="992" end="1017">unittest</a>; <a title="Permalink to this symbol" href="#unittest:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L992">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="expandTilde" href="./htmlsrc/std.path.html#L1078" kind="function" beg="1078" end="1102">expandTilde</a><span class="params">(string <em>inputPath</em>)</span>; <a title="Permalink to this symbol" href="#expandTilde" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L1078">#</a></dt>
+<dd class="ddef">
+<div class="summary">Performs tilde expansion in paths.</div>
+There are two ways of using tilde expansion in a path. One
+ involves using the tilde alone or followed by a path separator. In
+ this case, the tilde will be expanded with the value of the
+ environment variable <i>HOME</i>.  The second way is putting
+ a username after the tilde (i.e. <tt>~john/Mail</tt>). Here,
+ the username will be searched for in the user database
+ (i.e. <tt>/etc/passwd</tt> on Unix systems) and will expand to
+ whatever path is stored there.  The username is considered the
+ string after the tilde ending at the first instance of a path
+ separator.
+<p class="bl"/>
+ Note that using the <i>~user</i> syntax may give different
+ values from just <i>~</i> if the environment variable doesn't
+ match the value stored in the user database.
+<p class="bl"/>
+ When the environment variable version is used, the path won't
+ be modified if the environment variable doesn't exist or it
+ is empty. When the database version is used, the path won't be
+ modified if the user doesn't exist in the database or there is
+ not enough memory to perform the query.
+<p class="sec_header">Returns:</p>inputPath with the tilde expanded, or just inputPath
+ if it could not be expanded.
+ For Windows, expandTilde() merely returns its argument inputPath.
+<p class="sec_header">Throws:</p>std.outofmemory.OutOfMemoryException if there is not enough
+ memory to perform
+ the database lookup for the <i>~user</i> syntax.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">path</span>;
+
+<span class="k">void</span> <span class="i">process_file</span>(<span class="i">string</span> <span class="i">filename</span>)
+{
+    <span class="i">string</span> <span class="i">path</span> = <span class="i">expandTilde</span>(<span class="i">filename</span>);
+    ...
+}
+</pre>
+<p class="bl"/>
+ <pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">path</span>;
+
+<span class="i">string</span> <span class="i">RESOURCE_DIR_TEMPLATE</span> = <span class="sl">"~/.applicationrc"</span>;
+<span class="i">string</span> <span class="i">RESOURCE_DIR</span>;    <span class="lc">// This gets expanded in main().</span>
+
+<span class="k">int</span> <span class="i">main</span>(<span class="i">string</span>[] <span class="i">args</span>)
+{
+    <span class="i">RESOURCE_DIR</span> = <span class="i">expandTilde</span>(<span class="i">RESOURCE_DIR_TEMPLATE</span>);
+    ...
+}
+</pre>
+<p class="sec_header">Version:</p>Available since v0.143.
+<p class="sec_header">Authors:</p>Grzegorz Adam Hankiewicz, Thomas Kühne.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:10" href="./htmlsrc/std.path.html#L1105" kind="unittest" beg="1105" end="1142">unittest</a>; <a title="Permalink to this symbol" href="#unittest:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L1105">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="expandFromEnvironment" href="./htmlsrc/std.path.html#L1150" kind="function" beg="1150" end="1161">expandFromEnvironment</a><span class="params">(string <em>path</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#expandFromEnvironment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L1150">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replaces the tilde from path with the environment variable HOME.</div></dd>
+<dt class="decl">string <a class="symbol _function" name="combineCPathWithDPath" href="./htmlsrc/std.path.html#L1171" kind="function" beg="1171" end="1192">combineCPathWithDPath</a><span class="params">(char* <em>c_path</em>, string <em>path</em>, int <em>char_pos</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#combineCPathWithDPath" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L1171">#</a></dt>
+<dd class="ddef">
+<div class="summary">Joins a path from a C string to the remainder of path.</div>
+The last path separator from c_path is discarded. The result
+ is joined to path[char_pos .. length] if char_pos is smaller
+ than length, otherwise path is not appended to c_path.</dd>
+<dt class="decl">string <a class="symbol _function" name="expandFromDatabase" href="./htmlsrc/std.path.html#L1198" kind="function" beg="1198" end="1262">expandFromDatabase</a><span class="params">(string <em>path</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#expandFromDatabase" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.path.html#L1198">#</a></dt>
+<dd class="ddef">
+<div class="summary">Replaces the tilde from path with the path from the user database.</div></dd></dl>
+</div>
+<div id="footer">
+  <p>Placed into public domain.
+        www.digitalmars.com</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:42 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.contracts</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.contracts";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.contracts.html" class="symbol">std.contracts</a></h1>
+  
+<div class="summary">This module defines tools for effecting contracts and enforcing
+ predicates (a la <span class="d_param">assert</span>).</div>
+<p class="sec_header">Synopsis:</p><pre class="d_code">
+<span class="i">string</span> <span class="i">synopsis</span>()
+{
+    <span class="i">FILE</span>* <span class="i">f</span> = <span class="i">enforce</span>(<span class="i">fopen</span>(<span class="sl">"some/file"</span>));
+    <span class="lc">// f is not null from here on</span>
+    <span class="i">FILE</span>* <span class="i">g</span> = <span class="i">enforceEx</span>!(<span class="i">WriteException</span>)(<span class="i">fopen</span>(<span class="sl">"some/other/file"</span>, <span class="sl">"w"</span>));
+    <span class="lc">// g is not null from here on</span>
+    <span class="i">Exception</span> <span class="i">e</span> = <span class="i">collectException</span>(<span class="i">write</span>(<span class="i">g</span>, <span class="i">readln</span>(<span class="i">f</span>)));
+    <span class="k">if</span> (<span class="i">e</span>)
+    {
+        ... <span class="i">an</span> <span class="i">exception</span> <span class="i">occurred</span>...
+    }
+    <span class="k">char</span>[] <span class="i">line</span>;
+    <span class="i">enforce</span>(<span class="i">readln</span>(<span class="i">f</span>, <span class="i">line</span>));
+    <span class="k">return</span> <span class="i">assumeUnique</span>(<span class="i">line</span>);
+}
+</pre>
+<p class="sec_header">Author:</p><a href="http://erdani.org">Andrei Alexandrescu</a>
+<p class="sec_header">Credits:</p>Brad Roberts came up with the name <span class="d_param">contracts</span>.
+<dl>
+<dt class="decl">T <a class="symbol _function" name="enforce" href="./htmlsrc/std.contracts.html#L85" kind="function" beg="85" end="90">enforce</a><span class="tparams">(T, string file = __FILE__, int line = __LINE__)</span><span class="params">(T <em>value</em>, lazy string <em>msg</em> = null)</span>; <a title="Permalink to this symbol" href="#enforce" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L85">#</a></dt>
+<dd class="ddef">
+<div class="summary">If <span class="d_param">value</span> is nonzero, returns it. Otherwise, throws
+ <span class="d_param">new Exception(msg)</span>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">f</span> = <span class="i">enforce</span>(<span class="i">fopen</span>(<span class="sl">"data.txt"</span>));
+<span class="k">auto</span> <span class="i">line</span> = <span class="i">readln</span>(<span class="i">f</span>);
+<span class="i">enforce</span>(<span class="i">line</span>.<span class="i">length</span>); <span class="lc">// expect a non-empty line</span>
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="bailOut" href="./htmlsrc/std.contracts.html#L92" kind="function" beg="92" end="96">bailOut</a><span class="params">(string <em>file</em>, int <em>line</em>, string <em>msg</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#bailOut" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L92">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T <a class="symbol _function" name="enforce:2" href="./htmlsrc/std.contracts.html#L109" kind="function" beg="109" end="113">enforce</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>, lazy Exception <em>ex</em>)</span>; <a title="Permalink to this symbol" href="#enforce:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L109">#</a></dt>
+<dd class="ddef">
+<div class="summary">If <span class="d_param">value</span> is nonzero, returns it. Otherwise, throws
+ <span class="d_param">ex</span>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">f</span> = <span class="i">enforce</span>(<span class="i">fopen</span>(<span class="sl">"data.txt"</span>));
+<span class="k">auto</span> <span class="i">line</span> = <span class="i">readln</span>(<span class="i">f</span>);
+<span class="i">enforce</span>(<span class="i">line</span>.<span class="i">length</span>, <span class="k">new</span> <span class="i">IOException</span>); <span class="lc">// expect a non-empty line</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.contracts.html#L115" kind="unittest" beg="115" end="126">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L115">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T <a class="symbol _function" name="errnoEnforce" href="./htmlsrc/std.contracts.html#L142" kind="function" beg="142" end="147">errnoEnforce</a><span class="tparams">(T, string file = __FILE__, int line = __LINE__)</span><span class="params">(T <em>value</em>, lazy string <em>msg</em> = null)</span>; <a title="Permalink to this symbol" href="#errnoEnforce" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L142">#</a></dt>
+<dd class="ddef">
+<div class="summary">If <span class="d_psymbol"><i>value</i></span> is nonzero, returns it. Otherwise, throws <span class="d_psymbol"><i>new
+ErrnoException(msg)</i></span>. The <span class="d_psymbol"><i>ErrnoException</i></span> class assumes that the
+last operation has set <span class="d_psymbol"><i>errno</i></span> to an error code.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">f</span> = <span class="i">errnoEnforce</span>(<span class="i">fopen</span>(<span class="sl">"data.txt"</span>));
+<span class="k">auto</span> <span class="i">line</span> = <span class="i">readln</span>(<span class="i">f</span>);
+<span class="i">enforce</span>(<span class="i">line</span>.<span class="i">length</span>); <span class="lc">// expect a non-empty line</span>
+</pre></dd>
+<dt class="decl">template <a class="symbol _template" name="enforceEx" href="./htmlsrc/std.contracts.html#L160" kind="template" beg="160" end="167">enforceEx</a><span class="tparams">(E)</span>; <a title="Permalink to this symbol" href="#enforceEx" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L160">#</a></dt>
+<dd class="ddef">
+<div class="summary">If <span class="d_param">value</span> is nonzero, returns it. Otherwise, throws
+ <span class="d_param">new E(msg)</span>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">f</span> = <span class="i">enforceEx</span>!(<span class="i">FileMissingException</span>)(<span class="i">fopen</span>(<span class="sl">"data.txt"</span>));
+<span class="k">auto</span> <span class="i">line</span> = <span class="i">readln</span>(<span class="i">f</span>);
+<span class="i">enforceEx</span>!(<span class="i">DataCorruptionException</span>)(<span class="i">line</span>.<span class="i">length</span>);
+</pre>
+<dl>
+<dt class="decl">T <a class="symbol _function" name="enforceEx.enforceEx" href="./htmlsrc/std.contracts.html#L162" kind="function" beg="162" end="166">enforceEx</a><span class="tparams">(T)</span><span class="params">(T <em>value</em>, lazy string <em>msg</em> = "")</span>; <a title="Permalink to this symbol" href="#enforceEx.enforceEx" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L162">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.contracts.html#L169" kind="unittest" beg="169" end="182">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L169">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Exception <a class="symbol _function" name="collectException" href="./htmlsrc/std.contracts.html#L196" kind="function" beg="196" end="207">collectException</a><span class="tparams">(T)</span><span class="params">(lazy T <em>expression</em>, ref T <em>target</em>)</span>; <a title="Permalink to this symbol" href="#collectException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L196">#</a></dt>
+<dd class="ddef">
+<div class="summary">Evaluates <span class="d_param">expression</span>. If evaluation throws an exception,
+ return that exception. Otherwise, deposit the resulting value in
+ <span class="d_param">target</span> and return <span class="d_param">null</span>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = <span class="k">new</span> <span class="k">int</span>[<span class="n">3</span>];
+<span class="k">int</span> <span class="i">b</span>;
+<span class="k">assert</span>(<span class="i">collectException</span>(<span class="i">a</span>[<span class="n">4</span>], <span class="i">b</span>));
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:3" href="./htmlsrc/std.contracts.html#L209" kind="unittest" beg="209" end="215">unittest</a>; <a title="Permalink to this symbol" href="#unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L209">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Exception <a class="symbol _function" name="collectException:2" href="./htmlsrc/std.contracts.html#L222" kind="function" beg="222" end="233">collectException</a><span class="tparams">(T)</span><span class="params">(lazy T <em>expression</em>)</span>; <a title="Permalink to this symbol" href="#collectException:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L222">#</a></dt>
+<dd class="ddef">
+<div class="summary">Evaluates <span class="d_param">expression</span>. If evaluation throws an
+ exception, return that exception. Otherwise, return <span class="d_param">
+ null</span>. <span class="d_param">T</span> can be <span class="d_param">void</span>.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:4" href="./htmlsrc/std.contracts.html#L235" kind="unittest" beg="235" end="239">unittest</a>; <a title="Permalink to this symbol" href="#unittest:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L235">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T</dt>[] <a class="symbol _function" name="assumeUnique" href="./htmlsrc/std.contracts.html#L314" kind="function" beg="314" end="319">assumeUnique</a><span class="tparams">(T)</span><span class="params">(ref T[] <em>array</em>)</span>; <a title="Permalink to this symbol" href="#assumeUnique" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L314">#</a></dl>
+<dd class="ddef">
+<div class="summary">Casts a mutable array to an invariant array in an idiomatic
+ manner. Technically, <span class="d_param">assumeUnique</span> just inserts a cast,
+ but its name documents assumptions on the part of the
+ caller. <span class="d_param">assumeUnique(arr)</span> should only be called when
+ there are no more active mutable aliases to elements of <span class="d_param">
+ arr</span>. To strenghten this assumption, <span class="d_param">assumeUnique(arr)</span>
+ also clears <span class="d_param">arr</span> before returning. Essentially <span class="d_param">
+ assumeUnique(arr)</span> indicates commitment from the caller that there
+ is no more mutable access to any of <span class="d_param">arr</span>'s elements
+ (transitively), and that all future accesses will be done through
+ the invariant array returned by <span class="d_param">assumeUnique</span>.</div>
+Typically, <span class="d_param">assumeUnique</span> is used to return arrays from
+ functions that have allocated and built them.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="i">string</span> <span class="i">letters</span>()
+{
+  <span class="k">char</span>[] <span class="i">result</span> = <span class="k">new</span> <span class="k">char</span>[<span class="cl">'z'</span> - <span class="cl">'a'</span> + <span class="n">1</span>];
+  <span class="k">foreach</span> (<span class="i">i</span>, <span class="k">ref</span> <span class="i">e</span>; <span class="i">result</span>)
+  {
+    <span class="i">e</span> = <span class="cl">'a'</span> + <span class="i">i</span>;
+  }
+  <span class="k">return</span> <span class="i">assumeUnique</span>(<span class="i">result</span>);
+}
+</pre>
+<p class="bl"/>
+ The use in the example above is correct because <span class="d_param">result</span>
+ was private to <span class="d_param">letters</span> and is unaccessible in writing
+ after the function returns. The following example shows an
+ incorrect use of <span class="d_param">assumeUnique</span>.
+<p class="sec_header">Bad:</p><pre class="d_code">
+<span class="k">private</span> <span class="k">char</span>[] <span class="i">buffer</span>;
+<span class="i">string</span> <span class="i">letters</span>(<span class="k">char</span> <span class="i">first</span>, <span class="k">char</span> <span class="i">last</span>)
+{
+  <span class="k">if</span> (<span class="i">first</span> &gt;= <span class="i">last</span>) <span class="k">return</span> <span class="k">null</span>; <span class="lc">// fine</span>
+  <span class="k">auto</span> <span class="i">sneaky</span> = <span class="i">buffer</span>;
+  <span class="i">sneaky</span>.<span class="i">length</span> = <span class="i">last</span> - <span class="i">first</span> + <span class="n">1</span>;
+  <span class="k">foreach</span> (<span class="i">i</span>, <span class="k">ref</span> <span class="i">e</span>; <span class="i">sneaky</span>)
+  {
+    <span class="i">e</span> = <span class="cl">'a'</span> + <span class="i">i</span>;
+  }
+  <span class="k">return</span> <span class="i">assumeUnique</span>(<span class="i">sneaky</span>); <span class="lc">// BAD</span>
+}
+</pre>
+<p class="bl"/>
+ The example above wreaks havoc on client code because it is
+ modifying arrays that callers considered immutable. To obtain an
+ invariant array from the writable array <span class="d_param">buffer</span>, replace
+ the last line with:
+ <pre class="d_code">
+<span class="k">return</span> <span class="i">to</span>!(<span class="i">string</span>)(<span class="i">sneaky</span>); <span class="lc">// not that sneaky anymore</span>
+</pre>
+<p class="bl"/>
+ The call will duplicate the array appropriately.
+ 
+ Checking for uniqueness during compilation is possible in certain
+ cases (see the <span class="d_param">unique</span> and <span class="d_param">lent</span> keywords in
+ the <a href="http://archjava.fluid.cs.cmu.edu/papers/oopsla02.pdf">ArchJava</a>
+ language), but complicates the language considerably. The downside
+ of <span class="d_param">assumeUnique</span>'s convention-based usage is that at this
+ time there is no formal checking of the correctness of the
+ assumption; on the upside, the idiomatic use of <span class="d_param">
+ assumeUnique</span> is simple and rare enough to be tolerable.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:5" href="./htmlsrc/std.contracts.html#L321" kind="unittest" beg="321" end="326">unittest</a>; <a title="Permalink to this symbol" href="#unittest:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L321">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T[U]</dt> <a class="symbol _function" name="assumeUnique:2" href="./htmlsrc/std.contracts.html#L328" kind="function" beg="328" end="333">assumeUnique</a><span class="tparams">(T, U)</span><span class="params">(ref T[U] <em>array</em>)</span>; <a title="Permalink to this symbol" href="#assumeUnique:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L328">#</a>)
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:6" href="./htmlsrc/std.contracts.html#L335" kind="unittest" beg="335" end="340">unittest</a>; <a title="Permalink to this symbol" href="#unittest:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L335">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="pointsTo" href="./htmlsrc/std.contracts.html#L348" kind="function" beg="348" end="374">pointsTo</a><span class="tparams">(S, T)</span><span class="params">(ref S <em>source</em>, ref T <em>target</em>)</span>; <a title="Permalink to this symbol" href="#pointsTo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L348">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns <span class="d_psymbol"><i>true</i></span> if <span class="d_psymbol"><i>source</i></span>'s representation embeds a pointer
+that points to <span class="d_psymbol"><i>target</i></span>'s representation or somewhere inside
+it. Note that evaluating <span class="d_psymbol"><i>pointsTo(x, x)</i></span> checks whether <span class="d_psymbol"><i>x</i></span> has
+internal pointers.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:7" href="./htmlsrc/std.contracts.html#L376" kind="unittest" beg="376" end="400">unittest</a>; <a title="Permalink to this symbol" href="#unittest:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L376">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">class <a class="symbol _class" name="ErrnoException" href="./htmlsrc/std.contracts.html#L405" kind="class" beg="405" end="423">ErrnoException</a> : Exception; <a title="Permalink to this symbol" href="#ErrnoException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L405">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown if errors that set <span class="d_psymbol"><i>errno</i></span> happen.</div>
+<dl>
+<dt class="decl">uint <a class="symbol _variable" name="ErrnoException.errno" href="./htmlsrc/std.contracts.html#L407" kind="variable" beg="407" end="407">errno</a>; <a title="Permalink to this symbol" href="#ErrnoException.errno" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L407">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="ErrnoException.this" href="./htmlsrc/std.contracts.html#L408" kind="ctor" beg="408" end="422">this</a><span class="params">(string <em>msg</em>, string <em>file</em> = null, uint <em>line</em> = 0)</span>; <a title="Permalink to this symbol" href="#ErrnoException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.contracts.html#L408">#</a></dt>
+<dd class="ddef"></dd></dl></dd>)
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:37 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

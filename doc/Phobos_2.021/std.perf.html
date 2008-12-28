@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.perf</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.perf";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.perf.html" class="symbol">std.perf</a></h1>
+  
+<div class="summary">Platform-independent performance measurement and timing classes.</div>
+<span class="d_param">PerformanceCounter</span> is the main platform-independent timer class provided, 
+ covering the most typical use case, measuring elapsed wall-clock time.
+<p class="bl"/>
+ The module also provides several Windows-specific timers that can
+ be useful in specialized situations.
+<p class="sec_header">Synopsis:</p><pre class="d_code">
+<span class="k">alias</span> <span class="i">PerformanceCounter</span>.<span class="i">interval_t</span> <span class="i">interval_t</span>;
+<span class="k">auto</span> <span class="i">timer</span> = <span class="k">new</span> <span class="i">PerformanceCounter</span>;
+<span class="i">timer</span>.<span class="i">start</span>();
+<span class="lc">// do computation</span>
+<span class="i">timer</span>.<span class="i">stop</span>();
+<span class="i">interval_t</span> <span class="i">elapsedMsec</span> = <span class="i">timer</span>.<span class="i">milliseconds</span>;
+<span class="i">writefln</span>(<span class="sl">"Time elapsed: %s msec"</span>, <span class="i">elapsedMsec</span>);
+</pre>
+ In particular note that <span class="d_param">stop()</span> must be called
+ before querying the elapsed time.
+<p class="bl"/>
+ These classes were ported to D from the 
+ <a href="http://stlsoft.org/">STLSoft C++ libraries</a>,
+ which were documented in the article 
+ "<a href="http://www.windevnet.com/documents/win0305a/">
+ Win32 Performance Measurement Options</a>",
+ May 2003 issue of Windows Develper Network.
+<p class="sec_header">Author:</p>Matthew Wilson
+<dl>
+<dt class="decl">struct <a class="symbol _struct" name="timeval" href="./htmlsrc/std.perf.html#L784" kind="struct" beg="784" end="788">timeval</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#timeval" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L784">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">int <a class="symbol _variable" name="timeval.tv_sec" href="./htmlsrc/std.perf.html#L786" kind="variable" beg="786" end="786">tv_sec</a>; <a title="Permalink to this symbol" href="#timeval.tv_sec" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L786">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _variable" name="timeval.tv_usec" href="./htmlsrc/std.perf.html#L787" kind="variable" beg="787" end="787">tv_usec</a>; <a title="Permalink to this symbol" href="#timeval.tv_usec" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L787">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="timezone" href="./htmlsrc/std.perf.html#L789" kind="struct" beg="789" end="793">timezone</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#timezone" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L789">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">int <a class="symbol _variable" name="timezone.tz_minuteswest" href="./htmlsrc/std.perf.html#L791" kind="variable" beg="791" end="791">tz_minuteswest</a>; <a title="Permalink to this symbol" href="#timezone.tz_minuteswest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L791">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _variable" name="timezone.tz_dsttime" href="./htmlsrc/std.perf.html#L792" kind="variable" beg="792" end="792">tz_dsttime</a>; <a title="Permalink to this symbol" href="#timezone.tz_dsttime" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L792">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">void <a class="symbol _function" name="gettimeofday" href="./htmlsrc/std.perf.html#L794" kind="function" beg="794" end="794">gettimeofday</a><span class="params">(timeval * <em>tv</em>, timezone * <em>tz</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="linkg">extern(C)</span>]</span> <a title="Permalink to this symbol" href="#gettimeofday" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L794">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">class <a class="symbol _class" name="PerformanceCounter" href="./htmlsrc/std.perf.html#L799" kind="class" beg="799" end="857">PerformanceCounter</a>; <a title="Permalink to this symbol" href="#PerformanceCounter" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L799">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias timeval <a class="symbol _alias" name="PerformanceCounter.epoch_type" href="./htmlsrc/std.perf.html#L805" kind="alias" beg="805" end="805">epoch_type</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PerformanceCounter.epoch_type" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L805">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias long <a class="symbol _alias" name="PerformanceCounter.interval_t" href="./htmlsrc/std.perf.html#L807" kind="alias" beg="807" end="807">interval_t</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#PerformanceCounter.interval_t" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L807">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="PerformanceCounter.start" href="./htmlsrc/std.perf.html#L810" kind="function" beg="810" end="815">start</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#PerformanceCounter.start" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L810">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="PerformanceCounter.stop" href="./htmlsrc/std.perf.html#L817" kind="function" beg="817" end="822">stop</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#PerformanceCounter.stop" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L817">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">interval_t <a class="symbol _function" name="PerformanceCounter.periodCount" href="./htmlsrc/std.perf.html#L825" kind="function" beg="825" end="828">periodCount</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#PerformanceCounter.periodCount" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L825">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">interval_t <a class="symbol _function" name="PerformanceCounter.seconds" href="./htmlsrc/std.perf.html#L830" kind="function" beg="830" end="836">seconds</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#PerformanceCounter.seconds" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L830">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">interval_t <a class="symbol _function" name="PerformanceCounter.milliseconds" href="./htmlsrc/std.perf.html#L838" kind="function" beg="838" end="844">milliseconds</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#PerformanceCounter.milliseconds" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L838">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">interval_t <a class="symbol _function" name="PerformanceCounter.microseconds" href="./htmlsrc/std.perf.html#L846" kind="function" beg="846" end="852">microseconds</a><span class="params">()</span>; <span class="attrs">[<span class="prot">public</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#PerformanceCounter.microseconds" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L846">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">epoch_type <a class="symbol _variable" name="PerformanceCounter.m_start" href="./htmlsrc/std.perf.html#L855" kind="variable" beg="855" end="855">m_start</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PerformanceCounter.m_start" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L855">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">epoch_type <a class="symbol _variable" name="PerformanceCounter.m_end" href="./htmlsrc/std.perf.html#L856" kind="variable" beg="856" end="856">m_end</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PerformanceCounter.m_end" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L856">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.perf.html#L859" kind="unittest" beg="859" end="885">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.perf.html#L859">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:42 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

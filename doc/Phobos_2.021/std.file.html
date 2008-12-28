@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.file</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.file";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.file.html" class="symbol">std.file</a></h1>
+  
+<div class="summary">Utilities for manipulating files and scanning directories.</div>
+<p class="sec_header">Authors:</p><a href="http://digitalmars.com">Walter Bright</a>, <a href="http://erdani.org">Andrei
+Alexandrescu</a>
+<dl>
+<dt class="decl">class <a class="symbol _class" name="FileException" href="./htmlsrc/std.file.html#L909" kind="class" beg="909" end="930">FileException</a> : Exception; <a title="Permalink to this symbol" href="#FileException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L909">#</a></dt>
+<dd class="ddef">
+<div class="summary"></div>
+<dl>
+<dt class="decl">uint <a class="symbol _variable" name="FileException.errno" href="./htmlsrc/std.file.html#L911" kind="variable" beg="911" end="911">errno</a>; <a title="Permalink to this symbol" href="#FileException.errno" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L911">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="FileException.this" href="./htmlsrc/std.file.html#L913" kind="ctor" beg="913" end="916">this</a><span class="params">(string <em>name</em>)</span>; <a title="Permalink to this symbol" href="#FileException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L913">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="FileException.this:2" href="./htmlsrc/std.file.html#L918" kind="ctor" beg="918" end="921">this</a><span class="params">(string <em>name</em>, string <em>message</em>)</span>; <a title="Permalink to this symbol" href="#FileException.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L918">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="FileException.this:3" href="./htmlsrc/std.file.html#L923" kind="ctor" beg="923" end="929">this</a><span class="params">(string <em>name</em>, uint <em>errno</em>)</span>; <a title="Permalink to this symbol" href="#FileException.this:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L923">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">T <a class="symbol _function" name="cenforce" href="./htmlsrc/std.file.html#L932" kind="function" beg="932" end="936">cenforce</a><span class="tparams">(T)</span><span class="params">(T <em>condition</em>, lazy string <em>name</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#cenforce" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L932">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void[] <a class="symbol _function" name="read" href="./htmlsrc/std.file.html#L945" kind="function" beg="945" end="962">read</a><span class="params">(string <em>name</em>)</span>; <a title="Permalink to this symbol" href="#read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L945">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read a file.</div>
+<p class="sec_header">Returns:</p>array of bytes read</dd>
+<dt class="decl">S <a class="symbol _function" name="readText" href="./htmlsrc/std.file.html#L975" kind="function" beg="975" end="980">readText</a><span class="tparams">(S = string)</span><span class="params">(in string <em>name</em>)</span>; <a title="Permalink to this symbol" href="#readText" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L975">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read and validates (using <a href=std_utf.html#validate>std.utf.validate</a>) a text file. <span class="d_psymbol"><i>
+ S</i></span> can be a type of array of characters of any width and constancy.</div>
+<p class="sec_header">Returns:</p>array of characters read
+<p class="sec_header">Throws:</p><span class="d_psymbol"><i>FileException</i></span> on file error, <span class="d_psymbol"><i>UtfException</i></span> on UTF
+ decoding error.</dd>
+<dt class="decl">void <a class="symbol _function" name="writeImpl" href="./htmlsrc/std.file.html#L984" kind="function" beg="984" end="995">writeImpl</a><span class="params">(in string <em>name</em>, in void[] <em>buffer</em>, in uint <em>mode</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#writeImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L984">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="write" href="./htmlsrc/std.file.html#L1002" kind="function" beg="1002" end="1005">write</a><span class="params">(in string <em>name</em>, in void[] <em>buffer</em>)</span>; <a title="Permalink to this symbol" href="#write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1002">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a file.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="append" href="./htmlsrc/std.file.html#L1011" kind="function" beg="1011" end="1014">append</a><span class="params">(in string <em>name</em>, in void[] <em>buffer</em>)</span>; <a title="Permalink to this symbol" href="#append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1011">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append to a file.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="rename" href="./htmlsrc/std.file.html#L1020" kind="function" beg="1020" end="1023">rename</a><span class="params">(in string <em>from</em>, in string <em>to</em>)</span>; <a title="Permalink to this symbol" href="#rename" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1020">#</a></dt>
+<dd class="ddef">
+<div class="summary">Rename a file.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="remove" href="./htmlsrc/std.file.html#L1029" kind="function" beg="1029" end="1032">remove</a><span class="params">(in string <em>name</em>)</span>; <a title="Permalink to this symbol" href="#remove" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1029">#</a></dt>
+<dd class="ddef">
+<div class="summary">Delete a file.</div></dd>
+<dt class="decl">ulong <a class="symbol _function" name="getSize" href="./htmlsrc/std.file.html#L1039" kind="function" beg="1039" end="1044">getSize</a><span class="params">(in string <em>name</em>)</span>; <a title="Permalink to this symbol" href="#getSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1039">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get file size.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.file.html#L1046" kind="unittest" beg="1046" end="1055">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1046">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="getAttributes" href="./htmlsrc/std.file.html#L1061" kind="function" beg="1061" end="1066">getAttributes</a><span class="params">(in string <em>name</em>)</span>; <a title="Permalink to this symbol" href="#getAttributes" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1061">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get file attributes.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="getTimes" href="./htmlsrc/std.file.html#L1073" kind="function" beg="1073" end="1080">getTimes</a><span class="params">(in string <em>name</em>, out d_time <em>ftc</em>, out d_time <em>fta</em>, out d_time <em>ftm</em>)</span>; <a title="Permalink to this symbol" href="#getTimes" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1073">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get creation/access/modified times of file <span class="d_psymbol"><i>name</i></span>.</div>
+<p class="sec_header">Throws:</p><span class="d_psymbol"><i>FileException</i></span> on error.</dd>
+<dt class="decl">void <a class="symbol _function" name="setTimes" href="./htmlsrc/std.file.html#L1087" kind="function" beg="1087" end="1108">setTimes</a><span class="params">(in string <em>name</em>, d_time <em>fta</em>, d_time <em>ftm</em>)</span>; <a title="Permalink to this symbol" href="#setTimes" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1087">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set access/modified times of file <span class="d_psymbol"><i>name</i></span>.</div>
+<p class="sec_header">Throws:</p><span class="d_psymbol"><i>FileException</i></span> on error.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.file.html#L1110" kind="unittest" beg="1110" end="1121">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1110">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">d_time <a class="symbol _function" name="lastModified" href="./htmlsrc/std.file.html#L1128" kind="function" beg="1128" end="1133">lastModified</a><span class="params">(in string <em>name</em>)</span>; <a title="Permalink to this symbol" href="#lastModified" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1128">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the time of the last modification of file <span class="d_psymbol"><i>name</i></span>. If the
+   file does not exist, throws a <span class="d_psymbol"><i>FileException</i></span>.</div></dd>
+<dt class="decl">d_time <a class="symbol _function" name="lastModified:2" href="./htmlsrc/std.file.html#L1163" kind="function" beg="1163" end="1169">lastModified</a><span class="params">(string <em>name</em>, d_time <em>returnIfMissing</em>)</span>; <a title="Permalink to this symbol" href="#lastModified:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1163">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the time of the last modification of file <span class="d_psymbol"><i>name</i></span>. If the
+file does not exist, returns <span class="d_psymbol"><i>returnIfMissing</i></span>.</div>
+A frequent usage pattern occurs in build automation tools such as
+<a href="http://www.gnu.org/software/make">make</a> or <a href="http://
+en.wikipedia.org/wiki/Apache_Ant">ant</a>. To check whether file <span class="d_psymbol"><i>
+target</i></span> must be rebuilt from file <span class="d_psymbol"><i>source</i></span> (i.e., <span class="d_psymbol"><i>target</i></span> is
+older than <span class="d_psymbol"><i>source</i></span> or does not exist), use the comparison below.
+<p class="bl"/>
+<pre class="d_code">
+<span class="k">if</span> (<span class="i">lastModified</span>(<span class="i">source</span>) &gt;= <span class="i">lastModified</span>(<span class="i">target</span>, <span class="i">d_time</span>.<span class="i">min</span>))
+{
+    ... <span class="i">must</span> (<span class="i">re</span>)<span class="i">build</span> ...
+}
+<span class="k">else</span>
+{
+    ... <span class="i">target</span><span class="cl">'s</span> <span class="i">up</span>-<span class="i">to</span>-<span class="i">date</span> ...
+}
+</pre>
+<p class="bl"/>
+The code above throws a <span class="d_psymbol"><i>FileException</i></span> if <span class="d_psymbol"><i>source</i></span> does not
+exist (as it should). On the other hand, the <span class="d_psymbol"><i>d_time.min</i></span> default
+makes a non-existing <span class="d_psymbol"><i>target</i></span> seem infinitely old so the test
+correctly prompts building it.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:3" href="./htmlsrc/std.file.html#L1171" kind="unittest" beg="1171" end="1178">unittest</a>; <a title="Permalink to this symbol" href="#unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1171">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="exists" href="./htmlsrc/std.file.html#L1184" kind="function" beg="1184" end="1187">exists</a><span class="params">(in string <em>name</em>)</span>; <a title="Permalink to this symbol" href="#exists" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1184">#</a></dt>
+<dd class="ddef">
+<div class="summary">Does file/directory exist?</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:4" href="./htmlsrc/std.file.html#L1189" kind="unittest" beg="1189" end="1196">unittest</a>; <a title="Permalink to this symbol" href="#unittest:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1189">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="isfile" href="./htmlsrc/std.file.html#L1202" kind="function" beg="1202" end="1205">isfile</a><span class="params">(in string <em>name</em>)</span>; <a title="Permalink to this symbol" href="#isfile" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1202">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is name a file?</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="isdir" href="./htmlsrc/std.file.html#L1211" kind="function" beg="1211" end="1214">isdir</a><span class="params">(in string <em>name</em>)</span>; <a title="Permalink to this symbol" href="#isdir" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1211">#</a></dt>
+<dd class="ddef">
+<div class="summary">Is name a directory?</div></dd>
+<dt class="decl">void <a class="symbol _function" name="chdir" href="./htmlsrc/std.file.html#L1220" kind="function" beg="1220" end="1223">chdir</a><span class="params">(string <em>pathname</em>)</span>; <a title="Permalink to this symbol" href="#chdir" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1220">#</a></dt>
+<dd class="ddef">
+<div class="summary">Change directory.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="mkdir" href="./htmlsrc/std.file.html#L1229" kind="function" beg="1229" end="1232">mkdir</a><span class="params">(string <em>pathname</em>)</span>; <a title="Permalink to this symbol" href="#mkdir" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1229">#</a></dt>
+<dd class="ddef">
+<div class="summary">Make directory.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="mkdirRecurse" href="./htmlsrc/std.file.html#L1238" kind="function" beg="1238" end="1243">mkdirRecurse</a><span class="params">(string <em>pathname</em>)</span>; <a title="Permalink to this symbol" href="#mkdirRecurse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1238">#</a></dt>
+<dd class="ddef">
+<div class="summary">Make directory and all parent directories as needed.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="rmdir" href="./htmlsrc/std.file.html#L1249" kind="function" beg="1249" end="1252">rmdir</a><span class="params">(string <em>pathname</em>)</span>; <a title="Permalink to this symbol" href="#rmdir" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1249">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove directory.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="rmdirRecurse" href="./htmlsrc/std.file.html#L1259" kind="function" beg="1259" end="1268">rmdirRecurse</a><span class="params">(string <em>pathname</em>)</span>; <a title="Permalink to this symbol" href="#rmdirRecurse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1259">#</a></dt>
+<dd class="ddef">
+<div class="summary">Remove directory and all of its content and subdirectories,
+recursively.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:5" href="./htmlsrc/std.file.html#L1270" kind="unittest" beg="1270" end="1277">unittest</a>; <a title="Permalink to this symbol" href="#unittest:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1270">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="getcwd" href="./htmlsrc/std.file.html#L1283" kind="function" beg="1283" end="1289">getcwd</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#getcwd" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1283">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get current directory.</div></dd>
+<dt class="decl">struct <a class="symbol _struct" name="DirEntry" href="./htmlsrc/std.file.html#L1295" kind="struct" beg="1295" end="1363">DirEntry</a>; <a title="Permalink to this symbol" href="#DirEntry" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1295">#</a></dt>
+<dd class="ddef">
+<div class="summary">Directory Entry</div>
+<dl>
+<dt class="decl">string <a class="symbol _variable" name="DirEntry.name" href="./htmlsrc/std.file.html#L1297" kind="variable" beg="1297" end="1297">name</a>; <a title="Permalink to this symbol" href="#DirEntry.name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1297">#</a></dt>
+<dd class="ddef">
+<div class="summary">file or directory name</div></dd>
+<dt class="decl">ulong <a class="symbol _variable" name="DirEntry._size" href="./htmlsrc/std.file.html#L1298" kind="variable" beg="1298" end="1298">_size</a>; <a title="Permalink to this symbol" href="#DirEntry._size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1298">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">d_time <a class="symbol _variable" name="DirEntry._creationTime" href="./htmlsrc/std.file.html#L1299" kind="variable" beg="1299" end="1299">_creationTime</a>; <a title="Permalink to this symbol" href="#DirEntry._creationTime" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1299">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">d_time <a class="symbol _variable" name="DirEntry._lastAccessTime" href="./htmlsrc/std.file.html#L1300" kind="variable" beg="1300" end="1300">_lastAccessTime</a>; <a title="Permalink to this symbol" href="#DirEntry._lastAccessTime" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1300">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">d_time <a class="symbol _variable" name="DirEntry._lastWriteTime" href="./htmlsrc/std.file.html#L1301" kind="variable" beg="1301" end="1301">_lastWriteTime</a>; <a title="Permalink to this symbol" href="#DirEntry._lastWriteTime" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1301">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte <a class="symbol _variable" name="DirEntry.d_type" href="./htmlsrc/std.file.html#L1302" kind="variable" beg="1302" end="1302">d_type</a>; <a title="Permalink to this symbol" href="#DirEntry.d_type" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1302">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">struct_stat <a class="symbol _variable" name="DirEntry.statbuf" href="./htmlsrc/std.file.html#L1303" kind="variable" beg="1303" end="1303">statbuf</a>; <a title="Permalink to this symbol" href="#DirEntry.statbuf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1303">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _variable" name="DirEntry.didstat" href="./htmlsrc/std.file.html#L1304" kind="variable" beg="1304" end="1304">didstat</a>; <a title="Permalink to this symbol" href="#DirEntry.didstat" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1304">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="DirEntry.init" href="./htmlsrc/std.file.html#L1306" kind="function" beg="1306" end="1312">init</a><span class="params">(string <em>path</em>, dirent * <em>fd</em>)</span>; <a title="Permalink to this symbol" href="#DirEntry.init" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1306">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="DirEntry.isdir" href="./htmlsrc/std.file.html#L1314" kind="function" beg="1314" end="1317">isdir</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#DirEntry.isdir" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1314">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="DirEntry.isfile" href="./htmlsrc/std.file.html#L1319" kind="function" beg="1319" end="1322">isfile</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#DirEntry.isfile" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1319">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _function" name="DirEntry.size" href="./htmlsrc/std.file.html#L1324" kind="function" beg="1324" end="1328">size</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#DirEntry.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1324">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">d_time <a class="symbol _function" name="DirEntry.creationTime" href="./htmlsrc/std.file.html#L1330" kind="function" beg="1330" end="1334">creationTime</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#DirEntry.creationTime" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1330">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">d_time <a class="symbol _function" name="DirEntry.lastAccessTime" href="./htmlsrc/std.file.html#L1336" kind="function" beg="1336" end="1340">lastAccessTime</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#DirEntry.lastAccessTime" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1336">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">d_time <a class="symbol _function" name="DirEntry.lastWriteTime" href="./htmlsrc/std.file.html#L1342" kind="function" beg="1342" end="1346">lastWriteTime</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#DirEntry.lastWriteTime" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1342">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="DirEntry.ensureStatDone" href="./htmlsrc/std.file.html#L1352" kind="function" beg="1352" end="1362">ensureStatDone</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#DirEntry.ensureStatDone" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1352">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">string[] <a class="symbol _function" name="listdir" href="./htmlsrc/std.file.html#L1370" kind="function" beg="1370" end="1382">listdir</a><span class="params">(string <em>pathname</em>)</span>; <a title="Permalink to this symbol" href="#listdir" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1370">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return contents of directory.</div></dd>
+<dt class="decl">string[] <a class="symbol _function" name="listdir:2" href="./htmlsrc/std.file.html#L1384" kind="function" beg="1384" end="1400">listdir</a><span class="params">(string <em>pathname</em>, string <em>pattern</em>)</span>; <a title="Permalink to this symbol" href="#listdir:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1384">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string[] <a class="symbol _function" name="listdir:3" href="./htmlsrc/std.file.html#L1402" kind="function" beg="1402" end="1418">listdir</a><span class="params">(string <em>pathname</em>, RegExp <em>r</em>)</span>; <a title="Permalink to this symbol" href="#listdir:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1402">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="listdir:4" href="./htmlsrc/std.file.html#L1420" kind="function" beg="1420" end="1428">listdir</a><span class="params">(string <em>pathname</em>, bool delegate(string filename) <em>callback</em>)</span>; <a title="Permalink to this symbol" href="#listdir:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1420">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="listdir:5" href="./htmlsrc/std.file.html#L1430" kind="function" beg="1430" end="1445">listdir</a><span class="params">(string <em>pathname</em>, bool delegate(DirEntry* de) <em>callback</em>)</span>; <a title="Permalink to this symbol" href="#listdir:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1430">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="copy" href="./htmlsrc/std.file.html#L1451" kind="function" beg="1451" end="1504">copy</a><span class="params">(in string <em>from</em>, in string <em>to</em>)</span>; <a title="Permalink to this symbol" href="#copy" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1451">#</a></dt>
+<dd class="ddef">
+<div class="summary">Copy a file. File timestamps are preserved.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:6" href="./htmlsrc/std.file.html#L1510" kind="unittest" beg="1510" end="1531">unittest</a>; <a title="Permalink to this symbol" href="#unittest:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1510">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:7" href="./htmlsrc/std.file.html#L1533" kind="unittest" beg="1533" end="1544">unittest</a>; <a title="Permalink to this symbol" href="#unittest:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1533">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">enum <a class="symbol _enum" name="SpanMode" href="./htmlsrc/std.file.html#L1550" kind="enum" beg="1550" end="1561">SpanMode</a>; <a title="Permalink to this symbol" href="#SpanMode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1550">#</a></dt>
+<dd class="ddef">
+<div class="summary">Dictates directory spanning policy for <span class="d_param">dirEntries</span> (see below).</div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="SpanMode.shallow" href="./htmlsrc/std.file.html#L1553" kind="enummem" beg="1553" end="1553">shallow</a> <a title="Permalink to this symbol" href="#SpanMode.shallow" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1553">#</a></dt>
+<dd class="ddef">
+<div class="summary">Only spans one directory.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="SpanMode.depth" href="./htmlsrc/std.file.html#L1557" kind="enummem" beg="1557" end="1557">depth</a> <a title="Permalink to this symbol" href="#SpanMode.depth" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1557">#</a></dt>
+<dd class="ddef">
+<div class="summary">Spans the directory depth-first, i.e. the content of any
+     subdirectory is spanned before that subdirectory itself. Useful
+     e.g. when recursively deleting files.</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="SpanMode.breadth" href="./htmlsrc/std.file.html#L1560" kind="enummem" beg="1560" end="1560">breadth</a> <a title="Permalink to this symbol" href="#SpanMode.breadth" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1560">#</a></dt>
+<dd class="ddef">
+<div class="summary">Spans the directory breadth-first, i.e. the content of any
+     subdirectory is spanned right after that subdirectory itself.</div></dd></dl></dd>
+<dt class="decl">struct <a class="symbol _struct" name="DirIterator" href="./htmlsrc/std.file.html#L1563" kind="struct" beg="1563" end="1629">DirIterator</a>; <a title="Permalink to this symbol" href="#DirIterator" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1563">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">string <a class="symbol _variable" name="DirIterator.pathname" href="./htmlsrc/std.file.html#L1565" kind="variable" beg="1565" end="1565">pathname</a>; <a title="Permalink to this symbol" href="#DirIterator.pathname" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1565">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">SpanMode <a class="symbol _variable" name="DirIterator.mode" href="./htmlsrc/std.file.html#L1566" kind="variable" beg="1566" end="1566">mode</a>; <a title="Permalink to this symbol" href="#DirIterator.mode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1566">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="DirIterator.doIt" href="./htmlsrc/std.file.html#L1568" kind="function" beg="1568" end="1584">doIt</a><span class="tparams">(D)</span><span class="params">(D <em>dg</em>, DirEntry * <em>de</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#DirIterator.doIt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1568">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="DirIterator.opApply" href="./htmlsrc/std.file.html#L1586" kind="function" beg="1586" end="1628">opApply</a><span class="tparams">(D)</span><span class="params">(D <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#DirIterator.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1586">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">DirIterator <a class="symbol _function" name="dirEntries" href="./htmlsrc/std.file.html#L1659" kind="function" beg="1659" end="1665">dirEntries</a><span class="params">(string <em>path</em>, SpanMode <em>mode</em>)</span>; <a title="Permalink to this symbol" href="#dirEntries" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1659">#</a></dt>
+<dd class="ddef">
+<div class="summary">Iterates a directory using foreach. The iteration variable can be
+ of type <span class="d_param">string</span> if only the name is needed, or <span class="d_param">
+ DirEntry</span> if additional details are needed. The span mode dictates
+ the how the directory is traversed. The name of the directory entry
+ includes the <span class="d_param">path</span> prefix.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="lc">// Iterate a directory in depth</span>
+<span class="k">foreach</span> (<span class="i">string</span> <span class="i">name</span>; <span class="i">dirEntries</span>(<span class="sl">"destroy/me"</span>, <span class="i">SpanMode</span>.<span class="i">depth</span>))
+{
+    <span class="i">remove</span>(<span class="i">name</span>);
+}
+<span class="lc">// Iterate a directory in breadth</span>
+<span class="k">foreach</span> (<span class="i">string</span> <span class="i">name</span>; <span class="i">dirEntries</span>(<span class="sl">"."</span>, <span class="i">SpanMode</span>.<span class="i">breadth</span>))
+{
+    <span class="i">writeln</span>(<span class="i">name</span>);
+}
+<span class="lc">// Iterate a directory and get detailed info about it</span>
+<span class="k">foreach</span> (<span class="i">DirEntry</span> <span class="i">e</span>; <span class="i">dirEntries</span>(<span class="sl">"dmd-testing"</span>, <span class="i">SpanMode</span>.<span class="i">breadth</span>))
+{
+    <span class="i">writeln</span>(<span class="i">e</span>.<span class="i">name</span>, <span class="sl">"\t"</span>, <span class="i">e</span>.<span class="i">size</span>);
+}
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:8" href="./htmlsrc/std.file.html#L1667" kind="unittest" beg="1667" end="1692">unittest</a>; <a title="Permalink to this symbol" href="#unittest:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.file.html#L1667">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:39 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

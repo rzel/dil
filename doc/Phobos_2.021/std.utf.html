@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.utf</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.utf";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.utf.html" class="symbol">std.utf</a></h1>
+  
+<div class="summary">Encode and decode UTF-8, UTF-16 and UTF-32 strings.</div>
+For Win32 systems, the C wchar_t type is UTF-16 and corresponds to the D
+ wchar type.
+ For linux systems, the C wchar_t type is UTF-32 and corresponds to
+ the D utf.dchar type. 
+<p class="bl"/>
+ UTF character support is restricted to (\u0000 &lt;= character &lt;= \U0010FFFF).
+<p class="sec_header">See Also:</p><a href="http://en.wikipedia.org/wiki/Unicode">Wikipedia</a><br>
+        <a href="http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8">http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8</a><br>
+        <a href="http://anubis.dkuug.dk/JTC1/SC2/WG2/docs/n1335">http://anubis.dkuug.dk/JTC1/SC2/WG2/docs/n1335</a>
+<dl>
+<dt class="decl">class <a class="symbol _class" name="UtfError" href="./htmlsrc/std.utf.html#L50" kind="class" beg="50" end="59">UtfError</a> : Error; <span class="attrs">[<span class="stc">deprecated</span>]</span> <a title="Permalink to this symbol" href="#UtfError" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L50">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">size_t <a class="symbol _variable" name="UtfError.idx" href="./htmlsrc/std.utf.html#L52" kind="variable" beg="52" end="52">idx</a>; <a title="Permalink to this symbol" href="#UtfError.idx" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L52">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="UtfError.this" href="./htmlsrc/std.utf.html#L54" kind="ctor" beg="54" end="58">this</a><span class="params">(string <em>s</em>, size_t <em>i</em>)</span>; <a title="Permalink to this symbol" href="#UtfError.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L54">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="UtfException" href="./htmlsrc/std.utf.html#L65" kind="class" beg="65" end="74">UtfException</a> : Exception; <a title="Permalink to this symbol" href="#UtfException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L65">#</a></dt>
+<dd class="ddef">
+<div class="summary">Exception class that is thrown upon any errors.</div>
+<dl>
+<dt class="decl">size_t <a class="symbol _variable" name="UtfException.idx" href="./htmlsrc/std.utf.html#L67" kind="variable" beg="67" end="67">idx</a>; <a title="Permalink to this symbol" href="#UtfException.idx" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L67">#</a></dt>
+<dd class="ddef">
+<div class="summary">index in string of where error occurred</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="UtfException.this" href="./htmlsrc/std.utf.html#L69" kind="ctor" beg="69" end="73">this</a><span class="params">(string <em>s</em>, size_t <em>i</em>)</span>; <a title="Permalink to this symbol" href="#UtfException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L69">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">bool <a class="symbol _function" name="isValidDchar" href="./htmlsrc/std.utf.html#L86" kind="function" beg="86" end="96">isValidDchar</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#isValidDchar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L86">#</a></dt>
+<dd class="ddef">
+<div class="summary">Test if c is a valid UTF-32 character.</div>
+\uFFFE and \uFFFF are considered valid by this function,
+ as they are permitted for internal use by an application,
+ but they are not allowed for interchange by the Unicode standard.
+<p class="sec_header">Returns:</p>true if it is, false if not.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.utf.html#L98" kind="unittest" beg="98" end="103">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L98">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte[256] <a class="symbol _variable" name="UTF8stride" href="./htmlsrc/std.utf.html#L106" kind="variable" beg="106" end="124">UTF8stride</a>; <span class="attrs">[<span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#UTF8stride" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L106">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="stride" href="./htmlsrc/std.utf.html#L134" kind="function" beg="134" end="137">stride</a><span class="params">(in char[] <em>s</em>, size_t <em>i</em>)</span>; <a title="Permalink to this symbol" href="#stride" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L134">#</a></dt>
+<dd class="ddef">
+<div class="summary">stride() returns the length of a UTF-8 sequence starting at index i
+ in string s.</div>
+<p class="sec_header">Returns:</p>The number of bytes in the UTF-8 sequence or
+        0xFF meaning s[i] is not the start of of UTF-8 sequence.</dd>
+<dt class="decl">uint <a class="symbol _function" name="stride:2" href="./htmlsrc/std.utf.html#L144" kind="function" beg="144" end="148">stride</a><span class="params">(in wchar[] <em>s</em>, size_t <em>i</em>)</span>; <a title="Permalink to this symbol" href="#stride:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L144">#</a></dt>
+<dd class="ddef">
+<div class="summary">stride() returns the length of a UTF-16 sequence starting at index i
+ in string s.</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="stride:3" href="./htmlsrc/std.utf.html#L156" kind="function" beg="156" end="159">stride</a><span class="params">(in dchar[] <em>s</em>, size_t <em>i</em>)</span>; <a title="Permalink to this symbol" href="#stride:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L156">#</a></dt>
+<dd class="ddef">
+<div class="summary">stride() returns the length of a UTF-32 sequence starting at index i
+ in string s.</div>
+<p class="sec_header">Returns:</p>The return value will always be 1.</dd>
+<dt class="decl">size_t <a class="symbol _function" name="toUCSindex" href="./htmlsrc/std.utf.html#L167" kind="function" beg="167" end="182">toUCSindex</a><span class="params">(in char[] <em>s</em>, size_t <em>i</em>)</span>; <a title="Permalink to this symbol" href="#toUCSindex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L167">#</a></dt>
+<dt class="decl">size_t <a class="symbol _function" name="toUCSindex:2" href="./htmlsrc/std.utf.html#L186" kind="function" beg="186" end="201">toUCSindex</a><span class="params">(in wchar[] <em>s</em>, size_t <em>i</em>)</span>; <a title="Permalink to this symbol" href="#toUCSindex:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L186">#</a></dt>
+<dt class="decl">size_t <a class="symbol _function" name="toUCSindex:3" href="./htmlsrc/std.utf.html#L205" kind="function" beg="205" end="208">toUCSindex</a><span class="params">(in dchar[] <em>s</em>, size_t <em>i</em>)</span>; <a title="Permalink to this symbol" href="#toUCSindex:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L205">#</a></dt>
+<dd class="ddef">
+<div class="summary">Given an index i into an array of characters s[],
+ and assuming that index i is at the start of a UTF character,
+ determine the number of UCS characters up to that index i.</div></dd>
+<dt class="decl">size_t <a class="symbol _function" name="toUTFindex" href="./htmlsrc/std.utf.html#L214" kind="function" beg="214" end="226">toUTFindex</a><span class="params">(in char[] <em>s</em>, size_t <em>n</em>)</span>; <a title="Permalink to this symbol" href="#toUTFindex" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L214">#</a></dt>
+<dt class="decl">size_t <a class="symbol _function" name="toUTFindex:2" href="./htmlsrc/std.utf.html#L230" kind="function" beg="230" end="240">toUTFindex</a><span class="params">(in wchar[] <em>s</em>, size_t <em>n</em>)</span>; <a title="Permalink to this symbol" href="#toUTFindex:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L230">#</a></dt>
+<dt class="decl">size_t <a class="symbol _function" name="toUTFindex:3" href="./htmlsrc/std.utf.html#L244" kind="function" beg="244" end="247">toUTFindex</a><span class="params">(in dchar[] <em>s</em>, size_t <em>n</em>)</span>; <a title="Permalink to this symbol" href="#toUTFindex:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L244">#</a></dt>
+<dd class="ddef">
+<div class="summary">Given a UCS index n into an array of characters s[], return the UTF index.</div></dd>
+<dt class="decl">dchar <a class="symbol _function" name="decode" href="./htmlsrc/std.utf.html#L257" kind="function" beg="257" end="342">decode</a><span class="params">(in char[] <em>s</em>, inout size_t <em>idx</em>)</span>; <a title="Permalink to this symbol" href="#decode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L257">#</a></dt>
+<dt class="decl">dchar <a class="symbol _function" name="decode:2" href="./htmlsrc/std.utf.html#L399" kind="function" beg="399" end="452">decode</a><span class="params">(in wchar[] <em>s</em>, inout size_t <em>idx</em>)</span>; <a title="Permalink to this symbol" href="#decode:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L399">#</a></dt>
+<dt class="decl">dchar <a class="symbol _function" name="decode:3" href="./htmlsrc/std.utf.html#L456" kind="function" beg="456" end="473">decode</a><span class="params">(in dchar[] <em>s</em>, inout size_t <em>idx</em>)</span>; <a title="Permalink to this symbol" href="#decode:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L456">#</a></dt>
+<dd class="ddef">
+<div class="summary">Decodes and returns character starting at s[idx]. idx is advanced past the
+ decoded character. If the character is not well formed, a UtfException is
+ thrown and idx remains unchanged.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.utf.html#L344" kind="unittest" beg="344" end="395">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L344">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="encode" href="./htmlsrc/std.utf.html#L482" kind="function" beg="482" end="528">encode</a><span class="params">(inout char[] <em>s</em>, dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#encode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L482">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="encode:2" href="./htmlsrc/std.utf.html#L551" kind="function" beg="551" end="573">encode</a><span class="params">(inout wchar[] <em>s</em>, dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#encode:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L551">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="encode:3" href="./htmlsrc/std.utf.html#L577" kind="function" beg="577" end="585">encode</a><span class="params">(inout dchar[] <em>s</em>, dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#encode:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L577">#</a></dt>
+<dd class="ddef">
+<div class="summary">Encodes character c and appends it to array s[].</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:3" href="./htmlsrc/std.utf.html#L530" kind="unittest" beg="530" end="547">unittest</a>; <a title="Permalink to this symbol" href="#unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L530">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte <a class="symbol _function" name="codeLength" href="./htmlsrc/std.utf.html#L592" kind="function" beg="592" end="612">codeLength</a><span class="tparams">(C)</span><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#codeLength" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L592">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the code length of <span class="d_psymbol"><i>c</i></span> in the encoding using <span class="d_psymbol"><i>C</i></span> as a
+code point. The code is returned in character count, not in bytes.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="validate" href="./htmlsrc/std.utf.html#L622" kind="function" beg="622" end="629">validate</a><span class="tparams">(S)</span><span class="params">(in S <em>s</em>)</span>; <a title="Permalink to this symbol" href="#validate" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L622">#</a></dt>
+<dd class="ddef">
+<div class="summary">Checks to see if string is well formed or not. <span class="d_psymbol"><i>S</i></span> can be an array
+ of <span class="d_psymbol"><i>char</i></span>, <span class="d_psymbol"><i>wchar</i></span>, or <span class="d_psymbol"><i>dchar</i></span>. Throws a <span class="d_psymbol"><i>UtfException</i></span>
+ if it is not. Use to check all untrusted input for correctness.</div></dd>
+<dt class="decl">char[] <a class="symbol _function" name="toUTF8" href="./htmlsrc/std.utf.html#L633" kind="function" beg="633" end="667">toUTF8</a><span class="params">(char[4] <em>buf</em>, dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#toUTF8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L633">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="toUTF8:2" href="./htmlsrc/std.utf.html#L673" kind="function" beg="673" end="681">toUTF8</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toUTF8:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L673">#</a></dt>
+<dt class="decl">string <a class="symbol _function" name="toUTF8:3" href="./htmlsrc/std.utf.html#L685" kind="function" beg="685" end="709">toUTF8</a><span class="params">(const( wchar)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toUTF8:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L685">#</a></dt>
+<dt class="decl">string <a class="symbol _function" name="toUTF8:4" href="./htmlsrc/std.utf.html#L713" kind="function" beg="713" end="737">toUTF8</a><span class="params">(const( dchar)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toUTF8:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L713">#</a></dt>
+<dd class="ddef">
+<div class="summary">Encodes string s into UTF-8 and returns the encoded string.</div></dd>
+<dt class="decl">wchar[] <a class="symbol _function" name="toUTF16" href="./htmlsrc/std.utf.html#L741" kind="function" beg="741" end="759">toUTF16</a><span class="params">(wchar[2] <em>buf</em>, dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#toUTF16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L741">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">wstring <a class="symbol _function" name="toUTF16:2" href="./htmlsrc/std.utf.html#L767" kind="function" beg="767" end="789">toUTF16</a><span class="params">(const( char)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toUTF16:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L767">#</a></dt>
+<dt class="decl">wchar*</dt> <a class="symbol _function" name="toUTF16z" href="./htmlsrc/std.utf.html#L793" kind="function" beg="793" end="816">toUTF16z</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toUTF16z" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L793">#</a></dl>
+<dt class="decl">wstring <a class="symbol _function" name="toUTF16:3" href="./htmlsrc/std.utf.html#L820" kind="function" beg="820" end="828">toUTF16</a><span class="params">(wstring <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toUTF16:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L820">#</a></dt>
+<dt class="decl">wstring <a class="symbol _function" name="toUTF16:4" href="./htmlsrc/std.utf.html#L832" kind="function" beg="832" end="844">toUTF16</a><span class="params">(const( dchar)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toUTF16:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L832">#</a></dt>
+<dd class="ddef">
+<div class="summary">Encodes string s into UTF-16 and returns the encoded string.
+ toUTF16z() is suitable for calling the 'W' functions in the Win32 API that take
+ an LPWSTR or LPCWSTR argument.</div></dd>
+<dt class="decl">dstring <a class="symbol _function" name="toUTF32" href="./htmlsrc/std.utf.html#L852" kind="function" beg="852" end="869">toUTF32</a><span class="params">(const( char)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toUTF32" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L852">#</a></dt>
+<dt class="decl">dstring <a class="symbol _function" name="toUTF32:2" href="./htmlsrc/std.utf.html#L873" kind="function" beg="873" end="890">toUTF32</a><span class="params">(const( wchar)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toUTF32:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L873">#</a></dt>
+<dt class="decl">dstring <a class="symbol _function" name="toUTF32:3" href="./htmlsrc/std.utf.html#L894" kind="function" beg="894" end="902">toUTF32</a><span class="params">(dstring <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toUTF32:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L894">#</a></dt>
+<dd class="ddef">
+<div class="summary">Encodes string s into UTF-32 and returns the encoded string.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:4" href="./htmlsrc/std.utf.html#L906" kind="unittest" beg="906" end="965">unittest</a>; <a title="Permalink to this symbol" href="#unittest:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.utf.html#L906">#</a></dt>
+<dd class="ddef"></dd>)
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:47 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

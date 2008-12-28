@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.random</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.random";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.random.html" class="symbol">std.random</a></h1>
+  
+<div class="summary">Facilities for random number generation. The old-style functions
+<span class="d_param">rand_seed</span> and <span class="d_param">rand</span> will soon be deprecated as
+they rely on global state and as such are subjected to various
+thread-related issues.</div>
+The new-style generator objects hold their own state so they are
+immune of threading issues. The generators feature a number of
+well-known and well-documented methods of generating random
+numbers. An overall fast and reliable means to generate random numbers
+is the <span class="d_param">Mt19937</span> generator, which derives its name from
+"<a href="http://math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html">Mersenne
+Twister</a> with a period of 2 to the power of 19937". In
+memory-constrained situations, <a href="http://
+en.wikipedia.org/wiki/Linear_congruential_generator">linear
+congruential</a> generators such as <span class="d_psymbol"><i>MinstdRand0</i></span> and <span class="d_psymbol"><i>MinstdRand</i></span>
+might be useful. The standard library provides an alias <span class="d_param">
+Random</span> for whichever generator it finds the most fit for the target
+environment.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="i">Random</span> <span class="i">gen</span>;
+<span class="lc">// Generate a uniformly-distributed integer in the range [0, 15]</span>
+<span class="k">auto</span> <span class="i">i</span> = <span class="i">uniform</span>!(<span class="k">int</span>)(<span class="i">gen</span>, <span class="n">0</span>, <span class="n">15</span>);
+<span class="lc">// Generate a uniformly-distributed real in the range [0, 100)</span>
+<span class="k">auto</span> <span class="i">r</span> = <span class="i">uniform</span>!(<span class="k">real</span>)(<span class="i">gen</span>, <span class="n">0.0L</span>, <span class="n">100.0L</span>);
+</pre>
+<p class="bl"/>
+In addition to random number generators, this module features
+distributions, which skew a generator's output statistical
+distribution in various ways. So far the uniform distribution for
+integers and real numbers have been implemented.
+<p class="sec_header">Author:</p><a href="http://erdani.org">Andrei Alexandrescu</a>
+<p class="sec_header">Credits:</p>The entire random number library architecture is derived from the
+excellent <a href="http://
+open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2461.pdf">C++0X</a> random
+number facility proposed by Jens Maurer and contributed to by
+researchers at the Fermi laboratory.
+<dl>
+<dt class="decl">struct <a class="symbol _struct" name="LinearCongruentialEngine" href="./htmlsrc/std.random.html#L125" kind="struct" beg="125" end="207">LinearCongruentialEngine</a><span class="tparams">(UIntType, UIntType a, UIntType c, UIntType m)</span>; <a title="Permalink to this symbol" href="#LinearCongruentialEngine" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L125">#</a></dt>
+<dd class="ddef">
+<div class="summary">Linear Congruential generator.</div>
+<dl>
+<dt class="decl">alias UIntType <a class="symbol _alias" name="LinearCongruentialEngine.ResultType" href="./htmlsrc/std.random.html#L128" kind="alias" beg="128" end="128">ResultType</a>; <a title="Permalink to this symbol" href="#LinearCongruentialEngine.ResultType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L128">#</a></dt>
+<dd class="ddef">
+<div class="summary">Alias for the generated type <span class="d_param">UIntType</span>.</div></dd>
+<dt class="decl">bool <a class="symbol _variable" name="LinearCongruentialEngine.hasFixedRange" href="./htmlsrc/std.random.html#L132" kind="variable" beg="132" end="132">hasFixedRange</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#LinearCongruentialEngine.hasFixedRange" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L132">#</a></dt>
+<dd class="ddef">
+<div class="summary">Does this generator have a fixed range? (<span class="d_param">true</span>).</div></dd>
+<dt class="decl">ResultType <a class="symbol _variable" name="LinearCongruentialEngine.min" href="./htmlsrc/std.random.html#L134" kind="variable" beg="134" end="134">min</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#LinearCongruentialEngine.min" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L134">#</a></dt>
+<dd class="ddef">
+<div class="summary">Lowest generated value.</div></dd>
+<dt class="decl">ResultType <a class="symbol _variable" name="LinearCongruentialEngine.max" href="./htmlsrc/std.random.html#L136" kind="variable" beg="136" end="136">max</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#LinearCongruentialEngine.max" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L136">#</a></dt>
+<dd class="ddef">
+<div class="summary">Highest generated value.</div></dd>
+<dt class="decl">UIntType <a class="symbol _variable" name="LinearCongruentialEngine.multiplier" href="./htmlsrc/std.random.html#L141" kind="variable" beg="141" end="146">multiplier</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#LinearCongruentialEngine.multiplier" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L141">#</a></dt>
+<dt class="decl">UIntType <a class="symbol _variable" name="LinearCongruentialEngine.increment" href="./htmlsrc/std.random.html#L141" kind="variable" beg="141" end="146">increment</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#LinearCongruentialEngine.increment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L141">#</a></dt>
+<dt class="decl">UIntType <a class="symbol _variable" name="LinearCongruentialEngine.modulus" href="./htmlsrc/std.random.html#L141" kind="variable" beg="141" end="146">modulus</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#LinearCongruentialEngine.modulus" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L141">#</a></dt>
+<dd class="ddef">
+<div class="summary">The parameters of this distribution. The random number is <span class="d_param">x =
+        (x * a + c) % m</span>.</div></dd>
+<dt class="decl">LinearCongruentialEngine <a class="symbol _function" name="LinearCongruentialEngine.opCall" href="./htmlsrc/std.random.html#L158" kind="function" beg="158" end="163">opCall</a><span class="params">(UIntType <em>x0</em> = 1)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#LinearCongruentialEngine.opCall" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L158">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a <span class="d_param">LinearCongruentialEngine</span> generator.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="LinearCongruentialEngine.seed" href="./htmlsrc/std.random.html#L168" kind="function" beg="168" end="176">seed</a><span class="params">(UIntType <em>x0</em> = 1)</span>; <a title="Permalink to this symbol" href="#LinearCongruentialEngine.seed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L168">#</a></dt>
+<dd class="ddef">
+<div class="summary">(Re)seeds the generator.</div></dd>
+<dt class="decl">UIntType <a class="symbol _function" name="LinearCongruentialEngine.next" href="./htmlsrc/std.random.html#L181" kind="function" beg="181" end="188">next</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#LinearCongruentialEngine.next" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L181">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the next number in the random sequence.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="LinearCongruentialEngine.discard" href="./htmlsrc/std.random.html#L193" kind="function" beg="193" end="196">discard</a><span class="params">(ulong <em>n</em>)</span>; <a title="Permalink to this symbol" href="#LinearCongruentialEngine.discard" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L193">#</a></dt>
+<dd class="ddef">
+<div class="summary">Discards next <span class="d_param">n</span> samples.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="LinearCongruentialEngine.opEquals" href="./htmlsrc/std.random.html#L201" kind="function" beg="201" end="204">opEquals</a><span class="params">(LinearCongruentialEngine <em>rhs</em>)</span>; <a title="Permalink to this symbol" href="#LinearCongruentialEngine.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L201">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares against <span class="d_param">rhs</span> for equality.</div></dd>
+<dt class="decl">UIntType <a class="symbol _variable" name="LinearCongruentialEngine._x" href="./htmlsrc/std.random.html#L206" kind="variable" beg="206" end="206">_x</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#LinearCongruentialEngine._x" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L206">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">alias LinearCongruentialEngine!(uint, 16807, 0, 2147483647) <a class="symbol _alias" name="MinstdRand0" href="./htmlsrc/std.random.html#L224" kind="alias" beg="224" end="224">MinstdRand0</a>; <a title="Permalink to this symbol" href="#MinstdRand0" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L224">#</a></dt>
+<dt class="decl">alias LinearCongruentialEngine!(uint, 48271, 0, 2147483647) <a class="symbol _alias" name="MinstdRand" href="./htmlsrc/std.random.html#L226" kind="alias" beg="226" end="226">MinstdRand</a>; <a title="Permalink to this symbol" href="#MinstdRand" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L226">#</a></dt>
+<dd class="ddef">
+<div class="summary">Define <span class="d_param">LinearCongruentialEngine</span> generators with "good"
+   parameters.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="lc">// seed with a constant</span>
+<span class="k">auto</span> <span class="i">rnd0</span> = <span class="i">MinstdRand0</span>(<span class="n">1</span>);
+<span class="k">auto</span> <span class="i">n</span> = <span class="i">rnd0</span>.<span class="i">next</span>; <span class="lc">// same for each run</span>
+<span class="lc">// Seed with an unpredictable value</span>
+<span class="i">rnd0</span>.<span class="i">seed</span>(<span class="i">unpredictableSeed</span>);
+<span class="i">n</span> = <span class="i">rnd0</span>.<span class="i">next</span>; <span class="lc">// different across runs</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.random.html#L228" kind="unittest" beg="228" end="264">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L228">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">struct <a class="symbol _struct" name="MersenneTwisterEngine" href="./htmlsrc/std.random.html#L270" kind="struct" beg="270" end="408">MersenneTwisterEngine</a><span class="tparams">(
+    UIntType, size_t w, size_t n, size_t m, size_t r,
+    UIntType a, size_t u, size_t s,
+    UIntType b, size_t t,
+    UIntType c, size_t l)</span>; <a title="Permalink to this symbol" href="#MersenneTwisterEngine" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L270">#</a></dt>
+<dd class="ddef">
+<div class="summary">The <a href="http://math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html">
+   Mersenne Twister generator</a>.</div>
+<dl>
+<dt class="decl">alias UIntType <a class="symbol _alias" name="MersenneTwisterEngine.ResultType" href="./htmlsrc/std.random.html#L277" kind="alias" beg="277" end="277">ResultType</a>; <a title="Permalink to this symbol" href="#MersenneTwisterEngine.ResultType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L277">#</a></dt>
+<dd class="ddef">
+<div class="summary">Result type (an alias for <span class="d_param">UIntType</span>).</div></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="MersenneTwisterEngine.wordSize" href="./htmlsrc/std.random.html#L284" kind="variable" beg="284" end="284">wordSize</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.wordSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L284">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="MersenneTwisterEngine.stateSize" href="./htmlsrc/std.random.html#L285" kind="variable" beg="285" end="285">stateSize</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.stateSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L285">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="MersenneTwisterEngine.shiftSize" href="./htmlsrc/std.random.html#L286" kind="variable" beg="286" end="286">shiftSize</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.shiftSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L286">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="MersenneTwisterEngine.maskBits" href="./htmlsrc/std.random.html#L287" kind="variable" beg="287" end="287">maskBits</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.maskBits" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L287">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">UIntType <a class="symbol _variable" name="MersenneTwisterEngine.xorMask" href="./htmlsrc/std.random.html#L288" kind="variable" beg="288" end="288">xorMask</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.xorMask" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L288">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">UIntType <a class="symbol _variable" name="MersenneTwisterEngine.temperingU" href="./htmlsrc/std.random.html#L289" kind="variable" beg="289" end="289">temperingU</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.temperingU" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L289">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="MersenneTwisterEngine.temperingS" href="./htmlsrc/std.random.html#L290" kind="variable" beg="290" end="290">temperingS</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.temperingS" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L290">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">UIntType <a class="symbol _variable" name="MersenneTwisterEngine.temperingB" href="./htmlsrc/std.random.html#L291" kind="variable" beg="291" end="291">temperingB</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.temperingB" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L291">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="MersenneTwisterEngine.temperingT" href="./htmlsrc/std.random.html#L292" kind="variable" beg="292" end="292">temperingT</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.temperingT" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L292">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">UIntType <a class="symbol _variable" name="MersenneTwisterEngine.temperingC" href="./htmlsrc/std.random.html#L293" kind="variable" beg="293" end="293">temperingC</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.temperingC" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L293">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="MersenneTwisterEngine.temperingL" href="./htmlsrc/std.random.html#L294" kind="variable" beg="294" end="294">temperingL</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.temperingL" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L294">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">UIntType <a class="symbol _variable" name="MersenneTwisterEngine.min" href="./htmlsrc/std.random.html#L298" kind="variable" beg="298" end="298">min</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.min" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L298">#</a></dt>
+<dd class="ddef">
+<div class="summary">Smallest generated value (0).</div></dd>
+<dt class="decl">UIntType <a class="symbol _variable" name="MersenneTwisterEngine.max" href="./htmlsrc/std.random.html#L300" kind="variable" beg="300" end="301">max</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.max" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L300">#</a></dt>
+<dd class="ddef">
+<div class="summary">Largest generated value.</div></dd>
+<dt class="decl">UIntType <a class="symbol _variable" name="MersenneTwisterEngine.defaultSeed" href="./htmlsrc/std.random.html#L303" kind="variable" beg="303" end="303">defaultSeed</a>; <span class="attrs">[<span class="stc">static</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.defaultSeed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L303">#</a></dt>
+<dd class="ddef">
+<div class="summary">The default seed value.</div></dd>
+<dt class="decl">MersenneTwisterEngine <a class="symbol _function" name="MersenneTwisterEngine.opCall" href="./htmlsrc/std.random.html#L314" kind="function" beg="314" end="319">opCall</a><span class="params">(ResultType <em>value</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.opCall" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L314">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a MersenneTwisterEngine object</div></dd>
+<dt class="decl">void <a class="symbol _function" name="MersenneTwisterEngine.seed" href="./htmlsrc/std.random.html#L324" kind="function" beg="324" end="346">seed</a><span class="params">(ResultType <em>value</em> = defaultSeed)</span>; <a title="Permalink to this symbol" href="#MersenneTwisterEngine.seed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L324">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a MersenneTwisterEngine object</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="MersenneTwisterEngine.next" href="./htmlsrc/std.random.html#L351" kind="function" beg="351" end="396">next</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#MersenneTwisterEngine.next" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L351">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the next random value.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="MersenneTwisterEngine.discard" href="./htmlsrc/std.random.html#L401" kind="function" beg="401" end="404">discard</a><span class="params">(ulong <em>n</em>)</span>; <a title="Permalink to this symbol" href="#MersenneTwisterEngine.discard" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L401">#</a></dt>
+<dd class="ddef">
+<div class="summary">Discards next <span class="d_param">n</span> samples.</div></dd>
+<dt class="decl">ResultType mt[n] <a class="symbol _variable" name="MersenneTwisterEngine.mt" href="./htmlsrc/std.random.html#L406" kind="variable" beg="406" end="406">mt</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.mt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L406">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _variable" name="MersenneTwisterEngine.mti" href="./htmlsrc/std.random.html#L407" kind="variable" beg="407" end="407">mti</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MersenneTwisterEngine.mti" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L407">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">alias MersenneTwisterEngine!(uint, 32, 624, 397, 31, 0x9908b0df, 11, 7,
+                             0x9d2c5680, 15, 0xefc60000, 18) <a class="symbol _alias" name="Mt19937" href="./htmlsrc/std.random.html#L429" kind="alias" beg="429" end="431">Mt19937</a>; <a title="Permalink to this symbol" href="#Mt19937" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L429">#</a></dt>
+<dd class="ddef">
+<div class="summary">A <span class="d_psymbol"><i>MersenneTwisterEngine</i></span> instantiated with the parameters of the
+original engine <a href="http://math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html">
+MT19937</a>, generating uniformly-distributed 32-bit numbers with a
+period of 2 to the power of 19937. Recommended for random number
+generation unless memory is severely restricted, in which case a <span class="d_psymbol"><i>
+LinearCongruentialEngine</i></span> would be the generator of choice.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="lc">// seed with a constant</span>
+<span class="i">Mt19937</span> <span class="i">gen</span>;
+<span class="k">auto</span> <span class="i">n</span> = <span class="i">gen</span>.<span class="i">next</span>; <span class="lc">// same for each run</span>
+<span class="lc">// Seed with an unpredictable value</span>
+<span class="i">gen</span>.<span class="i">seed</span>(<span class="i">unpredictableSeed</span>);
+<span class="i">n</span> = <span class="i">gen</span>.<span class="i">next</span>; <span class="lc">// different across runs</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.random.html#L433" kind="unittest" beg="433" end="438">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L433">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias Mt19937 <a class="symbol _alias" name="Random" href="./htmlsrc/std.random.html#L448" kind="alias" beg="448" end="448">Random</a>; <a title="Permalink to this symbol" href="#Random" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L448">#</a></dt>
+<dd class="ddef">
+<div class="summary">The "default", "favorite", "suggested" random number generator on the
+current platform. It is a typedef for one of the previously-defined
+generators. You may want to use it if (1) you need to generate some
+nice random numbers, and (2) you don't care for the minutiae of the
+method being used.</div></dd>
+<dt class="decl">uint <a class="symbol _function" name="unpredictableSeed" href="./htmlsrc/std.random.html#L464" kind="function" beg="464" end="473">unpredictableSeed</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#unpredictableSeed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L464">#</a></dt>
+<dd class="ddef">
+<div class="summary">A "good" seed for initializing random number engines. Initializing
+with <span class="d_param">unpredictableSeed</span> makes engines generate different
+random number sequences every run.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">rnd</span> = <span class="i">Random</span>(<span class="i">unpredictableSeed</span>);
+<span class="k">auto</span> <span class="i">n</span> = <span class="i">rnd</span>.<span class="i">next</span>;
+...
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:3" href="./htmlsrc/std.random.html#L475" kind="unittest" beg="475" end="480">unittest</a>; <a title="Permalink to this symbol" href="#unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L475">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">struct <a class="symbol _struct" name="UniformDistribution" href="./htmlsrc/std.random.html#L510" kind="struct" beg="510" end="606">UniformDistribution</a><span class="tparams">(NumberType, string boundaries = "[)</span>"</dt>; <a title="Permalink to this symbol" href="#UniformDistribution" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L510">#</a></dl>
+<dd class="ddef">
+<div class="summary">Generates uniformly-distributed numbers within a range using an
+external generator. The <span class="d_psymbol"><i>boundaries</i></span> parameter controls the shape
+of the interval (open vs. closed on either side). Valid values for <span class="d_psymbol"><i>
+boundaries</i></span> are "[]", "(]", "[)", and "()". The
+default interval is [a, b).</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">a</span> = <span class="k">new</span> <span class="k">double</span>[<span class="n">20</span>];
+<span class="i">Random</span> <span class="i">gen</span>;
+<span class="k">auto</span> <span class="i">rndIndex</span> = <span class="i">UniformDistribution</span>!(<span class="k">uint</span>)(<span class="n">0</span>, <span class="i">a</span>.<span class="i">length</span>);
+<span class="k">auto</span> <span class="i">rndValue</span> = <span class="i">UniformDistribution</span>!(<span class="k">double</span>)(<span class="n">0</span>, <span class="n">1</span>);
+<span class="lc">// Get a random index into the array</span>
+<span class="k">auto</span> <span class="i">i</span> = <span class="i">rndIndex</span>.<span class="i">next</span>(<span class="i">gen</span>);
+<span class="lc">// Get a random probability, i.e., a real number in [0, 1)</span>
+<span class="k">auto</span> <span class="i">p</span> = <span class="i">rndValue</span>.<span class="i">next</span>(<span class="i">gen</span>);
+<span class="lc">// Assign that value to that array element</span>
+<span class="i">a</span>[<span class="i">i</span>] = <span class="i">p</span>;
+<span class="k">auto</span> <span class="i">digits</span> = <span class="i">UniformDistribution</span>!(<span class="k">char</span>, <span class="sl">"[]"</span>)(<span class="cl">'0'</span>, <span class="cl">'9'</span>);
+<span class="k">auto</span> <span class="i">percentages</span> = <span class="i">UniformDistribution</span>!(<span class="k">double</span>, <span class="sl">"(]"</span>)(<span class="n">0.0</span>, <span class="n">100.0</span>);
+<span class="lc">// Get a digit in ['0', '9']</span>
+<span class="k">auto</span> <span class="i">digit</span> = <span class="i">digits</span>.<span class="i">next</span>(<span class="i">gen</span>);
+<span class="lc">// Get a number in (0.0, 100.0]</span>
+<span class="k">auto</span> <span class="i">p</span> = <span class="i">percentages</span>.<span class="i">next</span>(<span class="i">gen</span>);
+</pre>
+<dl>
+<dt class="decl">char <a class="symbol _variable" name="UniformDistribution.leftLim" href="./htmlsrc/std.random.html#L512" kind="variable" beg="512" end="512">leftLim</a>; <span class="attrs">[<span class="stc">manifest</span>]</span> <a title="Permalink to this symbol" href="#UniformDistribution.leftLim" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L512">#</a></dt>
+<dt class="decl">char <a class="symbol _variable" name="UniformDistribution.rightLim" href="./htmlsrc/std.random.html#L512" kind="variable" beg="512" end="512">rightLim</a>; <span class="attrs">[<span class="stc">manifest</span>]</span> <a title="Permalink to this symbol" href="#UniformDistribution.rightLim" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L512">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias NumberType <a class="symbol _alias" name="UniformDistribution.InputType" href="./htmlsrc/std.random.html#L516" kind="alias" beg="516" end="516">InputType</a>; <a title="Permalink to this symbol" href="#UniformDistribution.InputType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L516">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias NumberType <a class="symbol _alias" name="UniformDistribution.ResultType" href="./htmlsrc/std.random.html#L517" kind="alias" beg="517" end="517">ResultType</a>; <a title="Permalink to this symbol" href="#UniformDistribution.ResultType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L517">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">UniformDistribution <a class="symbol _function" name="UniformDistribution.opCall" href="./htmlsrc/std.random.html#L524" kind="function" beg="524" end="539">opCall</a><span class="params">(NumberType <em>a</em>, NumberType <em>b</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#UniformDistribution.opCall" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L524">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a <span class="d_psymbol"><i>UniformDistribution</i></span> able to generate numbers between
+<span class="d_psymbol"><i>a</i></span> and <span class="d_psymbol"><i>b</i></span>. The bounds of the interval are controlled by the
+template argument, e.g. <span class="d_psymbol"><i>UniformDistribution!(double, "[]")(0, 1)</i></span>
+generates numbers in the interval [0.0, 1.0].</div></dd>
+<dt class="decl">ResultType <a class="symbol _function" name="UniformDistribution.a" href="./htmlsrc/std.random.html#L543" kind="function" beg="543" end="543">a</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#UniformDistribution.a" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L543">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the left bound of the random value generated.</div></dd>
+<dt class="decl">ResultType <a class="symbol _function" name="UniformDistribution.b" href="./htmlsrc/std.random.html#L548" kind="function" beg="548" end="548">b</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#UniformDistribution.b" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L548">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the the right bound of the random value generated.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="UniformDistribution.reset" href="./htmlsrc/std.random.html#L553" kind="function" beg="553" end="555">reset</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#UniformDistribution.reset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L553">#</a></dt>
+<dd class="ddef">
+<div class="summary">Does nothing (provided for conformity with other distributions).</div></dd>
+<dt class="decl">ResultType <a class="symbol _function" name="UniformDistribution.next" href="./htmlsrc/std.random.html#L561" kind="function" beg="561" end="586">next</a><span class="tparams">(UniformRandomNumberGenerator)</span><span class="params">(ref UniformRandomNumberGenerator <em>urng</em>)</span>; <a title="Permalink to this symbol" href="#UniformDistribution.next" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L561">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a random number using <span class="d_psymbol"><i>UniformRandomNumberGenerator</i></span> as
+back-end.</div></dd>
+<dt class="decl">NumberType <a class="symbol _variable" name="UniformDistribution._a" href="./htmlsrc/std.random.html#L589" kind="variable" beg="589" end="589">_a</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#UniformDistribution._a" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L589">#</a></dt>
+<dt class="decl">NumberType <a class="symbol _variable" name="UniformDistribution._b" href="./htmlsrc/std.random.html#L589" kind="variable" beg="589" end="589">_b</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#UniformDistribution._b" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L589">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">NumberType <a class="symbol _function" name="UniformDistribution.nextLarger" href="./htmlsrc/std.random.html#L591" kind="function" beg="591" end="597">nextLarger</a><span class="params">(NumberType <em>x</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#UniformDistribution.nextLarger" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L591">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">NumberType <a class="symbol _function" name="UniformDistribution.nextSmaller" href="./htmlsrc/std.random.html#L599" kind="function" beg="599" end="605">nextSmaller</a><span class="params">(NumberType <em>x</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#UniformDistribution.nextSmaller" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L599">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:4" href="./htmlsrc/std.random.html#L608" kind="unittest" beg="608" end="618">unittest</a>; <a title="Permalink to this symbol" href="#unittest:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L608">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:5" href="./htmlsrc/std.random.html#L620" kind="unittest" beg="620" end="629">unittest</a>; <a title="Permalink to this symbol" href="#unittest:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L620">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T1 <a class="symbol _function" name="uniform" href="./htmlsrc/std.random.html#L646" kind="function" beg="646" end="652">uniform</a><span class="tparams">(T1, string boundaries = "[)</span>", UniformRandomNumberGenerator, T2</dt><span class="params">(ref UniformRandomNumberGenerator <em>gen</em>, T1 <em>a</em>, T2 <em>b</em>)</span>; <a title="Permalink to this symbol" href="#uniform" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L646">#</a>)
+<dd class="ddef">
+<div class="summary">Convenience function that generates a number in an interval by
+forwarding to <span class="d_psymbol"><i>UniformDistribution!(T, boundaries)(a, b).next</i></span>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="i">Random</span> <span class="i">gen</span>(<span class="i">unpredictableSeed</span>);
+<span class="lc">// Generate an integer in [0, 1024)</span>
+<span class="k">auto</span> <span class="i">a</span> = <span class="i">uniform</span>(<span class="i">gen</span>, <span class="n">0</span>, <span class="n">1024</span>);
+<span class="lc">// Generate a float in [0, 1)</span>
+<span class="k">auto</span> <span class="i">a</span> = <span class="i">uniform</span>(<span class="i">gen</span>, <span class="n">0.0f</span>, <span class="n">1.0f</span>);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:6" href="./htmlsrc/std.random.html#L654" kind="unittest" beg="654" end="661">unittest</a>; <a title="Permalink to this symbol" href="#unittest:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L654">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="randomShuffle" href="./htmlsrc/std.random.html#L667" kind="function" beg="667" end="675">randomShuffle</a><span class="tparams">(T, SomeRandomGen)</span><span class="params">(T[] <em>array</em>, ref SomeRandomGen <em>r</em>)</span>; <a title="Permalink to this symbol" href="#randomShuffle" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L667">#</a></dt>
+<dd class="ddef">
+<div class="summary">Shuffles elements of <span class="d_psymbol"><i>array</i></span> using <span class="d_psymbol"><i>r</i></span> as a shuffler.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:7" href="./htmlsrc/std.random.html#L677" kind="unittest" beg="677" end="685">unittest</a>; <a title="Permalink to this symbol" href="#unittest:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L677">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="dice" href="./htmlsrc/std.random.html#L701" kind="function" beg="701" end="713">dice</a><span class="tparams">(R)</span><span class="params">(ref R <em>rnd</em>, double[] <em>proportions</em>...)</span>; <a title="Permalink to this symbol" href="#dice" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L701">#</a></dt>
+<dd class="ddef">
+<div class="summary">Throws a dice with relative probabilities stored in <span class="d_psymbol"><i>
+proportions</i></span>. Returns the index in <span class="d_psymbol"><i>proportions</i></span> that was chosen.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">x</span> = <span class="i">dice</span>(<span class="n">0.5</span>, <span class="n">0.5</span>);   <span class="lc">// x is 0 or 1 in equal proportions</span>
+<span class="k">auto</span> <span class="i">y</span> = <span class="i">dice</span>(<span class="n">50</span>, <span class="n">50</span>);     <span class="lc">// y is 0 or 1 in equal proportions</span>
+<span class="k">auto</span> <span class="i">z</span> = <span class="i">dice</span>(<span class="n">70</span>, <span class="n">20</span>, <span class="n">10</span>); <span class="lc">// z is 0 70% of the time, 1 30% of the time,</span>
+                           <span class="lc">// and 2 10% of the time</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:8" href="./htmlsrc/std.random.html#L715" kind="unittest" beg="715" end="721">unittest</a>; <a title="Permalink to this symbol" href="#unittest:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L715">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="seed" href="./htmlsrc/std.random.html#L727" kind="variable" beg="727" end="727">seed</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#seed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L727">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="index" href="./htmlsrc/std.random.html#L728" kind="variable" beg="728" end="728">index</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#index" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L728">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="rand_seed" href="./htmlsrc/std.random.html#L747" kind="function" beg="747" end="751">rand_seed</a><span class="params">(uint <em>seed</em>, uint <em>index</em>)</span>; <a title="Permalink to this symbol" href="#rand_seed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L747">#</a></dt>
+<dd class="ddef">
+<div class="summary">The random number generator is seeded at program startup with a random
+value.  This ensures that each program generates a different sequence
+of random numbers. To generate a repeatable sequence, use <span class="d_psymbol"><i>
+rand_seed()</i></span> to start the sequence. seed and index start it, and each
+successive value increments index.  This means that the <i>n</i>th
+random number of the sequence can be directly generated by passing
+index + <i>n</i> to <span class="d_psymbol"><i>rand_seed()</i></span>.</div>
+<p class="sec_header">Note:</p>This is more random, but slower, than C's <span class="d_psymbol"><i>rand()</i></span> function.
+To use C's <span class="d_psymbol"><i>rand()</i></span> instead, import <span class="d_psymbol"><i>std.c.stdlib</i></span>.
+<p class="sec_header"><span class="red">Bugs:</span></p>Shares a global single state, not multithreaded.  SCHEDULED FOR
+DEPRECATION.</dd>
+<dt class="decl">uint <a class="symbol _function" name="rand" href="./htmlsrc/std.random.html#L759" kind="function" beg="759" end="795">rand</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#rand" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L759">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get the next random number in sequence.</div>
+<p class="sec_header"><span class="red">Bugs:</span></p>Shares a global single state, not multithreaded.
+SCHEDULED FOR DEPRECATION.</dd>
+<dt class="decl">static <a class="symbol _sctor" name="this" href="./htmlsrc/std.random.html#L797" kind="sctor" beg="797" end="822">this</a>(); <a title="Permalink to this symbol" href="#this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L797">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:9" href="./htmlsrc/std.random.html#L825" kind="unittest" beg="825" end="853">unittest</a>; <a title="Permalink to this symbol" href="#unittest:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.random.html#L825">#</a></dt>
+<dd class="ddef"></dd>)
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:42 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

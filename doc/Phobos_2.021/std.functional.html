@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.functional</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.functional";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.functional.html" class="symbol">std.functional</a></h1>
+  
+<div class="summary">Functions that manipulate other functions.</div>
+<p class="sec_header">Author:</p><a href="http://erdani.org">Andrei Alexandrescu</a>
+<dl>
+<dt class="decl">template <a class="symbol _template" name="unaryFun" href="./htmlsrc/std.functional.html#L58" kind="template" beg="58" end="61">unaryFun</a><span class="tparams">(alias comp, bool byRef = false)</span>; <a title="Permalink to this symbol" href="#unaryFun" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L58">#</a></dt>
+<dd class="ddef">
+<div class="summary">Transforms a string representing an expression into a unary
+function. The string must use symbol name <span class="d_psymbol"><i>a</i></span> as the parameter.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">alias</span> <span class="i">unaryFun</span>!(<span class="sl">"(a &amp; 1) == 0"</span>) <span class="i">isEven</span>;
+<span class="k">assert</span>(<span class="i">isEven</span>(<span class="n">2</span>) &amp;&amp; !<span class="i">isEven</span>(<span class="n">1</span>));
+</pre>
+<dl>
+<dt class="decl">alias unaryFunImpl!(comp, byRef).unaryFunUipla <a class="symbol _alias" name="unaryFun.unaryFun" href="./htmlsrc/std.functional.html#L60" kind="alias" beg="60" end="60">unaryFun</a>; <a title="Permalink to this symbol" href="#unaryFun.unaryFun" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L60">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="unaryFunImpl" href="./htmlsrc/std.functional.html#L63" kind="template" beg="63" end="88">unaryFunImpl</a><span class="tparams">(alias comp, bool byRef)</span>; <a title="Permalink to this symbol" href="#unaryFunImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L63">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">void <a class="symbol _function" name="unaryFunImpl.unaryFunUipla" href="./htmlsrc/std.functional.html#L68" kind="function" beg="68" end="71">unaryFunUipla</a><span class="tparams">(ElementType)</span><span class="params">(ref ElementType <em>a</em>)</span>; <a title="Permalink to this symbol" href="#unaryFunImpl.unaryFunUipla" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L68">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.functional.html#L90" kind="unittest" beg="90" end="94">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L90">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="binaryFun" href="./htmlsrc/std.functional.html#L111" kind="template" beg="111" end="114">binaryFun</a><span class="tparams">(alias comp)</span>; <a title="Permalink to this symbol" href="#binaryFun" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L111">#</a></dt>
+<dd class="ddef">
+<div class="summary">Transforms a string representing an expression into a Boolean binary
+predicate. The string must use symbol names <span class="d_psymbol"><i>a</i></span> and <span class="d_psymbol"><i>b</i></span> as the
+compared elements.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">alias</span> <span class="i">binaryFun</span>!(<span class="sl">"a &lt; b"</span>) <span class="i">less</span>;
+<span class="k">assert</span>(<span class="i">less</span>(<span class="n">1</span>, <span class="n">2</span>) &amp;&amp; !<span class="i">less</span>(<span class="n">2</span>, <span class="n">1</span>));
+<span class="k">alias</span> <span class="i">binaryFun</span>!(<span class="sl">"a &gt; b"</span>) <span class="i">greater</span>;
+<span class="k">assert</span>(!<span class="i">greater</span>(<span class="sl">"1"</span>, <span class="sl">"2"</span>) &amp;&amp; <span class="i">greater</span>(<span class="sl">"2"</span>, <span class="sl">"1"</span>));
+</pre>
+<dl>
+<dt class="decl">alias binaryFunImpl!(comp).binaryFun <a class="symbol _alias" name="binaryFun.binaryFun" href="./htmlsrc/std.functional.html#L113" kind="alias" beg="113" end="113">binaryFun</a>; <a title="Permalink to this symbol" href="#binaryFun.binaryFun" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L113">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="binaryFunImpl" href="./htmlsrc/std.functional.html#L116" kind="template" beg="116" end="136">binaryFunImpl</a><span class="tparams">(alias comp)</span>; <a title="Permalink to this symbol" href="#binaryFunImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L116">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">typeof({
+                    static ElementType1 a;
+                    static ElementType2 b;
+                    return mixin(comp);
+                }()) <a class="symbol _function" name="binaryFunImpl.binaryFun" href="./htmlsrc/std.functional.html#L121" kind="function" beg="121" end="130">binaryFun</a><span class="tparams">(ElementType1, ElementType2)</span><span class="params">(ElementType1 <em>a</em>, ElementType2 <em>b</em>)</span>; <a title="Permalink to this symbol" href="#binaryFunImpl.binaryFun" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L121">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.functional.html#L138" kind="unittest" beg="138" end="143">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L138">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="binaryRevertArgs" href="./htmlsrc/std.functional.html#L165" kind="template" beg="165" end="172">binaryRevertArgs</a><span class="tparams">(alias pred)</span>; <a title="Permalink to this symbol" href="#binaryRevertArgs" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L165">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">typeof({ ElementType1 a; ElementType2 b; return pred(b, a);}()) <a class="symbol _function" name="binaryRevertArgs.binaryRevertArgs" href="./htmlsrc/std.functional.html#L167" kind="function" beg="167" end="171">binaryRevertArgs</a><span class="tparams">(ElementType1, ElementType2)</span><span class="params">(ElementType1 <em>a</em>, ElementType2 <em>b</em>)</span>; <a title="Permalink to this symbol" href="#binaryRevertArgs.binaryRevertArgs" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L167">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:3" href="./htmlsrc/std.functional.html#L174" kind="unittest" beg="174" end="184">unittest</a>; <a title="Permalink to this symbol" href="#unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L174">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="not" href="./htmlsrc/std.functional.html#L186" kind="template" beg="186" end="189">not</a><span class="tparams">(alias pred)</span>; <a title="Permalink to this symbol" href="#not" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L186">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">bool <a class="symbol _function" name="not.not" href="./htmlsrc/std.functional.html#L188" kind="function" beg="188" end="188">not</a><span class="tparams">(T...)</span><span class="params">(T <em>args</em>)</span>; <a title="Permalink to this symbol" href="#not.not" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L188">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="Adjoin" href="./htmlsrc/std.functional.html#L191" kind="template" beg="191" end="206">Adjoin</a><span class="tparams">(F...)</span>; <a title="Permalink to this symbol" href="#Adjoin" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L191">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">template <a class="symbol _template" name="Adjoin.For" href="./htmlsrc/std.functional.html#L193" kind="template" beg="193" end="205">For</a><span class="tparams">(V...)</span>; <a title="Permalink to this symbol" href="#Adjoin.For" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L193">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias TypeTuple!() <a class="symbol _alias" name="Adjoin.For.Result" href="./htmlsrc/std.functional.html#L197" kind="alias" beg="197" end="197">Result</a>; <a title="Permalink to this symbol" href="#Adjoin.For.Result" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L197">#</a></dt>
+<dd class="ddef"></dd></dl></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="adjoin" href="./htmlsrc/std.functional.html#L224" kind="template" beg="224" end="236">adjoin</a><span class="tparams">(F...)</span>; <a title="Permalink to this symbol" href="#adjoin" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L224">#</a></dt>
+<dd class="ddef">
+<div class="summary">Takes multiple functions and adjoins them together. The result is a
+<a href=std_typecons.html#Tuple>std.typecons.Tuple</a> with one element per passed-in function. Upon
+invocation, the returned tuple is the adjoined results of all
+functions.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">static</span> <span class="k">bool</span> <span class="i">f1</span>(<span class="k">int</span> <span class="i">a</span>) { <span class="k">return</span> <span class="i">a</span> != <span class="n">0</span>; }
+<span class="k">static</span> <span class="k">int</span> <span class="i">f2</span>(<span class="k">int</span> <span class="i">a</span>) { <span class="k">return</span> <span class="i">a</span> / <span class="n">2</span>; }
+<span class="k">auto</span> <span class="i">x</span> = <span class="i">adjoin</span>!(<span class="i">f1</span>, <span class="i">f2</span>)(<span class="n">5</span>);
+<span class="k">assert</span>(<span class="k">is</span>(<span class="k">typeof</span>(<span class="i">x</span>) == <span class="i">Tuple</span>!(<span class="k">bool</span>, <span class="k">int</span>)));
+<span class="k">assert</span>(<span class="i">x</span>.<span class="i">_0</span> == <span class="k">true</span> &amp;&amp; <span class="i">x</span>.<span class="i">_1</span> == <span class="n">2</span>);
+</pre>
+<dl>
+<dt class="decl">Tuple!(Adjoin!(F).For!(V).Result) <a class="symbol _function" name="adjoin.adjoin" href="./htmlsrc/std.functional.html#L226" kind="function" beg="226" end="235">adjoin</a><span class="tparams">(V...)</span><span class="params">(V <em>a</em>)</span>; <a title="Permalink to this symbol" href="#adjoin.adjoin" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L226">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:4" href="./htmlsrc/std.functional.html#L238" kind="unittest" beg="238" end="246">unittest</a>; <a title="Permalink to this symbol" href="#unittest:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L238">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="compose" href="./htmlsrc/std.functional.html#L302" kind="template" beg="302" end="302">compose</a><span class="tparams">(fun...)</span>; <a title="Permalink to this symbol" href="#compose" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L302">#</a></dt>
+<dd class="ddef">
+<div class="summary">Composes passed-in functions <span class="d_psymbol"><i>fun[0], fun[1], ...</i></span> returning a
+   function <span class="d_psymbol"><i>f(x)</i></span> that in turn returns <span class="d_psymbol"><i>
+   fun[0](fun[1](...(x)))...</i></span>. Each function can be a regular
+   functions, a delegate, or a string.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="lc">// First split a string in whitespace-separated tokens and then</span>
+<span class="lc">// convert each token into an integer</span>
+<span class="k">assert</span>(<span class="i">compose</span>!(<span class="i">map</span>!(<span class="i">to</span>!(<span class="k">int</span>)), <span class="i">split</span>)(<span class="sl">"1 2 3"</span>) == [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]);
+</pre>
+<dl>
+<dt class="decl">alias composeImpl!(fun).doIt <a class="symbol _alias" name="compose.compose" href="./htmlsrc/std.functional.html#L302" kind="alias" beg="302" end="302">compose</a>; <a title="Permalink to this symbol" href="#compose.compose" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L302">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="composeImpl" href="./htmlsrc/std.functional.html#L305" kind="template" beg="305" end="329">composeImpl</a><span class="tparams">(fun...)</span>; <a title="Permalink to this symbol" href="#composeImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L305">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">alias unaryFun!(fun[0]) <a class="symbol _alias" name="composeImpl.fun0" href="./htmlsrc/std.functional.html#L311" kind="alias" beg="311" end="311">fun0</a>; <a title="Permalink to this symbol" href="#composeImpl.fun0" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L311">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias unaryFun!(fun[1]) <a class="symbol _alias" name="composeImpl.fun1" href="./htmlsrc/std.functional.html#L315" kind="alias" beg="315" end="315">fun1</a>; <a title="Permalink to this symbol" href="#composeImpl.fun1" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L315">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">typeof({ E a; return fun0(fun1(a)); }()) <a class="symbol _function" name="composeImpl.doIt" href="./htmlsrc/std.functional.html#L319" kind="function" beg="319" end="322">doIt</a><span class="tparams">(E)</span><span class="params">(E <em>a</em>)</span>; <a title="Permalink to this symbol" href="#composeImpl.doIt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L319">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">template <a class="symbol _template" name="pipe" href="./htmlsrc/std.functional.html#L347" kind="template" beg="347" end="350">pipe</a><span class="tparams">(fun...)</span>; <a title="Permalink to this symbol" href="#pipe" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L347">#</a></dt>
+<dd class="ddef">
+<div class="summary">Pipes functions in sequence. Offers the same functionality as <span class="d_psymbol"><i>
+   compose</i></span>, but with functions specified in reverse order. This may
+   lead to more readable code in some situation because the order of
+   execution is the same as lexical order.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="lc">// Read an entire text file, split the resulting string in</span>
+<span class="lc">// whitespace-separated tokens, and then convert each token into an</span>
+<span class="lc">// integer</span>
+<span class="k">int</span>[] <span class="i">a</span> = <span class="i">pipe</span>!(<span class="i">readText</span>, <span class="i">split</span>, <span class="i">map</span>!(<span class="i">to</span>!(<span class="k">int</span>)))(<span class="sl">"file.txt"</span>);
+</pre>
+<dl>
+<dt class="decl">alias compose!(Reverse!(fun)) <a class="symbol _alias" name="pipe.pipe" href="./htmlsrc/std.functional.html#L349" kind="alias" beg="349" end="349">pipe</a>; <a title="Permalink to this symbol" href="#pipe.pipe" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L349">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:5" href="./htmlsrc/std.functional.html#L352" kind="unittest" beg="352" end="368">unittest</a>; <a title="Permalink to this symbol" href="#unittest:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.functional.html#L352">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:40 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

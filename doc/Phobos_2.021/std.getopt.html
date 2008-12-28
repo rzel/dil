@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.getopt</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.getopt";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.getopt.html" class="symbol">std.getopt</a></h1>
+  
+<div class="summary">Processing of command line options.
+   
+The getopt module implements a <span class="d_psymbol"><i>getopt</i></span> function, which adheres to
+the POSIX syntax for command line options. GNU extensions are
+supported in the form of long options introduced by a double dash
+("--"). Support for bundling of command line options, as was the case
+with the more traditional single-letter approach, is provided but not
+enabled by default.</div>
+<p class="sec_header">Author:</p><a href="http://erdani.org">Andrei Alexandrescu</a>
+<p class="sec_header">Credits:</p>This module and its documentation are inspired by Perl's <a href="http://
+perldoc.perl.org/Getopt/Long.html">Getopt::Long</a> module. The syntax of
+D's <span class="d_psymbol"><i>getopt</i></span> is simpler than its Perl counterpart because <span class="d_psymbol"><i>
+getopt</i></span> infers the expected parameter types from the static types of
+the passed-in pointers.
+<dl>
+<dt class="decl">void <a class="symbol _function" name="getopt" href="./htmlsrc/std.getopt.html#L309" kind="function" beg="309" end="332">getopt</a><span class="tparams">(T...)</span><span class="params">(ref string[] <em>args</em>, T <em>opts</em>)</span>; <a title="Permalink to this symbol" href="#getopt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L309">#</a></dt>
+<dd class="ddef">
+<p class="sec_header">Synopsis:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">getopt</span>;
+
+<span class="i">string</span> <span class="i">data</span> = <span class="sl">"file.dat"</span>;
+<span class="k">int</span> <span class="i">length</span> = <span class="n">24</span>;
+<span class="k">bool</span> <span class="i">verbose</span>;
+
+<span class="k">void</span> <span class="i">main</span>(<span class="i">string</span>[] <span class="i">args</span>)
+{
+  <span class="i">getopt</span>(
+    <span class="i">args</span>,
+    <span class="sl">"length"</span>,  &amp;<span class="i">length</span>,    <span class="lc">// numeric</span>
+    <span class="sl">"file"</span>,    &amp;<span class="i">data</span>,      <span class="lc">// string</span>
+    <span class="sl">"verbose"</span>, &amp;<span class="i">verbose</span>);  <span class="lc">// flag</span>
+  ...
+}
+</pre>
+<p class="bl"/>
+ The <span class="d_psymbol"><i>getopt</i></span> function takes a reference to the command line
+ (as received by <span class="d_psymbol"><i>main</i></span>) as its first argument, and an
+ unbounded number of pairs of strings and pointers. Each string is an
+ option meant to "fill" the value pointed-to by the pointer to its
+ right (the "bound" pointer). The option string in the call to
+ <span class="d_psymbol"><i>getopt</i></span> should not start with a dash.
+<p class="bl"/>
+ In all cases, the command-line options that were parsed and used by
+ <span class="d_psymbol"><i>getopt</i></span> are removed from <span class="d_psymbol"><i>args</i></span>. Whatever in the
+ arguments did not look like an option is left in <span class="d_psymbol"><i>args</i></span> for
+ further processing by the program. Values that were unaffected by the
+ options are not touched, so a common idiom is to initialize options
+ to their defaults and then invoke <span class="d_psymbol"><i>getopt</i></span>. If a
+ command-line argument is recognized as an option with a parameter and
+ the parameter cannot be parsed properly (e.g. a number is expected
+ but not present), a <span class="d_psymbol"><i>ConvError</i></span> exception is thrown.
+<p class="bl"/>
+ Depending on the type of the pointer being bound, <span class="d_psymbol"><i>getopt</i></span>
+ recognizes the following kinds of options:
+<p class="bl"/>
+ <ol><li><i>Boolean options</i>. These are the simplest options; all
+ they do is set a Boolean to <span class="d_psymbol"><i>true</i></span>:
+
+---------
+  bool verbose, debugging;
+  getopt(args, "verbose", &verbose, "debug", &debugging);
+---------
+
+ <li><i>Numeric options.</i> If an option is bound to a numeric type, a
+ number is expected as the next option, or right within the option
+ separated with an "=" sign:
+ 
+---------
+  uint timeout;
+  getopt(args, "timeout", &timeout);
+---------
+
+ Invoking the program with "--timeout=5" or "--timeout 5" will set
+ <span class="d_psymbol"><i>timeout</i></span> to 5.</li>
+ 
+ <ul><li><i>Incremental options.</i> If an option name has a "+" suffix and
+ is bound to a numeric type, then the option's value tracks the number
+ of times the option occurred on the command line:
+
+---------
+  uint paranoid;
+  getopt(args, "paranoid+", &paranoid);
+---------
+
+ Invoking the program with "--paranoid --paranoid --paranoid" will set
+ <span class="d_psymbol"><i>paranoid</i></span> to 3. Note that an incremental option never
+ expects a parameter, e.g. in the command line "--paranoid 42
+ --paranoid", the "42" does not set <span class="d_psymbol"><i>paranoid</i></span> to 42;
+ instead, <span class="d_psymbol"><i>paranoid</i></span> is set to 2 and "42" is not considered
+ as part of the program options.</li></ul>
+ 
+ <li><i>String options.</i> If an option is bound to a string, a string
+ is expected as the next option, or right within the option separated
+ with an "=" sign:
+ 
+---------
+string outputFile;
+getopt(args, "output", &outputFile);
+---------
+
+ Invoking the program with "--output=myfile.txt" or "--output
+ myfile.txt" will set <span class="d_psymbol"><i>outputFile</i></span> to "myfile.txt".</li> If you want to
+ pass a string containing spaces, you need to use the quoting that is
+ appropriate to your shell, e.g. --output='my file.txt'. 
+ 
+ <li><i>Array options.</i> If an option is bound to an array, a new
+ element is appended to the array each time the option occurs:
+ 
+---------
+string[] outputFiles;
+getopt(args, "output", &outputFiles);
+---------
+
+ Invoking the program with "--output=myfile.txt --output=yourfile.txt"
+ or "--output myfile.txt --output yourfile.txt" will set <span class="d_psymbol"><i>
+ outputFiles</i></span> to [ "myfile.txt", "yourfile.txt" ] .</li>
+ 
+ <li><i>Hash options.</i> If an option is bound to an associative
+ array, a string of the form "name=value" is expected as the next
+ option, or right within the option separated with an "=" sign:
+ 
+---------
+double[string] tuningParms;
+getopt(args, "tune", &tuningParms);
+---------
+
+Invoking the program with e.g. "--tune=alpha=0.5 --tune beta=0.6" will
+set <span class="d_psymbol"><i>tuningParms</i></span> to [ "alpha" : 0.5, "beta" : 0.6 ].</li>  In general,
+keys and values can be of any parsable types.
+ 
+<li><i>Delegate options.</i> An option can be bound to a delegate with
+the signature <span class="d_psymbol"><i>void delegate(string option)</i></span> or <span class="d_psymbol"><i>void
+delegate(string option, string value)</i></span>.
+
+<ul><li>In the <span class="d_psymbol"><i>void delegate(string option)</i></span> case, the option
+string (without the leading dash(es)) is passed to the delegate. After
+that, the option string is considered handled and removed from the
+options array.</li>
+ 
+---------
+void main(string[] args)
+{
+  uint verbosityLevel = 1;
+  void myHandler(string option)
+  {
+    if (option == "quiet")
+    {
+      verbosityLevel = 0;
+    }
+    else
+    {
+      assert(option == "verbose");
+      verbosityLevel = 2;
+    }
+  }
+  getopt(args, "verbose", &myHandler, "quiet", &myHandler);
+}
+---------
+
+<li>In the <span class="d_psymbol"><i>void delegate(string option, string value)</i></span> case, the
+option string is handled as an option with one argument, and parsed
+accordingly. The option and its value are passed to the
+delegate. After that, whatever was passed to the delegate is
+considered handled and removed from the list.</li>
+ 
+---------
+void main(string[] args)
+{
+  uint verbosityLevel = 1;
+  void myHandler(string option, string value)
+  {
+    switch (value)
+    {
+      case "quiet": verbosityLevel = 0; break;
+      case "verbose": verbosityLevel = 2; break;
+      case "shouting": verbosityLevel = verbosityLevel.max; break;
+      default :
+        writeln(stderr, "Dunno how verbose you want me to be by saying ",
+          value);
+        exit(1);
+    }
+  }
+  getopt(args, "verbosity", &myHandler);
+}
+---------
+</ul></li></li></ol>
+<p class="bl"/>
+<b>Options with multiple names</b>
+<p class="bl"/>
+Sometimes option synonyms are desirable, e.g. "--verbose",
+"--loquacious", and "--garrulous" should have the same effect. Such
+alternate option names can be included in the option specification,
+using "|" as a separator:
+<p class="bl"/>
+<pre class="d_code">
+<span class="k">bool</span> <span class="i">verbose</span>;
+<span class="i">getopt</span>(<span class="i">args</span>, <span class="sl">"verbose|loquacious|garrulous"</span>, &amp;<span class="i">verbose</span>);
+</pre>
+<p class="bl"/>
+<b>Case</b>
+<p class="bl"/>
+By default options are case-insensitive. You can change that behavior
+by passing <span class="d_psymbol"><i>getopt</i></span> the <span class="d_psymbol"><i>caseSensitive</i></span> directive like this:
+<p class="bl"/>
+<pre class="d_code">
+<span class="k">bool</span> <span class="i">foo</span>, <span class="i">bar</span>;
+<span class="i">getopt</span>(<span class="i">args</span>,
+    <span class="i">std</span>.<span class="i">getopt</span>.<span class="i">config</span>.<span class="i">caseSensitive</span>,
+    <span class="sl">"foo"</span>, &amp;<span class="i">foo</span>,
+    <span class="sl">"bar"</span>, &amp;<span class="i">bar</span>);
+</pre>
+<p class="bl"/>
+In the example above, "--foo", "--bar", "--FOo", "--bAr" etc. are recognized.
+The directive is active til the end of <span class="d_psymbol"><i>getopt</i></span>, or until the
+converse directive <span class="d_psymbol"><i>caseInsensitive</i></span> is encountered:
+<p class="bl"/>
+<pre class="d_code">
+<span class="k">bool</span> <span class="i">foo</span>, <span class="i">bar</span>;
+<span class="i">getopt</span>(<span class="i">args</span>,
+    <span class="i">std</span>.<span class="i">getopt</span>.<span class="i">config</span>.<span class="i">caseSensitive</span>,
+    <span class="sl">"foo"</span>, &amp;<span class="i">foo</span>,
+    <span class="i">std</span>.<span class="i">getopt</span>.<span class="i">config</span>.<span class="i">caseInsensitive</span>,
+    <span class="sl">"bar"</span>, &amp;<span class="i">bar</span>);
+</pre>
+<p class="bl"/>
+The option "--Foo" is rejected due to <span class="d_psymbol"><i>
+std.getopt.config.caseSensitive</i></span>, but not "--Bar", "--bAr"
+etc. because the directive <span class="d_psymbol"><i>
+std.getopt.config.caseInsensitive</i></span> turned sensitivity off before
+option "bar" was parsed.
+<p class="bl"/>
+<b>Bundling</b>
+<p class="bl"/>
+Single-letter options can be bundled together, i.e. "-abc" is the same as "-a -b -c". By default, this confusing option is turned off. You can turn it on with the <span class="d_psymbol"><i>std.getopt.config.bundling</i></span> directive:
+<p class="bl"/>
+<pre class="d_code">
+<span class="k">bool</span> <span class="i">foo</span>, <span class="i">bar</span>;
+<span class="i">getopt</span>(<span class="i">args</span>,
+    <span class="i">std</span>.<span class="i">getopt</span>.<span class="i">config</span>.<span class="i">bundling</span>,
+    <span class="sl">"foo|f"</span>, &amp;<span class="i">foo</span>,
+    <span class="sl">"bar|b"</span>, &amp;<span class="i">bar</span>);
+</pre>
+<p class="bl"/>
+In case you want to only enable bundling for some of the parameters, bundling can be turned off with <span class="d_psymbol"><i>std.getopt.config.noBundling</i></span>.
+<p class="bl"/>
+<b>Passing unrecognized options through</b>
+<p class="bl"/>
+If an application needs to do its own processing of whichever arguments <span class="d_psymbol"><i>getopt</i></span> did not understand, it can pass the <span class="d_psymbol"><i>std.getopt.config.passThrough</i></span> directive to <span class="d_psymbol"><i>getopt</i></span>:
+<p class="bl"/>
+<pre class="d_code">
+<span class="k">bool</span> <span class="i">foo</span>, <span class="i">bar</span>;
+<span class="i">getopt</span>(<span class="i">args</span>,
+    <span class="i">std</span>.<span class="i">getopt</span>.<span class="i">config</span>.<span class="i">passThrough</span>,
+    <span class="sl">"foo"</span>, &amp;<span class="i">foo</span>,
+    <span class="sl">"bar"</span>, &amp;<span class="i">bar</span>);
+</pre>
+<p class="bl"/>
+An unrecognized option such as "--baz" will be found untouched in <span class="d_psymbol"><i>args</i></span> after <span class="d_psymbol"><i>getopt</i></span> returns.
+<p class="bl"/>
+<b>Options Terminator</b>
+<p class="bl"/>
+A lonesome double-dash terminates <span class="d_psymbol"><i>getopt</i></span> gathering. It is used to separate program options from other parameters (e.g. options to be passed to another program). Invoking the example above with "--foo -- --bar" parses foo but leaves "--bar" in <span class="d_psymbol"><i>args</i></span>. The double-dash itself is removed from the argument array.</dd>
+<dt class="decl">enum <a class="symbol _enum" name="config" href="./htmlsrc/std.getopt.html#L340" kind="enum" beg="340" end="355">config</a>; <a title="Permalink to this symbol" href="#config" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L340">#</a></dt>
+<dd class="ddef">
+<div class="summary">Configuration options for <span class="d_psymbol"><i>getopt</i></span>. You can pass them to <span class="d_psymbol"><i>
+ getopt</i></span> in any position, except in between an option string and its
+ bound pointer.</div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="config.caseSensitive" href="./htmlsrc/std.getopt.html#L342" kind="enummem" beg="342" end="342">caseSensitive</a> <a title="Permalink to this symbol" href="#config.caseSensitive" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L342">#</a></dt>
+<dd class="ddef">
+<div class="summary">Turns case sensitivity on</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="config.caseInsensitive" href="./htmlsrc/std.getopt.html#L344" kind="enummem" beg="344" end="344">caseInsensitive</a> <a title="Permalink to this symbol" href="#config.caseInsensitive" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L344">#</a></dt>
+<dd class="ddef">
+<div class="summary">Turns case sensitivity off</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="config.bundling" href="./htmlsrc/std.getopt.html#L346" kind="enummem" beg="346" end="346">bundling</a> <a title="Permalink to this symbol" href="#config.bundling" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L346">#</a></dt>
+<dd class="ddef">
+<div class="summary">Turns bundling on</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="config.noBundling" href="./htmlsrc/std.getopt.html#L348" kind="enummem" beg="348" end="348">noBundling</a> <a title="Permalink to this symbol" href="#config.noBundling" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L348">#</a></dt>
+<dd class="ddef">
+<div class="summary">Turns bundling off</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="config.passThrough" href="./htmlsrc/std.getopt.html#L350" kind="enummem" beg="350" end="350">passThrough</a> <a title="Permalink to this symbol" href="#config.passThrough" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L350">#</a></dt>
+<dd class="ddef">
+<div class="summary">Pass unrecognized arguments through</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="config.noPassThrough" href="./htmlsrc/std.getopt.html#L352" kind="enummem" beg="352" end="352">noPassThrough</a> <a title="Permalink to this symbol" href="#config.noPassThrough" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L352">#</a></dt>
+<dd class="ddef">
+<div class="summary">Signal unrecognized arguments as errors</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="config.stopOnFirstNonOption" href="./htmlsrc/std.getopt.html#L354" kind="enummem" beg="354" end="354">stopOnFirstNonOption</a> <a title="Permalink to this symbol" href="#config.stopOnFirstNonOption" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L354">#</a></dt>
+<dd class="ddef">
+<div class="summary">Stop at first argument that does not look like an option</div></dd></dl></dd>
+<dt class="decl">void <a class="symbol _function" name="getoptImpl" href="./htmlsrc/std.getopt.html#L357" kind="function" beg="357" end="401">getoptImpl</a><span class="tparams">(T...)</span><span class="params">(ref string[] <em>args</em>, ref configuration <em>cfg</em>, T <em>opts</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#getoptImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L357">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="handleOption" href="./htmlsrc/std.getopt.html#L403" kind="function" beg="403" end="482">handleOption</a><span class="tparams">(R)</span><span class="params">(string <em>option</em>, R <em>receiver</em>, ref string[] <em>args</em>, ref configuration <em>cfg</em>, bool <em>incremental</em>)</span>; <a title="Permalink to this symbol" href="#handleOption" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L403">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">dchar <a class="symbol _variable" name="optionChar" href="./htmlsrc/std.getopt.html#L488" kind="variable" beg="488" end="488">optionChar</a>; <a title="Permalink to this symbol" href="#optionChar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L488">#</a></dt>
+<dd class="ddef">
+<div class="summary">The option character. Defaults to '-' but it can be assigned to
+   prior to calling <span class="d_psymbol"><i>getopt</i></span>.</div></dd>
+<dt class="decl">string <a class="symbol _variable" name="endOfOptions" href="./htmlsrc/std.getopt.html#L496" kind="variable" beg="496" end="496">endOfOptions</a>; <a title="Permalink to this symbol" href="#endOfOptions" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L496">#</a></dt>
+<dd class="ddef">
+<div class="summary">The string that conventionally marks the end of all
+   options. Defaults to "--" but can be assigned to prior to calling
+   <span class="d_psymbol"><i>getopt</i></span>. Assigning an empty string to <span class="d_psymbol"><i>endOfOptions</i></span>
+   effectively disables it.</div></dd>
+<dt class="decl">dchar <a class="symbol _variable" name="assignChar" href="./htmlsrc/std.getopt.html#L502" kind="variable" beg="502" end="502">assignChar</a>; <a title="Permalink to this symbol" href="#assignChar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L502">#</a></dt>
+<dd class="ddef">
+<div class="summary">The assignment character used in options with parameters. Defaults
+   to '=' but can be assigned to prior to calling <span class="d_psymbol"><i>getopt</i></span>.</div></dd>
+<dt class="decl">auto <a class="symbol _variable" name="autoIncrementChar" href="./htmlsrc/std.getopt.html#L504" kind="variable" beg="504" end="504">autoIncrementChar</a>; <span class="attrs">[<span class="stc">manifest</span>]</span> <a title="Permalink to this symbol" href="#autoIncrementChar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L504">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">struct <a class="symbol _struct" name="configuration" href="./htmlsrc/std.getopt.html#L506" kind="struct" beg="506" end="514">configuration</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#configuration" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L506">#</a></dt>
+<dd class="ddef">
+</dd>
+<dt class="decl">bool <a class="symbol _function" name="optMatch" href="./htmlsrc/std.getopt.html#L516" kind="function" beg="516" end="557">optMatch</a><span class="params">(string <em>arg</em>, string <em>optPattern</em>, ref string <em>value</em>, configuration <em>cfg</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#optMatch" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L516">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="setConfig" href="./htmlsrc/std.getopt.html#L559" kind="function" beg="559" end="573">setConfig</a><span class="params">(ref configuration <em>cfg</em>, config <em>option</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#setConfig" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L559">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.getopt.html#L575" kind="unittest" beg="575" end="671">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.getopt.html#L575">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:40 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

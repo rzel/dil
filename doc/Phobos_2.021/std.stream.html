@@ -1,0 +1,1023 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.stream</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.stream";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.stream.html" class="symbol">std.stream</a></h1>
+  
+<dl>
+<dt class="decl">class <a class="symbol _class" name="StreamException" href="./htmlsrc/std.stream.html#L44" kind="class" beg="44" end="47">StreamException</a> : Exception; <a title="Permalink to this symbol" href="#StreamException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L44">#</a></dt>
+<dd class="ddef">
+<div class="summary">A base class for stream exceptions.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="StreamException.this" href="./htmlsrc/std.stream.html#L46" kind="ctor" beg="46" end="46">this</a><span class="params">(string <em>msg</em>)</span>; <a title="Permalink to this symbol" href="#StreamException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L46">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a StreamException with given error message.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="ReadException" href="./htmlsrc/std.stream.html#L50" kind="class" beg="50" end="53">ReadException</a> : StreamException; <a title="Permalink to this symbol" href="#ReadException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L50">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown when unable to read data from Stream.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="ReadException.this" href="./htmlsrc/std.stream.html#L52" kind="ctor" beg="52" end="52">this</a><span class="params">(string <em>msg</em>)</span>; <a title="Permalink to this symbol" href="#ReadException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L52">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a ReadException with given error message.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="WriteException" href="./htmlsrc/std.stream.html#L56" kind="class" beg="56" end="59">WriteException</a> : StreamException; <a title="Permalink to this symbol" href="#WriteException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L56">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown when unable to write data to Stream.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="WriteException.this" href="./htmlsrc/std.stream.html#L58" kind="ctor" beg="58" end="58">this</a><span class="params">(string <em>msg</em>)</span>; <a title="Permalink to this symbol" href="#WriteException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L58">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a WriteException with given error message.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="SeekException" href="./htmlsrc/std.stream.html#L62" kind="class" beg="62" end="65">SeekException</a> : StreamException; <a title="Permalink to this symbol" href="#SeekException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L62">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown when unable to move Stream pointer.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="SeekException.this" href="./htmlsrc/std.stream.html#L64" kind="ctor" beg="64" end="64">this</a><span class="params">(string <em>msg</em>)</span>; <a title="Permalink to this symbol" href="#SeekException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L64">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a SeekException with given error message.</div></dd></dl></dd>
+<dt class="decl">enum <a class="symbol _enum" name="SeekPos" href="./htmlsrc/std.stream.html#L68" kind="enum" beg="68" end="72">SeekPos</a>; <a title="Permalink to this symbol" href="#SeekPos" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L68">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="SeekPos.Set" href="./htmlsrc/std.stream.html#L69" kind="enummem" beg="69" end="69">Set</a> <a title="Permalink to this symbol" href="#SeekPos.Set" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L69">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="SeekPos.Current" href="./htmlsrc/std.stream.html#L70" kind="enummem" beg="70" end="70">Current</a> <a title="Permalink to this symbol" href="#SeekPos.Current" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L70">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="SeekPos.End" href="./htmlsrc/std.stream.html#L71" kind="enummem" beg="71" end="71">End</a> <a title="Permalink to this symbol" href="#SeekPos.End" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L71">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">interface <a class="symbol _interface" name="InputStream" href="./htmlsrc/std.stream.html#L88" kind="interface" beg="88" end="249">InputStream</a>; <a title="Permalink to this symbol" href="#InputStream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L88">#</a></dt>
+<dd class="ddef">
+<div class="summary">InputStream is the interface for readable streams.</div>
+<dl>
+<dt class="decl">void <a class="symbol _function" name="InputStream.readExact" href="./htmlsrc/std.stream.html#L95" kind="function" beg="95" end="95">readExact</a><span class="params">(void* <em>buffer</em>, size_t <em>size</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.readExact" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L95">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read exactly size bytes into the buffer.</div>
+Throws a ReadException if it is not correct.</dd>
+<dt class="decl">size_t <a class="symbol _function" name="InputStream.read" href="./htmlsrc/std.stream.html#L102" kind="function" beg="102" end="102">read</a><span class="params">(ubyte[] <em>buffer</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L102">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read a block of data big enough to fill the given array buffer.</div>
+<p class="sec_header">Returns:</p>the actual number of bytes read. Unfilled bytes are not modified.</dd>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:2" href="./htmlsrc/std.stream.html#L112" kind="function" beg="112" end="112">read</a><span class="params">(out byte <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L112">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:3" href="./htmlsrc/std.stream.html#L113" kind="function" beg="113" end="113">read</a><span class="params">(out ubyte <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L113">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:4" href="./htmlsrc/std.stream.html#L114" kind="function" beg="114" end="114">read</a><span class="params">(out short <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L114">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:5" href="./htmlsrc/std.stream.html#L115" kind="function" beg="115" end="115">read</a><span class="params">(out ushort <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L115">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:6" href="./htmlsrc/std.stream.html#L116" kind="function" beg="116" end="116">read</a><span class="params">(out int <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L116">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:7" href="./htmlsrc/std.stream.html#L117" kind="function" beg="117" end="117">read</a><span class="params">(out uint <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L117">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:8" href="./htmlsrc/std.stream.html#L118" kind="function" beg="118" end="118">read</a><span class="params">(out long <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L118">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:9" href="./htmlsrc/std.stream.html#L119" kind="function" beg="119" end="119">read</a><span class="params">(out ulong <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L119">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:10" href="./htmlsrc/std.stream.html#L120" kind="function" beg="120" end="120">read</a><span class="params">(out float <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L120">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:11" href="./htmlsrc/std.stream.html#L121" kind="function" beg="121" end="121">read</a><span class="params">(out double <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L121">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:12" href="./htmlsrc/std.stream.html#L122" kind="function" beg="122" end="122">read</a><span class="params">(out real <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L122">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:13" href="./htmlsrc/std.stream.html#L123" kind="function" beg="123" end="123">read</a><span class="params">(out ifloat <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L123">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:14" href="./htmlsrc/std.stream.html#L124" kind="function" beg="124" end="124">read</a><span class="params">(out idouble <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L124">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:15" href="./htmlsrc/std.stream.html#L125" kind="function" beg="125" end="125">read</a><span class="params">(out ireal <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L125">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:16" href="./htmlsrc/std.stream.html#L126" kind="function" beg="126" end="126">read</a><span class="params">(out cfloat <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L126">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:17" href="./htmlsrc/std.stream.html#L127" kind="function" beg="127" end="127">read</a><span class="params">(out cdouble <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L127">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:18" href="./htmlsrc/std.stream.html#L128" kind="function" beg="128" end="128">read</a><span class="params">(out creal <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L128">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:19" href="./htmlsrc/std.stream.html#L129" kind="function" beg="129" end="129">read</a><span class="params">(out char <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:19" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L129">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:20" href="./htmlsrc/std.stream.html#L130" kind="function" beg="130" end="130">read</a><span class="params">(out wchar <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:20" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L130">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:21" href="./htmlsrc/std.stream.html#L131" kind="function" beg="131" end="131">read</a><span class="params">(out dchar <em>x</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:21" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L131">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:22" href="./htmlsrc/std.stream.html#L134" kind="function" beg="134" end="134">read</a><span class="params">(out char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:22" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L134">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="InputStream.read:23" href="./htmlsrc/std.stream.html#L137" kind="function" beg="137" end="137">read</a><span class="params">(out wchar[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.read:23" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L137">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read a basic type or counted string.</div>
+Throw a ReadException if it could not be read.
+ Outside of byte, ubyte, and char, the format is
+ implementation-specific and should not be used except as opposite actions
+ to write.</dd>
+<dt class="decl">char[] <a class="symbol _function" name="InputStream.readLine" href="./htmlsrc/std.stream.html#L147" kind="function" beg="147" end="147">readLine</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#InputStream.readLine" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L147">#</a></dt>
+<dt class="decl">char[] <a class="symbol _function" name="InputStream.readLine:2" href="./htmlsrc/std.stream.html#L148" kind="function" beg="148" end="148">readLine</a><span class="params">(char[] <em>result</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.readLine:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L148">#</a></dt>
+<dt class="decl">wchar[] <a class="symbol _function" name="InputStream.readLineW" href="./htmlsrc/std.stream.html#L149" kind="function" beg="149" end="149">readLineW</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#InputStream.readLineW" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L149">#</a></dt>
+<dt class="decl">wchar[] <a class="symbol _function" name="InputStream.readLineW:2" href="./htmlsrc/std.stream.html#L150" kind="function" beg="150" end="150">readLineW</a><span class="params">(wchar[] <em>result</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.readLineW:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L150">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read a line that is terminated with some combination of carriage return and
+ line feed or end-of-file.</div>
+The terminators are not included. The wchar version
+ is identical. The optional buffer parameter is filled (reallocating
+ it if necessary) and a slice of the result is returned.</dd>
+<dt class="decl">int <a class="symbol _function" name="InputStream.opApply" href="./htmlsrc/std.stream.html#L171" kind="function" beg="171" end="171">opApply</a><span class="params">(int delegate(inout char[] line) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L171">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="InputStream.opApply:2" href="./htmlsrc/std.stream.html#L172" kind="function" beg="172" end="172">opApply</a><span class="params">(int delegate(inout ulong n, inout char[] line) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.opApply:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L172">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="InputStream.opApply:3" href="./htmlsrc/std.stream.html#L173" kind="function" beg="173" end="173">opApply</a><span class="params">(int delegate(inout wchar[] line) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.opApply:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L173">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="InputStream.opApply:4" href="./htmlsrc/std.stream.html#L174" kind="function" beg="174" end="174">opApply</a><span class="params">(int delegate(inout ulong n, inout wchar[] line) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.opApply:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L174">#</a></dt>
+<dd class="ddef">
+<div class="summary">Overload foreach statements to read the stream line by line and call the
+ supplied delegate with each line or with each line with line number.</div>
+The string passed in line may be reused between calls to the delegate.
+ Line numbering starts at 1.
+ Breaking out of the foreach will leave the stream
+ position at the beginning of the next line to be read.
+ For example, to echo a file line-by-line with line numbers run:
+ <pre class="d_code">
+<span class="i">Stream</span> <span class="i">file</span> = <span class="k">new</span> <span class="i">BufferedFile</span>(<span class="sl">"sample.txt"</span>);
+<span class="k">foreach</span>(<span class="k">ulong</span> <span class="i">n</span>, <span class="i">string</span> <span class="i">line</span>; <span class="i">file</span>) {
+  <span class="i">stdout</span>.<span class="i">writefln</span>(<span class="sl">"line %d: %s"</span>,<span class="i">n</span>,<span class="i">line</span>);
+}
+<span class="i">file</span>.<span class="i">close</span>();
+</pre></dd>
+<dt class="decl">char[] <a class="symbol _function" name="InputStream.readString" href="./htmlsrc/std.stream.html#L178" kind="function" beg="178" end="178">readString</a><span class="params">(size_t <em>length</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.readString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L178">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read a string of the given length,
+ throwing ReadException if there was a problem.</div></dd>
+<dt class="decl">wchar[] <a class="symbol _function" name="InputStream.readStringW" href="./htmlsrc/std.stream.html#L188" kind="function" beg="188" end="188">readStringW</a><span class="params">(size_t <em>length</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.readStringW" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L188">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read a string of the given length, throwing ReadException if there was a
+ problem.</div>
+The file format is implementation-specific and should not be used
+ except as opposite actions to <b>write</b>.</dd>
+<dt class="decl">char <a class="symbol _function" name="InputStream.getc" href="./htmlsrc/std.stream.html#L199" kind="function" beg="199" end="199">getc</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#InputStream.getc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L199">#</a></dt>
+<dt class="decl">wchar <a class="symbol _function" name="InputStream.getcw" href="./htmlsrc/std.stream.html#L200" kind="function" beg="200" end="200">getcw</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#InputStream.getcw" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L200">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read and return the next character in the stream.</div>
+This is the only method that will handle ungetc properly.
+ getcw's format is implementation-specific.
+ If EOF is reached then getc returns char.init and getcw returns wchar.init.</dd>
+<dt class="decl">char <a class="symbol _function" name="InputStream.ungetc" href="./htmlsrc/std.stream.html#L208" kind="function" beg="208" end="208">ungetc</a><span class="params">(char <em>c</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.ungetc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L208">#</a></dt>
+<dt class="decl">wchar <a class="symbol _function" name="InputStream.ungetcw" href="./htmlsrc/std.stream.html#L209" kind="function" beg="209" end="209">ungetcw</a><span class="params">(wchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.ungetcw" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L209">#</a></dt>
+<dd class="ddef">
+<div class="summary">Push a character back onto the stream.</div>
+They will be returned in first-in last-out order from getc/getcw.
+ Only has effect on further calls to getc() and getcw().</dd>
+<dt class="decl">int <a class="symbol _function" name="InputStream.vreadf" href="./htmlsrc/std.stream.html#L231" kind="function" beg="231" end="231">vreadf</a><span class="params">(TypeInfo[] <em>arguments</em>, void* <em>args</em>)</span>; <a title="Permalink to this symbol" href="#InputStream.vreadf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L231">#</a></dt>
+<dt class="decl">int <a class="symbol _function" name="InputStream.readf" href="./htmlsrc/std.stream.html#L232" kind="function" beg="232" end="232">readf</a><span class="params">(...)</span>; <a title="Permalink to this symbol" href="#InputStream.readf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L232">#</a></dt>
+<dd class="ddef">
+<div class="summary">Scan a string from the input using a similar form to C's scanf
+ and <a href="std_format.html">std.format</a>.</div>
+An argument of type string is interpreted as a format string.
+ All other arguments must be pointer types.
+ If a format string is not present a default will be supplied computed from
+ the base type of the pointer type. An argument of type string* is filled
+ (possibly with appending characters) and a slice of the result is assigned
+ back into the argument. For example the following readf statements
+ are equivalent:
+ <pre class="d_code">
+<span class="k">int</span> <span class="i">x</span>;
+<span class="k">double</span> <span class="i">y</span>;
+<span class="i">string</span> <span class="i">s</span>;
+<span class="i">file</span>.<span class="i">readf</span>(&amp;<span class="i">x</span>, <span class="sl">" hello "</span>, &amp;<span class="i">y</span>, &amp;<span class="i">s</span>);
+<span class="i">file</span>.<span class="i">readf</span>(<span class="sl">"%d hello %f %s"</span>, &amp;<span class="i">x</span>, &amp;<span class="i">y</span>, &amp;<span class="i">s</span>);
+<span class="i">file</span>.<span class="i">readf</span>(<span class="sl">"%d hello %f"</span>, &amp;<span class="i">x</span>, &amp;<span class="i">y</span>, <span class="sl">"%s"</span>, &amp;<span class="i">s</span>);
+</pre></dd>
+<dt class="decl">size_t <a class="symbol _function" name="InputStream.available" href="./htmlsrc/std.stream.html#L235" kind="function" beg="235" end="235">available</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#InputStream.available" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L235">#</a></dt>
+<dd class="ddef">
+<div class="summary">Retrieve the number of bytes available for immediate reading.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="InputStream.eof" href="./htmlsrc/std.stream.html#L246" kind="function" beg="246" end="246">eof</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#InputStream.eof" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L246">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return whether the current file position is the same as the end of the
+ file.</div>
+This does not require actually reading past the end, as with stdio. For
+ non-seekable streams this might only return true after attempting to read
+ past the end.</dd>
+<dt class="decl">bool <a class="symbol _function" name="InputStream.isOpen" href="./htmlsrc/std.stream.html#L248" kind="function" beg="248" end="248">isOpen</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#InputStream.isOpen" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L248">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return true if the stream is currently open.</div></dd></dl></dd>
+<dt class="decl">interface <a class="symbol _interface" name="OutputStream" href="./htmlsrc/std.stream.html#L252" kind="interface" beg="252" end="355">OutputStream</a>; <a title="Permalink to this symbol" href="#OutputStream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L252">#</a></dt>
+<dd class="ddef">
+<div class="summary">Interface for writable streams.</div>
+<dl>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.writeExact" href="./htmlsrc/std.stream.html#L258" kind="function" beg="258" end="258">writeExact</a><span class="params">(const void* <em>buffer</em>, size_t <em>size</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.writeExact" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L258">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write exactly size bytes from buffer, or throw a WriteException if that
+ could not be done.</div></dd>
+<dt class="decl">size_t <a class="symbol _function" name="OutputStream.write" href="./htmlsrc/std.stream.html#L264" kind="function" beg="264" end="264">write</a><span class="params">(const( ubyte)[] <em>buffer</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L264">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write as much of the buffer as possible,
+ returning the number of bytes written.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:2" href="./htmlsrc/std.stream.html#L273" kind="function" beg="273" end="273">write</a><span class="params">(byte <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L273">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:3" href="./htmlsrc/std.stream.html#L274" kind="function" beg="274" end="274">write</a><span class="params">(ubyte <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L274">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:4" href="./htmlsrc/std.stream.html#L275" kind="function" beg="275" end="275">write</a><span class="params">(short <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L275">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:5" href="./htmlsrc/std.stream.html#L276" kind="function" beg="276" end="276">write</a><span class="params">(ushort <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L276">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:6" href="./htmlsrc/std.stream.html#L277" kind="function" beg="277" end="277">write</a><span class="params">(int <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L277">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:7" href="./htmlsrc/std.stream.html#L278" kind="function" beg="278" end="278">write</a><span class="params">(uint <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L278">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:8" href="./htmlsrc/std.stream.html#L279" kind="function" beg="279" end="279">write</a><span class="params">(long <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L279">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:9" href="./htmlsrc/std.stream.html#L280" kind="function" beg="280" end="280">write</a><span class="params">(ulong <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L280">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:10" href="./htmlsrc/std.stream.html#L281" kind="function" beg="281" end="281">write</a><span class="params">(float <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L281">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:11" href="./htmlsrc/std.stream.html#L282" kind="function" beg="282" end="282">write</a><span class="params">(double <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L282">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:12" href="./htmlsrc/std.stream.html#L283" kind="function" beg="283" end="283">write</a><span class="params">(real <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L283">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:13" href="./htmlsrc/std.stream.html#L284" kind="function" beg="284" end="284">write</a><span class="params">(ifloat <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L284">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:14" href="./htmlsrc/std.stream.html#L285" kind="function" beg="285" end="285">write</a><span class="params">(idouble <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L285">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:15" href="./htmlsrc/std.stream.html#L286" kind="function" beg="286" end="286">write</a><span class="params">(ireal <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L286">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:16" href="./htmlsrc/std.stream.html#L287" kind="function" beg="287" end="287">write</a><span class="params">(cfloat <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L287">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:17" href="./htmlsrc/std.stream.html#L288" kind="function" beg="288" end="288">write</a><span class="params">(cdouble <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L288">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:18" href="./htmlsrc/std.stream.html#L289" kind="function" beg="289" end="289">write</a><span class="params">(creal <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L289">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:19" href="./htmlsrc/std.stream.html#L290" kind="function" beg="290" end="290">write</a><span class="params">(char <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:19" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L290">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:20" href="./htmlsrc/std.stream.html#L291" kind="function" beg="291" end="291">write</a><span class="params">(wchar <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:20" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L291">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:21" href="./htmlsrc/std.stream.html#L292" kind="function" beg="292" end="292">write</a><span class="params">(dchar <em>x</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:21" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L292">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a basic type.</div>
+Outside of byte, ubyte, and char, the format is implementation-specific
+ and should only be used in conjunction with read.
+ Throw WriteException on error.</dd>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:22" href="./htmlsrc/std.stream.html#L301" kind="function" beg="301" end="301">write</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:22" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L301">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.write:23" href="./htmlsrc/std.stream.html#L302" kind="function" beg="302" end="302">write</a><span class="params">(const( wchar)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.write:23" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L302">#</a></dt>
+<dd class="ddef">
+<div class="summary">Writes a string, together with its length.</div>
+The format is implementation-specific
+ and should only be used in conjunction with read.
+ Throw WriteException on error.</dd>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.writeLine" href="./htmlsrc/std.stream.html#L310" kind="function" beg="310" end="310">writeLine</a><span class="params">(const( char)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.writeLine" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L310">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a line of text,
+ appending the line with an operating-system-specific line ending.</div>
+Throws WriteException on error.</dd>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.writeLineW" href="./htmlsrc/std.stream.html#L319" kind="function" beg="319" end="319">writeLineW</a><span class="params">(const( wchar)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.writeLineW" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L319">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a line of text,
+ appending the line with an operating-system-specific line ending.</div>
+The format is implementation-specific.
+ Throws WriteException on error.</dd>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.writeString" href="./htmlsrc/std.stream.html#L326" kind="function" beg="326" end="326">writeString</a><span class="params">(const( char)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.writeString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L326">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a string of text.</div>
+Throws WriteException if it could not be fully written.</dd>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.writeStringW" href="./htmlsrc/std.stream.html#L334" kind="function" beg="334" end="334">writeStringW</a><span class="params">(const( wchar)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.writeStringW" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L334">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write a string of text.</div>
+The format is implementation-specific.
+ Throws WriteException if it could not be fully written.</dd>
+<dt class="decl">size_t <a class="symbol _function" name="OutputStream.vprintf" href="./htmlsrc/std.stream.html#L340" kind="function" beg="340" end="340">vprintf</a><span class="params">(char[] <em>format</em>, va_list <em>args</em>)</span>; <a title="Permalink to this symbol" href="#OutputStream.vprintf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L340">#</a></dt>
+<dt class="decl">size_t <a class="symbol _function" name="OutputStream.printf" href="./htmlsrc/std.stream.html#L341" kind="function" beg="341" end="341">printf</a><span class="params">(char[] <em>format</em>, ...)</span>; <a title="Permalink to this symbol" href="#OutputStream.printf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L341">#</a></dt>
+<dd class="ddef">
+<div class="summary">Print a formatted string into the stream using printf-style syntax,
+ returning the number of bytes written.</div></dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="OutputStream.writef" href="./htmlsrc/std.stream.html#L348" kind="function" beg="348" end="348">writef</a><span class="params">(...)</span>; <a title="Permalink to this symbol" href="#OutputStream.writef" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L348">#</a></dt>
+<dt class="decl">OutputStream <a class="symbol _function" name="OutputStream.writefln" href="./htmlsrc/std.stream.html#L349" kind="function" beg="349" end="349">writefln</a><span class="params">(...)</span>; <a title="Permalink to this symbol" href="#OutputStream.writefln" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L349">#</a></dt>
+<dt class="decl">OutputStream <a class="symbol _function" name="OutputStream.writefx" href="./htmlsrc/std.stream.html#L350" kind="function" beg="350" end="350">writefx</a><span class="params">(TypeInfo[] <em>arguments</em>, void* <em>argptr</em>, int <em>newline</em> = false)</span>; <a title="Permalink to this symbol" href="#OutputStream.writefx" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L350">#</a></dt>
+<dd class="ddef">
+<div class="summary">Print a formatted string into the stream using writef-style syntax.</div>
+<p class="sec_header">References:</p><a href="std_format.html">std.format</a>.
+<p class="sec_header">Returns:</p>self to chain with other stream commands like flush.</dd>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.flush" href="./htmlsrc/std.stream.html#L352" kind="function" beg="352" end="352">flush</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#OutputStream.flush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L352">#</a></dt>
+<dd class="ddef">
+<div class="summary">Flush pending output if appropriate.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="OutputStream.close" href="./htmlsrc/std.stream.html#L353" kind="function" beg="353" end="353">close</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#OutputStream.close" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L353">#</a></dt>
+<dd class="ddef">
+<div class="summary">Close the stream, flushing output if appropriate.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="OutputStream.isOpen" href="./htmlsrc/std.stream.html#L354" kind="function" beg="354" end="354">isOpen</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#OutputStream.isOpen" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L354">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return true if the stream is currently open.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="Stream" href="./htmlsrc/std.stream.html#L384" kind="class" beg="384" end="1359">Stream</a> : InputStream, OutputStream; <a title="Permalink to this symbol" href="#Stream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L384">#</a></dt>
+<dd class="ddef">
+<div class="summary">Stream is the base abstract class from which the other stream classes derive.
+ 
+ Stream's byte order is the format native to the computer.</div>
+<p class="sec_header">Reading:</p>These methods require that the readable flag be set.
+ Problems with reading result in a ReadException being thrown.
+ Stream implements the InputStream interface in addition to the
+ readBlock method.
+<p class="sec_header">Writing:</p>These methods require that the writeable flag be set. Problems with writing
+ result in a WriteException being thrown. Stream implements the OutputStream
+ interface in addition to the following methods:
+ writeBlock
+ copyFrom
+ copyFrom
+<p class="sec_header">Seeking:</p>These methods require that the seekable flag be set.
+ Problems with seeking result in a SeekException being thrown.
+ seek, seekSet, seekCur, seekEnd, position, size, toString, toHash
+<dl>
+<dt class="decl">bool <a class="symbol _variable" name="Stream.readable" href="./htmlsrc/std.stream.html#L388" kind="variable" beg="388" end="388">readable</a>; <a title="Permalink to this symbol" href="#Stream.readable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L388">#</a></dt>
+<dd class="ddef">
+<div class="summary">Indicates whether this stream can be read from.</div></dd>
+<dt class="decl">bool <a class="symbol _variable" name="Stream.writeable" href="./htmlsrc/std.stream.html#L389" kind="variable" beg="389" end="389">writeable</a>; <a title="Permalink to this symbol" href="#Stream.writeable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L389">#</a></dt>
+<dd class="ddef">
+<div class="summary">Indicates whether this stream can be written to.</div></dd>
+<dt class="decl">bool <a class="symbol _variable" name="Stream.seekable" href="./htmlsrc/std.stream.html#L390" kind="variable" beg="390" end="390">seekable</a>; <a title="Permalink to this symbol" href="#Stream.seekable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L390">#</a></dt>
+<dd class="ddef">
+<div class="summary">Indicates whether this stream can be seeked within.</div></dd>
+<dt class="decl">bool <a class="symbol _variable" name="Stream.isopen" href="./htmlsrc/std.stream.html#L391" kind="variable" beg="391" end="391">isopen</a>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#Stream.isopen" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L391">#</a></dt>
+<dd class="ddef">
+<div class="summary">Indicates whether this stream is open.</div></dd>
+<dt class="decl">bool <a class="symbol _variable" name="Stream.readEOF" href="./htmlsrc/std.stream.html#L393" kind="variable" beg="393" end="393">readEOF</a>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#Stream.readEOF" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L393">#</a></dt>
+<dd class="ddef">
+<div class="summary">Indicates whether this stream is at eof
+ after the last read attempt.</div></dd>
+<dt class="decl">bool <a class="symbol _variable" name="Stream.prevCr" href="./htmlsrc/std.stream.html#L397" kind="variable" beg="397" end="397">prevCr</a>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#Stream.prevCr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L397">#</a></dt>
+<dd class="ddef">
+<div class="summary">For a non-seekable stream indicates that
+ the last readLine or readLineW ended on a
+ '\r' character.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="Stream.this" href="./htmlsrc/std.stream.html#L402" kind="ctor" beg="402" end="402">this</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Stream.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L402">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="Stream.readBlock" href="./htmlsrc/std.stream.html#L408" kind="function" beg="408" end="408">readBlock</a><span class="params">(void* <em>buffer</em>, size_t <em>size</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Stream.readBlock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L408">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read up to size bytes into the buffer and return the number of bytes
+ actually read. A return value of 0 indicates end-of-file.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.readExact" href="./htmlsrc/std.stream.html#L412" kind="function" beg="412" end="422">readExact</a><span class="params">(void* <em>buffer</em>, size_t <em>size</em>)</span>; <a title="Permalink to this symbol" href="#Stream.readExact" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L412">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="Stream.read" href="./htmlsrc/std.stream.html#L426" kind="function" beg="426" end="428">read</a><span class="params">(ubyte[] <em>buffer</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L426">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:2" href="./htmlsrc/std.stream.html#L432" kind="function" beg="432" end="432">read</a><span class="params">(out byte <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L432">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:3" href="./htmlsrc/std.stream.html#L433" kind="function" beg="433" end="433">read</a><span class="params">(out ubyte <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L433">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:4" href="./htmlsrc/std.stream.html#L434" kind="function" beg="434" end="434">read</a><span class="params">(out short <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L434">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:5" href="./htmlsrc/std.stream.html#L435" kind="function" beg="435" end="435">read</a><span class="params">(out ushort <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L435">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:6" href="./htmlsrc/std.stream.html#L436" kind="function" beg="436" end="436">read</a><span class="params">(out int <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L436">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:7" href="./htmlsrc/std.stream.html#L437" kind="function" beg="437" end="437">read</a><span class="params">(out uint <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L437">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:8" href="./htmlsrc/std.stream.html#L438" kind="function" beg="438" end="438">read</a><span class="params">(out long <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L438">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:9" href="./htmlsrc/std.stream.html#L439" kind="function" beg="439" end="439">read</a><span class="params">(out ulong <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L439">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:10" href="./htmlsrc/std.stream.html#L440" kind="function" beg="440" end="440">read</a><span class="params">(out float <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L440">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:11" href="./htmlsrc/std.stream.html#L441" kind="function" beg="441" end="441">read</a><span class="params">(out double <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L441">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:12" href="./htmlsrc/std.stream.html#L442" kind="function" beg="442" end="442">read</a><span class="params">(out real <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L442">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:13" href="./htmlsrc/std.stream.html#L443" kind="function" beg="443" end="443">read</a><span class="params">(out ifloat <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L443">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:14" href="./htmlsrc/std.stream.html#L444" kind="function" beg="444" end="444">read</a><span class="params">(out idouble <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L444">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:15" href="./htmlsrc/std.stream.html#L445" kind="function" beg="445" end="445">read</a><span class="params">(out ireal <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L445">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:16" href="./htmlsrc/std.stream.html#L446" kind="function" beg="446" end="446">read</a><span class="params">(out cfloat <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L446">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:17" href="./htmlsrc/std.stream.html#L447" kind="function" beg="447" end="447">read</a><span class="params">(out cdouble <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L447">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:18" href="./htmlsrc/std.stream.html#L448" kind="function" beg="448" end="448">read</a><span class="params">(out creal <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L448">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:19" href="./htmlsrc/std.stream.html#L449" kind="function" beg="449" end="449">read</a><span class="params">(out char <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:19" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L449">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:20" href="./htmlsrc/std.stream.html#L450" kind="function" beg="450" end="450">read</a><span class="params">(out wchar <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:20" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L450">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:21" href="./htmlsrc/std.stream.html#L451" kind="function" beg="451" end="451">read</a><span class="params">(out dchar <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:21" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L451">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:22" href="./htmlsrc/std.stream.html#L454" kind="function" beg="454" end="458">read</a><span class="params">(out char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:22" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L454">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.read:23" href="./htmlsrc/std.stream.html#L461" kind="function" beg="461" end="465">read</a><span class="params">(out wchar[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#Stream.read:23" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L461">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="Stream.readLine" href="./htmlsrc/std.stream.html#L468" kind="function" beg="468" end="470">readLine</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Stream.readLine" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L468">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="Stream.readLine:2" href="./htmlsrc/std.stream.html#L475" kind="function" beg="475" end="505">readLine</a><span class="params">(char[] <em>result</em>)</span>; <a title="Permalink to this symbol" href="#Stream.readLine:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L475">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">wchar[] <a class="symbol _function" name="Stream.readLineW" href="./htmlsrc/std.stream.html#L510" kind="function" beg="510" end="512">readLineW</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Stream.readLineW" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L510">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">wchar[] <a class="symbol _function" name="Stream.readLineW:2" href="./htmlsrc/std.stream.html#L517" kind="function" beg="517" end="547">readLineW</a><span class="params">(wchar[] <em>result</em>)</span>; <a title="Permalink to this symbol" href="#Stream.readLineW:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L517">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="Stream.opApply" href="./htmlsrc/std.stream.html#L550" kind="function" beg="550" end="559">opApply</a><span class="params">(int delegate(inout char[] line) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#Stream.opApply" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L550">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="Stream.opApply:2" href="./htmlsrc/std.stream.html#L562" kind="function" beg="562" end="573">opApply</a><span class="params">(int delegate(inout ulong n, inout char[] line) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#Stream.opApply:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L562">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="Stream.opApply:3" href="./htmlsrc/std.stream.html#L576" kind="function" beg="576" end="585">opApply</a><span class="params">(int delegate(inout wchar[] line) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#Stream.opApply:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L576">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="Stream.opApply:4" href="./htmlsrc/std.stream.html#L588" kind="function" beg="588" end="599">opApply</a><span class="params">(int delegate(inout ulong n, inout wchar[] line) <em>dg</em>)</span>; <a title="Permalink to this symbol" href="#Stream.opApply:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L588">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char[] <a class="symbol _function" name="Stream.readString" href="./htmlsrc/std.stream.html#L603" kind="function" beg="603" end="607">readString</a><span class="params">(size_t <em>length</em>)</span>; <a title="Permalink to this symbol" href="#Stream.readString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L603">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">wchar[] <a class="symbol _function" name="Stream.readStringW" href="./htmlsrc/std.stream.html#L611" kind="function" beg="611" end="615">readStringW</a><span class="params">(size_t <em>length</em>)</span>; <a title="Permalink to this symbol" href="#Stream.readStringW" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L611">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">wchar[] <a class="symbol _variable" name="Stream.unget" href="./htmlsrc/std.stream.html#L618" kind="variable" beg="618" end="618">unget</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Stream.unget" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L618">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="Stream.ungetAvailable" href="./htmlsrc/std.stream.html#L619" kind="function" beg="619" end="619">ungetAvailable</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Stream.ungetAvailable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L619">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char <a class="symbol _function" name="Stream.getc" href="./htmlsrc/std.stream.html#L624" kind="function" beg="624" end="639">getc</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Stream.getc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L624">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">wchar <a class="symbol _function" name="Stream.getcw" href="./htmlsrc/std.stream.html#L644" kind="function" beg="644" end="662">getcw</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Stream.getcw" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L644">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">char <a class="symbol _function" name="Stream.ungetc" href="./htmlsrc/std.stream.html#L666" kind="function" beg="666" end="673">ungetc</a><span class="params">(char <em>c</em>)</span>; <a title="Permalink to this symbol" href="#Stream.ungetc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L666">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">wchar <a class="symbol _function" name="Stream.ungetcw" href="./htmlsrc/std.stream.html#L677" kind="function" beg="677" end="684">ungetcw</a><span class="params">(wchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#Stream.ungetcw" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L677">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="Stream.vreadf" href="./htmlsrc/std.stream.html#L686" kind="function" beg="686" end="1020">vreadf</a><span class="params">(TypeInfo[] <em>arguments</em>, void* <em>args</em>)</span>; <a title="Permalink to this symbol" href="#Stream.vreadf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L686">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="Stream.readf" href="./htmlsrc/std.stream.html#L1022" kind="function" beg="1022" end="1024">readf</a><span class="params">(...)</span>; <a title="Permalink to this symbol" href="#Stream.readf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1022">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="Stream.available" href="./htmlsrc/std.stream.html#L1027" kind="function" beg="1027" end="1027">available</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Stream.available" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1027">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="Stream.writeBlock" href="./htmlsrc/std.stream.html#L1033" kind="function" beg="1033" end="1033">writeBlock</a><span class="params">(const void* <em>buffer</em>, size_t <em>size</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Stream.writeBlock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1033">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write up to size bytes from buffer in the stream, returning the actual
+ number of bytes that were written.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.writeExact" href="./htmlsrc/std.stream.html#L1037" kind="function" beg="1037" end="1048">writeExact</a><span class="params">(const void* <em>buffer</em>, size_t <em>size</em>)</span>; <a title="Permalink to this symbol" href="#Stream.writeExact" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1037">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="Stream.write" href="./htmlsrc/std.stream.html#L1052" kind="function" beg="1052" end="1054">write</a><span class="params">(const( ubyte)[] <em>buffer</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1052">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:2" href="./htmlsrc/std.stream.html#L1058" kind="function" beg="1058" end="1058">write</a><span class="params">(byte <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1058">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:3" href="./htmlsrc/std.stream.html#L1059" kind="function" beg="1059" end="1059">write</a><span class="params">(ubyte <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1059">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:4" href="./htmlsrc/std.stream.html#L1060" kind="function" beg="1060" end="1060">write</a><span class="params">(short <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1060">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:5" href="./htmlsrc/std.stream.html#L1061" kind="function" beg="1061" end="1061">write</a><span class="params">(ushort <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1061">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:6" href="./htmlsrc/std.stream.html#L1062" kind="function" beg="1062" end="1062">write</a><span class="params">(int <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1062">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:7" href="./htmlsrc/std.stream.html#L1063" kind="function" beg="1063" end="1063">write</a><span class="params">(uint <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1063">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:8" href="./htmlsrc/std.stream.html#L1064" kind="function" beg="1064" end="1064">write</a><span class="params">(long <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1064">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:9" href="./htmlsrc/std.stream.html#L1065" kind="function" beg="1065" end="1065">write</a><span class="params">(ulong <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1065">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:10" href="./htmlsrc/std.stream.html#L1066" kind="function" beg="1066" end="1066">write</a><span class="params">(float <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1066">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:11" href="./htmlsrc/std.stream.html#L1067" kind="function" beg="1067" end="1067">write</a><span class="params">(double <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1067">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:12" href="./htmlsrc/std.stream.html#L1068" kind="function" beg="1068" end="1068">write</a><span class="params">(real <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1068">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:13" href="./htmlsrc/std.stream.html#L1069" kind="function" beg="1069" end="1069">write</a><span class="params">(ifloat <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1069">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:14" href="./htmlsrc/std.stream.html#L1070" kind="function" beg="1070" end="1070">write</a><span class="params">(idouble <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1070">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:15" href="./htmlsrc/std.stream.html#L1071" kind="function" beg="1071" end="1071">write</a><span class="params">(ireal <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1071">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:16" href="./htmlsrc/std.stream.html#L1072" kind="function" beg="1072" end="1072">write</a><span class="params">(cfloat <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1072">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:17" href="./htmlsrc/std.stream.html#L1073" kind="function" beg="1073" end="1073">write</a><span class="params">(cdouble <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1073">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:18" href="./htmlsrc/std.stream.html#L1074" kind="function" beg="1074" end="1074">write</a><span class="params">(creal <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1074">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:19" href="./htmlsrc/std.stream.html#L1075" kind="function" beg="1075" end="1075">write</a><span class="params">(char <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:19" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1075">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:20" href="./htmlsrc/std.stream.html#L1076" kind="function" beg="1076" end="1076">write</a><span class="params">(wchar <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:20" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1076">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:21" href="./htmlsrc/std.stream.html#L1077" kind="function" beg="1077" end="1077">write</a><span class="params">(dchar <em>x</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:21" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1077">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:22" href="./htmlsrc/std.stream.html#L1080" kind="function" beg="1080" end="1083">write</a><span class="params">(char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:22" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1080">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.write:23" href="./htmlsrc/std.stream.html#L1086" kind="function" beg="1086" end="1089">write</a><span class="params">(const( wchar)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#Stream.write:23" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1086">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.writeLine" href="./htmlsrc/std.stream.html#L1092" kind="function" beg="1092" end="1100">writeLine</a><span class="params">(const( char)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#Stream.writeLine" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1092">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.writeLineW" href="./htmlsrc/std.stream.html#L1103" kind="function" beg="1103" end="1111">writeLineW</a><span class="params">(const( wchar)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#Stream.writeLineW" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1103">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.writeString" href="./htmlsrc/std.stream.html#L1114" kind="function" beg="1114" end="1116">writeString</a><span class="params">(const( char)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#Stream.writeString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1114">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.writeStringW" href="./htmlsrc/std.stream.html#L1119" kind="function" beg="1119" end="1121">writeStringW</a><span class="params">(const( wchar)[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#Stream.writeStringW" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1119">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="Stream.vprintf" href="./htmlsrc/std.stream.html#L1125" kind="function" beg="1125" end="1154">vprintf</a><span class="params">(char[] <em>format</em>, va_list <em>args</em>)</span>; <a title="Permalink to this symbol" href="#Stream.vprintf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1125">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="Stream.printf" href="./htmlsrc/std.stream.html#L1158" kind="function" beg="1158" end="1163">printf</a><span class="params">(char[] <em>format</em>, ...)</span>; <a title="Permalink to this symbol" href="#Stream.printf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1158">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.doFormatCallback" href="./htmlsrc/std.stream.html#L1165" kind="function" beg="1165" end="1169">doFormatCallback</a><span class="params">(dchar <em>c</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Stream.doFormatCallback" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1165">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="Stream.writef" href="./htmlsrc/std.stream.html#L1172" kind="function" beg="1172" end="1174">writef</a><span class="params">(...)</span>; <a title="Permalink to this symbol" href="#Stream.writef" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1172">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="Stream.writefln" href="./htmlsrc/std.stream.html#L1177" kind="function" beg="1177" end="1179">writefln</a><span class="params">(...)</span>; <a title="Permalink to this symbol" href="#Stream.writefln" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1177">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">OutputStream <a class="symbol _function" name="Stream.writefx" href="./htmlsrc/std.stream.html#L1182" kind="function" beg="1182" end="1187">writefx</a><span class="params">(TypeInfo[] <em>arguments</em>, void* <em>argptr</em>, int <em>newline</em> = false)</span>; <a title="Permalink to this symbol" href="#Stream.writefx" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1182">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.copyFrom" href="./htmlsrc/std.stream.html#L1194" kind="function" beg="1194" end="1207">copyFrom</a><span class="params">(Stream <em>s</em>)</span>; <a title="Permalink to this symbol" href="#Stream.copyFrom" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1194">#</a></dt>
+<dd class="ddef">
+<div class="summary">Copies all data from s into this stream.
+ This may throw ReadException or WriteException on failure.
+ This restores the file position of s so that it is unchanged.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.copyFrom:2" href="./htmlsrc/std.stream.html#L1214" kind="function" beg="1214" end="1222">copyFrom</a><span class="params">(Stream <em>s</em>, ulong <em>count</em>)</span>; <a title="Permalink to this symbol" href="#Stream.copyFrom:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1214">#</a></dt>
+<dd class="ddef">
+<div class="summary">Copy a specified number of bytes from the given stream into this one.
+ This may throw ReadException or WriteException on failure.
+ Unlike the previous form, this doesn't restore the file position of s.</div></dd>
+<dt class="decl">ulong <a class="symbol _function" name="Stream.seek" href="./htmlsrc/std.stream.html#L1232" kind="function" beg="1232" end="1232">seek</a><span class="params">(long <em>offset</em>, SeekPos <em>whence</em>)</span>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Stream.seek" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1232">#</a></dt>
+<dd class="ddef">
+<div class="summary">Change the current position of the stream. whence is either SeekPos.Set, in
+   which case the offset is an absolute index from the beginning of the stream,
+   SeekPos.Current, in which case the offset is a delta from the current
+   position, or SeekPos.End, in which case the offset is a delta from the end of
+   the stream (negative or zero offsets only make sense in that case). This
+   returns the new file position.</div></dd>
+<dt class="decl">ulong <a class="symbol _function" name="Stream.seekSet" href="./htmlsrc/std.stream.html#L1237" kind="function" beg="1237" end="1237">seekSet</a><span class="params">(long <em>offset</em>)</span>; <a title="Permalink to this symbol" href="#Stream.seekSet" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1237">#</a></dt>
+<dt class="decl">ulong <a class="symbol _function" name="Stream.seekCur" href="./htmlsrc/std.stream.html#L1238" kind="function" beg="1238" end="1238">seekCur</a><span class="params">(long <em>offset</em>)</span>; <a title="Permalink to this symbol" href="#Stream.seekCur" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1238">#</a></dt>
+<dt class="decl">ulong <a class="symbol _function" name="Stream.seekEnd" href="./htmlsrc/std.stream.html#L1239" kind="function" beg="1239" end="1239">seekEnd</a><span class="params">(long <em>offset</em>)</span>; <a title="Permalink to this symbol" href="#Stream.seekEnd" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1239">#</a></dt>
+<dd class="ddef">
+<div class="summary">Aliases for their normal seek counterparts.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.position" href="./htmlsrc/std.stream.html#L1244" kind="function" beg="1244" end="1244">position</a><span class="params">(ulong <em>pos</em>)</span>; <a title="Permalink to this symbol" href="#Stream.position" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1244">#</a></dt>
+<dd class="ddef">
+<div class="summary">Sets file position. Equivalent to calling seek(pos, SeekPos.Set).</div></dd>
+<dt class="decl">ulong <a class="symbol _function" name="Stream.position:2" href="./htmlsrc/std.stream.html#L1249" kind="function" beg="1249" end="1249">position</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Stream.position:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1249">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns current file position. Equivalent to seek(0, SeekPos.Current).</div></dd>
+<dt class="decl">ulong <a class="symbol _function" name="Stream.size" href="./htmlsrc/std.stream.html#L1255" kind="function" beg="1255" end="1260">size</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Stream.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1255">#</a></dt>
+<dd class="ddef">
+<div class="summary">Retrieve the size of the stream in bytes.
+ The stream must be seekable or a SeekException is thrown.</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Stream.eof" href="./htmlsrc/std.stream.html#L1263" kind="function" beg="1263" end="1271">eof</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Stream.eof" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1263">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="Stream.isOpen" href="./htmlsrc/std.stream.html#L1274" kind="function" beg="1274" end="1274">isOpen</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Stream.isOpen" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1274">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.flush" href="./htmlsrc/std.stream.html#L1277" kind="function" beg="1277" end="1280">flush</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Stream.flush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1277">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.close" href="./htmlsrc/std.stream.html#L1283" kind="function" beg="1283" end="1287">close</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Stream.close" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1283">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="Stream.toString" href="./htmlsrc/std.stream.html#L1294" kind="function" beg="1294" end="1322">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Stream.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1294">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read the entire stream and return it as a string.
+ If the stream is not seekable the contents from the current position to eof
+ is read and returned.</div></dd>
+<dt class="decl">size_t <a class="symbol _function" name="Stream.toHash" href="./htmlsrc/std.stream.html#L1328" kind="function" beg="1328" end="1342">toHash</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Stream.toHash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1328">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get a hash of the stream by reading each byte and using it in a CRC-32
+ checksum.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.assertReadable" href="./htmlsrc/std.stream.html#L1345" kind="function" beg="1345" end="1348">assertReadable</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Stream.assertReadable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1345">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.assertWriteable" href="./htmlsrc/std.stream.html#L1350" kind="function" beg="1350" end="1353">assertWriteable</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Stream.assertWriteable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1350">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Stream.assertSeekable" href="./htmlsrc/std.stream.html#L1355" kind="function" beg="1355" end="1358">assertSeekable</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#Stream.assertSeekable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1355">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="FilterStream" href="./htmlsrc/std.stream.html#L1374" kind="class" beg="1374" end="1454">FilterStream</a> : Stream; <a title="Permalink to this symbol" href="#FilterStream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1374">#</a></dt>
+<dd class="ddef">
+<div class="summary">A base class for streams that wrap a source stream with additional
+ functionality.</div>
+The method implementations forward read/write/seek calls to the
+ source stream. A FilterStream can change the position of the source stream
+ arbitrarily and may not keep the source stream state in sync with the
+ FilterStream, even upon flushing and closing the FilterStream. It is
+ recommended to not make any assumptions about the state of the source position
+ and read/write state after a FilterStream has acted upon it. Specifc subclasses
+ of FilterStream should document how they modify the source stream and if any
+ invariants hold true between the source and filter.
+<dl>
+<dt class="decl">Stream <a class="symbol _variable" name="FilterStream.s" href="./htmlsrc/std.stream.html#L1375" kind="variable" beg="1375" end="1375">s</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#FilterStream.s" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1375">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _variable" name="FilterStream.nestClose" href="./htmlsrc/std.stream.html#L1380" kind="variable" beg="1380" end="1380">nestClose</a>; <a title="Permalink to this symbol" href="#FilterStream.nestClose" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1380">#</a></dt>
+<dd class="ddef">
+<div class="summary">Property indicating when this stream closes to close the source stream as
+ well.
+ Defaults to true.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="FilterStream.this" href="./htmlsrc/std.stream.html#L1383" kind="ctor" beg="1383" end="1386">this</a><span class="params">(Stream <em>source</em>)</span>; <a title="Permalink to this symbol" href="#FilterStream.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1383">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a FilterStream for the given source.</div></dd>
+<dt class="decl">Stream <a class="symbol _function" name="FilterStream.source" href="./htmlsrc/std.stream.html#L1393" kind="function" beg="1393" end="1393">source</a><span class="params">()</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#FilterStream.source" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1393">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get the current source stream.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="FilterStream.source:2" href="./htmlsrc/std.stream.html#L1402" kind="function" beg="1402" end="1406">source</a><span class="params">(Stream <em>s</em>)</span>; <a title="Permalink to this symbol" href="#FilterStream.source:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1402">#</a></dt>
+<dd class="ddef">
+<div class="summary">Set the current source stream.</div>
+Setting the source stream closes this stream before attaching the new
+ source. Attaching an open stream reopens this stream and resets the stream
+ state.</dd>
+<dt class="decl">void <a class="symbol _function" name="FilterStream.resetSource" href="./htmlsrc/std.stream.html#L1412" kind="function" beg="1412" end="1423">resetSource</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#FilterStream.resetSource" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1412">#</a></dt>
+<dd class="ddef">
+<div class="summary">Indicates the source stream changed state and that this stream should reset
+ any readable, writeable, seekable, isopen and buffering flags.</div></dd>
+<dt class="decl">size_t <a class="symbol _function" name="FilterStream.readBlock" href="./htmlsrc/std.stream.html#L1426" kind="function" beg="1426" end="1430">readBlock</a><span class="params">(void* <em>buffer</em>, size_t <em>size</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#FilterStream.readBlock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1426">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="FilterStream.writeBlock" href="./htmlsrc/std.stream.html#L1433" kind="function" beg="1433" end="1435">writeBlock</a><span class="params">(const void* <em>buffer</em>, size_t <em>size</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#FilterStream.writeBlock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1433">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="FilterStream.close" href="./htmlsrc/std.stream.html#L1438" kind="function" beg="1438" end="1444">close</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#FilterStream.close" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1438">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _function" name="FilterStream.seek" href="./htmlsrc/std.stream.html#L1447" kind="function" beg="1447" end="1450">seek</a><span class="params">(long <em>offset</em>, SeekPos <em>whence</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#FilterStream.seek" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1447">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="FilterStream.available" href="./htmlsrc/std.stream.html#L1452" kind="function" beg="1452" end="1452">available</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#FilterStream.available" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1452">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="FilterStream.flush" href="./htmlsrc/std.stream.html#L1453" kind="function" beg="1453" end="1453">flush</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#FilterStream.flush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1453">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="BufferedStream" href="./htmlsrc/std.stream.html#L1465" kind="class" beg="1465" end="1752">BufferedStream</a> : FilterStream; <a title="Permalink to this symbol" href="#BufferedStream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1465">#</a></dt>
+<dd class="ddef">
+<div class="summary">This subclass is for buffering a source stream.</div>
+A buffered stream must be
+ closed explicitly to ensure the final buffer content is written to the source
+ stream. The source stream position is changed according to the block size so
+ reading or writing to the BufferedStream may not change the source stream
+ position by the same amount.
+<dl>
+<dt class="decl">ubyte[] <a class="symbol _variable" name="BufferedStream.buffer" href="./htmlsrc/std.stream.html#L1466" kind="variable" beg="1466" end="1466">buffer</a>; <a title="Permalink to this symbol" href="#BufferedStream.buffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1466">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="BufferedStream.bufferCurPos" href="./htmlsrc/std.stream.html#L1467" kind="variable" beg="1467" end="1467">bufferCurPos</a>; <a title="Permalink to this symbol" href="#BufferedStream.bufferCurPos" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1467">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="BufferedStream.bufferLen" href="./htmlsrc/std.stream.html#L1468" kind="variable" beg="1468" end="1468">bufferLen</a>; <a title="Permalink to this symbol" href="#BufferedStream.bufferLen" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1468">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _variable" name="BufferedStream.bufferDirty" href="./htmlsrc/std.stream.html#L1469" kind="variable" beg="1469" end="1469">bufferDirty</a>; <a title="Permalink to this symbol" href="#BufferedStream.bufferDirty" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1469">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="BufferedStream.bufferSourcePos" href="./htmlsrc/std.stream.html#L1470" kind="variable" beg="1470" end="1470">bufferSourcePos</a>; <a title="Permalink to this symbol" href="#BufferedStream.bufferSourcePos" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1470">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _variable" name="BufferedStream.streamPos" href="./htmlsrc/std.stream.html#L1471" kind="variable" beg="1471" end="1471">streamPos</a>; <a title="Permalink to this symbol" href="#BufferedStream.streamPos" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1471">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _invariant" name="BufferedStream.invariant" href="./htmlsrc/std.stream.html#L1483" kind="invariant" beg="1483" end="1487">invariant</a>; <a title="Permalink to this symbol" href="#BufferedStream.invariant" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1483">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="BufferedStream.DefaultBufferSize" href="./htmlsrc/std.stream.html#L1489" kind="variable" beg="1489" end="1489">DefaultBufferSize</a>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#BufferedStream.DefaultBufferSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1489">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="BufferedStream.this" href="./htmlsrc/std.stream.html#L1495" kind="ctor" beg="1495" end="1499">this</a><span class="params">(Stream <em>source</em>, uint <em>bufferSize</em> = DefaultBufferSize)</span>; <a title="Permalink to this symbol" href="#BufferedStream.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1495">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a buffered stream for the stream source with the buffer size
+ bufferSize.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="BufferedStream.resetSource" href="./htmlsrc/std.stream.html#L1501" kind="function" beg="1501" end="1506">resetSource</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>, <span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#BufferedStream.resetSource" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1501">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="BufferedStream.readBlock" href="./htmlsrc/std.stream.html#L1510" kind="function" beg="1510" end="1555">readBlock</a><span class="params">(void* <em>result</em>, size_t <em>len</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#BufferedStream.readBlock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1510">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="BufferedStream.writeBlock" href="./htmlsrc/std.stream.html#L1559" kind="function" beg="1559" end="1610">writeBlock</a><span class="params">(const void* <em>result</em>, size_t <em>len</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#BufferedStream.writeBlock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1559">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _function" name="BufferedStream.seek" href="./htmlsrc/std.stream.html#L1612" kind="function" beg="1612" end="1625">seek</a><span class="params">(long <em>offset</em>, SeekPos <em>whence</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#BufferedStream.seek" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1612">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="BufferedStream.TreadLine" href="./htmlsrc/std.stream.html#L1631" kind="template" beg="1631" end="1678">TreadLine</a><span class="tparams">(T)</span>; <a title="Permalink to this symbol" href="#BufferedStream.TreadLine" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1631">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">T[] <a class="symbol _function" name="BufferedStream.TreadLine.readLine" href="./htmlsrc/std.stream.html#L1632" kind="function" beg="1632" end="1677">readLine</a><span class="params">(T[] <em>inBuffer</em>)</span>; <a title="Permalink to this symbol" href="#BufferedStream.TreadLine.readLine" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1632">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">char[] <a class="symbol _function" name="BufferedStream.readLine" href="./htmlsrc/std.stream.html#L1680" kind="function" beg="1680" end="1685">readLine</a><span class="params">(char[] <em>inBuffer</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#BufferedStream.readLine" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1680">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias Stream.readLine <a class="symbol _alias" name="BufferedStream.readLine:2" href="./htmlsrc/std.stream.html#L1686" kind="alias" beg="1686" end="1686">readLine</a>; <a title="Permalink to this symbol" href="#BufferedStream.readLine:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1686">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">wchar[] <a class="symbol _function" name="BufferedStream.readLineW" href="./htmlsrc/std.stream.html#L1688" kind="function" beg="1688" end="1693">readLineW</a><span class="params">(wchar[] <em>inBuffer</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#BufferedStream.readLineW" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1688">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias Stream.readLineW <a class="symbol _alias" name="BufferedStream.readLineW:2" href="./htmlsrc/std.stream.html#L1694" kind="alias" beg="1694" end="1694">readLineW</a>; <a title="Permalink to this symbol" href="#BufferedStream.readLineW:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1694">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="BufferedStream.flush" href="./htmlsrc/std.stream.html#L1696" kind="function" beg="1696" end="1723">flush</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#BufferedStream.flush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1696">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="BufferedStream.eof" href="./htmlsrc/std.stream.html#L1726" kind="function" beg="1726" end="1740">eof</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#BufferedStream.eof" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1726">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _function" name="BufferedStream.size" href="./htmlsrc/std.stream.html#L1743" kind="function" beg="1743" end="1746">size</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#BufferedStream.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1743">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="BufferedStream.available" href="./htmlsrc/std.stream.html#L1749" kind="function" beg="1749" end="1751">available</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#BufferedStream.available" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1749">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="StreamFileException" href="./htmlsrc/std.stream.html#L1755" kind="class" beg="1755" end="1758">StreamFileException</a> : StreamException; <a title="Permalink to this symbol" href="#StreamFileException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1755">#</a></dt>
+<dd class="ddef">
+<div class="summary">An exception for File errors.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="StreamFileException.this" href="./htmlsrc/std.stream.html#L1757" kind="ctor" beg="1757" end="1757">this</a><span class="params">(string <em>msg</em>)</span>; <a title="Permalink to this symbol" href="#StreamFileException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1757">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a StreamFileException with given error message.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="OpenException" href="./htmlsrc/std.stream.html#L1761" kind="class" beg="1761" end="1764">OpenException</a> : StreamFileException; <a title="Permalink to this symbol" href="#OpenException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1761">#</a></dt>
+<dd class="ddef">
+<div class="summary">An exception for errors during File.open.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="OpenException.this" href="./htmlsrc/std.stream.html#L1763" kind="ctor" beg="1763" end="1763">this</a><span class="params">(string <em>msg</em>)</span>; <a title="Permalink to this symbol" href="#OpenException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1763">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct an OpenFileException with given error message.</div></dd></dl></dd>
+<dt class="decl">enum <a class="symbol _enum" name="FileMode" href="./htmlsrc/std.stream.html#L1767" kind="enum" beg="1767" end="1772">FileMode</a>; <a title="Permalink to this symbol" href="#FileMode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1767">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="FileMode.In" href="./htmlsrc/std.stream.html#L1768" kind="enummem" beg="1768" end="1768">In</a> <a title="Permalink to this symbol" href="#FileMode.In" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1768">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="FileMode.Out" href="./htmlsrc/std.stream.html#L1769" kind="enummem" beg="1769" end="1769">Out</a> <a title="Permalink to this symbol" href="#FileMode.Out" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1769">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="FileMode.OutNew" href="./htmlsrc/std.stream.html#L1770" kind="enummem" beg="1770" end="1770">OutNew</a> <a title="Permalink to this symbol" href="#FileMode.OutNew" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1770">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="FileMode.Append" href="./htmlsrc/std.stream.html#L1771" kind="enummem" beg="1771" end="1771">Append</a> <a title="Permalink to this symbol" href="#FileMode.Append" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1771">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">alias int <a class="symbol _alias" name="HANDLE" href="./htmlsrc/std.stream.html#L1783" kind="alias" beg="1783" end="1783">HANDLE</a>; <a title="Permalink to this symbol" href="#HANDLE" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1783">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">class <a class="symbol _class" name="File" href="./htmlsrc/std.stream.html#L1787" kind="class" beg="1787" end="2084">File</a> : Stream; <a title="Permalink to this symbol" href="#File" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1787">#</a></dt>
+<dd class="ddef">
+<div class="summary">This subclass is for unbuffered file system streams.</div>
+<dl>
+<dt class="decl">HANDLE <a class="symbol _variable" name="File.hFile" href="./htmlsrc/std.stream.html#L1793" kind="variable" beg="1793" end="1793">hFile</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#File.hFile" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1793">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="File.this" href="./htmlsrc/std.stream.html#L1796" kind="ctor" beg="1796" end="1805">this</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#File.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1796">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="File.this:2" href="./htmlsrc/std.stream.html#L1808" kind="ctor" beg="1808" end="1819">this</a><span class="params">(HANDLE <em>hFile</em>, FileMode <em>mode</em>)</span>; <a title="Permalink to this symbol" href="#File.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1808">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="File.this:3" href="./htmlsrc/std.stream.html#L1834" kind="ctor" beg="1834" end="1838">this</a><span class="params">(string <em>filename</em>, FileMode <em>mode</em> = FileMode.In)</span>; <a title="Permalink to this symbol" href="#File.this:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1834">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create the stream with no open file, an open file in read mode, or an open
+ file with explicit file mode.
+ mode, if given, is a combination of FileMode.In
+ (indicating a file that can be read) and FileMode.Out (indicating a file
+ that can be written).
+ Opening a file for reading that doesn't exist will error.
+ Opening a file for writing that doesn't exist will create the file.
+ The FileMode.OutNew mode will open the file for writing and reset the
+ length to zero.
+ The FileMode.Append mode will open the file for writing and move the
+ file position to the end of the file.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="File.open" href="./htmlsrc/std.stream.html#L1845" kind="function" beg="1845" end="1871">open</a><span class="params">(string <em>filename</em>, FileMode <em>mode</em> = FileMode.In)</span>; <a title="Permalink to this symbol" href="#File.open" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1845">#</a></dt>
+<dd class="ddef">
+<div class="summary">Open a file for the stream, in an identical manner to the constructors.
+ If an error occurs an OpenException is thrown.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="File.parseMode" href="./htmlsrc/std.stream.html#L1873" kind="function" beg="1873" end="1909">parseMode</a><span class="params">(int <em>mode</em>, out int <em>access</em>, out int <em>share</em>, out int <em>createMode</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#File.parseMode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1873">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="File.create" href="./htmlsrc/std.stream.html#L1912" kind="function" beg="1912" end="1914">create</a><span class="params">(string <em>filename</em>)</span>; <a title="Permalink to this symbol" href="#File.create" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1912">#</a></dt>
+<dt class="decl">void <a class="symbol _function" name="File.create:2" href="./htmlsrc/std.stream.html#L1917" kind="function" beg="1917" end="1920">create</a><span class="params">(string <em>filename</em>, FileMode <em>mode</em>)</span>; <a title="Permalink to this symbol" href="#File.create:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1917">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create a file for writing.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="File.close" href="./htmlsrc/std.stream.html#L1923" kind="function" beg="1923" end="1936">close</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#File.close" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1923">#</a></dt>
+<dd class="ddef">
+<div class="summary">Close the current file if it is open; otherwise it does nothing.</div></dd>
+<dt class="decl"><a class="symbol _dtor" name="File.~this" href="./htmlsrc/std.stream.html#L1939" kind="dtor" beg="1939" end="1939">~this</a>(); <a title="Permalink to this symbol" href="#File.~this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1939">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="File.readBlock" href="./htmlsrc/std.stream.html#L1951" kind="function" beg="1951" end="1962">readBlock</a><span class="params">(void* <em>buffer</em>, size_t <em>size</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#File.readBlock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1951">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="File.writeBlock" href="./htmlsrc/std.stream.html#L1964" kind="function" beg="1964" end="1974">writeBlock</a><span class="params">(const void* <em>buffer</em>, size_t <em>size</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#File.writeBlock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1964">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _function" name="File.seek" href="./htmlsrc/std.stream.html#L1976" kind="function" beg="1976" end="1991">seek</a><span class="params">(long <em>offset</em>, SeekPos <em>rel</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#File.seek" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1976">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="File.available" href="./htmlsrc/std.stream.html#L1998" kind="function" beg="1998" end="2005">available</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#File.available" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L1998">#</a></dt>
+<dd class="ddef">
+<div class="summary">For a seekable file returns the difference of the size and position and
+ otherwise returns 0.</div></dd>
+<dt class="decl">HANDLE <a class="symbol _function" name="File.handle" href="./htmlsrc/std.stream.html#L2009" kind="function" beg="2009" end="2009">handle</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#File.handle" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2009">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="File.unittest" href="./htmlsrc/std.stream.html#L2012" kind="unittest" beg="2012" end="2083">unittest</a>; <a title="Permalink to this symbol" href="#File.unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2012">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="BufferedFile" href="./htmlsrc/std.stream.html#L2093" kind="class" beg="2093" end="2177">BufferedFile</a> : BufferedStream; <a title="Permalink to this symbol" href="#BufferedFile" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2093">#</a></dt>
+<dd class="ddef">
+<div class="summary">This subclass is for buffered file system streams.</div>
+It is a convenience class for wrapping a File in a BufferedStream.
+ A buffered stream must be closed explicitly to ensure the final buffer
+ content is written to the file.
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="BufferedFile.this" href="./htmlsrc/std.stream.html#L2096" kind="ctor" beg="2096" end="2096">this</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#BufferedFile.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2096">#</a></dt>
+<dd class="ddef">
+<div class="summary">opens file for reading</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="BufferedFile.this:2" href="./htmlsrc/std.stream.html#L2099" kind="ctor" beg="2099" end="2102">this</a><span class="params">(string <em>filename</em>, FileMode <em>mode</em> = FileMode.In, uint <em>bufferSize</em> = DefaultBufferSize)</span>; <a title="Permalink to this symbol" href="#BufferedFile.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2099">#</a></dt>
+<dd class="ddef">
+<div class="summary">opens file in requested mode and buffer size</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="BufferedFile.this:3" href="./htmlsrc/std.stream.html#L2105" kind="ctor" beg="2105" end="2107">this</a><span class="params">(File <em>file</em>, uint <em>bufferSize</em> = DefaultBufferSize)</span>; <a title="Permalink to this symbol" href="#BufferedFile.this:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2105">#</a></dt>
+<dd class="ddef">
+<div class="summary">opens file for reading with requested buffer size</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="BufferedFile.this:4" href="./htmlsrc/std.stream.html#L2110" kind="ctor" beg="2110" end="2112">this</a><span class="params">(HANDLE <em>hFile</em>, FileMode <em>mode</em>, uint <em>buffersize</em>)</span>; <a title="Permalink to this symbol" href="#BufferedFile.this:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2110">#</a></dt>
+<dd class="ddef">
+<div class="summary">opens existing handle; use with care!</div></dd>
+<dt class="decl">void <a class="symbol _function" name="BufferedFile.open" href="./htmlsrc/std.stream.html#L2115" kind="function" beg="2115" end="2119">open</a><span class="params">(string <em>filename</em>, FileMode <em>mode</em> = FileMode.In)</span>; <a title="Permalink to this symbol" href="#BufferedFile.open" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2115">#</a></dt>
+<dd class="ddef">
+<div class="summary">opens file in requested mode</div></dd>
+<dt class="decl">void <a class="symbol _function" name="BufferedFile.create" href="./htmlsrc/std.stream.html#L2122" kind="function" beg="2122" end="2126">create</a><span class="params">(string <em>filename</em>, FileMode <em>mode</em> = FileMode.OutNew)</span>; <a title="Permalink to this symbol" href="#BufferedFile.create" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2122">#</a></dt>
+<dd class="ddef">
+<div class="summary">creates file in requested mode</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="BufferedFile.unittest" href="./htmlsrc/std.stream.html#L2129" kind="unittest" beg="2129" end="2175">unittest</a>; <a title="Permalink to this symbol" href="#BufferedFile.unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2129">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">enum <a class="symbol _enum" name="BOM" href="./htmlsrc/std.stream.html#L2180" kind="enum" beg="2180" end="2186">BOM</a>; <a title="Permalink to this symbol" href="#BOM" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2180">#</a></dt>
+<dd class="ddef">
+<div class="summary">UTF byte-order-mark signatures</div>
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="BOM.UTF8" href="./htmlsrc/std.stream.html#L2181" kind="enummem" beg="2181" end="2181">UTF8</a> <a title="Permalink to this symbol" href="#BOM.UTF8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2181">#</a></dt>
+<dd class="ddef">
+<div class="summary">UTF-8</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="BOM.UTF16LE" href="./htmlsrc/std.stream.html#L2182" kind="enummem" beg="2182" end="2182">UTF16LE</a> <a title="Permalink to this symbol" href="#BOM.UTF16LE" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2182">#</a></dt>
+<dd class="ddef">
+<div class="summary">UTF-16 Little Endian</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="BOM.UTF16BE" href="./htmlsrc/std.stream.html#L2183" kind="enummem" beg="2183" end="2183">UTF16BE</a> <a title="Permalink to this symbol" href="#BOM.UTF16BE" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2183">#</a></dt>
+<dd class="ddef">
+<div class="summary">UTF-16 Big Endian</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="BOM.UTF32LE" href="./htmlsrc/std.stream.html#L2184" kind="enummem" beg="2184" end="2184">UTF32LE</a> <a title="Permalink to this symbol" href="#BOM.UTF32LE" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2184">#</a></dt>
+<dd class="ddef">
+<div class="summary">UTF-32 Little Endian</div></dd>
+<dt class="decl"><a class="symbol _enummem" name="BOM.UTF32BE" href="./htmlsrc/std.stream.html#L2185" kind="enummem" beg="2185" end="2185">UTF32BE</a> <a title="Permalink to this symbol" href="#BOM.UTF32BE" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2185">#</a></dt>
+<dd class="ddef">
+<div class="summary">UTF-32 Big Endian</div></dd></dl></dd>
+<dt class="decl">int <a class="symbol _variable" name="NBOMS" href="./htmlsrc/std.stream.html#L2188" kind="variable" beg="2188" end="2188">NBOMS</a>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#NBOMS" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2188">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Endian[NBOMS] <a class="symbol _variable" name="BOMEndian" href="./htmlsrc/std.stream.html#L2189" kind="variable" beg="2189" end="2193">BOMEndian</a>; <a title="Permalink to this symbol" href="#BOMEndian" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2189">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte[][NBOMS] <a class="symbol _variable" name="ByteOrderMarks" href="./htmlsrc/std.stream.html#L2195" kind="variable" beg="2195" end="2201">ByteOrderMarks</a>; <a title="Permalink to this symbol" href="#ByteOrderMarks" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2195">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">class <a class="symbol _class" name="EndianStream" href="./htmlsrc/std.stream.html#L2218" kind="class" beg="2218" end="2501">EndianStream</a> : FilterStream; <a title="Permalink to this symbol" href="#EndianStream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2218">#</a></dt>
+<dd class="ddef">
+<div class="summary">This subclass wraps a stream with big-endian or little-endian byte order
+ swapping.</div>
+UTF Byte-Order-Mark (BOM) signatures can be read and deduced or
+ written.
+ Note that an EndianStream should not be used as the source of another
+ FilterStream since a FilterStream call the source with byte-oriented
+ read/write requests and the EndianStream will not perform any byte swapping.
+ The EndianStream reads and writes binary data (non-getc functions) in a
+ one-to-one
+ manner with the source stream so the source stream's position and state will be
+ kept in sync with the EndianStream if only non-getc functions are called.
+<dl>
+<dt class="decl">Endian <a class="symbol _variable" name="EndianStream.endian" href="./htmlsrc/std.stream.html#L2220" kind="variable" beg="2220" end="2220">endian</a>; <a title="Permalink to this symbol" href="#EndianStream.endian" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2220">#</a></dt>
+<dd class="ddef">
+<div class="summary">Endianness property of the source stream.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="EndianStream.this" href="./htmlsrc/std.stream.html#L2228" kind="ctor" beg="2228" end="2231">this</a><span class="params">(Stream <em>source</em>, Endian <em>end</em> = std.system.endian)</span>; <a title="Permalink to this symbol" href="#EndianStream.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2228">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create the endian stream for the source stream source with endianness end.
+ The default endianness is the native byte order.
+ The Endian type is defined
+ in the std.system module.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="EndianStream.readBOM" href="./htmlsrc/std.stream.html#L2241" kind="function" beg="2241" end="2279">readBOM</a><span class="params">(int <em>ungetCharSize</em> = 1)</span>; <a title="Permalink to this symbol" href="#EndianStream.readBOM" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2241">#</a></dt>
+<dd class="ddef">
+<div class="summary">Return -1 if no BOM and otherwise read the BOM and return it.</div>
+If there is no BOM or if bytes beyond the BOM are read then the bytes read
+ are pushed back onto the ungetc buffer or ungetcw buffer.
+ Pass ungetCharSize == 2 to use
+ ungetcw instead of ungetc when no BOM is present.</dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.fixBO" href="./htmlsrc/std.stream.html#L2285" kind="function" beg="2285" end="2318">fixBO</a><span class="params">(const( void)* <em>buffer</em>, uint <em>size</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.fixBO" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2285">#</a></dt>
+<dd class="ddef">
+<div class="summary">Correct the byte order of buffer to match native endianness.
+ size must be even.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.fixBlockBO" href="./htmlsrc/std.stream.html#L2325" kind="function" beg="2325" end="2330">fixBlockBO</a><span class="params">(void* <em>buffer</em>, uint <em>size</em>, size_t <em>repeat</em>)</span>; <span class="attrs">[<span class="stc">final</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.fixBlockBO" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2325">#</a></dt>
+<dd class="ddef">
+<div class="summary">Correct the byte order of the given buffer in blocks of the given size and
+ repeated the given number of times.
+ size must be even.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read" href="./htmlsrc/std.stream.html#L2332" kind="function" beg="2332" end="2332">read</a><span class="params">(out byte <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2332">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:2" href="./htmlsrc/std.stream.html#L2333" kind="function" beg="2333" end="2333">read</a><span class="params">(out ubyte <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2333">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:3" href="./htmlsrc/std.stream.html#L2334" kind="function" beg="2334" end="2334">read</a><span class="params">(out short <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2334">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:4" href="./htmlsrc/std.stream.html#L2335" kind="function" beg="2335" end="2335">read</a><span class="params">(out ushort <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2335">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:5" href="./htmlsrc/std.stream.html#L2336" kind="function" beg="2336" end="2336">read</a><span class="params">(out int <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2336">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:6" href="./htmlsrc/std.stream.html#L2337" kind="function" beg="2337" end="2337">read</a><span class="params">(out uint <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2337">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:7" href="./htmlsrc/std.stream.html#L2338" kind="function" beg="2338" end="2338">read</a><span class="params">(out long <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2338">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:8" href="./htmlsrc/std.stream.html#L2339" kind="function" beg="2339" end="2339">read</a><span class="params">(out ulong <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2339">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:9" href="./htmlsrc/std.stream.html#L2340" kind="function" beg="2340" end="2340">read</a><span class="params">(out float <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2340">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:10" href="./htmlsrc/std.stream.html#L2341" kind="function" beg="2341" end="2341">read</a><span class="params">(out double <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2341">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:11" href="./htmlsrc/std.stream.html#L2342" kind="function" beg="2342" end="2342">read</a><span class="params">(out real <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2342">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:12" href="./htmlsrc/std.stream.html#L2343" kind="function" beg="2343" end="2343">read</a><span class="params">(out ifloat <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2343">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:13" href="./htmlsrc/std.stream.html#L2344" kind="function" beg="2344" end="2344">read</a><span class="params">(out idouble <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2344">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:14" href="./htmlsrc/std.stream.html#L2345" kind="function" beg="2345" end="2345">read</a><span class="params">(out ireal <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2345">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:15" href="./htmlsrc/std.stream.html#L2346" kind="function" beg="2346" end="2346">read</a><span class="params">(out cfloat <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2346">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:16" href="./htmlsrc/std.stream.html#L2347" kind="function" beg="2347" end="2347">read</a><span class="params">(out cdouble <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2347">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:17" href="./htmlsrc/std.stream.html#L2348" kind="function" beg="2348" end="2348">read</a><span class="params">(out creal <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2348">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:18" href="./htmlsrc/std.stream.html#L2349" kind="function" beg="2349" end="2349">read</a><span class="params">(out char <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2349">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:19" href="./htmlsrc/std.stream.html#L2350" kind="function" beg="2350" end="2350">read</a><span class="params">(out wchar <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:19" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2350">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.read:20" href="./htmlsrc/std.stream.html#L2351" kind="function" beg="2351" end="2351">read</a><span class="params">(out dchar <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.read:20" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2351">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">wchar <a class="symbol _function" name="EndianStream.getcw" href="./htmlsrc/std.stream.html#L2353" kind="function" beg="2353" end="2372">getcw</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.getcw" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2353">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">wchar[] <a class="symbol _function" name="EndianStream.readStringW" href="./htmlsrc/std.stream.html#L2374" kind="function" beg="2374" end="2379">readStringW</a><span class="params">(size_t <em>length</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.readStringW" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2374">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.writeBOM" href="./htmlsrc/std.stream.html#L2382" kind="function" beg="2382" end="2385">writeBOM</a><span class="params">(BOM <em>b</em>)</span>; <a title="Permalink to this symbol" href="#EndianStream.writeBOM" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2382">#</a></dt>
+<dd class="ddef">
+<div class="summary">Write the specified BOM b to the source stream.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write" href="./htmlsrc/std.stream.html#L2387" kind="function" beg="2387" end="2387">write</a><span class="params">(byte <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2387">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:2" href="./htmlsrc/std.stream.html#L2388" kind="function" beg="2388" end="2388">write</a><span class="params">(ubyte <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2388">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:3" href="./htmlsrc/std.stream.html#L2389" kind="function" beg="2389" end="2389">write</a><span class="params">(short <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2389">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:4" href="./htmlsrc/std.stream.html#L2390" kind="function" beg="2390" end="2390">write</a><span class="params">(ushort <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2390">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:5" href="./htmlsrc/std.stream.html#L2391" kind="function" beg="2391" end="2391">write</a><span class="params">(int <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2391">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:6" href="./htmlsrc/std.stream.html#L2392" kind="function" beg="2392" end="2392">write</a><span class="params">(uint <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2392">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:7" href="./htmlsrc/std.stream.html#L2393" kind="function" beg="2393" end="2393">write</a><span class="params">(long <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2393">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:8" href="./htmlsrc/std.stream.html#L2394" kind="function" beg="2394" end="2394">write</a><span class="params">(ulong <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2394">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:9" href="./htmlsrc/std.stream.html#L2395" kind="function" beg="2395" end="2395">write</a><span class="params">(float <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2395">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:10" href="./htmlsrc/std.stream.html#L2396" kind="function" beg="2396" end="2396">write</a><span class="params">(double <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2396">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:11" href="./htmlsrc/std.stream.html#L2397" kind="function" beg="2397" end="2397">write</a><span class="params">(real <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2397">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:12" href="./htmlsrc/std.stream.html#L2398" kind="function" beg="2398" end="2398">write</a><span class="params">(ifloat <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2398">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:13" href="./htmlsrc/std.stream.html#L2399" kind="function" beg="2399" end="2399">write</a><span class="params">(idouble <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2399">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:14" href="./htmlsrc/std.stream.html#L2400" kind="function" beg="2400" end="2400">write</a><span class="params">(ireal <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2400">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:15" href="./htmlsrc/std.stream.html#L2401" kind="function" beg="2401" end="2401">write</a><span class="params">(cfloat <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2401">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:16" href="./htmlsrc/std.stream.html#L2402" kind="function" beg="2402" end="2402">write</a><span class="params">(cdouble <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2402">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:17" href="./htmlsrc/std.stream.html#L2403" kind="function" beg="2403" end="2403">write</a><span class="params">(creal <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2403">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:18" href="./htmlsrc/std.stream.html#L2404" kind="function" beg="2404" end="2404">write</a><span class="params">(char <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2404">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:19" href="./htmlsrc/std.stream.html#L2405" kind="function" beg="2405" end="2405">write</a><span class="params">(wchar <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:19" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2405">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.write:20" href="./htmlsrc/std.stream.html#L2406" kind="function" beg="2406" end="2406">write</a><span class="params">(dchar <em>x</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.write:20" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2406">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="EndianStream.writeStringW" href="./htmlsrc/std.stream.html#L2408" kind="function" beg="2408" end="2413">writeStringW</a><span class="params">(const( wchar)[] <em>str</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.writeStringW" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2408">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="EndianStream.eof" href="./htmlsrc/std.stream.html#L2415" kind="function" beg="2415" end="2415">eof</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.eof" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2415">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _function" name="EndianStream.size" href="./htmlsrc/std.stream.html#L2416" kind="function" beg="2416" end="2416">size</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#EndianStream.size" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2416">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="EndianStream.unittest" href="./htmlsrc/std.stream.html#L2418" kind="unittest" beg="2418" end="2500">unittest</a>; <a title="Permalink to this symbol" href="#EndianStream.unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2418">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="TArrayStream" href="./htmlsrc/std.stream.html#L2511" kind="class" beg="2511" end="2591">TArrayStream</a><span class="tparams">(Buffer)</span> : Stream; <a title="Permalink to this symbol" href="#TArrayStream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2511">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parameterized subclass that wraps an array-like buffer with a stream
+ interface.</div>
+The type Buffer must support the length property, opIndex and opSlice.
+ Compile in release mode when directly instantiating a TArrayStream to avoid
+ link errors.
+<dl>
+<dt class="decl">Buffer <a class="symbol _variable" name="TArrayStream.buf" href="./htmlsrc/std.stream.html#L2512" kind="variable" beg="2512" end="2512">buf</a>; <a title="Permalink to this symbol" href="#TArrayStream.buf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2512">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _variable" name="TArrayStream.len" href="./htmlsrc/std.stream.html#L2513" kind="variable" beg="2513" end="2513">len</a>; <a title="Permalink to this symbol" href="#TArrayStream.len" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2513">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _variable" name="TArrayStream.cur" href="./htmlsrc/std.stream.html#L2514" kind="variable" beg="2514" end="2514">cur</a>; <a title="Permalink to this symbol" href="#TArrayStream.cur" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2514">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="TArrayStream.this" href="./htmlsrc/std.stream.html#L2517" kind="ctor" beg="2517" end="2522">this</a><span class="params">(Buffer <em>buf</em>)</span>; <a title="Permalink to this symbol" href="#TArrayStream.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2517">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create the stream for the the buffer buf. Non-copying.</div></dd>
+<dt class="decl"><a class="symbol _invariant" name="TArrayStream.invariant" href="./htmlsrc/std.stream.html#L2525" kind="invariant" beg="2525" end="2528">invariant</a>; <a title="Permalink to this symbol" href="#TArrayStream.invariant" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2525">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="TArrayStream.readBlock" href="./htmlsrc/std.stream.html#L2530" kind="function" beg="2530" end="2539">readBlock</a><span class="params">(void* <em>buffer</em>, size_t <em>size</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#TArrayStream.readBlock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2530">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="TArrayStream.writeBlock" href="./htmlsrc/std.stream.html#L2541" kind="function" beg="2541" end="2553">writeBlock</a><span class="params">(const void* <em>buffer</em>, size_t <em>size</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#TArrayStream.writeBlock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2541">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _function" name="TArrayStream.seek" href="./htmlsrc/std.stream.html#L2555" kind="function" beg="2555" end="2575">seek</a><span class="params">(long <em>offset</em>, SeekPos <em>rel</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#TArrayStream.seek" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2555">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="TArrayStream.available" href="./htmlsrc/std.stream.html#L2577" kind="function" beg="2577" end="2577">available</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#TArrayStream.available" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2577">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte[] <a class="symbol _function" name="TArrayStream.data" href="./htmlsrc/std.stream.html#L2580" kind="function" beg="2580" end="2585">data</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#TArrayStream.data" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2580">#</a></dt>
+<dd class="ddef">
+<div class="summary">Get the current memory data in total.</div></dd>
+<dt class="decl">string <a class="symbol _function" name="TArrayStream.toString" href="./htmlsrc/std.stream.html#L2587" kind="function" beg="2587" end="2590">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#TArrayStream.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2587">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.stream.html#L2594" kind="unittest" beg="2594" end="2617">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2594">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">class <a class="symbol _class" name="MemoryStream" href="./htmlsrc/std.stream.html#L2620" kind="class" beg="2620" end="2689">MemoryStream</a> : TArrayStream!(ubyte[]); <a title="Permalink to this symbol" href="#MemoryStream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2620">#</a></dt>
+<dd class="ddef">
+<div class="summary">This subclass reads and constructs an array of bytes in memory.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="MemoryStream.this" href="./htmlsrc/std.stream.html#L2624" kind="ctor" beg="2624" end="2624">this</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#MemoryStream.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2624">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create the output buffer and setup for reading, writing, and seeking.</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="MemoryStream.this:2" href="./htmlsrc/std.stream.html#L2630" kind="ctor" beg="2630" end="2630">this</a><span class="params">(ubyte[] <em>buf</em>)</span>; <a title="Permalink to this symbol" href="#MemoryStream.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2630">#</a></dt>
+<dt class="decl"><a class="symbol _ctor" name="MemoryStream.this:3" href="./htmlsrc/std.stream.html#L2631" kind="ctor" beg="2631" end="2631">this</a><span class="params">(byte[] <em>buf</em>)</span>; <a title="Permalink to this symbol" href="#MemoryStream.this:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2631">#</a></dt>
+<dt class="decl"><a class="symbol _ctor" name="MemoryStream.this:4" href="./htmlsrc/std.stream.html#L2632" kind="ctor" beg="2632" end="2632">this</a><span class="params">(char[] <em>buf</em>)</span>; <a title="Permalink to this symbol" href="#MemoryStream.this:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2632">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create the output buffer and setup for reading, writing, and seeking.
+ Load it with specific input data.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="MemoryStream.reserve" href="./htmlsrc/std.stream.html#L2635" kind="function" beg="2635" end="2638">reserve</a><span class="params">(size_t <em>count</em>)</span>; <a title="Permalink to this symbol" href="#MemoryStream.reserve" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2635">#</a></dt>
+<dd class="ddef">
+<div class="summary">Ensure the stream can hold count bytes.</div></dd>
+<dt class="decl">size_t <a class="symbol _function" name="MemoryStream.writeBlock" href="./htmlsrc/std.stream.html#L2640" kind="function" beg="2640" end="2643">writeBlock</a><span class="params">(const void* <em>buffer</em>, size_t <em>size</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#MemoryStream.writeBlock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2640">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="MemoryStream.unittest" href="./htmlsrc/std.stream.html#L2645" kind="unittest" beg="2645" end="2688">unittest</a>; <a title="Permalink to this symbol" href="#MemoryStream.unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2645">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="MmFileStream" href="./htmlsrc/std.stream.html#L2697" kind="class" beg="2697" end="2720">MmFileStream</a> : TArrayStream!(MmFile); <a title="Permalink to this symbol" href="#MmFileStream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2697">#</a></dt>
+<dd class="ddef">
+<div class="summary">This subclass wraps a memory-mapped file with the stream API.
+ See std.mmfile module.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="MmFileStream.this" href="./htmlsrc/std.stream.html#L2700" kind="ctor" beg="2700" end="2704">this</a><span class="params">(MmFile <em>file</em>)</span>; <a title="Permalink to this symbol" href="#MmFileStream.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2700">#</a></dt>
+<dd class="ddef">
+<div class="summary">Create stream wrapper for file.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="MmFileStream.flush" href="./htmlsrc/std.stream.html#L2706" kind="function" beg="2706" end="2711">flush</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#MmFileStream.flush" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2706">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="MmFileStream.close" href="./htmlsrc/std.stream.html#L2713" kind="function" beg="2713" end="2719">close</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#MmFileStream.close" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2713">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.stream.html#L2722" kind="unittest" beg="2722" end="2750">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2722">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">class <a class="symbol _class" name="SliceStream" href="./htmlsrc/std.stream.html#L2762" kind="class" beg="2762" end="2934">SliceStream</a> : FilterStream; <a title="Permalink to this symbol" href="#SliceStream" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2762">#</a></dt>
+<dd class="ddef">
+<div class="summary">This subclass slices off a portion of another stream, making seeking relative
+ to the boundaries of the slice.</div>
+It could be used to section a large file into a
+ set of smaller files, such as with tar archives. Reading and writing a
+ SliceStream does not modify the position of the source stream if it is
+ seekable.
+<dl>
+<dt class="decl">ulong <a class="symbol _variable" name="SliceStream.pos" href="./htmlsrc/std.stream.html#L2764" kind="variable" beg="2764" end="2764">pos</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SliceStream.pos" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2764">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _variable" name="SliceStream.low" href="./htmlsrc/std.stream.html#L2765" kind="variable" beg="2765" end="2765">low</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SliceStream.low" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2765">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _variable" name="SliceStream.high" href="./htmlsrc/std.stream.html#L2766" kind="variable" beg="2766" end="2766">high</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SliceStream.high" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2766">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _variable" name="SliceStream.bounded" href="./htmlsrc/std.stream.html#L2767" kind="variable" beg="2767" end="2767">bounded</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#SliceStream.bounded" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2767">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="SliceStream.this" href="./htmlsrc/std.stream.html#L2777" kind="ctor" beg="2777" end="2786">this</a><span class="params">(Stream <em>s</em>, ulong <em>low</em>)</span>; <a title="Permalink to this symbol" href="#SliceStream.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2777">#</a></dt>
+<dd class="ddef">
+<div class="summary">Indicate both the source stream to use for reading from and the low part of
+ the slice.</div>
+The high part of the slice is dependent upon the end of the source
+ stream, so that if you write beyond the end it resizes the stream normally.</dd>
+<dt class="decl"><a class="symbol _ctor" name="SliceStream.this:2" href="./htmlsrc/std.stream.html#L2794" kind="ctor" beg="2794" end="2804">this</a><span class="params">(Stream <em>s</em>, ulong <em>low</em>, ulong <em>high</em>)</span>; <a title="Permalink to this symbol" href="#SliceStream.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2794">#</a></dt>
+<dd class="ddef">
+<div class="summary">Indicate the high index as well.</div>
+Attempting to read or write past the high
+ index results in the end being clipped off.</dd>
+<dt class="decl"><a class="symbol _invariant" name="SliceStream.invariant" href="./htmlsrc/std.stream.html#L2806" kind="invariant" beg="2806" end="2811">invariant</a>; <a title="Permalink to this symbol" href="#SliceStream.invariant" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2806">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="SliceStream.readBlock" href="./htmlsrc/std.stream.html#L2813" kind="function" beg="2813" end="2826">readBlock</a><span class="params">(void * <em>buffer</em>, size_t <em>size</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SliceStream.readBlock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2813">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="SliceStream.writeBlock" href="./htmlsrc/std.stream.html#L2828" kind="function" beg="2828" end="2841">writeBlock</a><span class="params">(const void * <em>buffer</em>, size_t <em>size</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SliceStream.writeBlock" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2828">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _function" name="SliceStream.seek" href="./htmlsrc/std.stream.html#L2843" kind="function" beg="2843" end="2875">seek</a><span class="params">(long <em>offset</em>, SeekPos <em>rel</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SliceStream.seek" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2843">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">size_t <a class="symbol _function" name="SliceStream.available" href="./htmlsrc/std.stream.html#L2877" kind="function" beg="2877" end="2887">available</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#SliceStream.available" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2877">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="SliceStream.unittest" href="./htmlsrc/std.stream.html#L2889" kind="unittest" beg="2889" end="2933">unittest</a>; <a title="Permalink to this symbol" href="#SliceStream.unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2889">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">bool <a class="symbol _function" name="iswhite" href="./htmlsrc/std.stream.html#L2937" kind="function" beg="2937" end="2939">iswhite</a><span class="params">(char <em>c</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#iswhite" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2937">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="isdigit" href="./htmlsrc/std.stream.html#L2941" kind="function" beg="2941" end="2943">isdigit</a><span class="params">(char <em>c</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#isdigit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2941">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="isoctdigit" href="./htmlsrc/std.stream.html#L2945" kind="function" beg="2945" end="2947">isoctdigit</a><span class="params">(char <em>c</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#isoctdigit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2945">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="ishexdigit" href="./htmlsrc/std.stream.html#L2949" kind="function" beg="2949" end="2951">ishexdigit</a><span class="params">(char <em>c</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ishexdigit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.stream.html#L2949">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:45 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.demangle</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.demangle";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.demangle.html" class="symbol">std.demangle</a></h1>
+  
+<div class="summary">Demangle D mangled names.</div>
+<dl>
+<dt class="decl">class <a class="symbol _class" name="MangleException" href="./htmlsrc/std.demangle.html#L30" kind="class" beg="30" end="36">MangleException</a> : Exception; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MangleException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.demangle.html#L30">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="MangleException.this" href="./htmlsrc/std.demangle.html#L32" kind="ctor" beg="32" end="35">this</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#MangleException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.demangle.html#L32">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">string <a class="symbol _function" name="demangle" href="./htmlsrc/std.demangle.html#L84" kind="function" beg="84" end="482">demangle</a><span class="params">(string <em>name</em>)</span>; <a title="Permalink to this symbol" href="#demangle" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.demangle.html#L84">#</a></dt>
+<dd class="ddef">
+<div class="summary">Demangle D mangled names.</div>
+If it is not a D mangled name, it returns its argument name.
+<p class="sec_header">Example:</p>This program reads standard in and writes it to standard out,
+        pretty-printing any found D mangled names.
+<pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">ctype</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">demangle</span>;
+
+<span class="k">int</span> <span class="i">main</span>()
+{   <span class="k">char</span>[] <span class="i">buffer</span>;
+    <span class="k">bool</span> <span class="i">inword</span>;
+    <span class="k">int</span> <span class="i">c</span>;
+
+    <span class="k">while</span> ((<span class="i">c</span> = <span class="i">fgetc</span>(<span class="i">stdin</span>)) != <span class="i">EOF</span>)
+    {
+        <span class="k">if</span> (<span class="i">inword</span>)
+        {
+            <span class="k">if</span> (<span class="i">c</span> == <span class="cl">'_'</span> || <span class="i">isalnum</span>(<span class="i">c</span>))
+                <span class="i">buffer</span> ~= <span class="k">cast</span>(<span class="k">char</span>) <span class="i">c</span>;
+            <span class="k">else</span>
+            {
+                <span class="i">inword</span> = <span class="k">false</span>;
+                <span class="i">writef</span>(<span class="i">demangle</span>(<span class="i">buffer</span>), <span class="k">cast</span>(<span class="k">char</span>) <span class="i">c</span>);
+            }
+        }
+        <span class="k">else</span>
+        {   <span class="k">if</span> (<span class="i">c</span> == <span class="cl">'_'</span> || <span class="i">isalpha</span>(<span class="i">c</span>))
+            {        <span class="i">inword</span> = <span class="k">true</span>;
+                <span class="i">buffer</span>.<span class="i">length</span> = <span class="n">0</span>;
+                <span class="i">buffer</span> ~= <span class="k">cast</span>(<span class="k">char</span>) <span class="i">c</span>;
+            }
+            <span class="k">else</span>
+                <span class="i">writef</span>(<span class="k">cast</span>(<span class="k">char</span>) <span class="i">c</span>);
+        }
+    }
+    <span class="k">if</span> (<span class="i">inword</span>)
+        <span class="i">writef</span>(<span class="i">demangle</span>(<span class="i">buffer</span>));
+    <span class="k">return</span> <span class="n">0</span>;
+}
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.demangle.html#L485" kind="unittest" beg="485" end="513">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.demangle.html#L485">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:38 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

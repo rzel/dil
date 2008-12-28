@@ -1,0 +1,1260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.xml</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.xml";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.xml.html" class="symbol">std.xml</a></h1>
+  
+<div class="summary">Classes and functions for creating and parsing XML</div>
+The basic architecture of this module is that there are standalone functions,
+classes for constructing an XML document from scratch (Tag, Element and
+Document), and also classes for parsing a pre-existing XML file (ElementParser
+and DocumentParser). The parsing classes <i>may</i> be used to build a
+Document, but that is not their primary purpose. The handling capabilities of
+DocumentParser and ElementParser are sufficiently customizable that you can
+make them do pretty much whatever you want.
+<p class="sec_header">Authors:</p>Janice Caron
+<p class="sec_header">Date:</p>2008.02.12 - 2008.05.07
+<p class="sec_header">License:</p>Public Domain
+<p class="sec_header">Example:</p>This example creates a DOM (Document Object Model) tree
+    from an XML file.
+<pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">xml</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">string</span>;
+
+<span class="lc">// books.xml is used in various samples throughout the Microsoft XML Core</span>
+<span class="lc">// Services (MSXML) SDK.</span>
+<span class="lc">//</span>
+<span class="lc">// See http://msdn2.microsoft.com/en-us/library/ms762271(VS.85).aspx</span>
+
+<span class="k">void</span> <span class="i">main</span>()
+{
+    <span class="i">string</span> <span class="i">s</span> = <span class="k">cast</span>(<span class="i">string</span>)<span class="i">std</span>.<span class="i">file</span>.<span class="i">read</span>(<span class="sl">"books.xml"</span>);
+
+    <span class="lc">// Check for well-formedness</span>
+    <span class="i">check</span>(<span class="i">s</span>);
+
+    <span class="lc">// Make a DOM tree</span>
+    <span class="k">auto</span> <span class="i">doc</span> = <span class="k">new</span> <span class="i">Document</span>(<span class="i">s</span>);
+
+    <span class="lc">// Plain-print it</span>
+    <span class="i">writefln</span>(<span class="i">doc</span>);
+}
+</pre>
+<p class="sec_header">Example:</p>This example does much the same thing, except that the file is
+    deconstructed and reconstructed by hand. This is more work, but the
+    techniques involved offer vastly more power.
+<pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">xml</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">string</span>;
+
+<span class="k">struct</span> <span class="i">Book</span>
+{
+    <span class="i">string</span> <span class="i">id</span>;
+    <span class="i">string</span> <span class="i">author</span>;
+    <span class="i">string</span> <span class="i">title</span>;
+    <span class="i">string</span> <span class="i">genre</span>;
+    <span class="i">string</span> <span class="i">price</span>;
+    <span class="i">string</span> <span class="i">pubDate</span>;
+    <span class="i">string</span> <span class="i">description</span>;
+}
+
+<span class="k">void</span> <span class="i">main</span>()
+{
+    <span class="i">string</span> <span class="i">s</span> = <span class="k">cast</span>(<span class="i">string</span>)<span class="i">std</span>.<span class="i">file</span>.<span class="i">read</span>(<span class="sl">"books.xml"</span>);
+
+    <span class="lc">// Check for well-formedness</span>
+    <span class="i">check</span>(<span class="i">s</span>);
+
+    <span class="lc">// Take it apart</span>
+    <span class="i">Book</span>[] <span class="i">books</span>;
+
+    <span class="k">auto</span> <span class="i">xml</span> = <span class="k">new</span> <span class="i">DocumentParser</span>(<span class="i">s</span>);
+    <span class="i">xml</span>.<span class="i">onStartTag</span>[<span class="sl">"book"</span>] = (<span class="i">ElementParser</span> <span class="i">xml</span>)
+    {
+        <span class="i">Book</span> <span class="i">book</span>;
+        <span class="i">book</span>.<span class="i">id</span> = <span class="i">xml</span>.<span class="i">tag</span>.<span class="i">attr</span>[<span class="sl">"id"</span>];
+
+        <span class="i">xml</span>.<span class="i">onEndTag</span>[<span class="sl">"author"</span>]       = (<span class="k">in</span> <span class="i">Element</span> <span class="i">e</span>) { <span class="i">book</span>.<span class="i">author</span>      = <span class="i">e</span>.<span class="i">text</span>; };
+        <span class="i">xml</span>.<span class="i">onEndTag</span>[<span class="sl">"title"</span>]        = (<span class="k">in</span> <span class="i">Element</span> <span class="i">e</span>) { <span class="i">book</span>.<span class="i">title</span>       = <span class="i">e</span>.<span class="i">text</span>; };
+        <span class="i">xml</span>.<span class="i">onEndTag</span>[<span class="sl">"genre"</span>]        = (<span class="k">in</span> <span class="i">Element</span> <span class="i">e</span>) { <span class="i">book</span>.<span class="i">genre</span>       = <span class="i">e</span>.<span class="i">text</span>; };
+        <span class="i">xml</span>.<span class="i">onEndTag</span>[<span class="sl">"price"</span>]        = (<span class="k">in</span> <span class="i">Element</span> <span class="i">e</span>) { <span class="i">book</span>.<span class="i">price</span>       = <span class="i">e</span>.<span class="i">text</span>; };
+        <span class="i">xml</span>.<span class="i">onEndTag</span>[<span class="sl">"publish-date"</span>] = (<span class="k">in</span> <span class="i">Element</span> <span class="i">e</span>) { <span class="i">book</span>.<span class="i">pubDate</span>     = <span class="i">e</span>.<span class="i">text</span>; };
+        <span class="i">xml</span>.<span class="i">onEndTag</span>[<span class="sl">"description"</span>]  = (<span class="k">in</span> <span class="i">Element</span> <span class="i">e</span>) { <span class="i">book</span>.<span class="i">description</span> = <span class="i">e</span>.<span class="i">text</span>; };
+
+        <span class="i">xml</span>.<span class="i">parse</span>();
+
+        <span class="i">books</span> ~= <span class="i">book</span>;
+    };
+    <span class="i">xml</span>.<span class="i">parse</span>();
+
+    <span class="lc">// Put it back together again;</span>
+    <span class="k">auto</span> <span class="i">doc</span> = <span class="k">new</span> <span class="i">Document</span>(<span class="k">new</span> <span class="i">Tag</span>(<span class="sl">"catalog"</span>));
+    <span class="k">foreach</span>(<span class="i">book</span>;<span class="i">books</span>)
+    {
+        <span class="k">auto</span> <span class="i">element</span> = <span class="k">new</span> <span class="i">Element</span>(<span class="sl">"book"</span>);
+        <span class="i">element</span>.<span class="i">tag</span>.<span class="i">attr</span>[<span class="sl">"id"</span>] = <span class="i">book</span>.<span class="i">id</span>;
+
+        <span class="i">element</span> ~= <span class="k">new</span> <span class="i">Element</span>(<span class="sl">"author"</span>,      <span class="i">book</span>.<span class="i">author</span>);
+        <span class="i">element</span> ~= <span class="k">new</span> <span class="i">Element</span>(<span class="sl">"title"</span>,       <span class="i">book</span>.<span class="i">title</span>);
+        <span class="i">element</span> ~= <span class="k">new</span> <span class="i">Element</span>(<span class="sl">"genre"</span>,       <span class="i">book</span>.<span class="i">genre</span>);
+        <span class="i">element</span> ~= <span class="k">new</span> <span class="i">Element</span>(<span class="sl">"price"</span>,       <span class="i">book</span>.<span class="i">price</span>);
+        <span class="i">element</span> ~= <span class="k">new</span> <span class="i">Element</span>(<span class="sl">"publish-date"</span>,<span class="i">book</span>.<span class="i">pubDate</span>);
+        <span class="i">element</span> ~= <span class="k">new</span> <span class="i">Element</span>(<span class="sl">"description"</span>, <span class="i">book</span>.<span class="i">description</span>);
+
+        <span class="i">doc</span> ~= <span class="i">element</span>;
+    }
+
+    <span class="lc">// Pretty-print it</span>
+    <span class="i">writefln</span>(<span class="i">join</span>(<span class="i">doc</span>.<span class="i">pretty</span>(<span class="n">3</span>),<span class="sl">"\n"</span>));
+}
+</pre>
+<dl>
+<dt class="decl">bool <a class="symbol _function" name="isChar" href="./htmlsrc/std.xml.html#L132" kind="function" beg="132" end="135">isChar</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#isChar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L132">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the character is a character according to the XML standard</div>
+<p class="sec_header">Standards:</p><a href="http://www.w3.org/TR/1998/REC-xml-19980210">XML 1.0</a>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the character to be tested</td></tr></table></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.xml.html#L137" kind="unittest" beg="137" end="161">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L137">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="isSpace" href="./htmlsrc/std.xml.html#L174" kind="function" beg="174" end="177">isSpace</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#isSpace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L174">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the character is whitespace according to the XML standard</div>
+Only the following characters are considered whitespace in XML - space, tab,
+ carriage return and linefeed
+<p class="sec_header">Standards:</p><a href="http://www.w3.org/TR/1998/REC-xml-19980210">XML 1.0</a>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the character to be tested</td></tr></table></dd>
+<dt class="decl">bool <a class="symbol _function" name="isDigit" href="./htmlsrc/std.xml.html#L187" kind="function" beg="187" end="190">isDigit</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#isDigit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L187">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the character is a digit according to the XML standard</div>
+<p class="sec_header">Standards:</p><a href="http://www.w3.org/TR/1998/REC-xml-19980210">XML 1.0</a>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the character to be tested</td></tr></table></dd>
+<dt class="decl">bool <a class="symbol _function" name="isLetter" href="./htmlsrc/std.xml.html#L200" kind="function" beg="200" end="203">isLetter</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#isLetter" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L200">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the character is a letter according to the XML standard</div>
+<p class="sec_header">Standards:</p><a href="http://www.w3.org/TR/1998/REC-xml-19980210">XML 1.0</a>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the character to be tested</td></tr></table></dd>
+<dt class="decl">bool <a class="symbol _function" name="isIdeographic" href="./htmlsrc/std.xml.html#L214" kind="function" beg="214" end="217">isIdeographic</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#isIdeographic" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L214">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the character is an ideographic character according to the
+ XML standard</div>
+<p class="sec_header">Standards:</p><a href="http://www.w3.org/TR/1998/REC-xml-19980210">XML 1.0</a>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the character to be tested</td></tr></table></dd>
+<dt class="decl">bool <a class="symbol _function" name="isBaseChar" href="./htmlsrc/std.xml.html#L228" kind="function" beg="228" end="231">isBaseChar</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#isBaseChar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L228">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the character is a base character according to the XML
+ standard</div>
+<p class="sec_header">Standards:</p><a href="http://www.w3.org/TR/1998/REC-xml-19980210">XML 1.0</a>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the character to be tested</td></tr></table></dd>
+<dt class="decl">bool <a class="symbol _function" name="isCombiningChar" href="./htmlsrc/std.xml.html#L242" kind="function" beg="242" end="245">isCombiningChar</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#isCombiningChar" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L242">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the character is a combining character according to the
+ XML standard</div>
+<p class="sec_header">Standards:</p><a href="http://www.w3.org/TR/1998/REC-xml-19980210">XML 1.0</a>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the character to be tested</td></tr></table></dd>
+<dt class="decl">bool <a class="symbol _function" name="isExtender" href="./htmlsrc/std.xml.html#L255" kind="function" beg="255" end="258">isExtender</a><span class="params">(dchar <em>c</em>)</span>; <a title="Permalink to this symbol" href="#isExtender" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L255">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the character is an extender according to the XML standard</div>
+<p class="sec_header">Standards:</p><a href="http://www.w3.org/TR/1998/REC-xml-19980210">XML 1.0</a>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>c</em></td><td>the character to be tested</td></tr></table></dd>
+<dt class="decl">string <a class="symbol _function" name="encode" href="./htmlsrc/std.xml.html#L284" kind="function" beg="284" end="296">encode</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#encode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L284">#</a></dt>
+<dd class="ddef">
+<div class="summary">Encodes a string by replacing all characters which need to be escaped with
+ appropriate predefined XML entities.</div>
+encode() escapes certain characters (ampersand, quote, apostrophe, less-than
+ and greater-than), and similarly, decode() unescapes them. These functions
+ are provided for convenience only. You do not need to use them when using
+ the std.xml classes, because then all the encoding and decoding will be done
+ for you automatically.
+<p class="bl"/>
+ If the string is not modified, the original will be returned.
+<p class="sec_header">Standards:</p><a href="http://www.w3.org/TR/1998/REC-xml-19980210">XML 1.0</a>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>The string to be encoded</td></tr></table>
+<p class="sec_header">Returns:</p>The encoded string
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">writefln</span>(<span class="i">encode</span>(<span class="sl">"a &gt; b"</span>)); <span class="lc">// writes "a &amp;gt; b"</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.xml.html#L298" kind="unittest" beg="298" end="306">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L298">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">enum <a class="symbol _enum" name="DecodeMode" href="./htmlsrc/std.xml.html#L315" kind="enum" beg="315" end="318">DecodeMode</a>; <a title="Permalink to this symbol" href="#DecodeMode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L315">#</a></dt>
+<dd class="ddef">
+<div class="summary">Mode to use for decoding.</div>
+<dl>NONE</dl> Do not decode
+ <dl>LOOSE</dl> Decode, but ignore errors
+ <dl>STRICT</dl> Decode, and throw exception on error
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="DecodeMode.NONE" href="./htmlsrc/std.xml.html#L317" kind="enummem" beg="317" end="317">NONE</a> <a title="Permalink to this symbol" href="#DecodeMode.NONE" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L317">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="DecodeMode.LOOSE" href="./htmlsrc/std.xml.html#L317" kind="enummem" beg="317" end="317">LOOSE</a> <a title="Permalink to this symbol" href="#DecodeMode.LOOSE" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L317">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="DecodeMode.STRICT" href="./htmlsrc/std.xml.html#L317" kind="enummem" beg="317" end="317">STRICT</a> <a title="Permalink to this symbol" href="#DecodeMode.STRICT" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L317">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">string <a class="symbol _function" name="decode" href="./htmlsrc/std.xml.html#L354" kind="function" beg="354" end="404">decode</a><span class="params">(string <em>s</em>, DecodeMode <em>mode</em> = DecodeMode.LOOSE)</span>; <a title="Permalink to this symbol" href="#decode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L354">#</a></dt>
+<dd class="ddef">
+<div class="summary">Decodes a string by unescaping all predefined XML entities.</div>
+encode() escapes certain characters (ampersand, quote, apostrophe, less-than
+ and greater-than), and similarly, decode() unescapes them. These functions
+ are provided for convenience only. You do not need to use them when using
+ the std.xml classes, because then all the encoding and decoding will be done
+ for you automatically.
+<p class="bl"/>
+ This function decodes the entities &amp;amp;, &amp;quot;, &amp;apos;,
+ &amp;lt; and &amp;gt,
+ as well as decimal and hexadecimal entities such as &amp;#x20AC;
+<p class="bl"/>
+ If the string does not contain an ampersand, the original will be returned.
+<p class="bl"/>
+ Note that the "mode" parameter can be one of DecodeMode.NONE (do not
+ decode), DecodeMode.LOOSE (decode, but ignore errors), or DecodeMode.STRICT
+ (decode, and throw a DecodeException in the event of an error).
+<p class="sec_header">Standards:</p><a href="http://www.w3.org/TR/1998/REC-xml-19980210">XML 1.0</a>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>The string to be decoded</td></tr>
+<tr><td><em>mode</em></td><td>(optional) Mode to use for decoding. (Defaults to LOOSE).</td></tr></table>
+<p class="sec_header">Throws:</p>DecodeException if mode == DecodeMode.STRICT and decode fails
+<p class="sec_header">Returns:</p>The decoded string
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">writefln</span>(<span class="i">decode</span>(<span class="sl">"a &amp;gt; b"</span>)); <span class="lc">// writes "a &gt; b"</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:3" href="./htmlsrc/std.xml.html#L406" kind="unittest" beg="406" end="439">unittest</a>; <a title="Permalink to this symbol" href="#unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L406">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">class <a class="symbol _class" name="Document" href="./htmlsrc/std.xml.html#L447" kind="class" beg="447" end="564">Document</a> : Element; <a title="Permalink to this symbol" href="#Document" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L447">#</a></dt>
+<dd class="ddef">
+<div class="summary">Class representing an XML document.</div>
+<p class="sec_header">Standards:</p><a href="http://www.w3.org/TR/1998/REC-xml-19980210">XML 1.0</a>
+<dl>
+<dt class="decl">string <a class="symbol _variable" name="Document.prolog" href="./htmlsrc/std.xml.html#L453" kind="variable" beg="453" end="453">prolog</a>; <a title="Permalink to this symbol" href="#Document.prolog" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L453">#</a></dt>
+<dd class="ddef">
+<div class="summary">Contains all text which occurs before the root element.
+ Defaults to &lt;?xml version="1.0"?&gt;</div></dd>
+<dt class="decl">string <a class="symbol _variable" name="Document.epilog" href="./htmlsrc/std.xml.html#L458" kind="variable" beg="458" end="458">epilog</a>; <a title="Permalink to this symbol" href="#Document.epilog" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L458">#</a></dt>
+<dd class="ddef">
+<div class="summary">Contains all text which occurs after the root element.
+ Defaults to the empty string</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="Document.this" href="./htmlsrc/std.xml.html#L471" kind="ctor" beg="471" end="485">this</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#Document.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L471">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a Document by parsing XML text.</div>
+This function creates a complete DOM (Document Object Model) tree.
+<p class="bl"/>
+ The input to this function MUST be valid XML.
+ This is enforced by DocumentParser's in contract.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the complete XML text.</td></tr></table></dd>
+<dt class="decl"><a class="symbol _ctor" name="Document.this:2" href="./htmlsrc/std.xml.html#L493" kind="ctor" beg="493" end="496">this</a><span class="params">(const( Tag) <em>tag</em>)</span>; <a title="Permalink to this symbol" href="#Document.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L493">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a Document from a Tag.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>tag</em></td><td>the start tag of the document.</td></tr></table></dd>
+<dt class="decl">bool <a class="symbol _function" name="Document.opEquals" href="./htmlsrc/std.xml.html#L509" kind="function" beg="509" end="517">opEquals</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Document.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L509">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two Documents for equality</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Document</span> <span class="i">d1</span>,<span class="i">d2</span>;
+<span class="k">if</span> (<span class="i">d1</span> == <span class="i">d2</span>) { }
+</pre></dd>
+<dt class="decl">int <a class="symbol _function" name="Document.opCmp" href="./htmlsrc/std.xml.html#L531" kind="function" beg="531" end="542">opCmp</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Document.opCmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L531">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two Documents</div>
+You should rarely need to call this function. It exists so that
+ Documents can be used as associative array keys.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Document</span> <span class="i">d1</span>,<span class="i">d2</span>;
+<span class="k">if</span> (<span class="i">d1</span> &lt; <span class="i">d2</span>) { }
+</pre></dd>
+<dt class="decl">hash_t <a class="symbol _function" name="Document.toHash" href="./htmlsrc/std.xml.html#L550" kind="function" beg="550" end="553">toHash</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Document.toHash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L550">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the hash of a Document</div>
+You should rarely need to call this function. It exists so that
+ Documents can be used as associative array keys.</dd>
+<dt class="decl">string <a class="symbol _function" name="Document.toString" href="./htmlsrc/std.xml.html#L559" kind="function" beg="559" end="562">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Document.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L559">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the string representation of a Document. (That is, the
+ complete XML of a document).</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="Element" href="./htmlsrc/std.xml.html#L571" kind="class" beg="571" end="872">Element</a> : Item; <a title="Permalink to this symbol" href="#Element" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L571">#</a></dt>
+<dd class="ddef">
+<div class="summary">Class representing an XML element.</div>
+<p class="sec_header">Standards:</p><a href="http://www.w3.org/TR/1998/REC-xml-19980210">XML 1.0</a>
+<dl>
+<dt class="decl">Tag <a class="symbol _variable" name="Element.tag" href="./htmlsrc/std.xml.html#L573" kind="variable" beg="573" end="573">tag</a>; <a title="Permalink to this symbol" href="#Element.tag" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L573">#</a></dt>
+<dd class="ddef">
+<div class="summary">The start tag of the element</div></dd>
+<dt class="decl">Item[] <a class="symbol _variable" name="Element.items" href="./htmlsrc/std.xml.html#L574" kind="variable" beg="574" end="574">items</a>; <a title="Permalink to this symbol" href="#Element.items" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L574">#</a></dt>
+<dd class="ddef">
+<div class="summary">The element's items</div></dd>
+<dt class="decl">Text[] <a class="symbol _variable" name="Element.texts" href="./htmlsrc/std.xml.html#L575" kind="variable" beg="575" end="575">texts</a>; <a title="Permalink to this symbol" href="#Element.texts" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L575">#</a></dt>
+<dd class="ddef">
+<div class="summary">The element's text items</div></dd>
+<dt class="decl">CData[] <a class="symbol _variable" name="Element.cdatas" href="./htmlsrc/std.xml.html#L576" kind="variable" beg="576" end="576">cdatas</a>; <a title="Permalink to this symbol" href="#Element.cdatas" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L576">#</a></dt>
+<dd class="ddef">
+<div class="summary">The element's CData items</div></dd>
+<dt class="decl">Comment[] <a class="symbol _variable" name="Element.comments" href="./htmlsrc/std.xml.html#L577" kind="variable" beg="577" end="577">comments</a>; <a title="Permalink to this symbol" href="#Element.comments" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L577">#</a></dt>
+<dd class="ddef">
+<div class="summary">The element's comments</div></dd>
+<dt class="decl">ProcessingInstruction[] <a class="symbol _variable" name="Element.pis" href="./htmlsrc/std.xml.html#L578" kind="variable" beg="578" end="578">pis</a>; <a title="Permalink to this symbol" href="#Element.pis" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L578">#</a></dt>
+<dd class="ddef">
+<div class="summary">The element's processing instructions</div></dd>
+<dt class="decl">Element[] <a class="symbol _variable" name="Element.elements" href="./htmlsrc/std.xml.html#L579" kind="variable" beg="579" end="579">elements</a>; <a title="Permalink to this symbol" href="#Element.elements" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L579">#</a></dt>
+<dd class="ddef">
+<div class="summary">The element's child elements</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="Element.this" href="./htmlsrc/std.xml.html#L595" kind="ctor" beg="595" end="599">this</a><span class="params">(string <em>name</em>, string <em>interior</em> = null)</span>; <a title="Permalink to this symbol" href="#Element.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L595">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs an Element given a name and a string to be used as a Text
+ interior.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>name</em></td><td>the name of the element.</td></tr>
+<tr><td><em>interior</em></td><td>(optional) the string interior.</td></tr></table>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">element</span> = <span class="k">new</span> <span class="i">Element</span>(<span class="sl">"title"</span>,<span class="sl">"Serenity"</span>)
+    <span class="lc">// constructs the element &lt;title&gt;Serenity&lt;/title&gt;</span>
+</pre></dd>
+<dt class="decl"><a class="symbol _ctor" name="Element.this:2" href="./htmlsrc/std.xml.html#L607" kind="ctor" beg="607" end="613">this</a><span class="params">(const( Tag) <em>tag_</em>)</span>; <a title="Permalink to this symbol" href="#Element.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L607">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs an Element from a Tag.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>tag</em></td><td>the start or empty tag of the element.</td></tr></table></dd>
+<dt class="decl">void <a class="symbol _function" name="Element.opCatAssign" href="./htmlsrc/std.xml.html#L627" kind="function" beg="627" end="631">opCatAssign</a><span class="params">(Text <em>item</em>)</span>; <a title="Permalink to this symbol" href="#Element.opCatAssign" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L627">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append a text item to the interior of this element</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>item</em></td><td>the item you wish to append.</td></tr></table>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Element</span> <span class="i">element</span>;
+<span class="i">element</span> ~= <span class="k">new</span> <span class="i">Text</span>(<span class="sl">"hello"</span>);
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="Element.opCatAssign:2" href="./htmlsrc/std.xml.html#L645" kind="function" beg="645" end="649">opCatAssign</a><span class="params">(CData <em>item</em>)</span>; <a title="Permalink to this symbol" href="#Element.opCatAssign:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L645">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append a CData item to the interior of this element</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>item</em></td><td>the item you wish to append.</td></tr></table>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Element</span> <span class="i">element</span>;
+<span class="i">element</span> ~= <span class="k">new</span> <span class="i">CData</span>(<span class="sl">"hello"</span>);
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="Element.opCatAssign:3" href="./htmlsrc/std.xml.html#L663" kind="function" beg="663" end="667">opCatAssign</a><span class="params">(Comment <em>item</em>)</span>; <a title="Permalink to this symbol" href="#Element.opCatAssign:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L663">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append a comment to the interior of this element</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>item</em></td><td>the item you wish to append.</td></tr></table>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Element</span> <span class="i">element</span>;
+<span class="i">element</span> ~= <span class="k">new</span> <span class="i">Comment</span>(<span class="sl">"hello"</span>);
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="Element.opCatAssign:4" href="./htmlsrc/std.xml.html#L681" kind="function" beg="681" end="685">opCatAssign</a><span class="params">(ProcessingInstruction <em>item</em>)</span>; <a title="Permalink to this symbol" href="#Element.opCatAssign:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L681">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append a processing instruction to the interior of this element</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>item</em></td><td>the item you wish to append.</td></tr></table>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Element</span> <span class="i">element</span>;
+<span class="i">element</span> ~= <span class="k">new</span> <span class="i">ProcessingInstruction</span>(<span class="sl">"hello"</span>);
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="Element.opCatAssign:5" href="./htmlsrc/std.xml.html#L701" kind="function" beg="701" end="705">opCatAssign</a><span class="params">(Element <em>item</em>)</span>; <a title="Permalink to this symbol" href="#Element.opCatAssign:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L701">#</a></dt>
+<dd class="ddef">
+<div class="summary">Append a complete element to the interior of this element</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>item</em></td><td>the item you wish to append.</td></tr></table>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Element</span> <span class="i">element</span>;
+<span class="i">Element</span> <span class="i">other</span> = <span class="k">new</span> <span class="i">Element</span>(<span class="sl">"br"</span>);
+<span class="i">element</span> ~= <span class="i">other</span>;
+   <span class="lc">// appends element representing &lt;br /&gt;</span>
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="Element.appendItem" href="./htmlsrc/std.xml.html#L707" kind="function" beg="707" end="712">appendItem</a><span class="params">(Item <em>item</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Element.appendItem" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L707">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Element.parse" href="./htmlsrc/std.xml.html#L714" kind="function" beg="714" end="729">parse</a><span class="params">(ElementParser <em>xml</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Element.parse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L714">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="Element.opEquals" href="./htmlsrc/std.xml.html#L740" kind="function" beg="740" end="750">opEquals</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Element.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L740">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two Elements for equality</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Element</span> <span class="i">e1</span>,<span class="i">e2</span>;
+<span class="k">if</span> (<span class="i">e1</span> == <span class="i">e2</span>) { }
+</pre></dd>
+<dt class="decl">int <a class="symbol _function" name="Element.opCmp" href="./htmlsrc/std.xml.html#L764" kind="function" beg="764" end="776">opCmp</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Element.opCmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L764">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two Elements</div>
+You should rarely need to call this function. It exists so that Elements
+ can be used as associative array keys.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Element</span> <span class="i">e1</span>,<span class="i">e2</span>;
+<span class="k">if</span> (<span class="i">e1</span> &lt; <span class="i">e2</span>) { }
+</pre></dd>
+<dt class="decl">hash_t <a class="symbol _function" name="Element.toHash" href="./htmlsrc/std.xml.html#L784" kind="function" beg="784" end="789">toHash</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Element.toHash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L784">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the hash of an Element</div>
+You should rarely need to call this function. It exists so that Elements
+ can be used as associative array keys.</dd>
+<dt class="decl">string <a class="symbol _function" name="Element.text" href="./htmlsrc/std.xml.html#L805" kind="function" beg="805" end="815">text</a><span class="params">(DecodeMode <em>mode</em> = DecodeMode.LOOSE)</span>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#Element.text" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L805">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the decoded interior of an element.</div>
+The element is assumed to containt text <i>only</i>. So, for
+ example, given XML such as "&lt;title&gt;Good &amp;amp;
+ Bad&lt;/title&gt;", will return "Good &amp; Bad".
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>mode</em></td><td>(optional) Mode to use for decoding. (Defaults to LOOSE).</td></tr></table>
+<p class="sec_header">Throws:</p>DecodeException if decode fails</dd>
+<dt class="decl">string[] <a class="symbol _function" name="Element.pretty" href="./htmlsrc/std.xml.html#L824" kind="function" beg="824" end="849">pretty</a><span class="params">(uint <em>indent</em> = 2)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Element.pretty" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L824">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns an indented string representation of this item</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>indent</em></td><td>(optional) number of spaces by which to indent this
+          element. Defaults to 2.</td></tr></table></dd>
+<dt class="decl">string <a class="symbol _function" name="Element.toString" href="./htmlsrc/std.xml.html#L860" kind="function" beg="860" end="868">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Element.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L860">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the string representation of an Element</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">element</span> = <span class="k">new</span> <span class="i">Element</span>(<span class="sl">"br"</span>);
+<span class="i">writefln</span>(<span class="i">element</span>.<span class="i">toString</span>); <span class="lc">// writes "&lt;br /&gt;"</span>
+</pre></dd>
+<dt class="decl">bool <a class="symbol _function" name="Element.isEmptyXML" href="./htmlsrc/std.xml.html#L870" kind="function" beg="870" end="870">isEmptyXML</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Element.isEmptyXML" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L870">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns false always</div></dd></dl></dd>
+<dt class="decl">enum <a class="symbol _enum" name="TagType" href="./htmlsrc/std.xml.html#L882" kind="enum" beg="882" end="882">TagType</a>; <a title="Permalink to this symbol" href="#TagType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L882">#</a></dt>
+<dd class="ddef">
+<div class="summary">Tag types.</div>
+<dl>START</dl> Used for start tags
+ <dl>END</dl> Used for end tags
+ <dl>EMPTY</dl> Used for empty tags
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="TagType.START" href="./htmlsrc/std.xml.html#L882" kind="enummem" beg="882" end="882">START</a> <a title="Permalink to this symbol" href="#TagType.START" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L882">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="TagType.END" href="./htmlsrc/std.xml.html#L882" kind="enummem" beg="882" end="882">END</a> <a title="Permalink to this symbol" href="#TagType.END" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L882">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="TagType.EMPTY" href="./htmlsrc/std.xml.html#L882" kind="enummem" beg="882" end="882">EMPTY</a> <a title="Permalink to this symbol" href="#TagType.EMPTY" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L882">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="Tag" href="./htmlsrc/std.xml.html#L896" kind="class" beg="896" end="1112">Tag</a>; <a title="Permalink to this symbol" href="#Tag" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L896">#</a></dt>
+<dd class="ddef">
+<div class="summary">Class representing an XML tag.</div>
+<p class="sec_header">Standards:</p><a href="http://www.w3.org/TR/1998/REC-xml-19980210">XML 1.0</a>
+<p class="bl"/>
+ The class invariant guarantees
+ <ul>
+ <li> that <b>type</b> is a valid enum TagType value</li>
+ <li> that <b>name</b> consists of valid characters</li>
+ <li> that each attribute name consists of valid characters</li>
+ </ul>
+<dl>
+<dt class="decl">TagType <a class="symbol _variable" name="Tag.type" href="./htmlsrc/std.xml.html#L898" kind="variable" beg="898" end="898">type</a>; <a title="Permalink to this symbol" href="#Tag.type" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L898">#</a></dt>
+<dd class="ddef">
+<div class="summary">Type of tag</div></dd>
+<dt class="decl">string <a class="symbol _variable" name="Tag.name" href="./htmlsrc/std.xml.html#L899" kind="variable" beg="899" end="899">name</a>; <a title="Permalink to this symbol" href="#Tag.name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L899">#</a></dt>
+<dd class="ddef">
+<div class="summary">Tag name</div></dd>
+<dt class="decl">string[string] <a class="symbol _variable" name="Tag.attr" href="./htmlsrc/std.xml.html#L900" kind="variable" beg="900" end="900">attr</a>; <a title="Permalink to this symbol" href="#Tag.attr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L900">#</a></dt>
+<dd class="ddef">
+<div class="summary">Associative array of attributes</div></dd>
+<dt class="decl">string <a class="symbol _variable" name="Tag.tagString" href="./htmlsrc/std.xml.html#L901" kind="variable" beg="901" end="901">tagString</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Tag.tagString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L901">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _invariant" name="Tag.invariant" href="./htmlsrc/std.xml.html#L903" kind="invariant" beg="903" end="923">invariant</a>; <a title="Permalink to this symbol" href="#Tag.invariant" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L903">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="Tag.this" href="./htmlsrc/std.xml.html#L942" kind="ctor" beg="942" end="946">this</a><span class="params">(string <em>name</em>, TagType <em>type</em> = TagType.START)</span>; <a title="Permalink to this symbol" href="#Tag.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L942">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs an instance of Tag with a specified name and type</div>
+The constructor does not initialize the attributes. To initialize the
+ attributes, you access the <b>attr</b> member variable.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>name</em></td><td>the Tag's name</td></tr>
+<tr><td><em>type</em></td><td>(optional) the Tag's type. If omitted, defaults to
+          TagType.START.</td></tr></table>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">tag</span> = <span class="k">new</span> <span class="i">Tag</span>(<span class="sl">"img"</span>,<span class="i">Tag</span>.<span class="i">EMPTY</span>);
+<span class="i">tag</span>.<span class="i">attr</span>[<span class="sl">"src"</span>] = <span class="sl">"http://example.com/example.jpg"</span>;
+</pre></dd>
+<dt class="decl"><a class="symbol _ctor" name="Tag.this:2" href="./htmlsrc/std.xml.html#L958" kind="ctor" beg="958" end="992">this</a><span class="params">(ref string <em>s</em>, bool <em>dummy</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Tag.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L958">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="Tag.opEquals" href="./htmlsrc/std.xml.html#L1008" kind="function" beg="1008" end="1016">opEquals</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Tag.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1008">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two Tags for equality</div>
+You should rarely need to call this function. It exists so that Tags
+ can be used as associative array keys.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Tag</span> <span class="i">tag1</span>,<span class="i">tag2</span>
+<span class="k">if</span> (<span class="i">tag1</span> == <span class="i">tag2</span>) { }
+</pre></dd>
+<dt class="decl">int <a class="symbol _function" name="Tag.opCmp" href="./htmlsrc/std.xml.html#L1027" kind="function" beg="1027" end="1035">opCmp</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Tag.opCmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1027">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two Tags</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Tag</span> <span class="i">tag1</span>,<span class="i">tag2</span>
+<span class="k">if</span> (<span class="i">tag1</span> &lt; <span class="i">tag2</span>) { }
+</pre></dd>
+<dt class="decl">hash_t <a class="symbol _function" name="Tag.toHash" href="./htmlsrc/std.xml.html#L1043" kind="function" beg="1043" end="1048">toHash</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Tag.toHash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1043">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the hash of a Tag</div>
+You should rarely need to call this function. It exists so that Tags
+ can be used as associative array keys.</dd>
+<dt class="decl">string <a class="symbol _function" name="Tag.toString" href="./htmlsrc/std.xml.html#L1059" kind="function" beg="1059" end="1063">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Tag.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1059">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the string representation of a Tag</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">tag</span> = <span class="k">new</span> <span class="i">Tag</span>(<span class="sl">"book"</span>,<span class="i">TagType</span>.<span class="i">START</span>);
+<span class="i">writefln</span>(<span class="i">tag</span>.<span class="i">toString</span>); <span class="lc">// writes "&lt;book&gt;"</span>
+</pre></dd>
+<dt class="decl">string <a class="symbol _function" name="Tag.toNonEndString" href="./htmlsrc/std.xml.html#L1067" kind="function" beg="1067" end="1073">toNonEndString</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#Tag.toNonEndString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1067">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="Tag.toStartString" href="./htmlsrc/std.xml.html#L1075" kind="function" beg="1075" end="1075">toStartString</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#Tag.toStartString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1075">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="Tag.toEndString" href="./htmlsrc/std.xml.html#L1077" kind="function" beg="1077" end="1077">toEndString</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#Tag.toEndString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1077">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="Tag.toEmptyString" href="./htmlsrc/std.xml.html#L1079" kind="function" beg="1079" end="1079">toEmptyString</a><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#Tag.toEmptyString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1079">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="Tag.isStart" href="./htmlsrc/std.xml.html#L1090" kind="function" beg="1090" end="1090">isStart</a><span class="params">()</span>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#Tag.isStart" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1090">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the Tag is a start tag</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">if</span> (<span class="i">tag</span>.<span class="i">isStart</span>) { }
+</pre></dd>
+<dt class="decl">bool <a class="symbol _function" name="Tag.isEnd" href="./htmlsrc/std.xml.html#L1100" kind="function" beg="1100" end="1100">isEnd</a><span class="params">()</span>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#Tag.isEnd" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1100">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the Tag is an end tag</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">if</span> (<span class="i">tag</span>.<span class="i">isEnd</span>) { }
+</pre></dd>
+<dt class="decl">bool <a class="symbol _function" name="Tag.isEmpty" href="./htmlsrc/std.xml.html#L1110" kind="function" beg="1110" end="1110">isEmpty</a><span class="params">()</span>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#Tag.isEmpty" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1110">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the Tag is an empty tag</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">if</span> (<span class="i">tag</span>.<span class="i">isEmpty</span>) { }
+</pre></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="Comment" href="./htmlsrc/std.xml.html#L1117" kind="class" beg="1117" end="1193">Comment</a> : Item; <a title="Permalink to this symbol" href="#Comment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1117">#</a></dt>
+<dd class="ddef">
+<div class="summary">Class representing a comment</div>
+<dl>
+<dt class="decl">string <a class="symbol _variable" name="Comment.content" href="./htmlsrc/std.xml.html#L1119" kind="variable" beg="1119" end="1119">content</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Comment.content" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1119">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="Comment.this" href="./htmlsrc/std.xml.html#L1136" kind="ctor" beg="1136" end="1141">this</a><span class="params">(string <em>content</em>)</span>; <a title="Permalink to this symbol" href="#Comment.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1136">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a comment</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>content</em></td><td>the body of the comment</td></tr></table>
+<p class="sec_header">Throws:</p>CommentException if the comment body is illegal (contains "--"
+ or exactly equals "-")
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">item</span> = <span class="k">new</span> <span class="i">Comment</span>(<span class="sl">"This is a comment"</span>);
+   <span class="lc">// constructs &lt;!--This is a comment--&gt;</span>
+</pre></dd>
+<dt class="decl">bool <a class="symbol _function" name="Comment.opEquals" href="./htmlsrc/std.xml.html#L1152" kind="function" beg="1152" end="1157">opEquals</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Comment.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1152">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two comments for equality</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Comment</span> <span class="i">item1</span>,<span class="i">item2</span>;
+<span class="k">if</span> (<span class="i">item1</span> == <span class="i">item2</span>) { }
+</pre></dd>
+<dt class="decl">int <a class="symbol _function" name="Comment.opCmp" href="./htmlsrc/std.xml.html#L1171" kind="function" beg="1171" end="1177">opCmp</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Comment.opCmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1171">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two comments</div>
+You should rarely need to call this function. It exists so that Comments
+ can be used as associative array keys.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Comment</span> <span class="i">item1</span>,<span class="i">item2</span>;
+<span class="k">if</span> (<span class="i">item1</span> &lt; <span class="i">item2</span>) { }
+</pre></dd>
+<dt class="decl">hash_t <a class="symbol _function" name="Comment.toHash" href="./htmlsrc/std.xml.html#L1185" kind="function" beg="1185" end="1185">toHash</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Comment.toHash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1185">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the hash of a Comment</div>
+You should rarely need to call this function. It exists so that Comments
+ can be used as associative array keys.</dd>
+<dt class="decl">string <a class="symbol _function" name="Comment.toString" href="./htmlsrc/std.xml.html#L1190" kind="function" beg="1190" end="1190">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#Comment.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1190">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a string representation of this comment</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Comment.isEmptyXML" href="./htmlsrc/std.xml.html#L1192" kind="function" beg="1192" end="1192">isEmptyXML</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#Comment.isEmptyXML" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1192">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns false always</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="CData" href="./htmlsrc/std.xml.html#L1198" kind="class" beg="1198" end="1272">CData</a> : Item; <a title="Permalink to this symbol" href="#CData" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1198">#</a></dt>
+<dd class="ddef">
+<div class="summary">Class representing a Character Data section</div>
+<dl>
+<dt class="decl">string <a class="symbol _variable" name="CData.content" href="./htmlsrc/std.xml.html#L1200" kind="variable" beg="1200" end="1200">content</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CData.content" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1200">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="CData.this" href="./htmlsrc/std.xml.html#L1216" kind="ctor" beg="1216" end="1220">this</a><span class="params">(string <em>content</em>)</span>; <a title="Permalink to this symbol" href="#CData.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1216">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a chraracter data section</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>content</em></td><td>the body of the character data segment</td></tr></table>
+<p class="sec_header">Throws:</p>CDataException if the segment body is illegal (contains "]]&gt;")
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">item</span> = <span class="k">new</span> <span class="i">CData</span>(<span class="sl">"&lt;b&gt;hello&lt;/b&gt;"</span>);
+   <span class="lc">// constructs &lt;![CDATA[&lt;b&gt;hello&lt;/b&gt;]]&gt;</span>
+</pre></dd>
+<dt class="decl">bool <a class="symbol _function" name="CData.opEquals" href="./htmlsrc/std.xml.html#L1231" kind="function" beg="1231" end="1236">opEquals</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#CData.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1231">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two CDatas for equality</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">CData</span> <span class="i">item1</span>,<span class="i">item2</span>;
+<span class="k">if</span> (<span class="i">item1</span> == <span class="i">item2</span>) { }
+</pre></dd>
+<dt class="decl">int <a class="symbol _function" name="CData.opCmp" href="./htmlsrc/std.xml.html#L1250" kind="function" beg="1250" end="1256">opCmp</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#CData.opCmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1250">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two CDatas</div>
+You should rarely need to call this function. It exists so that CDatas
+ can be used as associative array keys.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">CData</span> <span class="i">item1</span>,<span class="i">item2</span>;
+<span class="k">if</span> (<span class="i">item1</span> &lt; <span class="i">item2</span>) { }
+</pre></dd>
+<dt class="decl">hash_t <a class="symbol _function" name="CData.toHash" href="./htmlsrc/std.xml.html#L1264" kind="function" beg="1264" end="1264">toHash</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#CData.toHash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1264">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the hash of a CData</div>
+You should rarely need to call this function. It exists so that CDatas
+ can be used as associative array keys.</dd>
+<dt class="decl">string <a class="symbol _function" name="CData.toString" href="./htmlsrc/std.xml.html#L1269" kind="function" beg="1269" end="1269">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#CData.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1269">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a string representation of this CData section</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="CData.isEmptyXML" href="./htmlsrc/std.xml.html#L1271" kind="function" beg="1271" end="1271">isEmptyXML</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#CData.isEmptyXML" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1271">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns false always</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="Text" href="./htmlsrc/std.xml.html#L1277" kind="class" beg="1277" end="1352">Text</a> : Item; <a title="Permalink to this symbol" href="#Text" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1277">#</a></dt>
+<dd class="ddef">
+<div class="summary">Class representing a text (aka Parsed Character Data) section</div>
+<dl>
+<dt class="decl">string <a class="symbol _variable" name="Text.content" href="./htmlsrc/std.xml.html#L1279" kind="variable" beg="1279" end="1279">content</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Text.content" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1279">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="Text.this" href="./htmlsrc/std.xml.html#L1294" kind="ctor" beg="1294" end="1297">this</a><span class="params">(string <em>content</em>)</span>; <a title="Permalink to this symbol" href="#Text.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1294">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a text (aka PCData) section</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>content</em></td><td>the text. This function encodes the text before
+      insertion, so it is safe to insert any text</td></tr></table>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">Text</span> = <span class="k">new</span> <span class="i">CData</span>(<span class="sl">"a &lt; b"</span>);
+   <span class="lc">// constructs a &amp;lt; b</span>
+</pre></dd>
+<dt class="decl">bool <a class="symbol _function" name="Text.opEquals" href="./htmlsrc/std.xml.html#L1308" kind="function" beg="1308" end="1313">opEquals</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Text.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1308">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two text sections for equality</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Text</span> <span class="i">item1</span>,<span class="i">item2</span>;
+<span class="k">if</span> (<span class="i">item1</span> == <span class="i">item2</span>) { }
+</pre></dd>
+<dt class="decl">int <a class="symbol _function" name="Text.opCmp" href="./htmlsrc/std.xml.html#L1327" kind="function" beg="1327" end="1333">opCmp</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Text.opCmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1327">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two text sections</div>
+You should rarely need to call this function. It exists so that Texts
+ can be used as associative array keys.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">Text</span> <span class="i">item1</span>,<span class="i">item2</span>;
+<span class="k">if</span> (<span class="i">item1</span> &lt; <span class="i">item2</span>) { }
+</pre></dd>
+<dt class="decl">hash_t <a class="symbol _function" name="Text.toHash" href="./htmlsrc/std.xml.html#L1341" kind="function" beg="1341" end="1341">toHash</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#Text.toHash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1341">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the hash of a text section</div>
+You should rarely need to call this function. It exists so that Texts
+ can be used as associative array keys.</dd>
+<dt class="decl">string <a class="symbol _function" name="Text.toString" href="./htmlsrc/std.xml.html#L1346" kind="function" beg="1346" end="1346">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#Text.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1346">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a string representation of this Text section</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="Text.isEmptyXML" href="./htmlsrc/std.xml.html#L1351" kind="function" beg="1351" end="1351">isEmptyXML</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#Text.isEmptyXML" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1351">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the content is the empty string</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="XMLInstruction" href="./htmlsrc/std.xml.html#L1357" kind="class" beg="1357" end="1431">XMLInstruction</a> : Item; <a title="Permalink to this symbol" href="#XMLInstruction" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1357">#</a></dt>
+<dd class="ddef">
+<div class="summary">Class representing an XML Instruction section</div>
+<dl>
+<dt class="decl">string <a class="symbol _variable" name="XMLInstruction.content" href="./htmlsrc/std.xml.html#L1359" kind="variable" beg="1359" end="1359">content</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#XMLInstruction.content" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1359">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="XMLInstruction.this" href="./htmlsrc/std.xml.html#L1375" kind="ctor" beg="1375" end="1379">this</a><span class="params">(string <em>content</em>)</span>; <a title="Permalink to this symbol" href="#XMLInstruction.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1375">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct an XML Instruction section</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>content</em></td><td>the body of the instruction segment</td></tr></table>
+<p class="sec_header">Throws:</p>XIException if the segment body is illegal (contains "&gt;")
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">item</span> = <span class="k">new</span> <span class="i">XMLInstruction</span>(<span class="sl">"ATTLIST"</span>);
+   <span class="lc">// constructs &lt;!ATTLIST&gt;</span>
+</pre></dd>
+<dt class="decl">bool <a class="symbol _function" name="XMLInstruction.opEquals" href="./htmlsrc/std.xml.html#L1390" kind="function" beg="1390" end="1395">opEquals</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#XMLInstruction.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1390">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two XML instructions for equality</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">XMLInstruction</span> <span class="i">item1</span>,<span class="i">item2</span>;
+<span class="k">if</span> (<span class="i">item1</span> == <span class="i">item2</span>) { }
+</pre></dd>
+<dt class="decl">int <a class="symbol _function" name="XMLInstruction.opCmp" href="./htmlsrc/std.xml.html#L1409" kind="function" beg="1409" end="1415">opCmp</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#XMLInstruction.opCmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1409">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two XML instructions</div>
+You should rarely need to call this function. It exists so that
+ XmlInstructions can be used as associative array keys.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">XMLInstruction</span> <span class="i">item1</span>,<span class="i">item2</span>;
+<span class="k">if</span> (<span class="i">item1</span> &lt; <span class="i">item2</span>) { }
+</pre></dd>
+<dt class="decl">hash_t <a class="symbol _function" name="XMLInstruction.toHash" href="./htmlsrc/std.xml.html#L1423" kind="function" beg="1423" end="1423">toHash</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#XMLInstruction.toHash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1423">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the hash of an XMLInstruction</div>
+You should rarely need to call this function. It exists so that
+ XmlInstructions can be used as associative array keys.</dd>
+<dt class="decl">string <a class="symbol _function" name="XMLInstruction.toString" href="./htmlsrc/std.xml.html#L1428" kind="function" beg="1428" end="1428">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#XMLInstruction.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1428">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a string representation of this XmlInstruction</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="XMLInstruction.isEmptyXML" href="./htmlsrc/std.xml.html#L1430" kind="function" beg="1430" end="1430">isEmptyXML</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#XMLInstruction.isEmptyXML" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1430">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns false always</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="ProcessingInstruction" href="./htmlsrc/std.xml.html#L1436" kind="class" beg="1436" end="1510">ProcessingInstruction</a> : Item; <a title="Permalink to this symbol" href="#ProcessingInstruction" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1436">#</a></dt>
+<dd class="ddef">
+<div class="summary">Class representing a Processing Instruction section</div>
+<dl>
+<dt class="decl">string <a class="symbol _variable" name="ProcessingInstruction.content" href="./htmlsrc/std.xml.html#L1438" kind="variable" beg="1438" end="1438">content</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ProcessingInstruction.content" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1438">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="ProcessingInstruction.this" href="./htmlsrc/std.xml.html#L1454" kind="ctor" beg="1454" end="1458">this</a><span class="params">(string <em>content</em>)</span>; <a title="Permalink to this symbol" href="#ProcessingInstruction.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1454">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct a Processing Instruction section</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>content</em></td><td>the body of the instruction segment</td></tr></table>
+<p class="sec_header">Throws:</p>PIException if the segment body is illegal (contains "?&gt;")
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">auto</span> <span class="i">item</span> = <span class="k">new</span> <span class="i">ProcessingInstruction</span>(<span class="sl">"php"</span>);
+   <span class="lc">// constructs &lt;?php?&gt;</span>
+</pre></dd>
+<dt class="decl">bool <a class="symbol _function" name="ProcessingInstruction.opEquals" href="./htmlsrc/std.xml.html#L1469" kind="function" beg="1469" end="1474">opEquals</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#ProcessingInstruction.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1469">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two processing instructions for equality</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">ProcessingInstruction</span> <span class="i">item1</span>,<span class="i">item2</span>;
+<span class="k">if</span> (<span class="i">item1</span> == <span class="i">item2</span>) { }
+</pre></dd>
+<dt class="decl">int <a class="symbol _function" name="ProcessingInstruction.opCmp" href="./htmlsrc/std.xml.html#L1488" kind="function" beg="1488" end="1494">opCmp</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#ProcessingInstruction.opCmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1488">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares two processing instructions</div>
+You should rarely need to call this function. It exists so that
+ ProcessingInstructions can be used as associative array keys.
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="i">ProcessingInstruction</span> <span class="i">item1</span>,<span class="i">item2</span>;
+<span class="k">if</span> (<span class="i">item1</span> &lt; <span class="i">item2</span>) { }
+</pre></dd>
+<dt class="decl">hash_t <a class="symbol _function" name="ProcessingInstruction.toHash" href="./htmlsrc/std.xml.html#L1502" kind="function" beg="1502" end="1502">toHash</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>]</span> <a title="Permalink to this symbol" href="#ProcessingInstruction.toHash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1502">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the hash of a ProcessingInstruction</div>
+You should rarely need to call this function. It exists so that
+ ProcessingInstructions can be used as associative array keys.</dd>
+<dt class="decl">string <a class="symbol _function" name="ProcessingInstruction.toString" href="./htmlsrc/std.xml.html#L1507" kind="function" beg="1507" end="1507">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#ProcessingInstruction.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1507">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a string representation of this ProcessingInstruction</div></dd>
+<dt class="decl">bool <a class="symbol _function" name="ProcessingInstruction.isEmptyXML" href="./htmlsrc/std.xml.html#L1509" kind="function" beg="1509" end="1509">isEmptyXML</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#ProcessingInstruction.isEmptyXML" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1509">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns false always</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="Item" href="./htmlsrc/std.xml.html#L1515" kind="class" beg="1515" end="1543">Item</a>; <span class="attrs">[<span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Item" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1515">#</a></dt>
+<dd class="ddef">
+<div class="summary">Abstract base class for XML items</div>
+<dl>
+<dt class="decl">bool <a class="symbol _function" name="Item.opEquals" href="./htmlsrc/std.xml.html#L1518" kind="function" beg="1518" end="1518">opEquals</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Item.opEquals" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1518">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares with another Item of same type for equality</div></dd>
+<dt class="decl">int <a class="symbol _function" name="Item.opCmp" href="./htmlsrc/std.xml.html#L1521" kind="function" beg="1521" end="1521">opCmp</a><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Item.opCmp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1521">#</a></dt>
+<dd class="ddef">
+<div class="summary">Compares with another Item of same type</div></dd>
+<dt class="decl">hash_t <a class="symbol _function" name="Item.toHash" href="./htmlsrc/std.xml.html#L1524" kind="function" beg="1524" end="1524">toHash</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Item.toHash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1524">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns the hash of this item</div></dd>
+<dt class="decl">string <a class="symbol _function" name="Item.toString" href="./htmlsrc/std.xml.html#L1527" kind="function" beg="1527" end="1527">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">const</span>, <span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Item.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1527">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns a string representation of this item</div></dd>
+<dt class="decl">string[] <a class="symbol _function" name="Item.pretty" href="./htmlsrc/std.xml.html#L1535" kind="function" beg="1535" end="1539">pretty</a><span class="params">(uint <em>indent</em>)</span>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#Item.pretty" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1535">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns an indented string representation of this item</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>indent</em></td><td>number of spaces by which to indent child elements</td></tr></table></dd>
+<dt class="decl">bool <a class="symbol _function" name="Item.isEmptyXML" href="./htmlsrc/std.xml.html#L1542" kind="function" beg="1542" end="1542">isEmptyXML</a><span class="params">()</span>; <span class="attrs">[<span class="stc">const</span>, <span class="stc">abstract</span>]</span> <a title="Permalink to this symbol" href="#Item.isEmptyXML" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1542">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns true if the item represents empty XML text</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="DocumentParser" href="./htmlsrc/std.xml.html#L1559" kind="class" beg="1559" end="1595">DocumentParser</a> : ElementParser; <a title="Permalink to this symbol" href="#DocumentParser" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1559">#</a></dt>
+<dd class="ddef">
+<div class="summary">Class for parsing an XML Document.</div>
+This is a subclass of ElementParser. Most of the useful functions are
+ documented there.
+<p class="sec_header">Standards:</p><a href="http://www.w3.org/TR/1998/REC-xml-19980210">XML 1.0</a>
+<p class="sec_header"><span class="red">Bugs:</span></p>Currently only supports UTF documents.
+<p class="bl"/>
+      If there is an encoding attribute in the prolog, it is ignored.
+<dl>
+<dt class="decl">string <a class="symbol _variable" name="DocumentParser.xmlText" href="./htmlsrc/std.xml.html#L1561" kind="variable" beg="1561" end="1561">xmlText</a>; <a title="Permalink to this symbol" href="#DocumentParser.xmlText" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1561">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="DocumentParser.this" href="./htmlsrc/std.xml.html#L1573" kind="ctor" beg="1573" end="1594">this</a><span class="params">(string <em>xmlText_</em>)</span>; <a title="Permalink to this symbol" href="#DocumentParser.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1573">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructs a DocumentParser.</div>
+The input to this function MUST be valid XML.
+ This is enforced by the function's in contract.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>xmltext</em></td><td>the entire XML document as text</td></tr></table></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="ElementParser" href="./htmlsrc/std.xml.html#L1608" kind="class" beg="1608" end="1989">ElementParser</a>; <a title="Permalink to this symbol" href="#ElementParser" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1608">#</a></dt>
+<dd class="ddef">
+<div class="summary">Class for parsing an XML element.</div>
+<p class="sec_header">Standards:</p><a href="http://www.w3.org/TR/1998/REC-xml-19980210">XML 1.0</a>
+<p class="bl"/>
+ Note that you cannot construct instances of this class directly. You can
+ construct a DocumentParser (which is a subclass of ElementParser), but
+ otherwise, Instances of ElementParser will be created for you by the
+ library, and passed your way via onStartTag handlers.
+<dl>
+<dt class="decl">alias void delegate(string) <a class="symbol _alias" name="ElementParser.Handler" href="./htmlsrc/std.xml.html#L1610" kind="alias" beg="1610" end="1610">Handler</a>; <a title="Permalink to this symbol" href="#ElementParser.Handler" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1610">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias void delegate(in Element element) <a class="symbol _alias" name="ElementParser.ElementHandler" href="./htmlsrc/std.xml.html#L1611" kind="alias" beg="1611" end="1611">ElementHandler</a>; <a title="Permalink to this symbol" href="#ElementParser.ElementHandler" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1611">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">alias void delegate(ElementParser parser) <a class="symbol _alias" name="ElementParser.ParserHandler" href="./htmlsrc/std.xml.html#L1612" kind="alias" beg="1612" end="1612">ParserHandler</a>; <a title="Permalink to this symbol" href="#ElementParser.ParserHandler" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1612">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Tag <a class="symbol _variable" name="ElementParser.tag_" href="./htmlsrc/std.xml.html#L1616" kind="variable" beg="1616" end="1616">tag_</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ElementParser.tag_" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1616">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _variable" name="ElementParser.elementStart" href="./htmlsrc/std.xml.html#L1617" kind="variable" beg="1617" end="1617">elementStart</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ElementParser.elementStart" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1617">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string* <a class="symbol _variable" name="ElementParser.s" href="./htmlsrc/std.xml.html#L1618" kind="variable" beg="1618" end="1618">s</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ElementParser.s" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1618">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Handler <a class="symbol _variable" name="ElementParser.commentHandler" href="./htmlsrc/std.xml.html#L1620" kind="variable" beg="1620" end="1620">commentHandler</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ElementParser.commentHandler" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1620">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Handler <a class="symbol _variable" name="ElementParser.cdataHandler" href="./htmlsrc/std.xml.html#L1621" kind="variable" beg="1621" end="1621">cdataHandler</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ElementParser.cdataHandler" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1621">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Handler <a class="symbol _variable" name="ElementParser.xiHandler" href="./htmlsrc/std.xml.html#L1622" kind="variable" beg="1622" end="1622">xiHandler</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ElementParser.xiHandler" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1622">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Handler <a class="symbol _variable" name="ElementParser.piHandler" href="./htmlsrc/std.xml.html#L1623" kind="variable" beg="1623" end="1623">piHandler</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ElementParser.piHandler" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1623">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Handler <a class="symbol _variable" name="ElementParser.rawTextHandler" href="./htmlsrc/std.xml.html#L1624" kind="variable" beg="1624" end="1624">rawTextHandler</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ElementParser.rawTextHandler" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1624">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Handler <a class="symbol _variable" name="ElementParser.textHandler" href="./htmlsrc/std.xml.html#L1625" kind="variable" beg="1625" end="1625">textHandler</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ElementParser.textHandler" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1625">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="ElementParser.this" href="./htmlsrc/std.xml.html#L1628" kind="ctor" beg="1628" end="1633">this</a><span class="params">(ElementParser <em>parent</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ElementParser.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1628">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _ctor" name="ElementParser.this:2" href="./htmlsrc/std.xml.html#L1636" kind="ctor" beg="1636" end="1641">this</a><span class="params">(Tag <em>tag</em>, string* <em>t</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ElementParser.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1636">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">Tag</dt> <a class="symbol _function" name="ElementParser.tag" href="./htmlsrc/std.xml.html#L1648" kind="function" beg="1648" end="1648">tag</a><span class="params">()</span>; <span class="attrs">[<span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#ElementParser.tag" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1648">#</a></dl>
+<dd class="ddef">
+<div class="summary">The Tag at the start of the element being parsed. You can read this to
+ determine the tag's name and attributes.</div></dd>
+<dt class="decl">ParserHandler[string] <a class="symbol _variable" name="ElementParser.onStartTag" href="./htmlsrc/std.xml.html#L1684" kind="variable" beg="1684" end="1684">onStartTag</a>; <a title="Permalink to this symbol" href="#ElementParser.onStartTag" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1684">#</a></dt>
+<dd class="ddef">
+<div class="summary">Register a handler which will be called whenever a start tag is
+ encountered which matches the specified name. You can also pass null as
+ the name, in which case the handler will be called for any unmatched
+ start tag.</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="lc">// Call this function whenever a &lt;podcast&gt; start tag is encountered</span>
+<span class="i">onStartTag</span>[<span class="sl">"podcast"</span>] = (<span class="i">ElementParser</span> <span class="i">xml</span>)
+{
+    <span class="lc">// Your code here</span>
+    <span class="lc">//</span>
+    <span class="lc">// This is a a closure, so code here may reference</span>
+    <span class="lc">// variables which are outside of this scope</span>
+};
+
+<span class="lc">// call myEpisodeStartHandler (defined elsewhere) whenever an &lt;episode&gt;</span>
+<span class="lc">// start tag is encountered</span>
+<span class="i">onStartTag</span>[<span class="sl">"episode"</span>] = &amp;<span class="i">myEpisodeStartHandler</span>;
+
+<span class="lc">// call delegate dg for all other start tags</span>
+<span class="i">onStartTag</span>[<span class="k">null</span>] = <span class="i">dg</span>;
+</pre>
+<p class="bl"/>
+ This library will supply your function with a new instance of
+ ElementHandler, which may be used to parse inside the element whose
+ start tag was just found, or to identify the tag attributes of the
+ element, etc.
+<p class="bl"/>
+ Note that your function will be called for both start tags and empty
+ tags. That is, we make no distinction between &lt;br&gt;&lt;/br&gt;
+ and &lt;br/&gt;.</dd>
+<dt class="decl">ElementHandler[string] <a class="symbol _variable" name="ElementParser.onEndTag" href="./htmlsrc/std.xml.html#L1715" kind="variable" beg="1715" end="1715">onEndTag</a>; <a title="Permalink to this symbol" href="#ElementParser.onEndTag" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1715">#</a></dt>
+<dd class="ddef">
+<div class="summary">Register a handler which will be called whenever an end tag is
+ encountered which matches the specified name. You can also pass null as
+ the name, in which case the handler will be called for any unmatched
+ end tag.</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="lc">// Call this function whenever a &lt;/podcast&gt; end tag is encountered</span>
+<span class="i">onEndTag</span>[<span class="sl">"podcast"</span>] = (<span class="k">in</span> <span class="i">Element</span> <span class="i">e</span>)
+{
+    <span class="lc">// Your code here</span>
+    <span class="lc">//</span>
+    <span class="lc">// This is a a closure, so code here may reference</span>
+    <span class="lc">// variables which are outside of this scope</span>
+};
+
+<span class="lc">// call myEpisodeEndHandler (defined elsewhere) whenever an &lt;/episode&gt;</span>
+<span class="lc">// end tag is encountered</span>
+<span class="i">onEndTag</span>[<span class="sl">"episode"</span>] = &amp;<span class="i">myEpisodeEndHandler</span>;
+
+<span class="lc">// call delegate dg for all other end tags</span>
+<span class="i">onEndTag</span>[<span class="k">null</span>] = <span class="i">dg</span>;
+</pre>
+<p class="bl"/>
+ Note that your function will be called for both start tags and empty
+ tags. That is, we make no distinction between &lt;br&gt;&lt;/br&gt;
+ and &lt;br/&gt;.</dd>
+<dt class="decl"><a class="symbol _ctor" name="ElementParser.this:3" href="./htmlsrc/std.xml.html#L1717" kind="ctor" beg="1717" end="1720">this</a><span class="params">()</span>; <span class="attrs">[<span class="prot">protected</span>]</span> <a title="Permalink to this symbol" href="#ElementParser.this:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1717">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="ElementParser.onText" href="./htmlsrc/std.xml.html#L1740" kind="function" beg="1740" end="1740">onText</a><span class="params">(Handler <em>handler</em>)</span>; <a title="Permalink to this symbol" href="#ElementParser.onText" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1740">#</a></dt>
+<dd class="ddef">
+<div class="summary">Register a handler which will be called whenever text is encountered.</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="lc">// Call this function whenever text is encountered</span>
+<span class="i">onText</span> = (<span class="i">string</span> <span class="i">s</span>)
+{
+    <span class="lc">// Your code here</span>
+
+    <span class="lc">// The passed parameter s will have been decoded by the time you see</span>
+    <span class="lc">// it, and so may contain any character.</span>
+    <span class="lc">//</span>
+    <span class="lc">// This is a a closure, so code here may reference</span>
+    <span class="lc">// variables which are outside of this scope</span>
+};
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="ElementParser.onTextRaw" href="./htmlsrc/std.xml.html#L1766" kind="function" beg="1766" end="1766">onTextRaw</a><span class="params">(Handler <em>handler</em>)</span>; <a title="Permalink to this symbol" href="#ElementParser.onTextRaw" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1766">#</a></dt>
+<dd class="ddef">
+<div class="summary">Register an alternative handler which will be called whenever text
+ is encountered. This differs from onText in that onText will decode
+ the text, wheras onTextRaw will not. This allows you to make design
+ choices, since onText will be more accurate, but slower, while
+ onTextRaw will be faster, but less accurate. Of course, you can
+ still call decode() within your handler, if you want, but you'd
+ probably want to use onTextRaw only in circumstances where you
+ know that decoding is unnecessary.</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="lc">// Call this function whenever text is encountered</span>
+<span class="i">onText</span> = (<span class="i">string</span> <span class="i">s</span>)
+{
+    <span class="lc">// Your code here</span>
+
+    <span class="lc">// The passed parameter s will NOT have been decoded.</span>
+    <span class="lc">//</span>
+    <span class="lc">// This is a a closure, so code here may reference</span>
+    <span class="lc">// variables which are outside of this scope</span>
+};
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="ElementParser.onCData" href="./htmlsrc/std.xml.html#L1787" kind="function" beg="1787" end="1787">onCData</a><span class="params">(Handler <em>handler</em>)</span>; <a title="Permalink to this symbol" href="#ElementParser.onCData" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1787">#</a></dt>
+<dd class="ddef">
+<div class="summary">Register a handler which will be called whenever a character data
+ segement is encountered.</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="lc">// Call this function whenever a CData section is encountered</span>
+<span class="i">onCData</span> = (<span class="i">string</span> <span class="i">s</span>)
+{
+    <span class="lc">// Your code here</span>
+
+    <span class="lc">// The passed parameter s does not include the opening &lt;![CDATA[</span>
+    <span class="lc">// nor closing ]]&gt;</span>
+    <span class="lc">//</span>
+    <span class="lc">// This is a a closure, so code here may reference</span>
+    <span class="lc">// variables which are outside of this scope</span>
+};
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="ElementParser.onComment" href="./htmlsrc/std.xml.html#L1808" kind="function" beg="1808" end="1808">onComment</a><span class="params">(Handler <em>handler</em>)</span>; <a title="Permalink to this symbol" href="#ElementParser.onComment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1808">#</a></dt>
+<dd class="ddef">
+<div class="summary">Register a handler which will be called whenever a comment is
+ encountered.</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="lc">// Call this function whenever a comment is encountered</span>
+<span class="i">onComment</span> = (<span class="i">string</span> <span class="i">s</span>)
+{
+    <span class="lc">// Your code here</span>
+
+    <span class="lc">// The passed parameter s does not include the opening &lt;!-- nor</span>
+    <span class="lc">// closing --&gt;</span>
+    <span class="lc">//</span>
+    <span class="lc">// This is a a closure, so code here may reference</span>
+    <span class="lc">// variables which are outside of this scope</span>
+};
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="ElementParser.onPI" href="./htmlsrc/std.xml.html#L1829" kind="function" beg="1829" end="1829">onPI</a><span class="params">(Handler <em>handler</em>)</span>; <a title="Permalink to this symbol" href="#ElementParser.onPI" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1829">#</a></dt>
+<dd class="ddef">
+<div class="summary">Register a handler which will be called whenever a processing
+ instruction is encountered.</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="lc">// Call this function whenever a processing instruction is encountered</span>
+<span class="i">onPI</span> = (<span class="i">string</span> <span class="i">s</span>)
+{
+    <span class="lc">// Your code here</span>
+
+    <span class="lc">// The passed parameter s does not include the opening &lt;? nor</span>
+    <span class="lc">// closing ?&gt;</span>
+    <span class="lc">//</span>
+    <span class="lc">// This is a a closure, so code here may reference</span>
+    <span class="lc">// variables which are outside of this scope</span>
+};
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="ElementParser.onXI" href="./htmlsrc/std.xml.html#L1852" kind="function" beg="1852" end="1852">onXI</a><span class="params">(Handler <em>handler</em>)</span>; <a title="Permalink to this symbol" href="#ElementParser.onXI" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1852">#</a></dt>
+<dd class="ddef">
+<div class="summary">Register a handler which will be called whenever an XML instruction is
+ encountered.</div>
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="lc">// Call this function whenever an XML instruction is encountered</span>
+<span class="lc">// (Note: XML instructions may only occur preceeding the root tag of a</span>
+<span class="lc">// document).</span>
+<span class="i">onPI</span> = (<span class="i">string</span> <span class="i">s</span>)
+{
+    <span class="lc">// Your code here</span>
+
+    <span class="lc">// The passed parameter s does not include the opening &lt;! nor</span>
+    <span class="lc">// closing &gt;</span>
+    <span class="lc">//</span>
+    <span class="lc">// This is a a closure, so code here may reference</span>
+    <span class="lc">// variables which are outside of this scope</span>
+};
+</pre></dd>
+<dt class="decl">void <a class="symbol _function" name="ElementParser.parse" href="./htmlsrc/std.xml.html#L1863" kind="function" beg="1863" end="1978">parse</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ElementParser.parse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1863">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parse an XML element.</div>
+Parsing will continue until the end of the current element. Any items
+ encountered for which a handler has been registered will invoke that
+ handler.
+<p class="sec_header">Throws:</p>various kinds of XMLException</dd>
+<dt class="decl">string <a class="symbol _function" name="ElementParser.toString" href="./htmlsrc/std.xml.html#L1983" kind="function" beg="1983" end="1987">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#ElementParser.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1983">#</a></dt>
+<dd class="ddef">
+<div class="summary">Returns that part of the element which has already been parsed</div></dd></dd></dl>
+<dt class="decl">template <a class="symbol _template" name="Check" href="./htmlsrc/std.xml.html#L1993" kind="template" beg="1993" end="2013">Check</a><span class="tparams">(string msg)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Check" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1993">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">string <a class="symbol _variable" name="Check.old" href="./htmlsrc/std.xml.html#L1995" kind="variable" beg="1995" end="1995">old</a>; <a title="Permalink to this symbol" href="#Check.old" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1995">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Check.fail" href="./htmlsrc/std.xml.html#L1997" kind="function" beg="1997" end="2001">fail</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#Check.fail" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L1997">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Check.fail:2" href="./htmlsrc/std.xml.html#L2003" kind="function" beg="2003" end="2007">fail</a><span class="params">(Err <em>e</em>)</span>; <a title="Permalink to this symbol" href="#Check.fail:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2003">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="Check.fail:3" href="./htmlsrc/std.xml.html#L2009" kind="function" beg="2009" end="2012">fail</a><span class="params">(string <em>msg2</em>)</span>; <a title="Permalink to this symbol" href="#Check.fail:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2009">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">void <a class="symbol _function" name="checkMisc" href="./htmlsrc/std.xml.html#L2015" kind="function" beg="2015" end="2026">checkMisc</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkMisc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2015">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkDocument" href="./htmlsrc/std.xml.html#L2028" kind="function" beg="2028" end="2038">checkDocument</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkDocument" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2028">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkChars" href="./htmlsrc/std.xml.html#L2040" kind="function" beg="2040" end="2063">checkChars</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkChars" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2040">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkSpace" href="./htmlsrc/std.xml.html#L2065" kind="function" beg="2065" end="2070">checkSpace</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkSpace" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2065">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkName" href="./htmlsrc/std.xml.html#L2072" kind="function" beg="2072" end="2089">checkName</a><span class="params">(ref string <em>s</em>, out string <em>name</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2072">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkAttValue" href="./htmlsrc/std.xml.html#L2091" kind="function" beg="2091" end="2109">checkAttValue</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkAttValue" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2091">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkCharData" href="./htmlsrc/std.xml.html#L2111" kind="function" beg="2111" end="2122">checkCharData</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkCharData" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2111">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkComment" href="./htmlsrc/std.xml.html#L2124" kind="function" beg="2124" end="2133">checkComment</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkComment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2124">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkPI" href="./htmlsrc/std.xml.html#L2135" kind="function" beg="2135" end="2145">checkPI</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkPI" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2135">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkCDSect" href="./htmlsrc/std.xml.html#L2147" kind="function" beg="2147" end="2157">checkCDSect</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkCDSect" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2147">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkProlog" href="./htmlsrc/std.xml.html#L2159" kind="function" beg="2159" end="2170">checkProlog</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkProlog" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2159">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkXMLDecl" href="./htmlsrc/std.xml.html#L2172" kind="function" beg="2172" end="2186">checkXMLDecl</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkXMLDecl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2172">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkVersionInfo" href="./htmlsrc/std.xml.html#L2188" kind="function" beg="2188" end="2200">checkVersionInfo</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkVersionInfo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2188">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkEq" href="./htmlsrc/std.xml.html#L2202" kind="function" beg="2202" end="2213">checkEq</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkEq" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2202">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkVersionNum" href="./htmlsrc/std.xml.html#L2215" kind="function" beg="2215" end="2221">checkVersionNum</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkVersionNum" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2215">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkDocTypeDecl" href="./htmlsrc/std.xml.html#L2223" kind="function" beg="2223" end="2237">checkDocTypeDecl</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkDocTypeDecl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2223">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkSDDecl" href="./htmlsrc/std.xml.html#L2239" kind="function" beg="2239" end="2257">checkSDDecl</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkSDDecl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2239">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkElement" href="./htmlsrc/std.xml.html#L2259" kind="function" beg="2259" end="2283">checkElement</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkElement" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2259">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkTag" href="./htmlsrc/std.xml.html#L2286" kind="function" beg="2286" end="2305">checkTag</a><span class="params">(ref string <em>s</em>, out string <em>type</em>, out string <em>name</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkTag" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2286">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkAttribute" href="./htmlsrc/std.xml.html#L2307" kind="function" beg="2307" end="2319">checkAttribute</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkAttribute" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2307">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkETag" href="./htmlsrc/std.xml.html#L2321" kind="function" beg="2321" end="2333">checkETag</a><span class="params">(ref string <em>s</em>, out string <em>name</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkETag" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2321">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkContent" href="./htmlsrc/std.xml.html#L2335" kind="function" beg="2335" end="2354">checkContent</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkContent" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2335">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkCharRef" href="./htmlsrc/std.xml.html#L2356" kind="function" beg="2356" end="2403">checkCharRef</a><span class="params">(ref string <em>s</em>, out dchar <em>c</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkCharRef" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2356">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkReference" href="./htmlsrc/std.xml.html#L2405" kind="function" beg="2405" end="2416">checkReference</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkReference" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2405">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkEntityRef" href="./htmlsrc/std.xml.html#L2418" kind="function" beg="2418" end="2430">checkEntityRef</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkEntityRef" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2418">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkEncName" href="./htmlsrc/std.xml.html#L2432" kind="function" beg="2432" end="2439">checkEncName</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkEncName" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2432">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkEncodingDecl" href="./htmlsrc/std.xml.html#L2441" kind="function" beg="2441" end="2453">checkEncodingDecl</a><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkEncodingDecl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2441">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkLiteral" href="./htmlsrc/std.xml.html#L2457" kind="function" beg="2457" end="2463">checkLiteral</a><span class="params">(string <em>literal</em>, ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkLiteral" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2457">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="checkEnd" href="./htmlsrc/std.xml.html#L2465" kind="function" beg="2465" end="2473">checkEnd</a><span class="params">(string <em>end</em>, ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#checkEnd" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2465">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="opt" href="./htmlsrc/std.xml.html#L2477" kind="function" beg="2477" end="2480">opt</a><span class="tparams">(alias f)</span><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#opt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2477">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="plus" href="./htmlsrc/std.xml.html#L2482" kind="function" beg="2482" end="2486">plus</a><span class="tparams">(alias f)</span><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#plus" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2482">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="star" href="./htmlsrc/std.xml.html#L2488" kind="function" beg="2488" end="2495">star</a><span class="tparams">(alias f)</span><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#star" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2488">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="quoted" href="./htmlsrc/std.xml.html#L2497" kind="function" beg="2497" end="2511">quoted</a><span class="tparams">(alias f)</span><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#quoted" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2497">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="seq" href="./htmlsrc/std.xml.html#L2513" kind="function" beg="2513" end="2517">seq</a><span class="tparams">(alias f,alias g)</span><span class="params">(ref string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#seq" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2513">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="check" href="./htmlsrc/std.xml.html#L2532" kind="function" beg="2532" end="2545">check</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#check" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2532">#</a></dt>
+<dd class="ddef">
+<div class="summary">Check an entire XML document for well-formedness</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>s</em></td><td>the document to be checked, passed as a string</td></tr></table>
+<p class="sec_header">Throws:</p>CheckException if the document is not well formed
+<p class="bl"/>
+ CheckException's toString() method will yield the complete heirarchy of
+ parse failure (the XML equivalent of a stack trace), giving the line and
+ column number of every failure at every level.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:4" href="./htmlsrc/std.xml.html#L2547" kind="unittest" beg="2547" end="2595">unittest</a>; <a title="Permalink to this symbol" href="#unittest:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2547">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">class <a class="symbol _class" name="XMLException" href="./htmlsrc/std.xml.html#L2598" kind="class" beg="2598" end="2598">XMLException</a> : Exception; <a title="Permalink to this symbol" href="#XMLException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2598">#</a></dt>
+<dd class="ddef">
+<div class="summary">The base class for exceptions thrown by this module</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="XMLException.this" href="./htmlsrc/std.xml.html#L2598" kind="ctor" beg="2598" end="2598">this</a><span class="params">(string <em>msg</em>)</span>; <a title="Permalink to this symbol" href="#XMLException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2598">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="CommentException" href="./htmlsrc/std.xml.html#L2603" kind="class" beg="2603" end="2604">CommentException</a> : XMLException; <a title="Permalink to this symbol" href="#CommentException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2603">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown during Comment constructor</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="CommentException.this" href="./htmlsrc/std.xml.html#L2604" kind="ctor" beg="2604" end="2604">this</a><span class="params">(string <em>msg</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CommentException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2604">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="CDataException" href="./htmlsrc/std.xml.html#L2607" kind="class" beg="2607" end="2608">CDataException</a> : XMLException; <a title="Permalink to this symbol" href="#CDataException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2607">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown during CData constructor</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="CDataException.this" href="./htmlsrc/std.xml.html#L2608" kind="ctor" beg="2608" end="2608">this</a><span class="params">(string <em>msg</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CDataException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2608">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="XIException" href="./htmlsrc/std.xml.html#L2611" kind="class" beg="2611" end="2612">XIException</a> : XMLException; <a title="Permalink to this symbol" href="#XIException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2611">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown during XMLInstruction constructor</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="XIException.this" href="./htmlsrc/std.xml.html#L2612" kind="ctor" beg="2612" end="2612">this</a><span class="params">(string <em>msg</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#XIException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2612">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="PIException" href="./htmlsrc/std.xml.html#L2615" kind="class" beg="2615" end="2616">PIException</a> : XMLException; <a title="Permalink to this symbol" href="#PIException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2615">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown during ProcessingInstruction constructor</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="PIException.this" href="./htmlsrc/std.xml.html#L2616" kind="ctor" beg="2616" end="2616">this</a><span class="params">(string <em>msg</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#PIException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2616">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="TextException" href="./htmlsrc/std.xml.html#L2619" kind="class" beg="2619" end="2620">TextException</a> : XMLException; <a title="Permalink to this symbol" href="#TextException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2619">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown during Text constructor</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TextException.this" href="./htmlsrc/std.xml.html#L2620" kind="ctor" beg="2620" end="2620">this</a><span class="params">(string <em>msg</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#TextException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2620">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="DecodeException" href="./htmlsrc/std.xml.html#L2623" kind="class" beg="2623" end="2624">DecodeException</a> : XMLException; <a title="Permalink to this symbol" href="#DecodeException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2623">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown during decode()</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="DecodeException.this" href="./htmlsrc/std.xml.html#L2624" kind="ctor" beg="2624" end="2624">this</a><span class="params">(string <em>msg</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#DecodeException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2624">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="InvalidTypeException" href="./htmlsrc/std.xml.html#L2627" kind="class" beg="2627" end="2628">InvalidTypeException</a> : XMLException; <a title="Permalink to this symbol" href="#InvalidTypeException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2627">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown if comparing with wrong type</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="InvalidTypeException.this" href="./htmlsrc/std.xml.html#L2628" kind="ctor" beg="2628" end="2628">this</a><span class="params">(string <em>msg</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#InvalidTypeException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2628">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="TagException" href="./htmlsrc/std.xml.html#L2631" kind="class" beg="2631" end="2632">TagException</a> : XMLException; <a title="Permalink to this symbol" href="#TagException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2631">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown when parsing for Tags</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="TagException.this" href="./htmlsrc/std.xml.html#L2632" kind="ctor" beg="2632" end="2632">this</a><span class="params">(string <em>msg</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#TagException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2632">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="CheckException" href="./htmlsrc/std.xml.html#L2637" kind="class" beg="2637" end="2677">CheckException</a> : XMLException; <a title="Permalink to this symbol" href="#CheckException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2637">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown during check()</div>
+<dl>
+<dt class="decl">CheckException <a class="symbol _variable" name="CheckException.err" href="./htmlsrc/std.xml.html#L2639" kind="variable" beg="2639" end="2639">err</a>; <a title="Permalink to this symbol" href="#CheckException.err" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2639">#</a></dt>
+<dd class="ddef">
+<div class="summary">Parent in heirarchy</div></dd>
+<dt class="decl">string <a class="symbol _variable" name="CheckException.tail" href="./htmlsrc/std.xml.html#L2640" kind="variable" beg="2640" end="2640">tail</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CheckException.tail" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2640">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _variable" name="CheckException.msg" href="./htmlsrc/std.xml.html#L2645" kind="variable" beg="2645" end="2645">msg</a>; <a title="Permalink to this symbol" href="#CheckException.msg" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2645">#</a></dt>
+<dd class="ddef">
+<div class="summary">Name of production rule which failed to parse,
+ or specific error message</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="CheckException.line" href="./htmlsrc/std.xml.html#L2646" kind="variable" beg="2646" end="2646">line</a>; <a title="Permalink to this symbol" href="#CheckException.line" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2646">#</a></dt>
+<dd class="ddef">
+<div class="summary">Line number at which parse failure occurred</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="CheckException.column" href="./htmlsrc/std.xml.html#L2647" kind="variable" beg="2647" end="2647">column</a>; <a title="Permalink to this symbol" href="#CheckException.column" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2647">#</a></dt>
+<dd class="ddef">
+<div class="summary">Column number at which parse failure occurred</div></dd>
+<dt class="decl"><a class="symbol _ctor" name="CheckException.this" href="./htmlsrc/std.xml.html#L2649" kind="ctor" beg="2649" end="2655">this</a><span class="params">(string <em>tail</em>, string <em>msg</em>, Err <em>err</em> = null)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CheckException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2649">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="CheckException.complete" href="./htmlsrc/std.xml.html#L2657" kind="function" beg="2657" end="2666">complete</a><span class="params">(string <em>entire</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#CheckException.complete" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2657">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="CheckException.toString" href="./htmlsrc/std.xml.html#L2668" kind="function" beg="2668" end="2676">toString</a><span class="params">()</span>; <span class="attrs">[<span class="stc">override</span>, <span class="stc">const</span>]</span> <a title="Permalink to this symbol" href="#CheckException.toString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2668">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">alias CheckException <a class="symbol _alias" name="Err" href="./htmlsrc/std.xml.html#L2679" kind="alias" beg="2679" end="2679">Err</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#Err" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2679">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T <a class="symbol _function" name="toType" href="./htmlsrc/std.xml.html#L2685" kind="function" beg="2685" end="2694">toType</a><span class="tparams">(T)</span><span class="params">(Object <em>o</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#toType" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2685">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="chop" href="./htmlsrc/std.xml.html#L2696" kind="function" beg="2696" end="2702">chop</a><span class="params">(ref string <em>s</em>, int <em>n</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#chop" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2696">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="optc" href="./htmlsrc/std.xml.html#L2704" kind="function" beg="2704" end="2709">optc</a><span class="params">(ref string <em>s</em>, char <em>c</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#optc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2704">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="reqc" href="./htmlsrc/std.xml.html#L2711" kind="function" beg="2711" end="2715">reqc</a><span class="params">(ref string <em>s</em>, char <em>c</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#reqc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2711">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">hash_t <a class="symbol _function" name="hash" href="./htmlsrc/std.xml.html#L2717" kind="function" beg="2717" end="2721">hash</a><span class="params">(string <em>s</em>, hash_t <em>h</em> = 0)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#hash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2717">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">auto <a class="symbol _variable" name="CharTable" href="./htmlsrc/std.xml.html#L2724" kind="variable" beg="2724" end="2725">CharTable</a>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#CharTable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2724">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">auto <a class="symbol _variable" name="BaseCharTable" href="./htmlsrc/std.xml.html#L2726" kind="variable" beg="2726" end="2766">BaseCharTable</a>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#BaseCharTable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2726">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">auto <a class="symbol _variable" name="IdeographicTable" href="./htmlsrc/std.xml.html#L2767" kind="variable" beg="2767" end="2767">IdeographicTable</a>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#IdeographicTable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2767">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">auto <a class="symbol _variable" name="CombiningCharTable" href="./htmlsrc/std.xml.html#L2768" kind="variable" beg="2768" end="2787">CombiningCharTable</a>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#CombiningCharTable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2768">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">auto <a class="symbol _variable" name="DigitTable" href="./htmlsrc/std.xml.html#L2788" kind="variable" beg="2788" end="2791">DigitTable</a>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#DigitTable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2788">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">auto <a class="symbol _variable" name="ExtenderTable" href="./htmlsrc/std.xml.html#L2792" kind="variable" beg="2792" end="2794">ExtenderTable</a>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">invariant</span>]</span> <a title="Permalink to this symbol" href="#ExtenderTable" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2792">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="lookup" href="./htmlsrc/std.xml.html#L2796" kind="function" beg="2796" end="2812">lookup</a><span class="params">(const( int)[] <em>table</em>, int <em>c</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#lookup" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2796">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _function" name="startOf" href="./htmlsrc/std.xml.html#L2814" kind="function" beg="2814" end="2823">startOf</a><span class="params">(string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#startOf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2814">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="exit" href="./htmlsrc/std.xml.html#L2825" kind="function" beg="2825" end="2828">exit</a><span class="params">(string <em>s</em> = null)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#exit" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.xml.html#L2825">#</a></dt>
+<dd class="ddef"></dd>)
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:49 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

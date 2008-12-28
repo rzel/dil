@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.md5</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.md5";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.md5.html" class="symbol">std.md5</a></h1>
+  
+<div class="summary">Computes MD5 digests of arbitrary data. MD5 digests are 16 byte quantities that are like a checksum or crc, but are more robust.</div>
+There are two ways to do this. The first does it all in one function call to
+ sum(). The second is for when the data is buffered.
+<p class="sec_header"><span class="red">Bugs:</span></p>MD5 digests have been demonstrated to not be unique.
+<p class="sec_header">Author:</p>The routines and algorithms are derived from the
+ <i>RSA Data Security, Inc. MD5 Message-Digest Algorithm</i>.
+<p class="sec_header">References:</p><a href="http://en.wikipedia.org/wiki/Md5">Wikipedia on MD5</a>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="lc">// This code is derived from the</span>
+<span class="lc">// RSA Data Security, Inc. MD5 Message-Digest Algorithm.</span>
+
+<span class="k">import</span> <span class="i">std</span>.<span class="i">md5</span>;
+
+<span class="k">private</span> <span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+<span class="k">private</span> <span class="k">import</span> <span class="i">std</span>.<span class="i">string</span>;
+<span class="k">private</span> <span class="k">import</span> <span class="i">std</span>.<span class="i">c</span>.<span class="i">stdio</span>;
+<span class="k">private</span> <span class="k">import</span> <span class="i">std</span>.<span class="i">c</span>.<span class="i">string</span>;
+
+<span class="k">void</span> <span class="i">main</span>(<span class="i">string</span>[] <span class="i">args</span>)
+{
+    <span class="k">foreach</span> (<span class="k">char</span>[] <span class="i">arg</span>; <span class="i">args</span>)
+         <span class="i">MDFile</span>(<span class="i">arg</span>);
+}
+
+<span class="bc">/* Digests a file and prints the result. */</span>
+<span class="k">void</span> <span class="i">MDFile</span>(<span class="i">string</span> <span class="i">filename</span>)
+{
+    <span class="i">FILE</span>* <span class="i">file</span> = <span class="i">enforce</span>(<span class="i">fopen</span>(<span class="i">filename</span>), <span class="sl">"Could not open file `"</span>~<span class="i">filename</span>~<span class="sl">"'"</span>);
+    <span class="k">scope</span>(<span class="i">exit</span>) <span class="i">fclose</span>(<span class="i">file</span>);
+    <span class="k">ubyte</span> <span class="i">digest</span>[<span class="n">16</span>];
+
+    <span class="i">MD5_CTX</span> <span class="i">context</span>;
+    <span class="i">context</span>.<span class="i">start</span>();
+    <span class="k">foreach</span> (<span class="k">ubyte</span> <span class="i">buffer</span>; <span class="i">chunks</span>(<span class="i">file</span>, <span class="n">4096</span> * <span class="n">1024</span>))
+        <span class="i">context</span>.<span class="i">update</span>(<span class="i">buffer</span>);
+    <span class="i">context</span>.<span class="i">finish</span>(<span class="i">digest</span>);
+    <span class="i">writefln</span>(<span class="sl">"MD5 (%s) = %s"</span>, <span class="i">filename</span>, <span class="i">digestToString</span>(<span class="i">digest</span>));
+}
+</pre>
+<dl>
+<dt class="decl">void <a class="symbol _function" name="sum" href="./htmlsrc/std.md5.html#L97" kind="function" beg="97" end="106">sum</a><span class="params">(ubyte[16] <em>digest</em>, in void[][] <em>data</em>...)</span>; <a title="Permalink to this symbol" href="#sum" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L97">#</a></dt>
+<dd class="ddef">
+<div class="summary">Computes MD5 digest of several arrays of data.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="printDigest" href="./htmlsrc/std.md5.html#L111" kind="function" beg="111" end="115">printDigest</a><span class="params">(const ubyte digest[16] <em>digest</em>)</span>; <a title="Permalink to this symbol" href="#printDigest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L111">#</a></dt>
+<dd class="ddef">
+<div class="summary">Prints a message digest in hexadecimal to stdout.</div></dd>
+<dt class="decl">string <a class="symbol _function" name="digestToString" href="./htmlsrc/std.md5.html#L121" kind="function" beg="121" end="133">digestToString</a><span class="params">(const ubyte[16] <em>digest</em>)</span>; <a title="Permalink to this symbol" href="#digestToString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L121">#</a></dt>
+<dd class="ddef">
+<div class="summary">Converts MD5 digest to a string.</div></dd>
+<dt class="decl">string <a class="symbol _function" name="getDigestString" href="./htmlsrc/std.md5.html#L146" kind="function" beg="146" end="156">getDigestString</a><span class="params">(in void[][] <em>data</em>...)</span>; <a title="Permalink to this symbol" href="#getDigestString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L146">#</a></dt>
+<dd class="ddef">
+<div class="summary">Gets the digest of all <span class="d_psymbol"><i>data</i></span> items passed in.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="i">string</span> <span class="i">a</span> = <span class="sl">"Mary has "</span>, <span class="i">b</span> = <span class="sl">"a little lamb"</span>;
+<span class="k">int</span>[] <span class="i">c</span> = [ <span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span> ];
+<span class="i">string</span> <span class="i">d</span> = <span class="i">getDigestString</span>(<span class="i">a</span>, <span class="i">b</span>, <span class="i">c</span>);
+</pre></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.md5.html#L159" kind="unittest" beg="159" end="165">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L159">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">struct <a class="symbol _struct" name="MD5_CTX" href="./htmlsrc/std.md5.html#L172" kind="struct" beg="172" end="474">MD5_CTX</a>; <a title="Permalink to this symbol" href="#MD5_CTX" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L172">#</a></dt>
+<dd class="ddef">
+<div class="summary">Holds context of MD5 computation.</div>
+Used when data to be digested is buffered.
+<dl>
+<dt class="decl">uint state[4] <a class="symbol _variable" name="MD5_CTX.state" href="./htmlsrc/std.md5.html#L174" kind="variable" beg="174" end="176">state</a>; <a title="Permalink to this symbol" href="#MD5_CTX.state" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L174">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ulong <a class="symbol _variable" name="MD5_CTX.count" href="./htmlsrc/std.md5.html#L178" kind="variable" beg="178" end="178">count</a>; <a title="Permalink to this symbol" href="#MD5_CTX.count" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L178">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte buffer[64] <a class="symbol _variable" name="MD5_CTX.buffer" href="./htmlsrc/std.md5.html#L179" kind="variable" beg="179" end="179">buffer</a>; <a title="Permalink to this symbol" href="#MD5_CTX.buffer" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L179">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">ubyte[64] <a class="symbol _variable" name="MD5_CTX.PADDING" href="./htmlsrc/std.md5.html#L181" kind="variable" beg="181" end="186">PADDING</a>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MD5_CTX.PADDING" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L181">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="MD5_CTX.F" href="./htmlsrc/std.md5.html#L192" kind="function" beg="192" end="192">F</a><span class="params">(uint <em>x</em>, uint <em>y</em>, uint <em>z</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MD5_CTX.F" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L192">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="MD5_CTX.G" href="./htmlsrc/std.md5.html#L193" kind="function" beg="193" end="193">G</a><span class="params">(uint <em>x</em>, uint <em>y</em>, uint <em>z</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MD5_CTX.G" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L193">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="MD5_CTX.H" href="./htmlsrc/std.md5.html#L194" kind="function" beg="194" end="194">H</a><span class="params">(uint <em>x</em>, uint <em>y</em>, uint <em>z</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MD5_CTX.H" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L194">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="MD5_CTX.I" href="./htmlsrc/std.md5.html#L195" kind="function" beg="195" end="195">I</a><span class="params">(uint <em>x</em>, uint <em>y</em>, uint <em>z</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MD5_CTX.I" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L195">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="MD5_CTX.ROTATE_LEFT" href="./htmlsrc/std.md5.html#L200" kind="function" beg="200" end="216">ROTATE_LEFT</a><span class="params">(uint <em>x</em>, uint <em>n</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MD5_CTX.ROTATE_LEFT" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L200">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="MD5_CTX.FF" href="./htmlsrc/std.md5.html#L221" kind="function" beg="221" end="226">FF</a><span class="params">(inout uint <em>a</em>, uint <em>b</em>, uint <em>c</em>, uint <em>d</em>, uint <em>x</em>, uint <em>s</em>, uint <em>ac</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MD5_CTX.FF" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L221">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="MD5_CTX.GG" href="./htmlsrc/std.md5.html#L228" kind="function" beg="228" end="233">GG</a><span class="params">(inout uint <em>a</em>, uint <em>b</em>, uint <em>c</em>, uint <em>d</em>, uint <em>x</em>, uint <em>s</em>, uint <em>ac</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MD5_CTX.GG" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L228">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="MD5_CTX.HH" href="./htmlsrc/std.md5.html#L235" kind="function" beg="235" end="240">HH</a><span class="params">(inout uint <em>a</em>, uint <em>b</em>, uint <em>c</em>, uint <em>d</em>, uint <em>x</em>, uint <em>s</em>, uint <em>ac</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MD5_CTX.HH" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L235">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="MD5_CTX.II" href="./htmlsrc/std.md5.html#L242" kind="function" beg="242" end="247">II</a><span class="params">(inout uint <em>a</em>, uint <em>b</em>, uint <em>c</em>, uint <em>d</em>, uint <em>x</em>, uint <em>s</em>, uint <em>ac</em>)</span>; <span class="attrs">[<span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MD5_CTX.II" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L242">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="MD5_CTX.start" href="./htmlsrc/std.md5.html#L252" kind="function" beg="252" end="255">start</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#MD5_CTX.start" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L252">#</a></dt>
+<dd class="ddef">
+<div class="summary">MD5 initialization. Begins an MD5 operation, writing a new context.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="MD5_CTX.update" href="./htmlsrc/std.md5.html#L261" kind="function" beg="261" end="291">update</a><span class="params">(const void[] <em>input</em>)</span>; <a title="Permalink to this symbol" href="#MD5_CTX.update" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L261">#</a></dt>
+<dd class="ddef">
+<div class="summary">MD5 block update operation. Continues an MD5 message-digest
+      operation, processing another message block, and updating the
+      context.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="MD5_CTX.finish" href="./htmlsrc/std.md5.html#L296" kind="function" beg="296" end="320">finish</a><span class="params">(ubyte[16] <em>digest</em>)</span>; <a title="Permalink to this symbol" href="#MD5_CTX.finish" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L296">#</a></dt>
+<dd class="ddef">
+<div class="summary">MD5 finalization. Ends an MD5 message-digest operation, writing the
+ the message to digest and zeroing the context.</div></dd>
+<dt class="decl"><a class="symbol _enum" name="MD5_CTX.enum" href="./htmlsrc/std.md5.html#L326" kind="enum" beg="326" end="344">enum</a>; <a title="Permalink to this symbol" href="#MD5_CTX.enum" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L326">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S11" href="./htmlsrc/std.md5.html#L328" kind="enummem" beg="328" end="328">S11</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L328">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S12" href="./htmlsrc/std.md5.html#L329" kind="enummem" beg="329" end="329">S12</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L329">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S13" href="./htmlsrc/std.md5.html#L330" kind="enummem" beg="330" end="330">S13</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L330">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S14" href="./htmlsrc/std.md5.html#L331" kind="enummem" beg="331" end="331">S14</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L331">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S21" href="./htmlsrc/std.md5.html#L332" kind="enummem" beg="332" end="332">S21</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S21" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L332">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S22" href="./htmlsrc/std.md5.html#L333" kind="enummem" beg="333" end="333">S22</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S22" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L333">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S23" href="./htmlsrc/std.md5.html#L334" kind="enummem" beg="334" end="334">S23</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S23" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L334">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S24" href="./htmlsrc/std.md5.html#L335" kind="enummem" beg="335" end="335">S24</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S24" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L335">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S31" href="./htmlsrc/std.md5.html#L336" kind="enummem" beg="336" end="336">S31</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S31" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L336">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S32" href="./htmlsrc/std.md5.html#L337" kind="enummem" beg="337" end="337">S32</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S32" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L337">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S33" href="./htmlsrc/std.md5.html#L338" kind="enummem" beg="338" end="338">S33</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S33" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L338">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S34" href="./htmlsrc/std.md5.html#L339" kind="enummem" beg="339" end="339">S34</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S34" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L339">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S41" href="./htmlsrc/std.md5.html#L340" kind="enummem" beg="340" end="340">S41</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S41" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L340">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S42" href="./htmlsrc/std.md5.html#L341" kind="enummem" beg="341" end="341">S42</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S42" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L341">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S43" href="./htmlsrc/std.md5.html#L342" kind="enummem" beg="342" end="342">S43</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S43" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L342">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _enummem" name="MD5_CTX.enum.S44" href="./htmlsrc/std.md5.html#L343" kind="enummem" beg="343" end="343">S44</a> <a title="Permalink to this symbol" href="#MD5_CTX.enum.S44" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L343">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">void <a class="symbol _function" name="MD5_CTX.transform" href="./htmlsrc/std.md5.html#L346" kind="function" beg="346" end="435">transform</a><span class="params">(ubyte* <em>block</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#MD5_CTX.transform" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L346">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="MD5_CTX.Encode" href="./htmlsrc/std.md5.html#L440" kind="function" beg="440" end="452">Encode</a><span class="params">(ubyte * <em>output</em>, const uint * <em>input</em>, uint <em>len</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MD5_CTX.Encode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L440">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="MD5_CTX.Decode" href="./htmlsrc/std.md5.html#L457" kind="function" beg="457" end="473">Decode</a><span class="params">(uint * <em>output</em>, const ubyte * <em>input</em>, uint <em>len</em>)</span>; <span class="attrs">[<span class="prot">private</span>, <span class="stc">static</span>]</span> <a title="Permalink to this symbol" href="#MD5_CTX.Decode" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L457">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.md5.html#L476" kind="unittest" beg="476" end="507">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.md5.html#L476">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:41 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

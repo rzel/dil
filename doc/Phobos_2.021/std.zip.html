@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.zip</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.zip";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.zip.html" class="symbol">std.zip</a></h1>
+  
+<div class="summary">Read/write data in the <a href="http://www.info-_zip.org">zip archive</a> format.
+ Makes use of the etc.c.zlib compression library.</div>
+<p class="sec_header"><span class="red">Bugs:</span></p><ul>
+        <li>Multi-disk zips not supported.</li>
+        <li>Only Zip version 20 formats are supported.</li>
+        <li>Only supports compression modes 0 (no compression) and 8 (deflate).</li>
+        <li>Does not support encryption.</li>
+        <li><a href="http://d.puremagic.com/issues/show_bug.cgi?id=592">Bugzilla 592</a>
+
+</li>
+        <li><a href="http://d.puremagic.com/issues/show_bug.cgi?id=1832">Bugzilla 1832</a>
+
+</li>
+        <li><a href="http://d.puremagic.com/issues/show_bug.cgi?id=2137">Bugzilla 2137</a>
+
+</li>
+        <li><a href="http://d.puremagic.com/issues/show_bug.cgi?id=2138">Bugzilla 2138</a>
+
+</li>
+        </ul>
+<dl>
+<dt class="decl">class <a class="symbol _class" name="ZipException" href="./htmlsrc/std.zip.html#L33" kind="class" beg="33" end="39">ZipException</a> : Exception; <a title="Permalink to this symbol" href="#ZipException" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L33">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown on error.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="ZipException.this" href="./htmlsrc/std.zip.html#L35" kind="ctor" beg="35" end="38">this</a><span class="params">(string <em>msg</em>)</span>; <a title="Permalink to this symbol" href="#ZipException.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L35">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="ArchiveMember" href="./htmlsrc/std.zip.html#L44" kind="class" beg="44" end="90">ArchiveMember</a>; <a title="Permalink to this symbol" href="#ArchiveMember" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L44">#</a></dt>
+<dd class="ddef">
+<div class="summary">A member of the ZipArchive.</div>
+<dl>
+<dt class="decl">ushort <a class="symbol _variable" name="ArchiveMember.madeVersion" href="./htmlsrc/std.zip.html#L46" kind="variable" beg="46" end="46">madeVersion</a>; <a title="Permalink to this symbol" href="#ArchiveMember.madeVersion" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L46">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read Only</div></dd>
+<dt class="decl">ushort <a class="symbol _variable" name="ArchiveMember.extractVersion" href="./htmlsrc/std.zip.html#L47" kind="variable" beg="47" end="47">extractVersion</a>; <a title="Permalink to this symbol" href="#ArchiveMember.extractVersion" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L47">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read Only</div></dd>
+<dt class="decl">ushort <a class="symbol _variable" name="ArchiveMember.flags" href="./htmlsrc/std.zip.html#L48" kind="variable" beg="48" end="48">flags</a>; <a title="Permalink to this symbol" href="#ArchiveMember.flags" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L48">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read/Write: normally set to 0</div></dd>
+<dt class="decl">ushort <a class="symbol _variable" name="ArchiveMember.compressionMethod" href="./htmlsrc/std.zip.html#L49" kind="variable" beg="49" end="49">compressionMethod</a>; <a title="Permalink to this symbol" href="#ArchiveMember.compressionMethod" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L49">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read/Write: 0 for compression, 8 for deflate</div></dd>
+<dt class="decl">std.date.DosFileTime <a class="symbol _variable" name="ArchiveMember.time" href="./htmlsrc/std.zip.html#L50" kind="variable" beg="50" end="50">time</a>; <a title="Permalink to this symbol" href="#ArchiveMember.time" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L50">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read/Write: Last modified time of the member. It's in the DOS date/time format.</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="ArchiveMember.crc32" href="./htmlsrc/std.zip.html#L51" kind="variable" beg="51" end="51">crc32</a>; <a title="Permalink to this symbol" href="#ArchiveMember.crc32" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L51">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read Only: cyclic redundancy check (CRC) value</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="ArchiveMember.compressedSize" href="./htmlsrc/std.zip.html#L52" kind="variable" beg="52" end="52">compressedSize</a>; <a title="Permalink to this symbol" href="#ArchiveMember.compressedSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L52">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read Only: size of data of member in compressed form.</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="ArchiveMember.expandedSize" href="./htmlsrc/std.zip.html#L53" kind="variable" beg="53" end="53">expandedSize</a>; <a title="Permalink to this symbol" href="#ArchiveMember.expandedSize" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L53">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read Only: size of data of member in expanded form.</div></dd>
+<dt class="decl">ushort <a class="symbol _variable" name="ArchiveMember.diskNumber" href="./htmlsrc/std.zip.html#L54" kind="variable" beg="54" end="54">diskNumber</a>; <a title="Permalink to this symbol" href="#ArchiveMember.diskNumber" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L54">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read Only: should be 0.</div></dd>
+<dt class="decl">ushort <a class="symbol _variable" name="ArchiveMember.internalAttributes" href="./htmlsrc/std.zip.html#L55" kind="variable" beg="55" end="55">internalAttributes</a>; <a title="Permalink to this symbol" href="#ArchiveMember.internalAttributes" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L55">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read/Write</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="ArchiveMember.externalAttributes" href="./htmlsrc/std.zip.html#L56" kind="variable" beg="56" end="56">externalAttributes</a>; <a title="Permalink to this symbol" href="#ArchiveMember.externalAttributes" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L56">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read/Write</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="ArchiveMember.offset" href="./htmlsrc/std.zip.html#L58" kind="variable" beg="58" end="58">offset</a>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#ArchiveMember.offset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L58">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">string <a class="symbol _variable" name="ArchiveMember.name" href="./htmlsrc/std.zip.html#L65" kind="variable" beg="65" end="65">name</a>; <a title="Permalink to this symbol" href="#ArchiveMember.name" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L65">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read/Write: Usually the file name of the archive member; it is used to
+ index the archive directory for the member. Each member must have a unique
+ name[]. Do not change without removing member from the directory first.</div></dd>
+<dt class="decl">ubyte[] <a class="symbol _variable" name="ArchiveMember.extra" href="./htmlsrc/std.zip.html#L67" kind="variable" beg="67" end="67">extra</a>; <a title="Permalink to this symbol" href="#ArchiveMember.extra" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L67">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read/Write: extra data for this member.</div></dd>
+<dt class="decl">string <a class="symbol _variable" name="ArchiveMember.comment" href="./htmlsrc/std.zip.html#L68" kind="variable" beg="68" end="68">comment</a>; <a title="Permalink to this symbol" href="#ArchiveMember.comment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L68">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read/Write: comment associated with this member.</div></dd>
+<dt class="decl">ubyte[] <a class="symbol _variable" name="ArchiveMember.compressedData" href="./htmlsrc/std.zip.html#L69" kind="variable" beg="69" end="69">compressedData</a>; <a title="Permalink to this symbol" href="#ArchiveMember.compressedData" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L69">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read Only: data of member in compressed form.</div></dd>
+<dt class="decl">ubyte[] <a class="symbol _variable" name="ArchiveMember.expandedData" href="./htmlsrc/std.zip.html#L70" kind="variable" beg="70" end="70">expandedData</a>; <a title="Permalink to this symbol" href="#ArchiveMember.expandedData" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L70">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read/Write: data of member in uncompressed form.</div></dd></dl></dd>
+<dt class="decl">class <a class="symbol _class" name="ZipArchive" href="./htmlsrc/std.zip.html#L96" kind="class" beg="96" end="509">ZipArchive</a>; <a title="Permalink to this symbol" href="#ZipArchive" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L96">#</a></dt>
+<dd class="ddef">
+<div class="summary">Object representing the entire archive.
+ ZipArchives are collections of ArchiveMembers.</div>
+<dl>
+<dt class="decl">ubyte[] <a class="symbol _variable" name="ZipArchive.data" href="./htmlsrc/std.zip.html#L98" kind="variable" beg="98" end="98">data</a>; <a title="Permalink to this symbol" href="#ZipArchive.data" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L98">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read Only: array representing the entire contents of the archive.</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="ZipArchive.endrecOffset" href="./htmlsrc/std.zip.html#L99" kind="variable" beg="99" end="99">endrecOffset</a>; <a title="Permalink to this symbol" href="#ZipArchive.endrecOffset" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L99">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _variable" name="ZipArchive.diskNumber" href="./htmlsrc/std.zip.html#L101" kind="variable" beg="101" end="101">diskNumber</a>; <a title="Permalink to this symbol" href="#ZipArchive.diskNumber" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L101">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read Only: 0 since multi-disk zip archives are not supported.</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="ZipArchive.diskStartDir" href="./htmlsrc/std.zip.html#L102" kind="variable" beg="102" end="102">diskStartDir</a>; <a title="Permalink to this symbol" href="#ZipArchive.diskStartDir" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L102">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read Only: 0 since multi-disk zip archives are not supported.</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="ZipArchive.numEntries" href="./htmlsrc/std.zip.html#L103" kind="variable" beg="103" end="103">numEntries</a>; <a title="Permalink to this symbol" href="#ZipArchive.numEntries" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L103">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read Only: number of ArchiveMembers in the directory.</div></dd>
+<dt class="decl">uint <a class="symbol _variable" name="ZipArchive.totalEntries" href="./htmlsrc/std.zip.html#L104" kind="variable" beg="104" end="104">totalEntries</a>; <a title="Permalink to this symbol" href="#ZipArchive.totalEntries" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L104">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read Only: same as totalEntries.</div></dd>
+<dt class="decl">string <a class="symbol _variable" name="ZipArchive.comment" href="./htmlsrc/std.zip.html#L105" kind="variable" beg="105" end="105">comment</a>; <a title="Permalink to this symbol" href="#ZipArchive.comment" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L105">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read/Write: the archive comment. Must be less than 65536 bytes in length.</div></dd>
+<dt class="decl">ArchiveMember[string] <a class="symbol _variable" name="ZipArchive.directory" href="./htmlsrc/std.zip.html#L119" kind="variable" beg="119" end="119">directory</a>; <a title="Permalink to this symbol" href="#ZipArchive.directory" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L119">#</a></dt>
+<dd class="ddef">
+<div class="summary">Read Only: array indexed by the name of each member of the archive.</div>
+<p class="sec_header">Example:</p>All the members of the archive can be accessed with a foreach loop:
+ <pre class="d_code">
+<span class="i">ZipArchive</span> <span class="i">archive</span> = <span class="k">new</span> <span class="i">ZipArchive</span>(<span class="i">data</span>);
+<span class="k">foreach</span> (<span class="i">ArchiveMember</span> <span class="i">am</span>; <span class="i">archive</span>.<span class="i">directory</span>)
+{
+    <span class="i">writefln</span>(<span class="sl">"member name is '%s'"</span>, <span class="i">am</span>.<span class="i">name</span>);
+}
+</pre></dd>
+<dt class="decl"><a class="symbol _ctor" name="ZipArchive.this" href="./htmlsrc/std.zip.html#L137" kind="ctor" beg="137" end="139">this</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ZipArchive.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L137">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructor to use when creating a new archive.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ZipArchive.addMember" href="./htmlsrc/std.zip.html#L143" kind="function" beg="143" end="146">addMember</a><span class="params">(ArchiveMember <em>de</em>)</span>; <a title="Permalink to this symbol" href="#ZipArchive.addMember" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L143">#</a></dt>
+<dd class="ddef">
+<div class="summary">Add de to the archive.</div></dd>
+<dt class="decl">void <a class="symbol _function" name="ZipArchive.deleteMember" href="./htmlsrc/std.zip.html#L150" kind="function" beg="150" end="153">deleteMember</a><span class="params">(ArchiveMember <em>de</em>)</span>; <a title="Permalink to this symbol" href="#ZipArchive.deleteMember" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L150">#</a></dt>
+<dd class="ddef">
+<div class="summary">Delete de from the archive.</div></dd>
+<dt class="decl">void[] <a class="symbol _function" name="ZipArchive.build" href="./htmlsrc/std.zip.html#L165" kind="function" beg="165" end="282">build</a><span class="params">()</span>; <a title="Permalink to this symbol" href="#ZipArchive.build" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L165">#</a></dt>
+<dd class="ddef">
+<div class="summary">Construct an archive out of the current members of the archive.</div>
+Fills in the properties data[], diskNumber, diskStartDir, numEntries,
+ totalEntries, and directory[].
+ For each ArchiveMember, fills in properties crc32, compressedSize,
+ compressedData[].
+<p class="sec_header">Returns:</p>array representing the entire archive.</dd>
+<dt class="decl"><a class="symbol _ctor" name="ZipArchive.this:2" href="./htmlsrc/std.zip.html#L301" kind="ctor" beg="301" end="396">this</a><span class="params">(void[] <em>buffer</em>)</span>; <a title="Permalink to this symbol" href="#ZipArchive.this:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L301">#</a></dt>
+<dd class="ddef">
+<div class="summary">Constructor to use when reading an existing archive.</div>
+Fills in the properties data[], diskNumber, diskStartDir, numEntries,
+ totalEntries, comment[], and directory[].
+ For each ArchiveMember, fills in
+ properties madeVersion, extractVersion, flags, compressionMethod, time,
+ crc32, compressedSize, expandedSize, compressedData[], diskNumber,
+ internalAttributes, externalAttributes, name[], extra[], comment[].
+ Use expand() to get the expanded data for each ArchiveMember.
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>buffer</em></td><td>the entire contents of the archive.</td></tr></table></dd>
+<dt class="decl">ubyte[] <a class="symbol _function" name="ZipArchive.expand" href="./htmlsrc/std.zip.html#L405" kind="function" beg="405" end="458">expand</a><span class="params">(ArchiveMember <em>de</em>)</span>; <a title="Permalink to this symbol" href="#ZipArchive.expand" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L405">#</a></dt>
+<dd class="ddef">
+<div class="summary">Decompress the contents of archive member de and return the expanded
+ data.</div>
+Fills in properties extractVersion, flags, compressionMethod, time,
+ crc32, compressedSize, expandedSize, expandedData[], name[], extra[].</dd>
+<dt class="decl">ushort <a class="symbol _function" name="ZipArchive.getUshort" href="./htmlsrc/std.zip.html#L462" kind="function" beg="462" end="474">getUshort</a><span class="params">(int <em>i</em>)</span>; <a title="Permalink to this symbol" href="#ZipArchive.getUshort" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L462">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">uint <a class="symbol _function" name="ZipArchive.getUint" href="./htmlsrc/std.zip.html#L476" kind="function" beg="476" end="486">getUint</a><span class="params">(int <em>i</em>)</span>; <a title="Permalink to this symbol" href="#ZipArchive.getUint" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L476">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="ZipArchive.putUshort" href="./htmlsrc/std.zip.html#L488" kind="function" beg="488" end="499">putUshort</a><span class="params">(int <em>i</em>, ushort <em>us</em>)</span>; <a title="Permalink to this symbol" href="#ZipArchive.putUshort" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L488">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="ZipArchive.putUint" href="./htmlsrc/std.zip.html#L501" kind="function" beg="501" end="508">putUint</a><span class="params">(int <em>i</em>, uint <em>ui</em>)</span>; <a title="Permalink to this symbol" href="#ZipArchive.putUint" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.zip.html#L501">#</a></dt>
+<dd class="ddef"></dd></dl></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:49 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

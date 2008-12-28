@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.numeric</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.numeric";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.numeric.html" class="symbol">std.numeric</a></h1>
+  
+<div class="summary">This module is a port of a growing fragment of the <span class="d_param">numeric</span>
+header in Alexander Stepanov's <a href="http://sgi.com/tech/stl">
+Standard Template Library</a>, with a few additions.</div>
+<p class="sec_header">Author:</p><a href="http://erdani.org">Andrei Alexandrescu</a>, Don Clugston
+<dl>
+<dt class="decl">template <a class="symbol _template" name="secantMethod" href="./htmlsrc/std.numeric.html#L67" kind="template" beg="67" end="82">secantMethod</a><span class="tparams">(alias F)</span>; <a title="Permalink to this symbol" href="#secantMethod" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.numeric.html#L67">#</a></dt>
+<dd class="ddef">
+<div class="summary">Implements the <a href="http://tinyurl.com/2zb9yr">secant method</a> for
+   finding a root of the function <span class="d_param">f</span> starting from points
+   [xn_1, x_n] (ideally close to the root). <span class="d_param">Num</span> may be
+   <span class="d_param">float</span>, <span class="d_param">double</span>, or <span class="d_param">real</span>.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">float</span> <span class="i">f</span>(<span class="k">float</span> <span class="i">x</span>) {
+    <span class="k">return</span> <span class="i">cos</span>(<span class="i">x</span>) - <span class="i">x</span>*<span class="i">x</span>*<span class="i">x</span>;
+}
+<span class="k">auto</span> <span class="i">x</span> = <span class="i">secantMethod</span>(&amp;<span class="i">f</span>, <span class="n">0f</span>, <span class="n">1f</span>);
+<span class="k">assert</span>(<span class="i">approxEqual</span>(<span class="i">x</span>, <span class="n">0.865474</span>));
+</pre>
+<dl>
+<dt class="decl">Num <a class="symbol _function" name="secantMethod.secantMethod" href="./htmlsrc/std.numeric.html#L69" kind="function" beg="69" end="81">secantMethod</a><span class="tparams">(Num)</span><span class="params">(Num <em>xn_1</em>, Num <em>xn</em>)</span>; <a title="Permalink to this symbol" href="#secantMethod.secantMethod" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.numeric.html#L69">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.numeric.html#L84" kind="unittest" beg="84" end="92">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.numeric.html#L84">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="oppositeSigns" href="./htmlsrc/std.numeric.html#L97" kind="function" beg="97" end="103">oppositeSigns</a><span class="tparams">(T)</span><span class="params">(T <em>a</em>, T <em>b</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#oppositeSigns" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.numeric.html#L97">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T <a class="symbol _function" name="findRoot" href="./htmlsrc/std.numeric.html#L132" kind="function" beg="132" end="137">findRoot</a><span class="tparams">(T, R)</span><span class="params">(R delegate(T) <em>f</em>, T <em>a</em>, T <em>b</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#findRoot" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.numeric.html#L132">#</a></dt>
+<dd class="ddef">
+<div class="summary">Find a real root of a real function f(x) via bracketing.</div>
+Given a function <span class="d_psymbol"><i>f</i></span> and a range <span class="d_psymbol"><i>[a..b]</i></span> such that <span class="d_psymbol"><i>f(a)</i></span>
+ and <span class="d_psymbol"><i>f(b)</i></span> have opposite signs, returns the value of <span class="d_psymbol"><i>x</i></span> in
+ the range which is closest to a root of <span class="d_psymbol"><i>f(x)</i></span>.  If <span class="d_psymbol"><i>f(x)</i></span>
+ has more than one root in the range, one will be chosen
+ arbitrarily.  If <span class="d_psymbol"><i>f(x)</i></span> returns NaN, NaN will be returned;
+ otherwise, this algorithm is guaranteed to succeed.
+  
+ Uses an algorithm based on TOMS748, which uses inverse cubic
+ interpolation whenever possible, otherwise reverting to parabolic
+ or secant interpolation. Compared to TOMS748, this implementation
+ improves worst-case performance by a factor of more than 100, and
+ typical performance by a factor of 2. For 80-bit reals, most
+ problems require 8 to 15 calls to <span class="d_psymbol"><i>f(x)</i></span> to achieve full machine
+ precision. The worst-case performance (pathological cases) is
+ approximately twice the number of bits.
+<p class="sec_header">References:</p>"On Enclosing Simple Roots of Nonlinear Equations",
+ G. Alefeld, F.A. Potra, Yixun Shi, Mathematics of Computation 61,
+ pp733-744 (1993).  Fortran code available from <a href="http://
+ www.netlib.org">www.netlib.org</a> as algorithm TOMS478.</dd>
+<dt class="decl">Tuple!(T, T, R, R) <a class="symbol _function" name="findRoot:2" href="./htmlsrc/std.numeric.html#L172" kind="function" beg="172" end="411">findRoot</a><span class="tparams">(T,R)</span><span class="params">(R delegate(T) <em>f</em>, T <em>ax</em>, T <em>bx</em>, R <em>fax</em>, R <em>fbx</em>, bool delegate(T lo, T hi) <em>tolerance</em>)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#findRoot:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.numeric.html#L172">#</a></dt>
+<dd class="ddef">
+<div class="summary">Find root of a real function f(x) by bracketing, allowing the
+ termination condition to be specified.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>f</em></td><td>Function to be analyzed</td></tr>
+<tr><td><em>ax</em></td><td>Left bound of initial range of <span class="d_psymbol"><i>f</i></span> known to contain the
+ root.</td></tr>
+<tr><td><em>bx</em></td><td>Right bound of initial range of <span class="d_psymbol"><i>f</i></span> known to contain the
+ root.</td></tr>
+<tr><td><em>fax</em></td><td>Value of <span class="d_psymbol"><i>f(ax)</i></span>.</td></tr>
+<tr><td><em>fax</em></td><td>Value of <span class="d_psymbol"><i>f(ax)</i></span> and <span class="d_psymbol"><i>f(bx)</i></span>. (<span class="d_psymbol"><i>f(ax)</i></span> and <span class="d_psymbol"><i>
+ f(bx)</i></span> are commonly known in advance.)</td></tr>
+<tr><td><em>tolerance</em></td><td>Defines an early termination condition. Receives the
+             current upper and lower bounds on the root. The
+             delegate must return <span class="d_psymbol"><i>true</i></span> when these bounds are
+             acceptable. If this function always returns <span class="d_psymbol"><i>false</i></span>,
+             full machine precision will be achieved.</td></tr></table>
+<p class="sec_header">Returns:</p>A tuple consisting of two ranges. The first two elements are the
+ range (in <span class="d_psymbol"><i>x</i></span>) of the root, while the second pair of elements
+ are the corresponding function values at those points. If an exact
+ root was found, both of the first two elements will contain the
+ root, and the second pair of elements will be 0.</dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.numeric.html#L413" kind="unittest" beg="413" end="590">unittest</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.numeric.html#L413">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="tabulateFixed" href="./htmlsrc/std.numeric.html#L592" kind="template" beg="592" end="620">tabulateFixed</a><span class="tparams">(alias fun, uint n,
+        real maxError, real left, real right)</span>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#tabulateFixed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.numeric.html#L592">#</a></dt>
+<dd class="ddef">
+<dl>
+<dt class="decl">ReturnType!(fun) <a class="symbol _function" name="tabulateFixed.tabulateFixed" href="./htmlsrc/std.numeric.html#L595" kind="function" beg="595" end="619">tabulateFixed</a><span class="params">(ParameterTypeTuple!(fun) <em>arg</em>)</span>; <a title="Permalink to this symbol" href="#tabulateFixed.tabulateFixed" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.numeric.html#L595">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:3" href="./htmlsrc/std.numeric.html#L622" kind="unittest" beg="622" end="636">unittest</a>; <span class="attrs">[<span class="prot">public</span>]</span> <a title="Permalink to this symbol" href="#unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.numeric.html#L622">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:41 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

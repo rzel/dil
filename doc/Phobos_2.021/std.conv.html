@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.conv</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.conv";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.conv.html" class="symbol">std.conv</a></h1>
+  
+<div class="summary">A one-stop shop for converting values from one type to another.</div>
+<p class="sec_header">Authors:</p><a href="http://digitalmars.com">Walter Bright</a>, <a href="http://erdani.org">Andrei
+Alexandrescu</a>
+<dl>
+<dt class="decl">class <a class="symbol _class" name="ConvError" href="./htmlsrc/std.conv.html#L55" kind="class" beg="55" end="61">ConvError</a> : Error; <a title="Permalink to this symbol" href="#ConvError" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L55">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown on conversion errors.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="ConvError.this" href="./htmlsrc/std.conv.html#L57" kind="ctor" beg="57" end="60">this</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#ConvError.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L57">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">void <a class="symbol _function" name="conv_error" href="./htmlsrc/std.conv.html#L63" kind="function" beg="63" end="68">conv_error</a><span class="tparams">(S, T)</span><span class="params">(S <em>source</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#conv_error" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L63">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">class <a class="symbol _class" name="ConvOverflowError" href="./htmlsrc/std.conv.html#L73" kind="class" beg="73" end="79">ConvOverflowError</a> : Error; <a title="Permalink to this symbol" href="#ConvOverflowError" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L73">#</a></dt>
+<dd class="ddef">
+<div class="summary">Thrown on conversion overflow errors.</div>
+<dl>
+<dt class="decl"><a class="symbol _ctor" name="ConvOverflowError.this" href="./htmlsrc/std.conv.html#L75" kind="ctor" beg="75" end="78">this</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#ConvOverflowError.this" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L75">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">void <a class="symbol _function" name="conv_overflow" href="./htmlsrc/std.conv.html#L81" kind="function" beg="81" end="84">conv_overflow</a><span class="params">(string <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#conv_overflow" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L81">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="to" href="./htmlsrc/std.conv.html#L202" kind="template" beg="202" end="208">to</a><span class="tparams">(Target)</span>; <a title="Permalink to this symbol" href="#to" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L202">#</a></dt>
+<dd class="ddef">
+<div class="summary">The <span class="d_param">to</span> family of functions converts a value from type
+<span class="d_param">Source</span> to type <span class="d_param">Target</span>. The source type is
+deduced and the target type must be specified, for example the
+expression <span class="d_param">to!(int)(42.0)</span> converts the number 42 from
+<span class="d_param">double</span> to <span class="d_param">int</span>. The conversion is "safe", i.e.,
+it checks for overflow; <span class="d_param">to!(int)(4.2e10)</span> would throw the
+<span class="d_param">ConvOverflowError</span> exception. Overflow checks are only
+inserted when necessary, e.g., <span class="d_param">to!(double)(42)</span> does not do
+any checking because any int fits in a double.</div>
+Converting a value to its own type (useful mostly for generic code)
+simply returns its argument.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span> <span class="i">a</span> = <span class="n">42</span>;
+<span class="k">auto</span> <span class="i">b</span> = <span class="i">to</span>!(<span class="k">int</span>)(<span class="i">a</span>); <span class="lc">// b is int with value 42</span>
+<span class="k">auto</span> <span class="i">c</span> = <span class="i">to</span>!(<span class="k">double</span>)(<span class="n">3.14</span>); <span class="lc">// c is double with value 3.14</span>
+</pre>
+Converting among numeric types is a safe way to cast them around.
+Conversions from floating-point types to integral types allow loss of
+precision (the fractional part of a floating-point number). The
+conversion is truncating towards zero, the same way a cast would
+truncate. (To round a floating point value when casting to an
+integral, use <span class="d_param">roundTo</span>.)
+<p class="sec_header">Examples:</p><pre class="d_code">
+<span class="k">int</span> <span class="i">a</span> = <span class="n">420</span>;
+<span class="k">auto</span> <span class="i">b</span> = <span class="i">to</span>!(<span class="k">long</span>)(<span class="i">a</span>); <span class="lc">// same as long b = a;</span>
+<span class="k">auto</span> <span class="i">c</span> = <span class="i">to</span>!(<span class="k">byte</span>)(<span class="i">a</span> / <span class="n">10</span>); <span class="lc">// fine, c = 42</span>
+<span class="k">auto</span> <span class="i">d</span> = <span class="i">to</span>!(<span class="k">byte</span>)(<span class="i">a</span>); <span class="lc">// throw ConvOverflowError</span>
+<span class="k">double</span> <span class="i">e</span> = <span class="n">4.2e6</span>;
+<span class="k">auto</span> <span class="i">f</span> = <span class="i">to</span>!(<span class="k">int</span>)(<span class="i">e</span>); <span class="lc">// f == 4200000</span>
+<span class="i">e</span> = -<span class="n">3.14</span>;
+<span class="k">auto</span> <span class="i">g</span> = <span class="i">to</span>!(<span class="k">uint</span>)(<span class="i">e</span>); <span class="lc">// fails: floating-to-integral underflow</span>
+<span class="i">e</span> = <span class="n">3.14</span>;
+<span class="k">auto</span> <span class="i">h</span> = <span class="i">to</span>!(<span class="k">uint</span>)(<span class="i">e</span>); <span class="lc">// h = 3</span>
+<span class="i">e</span> = <span class="n">3.99</span>;
+<span class="i">h</span> = <span class="i">to</span>!(<span class="k">uint</span>)(<span class="i">a</span>); <span class="lc">// h = 3</span>
+<span class="i">e</span> = -<span class="n">3.99</span>;
+<span class="i">f</span> = <span class="i">to</span>!(<span class="k">int</span>)(<span class="i">a</span>); <span class="lc">// f = -3</span>
+</pre>
+<p class="bl"/>
+Conversions from integral types to floating-point types always
+succeed, but might lose accuracy. The largest integers with a
+predecessor representable in floating-point format are 2^24-1 for
+float, 2^53-1 for double, and 2^64-1 for <span class="d_param">real</span> (when
+<span class="d_param">real</span> is 80-bit, e.g. on Intel machines).
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span> <span class="i">a</span> = <span class="n">16_777_215</span>; <span class="lc">// 2^24 - 1, largest proper integer representable as float</span>
+<span class="k">assert</span>(<span class="i">to</span>!(<span class="k">int</span>)(<span class="i">to</span>!(<span class="k">float</span>)(<span class="i">a</span>)) == <span class="i">a</span>);
+<span class="k">assert</span>(<span class="i">to</span>!(<span class="k">int</span>)(<span class="i">to</span>!(<span class="k">float</span>)(-<span class="i">a</span>)) == -<span class="i">a</span>);
+<span class="i">a</span> += <span class="n">2</span>;
+<span class="k">assert</span>(<span class="i">to</span>!(<span class="k">int</span>)(<span class="i">to</span>!(<span class="k">float</span>)(<span class="i">a</span>)) == <span class="i">a</span>); <span class="lc">// fails!</span>
+</pre>
+<p class="bl"/>
+Conversions from string to numeric types differ from the C equivalents
+<span class="d_param">atoi()</span> and <span class="d_param">atol()</span> by checking for overflow and
+not allowing whitespace.
+<p class="bl"/>
+For conversion of strings to signed types, the grammar recognized is:
+<pre>
+<i>Integer</i>: <i>Sign UnsignedInteger</i>
+<i>UnsignedInteger</i>
+<i>Sign</i>:
+    <b>+</b>
+    <b>-</b>
+</pre>
+For conversion to unsigned types, the grammar recognized is:
+<pre>
+<i>UnsignedInteger</i>:
+    <i>DecimalDigit</i>
+    <i>DecimalDigit</i> <i>UnsignedInteger</i>
+</pre>
+<p class="bl"/>
+Converting an array to another array type works by converting each
+element in turn. Associative arrays can be converted to associative
+arrays as long as keys and values can in turn be converted.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">int</span>[] <span class="i">a</span> = ([<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]).<span class="i">dup</span>;
+<span class="k">auto</span> <span class="i">b</span> = <span class="i">to</span>!(<span class="k">float</span>[])(<span class="i">a</span>);
+<span class="k">assert</span>(<span class="i">b</span> == [<span class="n">1.0f</span>, <span class="n">2</span>, <span class="n">3</span>]);
+<span class="i">string</span> <span class="i">str</span> = <span class="sl">"1 2 3 4 5 6"</span>;
+<span class="k">auto</span> <span class="i">numbers</span> = <span class="i">to</span>!(<span class="k">double</span>[])(<span class="i">split</span>(<span class="i">str</span>));
+<span class="k">assert</span>(<span class="i">numbers</span> == [<span class="n">1.0</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>]);
+<span class="k">int</span>[<span class="i">string</span>] <span class="i">c</span>;
+<span class="i">c</span>[<span class="sl">"a"</span>] = <span class="n">1</span>;
+<span class="i">c</span>[<span class="sl">"b"</span>] = <span class="n">2</span>;
+<span class="k">auto</span> <span class="i">d</span> = <span class="i">to</span>!(<span class="k">double</span>[<span class="i">wstring</span>])(<span class="i">c</span>);
+<span class="k">assert</span>(<span class="i">d</span>[<span class="sl">"a"w</span>] == <span class="n">1</span> &amp;&amp; <span class="i">d</span>[<span class="sl">"b"w</span>] == <span class="n">2</span>);
+</pre>
+<p class="bl"/>
+Conversions operate transitively, meaning that they work on arrays and
+associative arrays of any complexity:
+<p class="bl"/>
+<pre class="d_code">
+<span class="k">int</span>[<span class="i">string</span>][<span class="k">double</span>[<span class="k">int</span>[]]] <span class="i">a</span>;
+...
+<span class="k">auto</span> <span class="i">b</span> = <span class="i">to</span>!(<span class="k">short</span>[<span class="i">wstring</span>][<span class="i">string</span>[<span class="k">double</span>[]]])(<span class="i">a</span>);
+</pre>
+<p class="bl"/>
+This conversion works because <span class="d_param">to!(short)</span> applies to an
+<span class="d_param">int</span>, <span class="d_param">to!(wstring)</span> applies to a <span class="d_param">
+string</span>, <span class="d_param">to!(string)</span> applies to a <span class="d_param">double</span>, and
+<span class="d_param">to!(double[])</span> applies to an <span class="d_param">int[]</span>. The
+conversion might throw an exception because <span class="d_param">to!(short)</span>
+might fail the range check.
+<dl>
+<dt class="decl">Target <a class="symbol _function" name="to.to" href="./htmlsrc/std.conv.html#L204" kind="function" beg="204" end="207">to</a><span class="tparams">(Source)</span><span class="params">(Source <em>value</em>)</span>; <a title="Permalink to this symbol" href="#to.to" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L204">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">T <a class="symbol _function" name="toSomeString" href="./htmlsrc/std.conv.html#L210" kind="function" beg="210" end="303">toSomeString</a><span class="tparams">(S, T)</span><span class="params">(S <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#toSomeString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L210">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest" href="./htmlsrc/std.conv.html#L305" kind="unittest" beg="305" end="312">unittest</a>; <a title="Permalink to this symbol" href="#unittest" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L305">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T <a class="symbol _function" name="toImpl" href="./htmlsrc/std.conv.html#L314" kind="function" beg="314" end="346">toImpl</a><span class="tparams">(S, T)</span><span class="params">(S <em>value</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#toImpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L314">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:2" href="./htmlsrc/std.conv.html#L348" kind="unittest" beg="348" end="364">unittest</a>; <a title="Permalink to this symbol" href="#unittest:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L348">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T <a class="symbol _function" name="numberToNumber" href="./htmlsrc/std.conv.html#L366" kind="function" beg="366" end="385">numberToNumber</a><span class="tparams">(S, T)</span><span class="params">(S <em>value</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#numberToNumber" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L366">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T <a class="symbol _function" name="parseString" href="./htmlsrc/std.conv.html#L387" kind="function" beg="387" end="397">parseString</a><span class="tparams">(T)</span><span class="params">(const( char)[] <em>v</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#parseString" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L387">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T[] <a class="symbol _function" name="arrayToArray" href="./htmlsrc/std.conv.html#L399" kind="function" beg="399" end="405">arrayToArray</a><span class="tparams">(S : S[], T : T[])</span><span class="params">(S[] <em>src</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#arrayToArray" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L399">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:3" href="./htmlsrc/std.conv.html#L407" kind="unittest" beg="407" end="420">unittest</a>; <a title="Permalink to this symbol" href="#unittest:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L407">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">T <a class="symbol _function" name="hashToHash" href="./htmlsrc/std.conv.html#L422" kind="function" beg="422" end="428">hashToHash</a><span class="tparams">(S : V1[K1], T : V2[K2], K1, V1, K2, V2)</span><span class="params">(S <em>src</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#hashToHash" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L422">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:4" href="./htmlsrc/std.conv.html#L430" kind="unittest" beg="430" end="439">unittest</a>; <a title="Permalink to this symbol" href="#unittest:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L430">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:5" href="./htmlsrc/std.conv.html#L441" kind="unittest" beg="441" end="455">unittest</a>; <a title="Permalink to this symbol" href="#unittest:5" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L441">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="convFails" href="./htmlsrc/std.conv.html#L457" kind="function" beg="457" end="464">convFails</a><span class="tparams">(Source, Target, E)</span><span class="params">(Source <em>src</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#convFails" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L457">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="testIntegralToFloating" href="./htmlsrc/std.conv.html#L466" kind="function" beg="466" end="471">testIntegralToFloating</a><span class="tparams">(Integral, Floating)</span><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#testIntegralToFloating" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L466">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">void <a class="symbol _function" name="testFloatingToIntegral" href="./htmlsrc/std.conv.html#L473" kind="function" beg="473" end="517">testFloatingToIntegral</a><span class="tparams">(Floating, Integral)</span><span class="params">()</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#testFloatingToIntegral" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L473">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:6" href="./htmlsrc/std.conv.html#L519" kind="unittest" beg="519" end="612">unittest</a>; <a title="Permalink to this symbol" href="#unittest:6" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L519">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="roundTo" href="./htmlsrc/std.conv.html#L631" kind="template" beg="631" end="641">roundTo</a><span class="tparams">(Target)</span>; <a title="Permalink to this symbol" href="#roundTo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L631">#</a></dt>
+<dd class="ddef">
+<div class="summary">Rounded conversion from floating point to integral.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">assert</span>(<span class="i">roundTo</span>!(<span class="k">int</span>)(<span class="n">3.14</span>) == <span class="n">3</span>);
+<span class="k">assert</span>(<span class="i">roundTo</span>!(<span class="k">int</span>)(<span class="n">3.49</span>) == <span class="n">3</span>);
+<span class="k">assert</span>(<span class="i">roundTo</span>!(<span class="k">int</span>)(<span class="n">3.5</span>) == <span class="n">4</span>);
+<span class="k">assert</span>(<span class="i">roundTo</span>!(<span class="k">int</span>)(<span class="n">3.999</span>) == <span class="n">4</span>);
+<span class="k">assert</span>(<span class="i">roundTo</span>!(<span class="k">int</span>)(-<span class="n">3.14</span>) == -<span class="n">3</span>);
+<span class="k">assert</span>(<span class="i">roundTo</span>!(<span class="k">int</span>)(-<span class="n">3.49</span>) == -<span class="n">3</span>);
+<span class="k">assert</span>(<span class="i">roundTo</span>!(<span class="k">int</span>)(-<span class="n">3.5</span>) == -<span class="n">4</span>);
+<span class="k">assert</span>(<span class="i">roundTo</span>!(<span class="k">int</span>)(-<span class="n">3.999</span>) == -<span class="n">4</span>);
+</pre>
+Rounded conversions do not work with non-integral target types.
+<dl>
+<dt class="decl">Target <a class="symbol _function" name="roundTo.roundTo" href="./htmlsrc/std.conv.html#L632" kind="function" beg="632" end="640">roundTo</a><span class="tparams">(Source)</span><span class="params">(Source <em>value</em>)</span>; <a title="Permalink to this symbol" href="#roundTo.roundTo" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L632">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:7" href="./htmlsrc/std.conv.html#L643" kind="unittest" beg="643" end="652">unittest</a>; <a title="Permalink to this symbol" href="#unittest:7" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L643">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">template <a class="symbol _template" name="parse" href="./htmlsrc/std.conv.html#L677" kind="template" beg="677" end="699">parse</a><span class="tparams">(Target)</span>; <a title="Permalink to this symbol" href="#parse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L677">#</a></dt>
+<dd class="ddef">
+<div class="summary">The <span class="d_param">parse</span> family of functions works quite like the
+ <span class="d_param">to</span> family, except that (1) it only works with strings as
+ input, (2) takes the input string by reference and advances it to
+ the position following the conversion, and (3) does not throw if it
+ could not convert the entire string. It still throws if an overflow
+ occurred during conversion or if no character of the input string
+ was meaningfully converted.</div>
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="i">string</span> <span class="i">test</span> = <span class="sl">"123 \t  76.14"</span>;
+<span class="k">auto</span> <span class="i">a</span> = <span class="i">parse</span>!(<span class="k">uint</span>)(<span class="i">test</span>);
+<span class="k">assert</span>(<span class="i">a</span> == <span class="n">123</span>);
+<span class="k">assert</span>(<span class="i">test</span> == <span class="sl">" \t  76.14"</span>); <span class="lc">// parse bumps string</span>
+<span class="i">munch</span>(<span class="i">test</span>, <span class="sl">" \t\n\r"</span>); <span class="lc">// skip ws</span>
+<span class="k">assert</span>(<span class="i">test</span> == <span class="sl">"76.14"</span>);
+<span class="k">auto</span> <span class="i">b</span> = <span class="i">parse</span>!(<span class="k">double</span>)(<span class="i">test</span>);
+<span class="k">assert</span>(<span class="i">b</span> == <span class="n">76.14</span>);
+<span class="k">assert</span>(<span class="i">test</span> == <span class="sl">""</span>);
+</pre>
+<dl>
+<dt class="decl">Target <a class="symbol _function" name="parse.parse" href="./htmlsrc/std.conv.html#L679" kind="function" beg="679" end="698">parse</a><span class="tparams">(Source)</span><span class="params">(ref Source <em>s</em>)</span>; <a title="Permalink to this symbol" href="#parse.parse" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L679">#</a></dt>
+<dd class="ddef"></dd></dl></dd>
+<dt class="decl">N <a class="symbol _function" name="parseIntegral" href="./htmlsrc/std.conv.html#L703" kind="function" beg="703" end="777">parseIntegral</a><span class="tparams">(S, N)</span><span class="params">(ref S <em>s</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#parseIntegral" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L703">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">int <a class="symbol _function" name="toInt" href="./htmlsrc/std.conv.html#L784" kind="function" beg="784" end="788">toInt</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toInt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L784">#</a></dt>
+<dt class="decl">uint <a class="symbol _function" name="toUint" href="./htmlsrc/std.conv.html#L859" kind="function" beg="859" end="863">toUint</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toUint" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L859">#</a></dt>
+<dt class="decl">long <a class="symbol _function" name="toLong" href="./htmlsrc/std.conv.html#L928" kind="function" beg="928" end="932">toLong</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toLong" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L928">#</a></dt>
+<dt class="decl">ulong <a class="symbol _function" name="toUlong" href="./htmlsrc/std.conv.html#L1009" kind="function" beg="1009" end="1013">toUlong</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toUlong" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1009">#</a></dt>
+<dt class="decl">short <a class="symbol _function" name="toShort" href="./htmlsrc/std.conv.html#L1085" kind="function" beg="1085" end="1089">toShort</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toShort" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1085">#</a></dt>
+<dt class="decl">ushort <a class="symbol _function" name="toUshort" href="./htmlsrc/std.conv.html#L1160" kind="function" beg="1160" end="1164">toUshort</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toUshort" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1160">#</a></dt>
+<dt class="decl">byte <a class="symbol _function" name="toByte" href="./htmlsrc/std.conv.html#L1230" kind="function" beg="1230" end="1234">toByte</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toByte" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1230">#</a></dt>
+<dt class="decl">ubyte <a class="symbol _function" name="toUbyte" href="./htmlsrc/std.conv.html#L1305" kind="function" beg="1305" end="1309">toUbyte</a><span class="params">(string <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toUbyte" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1305">#</a></dt>
+<dt class="decl">float <a class="symbol _function" name="toFloat" href="./htmlsrc/std.conv.html#L1375" kind="function" beg="1375" end="1379">toFloat</a><span class="tparams">(Char)</span><span class="params">(Char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toFloat" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1375">#</a></dt>
+<dt class="decl">double <a class="symbol _function" name="toDouble" href="./htmlsrc/std.conv.html#L1478" kind="function" beg="1478" end="1482">toDouble</a><span class="tparams">(Char)</span><span class="params">(Char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toDouble" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1478">#</a></dt>
+<dt class="decl">real <a class="symbol _function" name="toReal" href="./htmlsrc/std.conv.html#L1534" kind="function" beg="1534" end="1538">toReal</a><span class="tparams">(Char)</span><span class="params">(Char[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#toReal" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1534">#</a></dt>
+<dd class="ddef">
+<div class="summary">Convert character string to the return type. These functions will be
+ deprecated because <span class="d_param">to!(T)</span> supersedes them.</div></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:8" href="./htmlsrc/std.conv.html#L790" kind="unittest" beg="790" end="853">unittest</a>; <a title="Permalink to this symbol" href="#unittest:8" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L790">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:9" href="./htmlsrc/std.conv.html#L865" kind="unittest" beg="865" end="922">unittest</a>; <a title="Permalink to this symbol" href="#unittest:9" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L865">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:10" href="./htmlsrc/std.conv.html#L934" kind="unittest" beg="934" end="1002">unittest</a>; <a title="Permalink to this symbol" href="#unittest:10" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L934">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:11" href="./htmlsrc/std.conv.html#L1015" kind="unittest" beg="1015" end="1079">unittest</a>; <a title="Permalink to this symbol" href="#unittest:11" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1015">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:12" href="./htmlsrc/std.conv.html#L1091" kind="unittest" beg="1091" end="1153">unittest</a>; <a title="Permalink to this symbol" href="#unittest:12" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1091">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:13" href="./htmlsrc/std.conv.html#L1166" kind="unittest" beg="1166" end="1223">unittest</a>; <a title="Permalink to this symbol" href="#unittest:13" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1166">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:14" href="./htmlsrc/std.conv.html#L1236" kind="unittest" beg="1236" end="1298">unittest</a>; <a title="Permalink to this symbol" href="#unittest:14" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1236">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:15" href="./htmlsrc/std.conv.html#L1311" kind="unittest" beg="1311" end="1368">unittest</a>; <a title="Permalink to this symbol" href="#unittest:15" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1311">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">F <a class="symbol _function" name="parseFloating" href="./htmlsrc/std.conv.html#L1384" kind="function" beg="1384" end="1426">parseFloating</a><span class="tparams">(S : S[], F)</span><span class="params">(ref S[] <em>s</em>)</span>; <a title="Permalink to this symbol" href="#parseFloating" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1384">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:16" href="./htmlsrc/std.conv.html#L1428" kind="unittest" beg="1428" end="1472">unittest</a>; <a title="Permalink to this symbol" href="#unittest:16" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1428">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:17" href="./htmlsrc/std.conv.html#L1484" kind="unittest" beg="1484" end="1529">unittest</a>; <a title="Permalink to this symbol" href="#unittest:17" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1484">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl"><a class="symbol _unittest" name="unittest:18" href="./htmlsrc/std.conv.html#L1540" kind="unittest" beg="1540" end="1590">unittest</a>; <a title="Permalink to this symbol" href="#unittest:18" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1540">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="getComplexStrings" href="./htmlsrc/std.conv.html#L1969" kind="function" beg="1969" end="2015">getComplexStrings</a><span class="params">(in string <em>s</em>, out string <em>s1</em>, out string <em>s2</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#getComplexStrings" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L1969">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="feq" href="./htmlsrc/std.conv.html#L2022" kind="function" beg="2022" end="2034">feq</a><span class="params">(in real <em>rx</em>, in real <em>ry</em>, in real <em>precision</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#feq" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L2022">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="feq:2" href="./htmlsrc/std.conv.html#L2044" kind="function" beg="2044" end="2056">feq</a><span class="params">(in real <em>r1</em>, in real <em>r2</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#feq:2" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L2044">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="feq:3" href="./htmlsrc/std.conv.html#L2061" kind="function" beg="2061" end="2076">feq</a><span class="params">(in ireal <em>r1</em>, in ireal <em>r2</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#feq:3" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L2061">#</a></dt>
+<dd class="ddef"></dd>
+<dt class="decl">bool <a class="symbol _function" name="feq:4" href="./htmlsrc/std.conv.html#L2081" kind="function" beg="2081" end="2097">feq</a><span class="params">(in creal <em>r1</em>, in creal <em>r2</em>)</span>; <span class="attrs">[<span class="prot">private</span>]</span> <a title="Permalink to this symbol" href="#feq:4" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.conv.html#L2081">#</a></dt>
+<dd class="ddef"></dd></dl>
+</div>
+<div id="footer">
+  <p>Copyright © 1999-2008 by Digital Mars ®, All Rights Reserved.</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:37 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>std.intrinsic</title>
+  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+  <!-- <link href="./img/icon.png" rel="icon" type="image/png"/> -->
+  <script type="text/javascript" src="./js/jquery.js"></script>
+  <script type="text/javascript" src="./js/modules.js"></script>
+  <script type="text/javascript" src="./js/quicksearch.js"></script>
+  <script type="text/javascript" src="./js/navigation.js"></script>
+  <!--<script type="text/javascript" src="./js/jquery.treeview.js"></script>-->
+  <script type="text/javascript">
+    var g_moduleFQN = "std.intrinsic";
+  </script>
+  
+</head>
+<body>
+<div id="content">
+  <h1><a href="./htmlsrc/std.intrinsic.html" class="symbol">std.intrinsic</a></h1>
+  
+<div class="summary">These functions are built-in intrinsics to the compiler.</div>
+Intrinsic functions are functions built in to the compiler,
+        usually to take advantage of specific CPU features that
+        are inefficient to handle via external functions.
+        The compiler's optimizer and code generator are fully
+        integrated in with intrinsic functions, bringing to bear
+        their full power on them.
+        This can result in some surprising speedups.
+<p class="sec_header">License:</p>Public Domain
+<p class="sec_header">Authors:</p>Walter Bright
+<dl>
+<dt class="decl">int <a class="symbol _function" name="bsf" href="./htmlsrc/std.intrinsic.html#L32" kind="function" beg="32" end="32">bsf</a><span class="params">(uint <em>v</em>)</span>; <a title="Permalink to this symbol" href="#bsf" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.intrinsic.html#L32">#</a></dt>
+<dd class="ddef">
+<div class="summary">Scans the bits in v starting with bit 0, looking
+ for the first set bit.</div>
+<p class="sec_header">Returns:</p>The bit number of the first bit set.
+        The return value is undefined if v is zero.</dd>
+<dt class="decl">int <a class="symbol _function" name="bsr" href="./htmlsrc/std.intrinsic.html#L63" kind="function" beg="63" end="63">bsr</a><span class="params">(uint <em>v</em>)</span>; <a title="Permalink to this symbol" href="#bsr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.intrinsic.html#L63">#</a></dt>
+<dd class="ddef">
+<div class="summary">Scans the bits in v from the most significant bit
+ to the least significant bit, looking
+ for the first set bit.</div>
+<p class="sec_header">Returns:</p>The bit number of the first bit set.
+        The return value is undefined if v is zero.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">intrinsic</span>;
+
+<span class="k">int</span> <span class="i">main</span>()
+{   
+    <span class="k">uint</span> <span class="i">v</span>;
+    <span class="k">int</span> <span class="i">x</span>;
+
+    <span class="i">v</span> = <span class="n">0x21</span>;
+    <span class="i">x</span> = <span class="i">bsf</span>(<span class="i">v</span>);
+    <span class="i">writefln</span>(<span class="sl">"bsf(x%x) = %d"</span>, <span class="i">v</span>, <span class="i">x</span>);
+    <span class="i">x</span> = <span class="i">bsr</span>(<span class="i">v</span>);
+    <span class="i">writefln</span>(<span class="sl">"bsr(x%x) = %d"</span>, <span class="i">v</span>, <span class="i">x</span>);
+    <span class="k">return</span> <span class="n">0</span>;
+} 
+</pre>
+<p class="sec_header">Output:</p>bsf(x21) = 0<br>
+  bsr(x21) = 5</dd>
+<dt class="decl">int <a class="symbol _function" name="bt" href="./htmlsrc/std.intrinsic.html#L68" kind="function" beg="68" end="68">bt</a><span class="params">(in uint * <em>p</em>, uint <em>bitnum</em>)</span>; <a title="Permalink to this symbol" href="#bt" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.intrinsic.html#L68">#</a></dt>
+<dd class="ddef">
+<div class="summary">Tests the bit.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="btc" href="./htmlsrc/std.intrinsic.html#L73" kind="function" beg="73" end="73">btc</a><span class="params">(uint * <em>p</em>, uint <em>bitnum</em>)</span>; <a title="Permalink to this symbol" href="#btc" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.intrinsic.html#L73">#</a></dt>
+<dd class="ddef">
+<div class="summary">Tests and complements the bit.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="btr" href="./htmlsrc/std.intrinsic.html#L78" kind="function" beg="78" end="78">btr</a><span class="params">(uint * <em>p</em>, uint <em>bitnum</em>)</span>; <a title="Permalink to this symbol" href="#btr" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.intrinsic.html#L78">#</a></dt>
+<dd class="ddef">
+<div class="summary">Tests and resets (sets to 0) the bit.</div></dd>
+<dt class="decl">int <a class="symbol _function" name="bts" href="./htmlsrc/std.intrinsic.html#L137" kind="function" beg="137" end="137">bts</a><span class="params">(uint * <em>p</em>, uint <em>bitnum</em>)</span>; <a title="Permalink to this symbol" href="#bts" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.intrinsic.html#L137">#</a></dt>
+<dd class="ddef">
+<div class="summary">Tests and sets the bit.</div>
+<p class="sec_header">Params:</p>
+<table class="params">
+<tr><td><em>p</em></td><td>a non-NULL pointer to an array of uints.</td></tr>
+<tr><td><em>index</em></td><td>a bit number, starting with bit 0 of p[0],
+ and progressing. It addresses bits like the expression:
+---
+p[index / (uint.sizeof*8)] & (1 << (index & ((uint.sizeof*8) - 1)))
+---</td></tr></table>
+<p class="sec_header">Returns:</p>A non-zero value if the bit was set, and a zero
+        if it was clear.
+<p class="sec_header">Example:</p><pre class="d_code">
+<span class="k">import</span> <span class="i">std</span>.<span class="i">stdio</span>;
+<span class="k">import</span> <span class="i">std</span>.<span class="i">intrinsic</span>;
+
+<span class="k">int</span> <span class="i">main</span>()
+{   
+    <span class="k">uint</span> <span class="i">array</span>[<span class="n">2</span>];
+
+    <span class="i">array</span>[<span class="n">0</span>] = <span class="n">2</span>;
+    <span class="i">array</span>[<span class="n">1</span>] = <span class="n">0x100</span>;
+
+    <span class="i">writefln</span>(<span class="sl">"btc(array, 35) = %d"</span>, &lt;<span class="i">b</span>&gt;<span class="i">btc</span>&lt;/<span class="i">b</span>&gt;(<span class="i">array</span>, <span class="n">35</span>));
+    <span class="i">writefln</span>(<span class="sl">"array = [0]:x%x, [1]:x%x"</span>, <span class="i">array</span>[<span class="n">0</span>], <span class="i">array</span>[<span class="n">1</span>]);
+
+    <span class="i">writefln</span>(<span class="sl">"btc(array, 35) = %d"</span>, &lt;<span class="i">b</span>&gt;<span class="i">btc</span>&lt;/<span class="i">b</span>&gt;(<span class="i">array</span>, <span class="n">35</span>));
+    <span class="i">writefln</span>(<span class="sl">"array = [0]:x%x, [1]:x%x"</span>, <span class="i">array</span>[<span class="n">0</span>], <span class="i">array</span>[<span class="n">1</span>]);
+
+    <span class="i">writefln</span>(<span class="sl">"bts(array, 35) = %d"</span>, &lt;<span class="i">b</span>&gt;<span class="i">bts</span>&lt;/<span class="i">b</span>&gt;(<span class="i">array</span>, <span class="n">35</span>));
+    <span class="i">writefln</span>(<span class="sl">"array = [0]:x%x, [1]:x%x"</span>, <span class="i">array</span>[<span class="n">0</span>], <span class="i">array</span>[<span class="n">1</span>]);
+
+    <span class="i">writefln</span>(<span class="sl">"btr(array, 35) = %d"</span>, &lt;<span class="i">b</span>&gt;<span class="i">btr</span>&lt;/<span class="i">b</span>&gt;(<span class="i">array</span>, <span class="n">35</span>));
+    <span class="i">writefln</span>(<span class="sl">"array = [0]:x%x, [1]:x%x"</span>, <span class="i">array</span>[<span class="n">0</span>], <span class="i">array</span>[<span class="n">1</span>]);
+
+    <span class="i">writefln</span>(<span class="sl">"bt(array, 1) = %d"</span>, &lt;<span class="i">b</span>&gt;<span class="i">bt</span>&lt;/<span class="i">b</span>&gt;(<span class="i">array</span>, <span class="n">1</span>));
+    <span class="i">writefln</span>(<span class="sl">"array = [0]:x%x, [1]:x%x"</span>, <span class="i">array</span>[<span class="n">0</span>], <span class="i">array</span>[<span class="n">1</span>]);
+
+    <span class="k">return</span> <span class="n">0</span>;
+} 
+</pre>
+<p class="sec_header">Output:</p><pre>
+btc(array, 35) = 0
+array = [0]:x2, [1]:x108
+btc(array, 35) = -1
+array = [0]:x2, [1]:x100
+bts(array, 35) = 0
+array = [0]:x2, [1]:x108
+btr(array, 35) = -1
+array = [0]:x2, [1]:x100
+bt(array, 1) = -1
+array = [0]:x2, [1]:x100
+</pre></dd>
+<dt class="decl">uint <a class="symbol _function" name="bswap" href="./htmlsrc/std.intrinsic.html#L145" kind="function" beg="145" end="145">bswap</a><span class="params">(uint <em>v</em>)</span>; <a title="Permalink to this symbol" href="#bswap" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.intrinsic.html#L145">#</a></dt>
+<dd class="ddef">
+<div class="summary">Swaps bytes in a 4 byte uint end-to-end, i.e. byte 0 becomes
+        byte 3, byte 1 becomes byte 2, byte 2 becomes byte 1, byte 3
+        becomes byte 0.</div></dd>
+<dt class="decl">ubyte <a class="symbol _function" name="inp" href="./htmlsrc/std.intrinsic.html#L151" kind="function" beg="151" end="151">inp</a><span class="params">(uint <em>port_address</em>)</span>; <a title="Permalink to this symbol" href="#inp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.intrinsic.html#L151">#</a></dt>
+<dt class="decl">ushort <a class="symbol _function" name="inpw" href="./htmlsrc/std.intrinsic.html#L156" kind="function" beg="156" end="156">inpw</a><span class="params">(uint <em>port_address</em>)</span>; <a title="Permalink to this symbol" href="#inpw" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.intrinsic.html#L156">#</a></dt>
+<dt class="decl">uint <a class="symbol _function" name="inpl" href="./htmlsrc/std.intrinsic.html#L161" kind="function" beg="161" end="161">inpl</a><span class="params">(uint <em>port_address</em>)</span>; <a title="Permalink to this symbol" href="#inpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.intrinsic.html#L161">#</a></dt>
+<dd class="ddef">
+<div class="summary">Reads I/O port at port_address.</div></dd>
+<dt class="decl">ubyte <a class="symbol _function" name="outp" href="./htmlsrc/std.intrinsic.html#L167" kind="function" beg="167" end="167">outp</a><span class="params">(uint <em>port_address</em>, ubyte <em>value</em>)</span>; <a title="Permalink to this symbol" href="#outp" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.intrinsic.html#L167">#</a></dt>
+<dt class="decl">ushort <a class="symbol _function" name="outpw" href="./htmlsrc/std.intrinsic.html#L172" kind="function" beg="172" end="172">outpw</a><span class="params">(uint <em>port_address</em>, ushort <em>value</em>)</span>; <a title="Permalink to this symbol" href="#outpw" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.intrinsic.html#L172">#</a></dt>
+<dt class="decl">uint <a class="symbol _function" name="outpl" href="./htmlsrc/std.intrinsic.html#L177" kind="function" beg="177" end="177">outpl</a><span class="params">(uint <em>port_address</em>, uint <em>value</em>)</span>; <a title="Permalink to this symbol" href="#outpl" class="symlink">¶</a><a title="Go to the HTML source file" class="srclink" href="./htmlsrc/std.intrinsic.html#L177">#</a></dt>
+<dd class="ddef">
+<div class="summary">Writes and returns value to I/O port at port_address.</div></dd></dl>
+</div>
+<div id="footer">
+  <p>Public Domain</p>
+  <p>Page generated by <a href="http://code.google.com/p/dil">dil</a> on Sun Dec 28 04:26:40 2008. Rendered by <a href="http://code.google.com/p/dil/wiki/Kandil">kandil</a>.</p>
+</div>
+</body>
+</html>
