@@ -55,17 +55,34 @@ Use the macros SYMLINK and SYMLINK2. E.g.:
  # `$(SYMLINK2 dil.doc.Macro, Macro.this, see how to construct a Macro)` would link to Macro.this in the module dil.doc.Macro.
 
 == Filtering ==
-There are three ways you can filter for specific symbols:
+There are 4 ways you can filter for symbols:
 
-=== Plain text ===
-Enter letters or words as usual, and a list of symbols that match will be shown. For example, "Expr" will match "Expression", "!AndExpression", "!OrExpression" etc.<br>
+=== 1. Plain text ===
+Enter letters or words as usual, and a list of symbols that match will be shown.<br>
 You can also put a wildcard between two strings, e.g. "parse*ion" will match "parseExpression".
 
-=== FQN filtering ===
-Use a dot to separate words in order to search for symbols by matching against their fully qualified names (FQN.) For example, "tango.math" will match any symbol that is located in the math package. Or ".math." will show all math packages - if there are more than one - and the contained modules.
+_Example:_
+*Expr* will match "Expression", "!AndExpression", "!OrExpression" etc.
 
-=== Attribute filtering ===
-Strings that start with a colon, ":", will search for symbols by matching against their attributes. Attributes can be symbol kinds (e.g. "variable", "function"...) and storage classes (e.g. "extern", "protected"...). For example, the strings ":pub", ":publ", ":public" will search for symbols that have the public protection attribute. You don't have to type out the complete name of the attribute.
+=== 2. Fuzzy filtering ===
+Entering a word followed by at least two dots will perform a search using the Levenshtein algorithm. The more dots you add the fuzzier the search will get (i.e. the Leven. distance is increased.)
+
+_Example:_
+*getname....* will match "name", "getDayName", "dayNames" etc.
+
+
+=== 3. FQN filtering ===
+Use a dot to separate words in order to search for symbols by matching against their fully qualified names (FQN.)
+
+_Examples:_<br>
+*tango.math* will match any symbol that is located in the math package.<br>
+*.math.* will show all math packages — if there are more than one — and the contained modules.
+
+=== 4. Attribute filtering ===
+Strings that start with a colon, ":", will search for symbols by matching against their attributes. Attributes can be symbol kinds (e.g. "variable", "function"...) and storage classes (e.g. "extern", "protected"...). You don't have to type out the complete name of the attribute.
+
+_Example:_<br>
+The strings ":pub", ":publ", ":public" will search for symbols that have the public protection attribute.
 
 == Macros ==
 This is a list of macros which are only defined by DIL.
